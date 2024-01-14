@@ -250,6 +250,7 @@ export default defineConfig({
     '/bundler': bundlerSidebar,
     '/paymaster': paymasterSidebar,
   },
+  ogImageUrl: "https://docs-og-pimlico.vercel.app/api/og?logo=%logo&title=%title&description=%description",
   theme: {
     accentColor: { light: "#7115AA", dark: "#a66cc9"},
   },
