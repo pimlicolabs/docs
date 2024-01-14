@@ -89,7 +89,6 @@ A user operation consists of 11 fields. Requesting a smart contract deployment i
 Add the following to the bottom of `index.ts`:
 
 ```ts 
-// @noErrors
 // GENERATE THE INITCODE
 const SIMPLE_ACCOUNT_FACTORY_ADDRESS = "0x9406Cc6185a346906296840746125a0E44976454"
 
@@ -113,10 +112,13 @@ const initCode = concat([
 ]);
 
 console.log("Generated initCode:", initCode)
-// @log: Generated initCode: 0x9406cc6185a346906296840746125a0e449764545fbfb9cf000000000000000000000000508a7005f997a21cd662d6fb41ad69f945c129c10000000000000000000000000000000000000000000000000000000000000000
 ```
 
-Let's run this code with `npm start`. You should see the generated initCode printed to the console as shown above.
+Let's run this code with `npm start`. You should see the generated initCode printed to the console.
+
+```
+Generated initCode: 0x9406cc6185a346906296840746125a0e449764545fbfb9cf000000000000000000000000508a7005f997a21cd662d6fb41ad69f945c129c10000000000000000000000000000000000000000000000000000000000000000
+```
 
 ### Calculate the sender address
 
@@ -127,7 +129,6 @@ We do this by calling the `getSenderAddress` utility function on the EntryPoint.
 Add the following to the bottom of `index.ts`:
 
 ```typescript
-// @noErrors
 // CALCULATE THE SENDER ADDRESS
 const ENTRY_POINT_ADDRESS = "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
 
@@ -136,10 +137,13 @@ const senderAddress = await getSenderAddress(publicClient, {
   entryPoint: ENTRY_POINT_ADDRESS
 })
 console.log("Calculated sender address:", senderAddress)
-// @log: Calculated sender address: 0xbAd38BdCf884ED92ab370f69C0CD0B7b8a1459A1
 ```
 
-Let's run this code with `npm start`. You should see the address printed to the console as shown above.
+Let's run this code with `npm start`. You should see the address printed to the console.
+
+```
+Calculated sender address: 0xbAd38BdCf884ED92ab370f69C0CD0B7b8a1459A1
+```
 
 ### Generate the callData
 
@@ -148,7 +152,6 @@ Now, let's decide on the `callData` that we want the wallet to actually execute 
 Add the following to the bottom of `index.ts`:
 
 ```typescript
-// @noErrors
 // GENERATE THE CALLDATA
 const to = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045" // vitalik
 const value = 0n
@@ -170,12 +173,15 @@ const callData = encodeFunctionData({
 })
 
 console.log("Generated callData:", callData)
-// @log: Generated callData: 0xb61d27f6000000000000000000000000d8da6bf26964af9d7eed9e03e53415d37aa9604500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000000568656c6c6f000000000000000000000000000000000000000000000000000000
 ```
 
 Above, we are leveraging the `execute` function of the SimpleWallet, which simply calls an arbitrary address, with arbitrary value and arbitrary callData.
 
-Let's run this code with `npm start`. You should see the callData printed to the console as shown above.
+Let's run this code with `npm start`. You should see the callData printed to the console.
+
+```
+Generated callData: 0xb61d27f6000000000000000000000000d8da6bf26964af9d7eed9e03e53415d37aa9604500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000000568656c6c6f000000000000000000000000000000000000000000000000000000
+```
 
 ### Fill out remaining UserOperation values
 
@@ -205,8 +211,7 @@ To make the operation gasless, we will leverage Pimlico's verifying paymaster. U
 
 Add the following to the bottom of `index.ts`:
 
-```typescript twoslash
-// @noErrors
+```typescript
 // REQUEST PIMLICO VERIFYING PAYMASTER SPONSORSHIP
 const sponsorUserOperationResult = await paymasterClient.sponsorUserOperation({
   userOperation,
@@ -222,12 +227,6 @@ const sponsoredUserOperation: UserOperation = {
 }
 
 console.log("Received paymaster sponsor result:", sponsorUserOperationResult)
-// @log: Received paymaster sponsor result: {
-// @log:   paymasterAndData: '0xcF60744ef322396a6d0a5B7d396F5814176855F1000000000000000000000000000000000000000000000000000000006518a0c100000000000000000000000000000000000000000000000000000000000000003251910f0e14691ca19a8e2cca216ce77a1ce8d002e975e113cfbc36d8e489a550dbb24ff485ee61c1b91cf8e20261d307ef79f22cf9359fba3271f721dade4d1b',
-// @log:   preVerificationGas: 247487n,
-// @log:   verificationGasLimit: 526114n,
-// @log:   callGasLimit: 75900n
-// @log: }
 ```
 
 Let's run this code with `npm start`. You should see something like this:
