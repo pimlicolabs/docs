@@ -264,11 +264,7 @@ export default defineConfig({
   sidebar: {
     '/permissionless': permissionlessSidebar,
     '/bundler': bundlerSidebar,
-    '/paymaster': paymasterSidebar,
-    '/conceptual': [
-      { text: "Overview", link: "/conceptual" },
-      { text: "Account Abstraction", link: "/conceptual/account-abstraction" }
-    ]
+    '/paymaster': paymasterSidebar
   },
   ogImageUrl: {
     "/": "https://docs-og-pimlico.vercel.app/api/og?logo=%logo&title=%title&description=%description"
@@ -302,10 +298,6 @@ export default defineConfig({
     {
       text: 'Paymasters',
       link: '/paymaster'
-    },
-    {
-      text: 'Conceptual Guides',
-      link: '/conceptual'
     },
     {
       text: "Dashboard",
