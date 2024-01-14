@@ -1,3 +1,5 @@
+import SupportedChains from "@/components/supported-chains.mdx"
+
 # Supported Chains
 
 Our verifying paymasters allows you to sponsor User Operations on-chain with our paymaster contracts. 
@@ -6,25 +8,7 @@ In exchange for sponsoring the on-chain gas fees, we deduct from your balance of
 
 The following chains are supported
 
-| Chain   | Mainnet | Testnet |
-| :------ | :------ | :------ |
-| Ethereum     | ✅ (ethereum)	|  ✅ (sepolia)<br />✅ (goerli) |
-| Arbitrum    | ✅ (arbitrum)	|  ✅ (arbitrum-goerli) |
-| Polygon    | ✅ (polygon)	|  ✅ (mumbai) |
-| Optimism    | ✅ (optimism)	|  ✅ (optimism-goerli) |
-| Gnosis    | ✅ (gnosis)	|  ✅ (chiado-testnet) |
-| Linea    | ✅ (linea)	|  ✅ (linea-testnet) |
-| Base    | ✅ (base)	|  ✅ (base-goerli) |
-| Avalanche C-Chain    | ✅ (avalanche) | ✅ (avalanche-fuji) |
-| Scroll    | ✅ (scroll) |  ✅ (scroll-alpha-testnet)<br />✅ (scroll-sepolia-testnet) |
-| Celo    | ✅ (celo) |  ✅ (celo-alfajores-testnet) |
-| BSC    | ✅ (binance) |  |
-| DFK Chain | ✅ (dfk-chain) | ✅ (dfk-chain-test) |
-| Klaytn | ✅ (klaytn-cypress) | |
-| Xai Orbit |  | ✅ (xai-goerli-orbit) |
-| Nautilus |  ✅ (nautilus) |  |
-| opBNB |  ✅ (opbnb) |  |
-| Fuse |  ✅ (fuse) |  |
+<SupportedChains />
 
 All calls are in JSON-RPC format and have to be made to the following URL: `https://api.pimlico.io/v1/{chain}/rpc?apikey=[YOUR_API_KEY_HERE]`
 

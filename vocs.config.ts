@@ -1,4 +1,5 @@
-import { defineConfig } from 'vocs'
+import path from 'path';
+import { defineConfig } from 'vocs';
 
 export const bundlerSidebar = [
   {
@@ -142,6 +143,10 @@ export const paymasterSidebar = [
 
 export const permissionlessSidebar = [
   {
+    text: 'Overview',
+    link: '/permissionless',
+  },
+  {
     text: "Tutorials",
     link: "/permissionless/tutorial",
     items: [
@@ -246,15 +251,28 @@ export default defineConfig({
   iconUrl: '/favicons/favicon.svg',
   titleTemplate: '%s – Pimlico',
   editLink: {
-    pattern: 'https://github.com/pimlicolabs/docs/edit/main/site/pages/:path',
+    pattern: 'https://github.com/pimlicolabs/docs/edit/main/docs/pages/:path',
     text: 'Edit on GitHub',
+  },
+  vite: {
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './docs'),
+      },
+    }
   },
   sidebar: {
     '/permissionless': permissionlessSidebar,
     '/bundler': bundlerSidebar,
     '/paymaster': paymasterSidebar,
+    '/conceptual': [
+      { text: "Overview", link: "/conceptual" },
+      { text: "Account Abstraction", link: "/conceptual/account-abstraction" }
+    ]
   },
-  ogImageUrl: "https://docs-og-pimlico.vercel.app/api/og?logo=%logo&title=%title&description=%description",
+  ogImageUrl: {
+    "/": "https://docs-og-pimlico.vercel.app/api/og?logo=%logo&title=%title&description=%description"
+  },
   theme: {
     accentColor: { light: "#7115AA", dark: "#a66cc9"},
   },
@@ -284,6 +302,10 @@ export default defineConfig({
     {
       text: 'Paymasters',
       link: '/paymaster'
+    },
+    {
+      text: 'Conceptual Guides',
+      link: '/conceptual'
     },
     {
       text: "Dashboard",
