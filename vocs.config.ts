@@ -245,6 +245,10 @@ export default defineConfig({
   logoUrl: { light: '/pimlico-purple.svg', dark: '/pimlico-white.svg' },
   iconUrl: '/favicons/favicon.svg',
   titleTemplate: '%s – Pimlico',
+  editLink: {
+    pattern: 'https://github.com/pimlicolabs/docs/edit/main/site/pages/:path',
+    text: 'Edit on GitHub',
+  },
   sidebar: {
     '/permissionless': permissionlessSidebar,
     '/bundler': bundlerSidebar,
