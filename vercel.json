@@ -5,6 +5,11 @@
             "source": "/:match*.html",
             "destination": "/:match",
             "permanent": false
+        },
+        {
+            "source": "/tutorial/:match*",
+            "destination": "/permissionless/tutorial/:match",
+            "permanent": false
         }
     ]
 }
