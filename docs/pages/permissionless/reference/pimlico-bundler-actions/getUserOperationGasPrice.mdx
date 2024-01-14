@@ -1,0 +1,55 @@
+# getUserOperationGasPrice
+
+Return a User Operation based on a User Operation hash.
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+import { pimlicoBundlerClient } from "./client"
+
+const gasPriceResult = await pimlicoBundlerClient.getUserOperationGasPrice()
+/**
+ * {
+    "slow": {
+        "maxFeePerGas": 3267781404n,
+        "maxPriorityFeePerGas": 3267781404n
+    },
+    "standard": {
+        "maxFeePerGas": 3439769899n,
+        "maxPriorityFeePerGas": 3439769899n
+    },
+    "fast": {
+        "maxFeePerGas": 3620810421n,
+        "maxPriorityFeePerGas": 3620810421n
+    }
+   }
+ */
+```
+
+```ts [client.ts]
+import { createClient, http } from 'viem'
+import { mainnet } from 'viem/chains'
+import { bundlerActions } from 'permissionless'
+import { pimlicoBundlerActions } from 'permissionless/actions/pimlico'
+
+export const pimlicoBundlerClient = createClient({ 
+  chain: mainnet,
+  transport: http("https://api.pimlico.io/v1/goerli/rpc?apikey=YOUR_API_KEY_HERE")
+})
+.extend(bundlerActions)
+.extend(pimlicoBundlerActions)
+```
+
+::::
+
+## Returns
+
+- **Type:** `GetUserOperationGasPriceReturnType`
+
+The `maxFeePerGas` and `maxPriorityFeePerGas` values for the different gas price tiers. Choosing a faster gas price will mean faster inclusion by the Pimlico Bundler.
+
+## JSON-RPC Method
+
+[`pimlico_getUserOperationGasPrice`](/bundler/reference/endpoints/pimlico_getUserOperationGasPrice)

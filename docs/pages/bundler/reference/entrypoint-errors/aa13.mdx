@@ -1,0 +1,16 @@
+# AA13 initCode failed or OOG
+
+:::info
+OOG = Out Of Gas
+:::
+
+The EntryPoint failed to create the smart account with the `initCode` provided. There are two possible reasons:
+- The `initCode` ran out of gas
+- The `initCode` reverted during the account deployment process
+
+## Possible solutions
+
+- Verify that the factory address in the `initCode` is correct (the factory address is the first 20 bytes of the `initCode`).
+- Verify that the `initCode` is correct.
+- Check whether the `verificationGasLimit` is sufficient for the `initCode` to complete without running out of gas.
+- If the root cause is a revert, investigate why the `initCode` reverts during the account deployment process using tools like [Tenderly](https://tenderly.co/).

@@ -1,0 +1,67 @@
+# getUserOperationByHash
+
+Return a User Operation based on a User Operation hash.
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+import { bundlerClient } from "./client"
+
+const userOperationByHash = await bundlerClient.getUserOperationByHash({
+    hash: "0x3c037f957fde5d87e35d5b8582f6c274343bcf3bc0e010d72fc2de0e27f4a6aa"
+})
+/**
+ * {
+    "userOperation": {
+      "sender": "0x277F6C1D8d4faFA3d8DcC837489cd69d86c682BA",
+      "nonce": 3n,
+      "initCode": "0x67df23f0c2a43bcc7727e5aa76112f286619ea0e5fbfb9cf00000000000000000000000035764204352772776d5f4c9aae84e06e03a143c00000000000000000000000000000000000000000000000000000000000000000",
+      "callData": "0xb61d27f6000000000000000000000000c7cae1986efb06d5e8041724b4a53ad165ffa022000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000600000000000000000000000000000000000000000000000000000000000000000",
+      "callGasLimit": 1500000n,
+      "verificationGasLimit": 500000n,
+      "preVerificationGas": 54728n,
+      "maxFeePerGas": 3620810421n,
+      "maxPriorityFeePerGas": 3620810391n,
+      "paymasterAndData": "0x1dbab8914a76e9c294bb192d6cec9dbec193922100000000000000000000000000000000000000000000000000000000651357d50000000000000000000000000000000000000000000000000000000000000000f0aa703445cb7ecf59fc0b5411af08b93afc357356af37eba6d49b2d91bdbc83621fdc45be2e833bdd76038c2e284f1c44a0f150360c3966bb8510d618238aaa1b",
+      "signature": "0x073fecd688deed195a6210fec2851a33c7556b531753b698bebfd5c5491ff64520776269a5ce5f80caa4456258c725feeccea4265f007e269c7912a8d3f1c8531b"
+    },
+    "entryPoint": "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+    "transactionHash": "0x975a6bac5f562a2cb8218945b4e4304f6d10afa4aa6f02830e6d6dcafc450d66",
+    "blockHash": "0x195f37194aedaf129e756f35613178aa197949f0cbdcd684f8573b1afc34924c",
+    "blockNumber": 40552848n
+   }
+ */
+```
+
+```ts [client.ts]
+import { createClient, http } from 'viem'
+import { goerli } from 'viem/chains'
+import { bundlerActions } from 'permissionless'
+
+export const bundlerClient = createClient({ 
+  chain: goerli,
+  transport: http("https://api.pimlico.io/v1/goerli/rpc?apikey=YOUR_API_KEY_HERE")
+}).extend(bundlerActions)
+```
+
+::::
+
+## Returns
+
+- **Type:** `UserOperationByHashResult`
+
+The User Operation information with Entry Point, TransactionHash, BlockHash, and BlockNumber fields.
+
+## Parameters
+
+### hash
+
+- **Type:** `Hash`
+
+The User Operation hash.
+
+## JSON-RPC Method
+
+[`eth_estimateUserOperationByHash`](https://eips.ethereum.org/EIPS/eip-4337#rpc-methods-eth-namespace)

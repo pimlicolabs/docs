@@ -1,0 +1,103 @@
+---
+showOutline: false
+content:
+  width: 100%
+---
+
+# How to use a Privy signer with permissionless.js
+
+permissionless.js allows you to plug in custom signers to control the accounts that you create. Privy is an embedded wallet provider that allows you to easily onboard users to your dapp. It is possible to use Privy as a signer with permissionless.js, allowing you to use Privy to create and control smart accounts and sign transactions.
+
+::::steps
+
+### Install the dependencies
+
+```bash
+npm i @privy-io/react-auth @privy-io/wagmi-connector permissionless viem wagmi
+```
+
+### Create the Privy provider
+
+Following Privy's [quickstart guide](https://docs.privy.io/guide/quickstart), set up the Privy provider in your app. Also integrate the PrivyWagmiConnector, which will allow you to use Privy as a signer with permissionless.js.
+
+```ts
+import { PrivyProvider } from '@privy-io/react-auth';
+import { PrivyWagmiConnector } from '@privy-io/wagmi-connector';
+
+<PrivyProvider
+  appId={"<Privy-App-Id>"}
+  config={{
+    embeddedWallets: {
+      createOnLogin: "all-users",
+    },
+  }}
+>
+    <PrivyWagmiConnector wagmiChainsConfig={configureChainsConfig}>
+        {children}
+    </PrivyWagmiConnector>
+</PrivyProvider>;
+
+```
+
+### Set Privy as the active wallet
+
+In your app, set Privy's embedded wallet as the active wallet for wagmi
+
+```ts
+import { useWallets } from "@privy-io/react-auth";
+import { usePrivyWagmi } from "@privy-io/wagmi-connector";
+import { useEffect } from "react";
+
+const { wallets } = useWallets();
+const embeddedWallet = wallets.find(
+  (wallet) => wallet.walletClientType === "privy"
+);
+const { setActiveWallet } = usePrivyWagmi()
+
+useEffect(() => setActiveWallet(embeddedWallet), [embeddedWallet])
+```
+
+### Create the SmartAccountClient
+
+Create the smart account client using the Privy signer. This is where you would configure what smart account implementation (e.g. [Safe](/permissionless/how-to/accounts/use-safe-account), [Kernel](/permissionless/how-to/accounts/use-kernel-account), Biconomy, [SimpleAccount](/permissionless/how-to/accounts/use-simple-account)) and what paymaster logic you want to use.
+
+```ts
+import { createSmartAccountClient, walletClientToCustomSigner } from "permissionless";
+import { signerToSimpleSmartAccount } from "permissionless/accounts";
+import { useWalletClient } from "wagmi";
+
+const {
+    data: walletClient
+} = useWalletClient()
+
+const customSigner = walletClientToCustomSigner(walletClient)
+
+const simpleSmartAccountClient = await signerToSimpleSmartAccount(publicClient, {
+    entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+    signer: customSigner,
+    factoryAddress: "0x9406Cc6185a346906296840746125a0E44976454"
+})
+
+const smartAccountClient = createSmartAccountClient({
+    account: simpleSmartAccountClient,
+    chain: sepolia, // or whatever chain you are using
+    transport: http("<bundler_endpoint>"),
+    sponsorUserOperation: pimlicoPaymaster.sponsorUserOperation // if using a paymaster
+})
+```
+
+### Send a transaction
+
+You can now send transactions as normal. The `sponsorUserOperation` function will be called before each transaction is signed and sent, applying the custom paymaster logic you have set.
+
+```ts
+const txHash = await smartAccountClient.sendTransaction({
+    to: zeroAddress,
+    data: "0x",
+    value: BigInt(0)
+})
+```
+
+::::
+
+For a full example, see the [example permissionless + Privy app](https://github.com/pimlicolabs/privy-demo/blob/main/src/components/privy/privy.tsx).

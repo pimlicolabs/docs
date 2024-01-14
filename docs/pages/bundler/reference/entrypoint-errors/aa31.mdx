@@ -1,0 +1,13 @@
+# AA31 paymaster deposit too low
+
+:::info
+The first 20 bytes of the `paymasterAndData` field specify the address of the paymaster contract you are requesting to use.
+:::
+
+The paymaster contract does not have enough funds deposited into the EntryPoint contract to cover the required prefund of the user operation.
+
+## Possible solutions
+
+- Verify that the `paymasterAndData` field is correct, and that the first 20 bytes are the address of the paymaster contract you intend to use.
+- If you are using your own paymaster contract, deposit more funds into the EntryPoint contract through the `deposit()` function of the paymaster contract.
+- If you are using a paymaster service like Pimlico, [reach out to them](https://t.me/pimlicoHQ).

@@ -1,0 +1,8 @@
+# AA20 account not deployed
+
+An `initCode` was not specified, but the `sender` address (i.e. the smart account) is not deployed.
+
+## Possible solutions
+
+- If this is the first transaction by this account, make sure the `initCode` is included in the user operation.
+- If the smart account is already supposed to be deployed, verify that you have selected the correct `sender` address for the user operation.

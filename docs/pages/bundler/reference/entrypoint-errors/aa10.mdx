@@ -1,0 +1,15 @@
+# AA10 sender already constructed
+
+The sender (i.e. the smart account) has already been created previously. You may be trying to create the account multiple times.
+
+## Possible solutions
+
+- Remove the `initCode` from the user operation.
+
+```ts
+const userOperationHash = await bundlerClient.sendUserOperation({
+    initCode: "0xaee9762ce625e0a8f7b184670fb57c37bfe5e0a8f7...", // [!code --]
+    initCode: "0x", // [!code ++]
+    ..., // the rest of the user operation
+})
+```

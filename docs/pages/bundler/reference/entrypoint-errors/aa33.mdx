@@ -1,0 +1,23 @@
+# AA33 reverted (or OOG)
+
+:::info
+OOG = Out Of Gas
+:::
+
+The `validatePaymasterUserOp` function of the paymaster contract either reverted or ran out of gas.
+
+## Possible solutions
+
+- Verify that the `verificationGasLimit` is high enough to cover the `validatePaymasterUserOp` function's gas costs.
+- If you are using your own paymaster contract, verify that the `validatePaymasterUserOp` function is implemented with the correct logic, and that the user operation is supposed to be valid.
+- If you are using your own paymaster contract, make sure the signature verification logic of the paymaster is implemented correctly. Namely, correct implementations should **not** revert when the paymaster signature is invalid. If you are not looking to use neither time-based signatures, you should simply return `uint(1)` for invalid signatures in the `validatePaymasterUserOp` function.
+- If you are using a paymaster service like Pimlico, and the user operation is well formed with a high enough `verificationGasLimit`, [reach out to them](https://t.me/pimlicoHQ).
+- If you are *not* looking to use a paymaster to cover the gas fees, verify that the `paymasterAndData` field is not set.
+```ts
+const userOperationHash = await bundlerClient.sendUserOperation({
+    paymasterAndData: "0x3b912be0270b59143985cc5c6aab452d99e2b4bb0000000000000000000000000000000000000000000000000000000064c0957400000000000000000000000000000000000000000000000000000000000000007d99385d8ef0af67affbf9944df8c121e9d1f6aef8dd82a4aeb5db310c42d3dc5b51c9e0835d94c3b22564d3d94f0e1d14e37571e46651da8de567d128a361a01b", // [!code --]
+    paymasterAndData: "0x", // [!code ++]
+    ..., // the rest of the user operation
+})
+```
+- If all else fails, investigate why the `validatePaymasterUserOp` function reverted using tools like [Tenderly](https://tenderly.co/).

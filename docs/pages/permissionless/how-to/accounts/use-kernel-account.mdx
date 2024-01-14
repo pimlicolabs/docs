@@ -1,0 +1,138 @@
+# How to create and use a Kernel account with permissionless.js
+
+[Kernel](https://github.com/zerodevapp/kernel) is a **modular smart account** that supports *plugins*, which are smart contracts that extend the account's functionalities.  You can use Kernel with popular plugins such as session keys and account recovery, and even write your own plugins. As of Dec 2023, Kernel is the most widely deployed smart account on Ethereum, Polygon, Arbitrum, Optimism, and Base.
+
+::::steps
+
+### Import the required packages
+
+```ts
+import { createSmartAccountClient } from "permissionless";
+import { signerToEcdsaKernelSmartAccount } from "permissionless/accounts";
+import { createPimlicoPaymasterClient, createPimlicoBundlerClient } from "permissionless/clients/pimlico";
+import { UserOperation } from "permissionless/types";
+import { Address, createPublicClient, http } from "viem";
+import { sepolia } from "viem/chains";
+import { privateKeyToAccount } from "viem/accounts";
+```
+
+### Create the clients
+
+First we must create the public, bundler, and (optionally) paymaster clients that will be used to interact with the Kernel account.
+
+```ts
+export const publicClient = createPublicClient({
+	transport: http("https://CHAIN.infura.io/v3/API_KEY"),
+});
+
+export const paymasterClient = createPimlicoPaymasterClient({
+	transport: http(
+		"https://api.pimlico.io/v2/CHAIN/rpc?apikey=API_KEY",
+	),
+});
+```
+
+### Create the signer
+
+Kernel accounts can work with a variety of signing algorithms such as ECDSA, passkeys, and multisig. In Permissionless, the default Kernel account validates ECDSA signatures. Any [Viem account](https://viem.sh/docs/accounts/custom.html) can be used as a signer for the Kernel account.
+
+For example, to create a signer based on a private key:
+
+```ts
+import { privateKeyToAccount } from "viem/accounts"
+
+const signer = privateKeyToAccount("0xPRIVATE_KEY")
+```
+
+### Create the Kernel account
+
+With a signer, you can create a Kernel account as such:
+
+```ts
+const kernelAccount = await signerToEcdsaKernelSmartAccount(publicClient, {
+	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789", // global entrypoint
+	signer: signer,
+	index: 0n, // optional
+});
+```
+
+The Kernel address is computed deterministically from the signer, but you can optionally pass an `index` to create any number of different accounts using the same signer.
+
+### Create the smart account client
+
+The smart account client is a permissionless.js client that is meant to serve as an almost drop-in replacement for viem's [walletClient](https://viem.sh/docs/clients/wallet.html).
+
+```ts
+const smartAccountClient = createSmartAccountClient({
+	account: kernelAccount,
+	chain: sepolia,
+	transport: http(
+		"https://api.pimlico.io/v1/CHAIN/rpc?apikey=API_KEY",
+	),
+	sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
+});
+```
+
+### Fetch the gas prices (optional)
+
+If you're using Pimlico as your bundler, fetch the required gas price to use beforehand and pass it in as the `maxFeePerGas` and `maxPriorityFeePerGas` parameters. Other providers might have different requirements for fetching the gas price.
+
+```ts
+export const bundlerClient = createPimlicoBundlerClient({
+	transport: http(
+		"https://api.pimlico.io/v1/CHAIN/rpc?apikey=API_KEY",
+	),
+});
+
+const gasPrices = await bundlerClient.getUserOperationGasPrice();
+```
+
+### Send a transaction
+
+Transactions using permissionless.js simply wrap around user operations. This means you can switch to permissionless.js from your existing viem EOA codebase with minimal-to-no changes.
+
+```ts
+const txHash = await smartAccountClient.sendTransaction({
+	to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
+	value: parseEther("0.1"),
+	maxFeePerGas: gasPrices.fast.maxFeePerGas, // if using Pimlico
+	maxPriorityFeePerGas: gasPrices.fast.maxPriorityFeePerGas, // if using Pimlico
+});
+```
+
+This also means you can also use viem Contract instances to transact without any modifications.
+
+```ts
+const nftContract = getContract({
+	address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2',
+	abi: nftAbi,
+	publicClient,
+	walletClient: smartAccountClient,
+	maxFeePerGas: gasPrices.fast.maxFeePerGas, // if using Pimlico
+	maxPriorityFeePerGas: gasPrices.fast.maxPriorityFeePerGas, // if using Pimlico
+});
+
+const txHash = await nftContract.write.mint()
+```
+
+You can also send an array of transactions in a single batch.
+
+```ts
+const txHash = await smartAccountClient.sendTransactions({
+	transactions: [
+		{
+			to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
+			value: parseEther("0.1"),
+		},
+		{
+			to: "0x1440ec793aE50fA046B95bFeCa5aF475b6003f9e",
+			value: parseEther("0.1"),
+			data: "0x..."
+		},
+	]
+	maxFeePerGas: gasPrices.fast.maxFeePerGas, // if using Pimlico
+	maxPriorityFeePerGas: gasPrices.fast.maxPriorityFeePerGas, // if using Pimlico
+});
+```
+
+::::

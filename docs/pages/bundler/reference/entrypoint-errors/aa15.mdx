@@ -1,0 +1,11 @@
+# AA15 initCode must create sender
+
+The smart account deployment process with the `initCode` does not return any `sender` address. There are two possible reasons:
+- The `initCode` factory is not creating an account. 
+- The `initCode` factory is creating an account, but is not implemented correctly as it is not returning the deployed `sender` address. 
+
+## Possible solutions
+
+- Verify that the factory address in the `initCode` is correct (the factory address is the first 20 bytes of the `initCode`).
+- Verify that the `initCode` factory is implemented correctly. The factory must deploy the smart account and return the deployed `sender` address.
+- If all else fails, investigate why the `initCode` factory does not return a `sender` address using tools like [Tenderly](https://tenderly.co/).

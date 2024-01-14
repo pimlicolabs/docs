@@ -1,0 +1,38 @@
+# How to use Sponsorship Policies
+
+Sponsorship Policies are hosted policies that allow you to define custom rules for sponsorships.
+
+You can put limits to the global amount of sponsorships, the amount of sponsorships per user, and per user operation.
+
+Start by going to the [sponsorship policies page](https://dashboard.pimlico.io/sponsorship-policies) on the Pimlico dashboard and clicking on the "Create Policy" button.
+
+![](https://i.imgur.com/sJM7l7m.png)
+
+After creating a policy, you can take its ID and use it by passing it into the `pm_sponsorUserOperation` method. If the user operation does not meet the requirements of the policy, the method will return an error.
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "pm_sponsorUserOperation",
+    "params": [
+        {
+            "sender": "0x1234567890123456789012345678901234567890",
+            "nonce": "0x1",
+            "initCode": "0x",
+            "callData": "0x",
+            "callGasLimit": "0x100000",
+            "verificationGasLimit": "0x20000",
+            "preVerificationGas": "0x10000",
+            "maxFeePerGas": "0x3b9aca00",
+            "maxPriorityFeePerGas": "0x3b9aca00",
+            "paymasterAndData": "0x",
+            "signature": "0x"
+        },
+        "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+        {
+            "sponsorshipPolicyId": "sp_amused_gladiator"
+        }
+    ],
+    "id": 1
+}
+```

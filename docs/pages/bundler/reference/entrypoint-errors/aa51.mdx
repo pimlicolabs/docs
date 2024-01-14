@@ -1,0 +1,9 @@
+# AA51 prefund below actualGasCost
+
+The actual gas cost of the user operation ended up being higher than the prefund paid by the smart account or the paymaster.
+
+## Possible solutions
+
+- If you encounter this error, try increasing the `verificationGasLimit` set for the user operation.
+- If you are using the `eth_estimateUserOperationGas` or `pm_sponsorUserOperation` method from bundler provider like Pimlico to set user operation gas limits and the EntryPoint throws this error during submission, [reach out to them](https://t.me/pimlicoHQ).
+- If all else fails, investigate why the actual gas cost ended up being higher than the prefund paid using tools like [Tenderly](https://tenderly.co/).

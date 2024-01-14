@@ -1,0 +1,68 @@
+# pimlico_getUserOperationStatus
+
+This method takes in a user operation hash and returns the status of the operation and, optionally, the transaction hash the bundler is using to bundle the user operation on-chain. The status can be one of the following:
+
+
+| result   | response includes transaction hash | description |
+| :------- | :------------------------ | :---------- |
+| `not_found` |  false |  the operation hash is not known to the bundler or has been rejected during validation and has never entered the mempool |
+| `not_submitted` |  false |  the operation hash is known to the bundler but is sitting in the mempool and has not been bundled into a transaction yet |
+| `submitted`   | true |  the operation hash is known to the bundler, has been bundled into a transaction which is currently pending in the mempool |
+| `rejected`    | false |  the operation hash has entered the mempool but as it was being bundled into a bundle transaction the re-simulation failed and it was never submitted |
+| `included`    | true |  the operation hash is known to the bundler and has been included on-chain |
+| `failed`    | true |  the operation hash is known to the bundler and the transaction bundling it has been included on-chain but the bundle transaction reverted |
+| `queued`    | false |  the operation hash is known to the bundler but is waiting in a queue before being sent to the mempool due to its nonce being too high |
+
+:::info
+Note: the transaction hash returned when the result is `submitted` can change if the bundler resubmits the user operation inside a different transaction. For this reason, when showing the pending transaction hash to the user, it is recommended to keep calling this method in case the transaction hash changes.
+:::
+
+## Request
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "pimlico_getUserOperationStatus",
+    "params": ["0x9bd004b8240da8eba3a02190a72be8a70ade8ef4c581b6e59789643c5e642ac3"],
+    "id": 1
+}
+```
+
+## Response
+
+::::code-group
+
+```json [not_found]
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+        "status": "not_found",
+        "transactionHash": null
+    }
+}
+```
+
+```json [submitted]
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+        "status": "submitted",
+        "transactionHash": "0x9bd004b8240da8eba3a02190a72be8a70ade8ef4c581b6e59789643c5e642ac3"
+    }
+}
+```
+
+```json [included]
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+        "status": "included",
+        "transactionHash": "0x9bd004b8240da8eba3a02190a72be8a70ade8ef4c581b6e59789643c5e642ac3"
+    }
+}
+```
+
+::::

@@ -1,0 +1,39 @@
+# supportedEntryPoints
+
+Return the Entry Points supported by the bundler.
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+import { bundlerClient } from "./client"
+
+const supportedEntryPoints = await bundlerClient.supportedEntryPoints()
+/**
+ * ["0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"]
+ */
+```
+
+```ts [client.ts]
+import { createClient, http } from 'viem'
+import { goerli } from 'viem/chains'
+import { bundlerActions } from 'permissionless'
+
+export const bundlerClient = createClient({ 
+  chain: goerli,
+  transport: http("https://api.pimlico.io/v1/goerli/rpc?apikey=YOUR_API_KEY_HERE")
+}).extend(bundlerActions)
+```
+
+::::
+
+## Returns
+
+- **Type:** `Address[]`
+
+The Entry Points supported by the bundler.
+
+## JSON-RPC Method
+
+[`eth_supportedEntryPoints`](https://eips.ethereum.org/EIPS/eip-4337#rpc-methods-eth-namespace)

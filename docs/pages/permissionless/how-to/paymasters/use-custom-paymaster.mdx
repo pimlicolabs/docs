@@ -1,0 +1,132 @@
+# How to use a custom paymaster with accounts in permissionless.js
+
+permissionless.js allows you to define custom logic to select the paymaster (if any) to use with the accounts you control. This allows you to use your own paymaster or even use multiple paymasters in different scenarios.
+
+:::::steps
+
+### Create the clients
+
+First we must create the public, bundler, and (optionally) paymaster clients that will be used to interact with the Safe account.
+
+```ts
+export const publicClient = createPublicClient({
+	transport: http("https://CHAIN.infura.io/v3/API_KEY"),
+});
+
+export const bundlerClient = createPimlicoBundlerClient({
+	transport: http(
+		"https://api.pimlico.io/v1/CHAIN/rpc?apikey=API_KEY",
+	),
+});
+
+export const paymasterClient = createPimlicoPaymasterClient({
+	transport: http(
+		"https://api.pimlico.io/v2/CHAIN/rpc?apikey=API_KEY",
+	),
+});
+```
+
+### Create an account
+
+Now, create an account. This can any of the accounts supported by permissionless.js or custom accounts conforming to the interface. For this example, we'll use a Safe account.
+
+```ts
+const safeAccount = await privateKeyToSafeSmartAccount(publicClient, {
+	privateKey: "0xPRIVATE_KEY",
+	safeVersion: "1.4.1",
+	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789" // global entrypoint
+});
+```
+
+### Create the smart account client with the custom paymaster logic
+
+When creating the `smartAccountClient`, we can pass in a `sponsorUserOperation` function that will be called before a user operation is signed and sent. This function must return the `paymasterAndData`, `preVerificationGas`, `verificationGasLimit`, and `callGasLimit` fields.
+
+::::code-group
+
+```ts [Pimlico Paymaster]
+const smartAccountClient = createSmartAccountClient({
+	account: safeAccount,
+	chain: sepolia,
+	transport: http(
+		"https://api.pimlico.io/v1/CHAIN/rpc?apikey=API_KEY",
+	),
+	sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
+});
+```
+
+You can also set completely custom client-side logic to select the paymaster to use. This can be useful if you want to use multiple paymasters in different scenarios.
+
+```ts [ERC-20 Paymaster]
+const smartAccountClient = createSmartAccountClient({
+	account: safeAccount,
+	chain: polygonMumbai,
+	transport: http(
+		`https://api.pimlico.io/v1/mumbai/rpc?apikey=API_KEY`,
+	),
+	sponsorUserOperation: async (args: { userOperation: UserOperation, entryPoint: Address }) => {
+		const paymaster = "0x000000000009B901DeC1aaB9389285965F49D387" // usdc paymaster on mumbai
+
+		const gasEstimates = await bundlerClient.estimateUserOperationGas({
+			userOperation: { ...args.userOperation, paymasterAndData: paymaster },
+			entryPoint: args.entryPoint,
+		})
+
+		return {
+			...gasEstimates,
+
+			paymasterAndData: paymaster
+		}
+	},
+});
+```
+
+```ts [Dynamic Paymaster Logic]
+const smartAccountClient = createSmartAccountClient({
+	account: safeAccount,
+	chain: polygonMumbai,
+	transport: http(
+		`https://api.pimlico.io/v1/mumbai/rpc?apikey=API_KEY`,
+	),
+	sponsorUserOperation: async (args: { userOperation: UserOperation, entryPoint: Address }) => {
+		const usdcBalance = usdcToken.read.getBalance([safeAccount.address]) // get the user's usdc token balance on mumbai
+
+		if (usdcBalance > parseEther("10")) {
+			const usdcPaymaster = "0x000000000009B901DeC1aaB9389285965F49D387" // usdc paymaster on mumbai
+			// use USDC paymaster if the user has more than 10 USDC
+
+			const gasEstimates = await bundlerClient.estimateUserOperationGas({
+				userOperation: { ...args.userOperation, paymasterAndData: paymaster },
+				entryPoint: args.entryPoint,
+			})
+
+			return {
+				...gasEstimates,
+				paymasterAndData: paymaster
+			}
+		} else {
+			// otherwise sponsor it for the user
+			return paymasterClient.sponsorUserOperation(args)
+		}
+	},
+});
+```
+
+::::
+
+### Send a transaction
+
+You can now send transactions as normal. The `sponsorUserOperation` function will be called before each transaction is signed and sent, applying the custom paymaster logic you have set.
+
+```ts
+const gasPrices = await bundlerClient.getUserOperationGasPrice();
+
+const txHash = await smartAccountClient.sendTransaction({
+	to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
+	value: parseEther("0.1"),
+	maxFeePerGas: gasPrices.fast.maxFeePerGas, // if using Pimlico
+	maxPriorityFeePerGas: gasPrices.fast.maxPriorityFeePerGas, // if using Pimlico
+});
+```
+
+:::::

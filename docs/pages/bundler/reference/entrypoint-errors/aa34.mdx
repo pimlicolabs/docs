@@ -1,0 +1,16 @@
+# AA34 signature error
+
+:::info
+The first 20 bytes of the `paymasterAndData` field specify the address of the paymaster contract you are requesting to use.
+:::
+
+The `validatePaymasterUserOp` function of the paymaster contract rejected the signature of the user operation.
+
+## Possible solutions
+
+- If you are using your own paymaster contract, verify that the user operation was correctly signed according to your implementation, and that the paymaster signature was correctly encoded in the `paymasterAndData` field of the user operation.
+  - Most paymaster implementations sign over a custom hash of the user operation. Make sure that the hash is correctly computed.
+  - Make sure the paymaster signature verification function is correctly implemented.
+- If you are using a paymaster service like Pimlico, make sure you do not modify any of the fields of the user operation after the paymaster signs over it (except the `signature` field).
+- If you are using a paymaster service like Pimlico and you have not modified any of the fields except the `signature` but you are still getting this error, [reach out to them](https://t.me/pimlicoHQ).
+- If all else fails, investigate why the `validatePaymasterUserOp` function rejected the paymaster signature using tools like [Tenderly](https://tenderly.co/).

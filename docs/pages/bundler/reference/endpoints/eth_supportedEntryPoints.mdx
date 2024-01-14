@@ -1,0 +1,24 @@
+# eth_supportedEntryPoints
+
+This method fetches the EntryPoint addresses supported by the bundler. The first address is the one preferred by the bundler to use.
+
+## Request
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "eth_supportedEntryPoints",
+    "params": [],
+    "id": 1
+}
+```
+
+## Response
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": ["0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"]
+}
+```

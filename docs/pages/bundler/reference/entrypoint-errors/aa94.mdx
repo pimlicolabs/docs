@@ -1,0 +1,8 @@
+# AA94 gas values overflow
+
+One or more of the gas values of the user operation do not fit into a `uint160`.
+
+## Possible solutions
+
+- Verify that all the gas limit and gas price fields in your user operation fit into `uint160`.
+- If the gas limits or gas prices for your user operation causing this error are suggested by a bundler provider like Pimlico, [reach out to them](https://t.me/pimlicoHQ).

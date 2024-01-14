@@ -1,0 +1,83 @@
+# signUserOperationHashWithECDSA
+
+Signs the hash of the User Operation with the standard ECDSA signature scheme (used by all EOAs and most smart wallets).
+
+Can take in either the hash of the User Operation or a combination of the User Operation, chain ID and entry point address (calculating the hash internally).
+
+Requires either a walletClient or a localAccount to be passed in that will be used to sign the hash.
+
+## Import
+
+```ts
+import { signUserOperationHashWithECDSA } from "permissionless"
+```
+
+## Usage
+
+The function can take in either a combination of `userOperation` and `chainId` or a `userOperationHash`, or alternatively a `hash` can be passed in directly.
+
+```ts
+import { signUserOperationHashWithECDSA } from "permissionless"
+
+const signature = await signUserOperationHashWithECDSA({
+    account: localAccount, // or client: walletClient
+    userOperation: ...,
+    chainId: 5,
+    entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
+})
+// "0x2d9420e06e41603c60ce395cfab6821f09c3c2461734dd785f24084a8ee138774f5d1910fb6d2d560934b21946a9667ada6077b5ac143c0d6a5d93e903c172101b"
+
+// or
+
+const signature = await signUserOperationHashWithECDSA({
+    account: localAccount, // or client: walletClient
+    hash: "0xf0d56baa398828898360589d5ef75b24b12be0829ef1e1037013d1b6d9dda1f2"
+})
+// "0x2d9420e06e41603c60ce395cfab6821f09c3c2461734dd785f24084a8ee138774f5d1910fb6d2d560934b21946a9667ada6077b5ac143c0d6a5d93e903c172101b"
+```
+
+
+
+## Returns
+
+`Hex`
+
+The 65-byte ECDSA signature of the hash of the User Operation.
+
+## Parameters
+
+### account (mutually exclusive with client)
+
+- **Type:** `LocalAccount`
+
+The account to sign the hash with.
+
+### client (mutually exclusive with account)
+
+- **Type:** `WalletClient`
+
+The client to sign the hash with.
+
+### hash (mutually exclusive with userOperation, entryPoint and chainId)
+
+- **Type:** `Hex`
+
+The hash of the User Operation to sign.
+
+### userOperation (mutually exclusive with hash)
+
+- **Type:** `UserOperation`
+
+The User Operation to hash.
+
+### chainId (mutually exclusive with hash)
+
+- **Type:** `number`
+
+The chain ID of the chain on which the User Operation is being executed.
+
+### entryPoint (mutually exclusive with hash)
+
+- **Type:** `Address`
+
+The entry point address.

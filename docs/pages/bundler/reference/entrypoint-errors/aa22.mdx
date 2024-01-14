@@ -1,0 +1,16 @@
+# AA22 expired or not due
+
+The `signature` used in the user operation is not valid, because it is outside of the time range it specified.
+
+The smart account's `validateUserOp` function returns `validationData`, a `bytes32` field. This field is a concatenation of the `validAfter`, `validUntil`, and `aggregator` fields. 
+
+This error occurs when the `block.timestamp` falls after the `validUntil` timestamp, or before the `validAfter` timestamp.
+
+## Possible solutions
+
+- If you are looking to use time-based signatures, verify that the `validAfter` and `validUntil` fields are set correctly and that the user operation is sent within the specified range.
+- If you are *not* looking to use time-based signatures, verify that the `validAfter` and `validUntil` fields are set to `0`. 
+
+:::tip[Tip]
+If you are not looking to use neither time-based signatures nor a signature aggregator, it is recommended to simply return `uint(0)` for valid signatures and `uint(1)` for invalid signatures in the smart account's `validateUserOp` function.
+:::

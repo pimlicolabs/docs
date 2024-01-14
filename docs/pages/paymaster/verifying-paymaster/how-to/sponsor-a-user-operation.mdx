@@ -1,0 +1,65 @@
+# How to Bundle a User Operation
+
+To bundle a user operation, you need to use your [Pimlico API key](https://dashboard.pimlico.io/apikeys) and make a JSON-RPC request as follows:
+
+::::code-group
+
+```typescript [viem]
+import { createPublicClient, http } from "viem"
+
+const pimlicoApiKey = "YOUR_PIMLICO_API_KEY_HERE"
+const chain = "sepolia" // find the list of supported chains at https://docs.pimlico.io/bundler
+const pimlicoEndpoint = `https://api.pimlico.io/v1/${chain}/rpc?apikey=${pimlicoApiKey}`
+
+const userOperation = ...
+const entryPoint = "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
+
+const pimlicoClient = createPublicClient({ transport: http(pimlicoEndpoint) })
+const result = await pimlicoClient.request({ 
+    // @ts-ignore
+    method: "pm_sponsorUserOperation", 
+    params: [userOperation, { entryPoint: entryPoint }] 
+})
+const paymasterAndData = result.paymasterAndData
+```
+
+```typescript [ethers-v5]
+import { ethers } from "ethers"
+
+const pimlicoApiKey = "YOUR_PIMLICO_API_KEY_HERE"
+const chain = "sepolia" // find the list of supported chains at https://docs.pimlico.io/bundler
+const pimlicoEndpoint = `https://api.pimlico.io/v1/${chain}/rpc?apikey=${pimlicoApiKey}`
+
+const userOperation = ...
+const entryPoint = "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
+
+const pimlicoProvider = new ethers.providers.StaticJsonRpcProvider(pimlicoEndpoint)
+
+const result = await pimlicoProvider.send(
+    "pm_sponsorUserOperation", 
+    [userOperation, { entryPoint: entryPoint }]
+)
+const paymasterAndData = result.paymasterAndData
+```
+
+```typescript [ethers-v6]
+import { ethers } from "ethers"
+
+const pimlicoApiKey = "YOUR_PIMLICO_API_KEY_HERE"
+const chain = "sepolia" // find the list of supported chains at https://docs.pimlico.io/bundler
+const pimlicoEndpoint = `https://api.pimlico.io/v1/${chain}/rpc?apikey=${pimlicoApiKey}`
+
+const userOperation = ...
+const entryPoint = "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
+
+const pimlicoProvider = new ethers.JsonRpcProvider(pimlicoEndpoint)
+
+const result = await pimlicoProvider.send(
+    "pm_sponsorUserOperation", 
+    [userOperation, { entryPoint: entryPoint }]
+)
+const paymasterAndData = result.paymasterAndData
+```
+
+::::
+

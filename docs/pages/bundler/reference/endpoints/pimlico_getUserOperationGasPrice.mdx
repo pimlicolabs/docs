@@ -1,0 +1,37 @@
+# pimlico_getUserOperationGasPrice
+
+This method returns the gas prices that must be used for the user operation you are bundling with Pimlico bundlers.
+
+## Request
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "pimlico_getUserOperationGasPrice",
+    "params": [],
+    "id": 1
+}
+```
+
+## Response
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "slow": {
+      "maxFeePerGas": "0x829b42b5",
+      "maxPriorityFeePerGas": "0x829b42b5"
+    },
+    "standard": {
+      "maxFeePerGas": "0x88d36a75",
+      "maxPriorityFeePerGas": "0x88d36a75"
+    },
+    "fast": {
+      "maxFeePerGas": "0x8f0b9234",
+      "maxPriorityFeePerGas": "0x8f0b9234"
+    }
+  }
+}
+```

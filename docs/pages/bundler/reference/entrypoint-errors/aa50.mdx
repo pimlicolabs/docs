@@ -1,0 +1,13 @@
+# AA50 postOp reverted
+
+:::info
+`postOp` is a function that is called by the EntryPoint on the paymaster contract after the user operation execution is completed. It is often used by paymasters to perform additional accounting logic.
+:::
+
+The paymaster contract's `postOp` function reverted. 
+
+## Possible solutions
+
+- If you are using your own paymaster contract, verify that that you have correctly implemented the `postOp` function (if you are using one). If you do *not* intent to make use of the `postOp` function, make sure you do not set the `context` parameter in the paymaster's `validatePaymasterUserOp` function.
+- If you are using a paymaster service like Pimlico and you see this error, [reach out to them](https://t.me/pimlicoHQ).
+- If all else fails, investigate why the `postOp` function reverted using tools like [Tenderly](https://tenderly.co/).

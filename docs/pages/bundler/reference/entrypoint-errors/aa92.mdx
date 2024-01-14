@@ -1,0 +1,8 @@
+# AA92 internal call only
+
+The bundler attempted to call `innerHandleOp` function of the EntryPoint directly as opposed to through the `handleOps` function.
+
+## Possible solutions
+
+- If you encounter this error when running self-hosted bundler, make sure you have configured the bundler correctly.
+- If you are using a bundler provider like Pimlico, [reach out to them](https://t.me/pimlicoHQ).

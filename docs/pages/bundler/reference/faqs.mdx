@@ -1,0 +1,15 @@
+# Bundler FAQs
+
+#### I successfully submitted a user operation to the bundler, but it never got included in a block. What happened?
+There can be many reasons for this. The most common are:
+- The user operation succeeds as it is being validated, but fails during the second round of simulations when it is being bundled by the bundler into a transaction to be submitted on-chain and is therefore dropped.
+- The bundle transaction bundling the user operation fails on-chain so no logs are emitted.
+- You submitted a user operation which has a nonce that is higher than the current account nonce, which means it is likely queued by the bundler until that nonce is reached.
+
+It is recommended to use the [`pimlico_getUserOperationStatus`](/bundler/reference/endpoints/pimlico_getUserOperationStatus) endpoint to check the status of your user operation.
+
+#### What is the difference between v1 and v2 endpoints?
+V1 is for bundlers, while v2 is for paymasters. V2 for bundlers will be released soon with a notice period for migration.
+
+#### What are fees to deploy to app-chains?
+Fees vary by network. Please reach out to [us](https://t.me/kristofgazso) for more information.
