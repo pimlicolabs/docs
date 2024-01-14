@@ -259,6 +259,14 @@ export default defineConfig({
       alias: {
         '@': path.resolve(__dirname, './docs'),
       },
+    },
+    server: {
+      proxy: {
+        "/api": {
+          target: "/",
+          changeOrigin: true,
+        }
+      }
     }
   },
   sidebar: {
