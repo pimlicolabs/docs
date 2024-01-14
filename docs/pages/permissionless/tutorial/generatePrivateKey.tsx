@@ -1,10 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { Hex } from 'viem'
 import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
 
 export function GeneratePrivateKey() {
-    const [privateKey, setPrivateKey] = useState()
+    const [privateKey, setPrivateKey] = useState<Hex>()
 
     useEffect(() => {
         setPrivateKey(generatePrivateKey())
