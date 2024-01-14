@@ -260,14 +260,6 @@ export default defineConfig({
         '@': path.resolve(__dirname, './docs'),
       },
     },
-    server: {
-      proxy: {
-        "/api": {
-          target: "/",
-          changeOrigin: true,
-        }
-      }
-    }
   },
   sidebar: {
     '/permissionless': permissionlessSidebar,
