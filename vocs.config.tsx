@@ -1,5 +1,4 @@
 import { defineConfig } from 'vocs';
-import viteConfig from "./utils";
 
 export const bundlerSidebar = [
   {
@@ -225,12 +224,6 @@ export default defineConfig({
     text: 'Edit on GitHub',
   },
   description: "Pimlico is an infrastructure platform for building the next generation of smart accounts",
-  head: (
-    <>
-      <script src="/posthog.js"></script>
-    </>
-  ),
-  vite: viteConfig,
   sidebar: {
     '/permissionless': permissionlessSidebar,
     '/bundler': bundlerSidebar,
