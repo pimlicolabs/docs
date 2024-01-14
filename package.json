@@ -8,6 +8,7 @@
     "preview": "vocs preview"
   },
   "dependencies": {
+    "@vercel/og": "^0.6.2",
     "lucide-react": "^0.309.0",
     "permissionless": "^0.0.25",
     "react": "latest",
