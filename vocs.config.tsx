@@ -1,5 +1,5 @@
-import path from 'path';
 import { defineConfig } from 'vocs';
+import viteConfig from "./utils";
 
 export const bundlerSidebar = [
   {
@@ -18,8 +18,8 @@ export const bundlerSidebar = [
     items: [
       { text: "Supported Chains", link: "/bundler/reference/supported-chains" },
       { text: "FAQs", link: "/bundler/reference/faqs" },
-      { 
-        text: "Endpoints", 
+      {
+        text: "Endpoints",
         collapsed: false,
         items: [
           { text: "eth_sendUserOperation", link: "/bundler/reference/endpoints/eth_sendUserOperation" },
@@ -31,16 +31,16 @@ export const bundlerSidebar = [
           { text: "pimlico_getUserOperationStatus", link: "/bundler/reference/endpoints/pimlico_getUserOperationStatus" },
         ]
       },
-      { 
-        text: "Bundler Errors", 
+      {
+        text: "Bundler Errors",
         items: [
           { text: "Invalid 'apikey' query parameter", link: "/bundler/reference/bundler-errors/invalid-api-key" },
           { text: "Chain is not supported", link: "/bundler/reference/bundler-errors/chain-not-supported" },
           { text: "Unknown error from alto bundler", link: "/bundler/reference/bundler-errors/unknown-error" },
         ]
       },
-      { 
-        text: "EntryPoint Errors", 
+      {
+        text: "EntryPoint Errors",
         collapsed: false,
         items: [
           { text: "AA10 sender already constructed", link: "/bundler/reference/entrypoint-errors/aa10" },
@@ -75,35 +75,6 @@ export const bundlerSidebar = [
   }
 ]
 
-// AA10 sender already constructed
-// AA13 initCode failed or OOG
-// AA14 initCode must return sender
-// AA15 initCode must create sender
-
-// AA20 account not deployed
-// AA21 didn't pay prefund
-// AA22 expired or not due
-// AA23 reverted
-// AA24 signature error
-// AA25 invalid account nonce
-
-// AA30 paymaster not deployeda
-// AA31 paymaster deposit too low
-// AA32 paymaster expired or not due
-// AA33 reverted
-// AA34 signature error
-
-// AA40 over verificationGasLimit
-
-// AA51 prefund below actualGasCost
-
-// AA90 invalid beneficiary
-// AA91 failed send to beneficiary
-// AA92 internal call only
-// AA93 invalid paymasterAndData
-// AA95 out of gas
-// AA96 invalid aggregator
-
 export const paymasterSidebar = [
   {
     text: 'Overview',
@@ -112,8 +83,8 @@ export const paymasterSidebar = [
   {
     text: "Verifying Paymaster",
     items: [
-      { 
-        text: "How-to Guides", 
+      {
+        text: "How-to Guides",
         items: [
           { text: "How to sponsor a User Operation", link: "/paymaster/verifying-paymaster/how-to/sponsor-a-user-operation" },
           { text: "How to use sponsorship policies", link: "/paymaster/verifying-paymaster/how-to/use-sponsorship-policies" },
@@ -180,11 +151,11 @@ export const permissionlessSidebar = [
       }
     ]
   },
-  { 
+  {
     text: "Reference",
     link: "/permissionless/reference",
     items: [
-      { 
+      {
         text: "Clients",
         collapsed: false,
         items: [
@@ -244,7 +215,6 @@ export const permissionlessSidebar = [
   },
 ]
 
-
 export default defineConfig({
   title: 'Pimlico',
   logoUrl: { light: '/pimlico-purple.svg', dark: '/pimlico-white.svg' },
@@ -254,13 +224,13 @@ export default defineConfig({
     pattern: 'https://github.com/pimlicolabs/docs/edit/main/docs/pages/:path',
     text: 'Edit on GitHub',
   },
-  vite: {
-    resolve: {
-      alias: {
-        '@': path.resolve(__dirname, './docs'),
-      },
-    },
-  },
+  description: "Pimlico is an infrastructure platform for building the next generation of smart accounts",
+  head: (
+    <>
+      <script src="/posthog.js"></script>
+    </>
+  ),
+  vite: viteConfig,
   sidebar: {
     '/permissionless': permissionlessSidebar,
     '/bundler': bundlerSidebar,
@@ -270,22 +240,22 @@ export default defineConfig({
     "/": "https://docs-og-pimlico.vercel.app/api/og?logo=%logo&title=%title&description=%description"
   },
   theme: {
-    accentColor: { light: "#7115AA", dark: "#a66cc9"},
+    accentColor: { light: "#7115AA", dark: "#a66cc9" },
   },
-  socials: [ 
-    { 
-      icon: 'github', 
-      link: 'https://github.com/pimlicolabs', 
-    }, 
+  socials: [
+    {
+      icon: 'github',
+      link: 'https://github.com/pimlicolabs',
+    },
     {
       icon: "telegram",
       link: "https://t.me/pimlicoHQ"
     },
-    { 
-      icon: 'x', 
-      link: 'https://twitter.com/pimlicoHQ', 
+    {
+      icon: 'x',
+      link: 'https://twitter.com/pimlicoHQ',
     }
-  ], 
+  ],
   topNav: [
     {
       text: 'permissionless.js',
