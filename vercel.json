@@ -1,5 +1,11 @@
 {
     "cleanUrls": true,
+    "rewrites": [
+        {
+            "source": "/ingest/:path(.*)",
+            "destination": "https://app.posthog.com/:path*"
+        }
+    ],
     "redirects": [
         {
             "source": "/:match*.html",
@@ -170,12 +176,6 @@
             "source": "/tutorial/integrations/lit-protocol",
             "destination": "/permissionless/how-to/signers/lit-protocol",
             "permanent": false
-        }
-    ],
-    "rewrites": [
-        {
-            "source": "/ingest/:path*",
-            "destination": "https://app.posthog.com/:path*"
         }
     ]
 }
