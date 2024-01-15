@@ -121,8 +121,9 @@ export const permissionlessSidebar = [
     text: "Tutorials",
     link: "/permissionless/tutorial",
     items: [
-      { text: "1. Submit a User Operation with a Verifying Paymaster", link: "/permissionless/tutorial/tutorial-1" },
-      { text: "2. Submit a User Operation with an ERC-20 Paymaster", link: "/permissionless/tutorial/tutorial-2" },
+      { text: "1. Send your first gasless transaction", link: "/permissionless/tutorial/tutorial-1" },
+      { text: "2. Submit a User Operation with a Verifying Paymaster", link: "/permissionless/tutorial/tutorial-2" },
+      { text: "3. Submit a User Operation with an ERC-20 Paymaster", link: "/permissionless/tutorial/tutorial-3" },
     ]
   },
   {
@@ -230,6 +231,15 @@ export default defineConfig({
       <script src="/posthog.js"></script>
     </>
   ),
+  banner: {
+    content: <a href="https://twitter.com/pimlicoHQ/status/1721890681185321018" target="_blank" rel="nofollow noreferrer">
+      <div className='text-[#eeeef0]"'>
+        🎉 We raised $4.2 million from a16z to power Ethereum's transition to smart accounts! Read more →
+      </div>
+    </a>,
+    dismissable: true,
+    color: "#b5b2bc",
+  },
   vite: viteConfig,
   sidebar: {
     '/permissionless': permissionlessSidebar,

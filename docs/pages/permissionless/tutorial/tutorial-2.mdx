@@ -4,34 +4,23 @@ content:
   width: 100%
 ---
 
-import { GeneratePrivateKey } from "../../../components/generatePrivateKey"
+# Tutorial 2 — Submit a User Operation with a Verifying Paymaster
 
-# Tutorial 2 — Submit a User Operation with an ERC-20 Paymaster
-
-:::info
-You can visit our [ERC-20 Paymaster overview page](/paymaster/erc20-paymaster) to learn more about the design and architecture of our ERC-20 Paymaster, and the deployed smart contract addresses.
-:::
-
-In this tutorial, you will deploy an ERC-4337 smart contract wallet on Mumbai, and submit a User Operation that pays for its gas fees with USDC using Pimlico's ERC-20 Paymaster.
+In this tutorial, you will generate a user operation, ask Pimlico's verifying paymaster to sponsor it, and then submit the sponsored user operation on-chain with Pimlico's Alto bundler.
 
 ::::steps
 
 ### Get a Pimlico API key
 
-:::info
-**The ERC-20 paymaster itself is completely permissionless, there is no requirement to use an API key for it**. We are using an API key in this tutorial to get access to the bundler and verifying paymaster to make the tutorial flow easier.
-:::
-
 To get started, please go to our [dashboard](https://dashboard.pimlico.io) and generate a Pimlico API key.
-
 
 ### Clone the Pimlico tutorial template repository
 
 We have created a [Pimlico tutorial template repository](https://github.com/pimlicolabs/tutorial-template) that you can use to get started. It comes set up with Typescript, viem, and permissionless.js.
 
 ```bash
-git clone https://github.com/pimlicolabs/tutorial-template.git pimlico-tutorial-2
-cd pimlico-tutorial-2
+git clone https://github.com/pimlicolabs/tutorial-template.git pimlico-tutorial-1
+cd pimlico-tutorial-1
 ```
 
 Now, let's install the dependencies:
@@ -48,354 +37,279 @@ npm start
 
 If everything has been set up correctly, you should see `Hello world!` printed to the console.
 
-### Define the constants we'll need
+### Create the viem clients
 
-Let's open up `index.ts`.
+We will be using three different clients for this example. 
+1. Standard publicClient for normal Ethereum RPC calls — https://rpc.goerli.linea.build
+2. Pimlico v1 api for the Bundler methods — https://api.pimlico.io/v1/linea-testnet/rpc?apikey=YOUR_PIMLICO_API_KEY
+3. Pimlico v2 api for the Paymaster methods — https://api.pimlico.io/v2/linea-testnet/rpc?apikey=YOUR_PIMLICO_API_KEY
 
-First, let's define some of the constants we'll need to use to make the flow work. 
+Make sure to replace `YOUR_PIMLICO_API_KEY` in the code below with your actual Pimlico API key.
 
-Before going any further, let's replace `privateKey` with a new private key. You can use the randomly generated one below, or by calling `generatePrivateKey()`.
+Let's open up `index.ts`, and add the following to the bottom:
 
-:::warning
-Do not use this private key in production. 
-:::
+```ts twoslash
+import { getAccountNonce } from "permissionless"
+import { UserOperation, bundlerActions, getSenderAddress, getUserOperationHash, waitForUserOperationReceipt, GetUserOperationReceiptReturnType, signUserOperationHashWithECDSA } from "permissionless"
+import { pimlicoBundlerActions, pimlicoPaymasterActions } from "permissionless/actions/pimlico"
+import { Address, Hash, concat, createClient, createPublicClient, encodeFunctionData, http, Hex } from "viem"
+import { generatePrivateKey, privateKeyToAccount, signMessage } from "viem/accounts"
+import { lineaTestnet, polygonMumbai } from "viem/chains"
+// - 1
+// ---cut---
+// CREATE THE CLIENTS
+const publicClient = createPublicClient({
+  transport: http("https://rpc.goerli.linea.build/"),
+  chain: lineaTestnet
+})
 
-<GeneratePrivateKey />
-
-Remember to replace the `apiKey` variable with your own Pimlico API key. This will allow you to use our bundler to submit your User Operation.
-
-After replacing these two variables, add the following to the bottom of `index.ts`:
-
-```typescript
-// DEFINE THE CONSTANTS
-const privateKey = "GENERATED_PRIVATE_KEY" // replace this with a private key you generate!
-const apiKey = "YOUR_PIMICO_API_KEY" // replace with your Pimlico API key
-
-const ENTRY_POINT_ADDRESS = "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
-const SIMPLE_ACCOUNT_FACTORY_ADDRESS = "0x9406Cc6185a346906296840746125a0E44976454"
-
-const chain = "mumbai"
-
-if (apiKey === undefined) {
-    throw new Error("Please replace the `apiKey` env variable with your Pimlico API key")
-}
-
-if (privateKey.match(/GENERATED_PRIVATE_KEY/)) {
-    throw new Error(
-        "Please replace the `privateKey` variable with a newly generated private key. You can use `generatePrivateKey()` for this"
-    )
-}
-
-const signer = privateKeyToAccount(privateKey as Hash)
+const chain = "linea-testnet" // find the list of chain names on the Pimlico verifying paymaster reference page
+const apiKey = "YOUR_PIMLICO_API_KEY" // REPLACE THIS
 
 const bundlerClient = createClient({
-    transport: http(`https://api.pimlico.io/v1/${chain}/rpc?apikey=${apiKey}`),
-    chain: polygonMumbai
-})
-    .extend(bundlerActions)
-    .extend(pimlicoBundlerActions)
+  transport: http(`https://api.pimlico.io/v1/${chain}/rpc?apikey=${apiKey}`),
+  chain: lineaTestnet
+}).extend(bundlerActions).extend(pimlicoBundlerActions)
 
 const paymasterClient = createClient({
-    // ⚠️ using v2 of the API ⚠️
-    transport: http(`https://api.pimlico.io/v2/${chain}/rpc?apikey=${apiKey}`),
-    chain: polygonMumbai
+  // ⚠️ using v2 of the API ⚠️ 
+  transport: http(`https://api.pimlico.io/v2/${chain}/rpc?apikey=${apiKey}`),
+  chain: lineaTestnet
 }).extend(pimlicoPaymasterActions)
-
-const publicClient = createPublicClient({
-    transport: http("https://mumbai.rpc.thirdweb.com"),
-    chain: polygonMumbai
-})
 ```
 
-### Calculate the deterministic address of your smart wallet
+### Generate the initCode
 
-Since we will be looking to fund our account with USDC (that we will use to sponsor UserOperations with), we need to know the address where our smart wallet will be deployed.
+For the purposes of this guide, we will be using the [SimpleAccount.sol](https://github.com/eth-infinitism/account-abstraction/blob/develop/contracts/samples/SimpleAccount.sol) wallet found in the eth-infinitism repository. This Wallet is a simple ERC-4337 wallet controlled by a single EOA signer.
+
+At `0x9406Cc6185a346906296840746125a0E44976454`, most chain already have deployed a [SimpleAccountFactory.sol](https://github.com/eth-infinitism/account-abstraction/blob/develop/contracts/samples/SimpleAccountFactory.sol) contract, that is able to easily deploy new SimpleAccount instances via the `createAccount` function. We will be leveraging this contract to help us generate the `initCode`.
+
+A user operation consists of 11 fields. Requesting a smart contract deployment is done through the `initCode` field, where the first 20 bytes specify the factory address the EntryPoint will call, and anything after corresponds to the data that will be called on that factory.
+
+Add the following to the bottom of `index.ts`:
+
+```ts 
+// GENERATE THE INITCODE
+const SIMPLE_ACCOUNT_FACTORY_ADDRESS = "0x9406Cc6185a346906296840746125a0E44976454"
+
+const ownerPrivateKey = generatePrivateKey()
+const owner = privateKeyToAccount(ownerPrivateKey)
+
+console.log("Generated wallet with private key:", ownerPrivateKey)
+
+const initCode = concat([
+  SIMPLE_ACCOUNT_FACTORY_ADDRESS,
+  encodeFunctionData({
+    abi: [{
+      inputs: [{ name: "owner", type: "address" }, { name: "salt", type: "uint256" }],
+      name: "createAccount",
+      outputs: [{ name: "ret", type: "address" }],
+      stateMutability: "nonpayable",
+      type: "function",
+    }],
+    args: [owner.address, 0n]
+  })
+]);
+
+console.log("Generated initCode:", initCode)
+```
+
+Let's run this code with `npm start`. You should see the generated initCode printed to the console.
+
+```
+Generated initCode: 0x9406cc6185a346906296840746125a0e449764545fbfb9cf000000000000000000000000508a7005f997a21cd662d6fb41ad69f945c129c10000000000000000000000000000000000000000000000000000000000000000
+```
+
+### Calculate the sender address
+
+Now that we have the `initCode`, we have to calculate the corresponding `sender` address, which is the address the `SimpleAccount` will be deployed to, and thereby the address which will handle the verification and execution steps of the UserOperation.
+
+We do this by calling the `getSenderAddress` utility function on the EntryPoint. Upon success, it will revert with a special error type that contains the counterfactual address of the smart contract wallet that will be deployed
 
 Add the following to the bottom of `index.ts`:
 
 ```typescript
-// CALCULATE THE DETERMINISTIC SENDER ADDRESS
-const initCode = concat([
-    SIMPLE_ACCOUNT_FACTORY_ADDRESS,
-    encodeFunctionData({
-        abi: [
-            {
-                inputs: [
-                    { name: "owner", type: "address" },
-                    { name: "salt", type: "uint256" }
-                ],
-                name: "createAccount",
-                outputs: [{ name: "ret", type: "address" }],
-                stateMutability: "nonpayable",
-                type: "function"
-            }
-        ],
-        args: [signer.address, 0n]
-    })
-])
+// CALCULATE THE SENDER ADDRESS
+const ENTRY_POINT_ADDRESS = "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
 
 const senderAddress = await getSenderAddress(publicClient, {
-    initCode,
-    entryPoint: ENTRY_POINT_ADDRESS
+  initCode,
+  entryPoint: ENTRY_POINT_ADDRESS
 })
-console.log("Counterfactual sender address:", senderAddress)
+console.log("Calculated sender address:", senderAddress)
+```
+
+Let's run this code with `npm start`. You should see the address printed to the console.
+
+```
+Calculated sender address: 0xbAd38BdCf884ED92ab370f69C0CD0B7b8a1459A1
+```
+
+### Generate the callData
+
+Now, let's decide on the `callData` that we want the wallet to actually execute once the UserOperation passes verification.
+
+Add the following to the bottom of `index.ts`:
+
+```typescript
+// GENERATE THE CALLDATA
+const to = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045" // vitalik
+const value = 0n
+const data = "0x68656c6c6f" // "hello" encoded to utf-8 bytes
+
+const callData = encodeFunctionData({
+  abi: [{
+		inputs: [
+      { name: "dest", type: "address" },
+      { name: "value", type: "uint256" },
+      { name: "func", type: "bytes" },
+		],
+		name: "execute",
+		outputs: [],
+		stateMutability: "nonpayable",
+		type: "function",
+	}],
+  args: [to, value, data]
+})
+
+console.log("Generated callData:", callData)
+```
+
+Above, we are leveraging the `execute` function of the SimpleWallet, which simply calls an arbitrary address, with arbitrary value and arbitrary callData.
+
+Let's run this code with `npm start`. You should see the callData printed to the console.
+
+```
+Generated callData: 0xb61d27f6000000000000000000000000d8da6bf26964af9d7eed9e03e53415d37aa9604500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000000568656c6c6f000000000000000000000000000000000000000000000000000000
+```
+
+### Fill out remaining UserOperation values
+
+We're almost there, now let's fill out the rest of the UserOperation values.
+
+Add the following to the bottom of `index.ts`:
+
+```typescript
+// FILL OUT REMAINING USER OPERATION VALUES
+const gasPrice = await bundlerClient.getUserOperationGasPrice()
+
+const userOperation = {
+    sender: senderAddress,
+    nonce: 0n,
+    initCode,
+    callData,
+    maxFeePerGas: gasPrice.fast.maxFeePerGas,
+    maxPriorityFeePerGas: gasPrice.fast.maxPriorityFeePerGas,
+    // dummy signature, needs to be there so the SimpleAccount doesn't immediately revert because of invalid signature length
+    signature: "0xa15569dd8f8324dbeabf8073fdec36d4b754f53ce5901e283c6de79af177dc94557fa3c9922cd7af2a96ca94402d35c39f266925ee6407aeb32b31d76978d4ba1c" as Hex
+}
+```
+
+### Request Pimlico verifying paymaster sponsorship
+
+To make the operation gasless, we will leverage Pimlico's verifying paymaster. Using paymasters allows you to delegate the gas fee payment to a third-party contract that can decide whether it is willing to pay the gas fees for the user operation. In this case, Pimlico's verifying paymaster checks whether its off-chain signer has signed off on the user operation. To request Pimlico's signer to sign your user operation, call the `pm_sponsorUserOperation` endpoint or use the `sponsorUserOperation` method from the permissionless.js Pimlico paymaster actions.
+
+Add the following to the bottom of `index.ts`:
+
+```typescript
+// REQUEST PIMLICO VERIFYING PAYMASTER SPONSORSHIP
+const sponsorUserOperationResult = await paymasterClient.sponsorUserOperation({
+  userOperation,
+  entryPoint: ENTRY_POINT_ADDRESS
+})
+
+const sponsoredUserOperation: UserOperation = {
+  ...userOperation,
+  preVerificationGas: sponsorUserOperationResult.preVerificationGas,
+  verificationGasLimit: sponsorUserOperationResult.verificationGasLimit,
+  callGasLimit: sponsorUserOperationResult.callGasLimit,
+  paymasterAndData: sponsorUserOperationResult.paymasterAndData
+}
+
+console.log("Received paymaster sponsor result:", sponsorUserOperationResult)
 ```
 
 Let's run this code with `npm start`. You should see something like this:
 
 ```
-Counterfactual sender address: 0xbAd38BdCf884ED92ab370f69C0CD0B7b8a1459A1
-```
-
-### Get Testnet USDC on Mumbai
-
-Let's get some USDC on the Mumbai testnet to the counterfactual address of the wallet we will be deploying. This will be used to pay for the gas fees of the User Operations we will be submitting.
-
-The recommended way to do this is to use the [USDC faucet](https://usdcfaucet.com/), select POLYGON and enter the counterfactual sender address you generated in the previous step.
-
-Alternatively, if the above step does not work, you can get some testnet MATIC. Then, if you're using Metamask, [switch your chain to Mumbai](https://chainlist.org/chain/80001) and then [visit this page to swap some of the testnet MATIC to testnet USDC on Uniswap](https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x9999f7Fea5938fD3b1E26A12c3f2fb024e194f97&exactAmount=1&exactField=input&chain=mumbai) and then send that USDC to the counterfactual sender address.
-
-### Deploy a SimpleWallet
-
-In our [first tutorial](/permissionless/tutorial/tutorial-1) we went through an example flow where we deployed a [SimpleWallet](https://github.com/eth-infinitism/account-abstraction/blob/develop/contracts/samples/SimpleAccount.sol) using Pimlico's verifying paymaster and bundler. We will do something similar in this guide, except that we will be mainly looking to leverage the ERC-20 Paymaster.
-
-During deployment, let's send an approval transaction that will approve unlimited USDC tokens to the ERC-20 Paymaster. This saves us an extra step and allows us to already start using the ERC-20 Paymaster starting from the next User Operation.
-
-Add the following to the bottom of `index.ts`:
-
-```ts
-// DEPLOY THE SIMPLE WALLET
-const genereteApproveCallData = (erc20TokenAddress: Address, paymasterAddress: Address) => {
-    const approveData = encodeFunctionData({
-        abi: [
-            {
-                inputs: [
-                    { name: "_spender", type: "address" },
-                    { name: "_value", type: "uint256" }
-                ],
-                name: "approve",
-                outputs: [{ name: "", type: "bool" }],
-                payable: false,
-                stateMutability: "nonpayable",
-                type: "function"
-            }
-        ],
-        args: [paymasterAddress, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffn]
-    })
-
-    // GENERATE THE CALLDATA TO APPROVE THE USDC
-    const to = erc20TokenAddress
-    const value = 0n
-    const data = approveData
-
-    const callData = encodeFunctionData({
-        abi: [
-            {
-                inputs: [
-                    { name: "dest", type: "address" },
-                    { name: "value", type: "uint256" },
-                    { name: "func", type: "bytes" }
-                ],
-                name: "execute",
-                outputs: [],
-                stateMutability: "nonpayable",
-                type: "function"
-            }
-        ],
-        args: [to, value, data]
-    })
-
-    return callData
-}
-
-const submitUserOperation = async (userOperation: UserOperation) => {
-    const userOperationHash = await bundlerClient.sendUserOperation({
-        userOperation,
-        entryPoint: ENTRY_POINT_ADDRESS
-    })
-    console.log(`UserOperation submitted. Hash: ${userOperationHash}`)
-
-    console.log("Querying for receipts...")
-    const receipt = await bundlerClient.waitForUserOperationReceipt({
-        hash: userOperationHash
-    })
-    console.log(`Receipt found!\nTransaction hash: ${receipt.receipt.transactionHash}`)}
-
-// You can get the paymaster addresses from https://docs.pimlico.io/reference/erc20-paymaster/contracts
-const erc20PaymasterAddress = "0x000000000009B901DeC1aaB9389285965F49D387"
-const usdcTokenAddress = "0x9999f7Fea5938fD3b1E26A12c3f2fb024e194f97" // USDC on Polygon Mumbai
-
-const senderUsdcBalance = await publicClient.readContract({
-    abi: [
-        {
-            inputs: [{ name: "_owner", type: "address" }],
-            name: "balanceOf",
-            outputs: [{ name: "balance", type: "uint256" }],
-            type: "function",
-            stateMutability: "view"
-        }
-    ],
-    address: usdcTokenAddress,
-    functionName: "balanceOf",
-    args: [senderAddress]
-})
-
-if (senderUsdcBalance < 1_000_000n) {
-    throw new Error(
-        `insufficient USDC balance for counterfactual wallet address ${senderAddress}: ${
-            Number(senderUsdcBalance) / 1000000
-        } USDC, required at least 1 USDC`
-    )
-}
-
-const approveCallData = genereteApproveCallData(usdcTokenAddress, erc20PaymasterAddress)
-
-// FILL OUT THE REMAINING USEROPERATION VALUES
-const gasPriceResult = await bundlerClient.getUserOperationGasPrice()
-
-const userOperation: Partial<UserOperation> = {
-    sender: senderAddress,
-    nonce: 0n,
-    initCode,
-    callData: approveCallData,
-    maxFeePerGas: gasPriceResult.fast.maxFeePerGas,
-    maxPriorityFeePerGas: gasPriceResult.fast.maxPriorityFeePerGas,
-    paymasterAndData: "0x",
-    signature:
-        "0xfffffffffffffffffffffffffffffff0000000000000000000000000000000007aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1c"
-}
-
-const nonce = await getAccountNonce(publicClient, {
-    entryPoint: ENTRY_POINT_ADDRESS,
-    sender: senderAddress
-})
-
-if (nonce === 0n) {
-    // SPONSOR THE USEROPERATION USING THE VERIFYING PAYMASTER
-    const result = await paymasterClient.sponsorUserOperation({
-        userOperation: userOperation as UserOperation,
-        entryPoint: ENTRY_POINT_ADDRESS
-    })
-
-    userOperation.preVerificationGas = result.preVerificationGas
-    userOperation.verificationGasLimit = result.verificationGasLimit
-    userOperation.callGasLimit = result.callGasLimit
-    userOperation.paymasterAndData = result.paymasterAndData
-
-    // SIGN THE USEROPERATION
-    const signature = await signUserOperationHashWithECDSA({
-        account: signer,
-        userOperation: userOperation as UserOperation,
-        chainId: polygonMumbai.id,
-        entryPoint: ENTRY_POINT_ADDRESS
-    })
-    
-    userOperation.signature = signature
-    await submitUserOperation(userOperation as UserOperation)
-} else {
-    console.log("Deployment UserOperation previously submitted, skipping...")
+Received paymaster sponsor result: {
+  paymasterAndData: '0xcF60744ef322396a6d0a5B7d396F5814176855F1000000000000000000000000000000000000000000000000000000006518a0c100000000000000000000000000000000000000000000000000000000000000003251910f0e14691ca19a8e2cca216ce77a1ce8d002e975e113cfbc36d8e489a550dbb24ff485ee61c1b91cf8e20261d307ef79f22cf9359fba3271f721dade4d1b',
+  preVerificationGas: 247487n,
+  verificationGasLimit: 526114n,
+  callGasLimit: 75900n
 }
 ```
 
-Let's run this code with `npm start`. The wallet should get deployed and you should see something like this:
+Great! Now we have received the gas limit estimates and added the `paymasterAndData` field containing Pimlico's signature to our UserOperation.
 
-```
-Receipt not found...
-Receipt not found...
-Receipt found!
-Transaction hash: 0x23d480c51578d78a15a1fd3fcc0c0aa1658eb27a9edc36ce442e1b79363a74ba
-```
+### Sign the UserOperation
 
-Now, if you go to the `sender` variable's address on [Mumbai Scan](https://mumbai.polygonscan.com), you should see a contract deployed there!
-
-### Send a User Operation, paying only with USDC using the ERC-20 Paymaster
-
-Now that we have a smart wallet deployed with USDC approved to the ERC-20 Paymaster address, let's submit another User Operation. but paying solely with USDC this time!
-
-For this step, we'll leverage the `@pimlico/erc20-paymaster` SDK to verify that enough tokens are approved to the paymaster and to generate the `paymasterAndData` that will ask Pimlico's ERC-20 paymaster to sponsor the User Operation in exchange for USDC. 
+The last field to fill out is the `signature`. This is a simple ECDSA signature consistent with typical Ethereum private key signing procedures.
 
 Add the following to the bottom of `index.ts`:
 
 ```typescript
-// SPONSOR A USER OPERATION WITH THE ERC-20 PAYMASTER
-const genereteDummyCallData = () => {
-    // SEND EMPTY CALL TO VITALIK
-    const to = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045" // vitalik
-    const value = 0n
-    const data = "0x"
+// SIGN THE USER OPERATION
+const signature = await signUserOperationHashWithECDSA({
+  account: owner,
+  userOperation: sponsoredUserOperation,
+  chainId: lineaTestnet.id,
+  entryPoint: ENTRY_POINT_ADDRESS
+})
+sponsoredUserOperation.signature = signature
 
-    const callData = encodeFunctionData({
-        abi: [
-            {
-                inputs: [
-                    { name: "dest", type: "address" },
-                    { name: "value", type: "uint256" },
-                    { name: "func", type: "bytes" }
-                ],
-                name: "execute",
-                outputs: [],
-                stateMutability: "nonpayable",
-                type: "function"
-            }
-        ],
-        args: [to, value, data]
-    })
+console.log("Generated signature:", signature)
+```
 
-    return callData
-}
+Let's run this code with `npm start`. You should see something like this:
 
-console.log("Sponsoring a user operation with the ERC-20 paymaster...")
+```
+Generated signature: 0xcaae357fcd3882f1ea4b48f7dcce9d7f2482794ab72d1075ce5d7fcef4c5ec03265fe03e5fd7f8af65a4cd05b7e01300f3938f7e245dc8038748ddef93d5f4061c
+```
 
-const newNonce = await getAccountNonce(publicClient, {
-    entryPoint: ENTRY_POINT_ADDRESS,
-    sender: senderAddress
+### Submit the UserOperation to be bundled
+
+Finally, we're ready to submit the UserOperation to Pimlico's bundler, which will include it on-chain. The `eth_sendUserOperation` RPC call or the `sendUserOperation` method from permissionless.js will submit the UserOperation to the bundler.
+
+You can also query for receipts to keep checking the status of the UserOperation until it is included.
+
+Add the following to the bottom of `index.ts`:
+
+```typescript
+// SUBMIT THE USER OPERATION TO BE BUNDLED
+const userOperationHash = await bundlerClient.sendUserOperation({
+  userOperation: sponsoredUserOperation,
+  entryPoint: ENTRY_POINT_ADDRESS
 })
 
-const sponsoredUserOperation: UserOperation = {
-    sender: senderAddress,
-    nonce: newNonce,
-    initCode: "0x",
-    callData: genereteDummyCallData(),
-    callGasLimit: 100_000n, // hardcode it for now at a high value
-    verificationGasLimit: 500_000n, // hardcode it for now at a high value
-    preVerificationGas: 50_000n, // hardcode it for now at a high value
-    maxFeePerGas: gasPriceResult.fast.maxFeePerGas,
-    maxPriorityFeePerGas: gasPriceResult.fast.maxPriorityFeePerGas,
-    paymasterAndData: erc20PaymasterAddress, // to use the erc20 paymaster, put its address in the paymasterAndData field
-    signature: "0x"
-}
+console.log("Received User Operation hash:", userOperationHash)
 
-// SIGN THE USEROPERATION
+// let's also wait for the userOperation to be included, by continually querying for the receipts
+console.log("Querying for receipts...")
+const receipt = await bundlerClient.waitForUserOperationReceipt({ hash: userOperationHash })
+const txHash = receipt.receipt.transactionHash
 
-sponsoredUserOperation.signature = await signUserOperationHashWithECDSA({
-    account: signer,
-    userOperation: sponsoredUserOperation,
-    chainId: polygonMumbai.id,
-    entryPoint: ENTRY_POINT_ADDRESS
-})
-
-await submitUserOperation(sponsoredUserOperation)
+console.log(`UserOperation included: https://goerli.lineascan.build/tx/${txHash}`)
 ```
 
-If we run this code with `npm start`, a User Operation will be submitted using the ERC-20 Paymaster. Since we approved USDC to the paymaster in the previous step, the paymaster will be able to withdraw the required amount of USDC from your wallet to fund the gas cost. You should see something like this:
+If we run this code with `npm start`, we will go through the whole flow of executing the User Operation. You should see something like this:
 
 ```
-Sponsoring a user operation with the ERC-20 paymaster...
-Receipt not found...
-Receipt not found...
-Receipt found!
-Transaction hash: 0x23d480c51578d78a15a1fd3fcc0c0aa1658eb27a9edc36ce442e1b79363a74ba
+UserOperation included: https://goerli.lineascan.build/tx/0x43bdf7e2dfc19bfb749376b91d872574668365493ea98f9c9a647a17f541fb96
 ```
 
-If you visit the address of the `sender` account on [Mumbai Scan](https://mumbai.polygonscan.com), you should also see that some of your USDC balance has been deducted!
+Once the UserOperation is included, you can view the transaction on the Linea Goerli testnet explorer.
 
-That's it! 
+That's it! You've successfully generated a UserOperation and submitted it using Pimlico's Alto bundler. 
 
-Congratulations, you have submitted your first User Operation using Pimlico's ERC-20 Paymaster! From now on, you will no longer need to keep native gas tokens like ETH and MATIC on your wallet to be able to transact. 🎉
+By leveraging Pimlico's paymaster, you were able to make the User Operation completely gasless, and by using Pimlico's Alto bundler, you were able to submit the User Operation to the chain without having to worry about maintaining your own relaying infrastructure. 
+
+Congratulations, you are now a pioneer of Account Abstraction! 🎉
+
+Please get in touch if you have any questions or if you'd like to share what you're building!
 
 ::::
 
+### Combined code
 
-## Combined code
-
-If you want to see the complete code that combines all of the previous steps, we uploaded it to a [separate repository](https://github.com/pimlicolabs/tutorials). If you're looking to run it, remember to replace the API key with your own and to use the [USDC Faucet](https://usdcfaucet.com/) to fill your counterfactual sender address with some USDC after you calculate it.
+If you want to see the complete code that combines all of the previous steps, we uploaded it to a [separate repository](https://github.com/pimlicolabs/tutorials). If you're looking to run it, remember to replace the API key with your own!

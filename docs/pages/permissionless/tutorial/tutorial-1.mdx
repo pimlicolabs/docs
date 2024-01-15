@@ -4,9 +4,11 @@ content:
   width: 100%
 ---
 
-# Tutorial 1 — Submit a User Operation with a Verifying Paymaster
+# Tutorial 1 — Send your first gasless transaction
 
-In this tutorial, you will generate a user operation, ask Pimlico's verifying paymaster to sponsor it, and then submit the sponsored user operation on-chain with Pimlico's Alto bundler.
+In this tutorial, you will submit your first fully-gasless transaction from a smart account.
+
+You will set up the necessary permissionless.js clients, create a user operation, ask Pimlico's verifying paymaster to sponsor it, and then submit it on-chain with Pimlico's bundler.
 
 ::::steps
 
@@ -37,276 +39,139 @@ npm start
 
 If everything has been set up correctly, you should see `Hello world!` printed to the console.
 
-### Create the viem clients
+### Create the public and paymaster clients, and generate a private key
 
-We will be using three different clients for this example. 
-1. Standard publicClient for normal Ethereum RPC calls — https://rpc.goerli.linea.build
-2. Pimlico v1 api for the Bundler methods — https://api.pimlico.io/v1/linea-testnet/rpc?apikey=YOUR_PIMLICO_API_KEY
-3. Pimlico v2 api for the Paymaster methods — https://api.pimlico.io/v2/linea-testnet/rpc?apikey=YOUR_PIMLICO_API_KEY
+The public client will be responsible for querying the blockchain, while the paymaster client will be responsible for interacting with Pimlico's verifying paymaster endpoint and requesting sponsorship.
 
 Make sure to replace `YOUR_PIMLICO_API_KEY` in the code below with your actual Pimlico API key.
 
 Let's open up `index.ts`, and add the following to the bottom:
 
-```ts twoslash
-import { getAccountNonce } from "permissionless"
-import { UserOperation, bundlerActions, getSenderAddress, getUserOperationHash, waitForUserOperationReceipt, GetUserOperationReceiptReturnType, signUserOperationHashWithECDSA } from "permissionless"
-import { pimlicoBundlerActions, pimlicoPaymasterActions } from "permissionless/actions/pimlico"
-import { Address, Hash, concat, createClient, createPublicClient, encodeFunctionData, http, Hex } from "viem"
-import { generatePrivateKey, privateKeyToAccount, signMessage } from "viem/accounts"
-import { lineaTestnet, polygonMumbai } from "viem/chains"
-// - 1
-// ---cut---
-// CREATE THE CLIENTS
-const publicClient = createPublicClient({
-  transport: http("https://rpc.goerli.linea.build/"),
-  chain: lineaTestnet
+```ts
+const privateKey = process.env.PRIVATE_KEY as Hex ?? (() => {
+    const pk = generatePrivateKey(); 
+    writeFileSync(".env", `PRIVATE_KEY=${pk}`); 
+    return pk
+})();
+
+const apiKey = "YOUR_PIMLICO_API_KEY"
+const paymasterUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=${apiKey}`
+
+export const publicClient = createPublicClient({
+	transport: http("https://rpc.ankr.com/eth_sepolia"),
 })
 
-const chain = "linea-testnet" // find the list of chain names on the Pimlico verifying paymaster reference page
-const apiKey = "YOUR_PIMLICO_API_KEY" // REPLACE THIS
-
-const bundlerClient = createClient({
-  transport: http(`https://api.pimlico.io/v1/${chain}/rpc?apikey=${apiKey}`),
-  chain: lineaTestnet
-}).extend(bundlerActions).extend(pimlicoBundlerActions)
-
-const paymasterClient = createClient({
-  // ⚠️ using v2 of the API ⚠️ 
-  transport: http(`https://api.pimlico.io/v2/${chain}/rpc?apikey=${apiKey}`),
-  chain: lineaTestnet
-}).extend(pimlicoPaymasterActions)
+export const paymasterClient = createPimlicoPaymasterClient({
+	transport: http(paymasterUrl),
+})
 ```
 
-### Generate the initCode
+### Create the `SmartAccount` instance
 
-For the purposes of this guide, we will be using the [SimpleAccount.sol](https://github.com/eth-infinitism/account-abstraction/blob/develop/contracts/samples/SimpleAccount.sol) wallet found in the eth-infinitism repository. This Wallet is a simple ERC-4337 wallet controlled by a single EOA signer.
+For the purposes of this guide, we will be using the [Safe](https://safe.global) accounts. This account is an ERC-4337 wallet controlled by a single EOA signer.
 
-At `0x9406Cc6185a346906296840746125a0E44976454`, most chain already have deployed a [SimpleAccountFactory.sol](https://github.com/eth-infinitism/account-abstraction/blob/develop/contracts/samples/SimpleAccountFactory.sol) contract, that is able to easily deploy new SimpleAccount instances via the `createAccount` function. We will be leveraging this contract to help us generate the `initCode`.
+:::tip[Tip]
+Want to learn more about using Safe accounts? Take a look at our [dedicated Safe guide](/permissionless/how-to/accounts/use-safe-account)
+:::
 
-A user operation consists of 11 fields. Requesting a smart contract deployment is done through the `initCode` field, where the first 20 bytes specify the factory address the EntryPoint will call, and anything after corresponds to the data that will be called on that factory.
+To create the Safe account, we will use the `privateKeyToSafeSmartAccount` utility function from permissionless.js. We need to specify the Safe version we are using as well as the global ERC-4337 EntryPoint address. For the signer, we will be using the previously generated private key.
 
 Add the following to the bottom of `index.ts`:
 
 ```ts 
-// GENERATE THE INITCODE
-const SIMPLE_ACCOUNT_FACTORY_ADDRESS = "0x9406Cc6185a346906296840746125a0E44976454"
+const account = await privateKeyToSafeSmartAccount(publicClient, {
+	privateKey,
+	safeVersion: "1.4.1", // simple version
+	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789", // global entrypoint
+});
 
-const ownerPrivateKey = generatePrivateKey()
-const owner = privateKeyToAccount(ownerPrivateKey)
-
-console.log("Generated wallet with private key:", ownerPrivateKey)
-
-const initCode = concat([
-  SIMPLE_ACCOUNT_FACTORY_ADDRESS,
-  encodeFunctionData({
-    abi: [{
-      inputs: [{ name: "owner", type: "address" }, { name: "salt", type: "uint256" }],
-      name: "createAccount",
-      outputs: [{ name: "ret", type: "address" }],
-      stateMutability: "nonpayable",
-      type: "function",
-    }],
-    args: [owner.address, 0n]
-  })
-]);
-
-console.log("Generated initCode:", initCode)
+console.log(`Smart account address: https://sepolia.etherscan.io/address/${account.address}`);
 ```
 
-Let's run this code with `npm start`. You should see the generated initCode printed to the console.
+Let's run this code with `npm start`. You should see the smart account address printed to the console.
 
+```txt
+Smart account address: https://sepolia.etherscan.io/address/0x374b42bCFAcf85FDCaAB84774EA15ff36D42cdA7
 ```
-Generated initCode: 0x9406cc6185a346906296840746125a0e449764545fbfb9cf000000000000000000000000508a7005f997a21cd662d6fb41ad69f945c129c10000000000000000000000000000000000000000000000000000000000000000
-```
 
-### Calculate the sender address
+:::info
+If you visit the address on Etherscan, you might notice that no contract is actually deployed to this address yet. This is because smart account are counterfactual, meaning that they are only deployed on-chain the first time you send a transaction through the account.
+:::
 
-Now that we have the `initCode`, we have to calculate the corresponding `sender` address, which is the address the `SimpleAccount` will be deployed to, and thereby the address which will handle the verification and execution steps of the UserOperation.
+### Create the bundler and smart account clients and fetch the gas price
 
-We do this by calling the `getSenderAddress` utility function on the EntryPoint. Upon success, it will revert with a special error type that contains the counterfactual address of the smart contract wallet that will be deployed
+Now that we have a `SmartAccount` instance, we need to create a `SmartAccountClient` instance to make transact from it. `SmartAccountClient` is an almost drop-in replacement for a viem [`WalletClient`](https://viem.sh/docs/clients/wallet), but it also includes some additional functionality for interacting with smart accounts. 
+
+We also extend the `SmartAccountClient` with bundler actions and Pimlico-specific bundler actions so we can fetch the appropriate gas price.
+
+We also specify the optional `sponsorUserOperation` middleware function, calling the `sponsorUserOperation` function from the paymaster client. This will make sure that the user operation is sponsored by Pimlico's verifying paymaster.
+
+Finally, we will fetch the gas price from the bundler that we will use to submit the user operation in the next step.
 
 Add the following to the bottom of `index.ts`:
 
 ```typescript
-// CALCULATE THE SENDER ADDRESS
-const ENTRY_POINT_ADDRESS = "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
+const bundlerUrl = `https://api.pimlico.io/v1/sepolia/rpc?apikey=${apiKey}`
 
-const senderAddress = await getSenderAddress(publicClient, {
-  initCode,
-  entryPoint: ENTRY_POINT_ADDRESS
-})
-console.log("Calculated sender address:", senderAddress)
+const smartAccountClient = createSmartAccountClient({
+	account,
+	chain: sepolia,
+	transport: http(bundlerUrl),
+	sponsorUserOperation: paymasterClient.sponsorUserOperation,
+}).extend(bundlerActions).extend(pimlicoBundlerActions)
+
+const gasPrices = await smartAccountClient.getUserOperationGasPrice()
+
+console.log("Received gas prices:", gasPrices)
 ```
 
-Let's run this code with `npm start`. You should see the address printed to the console.
+Let's run this code with `npm start`. You should see the gas prices printed to the console.
 
-```
-Calculated sender address: 0xbAd38BdCf884ED92ab370f69C0CD0B7b8a1459A1
-```
-
-### Generate the callData
-
-Now, let's decide on the `callData` that we want the wallet to actually execute once the UserOperation passes verification.
-
-Add the following to the bottom of `index.ts`:
-
-```typescript
-// GENERATE THE CALLDATA
-const to = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045" // vitalik
-const value = 0n
-const data = "0x68656c6c6f" // "hello" encoded to utf-8 bytes
-
-const callData = encodeFunctionData({
-  abi: [{
-		inputs: [
-      { name: "dest", type: "address" },
-      { name: "value", type: "uint256" },
-      { name: "func", type: "bytes" },
-		],
-		name: "execute",
-		outputs: [],
-		stateMutability: "nonpayable",
-		type: "function",
-	}],
-  args: [to, value, data]
-})
-
-console.log("Generated callData:", callData)
-```
-
-Above, we are leveraging the `execute` function of the SimpleWallet, which simply calls an arbitrary address, with arbitrary value and arbitrary callData.
-
-Let's run this code with `npm start`. You should see the callData printed to the console.
-
-```
-Generated callData: 0xb61d27f6000000000000000000000000d8da6bf26964af9d7eed9e03e53415d37aa9604500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000000568656c6c6f000000000000000000000000000000000000000000000000000000
-```
-
-### Fill out remaining UserOperation values
-
-We're almost there, now let's fill out the rest of the UserOperation values.
-
-Add the following to the bottom of `index.ts`:
-
-```typescript
-// FILL OUT REMAINING USER OPERATION VALUES
-const gasPrice = await bundlerClient.getUserOperationGasPrice()
-
-const userOperation = {
-    sender: senderAddress,
-    nonce: 0n,
-    initCode,
-    callData,
-    maxFeePerGas: gasPrice.fast.maxFeePerGas,
-    maxPriorityFeePerGas: gasPrice.fast.maxPriorityFeePerGas,
-    // dummy signature, needs to be there so the SimpleAccount doesn't immediately revert because of invalid signature length
-    signature: "0xa15569dd8f8324dbeabf8073fdec36d4b754f53ce5901e283c6de79af177dc94557fa3c9922cd7af2a96ca94402d35c39f266925ee6407aeb32b31d76978d4ba1c" as Hex
+```txt
+Received gas prices: {
+  slow: { maxFeePerGas: 26237682174n, maxPriorityFeePerGas: 26237682174n },
+  standard: { maxFeePerGas: 27487095611n, maxPriorityFeePerGas: 27487095611n },
+  fast: { maxFeePerGas: 28736509048n, maxPriorityFeePerGas: 28736509048n }
 }
 ```
 
-### Request Pimlico verifying paymaster sponsorship
+### Submit a transaction from the smart account
 
-To make the operation gasless, we will leverage Pimlico's verifying paymaster. Using paymasters allows you to delegate the gas fee payment to a third-party contract that can decide whether it is willing to pay the gas fees for the user operation. In this case, Pimlico's verifying paymaster checks whether its off-chain signer has signed off on the user operation. To request Pimlico's signer to sign your user operation, call the `pm_sponsorUserOperation` endpoint or use the `sponsorUserOperation` method from the permissionless.js Pimlico paymaster actions.
+Finally, let's submit a transaction from the smart account. We will send a transaction to the `0xd8da6bf26964af9d7eed9e03e53415d37aa96045` (vitalik.eth) address with `0x1234` as example `callData`. We will also specify the gas price we want to use, which we fetched from the bundler in the previous step.
 
-Add the following to the bottom of `index.ts`:
-
-```typescript
-// REQUEST PIMLICO VERIFYING PAYMASTER SPONSORSHIP
-const sponsorUserOperationResult = await paymasterClient.sponsorUserOperation({
-  userOperation,
-  entryPoint: ENTRY_POINT_ADDRESS
-})
-
-const sponsoredUserOperation: UserOperation = {
-  ...userOperation,
-  preVerificationGas: sponsorUserOperationResult.preVerificationGas,
-  verificationGasLimit: sponsorUserOperationResult.verificationGasLimit,
-  callGasLimit: sponsorUserOperationResult.callGasLimit,
-  paymasterAndData: sponsorUserOperationResult.paymasterAndData
-}
-
-console.log("Received paymaster sponsor result:", sponsorUserOperationResult)
-```
-
-Let's run this code with `npm start`. You should see something like this:
-
-```
-Received paymaster sponsor result: {
-  paymasterAndData: '0xcF60744ef322396a6d0a5B7d396F5814176855F1000000000000000000000000000000000000000000000000000000006518a0c100000000000000000000000000000000000000000000000000000000000000003251910f0e14691ca19a8e2cca216ce77a1ce8d002e975e113cfbc36d8e489a550dbb24ff485ee61c1b91cf8e20261d307ef79f22cf9359fba3271f721dade4d1b',
-  preVerificationGas: 247487n,
-  verificationGasLimit: 526114n,
-  callGasLimit: 75900n
-}
-```
-
-Great! Now we have received the gas limit estimates and added the `paymasterAndData` field containing Pimlico's signature to our UserOperation.
-
-### Sign the UserOperation
-
-The last field to fill out is the `signature`. This is a simple ECDSA signature consistent with typical Ethereum private key signing procedures.
+Underneath the hood, the `SmartAccountClient` will create a `UserOperation` instance, request Pimlico paymaster sponsorship, sign it with the smart account's private key, and then submit it to the bundler. The bundler will then query for receipts until it sees the user operation included on-chain.
 
 Add the following to the bottom of `index.ts`:
 
 ```typescript
-// SIGN THE USER OPERATION
-const signature = await signUserOperationHashWithECDSA({
-  account: owner,
-  userOperation: sponsoredUserOperation,
-  chainId: lineaTestnet.id,
-  entryPoint: ENTRY_POINT_ADDRESS
-})
-sponsoredUserOperation.signature = signature
+const txHash = await smartAccountClient.sendTransaction({
+	to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
+	value: 0n,
+	data: "0x1234",
+  maxFeePerGas: gasPrices.fast.maxFeePerGas,
+  maxPriorityFeePerGas: gasPrices.fast.maxPriorityFeePerGas,
+});
 
-console.log("Generated signature:", signature)
+console.log(`User operation included: https://sepolia.etherscan.io/tx/${txHash}`)
 ```
 
-Let's run this code with `npm start`. You should see something like this:
+Let's run this code again with `npm start`. You should see the transaction hash bundling the user operation on-chain printed to the console.
 
-```
-Generated signature: 0xcaae357fcd3882f1ea4b48f7dcce9d7f2482794ab72d1075ce5d7fcef4c5ec03265fe03e5fd7f8af65a4cd05b7e01300f3938f7e245dc8038748ddef93d5f4061c
-```
-
-### Submit the UserOperation to be bundled
-
-Finally, we're ready to submit the UserOperation to Pimlico's bundler, which will include it on-chain. The `eth_sendUserOperation` RPC call or the `sendUserOperation` method from permissionless.js will submit the UserOperation to the bundler.
-
-You can also query for receipts to keep checking the status of the UserOperation until it is included.
-
-Add the following to the bottom of `index.ts`:
-
-```typescript
-// SUBMIT THE USER OPERATION TO BE BUNDLED
-const userOperationHash = await bundlerClient.sendUserOperation({
-  userOperation: sponsoredUserOperation,
-  entryPoint: ENTRY_POINT_ADDRESS
-})
-
-console.log("Received User Operation hash:", userOperationHash)
-
-// let's also wait for the userOperation to be included, by continually querying for the receipts
-console.log("Querying for receipts...")
-const receipt = await bundlerClient.waitForUserOperationReceipt({ hash: userOperationHash })
-const txHash = receipt.receipt.transactionHash
-
-console.log(`UserOperation included: https://goerli.lineascan.build/tx/${txHash}`)
+```txt
+UserOperation included: https://sepolia.etherscan.io/tx/0x7a2b61b4b7b6e9e66c459e3c9c24c7a292fc6c740533ce35dbf58710960cc0e5
 ```
 
-If we run this code with `npm start`, we will go through the whole flow of executing the User Operation. You should see something like this:
+You can now view the transaction on the Sepolia testnet explorer. By sending this user operation, you have:
+- Deployed the counterfactual smart account contract
+- Had this newly-deployed smart account verify the private key's signature
+- Made Pimlico's verifying paymaster sponsor the user operation's gas fees
+- Executed a simple transaction to `vitalik.eth`'s address
 
-```
-UserOperation included: https://goerli.lineascan.build/tx/0x43bdf7e2dfc19bfb749376b91d872574668365493ea98f9c9a647a17f541fb96
-```
-
-Once the UserOperation is included, you can view the transaction on the Linea Goerli testnet explorer.
-
-That's it! You've successfully generated a UserOperation and submitted it using Pimlico's Alto bundler. 
-
-By leveraging Pimlico's paymaster, you were able to make the User Operation completely gasless, and by using Pimlico's Alto bundler, you were able to submit the User Operation to the chain without having to worry about maintaining your own relaying infrastructure. 
+All in a couple lines of code.
 
 Congratulations, you are now a pioneer of Account Abstraction! 🎉
 
-Please get in touch if you have any questions or if you'd like to share what you're building!
+Please [get in touch](https://t.me/pimlicoHQ) if you have any questions or if you'd like to share what you're building!
 
 ::::
 
