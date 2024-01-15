@@ -231,15 +231,6 @@ export default defineConfig({
       <script src="/posthog.js"></script>
     </>
   ),
-  banner: {
-    content: <a href="https://twitter.com/pimlicoHQ/status/1721890681185321018" target="_blank" rel="nofollow noreferrer">
-      <div className='text-[#eeeef0]"'>
-        🎉 We raised $4.2 million from a16z to power Ethereum's transition to smart accounts! Read more →
-      </div>
-    </a>,
-    dismissable: true,
-    color: "#b5b2bc",
-  },
   vite: viteConfig,
   sidebar: {
     '/permissionless': permissionlessSidebar,
