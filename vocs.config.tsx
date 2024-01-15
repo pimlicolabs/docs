@@ -122,8 +122,8 @@ export const permissionlessSidebar = [
     link: "/permissionless/tutorial",
     items: [
       { text: "1. Send your first gasless transaction", link: "/permissionless/tutorial/tutorial-1" },
-      { text: "2. Submit a User Operation with a Verifying Paymaster", link: "/permissionless/tutorial/tutorial-2" },
-      { text: "3. Submit a User Operation with an ERC-20 Paymaster", link: "/permissionless/tutorial/tutorial-3" },
+      { text: "2. Submit a user operation with a Verifying Paymaster", link: "/permissionless/tutorial/tutorial-2" },
+      { text: "3. Submit a user operation with an ERC-20 Paymaster", link: "/permissionless/tutorial/tutorial-3" },
     ]
   },
   {
