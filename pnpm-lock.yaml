@@ -24,8 +24,8 @@ dependencies:
     specifier: ^2.0.6
     version: 2.0.6(typescript@5.3.3)
   vocs:
-    specifier: ^1.0.0-alpha.14
-    version: 1.0.0-alpha.14(@types/node@20.11.2)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)(rollup@4.9.5)(typescript@5.3.3)
+    specifier: '=1.0.0-alpha.15'
+    version: 1.0.0-alpha.15(@types/node@20.11.2)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)(rollup@4.9.5)(typescript@5.3.3)
 
 devDependencies:
   '@types/react':
@@ -5339,8 +5339,8 @@ packages:
       fsevents: 2.3.3
     dev: false
 
-  /vocs@1.0.0-alpha.14(@types/node@20.11.2)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)(rollup@4.9.5)(typescript@5.3.3):
-    resolution: {integrity: sha512-RmXlZTZV6b5Rd7i3uZxDuckLw4yjlIid43oo9fKNxuZ8PzZmwOkke85XwPN35V/c8szx80D6BPfYG7DhROeVYQ==}
+  /vocs@1.0.0-alpha.15(@types/node@20.11.2)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)(rollup@4.9.5)(typescript@5.3.3):
+    resolution: {integrity: sha512-h0x9CHWXtDr4jAVo2nE0FLCLJzXzRPmufM79iKP9pF2QuSHywT7OXpbzpcDedAhyr8UbJvxuGWitcdFlVYCy0g==}
     hasBin: true
     peerDependencies:
       react: ^18.2.0
