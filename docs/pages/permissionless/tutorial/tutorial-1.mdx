@@ -49,10 +49,10 @@ Let's open up `index.ts`, and add the following to the bottom:
 
 ```ts
 const privateKey = process.env.PRIVATE_KEY as Hex ?? (() => {
-    const pk = generatePrivateKey(); 
-    writeFileSync(".env", `PRIVATE_KEY=${pk}`); 
+    const pk = generatePrivateKey()
+    writeFileSync(".env", `PRIVATE_KEY=${pk}`)
     return pk
-})();
+})()
 
 const apiKey = "YOUR_PIMLICO_API_KEY"
 const paymasterUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=${apiKey}`
@@ -83,9 +83,9 @@ const account = await privateKeyToSafeSmartAccount(publicClient, {
 	privateKey,
 	safeVersion: "1.4.1", // simple version
 	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789", // global entrypoint
-});
+})
 
-console.log(`Smart account address: https://sepolia.etherscan.io/address/${account.address}`);
+console.log(`Smart account address: https://sepolia.etherscan.io/address/${account.address}`)
 ```
 
 Let's run this code with `npm start`. You should see the smart account address printed to the console.
@@ -150,7 +150,7 @@ const txHash = await smartAccountClient.sendTransaction({
 	data: "0x1234",
   maxFeePerGas: gasPrices.fast.maxFeePerGas,
   maxPriorityFeePerGas: gasPrices.fast.maxPriorityFeePerGas,
-});
+})
 
 console.log(`User operation included: https://sepolia.etherscan.io/tx/${txHash}`)
 ```
