@@ -118,6 +118,10 @@ export const permissionlessSidebar = [
     link: '/permissionless',
   },
   {
+    text: "Why permissionless.js",
+    link: "/permissionless/why"
+  },
+  {
     text: "Tutorials",
     link: "/permissionless/tutorial",
     items: [
