@@ -112,6 +112,16 @@ export const paymasterSidebar = [
   }
 ]
 
+/*
+          { text: "deployContract", link: "/permissionless/reference/smart-account-actions/deployContract" },
+          { text: "sendTransaction", link: "/permissionless/reference/smart-account-actions/sendTransaction" },
+          { text: "sendTransactions", link: "/permissionless/reference/smart-account-actions/sendTransactions" },
+          { text: "signMessage", link: "/permissionless/reference/smart-account-actions/signMessage" },
+          { text: "signTypedData", link: "/permissionless/reference/smart-account-actions/signTypedData" },
+          { text: "writeContract", link: "/permissionless/reference/smart-account-actions/writeContract" },
+
+*/
+
 export const permissionlessSidebar = [
   {
     text: 'Overview',
@@ -183,6 +193,13 @@ export const permissionlessSidebar = [
         ]
       },
       {
+        text: "Smart Account Actions",
+        collapsed: false,
+        items: [
+          { text: "prepareUserOperationRequest", link: "/permissionless/reference/smart-account-actions/prepareUserOperationRequest" },
+        ]
+      },
+      {
         text: "Pimlico Bundler Actions",
         collapsed: false,
         items: [
@@ -235,6 +252,16 @@ export default defineConfig({
       <script src="/posthog.js"></script>
     </>
   ),
+  banner: {
+    content: (
+      <a href="https://twitter.com/pimlicoHQ/status/1721890681185321018" target="_blank" rel="nofollow noreferrer">
+        🎉 We raised $4.2 million from a16z to power Ethereum's transition to smart accounts! Read more →
+      </a>
+    ),
+    dismissable: true,
+    backgroundColor: "#3c393f",
+    textColor: "#eeeef0"
+  },
   vite: viteConfig,
   sidebar: {
     '/permissionless': permissionlessSidebar,

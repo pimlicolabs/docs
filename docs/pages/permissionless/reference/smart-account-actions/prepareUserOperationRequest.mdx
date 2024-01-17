@@ -1,0 +1,70 @@
+# prepareUserOperationRequest
+
+Prepares a user operation request for signing by populating a `sender`, `nonce`, `initCode`, gas price values, gas limit values, and optionally requesting sponsorship from a paymaster.
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+import { simpleSmartAccount } from "./simpleSmartAccount"; // created elsewhere
+import { smartAccountClient } from "./client"
+import { parseAbiItem, encodeFunctionData } from "viem"
+
+const mintData = encodeFunctionData({
+	abi: [parseAbiItem('function mint()')]
+})
+
+const callData = await simpleSmartAccount.encodeCallData({ 
+    to: "0x0488bEE1Ec682db0F0E74AB52faFdDdEf10Af123", 
+    data: mintData, 
+    value: 0n 
+})
+
+const userOperation = await smartAccountClient.prepareUserOperationRequest({
+    userOperation: { callData } // callData is the only required field in the partial user operation
+})
+```
+
+```ts [client.ts]
+import { http } from 'viem'
+import { sepolia } from 'viem/chains'
+import { createSmartAccountClient } from "permissionless";
+import { simpleSmartAccount } from "./simpleSmartAccount"; // created elsewhere
+import { pimlicoPaymaster } from "./paymaster"; // created elsewhere
+
+export const smartAccountClient = createSmartAccountClient({
+    account: simpleSmartAccount,
+    chain: sepolia, // or whatever chain you are using
+    transport: http("https://api.pimlico.io/v1/sepolia/rpc?apikey=YOUR_PIMLICO_API_KEY"),
+    sponsorUserOperation: pimlicoPaymaster.sponsorUserOperation // if using a paymaster
+})
+```
+
+::::
+
+## Returns
+
+- **Type:** `UserOperation`
+
+The `UserOperation` with the remaining fields (except the `signature`) filled.
+
+## Parameters
+
+### userOperation
+
+- **Type:** `Partial<UserOperation>`
+
+The partial user operation. Only the `callData` field is required.
+
+### sponsorUserOperation (optional)
+
+- **Type:** `(args: { userOperation: UserOperation, entryPoint: Address }) => Promise<UserOperation>`
+
+The paymaster middleware function (if one is used).
+
+### account (optional)
+
+- **Type:** `SmartAccount`
+
+The smart account that will be used to fetch the `nonce`, `initCode`, `sender`, and the gas price values if they are not already filled.
