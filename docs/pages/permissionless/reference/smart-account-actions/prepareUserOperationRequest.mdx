@@ -8,21 +8,26 @@ Prepares a user operation request for signing by populating a `sender`, `nonce`,
 
 ```ts [example.ts]
 import { simpleSmartAccount } from "./simpleSmartAccount"; // created elsewhere
+import { pimlicoBundlerClient } from "./bundlerClient" // created elsewhere
 import { smartAccountClient } from "./client"
 import { parseAbiItem, encodeFunctionData } from "viem"
 
-const mintData = encodeFunctionData({
-	abi: [parseAbiItem('function mint()')]
-})
-
 const callData = await simpleSmartAccount.encodeCallData({ 
     to: "0x0488bEE1Ec682db0F0E74AB52faFdDdEf10Af123", 
-    data: mintData, 
+    data: encodeFunctionData({
+        abi: [parseAbiItem('function mint()')]
+    }), 
     value: 0n 
 })
 
+const gasPrices = await pimlicoBundlerClient.getGasPrices() // only if using pimlico
+
 const userOperation = await smartAccountClient.prepareUserOperationRequest({
-    userOperation: { callData } // callData is the only required field in the partial user operation
+    userOperation: { 
+        callData, // callData is the only required field in the partial user operation
+        maxFeePerGas: gasPrices.fast.maxFeePerGas,
+        maxPriorityFeePerGas: gasPrices.fast.maxPriorityFeePerGas
+    }
 })
 ```
 
