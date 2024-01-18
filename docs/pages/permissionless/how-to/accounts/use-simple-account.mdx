@@ -22,13 +22,14 @@ export const paymasterClient = createPimlicoPaymasterClient({
 
 ### Create the SimpleAccount
 
-You can create a SimpleAccount with the canonical module addresses by specifying the factory address the account will be deployed from.
+You can create a SimpleAccount with the canonical module addresses by specifying the factory address the account will be deployed from. You can also pass an `address` to use an already created SimpleAccount.
 
 ```ts
 const simpleAccount = await privateKeyToSimpleSmartAccount(publicClient, {
 	privateKey: "0xPRIVATE_KEY",
 	factoryAddress: "0x9406Cc6185a346906296840746125a0E44976454",
 	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789", // global entrypoint
+	address: "0x..." // optional, only if you are using an already created account
 });
 ```
 

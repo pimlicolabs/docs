@@ -53,10 +53,11 @@ const kernelAccount = await signerToEcdsaKernelSmartAccount(publicClient, {
 	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789", // global entrypoint
 	signer: signer,
 	index: 0n, // optional
+	address: "0x..." // optional, only if you are using an already created account
 });
 ```
 
-The Kernel address is computed deterministically from the signer, but you can optionally pass an `index` to create any number of different accounts using the same signer.
+The Kernel address is computed deterministically from the signer, but you can optionally pass an `index` to create any number of different accounts using the same signer. You can also pass an `address` to use an already created Kernel account.
 
 ### Create the smart account client
 

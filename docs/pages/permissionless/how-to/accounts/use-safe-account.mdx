@@ -41,10 +41,11 @@ const safeAccount = await privateKeyToSafeSmartAccount(publicClient, {
 	safeVersion: "1.4.1",
 	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789", // global entrypoint
 	saltNonce: 0n, // optional
+	address: "0x..." // optional, only if you are using an already created account
 });
 ```
 
-If you'd like to configure the relevant Safe addresses yourself required for deployment instead of using the canonical ones deployed by Safe, you can instead pass them in as options. You can also pass in extra Safe modules to enable during deployment as well as calls to make during deployment.
+If you'd like to configure the relevant Safe addresses yourself required for deployment instead of using the canonical ones deployed by Safe, you can instead pass them in as options. You can also pass in extra Safe modules to enable during deployment as well as calls to make during deployment. You can also pass an `address` to use an already created Safe account.
 
 ```ts
 const safeAccount = await privateKeyToSafeSmartAccount(publicClient, {
