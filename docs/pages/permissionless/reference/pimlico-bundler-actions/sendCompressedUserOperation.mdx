@@ -4,53 +4,29 @@ Return a status of the User Operation as well as potentially the hash of the tra
 
 ## Usage
 
-::::code-group
 
-```ts [example.ts]
-import { pimlicoBundlerClient } from "./client"
-
-const getStatusResult = await pimlicoBundlerClient.getUserOperationStatus({
-    hash: "0x3c037f957fde5d87e35d5b8582f6c274343bcf3bc0e010d72fc2de0e27f4a6aa"
-})
-/**
- * {
- *  "status": "included",
- *  "transactionHash": "0x975a6bac5f562a2cb8218945b4e4304f6d10afa4aa6f02830e6d6dcafc450d66"
- * }
- */
-
+```ts
+const safeAccount = await signerToSafeSmartAccount(publicClient, {
+  signer,
+  safeVersion: "1.4.1",
+  entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
+  address: "0x..." // optional // [!code ++]
+});
 ```
 
-```ts [client.ts]
-import { createClient, http } from 'viem'
-import { mainnet } from 'viem/chains'
-import { bundlerActions } from 'permissionless'
-import { pimlicoBundlerActions } from 'permissionless/actions/pimlico'
-
-export const pimlicoBundlerClient = createClient({ 
-  chain: mainnet,
-  transport: http("https://api.pimlico.io/v1/goerli/rpc?apikey=YOUR_API_KEY_HERE")
-})
-.extend(bundlerActions)
-.extend(pimlicoBundlerActions)
+```ts
+const kernelAccount = await signerToEcdsaKernelSmartAccount(publicClient, {
+  signer,
+  entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+  address: "0x..." // optional // [!code ++]
+});
 ```
 
-::::
-
-## Returns
-
-- **Type:** `GetUserOperationStatusReturnType`
-
-The status of the User Operation ("not_found" | "not_submitted" | "submitted" | "rejected" | "reverted" | "included" | "failed" | "queued") as well as the hash of the transaction being used to bundle the User Operation. If the hash is not known (for instance because the User Operation has not been submitted yet), the hash will be `null`.
-
-## Parameters
-
-### hash
-
-- **Type:** `Hash`
-
-The hash of the User Operation.
-
-## JSON-RPC Method
-
-[`pimlico_getUserOperationStatus`](/bundler/reference/endpoints/pimlico_getUserOperationStatus)
+```ts
+const simpleAccount = await signerToSimpleSmartAccount(publicClient, {
+  signer,
+  factoryAddress: "0x9406Cc6185a346906296840746125a0E44976454",
+  entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+  address: "0x..." // optional // [!code ++]
+});
+```
