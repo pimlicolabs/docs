@@ -13,7 +13,7 @@
     "react": "latest",
     "react-dom": "latest",
     "viem": "^2.0.6",
-    "vocs": "=1.0.0-alpha.18",
+    "vocs": "=1.0.0-alpha.25",
     "@types/node": "^20.11.2"
   },
   "devDependencies": {

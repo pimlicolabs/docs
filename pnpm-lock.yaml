@@ -24,8 +24,8 @@ dependencies:
     specifier: ^2.0.6
     version: 2.0.6(typescript@5.3.3)
   vocs:
-    specifier: '=1.0.0-alpha.18'
-    version: 1.0.0-alpha.18(@types/node@20.11.2)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)(rollup@4.9.5)(typescript@5.3.3)
+    specifier: '=1.0.0-alpha.25'
+    version: 1.0.0-alpha.25(@types/node@20.11.2)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)(rollup@4.9.5)(typescript@5.3.3)
 
 devDependencies:
   '@types/react':
@@ -1927,13 +1927,6 @@ packages:
       '@types/unist': 3.0.2
     dev: false
 
-  /@types/lz-string@1.5.0:
-    resolution: {integrity: sha512-s84fKOrzqqNCAPljhVyC5TjAo6BH4jKHw9NRNFNiRUY5QSgZCmVm5XILlWbisiKl+0OcS7eWihmKGS5akc2iQw==}
-    deprecated: This is a stub types definition. lz-string provides its own type definitions, so you do not need this installed.
-    dependencies:
-      lz-string: 1.5.0
-    dev: false
-
   /@types/mdast@4.0.3:
     resolution: {integrity: sha512-LsjtqsyF+d2/yFOYaN22dHZI1Cpwkrj+g06G8+qtUKlhovPW89YhqSnfKtMbkgmEtYpH2gydRNULd6y8mciAFg==}
     dependencies:
@@ -1973,20 +1966,6 @@ packages:
 
   /@types/unist@3.0.2:
     resolution: {integrity: sha512-dqId9J8K/vGi5Zr7oo212BGii5m3q5Hxlkwy3WpYuKPklmBEvsbMYYyLxAQpSffdLl/gdW0XUpKWFvYmyoWCoQ==}
-    dev: false
-
-  /@typescript/twoslash@3.2.4(typescript@5.3.3):
-    resolution: {integrity: sha512-/TCIOuPQaKltzUUT1qJo6mplYwjbAxkaSFvkeZD3FeFt3Ovt+HJi8xisu8rcLyDRmM3VJ0+jAx+AAICwn4Zlhw==}
-    peerDependencies:
-      typescript: '*'
-    dependencies:
-      '@types/lz-string': 1.5.0
-      '@typescript/vfs': 1.5.0
-      debug: 4.3.4
-      lz-string: 1.5.0
-      typescript: 5.3.3
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /@typescript/vfs@1.5.0:
@@ -3350,11 +3329,6 @@ packages:
       react: 18.2.0
     dev: false
 
-  /lz-string@1.5.0:
-    resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
-    hasBin: true
-    dev: false
-
   /mark.js@8.11.1:
     resolution: {integrity: sha512-1I+1qpDt4idfgLQG+BNWmrqku+7/2bi5nLf4YwF8y8zXvmfiTBY3PV3ZibfrjBueCByROpuBjLLFCajqkgYoLQ==}
     dev: false
@@ -4525,7 +4499,7 @@ packages:
       unified: 11.0.4
     dev: false
 
-  /rehype-pretty-code@0.12.3(shikiji@0.9.19):
+  /rehype-pretty-code@0.12.3(shikiji@0.10.0-beta.8):
     resolution: {integrity: sha512-6NbIit8A3hLrkKBEbNs862jVnTLeIOM2AmM0VZ/MtyHb+OuNMeCa6UZSx6UG4zrobm5tY9efTwhih1exsGYsiw==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -4535,7 +4509,7 @@ packages:
       hast-util-to-string: 3.0.0
       parse-numeric-range: 1.3.0
       rehype-parse: 9.0.0
-      shikiji: 0.9.19
+      shikiji: 0.10.0-beta.8
       unified: 11.0.4
       unist-util-visit: 5.0.0
     dev: false
@@ -4765,30 +4739,30 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
-  /shikiji-core@0.9.19:
-    resolution: {integrity: sha512-AFJu/vcNT21t0e6YrfadZ+9q86gvPum6iywRyt1OtIPjPFe25RQnYJyxHQPMLKCCWA992TPxmEmbNcOZCAJclw==}
+  /shikiji-core@0.10.0-beta.8:
+    resolution: {integrity: sha512-GKkzQwE5WhzI4RsDZAs9QsvYmem3YPF4BvEuKMTrTi2OYbhHwUWmplwMcz7nqMwK4mbUyHeJYKhL9ZS+/jUIcg==}
     dev: false
 
-  /shikiji-transformers@0.9.19:
-    resolution: {integrity: sha512-lGLI7Z8frQrIBbhZ74/eiJtxMoCQRbpaHEB+gcfvdIy+ZFaAtXncJGnc52932/UET+Y4GyKtwwC/vjWUCp+c/Q==}
+  /shikiji-transformers@0.10.0-beta.8:
+    resolution: {integrity: sha512-t8ZgIszRsRHFI1vIN85AHEXI0t+sW269Xn6amUUGRHYzlZLET0oJoJchgGMTFYmkG2YGf6rAI5OjIVp4f2IT4w==}
     dependencies:
-      shikiji: 0.9.19
+      shikiji: 0.10.0-beta.8
     dev: false
 
-  /shikiji-twoslash@0.9.19(typescript@5.3.3):
-    resolution: {integrity: sha512-wwF5GWEZuIFWjGioqPygcnnQmEduK5bdV9L2AzjmEVJD7Xt1Zg/K8bN7StxPBR/1xmbJ9RnHYeFvqCxySpXEsw==}
+  /shikiji-twoslash@0.10.0-beta.8(typescript@5.3.3):
+    resolution: {integrity: sha512-EwMASG/hMA+MtC2NleIxScrSea4uk51mi4pYU56/vKdCZMDTqd6FhtVgTcpWftjZ9p+tLeaoWAUwGxY4ucxyOA==}
     dependencies:
-      '@typescript/twoslash': 3.2.4(typescript@5.3.3)
-      shikiji-core: 0.9.19
+      shikiji-core: 0.10.0-beta.8
+      twoslash: 0.0.11(typescript@5.3.3)
     transitivePeerDependencies:
       - supports-color
       - typescript
     dev: false
 
-  /shikiji@0.9.19:
-    resolution: {integrity: sha512-Kw2NHWktdcdypCj1GkKpXH4o6Vxz8B8TykPlPuLHOGSV8VkhoCLcFOH4k19K4LXAQYRQmxg+0X/eM+m2sLhAkg==}
+  /shikiji@0.10.0-beta.8:
+    resolution: {integrity: sha512-yuaUyXmbeGqK6GLMDJVOZKnmdcVppw5iHJsgP77N9XH6RAM5ojjzJBbx5ROV3DjhQGLKFOAOBiCpf6xgh8o3tw==}
     dependencies:
-      shikiji-core: 0.9.19
+      shikiji-core: 0.10.0-beta.8
     dev: false
 
   /signal-exit@3.0.7:
@@ -5030,6 +5004,17 @@ packages:
 
   /tslib@2.6.2:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
+    dev: false
+
+  /twoslash@0.0.11(typescript@5.3.3):
+    resolution: {integrity: sha512-XCxpr8Of+swV66Ox5aTqkozax6tFjJrfP0UZrGNaKlqHDyvY1gUNZE2lUqj9phyF4cKoo/LxzOhkQw7zBmRyVw==}
+    peerDependencies:
+      typescript: '*'
+    dependencies:
+      '@typescript/vfs': 1.5.0
+      typescript: 5.3.3
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /typescript@5.3.3:
@@ -5339,8 +5324,8 @@ packages:
       fsevents: 2.3.3
     dev: false
 
-  /vocs@1.0.0-alpha.18(@types/node@20.11.2)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)(rollup@4.9.5)(typescript@5.3.3):
-    resolution: {integrity: sha512-aRXKLTf0u6+tU8rPKrg7v+n3jYu4XskW07/Ds/cocjTadvwMOGSZxpUOP72URLD6azJpH+9hpjT3ZzH/tiBepQ==}
+  /vocs@1.0.0-alpha.25(@types/node@20.11.2)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)(rollup@4.9.5)(typescript@5.3.3):
+    resolution: {integrity: sha512-oqJh2XCjq1WI6g809YLPEAzeYBabLAvOxVZCvJwTmZpSxDlaD4XdDOUWefXNscg72/L98jp9DFwUB3G7p6IbFg==}
     hasBin: true
     peerDependencies:
       react: ^18.2.0
@@ -5359,7 +5344,6 @@ packages:
       '@radix-ui/react-navigation-menu': 1.1.4(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)
       '@radix-ui/react-popover': 1.0.7(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)
       '@radix-ui/react-tabs': 1.0.4(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)
-      '@typescript/twoslash': 3.2.4(typescript@5.3.3)
       '@vanilla-extract/css': 1.14.0
       '@vanilla-extract/dynamic': 2.1.0
       '@vitejs/plugin-react': 4.2.0(vite@5.0.11)
@@ -5390,7 +5374,7 @@ packages:
       react-router-dom: 6.21.2(react-dom@18.2.0)(react@18.2.0)
       rehype-autolink-headings: 7.1.0
       rehype-class-names: 1.0.14
-      rehype-pretty-code: 0.12.3(shikiji@0.9.19)
+      rehype-pretty-code: 0.12.3(shikiji@0.10.0-beta.8)
       rehype-slug: 6.0.0
       remark-directive: 3.0.0
       remark-frontmatter: 5.0.0
@@ -5398,11 +5382,12 @@ packages:
       remark-mdx-frontmatter: 4.0.0
       remark-parse: 11.0.0
       serve-static: 1.15.0
-      shikiji: 0.9.19
-      shikiji-transformers: 0.9.19
-      shikiji-twoslash: 0.9.19(typescript@5.3.3)
+      shikiji: 0.10.0-beta.8
+      shikiji-transformers: 0.10.0-beta.8
+      shikiji-twoslash: 0.10.0-beta.8(typescript@5.3.3)
       tailwindcss: 3.4.1
       toml: 3.0.0
+      twoslash: 0.0.11(typescript@5.3.3)
       ua-parser-js: 1.0.37
       unified: 11.0.4
       unist-util-visit: 5.0.0

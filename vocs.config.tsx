@@ -271,6 +271,7 @@ export default defineConfig({
   ogImageUrl: {
     "/": "https://docs-og-pimlico.vercel.app/api/og?logo=%logo&title=%title&description=%description"
   },
+  rootDir: "docs",
   theme: {
     accentColor: { light: "#7115AA", dark: "#a66cc9" },
   },
