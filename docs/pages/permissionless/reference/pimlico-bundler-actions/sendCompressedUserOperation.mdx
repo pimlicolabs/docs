@@ -1,32 +1,66 @@
 # sendCompressedUserOperation
 
-Return a status of the User Operation as well as potentially the hash of the transaction being used to bundle the User Operation.
+Submits a compressed user operation to the bundler.
 
 ## Usage
 
+::::code-group
 
-```ts
-const safeAccount = await signerToSafeSmartAccount(publicClient, {
-  signer,
-  safeVersion: "1.4.1",
-  entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
-  address: "0x..." // optional // [!code ++]
-});
+```ts [example.ts]
+import { pimlicoBundlerClient } from "./client"
+
+const getStatusResult = await pimlicoBundlerClient.sendCompressedUserOperation({
+    compressedUserOperation: "0x3c037f957fde5d87e35d5b8582f6c274343bcf3bc0e0037f957fde5d87e35d5b8582f6c2710d72fc2de0e27f4a6aa",
+    inflatorAddress: "0x422f72B27819798986F41c1bede24e76114DE584",
+    entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
+})
+/**
+ * "0x3c037f957fde5d87e35d5b8582f6c274343bcf3bc0e010d72fc2de0e27f4a6aa"
+ */
 ```
 
-```ts
-const kernelAccount = await signerToEcdsaKernelSmartAccount(publicClient, {
-  signer,
-  entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
-  address: "0x..." // optional // [!code ++]
-});
+```ts [client.ts]
+import { createClient, http } from 'viem'
+import { mainnet } from 'viem/chains'
+import { bundlerActions } from 'permissionless'
+import { pimlicoBundlerActions } from 'permissionless/actions/pimlico'
+
+export const pimlicoBundlerClient = createClient({ 
+  chain: mainnet,
+  transport: http("https://api.pimlico.io/v1/goerli/rpc?apikey=YOUR_API_KEY_HERE")
+})
+.extend(bundlerActions)
+.extend(pimlicoBundlerActions)
 ```
 
-```ts
-const simpleAccount = await signerToSimpleSmartAccount(publicClient, {
-  signer,
-  factoryAddress: "0x9406Cc6185a346906296840746125a0E44976454",
-  entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
-  address: "0x..." // optional // [!code ++]
-});
-```
+::::
+
+## Returns
+
+- **Type:** `Hash`
+
+The user operation hash.
+
+## Parameters
+
+### compressedUserOperation
+
+- **Type:** `Hex`
+
+The compressed user operation object.
+
+### inflatorAddress
+
+- **Type:** `Address`
+
+The address of the inflator contract that will inflate the compressed user operation.
+
+### entryPoint
+
+- **Type:** `Address`
+
+The address of the entry point contract.
+
+## JSON-RPC Method
+
+[`pimlico_sendCompressedUserOperation`](/bundler/reference/endpoints/pimlico_sendCompressedUserOperation)
