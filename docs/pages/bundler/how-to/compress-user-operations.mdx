@@ -37,7 +37,7 @@ For the sake of simplicity, we will write a simple inflator contract that encode
 In practice, you will want to write a more complex inflator contract that implements a more stateful decompression algorithm, likely leveraging important context you as the developer have about the types of user operations you are submitting.
 
 :::tip
-For an example of a more complex, production-ready infaltor contract, see [Daimo's implementation](https://github.com/daimo-eth/bulk/blob/master/src/DaimoOpInflator.sol) which is able to compress their user operation data by over 80%.
+For an example of a complex, production-ready infaltor contract, see [Daimo's implementation](https://github.com/daimo-eth/bulk/blob/master/src/DaimoOpInflator.sol) which is able to compress their user operation data by over 80%.
 :::
 
 ```solidity [SimpleInflator.sol]
@@ -59,10 +59,15 @@ contract SimpleInflator is IOpInflator {
 }
 ```
 
+:::warning
+The `compress` function is not a part of the `IOpInflator` interface. It is recommended to compress user operations off-chain instead.
+:::
+
 Once you have written your decompressor contract, you will need to deploy it to the network you are using and verify the source code on Etherscan. We recommend using `forge` for this.
 
 ```bash [Terminal]
-forge create --rpc-url <your_rpc_url> \
+forge create \
+    --rpc-url <your_rpc_url> \
     --private-key <your_private_key> \
     --etherscan-api-key <your_etherscan_api_key> \
     --verify \
