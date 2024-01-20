@@ -60,7 +60,7 @@ contract SimpleInflator is IOpInflator {
 ```
 
 :::warning
-The `compress` function is not a part of the `IOpInflator` interface. It is recommended to compress user operations off-chain instead.
+The `compress` function is not a part of the `IOpInflator` interface, and is only implemented in the `SimpleInflator` for simplicity. It is recommended to compress user operations off-chain instead.
 :::
 
 Once you have written your decompressor contract, you will need to deploy it to the network you are using and verify the source code on Etherscan. We recommend using `forge` for this.
