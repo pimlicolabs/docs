@@ -7,9 +7,8 @@ Prepares a user operation request for signing by populating a `sender`, `nonce`,
 ::::code-group
 
 ```ts [example.ts]
-import { simpleSmartAccount } from "./simpleSmartAccount"; // created elsewhere
-import { pimlicoBundlerClient } from "./bundlerClient" // created elsewhere
-import { smartAccountClient } from "./client"
+import { smartAccountClient, simpleSmartAccount } from "./smartAccountClient"
+import { pimlicoBundlerClient } from "./bundlerClient"
 import { parseAbiItem, encodeFunctionData } from "viem"
 
 const callData = await simpleSmartAccount.encodeCallData({ 
@@ -20,7 +19,8 @@ const callData = await simpleSmartAccount.encodeCallData({
     value: 0n 
 })
 
-const gasPrices = await pimlicoBundlerClient.getGasPrices() // only if using pimlico
+// only if using pimlico
+const gasPrices = await pimlicoBundlerClient.getUserOperationGasPrice()
 
 const userOperation = await smartAccountClient.prepareUserOperationRequest({
     userOperation: { 
@@ -31,19 +31,12 @@ const userOperation = await smartAccountClient.prepareUserOperationRequest({
 })
 ```
 
-```ts [client.ts]
-import { http } from 'viem'
-import { sepolia } from 'viem/chains'
-import { createSmartAccountClient } from "permissionless";
-import { simpleSmartAccount } from "./simpleSmartAccount"; // created elsewhere
-import { pimlicoPaymaster } from "./paymaster"; // created elsewhere
+```ts [smartAccountClient.ts]
+// [!include ~/snippets/smartAccountCLient.ts:client]
+```
 
-export const smartAccountClient = createSmartAccountClient({
-    account: simpleSmartAccount,
-    chain: sepolia, // or whatever chain you are using
-    transport: http("https://api.pimlico.io/v1/sepolia/rpc?apikey=YOUR_PIMLICO_API_KEY"),
-    sponsorUserOperation: pimlicoPaymaster.sponsorUserOperation // if using a paymaster
-})
+```ts [bundlerClient.ts]
+// [!include ~/snippets/pimlicoBundlerClient.ts:client]
 ```
 
 ::::

@@ -1,0 +1,307 @@
+# How to create your own inflator contract and submit compressed user operations to Pimlico's bundler
+
+:::info
+This guide assumes you are already familiar with the process of creating and submitting normal user operations to bundlers. If you are not, we recommend you start with [tutorial 1 of our library, permissionless.js](/permissionless/tutorial/tutorial-1).
+:::
+
+This guide walks you through how to create your own inflator contract, compress your user operations and submit them to Pimlico's bundler to achieve significant gas cost savings for your users.
+
+In order to submit compressed user operations to Pimlico's bundler, you need to:
+- Write and deploy your inflator contract implementing the `IOpInflator` interface
+- Get the Inflator contract address whitelisted by Pimlico
+- Start submitting your compressed user operations using the [`pimlico_sendCompressedUserOperation`](/bundler/reference/endpoints/pimlico_sendCompressedUserOperation) JSON-RPC method 
+
+:::::steps
+
+### Write and deploy your inflator contract
+
+First, we will write a simple inflator contract that implements the `IOpInflator` interface. This is the contract that will be called through the `BundleBulker` contract to decompress the compressed user operation bytes and submit the decompressed user operation through the EntryPoint.
+
+The `IOpInflator` interface is defined as follows:
+
+```solidity [IOpInflator.sol]
+// SPDX-License-Identifier: GPL-3.0-or-later
+pragma solidity >=0.8;
+
+import "account-abstraction/interfaces/IEntryPoint.sol";
+
+interface IOpInflator {
+    function inflate(
+        bytes calldata compressed
+    ) external view returns (UserOperation memory op);
+}
+```
+
+For the sake of simplicity, we will write a simple inflator contract that encodes and decodes the user operation bytes using the [`LZ77` lossless compression algorithm](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-wusp/fb98aa28-5cd7-407f-8869-a6cef1ff1ccb) leveraging [Solady's solidity implementation](https://github.com/Vectorized/solady/blob/main/src/utils/LibZip.sol).
+
+In practice, you will want to write a more complex inflator contract that implements a more stateful decompression algorithm, likely leveraging important context you as the developer have about the types of user operations you are submitting.
+
+:::tip
+For an example of a more complex, production-ready infaltor contract, see [Daimo's implementation](https://github.com/daimo-eth/bulk/blob/master/src/DaimoOpInflator.sol) which is able to compress their user operation data by over 80%.
+:::
+
+```solidity [SimpleInflator.sol]
+// SPDX-License-Identifier: GPL-3.0-or-later
+pragma solidity >=0.8;
+pragma abicoder v2;
+
+import "bulk/src/IOpInflator.sol";
+import {LibZip} from "solady/src/utils/LibZip.sol";
+
+contract SimpleInflator is IOpInflator {
+    function inflate(bytes calldata compressed) external pure override returns (UserOperation memory op) {
+        op = abi.decode(LibZip.flzDecompress(compressed), (UserOperation));
+    }
+
+    function compress(UserOperation memory op) external pure returns (bytes memory compressed) {
+        compressed = LibZip.flzCompress(abi.encode(op));
+    }
+}
+```
+
+Once you have written your decompressor contract, you will need to deploy it to the network you are using and verify the source code on Etherscan. We recommend using `forge` for this.
+
+```bash [Terminal]
+forge create --rpc-url <your_rpc_url> \
+    --private-key <your_private_key> \
+    --etherscan-api-key <your_etherscan_api_key> \
+    --verify \
+    src/SimpleInflator.sol:SimpleInflator
+```
+
+### Get the Inflator contract address whitelisted by Pimlico
+
+Once your decompressor contract is deployed and verified, you will need to get the contract address whitelisted by Pimlico's bundler. 
+
+This is required because we have to make sure that there are no security issues with your decompressor contract that could lead to the bundler being exploited or made to waste gas.
+
+This is done by [reaching out to our team on telegram](https://t.me/pimlicoHQ).
+
+### Start submitting your compressed user operations
+
+:::tip[Tip]
+If you are using [permissionless.js](/permissionless), there is a useful helper function that will allow you to easily submit compressed user operations. See the [`sendCompressedUserOperation`](/permissionless/reference/pimlico-bundler-actions/sendCompressedUserOperation) helper function.
+:::
+
+Once your decompressor contract is deployed and whitelisted, you can start submitting compressed user operations to Pimlico's bundler using the [`pimlico_sendCompressedUserOperation`](/bundler/reference/endpoints/pimlico_sendCompressedUserOperation) JSON-RPC method.
+
+Using the above `SimpleInflator` contract and the permissionless.js function as an example, we can compress and submit a user operation as follows:
+
+::::code-group
+
+```ts [example.ts]
+import { smartAccountClient, simpleSmartAccount, publicClient } from "./smartAccountClient";
+import { pimlicoBundlerClient } from "./pimlicoBundlerClient";
+import { parseAbiItem, encodeFunctionData, getContract } from "viem"
+import { SimpleInflatorAbi } from "./SimpleInflatorAbi";
+
+const callData = await simpleSmartAccount.encodeCallData({ 
+    to: "0x0488bEE1Ec682db0F0E74AB52faFdDdEf10Af123", 
+    data: encodeFunctionData({
+        abi: [parseAbiItem('function mint()')]
+    }), 
+    value: 0n 
+})
+
+// only if using pimlico
+const gasPrices = await pimlicoBundlerClient.getUserOperationGasPrice()
+
+const userOperation = await smartAccountClient.prepareUserOperationRequest({
+    userOperation: { 
+        callData, // callData is the only required field in the partial user operation
+        maxFeePerGas: gasPrices.fast.maxFeePerGas,
+        maxPriorityFeePerGas: gasPrices.fast.maxPriorityFeePerGas
+    }
+})
+
+// address of the previously deployed inflator contract
+const inflatorAddress = "0xINFLATOR_ADDRESS"
+const simpleInflator = getContract({
+    abi: SimpleInflatorAbi,
+    address: inflatorAddress,
+    client: {
+        public: publicClient
+    }
+})
+
+// compress the user operation
+// you can do this off-chain as well
+const compressedUserOperation = await simpleInflator.read.compress([userOperation])
+
+const userOpHash = pimlicoBundlerClient.sendCompressedUserOperation({
+    compressedUserOperation,
+    inflatorAddress,
+    entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
+})
+```
+
+```ts [SimpleInflatorAbi.ts]
+export const SimpleInflatorAbi = [
+  {
+    type: "function",
+    name: "inflate",
+    inputs: [
+      {
+        name: "compressed",
+        type: "bytes",
+        internalType: "bytes"
+      }
+    ],
+    outputs: [
+      {
+        name: "op",
+        type: "tuple",
+        internalType: "struct UserOperation",
+        components: [
+          {
+            name: "sender",
+            type: "address",
+            internalType: "address"
+          },
+          {
+            name: "nonce",
+            type: "uint256",
+            internalType: "uint256"
+          },
+          {
+            name: "initCode",
+            type: "bytes",
+            internalType: "bytes"
+          },
+          {
+            name: "callData",
+            type: "bytes",
+            internalType: "bytes"
+          },
+          {
+            name: "callGasLimit",
+            type: "uint256",
+            internalType: "uint256"
+          },
+          {
+            name: "verificationGasLimit",
+            type: "uint256",
+            internalType: "uint256"
+          },
+          {
+            name: "preVerificationGas",
+            type: "uint256",
+            internalType: "uint256"
+          },
+          {
+            name: "maxFeePerGas",
+            type: "uint256",
+            internalType: "uint256"
+          },
+          {
+            name: "maxPriorityFeePerGas",
+            type: "uint256",
+            internalType: "uint256"
+          },
+          {
+            name: "paymasterAndData",
+            type: "bytes",
+            internalType: "bytes"
+          },
+          {
+            name: "signature",
+            type: "bytes",
+            internalType: "bytes"
+          }
+        ]
+      }
+    ],
+    stateMutability: "view"
+  },
+  {
+    type: "function",
+    name: "compress",
+    inputs: [
+      {
+        name: "op",
+        type: "tuple",
+        internalType: "struct UserOperation",
+        components: [
+          {
+            name: "sender",
+            type: "address",
+            internalType: "address"
+          },
+          {
+            name: "nonce",
+            type: "uint256",
+            internalType: "uint256"
+          },
+          {
+            name: "initCode",
+            type: "bytes",
+            internalType: "bytes"
+          },
+          {
+            name: "callData",
+            type: "bytes",
+            internalType: "bytes"
+          },
+          {
+            name: "callGasLimit",
+            type: "uint256",
+            internalType: "uint256"
+          },
+          {
+            name: "verificationGasLimit",
+            type: "uint256",
+            internalType: "uint256"
+          },
+          {
+            name: "preVerificationGas",
+            type: "uint256",
+            internalType: "uint256"
+          },
+          {
+            name: "maxFeePerGas",
+            type: "uint256",
+            internalType: "uint256"
+          },
+          {
+            name: "maxPriorityFeePerGas",
+            type: "uint256",
+            internalType: "uint256"
+          },
+          {
+            name: "paymasterAndData",
+            type: "bytes",
+            internalType: "bytes"
+          },
+          {
+            name: "signature",
+            type: "bytes",
+            internalType: "bytes"
+          }
+        ]
+      }
+    ],
+    outputs: [
+      {
+        name: "compressed",
+        type: "bytes",
+        internalType: "bytes"
+      }
+    ],
+    stateMutability: "view"
+  }
+] as const
+```
+
+```ts [smartAccountClient.ts]
+// [!include ~/snippets/smartAccountCLient.ts:client]
+```
+
+```ts [pimlicoBundlerClient.ts]
+// [!include ~/snippets/pimlicoBundlerClient.ts:client]
+```
+
+::::
+
+:::::
+
+Congratulations! You have successfully submitted a compressed user operation to Pimlico's bundler.
