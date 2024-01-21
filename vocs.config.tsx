@@ -9,6 +9,7 @@ export const bundlerSidebar = [
   {
     text: 'How-to Guides',
     items: [
+      { text: "How to create your own inflator contract and submit compressed user operations to Pimlico's bundler", link: "/bundler/how-to/compress-user-operations" },
       { text: "How to Bundle a User Operation", link: "/bundler/how-to/bundle-a-user-operation" },
       { text: "How to Estimate the Gas Limits for a User Operation", link: "/bundler/how-to/estimate-user-operation-gas-limits" },
     ]
@@ -18,6 +19,7 @@ export const bundlerSidebar = [
     items: [
       { text: "Supported Chains", link: "/bundler/reference/supported-chains" },
       { text: "FAQs", link: "/bundler/reference/faqs" },
+      { text: "Compression Contracts", link: "/bundler/reference/compression" },
       {
         text: "Endpoints",
         collapsed: false,
@@ -27,6 +29,7 @@ export const bundlerSidebar = [
           { text: "eth_getUserOperationReceipt", link: "/bundler/reference/endpoints/eth_getUserOperationReceipt" },
           { text: "eth_getUserOperationByHash", link: "/bundler/reference/endpoints/eth_getUserOperationByHash" },
           { text: "eth_supportedEntryPoints", link: "/bundler/reference/endpoints/eth_supportedEntryPoints" },
+          { text: "pimlico_sendCompressedUserOperation", link: "/bundler/reference/endpoints/pimlico_sendCompressedUserOperation" },
           { text: "pimlico_getUserOperationGasPrice", link: "/bundler/reference/endpoints/pimlico_getUserOperationGasPrice" },
           { text: "pimlico_getUserOperationStatus", link: "/bundler/reference/endpoints/pimlico_getUserOperationStatus" },
         ]
@@ -203,6 +206,7 @@ export const permissionlessSidebar = [
         text: "Pimlico Bundler Actions",
         collapsed: false,
         items: [
+          { text: "sendCompressedUserOperation", link: "/permissionless/reference/pimlico-bundler-actions/sendCompressedUserOperation" },
           { text: "getUserOperationGasPrice", link: "/permissionless/reference/pimlico-bundler-actions/getUserOperationGasPrice" },
           { text: "getUserOperationStatus", link: "/permissionless/reference/pimlico-bundler-actions/getUserOperationStatus" },
         ]
