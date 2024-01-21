@@ -123,6 +123,8 @@ const userOperation = await smartAccountClient.prepareUserOperationRequest({
     }
 })
 
+userOperation.signature = await simpleSmartAccount.signUserOperation(userOperation)
+
 // address of the previously deployed inflator contract
 const inflatorAddress = "0xINFLATOR_ADDRESS"
 const simpleInflator = getContract({
