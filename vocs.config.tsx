@@ -9,7 +9,7 @@ export const bundlerSidebar = [
   {
     text: 'How-to Guides',
     items: [
-      { text: "How to create your own inflator contract and submit compressed user operations to Pimlico's bundler", link: "/bundler/how-to/compress-user-operations" },
+      { text: "How to create your own inflator contract and submit compressed user operations", link: "/bundler/how-to/compress-user-operations" },
       { text: "How to Bundle a User Operation", link: "/bundler/how-to/bundle-a-user-operation" },
       { text: "How to Estimate the Gas Limits for a User Operation", link: "/bundler/how-to/estimate-user-operation-gas-limits" },
     ]
