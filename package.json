@@ -8,15 +8,16 @@
     "preview": "vocs preview"
   },
   "dependencies": {
+    "@types/node": "^20.11.2",
     "lucide-react": "^0.309.0",
     "permissionless": "^0.0.25",
     "react": "latest",
     "react-dom": "latest",
     "viem": "^2.0.6",
-    "vocs": "=1.0.0-alpha.25",
-    "@types/node": "^20.11.2"
+    "vocs": "=1.0.0-alpha.25"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.5.2",
     "@types/react": "^18.2.47"
   }
 }
