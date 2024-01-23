@@ -184,6 +184,14 @@ export const permissionlessSidebar = [
         ]
       },
       {
+        text: "Accounts",
+        collapsed: false,
+        items: [
+          { text: "signerToSimpleSmartAccount", link: "/permissionless/reference/accounts/signerToSimpleSmartAccount" },
+          { text: "signerToSafeSmartAccount", link: "/permissionless/reference/accounts/signerToSafeSmartAccount" },
+        ]
+      },
+      {
         text: "Bundler Actions",
         collapsed: false,
         items: [

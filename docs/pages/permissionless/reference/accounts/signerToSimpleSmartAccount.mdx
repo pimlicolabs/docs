@@ -1,12 +1,13 @@
 # signerToSimpleSmartAccount
 
-Creates a `SmartAccount` instance controlled by a `SmartAccountSigner`.
+Creates a SimpleAccount instance controlled by a `SmartAccountSigner`.
 
 ## Usage
 
 ::::code-group
 
 ```ts [example.ts]
+import { signerToSimpleSmartAccount } from "permissionless/accounts"
 import { publicClient } from "./publicClient"
 import { signer } from "./signer"
 
@@ -56,3 +57,19 @@ The canonical simple account factory for v0.6 of the EntryPoint is `0x9406Cc6185
 - **Type:** `Address`
 
 The address of the EntryPoint contract.
+
+### saltNonce (optional)
+
+- **Type:** `bigint`
+
+The salt nonce that will be used to deploy the smart account. If not provided, `0` will be used.
+
+### address (optional)
+
+- **Type:** `Address`
+
+:::warning
+If you provide an address, the smart account can not be deployed. This should be used if you want to interact with an existing smart account.
+:::
+
+The address of the smart account. If not provided, the determinstic smart account address will be deployed.
