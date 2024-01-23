@@ -1,0 +1,58 @@
+# signerToSimpleSmartAccount
+
+Creates a `SmartAccount` instance controlled by a `SmartAccountSigner`.
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+import { publicClient } from "./publicClient"
+import { signer } from "./signer"
+
+const simpleAccount = await signerToSimpleSmartAccount(publicClient, {
+	signer,
+	factoryAddress: "0x9406Cc6185a346906296840746125a0E44976454",
+	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+})
+```
+
+```ts [publicClient.ts]
+// [!include ~/snippets/publicClient.ts:client]
+```
+
+```ts [signer.ts]
+// [!include ~/snippets/signer.ts]
+```
+
+::::
+
+## Returns
+
+- **Type:** `SimpleSmartAccount`
+
+The smart account instance.
+
+## Parameters
+
+### signer
+
+- **Type:** `SmartAccountSigner`
+
+The signer that will be used to sign messages and user operations.
+
+### factoryAddress
+
+- **Type:** `Address`
+
+The address of the simple account factory that will be used to deploy the smart account.
+
+:::info
+The canonical simple account factory for v0.6 of the EntryPoint is `0x9406Cc6185a346906296840746125a0E44976454`
+:::
+
+### entryPoint
+
+- **Type:** `Address`
+
+The address of the EntryPoint contract.
