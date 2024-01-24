@@ -14,17 +14,20 @@ This guide will walk you through the steps required to create a smart account, f
 
 ::::steps
 
-1. ### Install the required packages
-```js
+### Install the required packages
+
+```bash
 npm install react axios ethers @particle-network/auth @particle-network/provider @particle-network/chains viem permissionless
 ```
-2. ### Make an account on the Particle Network dashboard to retrieve the `projectId`, `clientKey`, and `appId`
+
+### Make an account on the Particle Network dashboard to retrieve the `projectId`, `clientKey`, and `appId`
 Head over to Particle Network’s dashboard and register an account. Once done, create a project along with an application within that project. From here, you can copy the project ID, client key, and app ID in preparation for the next step.
 ![Particle Dashboard](https://i.imgur.com/oJQZAeP.png)
 
-3. ### Create an instance of `ParticleNetwork` from `@particle-network/auth`
+### Create an instance of `ParticleNetwork` from `@particle-network/auth`
 To interact with Particle, first initialize `ParticleNetwork` with the keys retrieved from step 2.
-```js
+
+```ts
 const particle = new ParticleNetwork({
 	projectId: process.env.REACT_APP_PROJECT_ID,
 	clientKey: process.env.REACT_APP_CLIENT_KEY,
@@ -34,11 +37,11 @@ const particle = new ParticleNetwork({
 });
 ```
 
-4. ### Handle account login with Particle
+### Handle account login with Particle
 To use Particle as the Wallet-as-a-Service provider handling the account that will interact with Pimlico, we'll need to do two things.
 
 First, we can initialize Signer login through a function as follows:
-```js
+```ts
 const handleLogin = async (preferredAuthType) => {
 	const user = await particle.auth.login({ preferredAuthType }); // preferredAuthType ex: 'google'
 	setUserInfo(user); // State variable - userInfo
@@ -46,7 +49,7 @@ const handleLogin = async (preferredAuthType) => {
 ```
 
 Now that we have the Signer logged in with their social account, we'll need to pull the associated smart account:
-```js
+```ts
 // Need to initialize provider- with ParticleProvider coming from @particle-network/provider
 const provider = new ethers.providers.Web3Provider(new ParticleProvider(particle.auth))
 
@@ -72,7 +75,7 @@ setSmartAccount(smartAccount); // State variable - smartAccount
 ```
 
 For the next step, we're assuming that the smart account retrieved from this RPC call is already initialized. If it isn't, you can install and use `particle-network/aa` for smart account creation.
-```js
+```ts
 const smartAccount = new SmartAccount(new ParticleProvider(particle.auth), {
   ...config,
   aaOptions: {
@@ -82,7 +85,7 @@ const smartAccount = new SmartAccount(new ParticleProvider(particle.auth), {
 // Additional setup if smart account needs additional management, such as deployment
 ```
 Once `smartAccount` is created, you can go ahead and deploy the smart account with a function such as the following.
-```js
+```ts
 const deployAccount = async () => {
     const isDeploy = await smartAccount.isDeployed();
       if (!isDeploy) {
@@ -92,56 +95,57 @@ const deployAccount = async () => {
   };
 ```
 
-5. ### Create a public, Bundler, and Paymaster client
+### Create a public, Bundler, and Paymaster client
+
 With the account set and ready to go, we can move on to preparing the following clients.
 1. Public client
-```js
+```ts
 const publicClient = createPublicClient({ // From viem
 	transport: http(process.env.REACT_APP_RPC_ENDPOINT),
 	chain: goerli // From viem/chains
 });
 ```
 2. Bundler client
-```js
+```ts
 const bundlerClient = createClient({ // From viem
 	transport: http(`https://api.pimlico.io/v1/goerli/rpc?apikey=${apiKey}`),
 	chain: goerli // From viem/chains
 }).extend(bundlerActions).extend(pimlicoBundlerActions); // pimlicoBundlerActions from permissionless/actions/pimlico - bundlerActions from permissionless
 ```
 3. Paymaster client
-```js
+```ts
 const paymasterClient = createClient({ // From viem
 	transport: http(`https://api.pimlico.io/v2/goerli/rpc?apikey=${apiKey}`),
 	chain: goerli // From viem/chains
 }).extend(pimlicoPaymasterActions); // pimlicoPaymasterActions from permissionless/actions/pimlico
 ```
 
-6. ### Retrieve the account nonce
+### Retrieve the account nonce
 Now that the clients are initialized, we'll need to begin building the user operation to be sponsored and sent to Pimlico. The first step in this process is to retrieve the account nonce; in this case, that'll be through `getAccountNonce` from `permissionless`.
-```js
+```ts
 const nonce = await getAccountNonce(publicClient, {
 	address: smartAccount,
 	entryPoint // 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789
 });
 ```
 
-7. ### Generate the transaction call data
+### Generate the transaction call data
 Following nonce retrieval, we'll need two more variables before we can move onto building our `userOperation` object. The first will be `callData`, containing transaction details.
-```js
+```ts
 const accountABI = ["function execute(address to, uint256 value, bytes data)"];
 const account = new ethers.utils.Interface(accountABI);
 const callData = account.encodeFunctionData("execute", ["0x000000000000000000000000000000000000dEaD", ethers.utils.parseUnits('0.001', 'ether'), "0x"]); // Example transaction; 0.001 ETH burn
 ```
 
-8. ### Pull gas prices from the Bundler client
+### Pull gas prices from the Bundler client
 The final step before structuring `userOperation` is simple— we'll just need to pull current gas prices from the previously initialized `bundlerClient`.
-```js
+```ts
 const gasPrice = await bundlerClient.getUserOperationGasPrice();
 ```
 
-9. ### Build the user operation
+### Build the user operation
 We're now ready to structure the pre-sponsor user operation— we'll be doing this in an object called `userOperation`, which will look like the following.
-```js
+```ts
 const userOperation = {
 	sender: smartAccount,
 	nonce: nonce,
@@ -153,9 +157,9 @@ const userOperation = {
 };
 ```
 
-10. ### Sponsor the user operation with the Paymaster client
+### Sponsor the user operation with the Paymaster client
 With the pre-sponsor user operation structured, we'll need to go ahead and push it to our Paymaster client (in this case, Pimlico's Verifying Paymaster). In response, we'll get `preVerificationGas`, `verificationGasLimit`, `callGasLimit`, and perhaps most importantly, `paymasterAndData`. Upon receiving these, we'll append them to our existing user operation structure in a new object, `sponsoredUserOperation`.
-```js
+```ts
 const sponsorUserOperationResult = await paymasterClient.sponsorUserOperation({
 	userOperation,
 	entryPoint // 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789
@@ -170,9 +174,9 @@ const sponsoredUserOperation = {
 };
 ```
 
-11. ### Retrieve user operation hash
+### Retrieve user operation hash
 To sign the user operation with Particle, we'll need to first retrieve the user operation hash (of our sponsored user operation). We can do this through `getUserOperationHash` from `permissionless`.
-```js
+```ts
 const userOperationHash = getUserOperationHash({
 	userOperation: sponsoredUserOperation,
 	chainId: EthereumGoerli.id, // Retrieved from @particle-network/chains
@@ -180,7 +184,7 @@ const userOperationHash = getUserOperationHash({
 });
 ```
 
-12. ### Signing and sending the user operation
+### Signing and sending the user operation
 Up to this point, we've
 - Configured Particle.
 - Initialized our account with Particle (via. social login).
@@ -190,7 +194,7 @@ Up to this point, we've
 - Hashed the user operation.
 
 It's time for the final step in this process– signing the user operation (with Particle) and sending it to Pimlico's Alto Bundler.
-```js
+```ts
 const signature = await signer.signMessage(ethers.utils.arrayify(userOperationHash));
 
 sponsoredUserOperation.signature = signature;
