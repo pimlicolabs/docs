@@ -9,6 +9,9 @@ import { generatePrivateKey } from "viem/accounts"
 import { sepolia } from "viem/chains"
 
 // [!region clients]
+const apiKey = "YOUR_PIMLICO_API_KEY"
+const paymasterUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=${apiKey}`
+
 const privateKey =
 	(process.env.PRIVATE_KEY as Hex) ??
 	(() => {
@@ -16,9 +19,6 @@ const privateKey =
 		writeFileSync(".env", `PRIVATE_KEY=${pk}`)
 		return pk
 	})()
-
-const apiKey = "YOUR_PIMLICO_API_KEY"
-const paymasterUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=${apiKey}`
 
 export const publicClient = createPublicClient({
 	transport: http("https://rpc.ankr.com/eth_sepolia"),
