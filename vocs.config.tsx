@@ -190,6 +190,7 @@ export const permissionlessSidebar = [
         items: [
           { text: "signerToSimpleSmartAccount", link: "/permissionless/reference/accounts/signerToSimpleSmartAccount" },
           { text: "signerToSafeSmartAccount", link: "/permissionless/reference/accounts/signerToSafeSmartAccount" },
+          { text: "signerToKernelSmartAccount", link: "/permissionless/reference/accounts/signerToKernelSmartAccount" },
         ]
       },
       {
