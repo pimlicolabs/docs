@@ -246,6 +246,13 @@ export const permissionlessSidebar = [
           { text: "getRequiredPrefund", link: "/permissionless/reference/utils/getRequiredPrefund" },
           { text: "walletClientToCustomSigner", link: "/permissionless/reference/utils/walletClientToCustomSigner" },
         ]
+      },
+      {
+        text: "Glossary",
+        collapsed: false,
+        items: [
+          { text: "Errors", link: "/permissionless/reference/glossary/errors" },
+        ]
       }
     ]
   },
