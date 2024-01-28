@@ -12,8 +12,8 @@ dependencies:
     specifier: ^0.309.0
     version: 0.309.0(react@18.2.0)
   permissionless:
-    specifier: 0.0.0-feat-wagmi-connector.20240128T114123
-    version: 0.0.0-feat-wagmi-connector.20240128T114123(viem@2.0.6)
+    specifier: ^0.0.32
+    version: 0.0.32(viem@2.0.6)
   react:
     specifier: latest
     version: 18.2.0
@@ -3850,8 +3850,8 @@ packages:
       is-reference: 3.0.2
     dev: false
 
-  /permissionless@0.0.0-feat-wagmi-connector.20240128T114123(viem@2.0.6):
-    resolution: {integrity: sha512-owXMlxl17HKWWnTSSo/VsUdD+L4p0vBBNWHaGKRCnDDmZhEuh48Bph9v3AymqjT9QMI8z5vOSKbNPVOPjJ/NPQ==}
+  /permissionless@0.0.32(viem@2.0.6):
+    resolution: {integrity: sha512-InxZy1+VatKyFvi7PI7Z2RKnXSr6pvzEfpP8zrD+z4JxeJJSHI3bJZMFUAkTVw5USKiIJyX4SzubpbGE2Vym+g==}
     peerDependencies:
       viem: ^2.0.0
     dependencies:
