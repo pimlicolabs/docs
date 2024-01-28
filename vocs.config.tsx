@@ -147,6 +147,10 @@ export const permissionlessSidebar = [
     text: "How-to Guides",
     items: [
       {
+        text: "Error Handling",
+        link: "/permissionless/how-to/error-handling"
+      },
+      {
         text: "Accounts",
         items: [
           { text: "How to use a Kernel account", link: "/permissionless/how-to/accounts/use-kernel-account" },

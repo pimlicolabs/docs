@@ -10,11 +10,11 @@
   "dependencies": {
     "@types/node": "^20.11.2",
     "lucide-react": "^0.309.0",
-    "permissionless": "^0.0.25",
+    "permissionless": "0.0.0-feat-wagmi-connector.20240128T114123",
     "react": "latest",
     "react-dom": "latest",
     "viem": "^2.0.6",
-    "vocs": "=1.0.0-alpha.25"
+    "vocs": "=1.0.0-alpha.30"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.5.2",
