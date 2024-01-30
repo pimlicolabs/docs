@@ -248,7 +248,7 @@ export const permissionlessSidebar = [
           { text: "getUserOperationHash", link: "/permissionless/reference/utils/getUserOperationHash" },
           { text: "signUserOperationHashWithECDSA", link: "/permissionless/reference/utils/signUserOperationHashWithECDSA" },
           { text: "getRequiredPrefund", link: "/permissionless/reference/utils/getRequiredPrefund" },
-          { text: "walletClientToCustomSigner", link: "/permissionless/reference/utils/walletClientToCustomSigner" },
+          { text: "walletClientToSmartAccountSigner", link: "/permissionless/reference/utils/walletClientToSmartAccountSigner" },
         ]
       },
       {

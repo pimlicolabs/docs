@@ -10,7 +10,7 @@
   "dependencies": {
     "@types/node": "^20.11.2",
     "lucide-react": "^0.309.0",
-    "permissionless": "^0.0.32",
+    "permissionless": "^0.0.33",
     "react": "latest",
     "react-dom": "latest",
     "viem": "^2.0.6",

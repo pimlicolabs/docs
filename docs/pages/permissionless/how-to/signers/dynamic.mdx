@@ -51,7 +51,7 @@ export const App = () => {
 Create the smart account client using the Dynamic signer. Note: DynamicWagmiConnector internally sets up the WagmiConfig, so there is no need to do it separately. This is where you would configure what smart account implementation (e.g. [Safe](/permissionless/how-to/accounts/use-safe-account), [Kernel](/permissionless/how-to/accounts/use-kernel-account), Biconomy, [SimpleAccount](/permissionless/how-to/accounts/use-simple-account)) and what paymaster logic you want to use.
 
 ```ts
-import { createSmartAccountClient, walletClientToCustomSigner } from "permissionless";
+import { createSmartAccountClient, walletClientToSmartAccountSigner } from "permissionless";
 import { signerToSimpleSmartAccount } from "permissionless/accounts";
 import { useWalletClient } from "wagmi";
 
@@ -59,11 +59,11 @@ const {
     data: walletClient
 } = useWalletClient()
 
-const customSigner = walletClientToCustomSigner(walletClient)
+const signer = walletClientToSmartAccountSigner(walletClient)
 
 const simpleSmartAccountClient = await signerToSimpleSmartAccount(publicClient, {
     entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
-    signer: customSigner,
+    signer: signer,
     factoryAddress: "0x9406Cc6185a346906296840746125a0E44976454"
 })
 

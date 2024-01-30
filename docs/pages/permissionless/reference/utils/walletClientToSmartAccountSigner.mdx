@@ -1,19 +1,19 @@
-# walletClientToCustomSigner
+# walletClientToSmartAccountSigner
 
 Takes a walletClient and returns a custom signer that can be used as a signer with permissionless accounts. This is especially useful when using `useWallet` from wagmi, allowing for an easy way to plug in custom frontend wagmi signers to permissionless accounts.
 
 ## Import
 
 ```ts
-import { walletClientToCustomSigner } from "permissionless"
+import { walletClientToSmartAccountSigner } from "permissionless"
 ```
 
 ## Usage
 
 ```ts
-import { walletClientToCustomSigner } from "permissionless"
+import { walletClientToSmartAccountSigner } from "permissionless"
 
-const customSigner = walletClientToCustomSigner(walletClient)
+const smartAccountSigner = walletClientToSmartAccountSigner(walletClient)
 ```
 
 ## Returns
