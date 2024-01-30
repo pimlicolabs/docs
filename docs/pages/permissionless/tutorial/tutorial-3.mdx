@@ -125,7 +125,7 @@ Now, if you go to the `sender` variable's address on [Mumbai Scan](https://mumba
 
 Now that we have a smart wallet deployed with USDC approved to the ERC-20 Paymaster address, let's submit another User Operation. but paying solely with USDC this time!
 
-For this step, we'll leverage the `@pimlico/erc20-paymaster` SDK to verify that enough tokens are approved to the paymaster and to generate the `paymasterAndData` that will ask Pimlico's ERC-20 paymaster to sponsor the User Operation in exchange for USDC. 
+For this step, we'll leverage the permissionless.js to generate the `paymasterAndData` that will ask Pimlico's ERC-20 paymaster to sponsor the User Operation in exchange for USDC. 
 
 Add the following to the bottom of `index.ts`:
 
