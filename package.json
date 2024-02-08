@@ -8,13 +8,16 @@
     "preview": "vocs preview"
   },
   "dependencies": {
+    "@permissionless/wagmi": "^0.0.3",
+    "@tanstack/react-query": "^5.18.0",
     "@types/node": "^20.11.2",
     "lucide-react": "^0.309.0",
-    "permissionless": "^0.0.33",
+    "permissionless": "^0.0.35",
     "react": "latest",
     "react-dom": "latest",
     "viem": "^2.0.6",
-    "vocs": "=1.0.0-alpha.30"
+    "vocs": "=1.0.0-alpha.34",
+    "wagmi": "^2.5.5"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.5.2",
