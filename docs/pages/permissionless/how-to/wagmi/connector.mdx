@@ -1,0 +1,36 @@
+# How to integrate permissionless.js accounts as connectors in your wagmi app
+
+::::steps
+
+
+### Install and import the required packages
+
+Make sure you have all the required packages, including `permissionless` and `@permissionless/wagmi` installed in your project.
+
+```bash [Terminal]
+npm install wagmi viem permissionless @permissionless/wagmi @tanstack/react-query
+```
+
+After installing the packages, import the required packages in your app.
+
+```tsx
+// [!include ~/snippets/wagmi-connector.tsx:imports]
+```
+
+### Configure the permissionless.js connector
+
+```tsx
+// [!include ~/snippets/wagmi-connector.tsx:config]
+```
+
+### Add a connect button
+```tsx
+// [!include ~/snippets/wagmi-connector.tsx:button]
+```
+
+### Integrate the connect button into your wagmi app
+```tsx
+// [!include ~/snippets/wagmi-connector.tsx:app]
+```
+
+::::

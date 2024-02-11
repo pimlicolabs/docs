@@ -169,6 +169,14 @@ export const permissionlessSidebar = [
         items: [
           { text: "How to use a Dynamic signer", link: "/permissionless/how-to/signers/dynamic" },
           { text: "How to use a Privy signer", link: "/permissionless/how-to/signers/privy" },
+          { text: "How to use a Lit Protocol signer", link: "/permissionless/how-to/signers/lit-protocol" },
+          { text: "How to use a Magic signer", link: "/permissionless/how-to/signers/magic" },
+          { text: "How to use a Web3Auth signer", link: "/permissionless/how-to/signers/web3auth" },
+          { text: "How to use a Turnkey signer", link: "/permissionless/how-to/signers/turnkey" },
+          { text: "How to use a Fireblocks signer", link: "/permissionless/how-to/signers/fireblocks" },
+          { text: "How to use a Capsule signer", link: "/permissionless/how-to/signers/capsule" },
+          { text: "How to use a DFNS signer", link: "/permissionless/how-to/signers/dfns" },
+          { text: "How to use an Arcana Auth signer", link: "/permissionless/how-to/signers/arcana" },
           { text: "How to use a Particle Network signer", link: "/permissionless/how-to/signers/particle-network" },
         ]
       }
