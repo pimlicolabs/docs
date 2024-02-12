@@ -156,6 +156,7 @@ export const permissionlessSidebar = [
           { text: "How to use a Kernel account", link: "/permissionless/how-to/accounts/use-kernel-account" },
           { text: "How to use a Safe account", link: "/permissionless/how-to/accounts/use-safe-account" },
           { text: "How to use a SimpleAccount", link: "/permissionless/how-to/accounts/use-simple-account" },
+          { text: "How to use a Biconomy account", link: "/permissionless/how-to/accounts/use-biconomy-account" },
         ]
       },
       {
