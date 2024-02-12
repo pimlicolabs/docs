@@ -166,6 +166,7 @@ export const permissionlessSidebar = [
       },
       {
         text: "Signers",
+        link: "/permissionless/how-to/signers",
         items: [
           { text: "How to use a Dynamic signer", link: "/permissionless/how-to/signers/dynamic" },
           { text: "How to use a Privy signer", link: "/permissionless/how-to/signers/privy" },
