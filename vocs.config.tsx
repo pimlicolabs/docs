@@ -85,6 +85,7 @@ export const paymasterSidebar = [
   },
   {
     text: "Verifying Paymaster",
+    link: "/paymaster/verifying-paymaster",
     items: [
       {
         text: "How-to Guides",
@@ -106,6 +107,7 @@ export const paymasterSidebar = [
   },
   {
     text: "ERC-20 Paymaster",
+    link: "/paymaster/erc20-paymaster",
     items: [
       { text: "Overview", link: "/paymaster/erc20-paymaster" },
       { text: "Contract Addresses", link: "/paymaster/erc20-paymaster/contract-addresses" },
@@ -124,6 +126,25 @@ export const paymasterSidebar = [
           { text: "writeContract", link: "/permissionless/reference/smart-account-actions/writeContract" },
 
 */
+
+// export const conceptualSidebar = [
+//   {
+//     text: "Overview",
+//     link: "/conceptual"
+//   },
+//   {
+//     text: "Account Abstraction",
+//     link: "/conceptual/account-abstraction"
+//   },
+//   {
+//     text: "ERC-4337",
+//     link: "/conceptual/erc4337"
+//   },
+//   {
+//     text: "ERC-7579",
+//     link: "/conceptual/erc7579"
+//   },
+// ]
 
 export const permissionlessSidebar = [
   {
@@ -153,8 +174,8 @@ export const permissionlessSidebar = [
       {
         text: "Accounts",
         items: [
-          { text: "How to use a Kernel account", link: "/permissionless/how-to/accounts/use-kernel-account" },
           { text: "How to use a Safe account", link: "/permissionless/how-to/accounts/use-safe-account" },
+          { text: "How to use a Kernel account", link: "/permissionless/how-to/accounts/use-kernel-account" },
           { text: "How to use a SimpleAccount", link: "/permissionless/how-to/accounts/use-simple-account" },
           { text: "How to use a Biconomy account", link: "/permissionless/how-to/accounts/use-biconomy-account" },
         ]
@@ -302,7 +323,8 @@ export default defineConfig({
   sidebar: {
     '/permissionless': permissionlessSidebar,
     '/bundler': bundlerSidebar,
-    '/paymaster': paymasterSidebar
+    '/paymaster': paymasterSidebar,
+    // '/conceptual': conceptualSidebar,
   },
   ogImageUrl: {
     "/": "https://docs-og-pimlico.vercel.app/api/og?logo=%logo&title=%title&description=%description"
@@ -336,8 +358,12 @@ export default defineConfig({
     },
     {
       text: 'Paymasters',
-      link: '/paymaster'
+      link: '/paymaster',
     },
+    // {
+    //   text: "Conceptual",
+    //   link: "/conceptual"
+    // },
     {
       text: "Dashboard",
       link: "https://dashboard.pimlico.io"

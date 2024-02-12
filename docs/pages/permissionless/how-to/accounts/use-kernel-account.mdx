@@ -1,6 +1,10 @@
 # How to create and use a Kernel account with permissionless.js
 
-[Kernel](https://github.com/zerodevapp/kernel) is a **modular smart account** that supports *plugins*, which are smart contracts that extend the account's functionalities.  You can use Kernel with popular plugins such as session keys and account recovery, and even write your own plugins.
+:::info
+ZeroDev maintains their own in-house SDK built closely on top of permissionless.js that you can use for the account system while still plugging in all the other components from permissionless.js. Take a look at [their documentation](docs.zerodev.app/sdk) for more information.
+:::
+
+[Kernel](https://github.com/zerodevapp/kernel) is a modular smart account that supports plugins, which are smart contracts that extend the account's functionalities.  You can use Kernel with popular plugins such as session keys and account recovery, and even write your own plugins.
 
 ## Steps
 
@@ -31,6 +35,10 @@ For example, to create a signer based on a private key:
 ```
 
 ### Create the Kernel account
+
+:::info
+For a full list of options for creating a Kernel account, take a look at the reference documentation page for [`signerToKernelSmartAccount`](/permissionless/reference/accounts/signerToKernelSmartAccount).
+:::
 
 With a signer, you can create a Kernel account as such:
 

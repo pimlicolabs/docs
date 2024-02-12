@@ -24,6 +24,10 @@ export const paymasterClient = createPimlicoPaymasterClient({
 
 ### Create the SimpleAccount
 
+:::info
+For a full list of options for creating a SimpleAccount, take a look at the reference documentation page for [`signerToSimpleSmartAccount`](/permissionless/reference/accounts/signerToSimpleSmartAccount).
+:::
+
 You can create a SimpleAccount with the canonical module addresses by specifying the factory address the account will be deployed from. You can also pass an `address` to use an already created SimpleAccount.
 
 ```ts
