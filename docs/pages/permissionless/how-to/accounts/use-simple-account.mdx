@@ -2,6 +2,8 @@
 
 [SimpleAccount](https://github.com/eth-infinitism/account-abstraction/blob/develop/contracts/samples/SimpleAccount.sol) is the original reference sample implementation of an ERC-4337 made by the Eth-Infinitism team. Despite being a reference implementation, it is widely used in production. It allows for a single EOA signer to sign user operations for the account. This guide will show you how to create and use a SimpleAccount with permissionless.js.
 
+## Steps
+
 ::::steps
 
 ### Create the clients
@@ -21,6 +23,10 @@ export const paymasterClient = createPimlicoPaymasterClient({
 ```
 
 ### Create the SimpleAccount
+
+:::info
+For a full list of options for creating a SimpleAccount, take a look at the reference documentation page for [`signerToSimpleSmartAccount`](/permissionless/reference/accounts/signerToSimpleSmartAccount).
+:::
 
 You can create a SimpleAccount with the canonical module addresses by specifying the factory address the account will be deployed from. You can also pass an `address` to use an already created SimpleAccount.
 

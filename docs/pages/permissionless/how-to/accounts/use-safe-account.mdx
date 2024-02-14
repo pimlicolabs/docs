@@ -2,17 +2,14 @@
 
 [Safe](https://safe.global) is the most battle-tested Ethereum smart account provider. With their recent release of their ERC-4337 module, it is now possible to plug in Safe accounts to ERC-4337 bundlers and paymasters. This guide will walk you through how to create and use a Safe account with permissionless.js.
 
+## Steps
+
 ::::steps
 
 ### Import the required packages
 
 ```ts
-import { createSmartAccountClient } from "permissionless";
-import { privateKeyToSafeSmartAccount } from "permissionless/accounts";
-import { createPimlicoPaymasterClient, createPimlicoBundlerClient } from "permissionless/clients/pimlico";
-import { UserOperation } from "permissionless/types";
-import { Address, createPublicClient, http } from "viem";
-import { sepolia } from "viem/chains";
+// [!include ~/snippets/accounts/safe.ts:imports]
 ```
 
 ### Create the clients
@@ -20,53 +17,29 @@ import { sepolia } from "viem/chains";
 First we must create the public, bundler, and (optionally) paymaster clients that will be used to interact with the Safe account.
 
 ```ts
-export const publicClient = createPublicClient({
-	transport: http("https://CHAIN.infura.io/v3/API_KEY"),
-});
+// [!include ~/snippets/accounts/safe.ts:clients]
+```
 
-export const paymasterClient = createPimlicoPaymasterClient({
-	transport: http(
-		"https://api.pimlico.io/v2/CHAIN/rpc?apikey=API_KEY",
-	),
-});
+### Create the signer
+
+The Safe account will need to have a signer to sign user operations. In permissionless.js, the default Safe account validates ECDSA signatures. [Any permissionless.js-compatible signer](/permissionless/how-to/signers) can be used for the Safe account.
+
+For example, to create a signer based on a private key:
+
+```ts
+// [!include ~/snippets/accounts/safe.ts:signer]
 ```
 
 ### Create the Safe account
 
-You can create a Safe account with the canonical module addresses by simply specifying the Safe version. You can also optionally specify a custom salt nonce for deployment.
+:::info
+For a full list of options for creating a Safe account, take a look at the reference documentation page for [`signerToSafeSmartAccount`](/permissionless/reference/accounts/signerToSafeSmartAccount).
+:::
+
+With a signer, you can create a Safe account as such:
 
 ```ts
-const safeAccount = await privateKeyToSafeSmartAccount(publicClient, {
-	privateKey: "0xPRIVATE_KEY",
-	safeVersion: "1.4.1",
-	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789", // global entrypoint
-	saltNonce: 0n, // optional
-	address: "0x..." // optional, only if you are using an already created account
-});
-```
-
-If you'd like to configure the relevant Safe addresses yourself required for deployment instead of using the canonical ones deployed by Safe, you can instead pass them in as options. You can also pass in extra Safe modules to enable during deployment as well as calls to make during deployment. You can also pass an `address` to use an already created Safe account.
-
-```ts
-const safeAccount = await privateKeyToSafeSmartAccount(publicClient, {
-	privateKey: "0xPRIVATE_KEY",
-	safeVersion: "1.4.1",
-	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789", // global entrypoint
-	saltNonce: 0n, // optional
-	addModuleLibAddress: "0x191EFDC03615B575922289DC339F4c70aC5C30Af"
-    safe4337ModuleAddress: "0x39E54Bb2b3Aa444b4B39DEe15De3b7809c36Fc38"
-    safeProxyFactoryAddress: "0x4e1DCf7AD4e460CfD30791CCC4F9c8a4f820ec67"
-    safeSingletonAddress: "0x41675C099F32341bf84BFc5382aF534df5C7461a",
-	multiSendAddress: "0x38869bf66a61cF6bDB996A6aE40D5853Fd43B526",
-	multiSendCallOnlyAddress: "0x9641d764fc13c8B624c04430C7356C1C7C8102e2",
-	safeModules: ["0xEXTRA_SAFE_MODULES"],
-	setupTransactions: [
-		{
-			to: "0x...",
-			data: "0x...",
-		},
-	],
-});
+// [!include ~/snippets/accounts/safe.ts:smartAccount]
 ```
 
 ### Create the smart account client
@@ -74,14 +47,7 @@ const safeAccount = await privateKeyToSafeSmartAccount(publicClient, {
 The smart account client is a permissionless.js client that is meant to serve as an almost drop-in replacement for viem's [walletClient](https://viem.sh/docs/clients/wallet.html).
 
 ```ts
-const smartAccountClient = createSmartAccountClient({
-	account: safeAccount,
-	chain: sepolia,
-	transport: http(
-		"https://api.pimlico.io/v1/CHAIN/rpc?apikey=API_KEY",
-	),
-	sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
-});
+// [!include ~/snippets/accounts/safe.ts:smartAccountClient]
 ```
 
 ### Fetch the gas prices (optional)
@@ -89,13 +55,7 @@ const smartAccountClient = createSmartAccountClient({
 If you're using Pimlico as your bundler, fetch the required gas price to use beforehand and pass it in as the `maxFeePerGas` and `maxPriorityFeePerGas` parameters. Other providers might have different requirements for fetching the gas price.
 
 ```ts
-export const bundlerClient = createPimlicoBundlerClient({
-	transport: http(
-		"https://api.pimlico.io/v1/CHAIN/rpc?apikey=API_KEY",
-	),
-});
-
-const gasPrices = await bundlerClient.getUserOperationGasPrice();
+// [!include ~/snippets/accounts/safe.ts:gasPrices]
 ```
 
 ### Send a transaction
@@ -103,47 +63,19 @@ const gasPrices = await bundlerClient.getUserOperationGasPrice();
 Transactions using permissionless.js simply wrap around user operations. This means you can switch to permissionless.js from your existing viem EOA codebase with minimal-to-no changes.
 
 ```ts
-const txHash = await smartAccountClient.sendTransaction({
-	to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
-	value: parseEther("0.1"),
-	maxFeePerGas: gasPrices.fast.maxFeePerGas, // if using Pimlico
-	maxPriorityFeePerGas: gasPrices.fast.maxPriorityFeePerGas, // if using Pimlico
-});
+// [!include ~/snippets/accounts/safe.ts:submit]
 ```
 
 This also means you can also use viem Contract instances to transact without any modifications.
 
 ```ts
-const nftContract = getContract({
-	address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2',
-	abi: nftAbi,
-	publicClient,
-	walletClient: smartAccountClient,
-	maxFeePerGas: gasPrices.fast.maxFeePerGas, // if using Pimlico
-	maxPriorityFeePerGas: gasPrices.fast.maxPriorityFeePerGas, // if using Pimlico
-});
-
-const txHash = await nftContract.write.mint()
+// [!include ~/snippets/accounts/safe.ts:submitNft]
 ```
 
 You can also send an array of transactions in a single batch.
 
 ```ts
-const txHash = await smartAccountClient.sendTransactions({
-	transactions: [
-		{
-			to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
-			value: parseEther("0.1"),
-		},
-		{
-			to: "0x1440ec793aE50fA046B95bFeCa5aF475b6003f9e",
-			value: parseEther("0.1"),
-			data: "0x..."
-		},
-	]
-	maxFeePerGas: gasPrices.fast.maxFeePerGas, // if using Pimlico
-	maxPriorityFeePerGas: gasPrices.fast.maxPriorityFeePerGas, // if using Pimlico
-});
+// [!include ~/snippets/accounts/safe.ts:submitBatch]
 ```
 
 ::::
