@@ -20,7 +20,7 @@
     "@magic-ext/oauth": "^16.1.1",
     "@particle-network/auth": "^1.3.1",
     "@particle-network/provider": "^1.3.2",
-    "@permissionless/wagmi": "^0.0.3",
+    "@permissionless/wagmi": "^0.0.4",
     "@tanstack/react-query": "^5.18.0",
     "@turnkey/http": "^2.7.1",
     "@turnkey/viem": "^0.4.10",
@@ -30,11 +30,11 @@
     "@web3auth/modal": "^7.3.2",
     "lucide-react": "^0.309.0",
     "magic-sdk": "^22.1.1",
-    "permissionless": "^0.0.35",
+    "permissionless": "^0.0.36",
     "react": "latest",
     "react-dom": "latest",
     "viem": "^2.1.1",
-    "vocs": "=1.0.0-alpha.34",
+    "vocs": "=1.0.0-alpha.36",
     "wagmi": "^2.5.5"
   },
   "devDependencies": {

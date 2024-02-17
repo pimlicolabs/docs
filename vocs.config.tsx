@@ -298,12 +298,12 @@ export default defineConfig({
   title: 'Pimlico',
   logoUrl: { light: '/pimlico-purple.svg', dark: '/pimlico-white.svg' },
   iconUrl: '/favicons/favicon.svg',
-  titleTemplate: '%s – Pimlico',
+  titleTemplate: '%s | Pimlico Docs',
   editLink: {
     pattern: 'https://github.com/pimlicolabs/docs/edit/main/docs/pages/:path',
     text: 'Edit on GitHub',
   },
-  description: "Pimlico is an infrastructure platform for building the next generation of smart accounts",
+  description: "Pimlico is the world's most popular account abstraction infrastructure platform",
   head: (
     <>
       <script src="/posthog.js"></script>
