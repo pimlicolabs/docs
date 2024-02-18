@@ -16,13 +16,13 @@ Initialize a Bundler Client with your desired Chain (e.g. mainnet) and Transport
 
 ```ts
 import { createClient, http } from 'viem'
-import { goerli } from 'viem/chains'
+import { sepolia } from 'viem/chains'
 import { bundlerActions } from 'permissionless'
 import { pimlicoBundlerActions } from 'permissionless/actions/pimlico'
 
 const pimlicoBundlerClient = createClient({ 
-  chain: goerli,
-  transport: http("https://api.pimlico.io/v1/goerli/rpc?apikey=YOUR_API_KEY_HERE")
+  chain: sepolia,
+  transport: http("https://api.pimlico.io/v1/sepolia/rpc?apikey=YOUR_API_KEY_HERE")
 })
 .extend(bundlerActions)
 .extend(pimlicoBundlerActions)
@@ -38,11 +38,11 @@ Alternatively, you can initialize a Bundler Client with the `createPimlicoBundle
 
 ```ts
 import { http } from 'viem'
-import { goerli } from 'viem/chains'
+import { sepolia } from 'viem/chains'
 import { createPimlicoBundlerClient } from "permissionless/clients/pimlico";
 
 const pimlicoBundlerClient = createPimlicoBundlerClient({
-  chain: goerli,
-  transport: http("https://api.pimlico.io/v1/goerli/rpc?apikey=YOUR_API_KEY_HERE")
+  chain: sepolia,
+  transport: http("https://api.pimlico.io/v1/sepolia/rpc?apikey=YOUR_API_KEY_HERE")
 })
 ```

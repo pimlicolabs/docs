@@ -36,12 +36,12 @@ const receipt = await bundlerClient.getUserOperationReceipt({
 
 ```ts [client.ts]
 import { createClient, http } from 'viem'
-import { goerli } from 'viem/chains'
+import { sepolia } from 'viem/chains'
 import { bundlerActions } from 'permissionless'
 
 export const bundlerClient = createClient({ 
-  chain: goerli,
-  transport: http("https://api.pimlico.io/v1/goerli/rpc?apikey=YOUR_API_KEY_HERE")
+  chain: sepolia,
+  transport: http("https://api.pimlico.io/v1/sepolia/rpc?apikey=YOUR_API_KEY_HERE")
 }).extend(bundlerActions)
 ```
 

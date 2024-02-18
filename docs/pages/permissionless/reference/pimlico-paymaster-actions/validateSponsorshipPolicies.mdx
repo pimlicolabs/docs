@@ -45,7 +45,7 @@ import { pimlicoPaymasterActions } from 'permissionless/actions/pimlico'
 
 export const pimlicoPaymasterClient = createClient({ 
   chain: mainnet,
-  transport: http("https://api.pimlico.io/v2/goerli/rpc?apikey=YOUR_API_KEY_HERE")
+  transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_API_KEY_HERE")
 }).extend(pimlicoPaymasterActions)
 ```
 

@@ -2,7 +2,7 @@
 
 All calls are in JSON-RPC format and have to be made to the following URL: `https://api.pimlico.io/v2/{chain}/rpc?apikey=[YOUR_API_KEY_HERE]`
 
-Where `{chain}` is the chain variable (such as `goerli` or `polygon`) as found in the [supported chains page](/paymaster/verifying-paymaster/reference/supported-chains)
+Where `{chain}` is the chain variable (such as `sepolia` or `polygon`) as found in the [supported chains page](/paymaster/verifying-paymaster/reference/supported-chains)
 
 ## pm_sponsorUserOperation (v2)
 
@@ -47,7 +47,7 @@ Request:
 ```typescript
 import { JsonRpcProvider } from "@ethersproject/providers";
 
-const chain = "goerli"
+const chain = "sepolia"
 const apiKey = "YOUR_API_KEY_HERE"
 const entryPoint = "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
 
@@ -194,7 +194,7 @@ Request:
 ```typescript
 import { JsonRpcProvider } from "@ethersproject/providers";
 
-const chain = "goerli"
+const chain = "sepolia"
 const apiKey = "YOUR_API_KEY_HERE"
 const entryPoint = "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
 
