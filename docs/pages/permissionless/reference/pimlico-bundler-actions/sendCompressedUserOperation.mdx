@@ -12,7 +12,6 @@ import { pimlicoBundlerClient } from "./client"
 const userOpHash = await pimlicoBundlerClient.sendCompressedUserOperation({
     compressedUserOperation: "0x3c037f957fde5d87e35d5b8582f6c274343bcf3bc0e0037f957fde5d87e35d5b8582f6c2710d72fc2de0e27f4a6aa",
     inflatorAddress: "0x422f72B27819798986F41c1bede24e76114DE584",
-    entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
 })
 /**
  * "0x3c037f957fde5d87e35d5b8582f6c274343bcf3bc0e010d72fc2de0e27f4a6aa"
@@ -44,12 +43,6 @@ The compressed user operation object.
 - **Type:** `Address`
 
 The address of the inflator contract that will inflate the compressed user operation.
-
-### entryPoint
-
-- **Type:** `Address`
-
-The address of the entry point contract.
 
 ## JSON-RPC Method
 

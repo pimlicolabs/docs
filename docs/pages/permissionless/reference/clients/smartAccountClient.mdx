@@ -17,15 +17,18 @@ Initialize a Smart Account Client with your desired account (which can be create
 ```ts
 import { http } from 'viem'
 import { sepolia } from 'viem/chains'
-import { createSmartAccountClient } from "permissionless";
+import { createSmartAccountClient, ENTRYPOINT_ADDRESS_V07 } from "permissionless";
 import { simpleSmartAccount } from "./simpleSmartAccount"; // created elsewhere
 import { pimlicoPaymaster } from "./paymaster"; // created elsewhere
 
 const smartAccountClient = createSmartAccountClient({
     account: simpleSmartAccount,
+    entryPoint: ENTRYPOINT_ADDRESS_V07
     chain: sepolia, // or whatever chain you are using
-    transport: http("https://api.pimlico.io/v1/sepolia/rpc?apikey=YOUR_PIMLICO_API_KEY"),
-    sponsorUserOperation: pimlicoPaymaster.sponsorUserOperation // if using a paymaster
+    bundlerTransport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_PIMLICO_API_KEY"),
+    middleware: {
+        sponsorUserOperation: pimlicoPaymaster.sponsorUserOperation // if using a paymaster
+    }
 })
 ```
 

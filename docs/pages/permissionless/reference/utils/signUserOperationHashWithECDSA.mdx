@@ -17,13 +17,13 @@ import { signUserOperationHashWithECDSA } from "permissionless"
 The function can take in either a combination of `userOperation` and `chainId` or a `userOperationHash`, or alternatively a `hash` can be passed in directly.
 
 ```ts
-import { signUserOperationHashWithECDSA } from "permissionless"
+import { signUserOperationHashWithECDSA, ENTRYPOINT_ADDRESS_V07 } from "permissionless"
 
 const signature = await signUserOperationHashWithECDSA({
     account: localAccount, // or client: walletClient
     userOperation: ...,
     chainId: 5,
-    entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
+    entryPoint: ENTRYPOINT_ADDRESS_V07
 })
 // "0x2d9420e06e41603c60ce395cfab6821f09c3c2461734dd785f24084a8ee138774f5d1910fb6d2d560934b21946a9667ada6077b5ac143c0d6a5d93e903c172101b"
 

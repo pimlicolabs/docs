@@ -8,11 +8,11 @@ Returns the current nonce of the smart account for a specified key.
 
 ```ts [example.ts]
 import { publicClient } from "./client.ts"
-import { getAccountNonce } from "permissionless"
+import { getAccountNonce, ENTRYPOINT_ADDRESS_V07 } from "permissionless"
 
 const nonce = await getAccountNonce(publicClient, {
     address: "0x277F6C1D8d4faFA3d8DcC837489cd69d86c682BA",
-    entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+    entryPoint: ENTRYPOINT_ADDRESS_V07,
     key: 0n // optional
 })
 // 23n

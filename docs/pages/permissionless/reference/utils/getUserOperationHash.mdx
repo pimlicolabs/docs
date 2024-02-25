@@ -11,12 +11,12 @@ import { getUserOperationHash } from "permissionless"
 ## Usage
 
 ```ts
-import { getUserOperationHash } from "permissionless"
+import { getUserOperationHash, ENTRYPOINT_ADDRESS_V07 } from "permissionless"
 
 const userOperationHash = getUserOperationHash({
     userOperation: ...,
     chainId: 5,
-    entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
+    entryPoint: ENTRYPOINT_ADDRESS_V07
 })
 // "0xf0d56baa398828898360589d5ef75b24b12be0829ef1e1037013d1b6d9dda1f2"
 ```

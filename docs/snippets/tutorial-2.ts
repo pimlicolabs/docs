@@ -1,74 +1,71 @@
 import "dotenv/config"
 import {
+	ENTRYPOINT_ADDRESS_V07,
 	UserOperation,
 	bundlerActions,
 	getSenderAddress,
 	signUserOperationHashWithECDSA,
 } from "permissionless"
 import { pimlicoBundlerActions, pimlicoPaymasterActions } from "permissionless/actions/pimlico"
-import { Hex, concat, createClient, createPublicClient, encodeFunctionData, http } from "viem"
+import { Address, Hex, createClient, createPublicClient, encodeFunctionData, http } from "viem"
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts"
-import { lineaTestnet } from "viem/chains"
+import { lineaTestnet, sepolia } from "viem/chains"
 
 // [!region clients]
-const publicClient = createPublicClient({
-	transport: http("https://rpc.goerli.linea.build/"),
-	chain: lineaTestnet,
+export const publicClient = createPublicClient({
+	transport: http("https://rpc.ankr.com/eth_sepolia"),
+	chain: sepolia,
 })
 
-const chain = "linea-testnet" // find the list of chain names on the Pimlico verifying paymaster reference page
 const apiKey = "YOUR_PIMLICO_API_KEY" // REPLACE THIS
+const endpointUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=${apiKey}`
 
 const bundlerClient = createClient({
-	transport: http(`https://api.pimlico.io/v1/${chain}/rpc?apikey=${apiKey}`),
-	chain: lineaTestnet,
+	transport: http(endpointUrl),
+	chain: sepolia,
 })
-	.extend(bundlerActions)
-	.extend(pimlicoBundlerActions)
+	.extend(bundlerActions(ENTRYPOINT_ADDRESS_V07))
+	.extend(pimlicoBundlerActions(ENTRYPOINT_ADDRESS_V07))
 
 const paymasterClient = createClient({
-	// ⚠️ using v2 of the API ⚠️
-	transport: http(`https://api.pimlico.io/v2/${chain}/rpc?apikey=${apiKey}`),
-	chain: lineaTestnet,
-}).extend(pimlicoPaymasterActions)
+	transport: http(endpointUrl),
+	chain: sepolia,
+}).extend(pimlicoPaymasterActions(ENTRYPOINT_ADDRESS_V07))
 // [!endregion clients]
 
 // [!region initCode]
-const SIMPLE_ACCOUNT_FACTORY_ADDRESS = "0x9406Cc6185a346906296840746125a0E44976454"
+const SIMPLE_ACCOUNT_FACTORY_ADDRESS = "0x91E60e0613810449d098b0b5Ec8b51A0FE8c8985"
 
 const ownerPrivateKey = generatePrivateKey()
 const owner = privateKeyToAccount(ownerPrivateKey)
 
 console.log("Generated wallet with private key:", ownerPrivateKey)
 
-const initCode = concat([
-	SIMPLE_ACCOUNT_FACTORY_ADDRESS,
-	encodeFunctionData({
-		abi: [
-			{
-				inputs: [
-					{ name: "owner", type: "address" },
-					{ name: "salt", type: "uint256" },
-				],
-				name: "createAccount",
-				outputs: [{ name: "ret", type: "address" }],
-				stateMutability: "nonpayable",
-				type: "function",
-			},
-		],
-		args: [owner.address, 0n],
-	}),
-])
+const factory = SIMPLE_ACCOUNT_FACTORY_ADDRESS
+const factoryData = encodeFunctionData({
+	abi: [
+		{
+			inputs: [
+				{ name: "owner", type: "address" },
+				{ name: "salt", type: "uint256" },
+			],
+			name: "createAccount",
+			outputs: [{ name: "ret", type: "address" }],
+			stateMutability: "nonpayable",
+			type: "function",
+		},
+	],
+	args: [owner.address, 0n],
+})
 
-console.log("Generated initCode:", initCode)
+console.log("Generated factoryData:", factoryData)
 // [!endregion initCode]
 
 // [!region sender]
-const ENTRY_POINT_ADDRESS = "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
-
 const senderAddress = await getSenderAddress(publicClient, {
-	initCode,
-	entryPoint: ENTRY_POINT_ADDRESS,
+	factory,
+	factoryData,
+	entryPoint: ENTRYPOINT_ADDRESS_V07,
 })
 console.log("Calculated sender address:", senderAddress)
 // [!endregion sender]
@@ -104,7 +101,8 @@ const gasPrice = await bundlerClient.getUserOperationGasPrice()
 const userOperation = {
 	sender: senderAddress,
 	nonce: 0n,
-	initCode,
+	factory: factory as Address,
+	factoryData,
 	callData,
 	maxFeePerGas: gasPrice.fast.maxFeePerGas,
 	maxPriorityFeePerGas: gasPrice.fast.maxPriorityFeePerGas,
@@ -117,15 +115,11 @@ const userOperation = {
 // [!region paymaster]
 const sponsorUserOperationResult = await paymasterClient.sponsorUserOperation({
 	userOperation,
-	entryPoint: ENTRY_POINT_ADDRESS,
 })
 
-const sponsoredUserOperation: UserOperation = {
+const sponsoredUserOperation: UserOperation<"v0.7"> = {
 	...userOperation,
-	preVerificationGas: sponsorUserOperationResult.preVerificationGas,
-	verificationGasLimit: sponsorUserOperationResult.verificationGasLimit,
-	callGasLimit: sponsorUserOperationResult.callGasLimit,
-	paymasterAndData: sponsorUserOperationResult.paymasterAndData,
+	...sponsorUserOperationResult,
 }
 
 console.log("Received paymaster sponsor result:", sponsorUserOperationResult)
@@ -136,7 +130,7 @@ const signature = await signUserOperationHashWithECDSA({
 	account: owner,
 	userOperation: sponsoredUserOperation,
 	chainId: lineaTestnet.id,
-	entryPoint: ENTRY_POINT_ADDRESS,
+	entryPoint: ENTRYPOINT_ADDRESS_V07,
 })
 sponsoredUserOperation.signature = signature
 
@@ -146,7 +140,6 @@ console.log("Generated signature:", signature)
 // [!region submit]
 const userOperationHash = await bundlerClient.sendUserOperation({
 	userOperation: sponsoredUserOperation,
-	entryPoint: ENTRY_POINT_ADDRESS,
 })
 
 console.log("Received User Operation hash:", userOperationHash)

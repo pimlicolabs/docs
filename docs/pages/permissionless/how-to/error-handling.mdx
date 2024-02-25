@@ -23,17 +23,18 @@ export const bundlerClient = createBundlerClient({
 // ---cut---
 import { 
     type EstimateUserOperationGasErrorType, 
-    type SenderAlreadyDeployedError 
+    type SenderAlreadyDeployedError,
+	ENTRYPOINT_ADDRESS_V07
 } from 'permissionless'
 import { bundlerClient } from './client'
 
 try {
-	const blockNumber = await bundlerClient.estimateUserOperationGas({
+	const estimateResult = await bundlerClient.estimateUserOperationGas({
 		userOperation,
-		entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+		entryPoint: ENTRYPOINT_ADDRESS_V07,
 	})
 } catch (e) {
-	const estimationError = e as EstimateUserOperationGasErrorType
+	const estimationError = e as EstimateUserOperationGasErrorType<"v0.7">
 	estimationError.name
 	//              ^?
 

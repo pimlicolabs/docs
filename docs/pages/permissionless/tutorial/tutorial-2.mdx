@@ -52,13 +52,13 @@ Let's open up `index.ts`, and add the following to the bottom:
 // [!include ~/snippets/tutorial-2.ts:clients]
 ```
 
-### Generate the initCode
+### Generate the factory and factoryData
 
 For the purposes of this guide, we will be using the [SimpleAccount.sol](https://github.com/eth-infinitism/account-abstraction/blob/develop/contracts/samples/SimpleAccount.sol) wallet found in the eth-infinitism repository. This Wallet is a simple ERC-4337 wallet controlled by a single EOA signer.
 
-At `0x9406Cc6185a346906296840746125a0E44976454`, most chain already have deployed a [SimpleAccountFactory.sol](https://github.com/eth-infinitism/account-abstraction/blob/develop/contracts/samples/SimpleAccountFactory.sol) contract, that is able to easily deploy new SimpleAccount instances via the `createAccount` function. We will be leveraging this contract to help us generate the `initCode`.
+At `0x91E60e0613810449d098b0b5Ec8b51A0FE8c8985`, most chain already have deployed a [SimpleAccountFactory.sol](https://github.com/eth-infinitism/account-abstraction/blob/develop/contracts/samples/SimpleAccountFactory.sol) contract, that is able to easily deploy new SimpleAccount instances via the `createAccount` function. We will be leveraging this contract to help us generate the `factory` and `factoryData`.
 
-A user operation consists of 11 fields. Requesting a smart contract deployment is done through the `initCode` field, where the first 20 bytes specify the factory address the EntryPoint will call, and anything after corresponds to the data that will be called on that factory.
+Requesting a smart contract deployment is done through the `factory` and `factoryData` field, where the `factory` field specifies the address the EntryPoint will call, and the `factoryData` corresponds to the data that will be called on that factory.
 
 Add the following to the bottom of `index.ts`:
 
@@ -69,12 +69,12 @@ Add the following to the bottom of `index.ts`:
 Let's run this code with `npm start`. You should see the generated initCode printed to the console.
 
 ```txt
-Generated initCode: 0x9406cc6185a346906296840746125a0e449764545fbfb9cf000000000000000000000000508a7005f997a21cd662d6fb41ad69f945c129c10000000000000000000000000000000000000000000000000000000000000000
+Generated factoryData: 0x9406cc6185a346906296840746125a0e449764545fbfb9cf000000000000000000000000508a7005f997a21cd662d6fb41ad69f945c129c10000000000000000000000000000000000000000000000000000000000000000
 ```
 
 ### Calculate the sender address
 
-Now that we have the `initCode`, we have to calculate the corresponding `sender` address, which is the address the `SimpleAccount` will be deployed to, and thereby the address which will handle the verification and execution steps of the UserOperation.
+Now that we have the `factory` and `factoryData`, we have to calculate the corresponding `sender` address, which is the address the `SimpleAccount` will be deployed to, and thereby the address which will handle the verification and execution steps of the UserOperation.
 
 We do this by calling the `getSenderAddress` utility function on the EntryPoint. Upon success, it will revert with a special error type that contains the counterfactual address of the smart contract wallet that will be deployed
 
@@ -132,14 +132,17 @@ Let's run this code with `npm start`. You should see something like this:
 
 ```txt
 Received paymaster sponsor result: {
-  paymasterAndData: '0xcF60744ef322396a6d0a5B7d396F5814176855F1000000000000000000000000000000000000000000000000000000006518a0c100000000000000000000000000000000000000000000000000000000000000003251910f0e14691ca19a8e2cca216ce77a1ce8d002e975e113cfbc36d8e489a550dbb24ff485ee61c1b91cf8e20261d307ef79f22cf9359fba3271f721dade4d1b',
+  paymaster: '0xcF60744ef322396a6d0a5B7d396F5814176855F1',
+  paymasterVerificationGasLimit: 526114n,
+  paymasterPostOpGasLimit: 75900n,
+  paymasterData: '000000000000000000000000000000000000000000000000000000006518a0c100000000000000000000000000000000000000000000000000000000000000003251910f0e14691ca19a8e2cca216ce77a1ce8d002e975e113cfbc36d8e489a550dbb24ff485ee61c1b91cf8e20261d307ef79f22cf9359fba3271f721dade4d1b',
   preVerificationGas: 247487n,
   verificationGasLimit: 526114n,
   callGasLimit: 75900n
 }
 ```
 
-Great! Now we have received the gas limit estimates and added the `paymasterAndData` field containing Pimlico's signature to our UserOperation.
+Great! Now we have received the gas limit estimates and added the paymaster-related fields containing Pimlico's signature to our UserOperation.
 
 ### Sign the UserOperation
 

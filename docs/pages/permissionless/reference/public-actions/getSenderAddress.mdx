@@ -11,8 +11,9 @@ import { publicClient } from "./client.ts"
 import { getSenderAddress } from "permissionless"
 
 const senderAddress = await getSenderAddress(publicClient, {
-    initCode: "0x582f6c274343bcf3bc7f957fde5d87e35d5b8582f6c2774343bcf3bc0e010d72fc2de2f630c7CF57E578a026c274343bcf",
-    entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
+    factory: "0x91E60e0613810449d098b0b5Ec8b51A0FE8c8985",
+    factoryData: "0x5fbfb9cf000000000000000000000000cafb211a4ea1290370d43732fed4da817a2e11ed0000000000000000000000000000000000000000000000000000000000000000"
+    entryPoint: ENTRYPOINT_ADDRESS_V07
 })
 // "0x0C123D90Da0a640fFE54a2359D159629065775C5"
 ```

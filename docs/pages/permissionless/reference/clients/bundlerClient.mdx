@@ -17,12 +17,12 @@ Initialize a Bundler Client with your desired Chain (e.g. mainnet) and Transport
 ```ts
 import { createClient, http } from 'viem'
 import { sepolia } from 'viem/chains'
-import { bundlerActions } from 'permissionless'
+import { bundlerActions, ENTRYPOINT_ADDRESS_V07 } from 'permissionless'
 
 const bundlerClient = createClient({ 
   chain: sepolia,
   transport: http("https://api.pimlico.io/v1/sepolia/rpc?apikey=YOUR_API_KEY_HERE")
-}).extend(bundlerActions)
+}).extend(bundlerActions(ENTRYPOINT_ADDRESS_V07))
 ```
 
 Then you can consume Bundler Actions:
@@ -36,10 +36,11 @@ Alternatively, you can initialize a Bundler Client with the `createBundlerClient
 ```ts
 import { http } from 'viem'
 import { sepolia } from 'viem/chains'
-import { createBundlerClient } from 'permissionless'
+import { createBundlerClient, ENTRYPOINT_ADDRESS_V07 } from 'permissionless'
 
 const bundlerClient = createBundlerClient({
   chain: sepolia,
-  transport: http("https://api.pimlico.io/v1/sepolia/rpc?apikey=YOUR_API_KEY_HERE")
+  transport: http("https://api.pimlico.io/v1/sepolia/rpc?apikey=YOUR_API_KEY_HERE"),
+  entryPoint: ENTRYPOINT_ADDRESS_V07
 })
 ```

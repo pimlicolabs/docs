@@ -2,6 +2,10 @@
 
 ## 0.1.0
 
+:::warning
+This migration guide is assuming you migrating to ^0.1.0, but you are still looking to use EntryPoint version v0.6.
+:::
+
 ### Replaced transport with bundlerTransport inside `createSmartAccountClient`
 
 ```ts
@@ -108,4 +112,13 @@ const bundlerClient = createClient({
 })
 .extend(bundlerActions) // [!code --]
 .extend(bundlerActions(ENTRYPOINT_ADDRESS_V06)) // [!code ++]
+```
+
+### `entryPoint` is no longer passed in to bundler, paymaster, and smart account actions
+
+```ts
+const userOperationHash = await bundlerClient.sendUserOperation({
+	userOperation: sponsoredUserOperation,
+	entryPoint: ENTRYPOINT_ADDRESS_V07, // [!code --]
+})
 ```

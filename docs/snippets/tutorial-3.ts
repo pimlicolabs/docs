@@ -1,5 +1,6 @@
 import "dotenv/config"
 import {
+	ENTRYPOINT_ADDRESS_V06,
 	UserOperation,
 	bundlerActions,
 	getAccountNonce,
@@ -44,14 +45,14 @@ const bundlerClient = createClient({
 	transport: http(`https://api.pimlico.io/v1/${chain}/rpc?apikey=${apiKey}`),
 	chain: polygonMumbai,
 })
-	.extend(bundlerActions)
-	.extend(pimlicoBundlerActions)
+	.extend(bundlerActions(ENTRYPOINT_ADDRESS_V06))
+	.extend(pimlicoBundlerActions(ENTRYPOINT_ADDRESS_V06))
 
 const paymasterClient = createClient({
 	// ⚠️ using v2 of the API ⚠️
 	transport: http(`https://api.pimlico.io/v2/${chain}/rpc?apikey=${apiKey}`),
 	chain: polygonMumbai,
-}).extend(pimlicoPaymasterActions)
+}).extend(pimlicoPaymasterActions(ENTRYPOINT_ADDRESS_V06))
 
 const publicClient = createPublicClient({
 	transport: http("https://mumbai.rpc.thirdweb.com"),
@@ -130,10 +131,9 @@ const genereteApproveCallData = (erc20TokenAddress: Address, paymasterAddress: A
 	return callData
 }
 
-const submitUserOperation = async (userOperation: UserOperation) => {
+const submitUserOperation = async (userOperation: UserOperation<"v0.6">) => {
 	const userOperationHash = await bundlerClient.sendUserOperation({
 		userOperation,
-		entryPoint: ENTRY_POINT_ADDRESS,
 	})
 	console.log(`UserOperation submitted. Hash: ${userOperationHash}`)
 
@@ -176,7 +176,7 @@ const approveCallData = genereteApproveCallData(usdcTokenAddress, erc20Paymaster
 // FILL OUT THE REMAINING USEROPERATION VALUES
 const gasPriceResult = await bundlerClient.getUserOperationGasPrice()
 
-const userOperation: Partial<UserOperation> = {
+const userOperation: Partial<UserOperation<"v0.6">> = {
 	sender: senderAddress,
 	nonce: 0n,
 	initCode,
@@ -196,8 +196,7 @@ const nonce = await getAccountNonce(publicClient, {
 if (nonce === 0n) {
 	// SPONSOR THE USEROPERATION USING THE VERIFYING PAYMASTER
 	const result = await paymasterClient.sponsorUserOperation({
-		userOperation: userOperation as UserOperation,
-		entryPoint: ENTRY_POINT_ADDRESS,
+		userOperation: userOperation as UserOperation<"v0.6">,
 	})
 
 	userOperation.preVerificationGas = result.preVerificationGas
@@ -208,13 +207,13 @@ if (nonce === 0n) {
 	// SIGN THE USEROPERATION
 	const signature = await signUserOperationHashWithECDSA({
 		account: signer,
-		userOperation: userOperation as UserOperation,
+		userOperation: userOperation as UserOperation<"v0.6">,
 		chainId: polygonMumbai.id,
 		entryPoint: ENTRY_POINT_ADDRESS,
 	})
 
 	userOperation.signature = signature
-	await submitUserOperation(userOperation as UserOperation)
+	await submitUserOperation(userOperation as UserOperation<"v0.6">)
 } else {
 	console.log("Deployment UserOperation previously submitted, skipping...")
 }
@@ -254,7 +253,7 @@ const newNonce = await getAccountNonce(publicClient, {
 	sender: senderAddress,
 })
 
-const sponsoredUserOperation: UserOperation = {
+const sponsoredUserOperation: UserOperation<"v0.6"> = {
 	sender: senderAddress,
 	nonce: newNonce,
 	initCode: "0x",

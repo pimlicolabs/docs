@@ -1,5 +1,6 @@
 const smartAccountSigner = privateKeyToAccount(generatePrivateKey())
 
+import { ENTRYPOINT_ADDRESS_V06 } from "permissionless"
 // [!region main]
 import { signerToSafeSmartAccount } from "permissionless/accounts"
 import { createPublicClient, http } from "viem"
@@ -14,6 +15,6 @@ export const publicClient = createPublicClient({
 const smartAccount = await signerToSafeSmartAccount(publicClient, {
 	signer: smartAccountSigner,
 	safeVersion: "1.4.1",
-	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+	entryPoint: ENTRYPOINT_ADDRESS_V06,
 })
 // [!endregion main]

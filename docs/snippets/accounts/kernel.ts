@@ -1,5 +1,5 @@
 // [!region imports]
-import { createSmartAccountClient } from "permissionless"
+import { ENTRYPOINT_ADDRESS_V06, createSmartAccountClient } from "permissionless"
 import { signerToEcdsaKernelSmartAccount } from "permissionless/accounts"
 import {
 	createPimlicoBundlerClient,
@@ -16,6 +16,7 @@ export const publicClient = createPublicClient({
 
 export const paymasterClient = createPimlicoPaymasterClient({
 	transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
+	entryPoint: ENTRYPOINT_ADDRESS_V06,
 })
 // [!endregion clients]
 
@@ -37,15 +38,19 @@ const kernelAccount = await signerToEcdsaKernelSmartAccount(publicClient, {
 // [!region smartAccountClient]
 const smartAccountClient = createSmartAccountClient({
 	account: kernelAccount,
+	entryPoint: ENTRYPOINT_ADDRESS_V06,
 	chain: sepolia,
-	transport: http("https://api.pimlico.io/v1/sepolia/rpc?apikey=API_KEY"),
-	sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
+	bundlerTransport: http("https://api.pimlico.io/v1/sepolia/rpc?apikey=API_KEY"),
+	middleware: {
+		sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
+	},
 })
 // [!endregion smartAccountClient]
 
 // [!region gasPrices]
 export const bundlerClient = createPimlicoBundlerClient({
 	transport: http("https://api.pimlico.io/v1/sepolia/rpc?apikey=API_KEY"),
+	entryPoint: ENTRYPOINT_ADDRESS_V06,
 })
 
 const gasPrices = await bundlerClient.getUserOperationGasPrice()

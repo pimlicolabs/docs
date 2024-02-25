@@ -20,17 +20,17 @@ import { pimlicoPaymasterActions } from 'permissionless/actions/pimlico'
 
 Initialize a Bundler Client with your desired Chain (e.g. mainnet) and Transport (e.g. http) from viem by creating a simple client and extending it with the Pimlico paymaster methods.
 
-```ts
+```ts twoslash
 import { createClient, http } from 'viem'
 import { sepolia } from 'viem/chains'
-import { bundlerActions } from 'permissionless'
+import { bundlerActions, ENTRYPOINT_ADDRESS_V07 } from 'permissionless'
 import { pimlicoPaymasterActions } from 'permissionless/actions/pimlico'
 
 const bundlerClient = createClient({ 
   chain: sepolia,
-  transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_API_KEY_HERE")
+  transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_API_KEY_HERE"),
 })
-.extend(pimlicoPaymasterActions)
+.extend(pimlicoPaymasterActions(ENTRYPOINT_ADDRESS_V07))
 ```
 
 Then you can consume Pimlico Paymaster Actions:
@@ -40,13 +40,11 @@ const sponsorResult = await bundlerClient.sponsorUserOperation({
     userOperation: {
         sender: "0x0C123D90Da0a640fFE54a2359D159629065775C5",
         nonce: 3n,
-        initCode: "0x",
         callData: "0x18dfb3c7000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000002000000000000000000000000d2f598c826429eee7c071c02735549acd88f2c09000000000000000000000000d2f598c826429eee7c071c02735549acd88f2c090000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000044a9059cbb00000000000000000000000043a4eacb7839f202d9cab465dbdd77d4fabe0a1800000000000000000000000000000000000000000000000003782dace9d90000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000044a9059cbb000000000000000000000000982e148216e3aa6b38f9d901ef578b5c06dd750200000000000000000000000000000000000000000000000005d423c655aa000000000000000000000000000000000000000000000000000000000000",
-        maxFeePerGas: 113000000n,
-        maxPriorityFeePerGas: 113000100n,
+        maxFeePerGas: 113001000n,
+        maxPriorityFeePerGas: 113000000n,
         signature: "0xf1513a8537a079a4d728bb87099b2c901e2c9034e60c95a4d41ac1ed75d6ee90270d52b48af30aa036e9a205ea008e1c62b317e7b3f88b3f302d45fb1ba76a191b"
-    },
-    entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
+    }
 })
 ```
 
@@ -55,10 +53,12 @@ Alternatively, you can initialize a Paymaster Client with the `createPimlicoPaym
 ```ts
 import { http } from 'viem'
 import { sepolia } from 'viem/chains'
+import { ENTRYPOINT_ADDRESS_V07 } from 'permissionless'
 import { createPimlicoPaymasterClient } from "permissionless/clients/pimlico";
 
 const pimlicoPaymasterClient = createPimlicoPaymasterClient({
   chain: sepolia,
-  transport: http("https://api.pimlico.io/v1/sepolia/rpc?apikey=YOUR_API_KEY_HERE")
+  transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_API_KEY_HERE"),
+  entryPoint: ENTRYPOINT_ADDRESS_V07
 })
 ```
