@@ -151,5 +151,5 @@ const receipt = await bundlerClient.waitForUserOperationReceipt({
 })
 const txHash = receipt.receipt.transactionHash
 
-console.log(`UserOperation included: https://goerli.lineascan.build/tx/${txHash}`)
+console.log(`UserOperation included: https://sepolia.etherscan.io/tx/${txHash}`)
 // [!endregion submit]
