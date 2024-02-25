@@ -9,7 +9,7 @@ import {
 import { pimlicoBundlerActions, pimlicoPaymasterActions } from "permissionless/actions/pimlico"
 import { Address, Hex, createClient, createPublicClient, encodeFunctionData, http } from "viem"
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts"
-import { lineaTestnet, sepolia } from "viem/chains"
+import { sepolia } from "viem/chains"
 
 // [!region clients]
 export const publicClient = createPublicClient({
@@ -129,7 +129,7 @@ console.log("Received paymaster sponsor result:", sponsorUserOperationResult)
 const signature = await signUserOperationHashWithECDSA({
 	account: owner,
 	userOperation: sponsoredUserOperation,
-	chainId: lineaTestnet.id,
+	chainId: sepolia.id,
 	entryPoint: ENTRYPOINT_ADDRESS_V07,
 })
 sponsoredUserOperation.signature = signature
