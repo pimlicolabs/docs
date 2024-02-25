@@ -1,0 +1,99 @@
+# Migration Guide
+
+## 0.1.0
+
+
+### Replaced transport with bundlerTransport inside `createSmartAccountClient`
+
+```ts
+const smartAccountClient = createSmartAccountClient({
+	transport: http(bundlerUrl), // [!code --]
+    bundlerTransport: http(bundlerUrl), // [!code ++]
+    // ...
+})
+```
+
+### Replaced sponsorUserOperation middleware API
+
+Instead of accepting just a `sponsorUserOperation` middleware, `createSmartAccountClient` now accepts a `middleware` function that can specify a `sponsorUserOperation` function internally, as well as a `gasPrice` function.
+
+```ts
+const smartAccountClient = createSmartAccountClient({
+    sponsorUserOperation: paymasterClient.sponsorUserOperation, // [!code --]
+	middleware: { // [!code ++]
+		gasPrice: async () => { // [!code ++]
+			return (await bundlerClient.getUserOperationGasPrice()).fast // [!code ++]
+		}, // [!code ++]
+		sponsorUserOperation: paymasterClient.sponsorUserOperation, // [!code ++]
+	}, // [!code ++]
+    // ...
+})
+```
+
+### `sponsorUserOperation` in `pimlicoPaymasterActions` and `stackupPaymasterActions` now returns just the `paymasterAndData` and estimated gas limits instead of the whole user operation
+
+```ts
+const sponsorResult = await paymasterClient.sponsorUserOperation({ 
+	userOperation: userOperation, 
+	entryPoint: ENTRYPOINT_ADDRESS_V06 
+})
+
+/**
+ * {
+    "paymasterAndData": "0xe3dc822D77f8cA7ac74c30B0dfFEA9FcDCAAA321000000000000000000000000000000000000000000000000000000006514ac7d000000000000000000000000000000000000000000000000000000000000000071eee8c38559ef6872351c16a312cefbc545344a3f7cc1b910d059a0d5c613012763e6b1ce31080a975ddcba12817305a62a322e3ec8f106bd2181b0fd1391cf1c",
+    "preVerificationGas": 61230n,
+    "verificationGasLimit": 93823n,
+    "callGasLimit": 134849n
+   }
+ */
+```
+
+### Modified `providerToSmartAccount` API to use keyword arguments
+
+```ts
+import { providerToSmartAccountSigner } from "permissionless"
+
+const provider = // ...
+const signerAddress = // ...
+
+const smartAccountSigner = await providerToSmartAccountSigner(provider, signerAddress) // [!code --]
+const smartAccountSigner = await providerToSmartAccountSigner(provider, { signerAddress: signerAddress }) // [!code ++]
+```
+
+### All clients must now take in an `entryPoint` address
+
+```ts
+const bundlerClient = createBundlerClient({
+	transport: http(bundlerUrl),
+	entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code ++]
+})
+
+const smartAccountClient = createSmartAccountClient({
+	account,
+	entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code ++]
+	chain: sepolia,
+	bundlerTransport: http(bundlerUrl),
+})
+
+const bundlerClient = createPimlicoBundlerClient({
+	transport: http(bundlerUrl),
+	entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code ++]
+})
+
+export const paymasterClient = createPimlicoPaymasterClient({
+	transport: http(paymasterUrl),
+	entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code ++]
+})
+
+export const paymasterClient = createStackupPaymasterClient({
+	transport: http(paymasterUrl),
+	entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code ++]
+})
+
+const bundlerClient = createClient({
+	transport: http(bundlerUrl),
+	chain: sepolia,
+})
+.extend(bundlerActions) // [!code --]
+.extend(bundlerActions(ENTRYPOINT_ADDRESS_V06)) // [!code ++]
+```

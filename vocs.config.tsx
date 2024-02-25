@@ -172,6 +172,10 @@ export const permissionlessSidebar = [
         link: "/permissionless/how-to/error-handling"
       },
       {
+        text: "Migration Guide",
+        link: "/permissionless/how-to/migration-guide"
+      },
+      {
         text: "Accounts",
         items: [
           { text: "How to use a Safe account", link: "/permissionless/how-to/accounts/use-safe-account" },
