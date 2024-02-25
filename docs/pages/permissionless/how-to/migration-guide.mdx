@@ -29,6 +29,19 @@ const smartAccountClient = createSmartAccountClient({
 })
 ```
 
+In addition, a function can also be passed to `middleware` directly.
+
+```ts
+const smartAccountClient = createSmartAccountClient({
+	middleware: async ({ userOperation, entryPoint }) => {
+		// ...
+		return modifiedUserOperation
+	}
+    // ...
+})
+```
+
+
 ### `sponsorUserOperation` in `pimlicoPaymasterActions` and `stackupPaymasterActions` now returns just the `paymasterAndData` and estimated gas limits instead of the whole user operation
 
 ```ts
@@ -47,7 +60,7 @@ const sponsorResult = await paymasterClient.sponsorUserOperation({
  */
 ```
 
-### Modified `providerToSmartAccount` API to use keyword arguments
+### Modified `providerToSmartAccountSigner` API to use keyword arguments
 
 ```ts
 import { providerToSmartAccountSigner } from "permissionless"
