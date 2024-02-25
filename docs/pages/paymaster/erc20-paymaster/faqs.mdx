@@ -90,6 +90,6 @@ However, it is possible to bypass this extra step for smart contract wallets if 
 
 ## Does Pimlico take a fee?
 
-Yes, Pimlico takes a fee in the form of a `priceMarkup` on the ERC20 token price. This markup serves to compensate us for maintaining the infrastructure and covering risks associated with price fluctuations and slippage risk. The default `priceMarkup` we take is 10%, but that can depend on on the token, so double-check before using the paymaster.
+Yes, Pimlico takes a fee in the form of a `priceMarkup` on the ERC20 token price. This markup serves to compensate us for maintaining the infrastructure and covering risks associated with price fluctuations and slippage risk. The default `priceMarkup` we take is 10%, but that can depend on the token, so double-check before using the paymaster.
 
 The `priceMarkup` can be changed by the owner of the paymaster, however there is a hardcoded maximum of 20% that is enforced by the smart contract. This means we can never set the `priceMarkup` to more than 20%.
