@@ -36,7 +36,7 @@ Now, create an account. This can any of the accounts supported by permissionless
 ```ts
 const simpleAccount = await privateKeyToSimpleSmartAccount(publicClient, {
 	privateKey: "0xPRIVATE_KEY",
-	safeVersion: "1.4.1",
+	factoryAddress: "0x91E60e0613810449d098b0b5Ec8b51A0FE8c8985",
 	entryPoint: ENTRYPOINT_ADDRESS_V07
 });
 ```
@@ -84,7 +84,6 @@ const smartAccountClient = createSmartAccountClient({
 
 			const gasEstimates = await bundlerClient.estimateUserOperationGas({
 				userOperation: { ...args.userOperation, paymasterAndData: paymaster },
-				entryPoint: args.entryPoint,
 			})
 
 			return {

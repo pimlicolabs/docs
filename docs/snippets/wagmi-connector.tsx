@@ -19,57 +19,58 @@ import { injected } from "wagmi/connectors"
 
 // [!region config]
 const connectSmartAccount = async () => {
-    const config = useConfig()
+	const config = useConfig()
 
-    const publicClient = getPublicClient(config);
-    const walletClient = await getWalletClient(config); // to get metamask or you can do privatekey here
-  
-    // or any other paymaster client 
-    const paymasterClient = createPimlicoPaymasterClient({
-      transport: http(paymasterUrl),
-    });
-  
-    const connector = await simpleSmartAccount({
-      publicClient,
-      bundlerTransport: http(bundlerUrl),
-      signer: walletClientToSmartAccountSigner(walletClient),
-      factoryAddress,
-      entryPoint,
-      sponsorUserOperation: paymasterClient.sponsorUserOperation,
-    });
-    connect(config, { connector });
-};
+	const publicClient = getPublicClient(config)
+	const walletClient = await getWalletClient(config) // to get metamask or you can do privatekey here
+
+	// or any other paymaster client
+	const paymasterClient = createPimlicoPaymasterClient({
+		entryPoint,
+		transport: http(paymasterUrl),
+	})
+
+	const connector = await simpleSmartAccount({
+		publicClient,
+		bundlerTransport: http(bundlerUrl),
+		signer: walletClientToSmartAccountSigner(walletClient),
+		factoryAddress,
+		entryPoint,
+		sponsorUserOperation: paymasterClient.sponsorUserOperation,
+	})
+	connect(config, { connector })
+}
 // [!endregion config]
 
 // [!region button]
 const ConnectButton = () => {
-    return (
-        <button onClick={connectSmartAccount} type="button">
-            Connect
-        </button>
-    )
+	return (
+		<button onClick={connectSmartAccount} type="button">
+			Connect
+		</button>
+	)
 }
 // [!endregion button]
 
 // [!region app]
 const wagmiConfig = createConfig({
-    chains: [sepolia],
-    connectors: [injected()],
-    transports: {
-        [sepolia.id]: http(rpcUrl)
-    }
+	chains: [sepolia],
+	connectors: [injected()],
+	transports: {
+		[sepolia.id]: http(rpcUrl),
+	},
 })
 
-const queryClient = new QueryClient() 
+const queryClient = new QueryClient()
 
 export function App() {
-    return (
-        <WagmiProvider config={wagmiConfig}>
-            <QueryClientProvider client={queryClient}> 
-                <ConnectButton />
-                {/** ... */}
-            </QueryClientProvider> 
-        </WagmiProvider>
-    )
+	return (
+		<WagmiProvider config={wagmiConfig}>
+			<QueryClientProvider client={queryClient}>
+				<ConnectButton />
+				{/** ... */}
+			</QueryClientProvider>
+		</WagmiProvider>
+	)
 }
 // [!endregion app]

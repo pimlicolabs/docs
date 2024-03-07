@@ -64,8 +64,11 @@ const simpleSmartAccountClient = await signerToSimpleSmartAccount(publicClient, 
 const smartAccountClient = createSmartAccountClient({
     account: simpleSmartAccountClient,
     chain: sepolia, // or whatever chain you are using
-    transport: http("<bundler_endpoint>"),
-    sponsorUserOperation: pimlicoPaymaster.sponsorUserOperation // if using a paymaster
+    bundlerTransport: http("<bundler_endpoint>"),
+    entryPoint: ENTRYPOINT_ADDRESS_V06,
+    middleware: {
+		  sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional, if using a paymaster
+	  },
 })
 ```
 

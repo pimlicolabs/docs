@@ -17,7 +17,8 @@ import { mainnet } from 'viem/chains'
 
 export const bundlerClient = createBundlerClient({
   chain: mainnet,
-  transport: http()
+  transport: http(),
+  entryPoint: ENTRYPOINT_ADDRESS_V06,
 })
 // @filename: index.ts
 // ---cut---
@@ -31,7 +32,6 @@ import { bundlerClient } from './client'
 try {
 	const estimateResult = await bundlerClient.estimateUserOperationGas({
 		userOperation,
-		entryPoint: ENTRYPOINT_ADDRESS_V07,
 	})
 } catch (e) {
 	const estimationError = e as EstimateUserOperationGasErrorType<"v0.7">
@@ -59,7 +59,8 @@ import { mainnet } from 'viem/chains'
 
 export const bundlerClient = createBundlerClient({
   chain: mainnet,
-  transport: http()
+  transport: http(),
+  entryPoint: ENTRYPOINT_ADDRESS_V06,
 })
 ```
 

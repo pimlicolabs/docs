@@ -22,6 +22,7 @@ export const paymasterClient = createPimlicoPaymasterClient({
 
 // [!region signer]
 import { privateKeyToAccount } from "viem/accounts"
+import { pimlicoBundlerClient } from "../pimlicoBundlerClient"
 
 const signer = privateKeyToAccount("0xPRIVATE_KEY")
 // [!endregion signer]
@@ -30,7 +31,8 @@ const signer = privateKeyToAccount("0xPRIVATE_KEY")
 const safeAccount = await signerToSafeSmartAccount(publicClient, {
 	entryPoint: ENTRYPOINT_ADDRESS_V06,
 	signer: signer,
-	index: 0n, // optional
+	saltNonce: 0n, // optional
+	safeVersion: "1.4.1",
 	address: "0x...", // optional, only if you are using an already created account
 })
 // [!endregion smartAccount]
@@ -42,6 +44,7 @@ const smartAccountClient = createSmartAccountClient({
 	chain: sepolia,
 	bundlerTransport: http("https://api.pimlico.io/v1/sepolia/rpc?apikey=API_KEY"),
 	middleware: {
+		gasPrice: async () => (await pimlicoBundlerClient.getUserOperationGasPrice()).fast, // use pimlico bundler to get gas prices
 		sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
 	},
 })

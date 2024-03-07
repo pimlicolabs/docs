@@ -16,6 +16,7 @@ export const publicClient = createPublicClient({
 });
 
 export const paymasterClient = createPimlicoPaymasterClient({
+	entryPoint,
 	transport: http(
 		"https://api.pimlico.io/v2/CHAIN/rpc?apikey=API_KEY",
 	),
@@ -46,11 +47,14 @@ The smart account client is a permissionless.js client that is meant to serve as
 ```ts
 const smartAccountClient = createSmartAccountClient({
 	account: simpleAccount,
+	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
 	chain: sepolia,
-	transport: http(
+	bundlerTransport: http(
 		"https://api.pimlico.io/v1/CHAIN/rpc?apikey=API_KEY",
 	),
-	sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
+	middleware: {
+		sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
+	}
 });
 ```
 
@@ -59,13 +63,25 @@ const smartAccountClient = createSmartAccountClient({
 If you're using Pimlico as your bundler, fetch the required gas price to use beforehand and pass it in as the `maxFeePerGas` and `maxPriorityFeePerGas` parameters. Other providers might have different requirements for fetching the gas price.
 
 ```ts
-export const bundlerClient = createPimlicoBundlerClient({
+export const pimlicoBundlerClient = createPimlicoBundlerClient({
 	transport: http(
 		"https://api.pimlico.io/v1/CHAIN/rpc?apikey=API_KEY",
 	),
+	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
 });
 
-const gasPrices = await bundlerClient.getUserOperationGasPrice();
+const smartAccountClient = createSmartAccountClient({
+	account: simpleAccount,
+	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+	chain: sepolia,
+	bundlerTransport: http(
+		"https://api.pimlico.io/v1/CHAIN/rpc?apikey=API_KEY",
+	),
+	middleware: {
+		gasPrice: async () => (await pimlicoBundlerClient.getUserOperationGasPrice()).fast, // use pimlico bundler to get gas prices
+		sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
+	}
+});
 ```
 
 ### Send a transaction
@@ -76,8 +92,6 @@ Transactions using permissionless.js simply wrap around user operations. This me
 const txHash = await smartAccountClient.sendTransaction({
 	to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
 	value: parseEther("0.1"),
-	maxFeePerGas: gasPrices.fast.maxFeePerGas, // if using Pimlico
-	maxPriorityFeePerGas: gasPrices.fast.maxPriorityFeePerGas, // if using Pimlico
 });
 ```
 
@@ -89,8 +103,6 @@ const nftContract = getContract({
 	abi: nftAbi,
 	publicClient,
 	walletClient: smartAccountClient,
-	maxFeePerGas: gasPrices.fast.maxFeePerGas, // if using Pimlico
-	maxPriorityFeePerGas: gasPrices.fast.maxPriorityFeePerGas, // if using Pimlico
 });
 
 const txHash = await nftContract.write.mint()
