@@ -40,7 +40,8 @@ import { http } from "viem"
 // Create the required clients.
 const bundlerClient = createBundlerClient({
     chain: sepolia,
-    transport: http(bundlerUrl) // Use any bundler url
+    transport: http(bundlerUrl), // Use any bundler url
+    entryPoint: ENTRYPOINT_ADDRESS_V06,
 })
 
 // Consume bundler, paymaster, and smart account actions!
