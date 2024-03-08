@@ -9,6 +9,18 @@ Return a User Operation based on a User Operation hash.
 ```ts [example.ts]
 import { pimlicoBundlerClient } from "./client"
 
+const smartAccountClient = createSmartAccountClient({
+    account: safeAccount,
+    entryPoint: ENTRYPOINT_ADDRESS_V06,
+    chain: sepolia,
+    bundlerTransport: http("https://api.pimlico.io/v1/sepolia/rpc?apikey=API_KEY"),
+    middleware: {
+      gasPrice: async () => (await pimlicoBundlerClient.getUserOperationGasPrice()).fast, // use pimlico bundler to get gas prices, if using pimlico
+      sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
+    },
+})
+
+/* other gas alternatives */
 const gasPriceResult = await pimlicoBundlerClient.getUserOperationGasPrice()
 /**
  * {
