@@ -84,8 +84,8 @@ dependencies:
     specifier: ^2.1.1
     version: 2.7.8(typescript@5.3.3)
   vocs:
-    specifier: '=1.0.0-alpha.36'
-    version: 1.0.0-alpha.36(@types/node@20.11.2)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)(rollup@4.9.5)(typescript@5.3.3)
+    specifier: '=1.0.0-alpha.44'
+    version: 1.0.0-alpha.44(@types/node@20.11.2)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)(rollup@4.9.5)(typescript@5.3.3)
   wagmi:
     specifier: ^2.5.5
     version: 2.5.5(@tanstack/react-query@5.18.0)(@types/react@18.2.47)(react-dom@18.2.0)(react-native@0.73.3)(react@18.2.0)(rollup@4.9.5)(typescript@5.3.3)(viem@2.7.8)
@@ -17008,8 +17008,8 @@ packages:
     resolution: {integrity: sha512-gQpnTgkubC6hQgdIcRdYGDSDc+SaujOdyesZQMv6JlfQee/9Mp0Qhnys6WxDWvQnL5WZdT7o2Ul187aSt0Rq+w==}
     dev: false
 
-  /vocs@1.0.0-alpha.36(@types/node@20.11.2)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)(rollup@4.9.5)(typescript@5.3.3):
-    resolution: {integrity: sha512-S299b+HD7isXWEef7AIeg7/WhxBDKGZEniUqKyFzquoetBnNTMtYBA0SOANzhqrsxH1peGKLJO+gLC4l2tVpDg==}
+  /vocs@1.0.0-alpha.44(@types/node@20.11.2)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)(rollup@4.9.5)(typescript@5.3.3):
+    resolution: {integrity: sha512-/HZEBDQympZYhdV7iZ/6KUZCNpmNrmmgjGJrJiIFsjqoQ33N6PiK7+DGNjaR9iVpk4at//BgieSdfCKBJYOOQA==}
     hasBin: true
     peerDependencies:
       react: ^18.2.0
