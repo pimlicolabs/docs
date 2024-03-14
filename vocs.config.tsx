@@ -349,6 +349,10 @@ export default defineConfig({
     {
       icon: 'x',
       link: 'https://twitter.com/pimlicoHQ',
+    },
+    {
+      icon: "warpcast",
+      link: "https://warpcast.com/~/channel/pimlico"
     }
   ],
   topNav: [
