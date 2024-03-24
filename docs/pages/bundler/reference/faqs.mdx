@@ -1,6 +1,6 @@
 # Bundler FAQs
 
-#### I successfully submitted a user operation to the bundler, but it never got included in a block. What happened?
+## I successfully submitted a user operation to the bundler, but it never got included in a block. What happened?
 There can be many reasons for this. The most common are:
 - The user operation succeeds as it is being validated, but fails during the second round of simulations when it is being bundled by the bundler into a transaction to be submitted on-chain and is therefore dropped.
 - The bundle transaction bundling the user operation fails on-chain so no logs are emitted.
@@ -8,8 +8,61 @@ There can be many reasons for this. The most common are:
 
 It is recommended to use the [`pimlico_getUserOperationStatus`](/bundler/reference/endpoints/pimlico_getUserOperationStatus) endpoint to check the status of your user operation.
 
-#### What is the difference between v1 and v2 endpoints?
+## What is the difference between v1 and v2 endpoints?
 V1 is for bundlers, while v2 is for paymasters. V2 for bundlers will be released soon with a notice period for migration.
 
-#### What are fees to deploy to app-chains?
+## What are fees to deploy to app-chains?
 Fees vary by network. Please reach out to [us](https://t.me/kristofgazso) for more information.
+
+## Are Pimlico bundlers block builders?
+
+Not by default, however we aim to get direct RPC access to sequencers whenever possible.
+
+## Are there any API-related payments?
+
+No, there are not. The only payments relate to the onchain payments through the user operation gas price for the bundler fees, and the offchain balance deduction for the paymaster fees.
+
+## How is payment made for the bundler?
+
+The bundler fees are paid for completely onchain, by setting a gas price for the user operation that is slightly higher than the gas price we use to bundle said user operation in our transaction.
+
+## How does the onchain bundler payment take place?
+
+When constructing your user operation, you'd use the [pimlico_getUserOperationGasPrice](/bundler/reference/endpoints/pimlico_getUserOperationGasPrice) method to select the gas prices for your user operation. When submitting to the bundler, the bundler would bundle the user operation into a transaction with a slightly lower gas price. The bundler makes as profit the small difference between the two gas prices.
+
+## How is pimlico_getUserOperationGasPrice different from eth_estimateUserOperationGas?
+
+[eth_estimateUserOperationGas](/bundler/reference/endpoints/eth_estimateUserOperationGas) estimates the gas limits for the user operation (i.e. how much total gas can be spent for the difference stages of the user operation). In contrast, [pimlico_getUserOperationGasPrice](/bundler/reference/endpoints/pimlico_getUserOperationGasPrice) responds with the gas prices (i.e. for each unit of gas, what is the amount of ETH you're willing to pay to the bundler).
+
+## Is there be a way of tracking gas fee payments?
+
+Our dashboards provide a way for you to view data about how much you spent on sponsorship for user operations on different chains, however there is currently no specific information on the gas price overhead paid to the bundler. However, all this information is available and can be compiled onchain through block explorers like Etherscan.
+
+If you would like more information about gas fee payments on the Pimlico dashboard, [reach out to us!](https://t.me/pimlicoHQ)
+
+## How do gas fees for the bundler and paymaster stack?
+
+If you use both the bundler and the paymaster together, the fee payments would stack.
+
+For instance, if you ended up paying a 5% overhead for the bundler and a 10% overhead for the verifying paymaster on a user operation that costs us $0.01 to include, you would end up paying a total of $0.01 * (1.05) * (1.1) = $0.01155 => a 15.5% overhead. 
+
+Important to note however that the bundler and paymaster are completely independent and you can use one without the other.
+
+## What is the use case for smart accounts
+
+Smart accounts enable user experience improvements that were not previously possible with EOA accounts.
+
+Examples include:
+- Gasless transactions
+- Use of USDC and other ERC-20 tokens for gas fee payments
+- Trustless Passkey and FaceID signatures and login
+- Account recovery
+- Signer rotation
+- Multisig and social recovery schemes
+- Automated transactions (e.g. for limit orders, deadman switch, auto token revocations, automated DCA investing)
+- Transactions with session keys with limited account access
+- Batched transactions (e.g. being able to approve and swap in the same transaction)
+
+## When using a bundler without a verifying paymaster, who ends up paying the added fees?
+
+When using the bundler without you sponsoring the gas fees for your users, the users themselves will be the ones covering the gas fees as well as the small bundler overhead for the user operations.
