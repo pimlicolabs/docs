@@ -178,6 +178,10 @@ export const permissionlessSidebar = [
       {
         text: "Accounts",
         items: [
+          {
+            text: "EntryPoint support",
+            link: "/permissionless/how-to/accounts/support"
+          },
           { text: "How to use a Safe account", link: "/permissionless/how-to/accounts/use-safe-account" },
           { text: "How to use a Kernel account", link: "/permissionless/how-to/accounts/use-kernel-account" },
           { text: "How to use a SimpleAccount", link: "/permissionless/how-to/accounts/use-simple-account" },
