@@ -1,5 +1,5 @@
 // [!region imports]
-import { ENTRYPOINT_ADDRESS_V06, createSmartAccountClient } from "permissionless"
+import { ENTRYPOINT_ADDRESS_V07, createSmartAccountClient } from "permissionless"
 import { signerToSafeSmartAccount } from "permissionless/accounts"
 import {
 	createPimlicoBundlerClient,
@@ -16,20 +16,24 @@ export const publicClient = createPublicClient({
 
 export const paymasterClient = createPimlicoPaymasterClient({
 	transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
-	entryPoint: ENTRYPOINT_ADDRESS_V06,
+	entryPoint: ENTRYPOINT_ADDRESS_V07,
+})
+
+export const pimlicoBundlerClient = createPimlicoBundlerClient({
+	transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
+	entryPoint: ENTRYPOINT_ADDRESS_V07,
 })
 // [!endregion clients]
 
 // [!region signer]
 import { privateKeyToAccount } from "viem/accounts"
-import { pimlicoBundlerClient } from "../pimlicoBundlerClient"
 
 const signer = privateKeyToAccount("0xPRIVATE_KEY")
 // [!endregion signer]
 
 // [!region smartAccount]
 const safeAccount = await signerToSafeSmartAccount(publicClient, {
-	entryPoint: ENTRYPOINT_ADDRESS_V06,
+	entryPoint: ENTRYPOINT_ADDRESS_V07,
 	signer: signer,
 	saltNonce: 0n, // optional
 	safeVersion: "1.4.1",
@@ -40,9 +44,9 @@ const safeAccount = await signerToSafeSmartAccount(publicClient, {
 // [!region smartAccountClient]
 const smartAccountClient = createSmartAccountClient({
 	account: safeAccount,
-	entryPoint: ENTRYPOINT_ADDRESS_V06,
+	entryPoint: ENTRYPOINT_ADDRESS_V07,
 	chain: sepolia,
-	bundlerTransport: http("https://api.pimlico.io/v1/sepolia/rpc?apikey=API_KEY"),
+	bundlerTransport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
 	middleware: {
 		gasPrice: async () => (await pimlicoBundlerClient.getUserOperationGasPrice()).fast, // use pimlico bundler to get gas prices
 		sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
@@ -50,21 +54,10 @@ const smartAccountClient = createSmartAccountClient({
 })
 // [!endregion smartAccountClient]
 
-// [!region gasPrices]
-export const bundlerClient = createPimlicoBundlerClient({
-	transport: http("https://api.pimlico.io/v1/sepolia/rpc?apikey=API_KEY"),
-	entryPoint: ENTRYPOINT_ADDRESS_V06,
-})
-
-const gasPrices = await bundlerClient.getUserOperationGasPrice()
-// [!endregion gasPrices]
-
 // [!region submit]
 const txHash_$1 = await smartAccountClient.sendTransaction({
 	to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
 	value: parseEther("0.1"),
-	maxFeePerGas: gasPrices.fast.maxFeePerGas, // if using Pimlico
-	maxPriorityFeePerGas: gasPrices.fast.maxPriorityFeePerGas, // if using Pimlico
 })
 // [!endregion submit]
 
@@ -105,7 +98,5 @@ const txHash_$3 = await smartAccountClient.sendTransactions({
 			data: "0x1234",
 		},
 	],
-	maxFeePerGas: gasPrices.fast.maxFeePerGas, // if using Pimlico
-	maxPriorityFeePerGas: gasPrices.fast.maxPriorityFeePerGas, // if using Pimlico
 })
 // [!endregion submitBatch]
