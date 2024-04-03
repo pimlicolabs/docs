@@ -73,15 +73,13 @@ Smart account address: https://sepolia.etherscan.io/address/0x374b42bCFAcf85FDCa
 If you visit the address on Etherscan, you might notice that no contract is actually deployed to this address yet. This is because smart account are counterfactual, meaning that they are only deployed on-chain the first time you send a transaction through the account.
 :::
 
-### Create the bundler and smart account clients and fetch the gas price
+### Create the bundler and smart account clients
 
 Now that we have a `SmartAccount` instance, we need to create a `SmartAccountClient` instance to make transact from it. `SmartAccountClient` is an almost drop-in replacement for a viem [`WalletClient`](https://viem.sh/docs/clients/wallet), but it also includes some additional functionality for interacting with smart accounts. 
 
-We also extend the `SmartAccountClient` with bundler actions and Pimlico-specific bundler actions so we can fetch the appropriate gas price.
+We then specify the optional `sponsorUserOperation` middleware function, calling the `sponsorUserOperation` function from the paymaster client. This will make sure that the user operation is sponsored by Pimlico's verifying paymaster.
 
-We also specify the optional `sponsorUserOperation` middleware function, calling the `sponsorUserOperation` function from the paymaster client. This will make sure that the user operation is sponsored by Pimlico's verifying paymaster.
-
-Finally, we will fetch the gas price from the bundler that we will use to submit the user operation in the next step.
+Finally, we specify the `gasPrice` middleware function to fetch the gas price from the bundler that we will use to submit the user operation in the next step.
 
 Add the following to the bottom of `index.ts`:
 
@@ -89,21 +87,11 @@ Add the following to the bottom of `index.ts`:
 // [!include ~/snippets/tutorial-1.ts:smartAccountClient]
 ```
 
-Let's run this code with `npm start`. You should see the gas prices printed to the console.
-
-```txt
-Received gas prices: {
-  slow: { maxFeePerGas: 26237682174n, maxPriorityFeePerGas: 26237682174n },
-  standard: { maxFeePerGas: 27487095611n, maxPriorityFeePerGas: 27487095611n },
-  fast: { maxFeePerGas: 28736509048n, maxPriorityFeePerGas: 28736509048n }
-}
-```
-
 ### Submit a transaction from the smart account
 
 Finally, let's submit a transaction from the smart account. We will send a transaction to the `0xd8da6bf26964af9d7eed9e03e53415d37aa96045` (vitalik.eth) address with `0x1234` as example `callData`. We will also specify the gas price we want to use, which we fetched from the bundler in the previous step.
 
-Underneath the hood, the `SmartAccountClient` will create a `UserOperation` instance, request Pimlico paymaster sponsorship, sign it with the smart account's private key, and then submit it to the bundler. The bundler will then query for receipts until it sees the user operation included on-chain.
+Underneath the hood, the `SmartAccountClient` will build a user operation, request Pimlico paymaster sponsorship, sign it with the smart account's private key, and then submit it to the bundler. The bundler will then query for receipts until it sees the user operation included on-chain.
 
 Add the following to the bottom of `index.ts`:
 
