@@ -114,6 +114,17 @@ export const paymasterSidebar = [
       { text: "Architecture", link: "/paymaster/erc20-paymaster/architecture" },
       { text: "FAQs", link: "/paymaster/erc20-paymaster/faqs" },
     ]
+  },
+  {
+    text: "ERC-20 Paymaster (legacy)",
+    collapsed: true,
+    link: "/paymaster/erc20-paymaster-legacy",
+    items: [
+      { text: "Overview", link: "/paymaster/erc20-paymaster-legacy" },
+      { text: "Contract Addresses", link: "/paymaster/erc20-paymaster-legacy/contract-addresses" },
+      { text: "Architecture", link: "/paymaster/erc20-paymaster-legacy/architecture" },
+      { text: "FAQs", link: "/paymaster/erc20-paymaster-legacy/faqs" },
+    ]
   }
 ]
 
