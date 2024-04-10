@@ -40,7 +40,7 @@ const smartAccountClient = createSmartAccountClient({
 	account: kernelAccount,
 	entryPoint: ENTRYPOINT_ADDRESS_V06,
 	chain: sepolia,
-	bundlerTransport: http("https://api.pimlico.io/v1/sepolia/rpc?apikey=API_KEY"),
+	bundlerTransport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
 	middleware: {
 		sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
 	},

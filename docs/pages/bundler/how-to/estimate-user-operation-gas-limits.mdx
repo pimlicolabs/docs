@@ -1,26 +1,23 @@
 # How to Estimate the Gas Limits for a User Operation
 
-:::tip[Tip]
 We recommend using [permissionless.js](/permissionless/reference/bundler-actions/estimateUserOperationGas) to estimate user operations gas limits as it provides type-safe wrappers for all bundler methods. 
-:::
 
 To estimate the gas limits for a user operation, you need to use your [Pimlico API key](https://dashboard.pimlico.io/apikeys) and make a JSON-RPC request as follows:
 
 ::::code-group
 
 ```typescript [viem]
-import { createPublicClient, http } from "viem"
+import { createClient, http } from "viem"
 
 const pimlicoApiKey = "YOUR_PIMLICO_API_KEY_HERE"
 const chain = "sepolia" // find the list of supported chains at https://docs.pimlico.io/bundler
-const pimlicoEndpoint = `https://api.pimlico.io/v1/${chain}/rpc?apikey=${pimlicoApiKey}`
+const pimlicoEndpoint = `https://api.pimlico.io/v2/${chain}/rpc?apikey=${pimlicoApiKey}`
 
 const userOperation = ...
-const entryPoint = "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
+const entryPoint = "0x0000000071727De22E5E9d8BAf0edAc6f37da032"
 
-const pimlicoClient = createPublicClient({ transport: http(pimlicoEndpoint) })
+const pimlicoClient = createClient({ transport: http(pimlicoEndpoint) })
 const estimationResult = await pimlicoClient.request({ 
-    // @ts-ignore
     method: "eth_estimateUserOperationGas", 
     params: [userOperation, entryPoint] 
 })
@@ -28,6 +25,8 @@ const estimationResult = await pimlicoClient.request({
 const preVerificationGas = estimationResult.preVerificationGas
 const verificationGasLimit = estimationResult.verificationGasLimit
 const callGasLimit = estimationResult.callGasLimit
+const paymasterVerificationGasLimit = estimationResult.paymasterVerificationGasLimit
+const paymasterPostOpGasLimit = estimationResult.paymasterPostOpGasLimit
 ```
 
 ```typescript [ethers v5]
@@ -35,10 +34,10 @@ import { ethers } from "ethers"
 
 const pimlicoApiKey = "YOUR_PIMLICO_API_KEY_HERE"
 const chain = "sepolia" // find the list of supported chains at https://docs.pimlico.io/bundler
-const pimlicoEndpoint = `https://api.pimlico.io/v1/${chain}/rpc?apikey=${pimlicoApiKey}`
+const pimlicoEndpoint = `https://api.pimlico.io/v2/${chain}/rpc?apikey=${pimlicoApiKey}`
 
 const userOperation = ...
-const entryPoint = "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
+const entryPoint = "0x0000000071727De22E5E9d8BAf0edAc6f37da032"
 
 const pimlicoProvider = new ethers.providers.StaticJsonRpcProvider(pimlicoEndpoint)
 
@@ -50,6 +49,8 @@ const estimationResult = await pimlicoProvider.send(
 const preVerificationGas = estimationResult.preVerificationGas
 const verificationGasLimit = estimationResult.verificationGasLimit
 const callGasLimit = estimationResult.callGasLimit
+const paymasterVerificationGasLimit = estimationResult.paymasterVerificationGasLimit
+const paymasterPostOpGasLimit = estimationResult.paymasterPostOpGasLimit
 ```
 
 ```typescript [ethers v6]
@@ -57,10 +58,10 @@ import { ethers } from "ethers"
 
 const pimlicoApiKey = "YOUR_PIMLICO_API_KEY_HERE"
 const chain = "sepolia" // find the list of supported chains at https://docs.pimlico.io/bundler
-const pimlicoEndpoint = `https://api.pimlico.io/v1/${chain}/rpc?apikey=${pimlicoApiKey}`
+const pimlicoEndpoint = `https://api.pimlico.io/v2/${chain}/rpc?apikey=${pimlicoApiKey}`
 
 const userOperation = ...
-const entryPoint = "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
+const entryPoint = "0x0000000071727De22E5E9d8BAf0edAc6f37da032"
 
 const pimlicoProvider = new ethers.JsonRpcProvider(pimlicoEndpoint)
 
@@ -72,6 +73,8 @@ const estimationResult = await pimlicoProvider.send(
 const preVerificationGas = estimationResult.preVerificationGas
 const verificationGasLimit = estimationResult.verificationGasLimit
 const callGasLimit = estimationResult.callGasLimit
+const paymasterVerificationGasLimit = estimationResult.paymasterVerificationGasLimit
+const paymasterPostOpGasLimit = estimationResult.paymasterPostOpGasLimit
 ```
 
 ::::

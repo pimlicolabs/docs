@@ -15,7 +15,7 @@ export const publicClient = createPublicClient({
 })
 
 export const paymasterClient = createPimlicoPaymasterClient({
-	transport: http("https://api.pimlico.io/v1/sepolia/rpc?apikey=API_KEY"),
+	transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
 	entryPoint: ENTRYPOINT_ADDRESS_V06,
 })
 // [!endregion clients]
@@ -40,7 +40,7 @@ const smartAccountClient = createSmartAccountClient({
 	account: biconomyAccount,
 	entryPoint: ENTRYPOINT_ADDRESS_V06,
 	chain: sepolia,
-	bundlerTransport: http("https://api.pimlico.io/v1/sepolia/rpc?apikey=API_KEY"),
+	bundlerTransport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
 	middleware: {
 		sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
 	},

@@ -200,7 +200,7 @@ const entryPoint = "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
 
 const userOperation = ... // generate your User Operation here
 
-const provider = new JsonRpcProvider(`https://api.pimlico.io/v1/${chain}/rpc?apikey=${apiKey}`)
+const provider = new JsonRpcProvider(`https://api.pimlico.io/v2/${chain}/rpc?apikey=${apiKey}`)
 
 const paymasterAndData = await provider.send("pm_sponsorUserOperation", [userOperation, {entryPoint: entryPoint}])
 

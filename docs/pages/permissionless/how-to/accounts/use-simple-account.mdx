@@ -12,13 +12,13 @@ First we must create the public, bundler, and (optionally) paymaster clients tha
 
 ```ts
 export const publicClient = createPublicClient({
-	transport: http("https://CHAIN.infura.io/v3/API_KEY"),
+	transport: http("https://sepolia.infura.io/v3/API_KEY"),
 });
 
 export const paymasterClient = createPimlicoPaymasterClient({
 	entryPoint,
 	transport: http(
-		"https://api.pimlico.io/v2/CHAIN/rpc?apikey=API_KEY",
+		"https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY",
 	),
 });
 ```
@@ -50,7 +50,7 @@ const smartAccountClient = createSmartAccountClient({
 	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
 	chain: sepolia,
 	bundlerTransport: http(
-		"https://api.pimlico.io/v1/CHAIN/rpc?apikey=API_KEY",
+		"https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY",
 	),
 	middleware: {
 		sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
@@ -65,7 +65,7 @@ If you're using Pimlico as your bundler, fetch the required gas price to use bef
 ```ts
 export const pimlicoBundlerClient = createPimlicoBundlerClient({
 	transport: http(
-		"https://api.pimlico.io/v1/CHAIN/rpc?apikey=API_KEY",
+		"https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY",
 	),
 	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
 });
@@ -75,7 +75,7 @@ const smartAccountClient = createSmartAccountClient({
 	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
 	chain: sepolia,
 	bundlerTransport: http(
-		"https://api.pimlico.io/v1/CHAIN/rpc?apikey=API_KEY",
+		"https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY",
 	),
 	middleware: {
 		gasPrice: async () => (await pimlicoBundlerClient.getUserOperationGasPrice()).fast, // use pimlico bundler to get gas prices

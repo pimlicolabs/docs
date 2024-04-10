@@ -1,4 +1,4 @@
-const bundlerUrl = "https://api.pimlico.io/v1/sepolia/rpc?apikey=YOUR_API_KEY"
+const bundlerUrl = "https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_API_KEY"
 const paymasterUrl = "https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_API_KEY"
 const rpcUrl = "https://rpc.ankr.com/eth_sepolia"
 const factoryAddress = "0x9406Cc6185a346906296840746125a0E44976454"

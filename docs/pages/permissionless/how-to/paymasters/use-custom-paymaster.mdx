@@ -102,7 +102,7 @@ const smartAccountClient = createSmartAccountClient({
 	entryPoint: ENTRYPOINT_ADDRESS_V06,
 	chain: sepolia,
 	bundlerTransport: http(
-		`https://api.pimlico.io/v1/sepolia/rpc?apikey=API_KEY`,
+		`https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY`,
 	),
 	middleware: {
 		gasPrice: async () => {
