@@ -51,8 +51,8 @@ This paymaster has four modes. It allows the user to simply pay for themselves, 
 ## Creating a valid guarantor signature
 
 The guarantor address can either be a EOA or Smart Contract.
-- If EOA, verification is done through ECDSA signature recovery
-- If Smart Contract, verification is done through ERC-1271
+- If EOA, verification is done through ECDSA signature recovery.
+- If Smart Contract, verification is done through ERC-1271.
 
 ### EOA Guarantor Signature
 
@@ -64,7 +64,7 @@ The paymaster validates a userOperation by checking if the guarantor signed the 
 
 ::::code-group
 
-```ts [Pimlico Paymaster]
+```ts [index.ts]
 import { erc20Paymaster }  from "./erc20Paymaster.ts"
 import { getPackedUserOperation } from "permissionless/utils"
 import { sign, privateKeyToAddress } from "viem/accounts"
@@ -103,6 +103,7 @@ const mode2PaymasterData = encodePacked(
     ],
 )
 
+// append paymaster data to userOperation
 const sponsoredUserOperation = {
     ...userOperation
     paymaster: erc20Paymaster.address,
