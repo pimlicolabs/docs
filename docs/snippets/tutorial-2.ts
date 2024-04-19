@@ -1,13 +1,20 @@
 import "dotenv/config"
 import {
 	ENTRYPOINT_ADDRESS_V07,
-	UserOperation,
+	type UserOperation,
 	bundlerActions,
 	getSenderAddress,
 	signUserOperationHashWithECDSA,
 } from "permissionless"
 import { pimlicoBundlerActions, pimlicoPaymasterActions } from "permissionless/actions/pimlico"
-import { Address, Hex, createClient, createPublicClient, encodeFunctionData, http } from "viem"
+import {
+	type Address,
+	type Hex,
+	createClient,
+	createPublicClient,
+	encodeFunctionData,
+	http,
+} from "viem"
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts"
 import { sepolia } from "viem/chains"
 

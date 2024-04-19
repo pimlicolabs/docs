@@ -1,9 +1,9 @@
 import "dotenv/config"
-import { writeFileSync } from "fs"
+import { writeFileSync } from "node:fs"
 import { ENTRYPOINT_ADDRESS_V07, createSmartAccountClient } from "permissionless"
 import { signerToSafeSmartAccount } from "permissionless/accounts"
 import { createPimlicoBundlerClient } from "permissionless/clients/pimlico"
-import { Hex, createPublicClient, encodeFunctionData, http, parseAbiItem } from "viem"
+import { type Hex, createPublicClient, encodeFunctionData, http, parseAbiItem } from "viem"
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts"
 import { sepolia } from "viem/chains"
 
