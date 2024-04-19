@@ -39,10 +39,10 @@ If everything has been set up correctly, you should see `Hello world!` printed t
 
 ### Create the viem clients
 
-We will be using three different clients for this example. 
-1. Standard publicClient for normal Ethereum RPC calls — https://rpc.goerli.linea.build
-2. Pimlico v1 api for the Bundler methods — https://api.pimlico.io/v2/linea-testnet/rpc?apikey=YOUR_PIMLICO_API_KEY
-3. Pimlico v2 api for the Paymaster methods — https://api.pimlico.io/v2/linea-testnet/rpc?apikey=YOUR_PIMLICO_API_KEY
+We will be using three different clients for this example.
+1. Standard publicClient for normal Ethereum RPC calls — https://rpc.sepolia.org
+2. Pimlico v1 api for the Bundler methods — https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_PIMLICO_API_KEY
+3. Pimlico v2 api for the Paymaster methods — https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_PIMLICO_API_KEY
 
 Make sure to replace `YOUR_PIMLICO_API_KEY` in the code below with your actual Pimlico API key.
 
@@ -62,7 +62,7 @@ Requesting a smart contract deployment is done through the `factory` and `factor
 
 Add the following to the bottom of `index.ts`:
 
-```ts 
+```ts
 // [!include ~/snippets/tutorial-2.ts:initCode]
 ```
 
@@ -175,14 +175,14 @@ Add the following to the bottom of `index.ts`:
 If we run this code with `npm start`, we will go through the whole flow of executing the User Operation. You should see something like this:
 
 ```txt
-UserOperation included: https://goerli.lineascan.build/tx/0x43bdf7e2dfc19bfb749376b91d872574668365493ea98f9c9a647a17f541fb96
+UserOperation included: https://sepolia.etherscan.io/tx/0xe0a47e0e6637d0d4062cda3683afe2f5809bf545b917888277905de38f08e188
 ```
 
-Once the UserOperation is included, you can view the transaction on the Linea Goerli testnet explorer.
+Once the UserOperation is included, you can view the transaction on the Sepolia testnet explorer.
 
-That's it! You've successfully generated a UserOperation and submitted it using Pimlico's Alto bundler. 
+That's it! You've successfully generated a UserOperation and submitted it using Pimlico's Alto bundler.
 
-By leveraging Pimlico's paymaster, you were able to make the User Operation completely gasless, and by using Pimlico's Alto bundler, you were able to submit the User Operation to the chain without having to worry about maintaining your own relaying infrastructure. 
+By leveraging Pimlico's paymaster, you were able to make the User Operation completely gasless, and by using Pimlico's Alto bundler, you were able to submit the User Operation to the chain without having to worry about maintaining your own relaying infrastructure.
 
 Congratulations, you are now a pioneer of Account Abstraction! 🎉
 
