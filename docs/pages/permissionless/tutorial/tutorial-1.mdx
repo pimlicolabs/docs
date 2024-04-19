@@ -55,7 +55,7 @@ For the purposes of this guide, we will be using [Safe](https://safe.global) acc
 Want to learn more about using Safe accounts? Take a look at our [dedicated Safe guide](/permissionless/how-to/accounts/use-safe-account)
 :::
 
-To create the Safe account, we will use the `privateKeyToSafeSmartAccount` utility function from permissionless.js. We need to specify the Safe version we are using as well as the global ERC-4337 EntryPoint address. For the signer, we will be using the previously generated private key.
+To create the Safe account, we will use the `signerToSafeSmartAccount` utility function from permissionless.js. We need to specify the Safe version we are using as well as the global ERC-4337 EntryPoint address. For the signer, we will be using the previously generated private key.
 
 Add the following to the bottom of `index.ts`:
 
@@ -75,7 +75,7 @@ If you visit the address on Etherscan, you might notice that no contract is actu
 
 ### Create the bundler and smart account clients
 
-Now that we have a `SmartAccount` instance, we need to create a `SmartAccountClient` instance to make transact from it. `SmartAccountClient` is an almost drop-in replacement for a viem [`WalletClient`](https://viem.sh/docs/clients/wallet), but it also includes some additional functionality for interacting with smart accounts. 
+Now that we have a `SmartAccount` instance, we need to create a `SmartAccountClient` instance to be able to transact from it. `SmartAccountClient` is an almost drop-in replacement for a viem [`WalletClient`](https://viem.sh/docs/clients/wallet), but it also includes some additional functionality for interacting with smart accounts. 
 
 We then specify the optional `sponsorUserOperation` middleware function, calling the `sponsorUserOperation` function from the paymaster client. This will make sure that the user operation is sponsored by Pimlico's verifying paymaster.
 
@@ -89,7 +89,7 @@ Add the following to the bottom of `index.ts`:
 
 ### Submit a transaction from the smart account
 
-Finally, let's submit a transaction from the smart account. We will send a transaction to the `0xd8da6bf26964af9d7eed9e03e53415d37aa96045` (vitalik.eth) address with `0x1234` as example `callData`. We will also specify the gas price we want to use, which we fetched from the bundler in the previous step.
+Finally, let's submit a transaction from the smart account. We will send a transaction to the `0xd8da6bf26964af9d7eed9e03e53415d37aa96045` (vitalik.eth) address with `0x1234` as example `callData`.
 
 Underneath the hood, the `SmartAccountClient` will build a user operation, request Pimlico paymaster sponsorship, sign it with the smart account's private key, and then submit it to the bundler. The bundler will then query for receipts until it sees the user operation included on-chain.
 
