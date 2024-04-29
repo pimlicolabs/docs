@@ -7,6 +7,10 @@ export const bundlerSidebar = [
     link: '/bundler',
   },
   {
+    text: "Pricing",
+    link: "/pricing"
+  },
+  {
     text: 'How-to Guides',
     items: [
       { text: "How to create your own inflator contract and submit compressed user operations", link: "/bundler/how-to/compress-user-operations" },
@@ -82,6 +86,10 @@ export const paymasterSidebar = [
   {
     text: 'Overview',
     link: '/paymaster',
+  },
+  {
+    text: "Pricing",
+    link: "/pricing"
   },
   {
     text: "Verifying Paymaster",

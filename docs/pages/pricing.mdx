@@ -1,0 +1,44 @@
+---
+showOutline: false
+showSidebar: false
+---
+# Pricing
+
+:::info
+This pricing will be effective starting from 1 June 2024. Before then, the current pricing of a 10% surcharge on mainnet transactions for the verifying paymaster will be in effect.
+:::
+
+Below is a comparison of the different pricing plans available for Pimlico. With Pimlico, you're able to launch without any upfront costs, and only pay for what you use with our pay-as-you-go plan, even for production applications with significant volume. We can also offer enterprise plans for users wishing to have a custom plan tailored to their needs. If you have any questions, please don't hesitate to [contact us through telegram](https://t.me/pimlicoHQ) or [through email](mailto:kristof@pimlico.io)
+
+| Feature                       | Free                               | Pay-as-you-go                                                               | Enterprise (contact us)                                          |
+| ----------------------------- | ---------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Subcription Fee               | $0/mo                                | $0/mo, card required                                           | Custom                                                           |
+| Networks                      | Testnets: ✅ (all 25+ testnet chains)<br />Mainnets: ❌                      | Testnets: ✅ (all 25+ testnet chains)<br />Mainnets: ✅ (all 25+ mainnet chains)                                                    | Testnets: ✅ (all 25+ testnet chains)<br />Mainnets: ✅ (all 25+ mainnet chains)                                          |
+| API Requests                  | 1,000,000 credits / month included | 10,000,000 credits / month included, then $1 per additional 100,000 credits | Custom (incl. lower pre-paid rate)                               |
+| Approximate User Operations   | \~1,300 user operations (\~950 if sponsored) / month included | \~13,000 user operations (\~9,500 if sponsored) / month included, then \~$0.0075 per additional user operation (\~$0.0105 if sponsored) | Custom (incl. lower pre-paid rate)                               |
+| Rate Limit                    | 500 requests / min                        | 5000 requests / min                                                                | Custom / Unlimited                                                          |
+| Bundler                       | ✅                       | ✅                                                     | ✅                                                           |
+| Verifying Paymaster Surcharge | Testnets: Free<br />Mainnets: N/A  | Testnets: Free<br />Mainnets: 10%                                    | Custom                                                           |
+| Billing Usage Threshold       | N/A                                | $1,000 / month (we bill immediately once accumulated fees reach the limit)  | Custom / Unlimited                                                    |
+| ERC-20 Paymasters             | ✅                      | ✅                                                               | ✅                                                    |
+| Support                       | Community Support: ✅                  | Community Support: ✅<br />Private Slack/Telegram Chat: ✅                             | Community Support: ✅<br />Private Slack/Telegram Chat: ✅<br />24x7x365 Phone: ✅ |
+| Uptime SLA                    | ❌                                | ❌                                                                         | ✅                                                           |
+
+## API credit breakdown
+
+The cost of individual API requests is measured in credits, with the breakdown of credits for each method provided below.
+
+| method                              | credits |
+| ----------------------------------- | ------- |
+| pimlico_sendCompressedUserOperation | 600     |
+| pm_sponsorUserOperation             | 500     |
+| eth_sendUserOperation               | 500     |
+| eth_estimateUserOperationGas        | 200     |
+| pimlico_getUserOperationGasPrice    | 10      |
+| eth_getUserOperationReceipt         | 10      |
+| eth_getUserOperationByHash          | 10      |
+| pm_validateSponsorshipPolicies      | 10      |
+| pimlico_getUserOperationStatus      | 5       |
+| eth_getSupportedEntryPoints         | 1       |
+| eth_chainId                         | 1       |
+
