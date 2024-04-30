@@ -29,7 +29,7 @@ const bundlerUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=${apiKey}`
 const bundlerClient = createPimlicoBundlerClient({
 	transport: http(bundlerUrl),
 	entryPoint: ENTRYPOINT_ADDRESS_V07,
-})
+}).extend(pimlicoPaymasterActions(ENTRYPOINT_ADDRESS_V07))
 // [!endregion clients]
 
 // [!region smartAccount]
