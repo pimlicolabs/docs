@@ -109,7 +109,7 @@ const SliderDemo = () => {
               <div className='flex flex-row gap-2 place-items-center text-xl'>Total Cost</div>
               <span className="text-3xl tabular-nums">${totalCost(normalOps, sponsoredOps, averageGasPrice).toLocaleString()}</span><span> /mo</span>
           </div>
-          {totalCost(normalOps, sponsoredOps, averageGasPrice) > 2000 && <div className="text-orange-600"><div>Based on your spending, it looks like you might benefit from an Enterprise plan!</div><div><a href='mailto:support@pimlico.io' className="underline underline-offset-2">Contact us</a> for more information.</div></div>}
+          {apiCreditsCost(normalOps, sponsoredOps) + pimlicoPaymasterFee(sponsoredOps, averageGasPrice) > 2000 && <div className="text-orange-600"><div>Based on your spending, it looks like you might benefit from an Enterprise plan!</div><div><a href='mailto:support@pimlico.io' className="underline underline-offset-2">Contact us</a> for more information.</div></div>}
         </div>
       </div>
       
