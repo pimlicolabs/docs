@@ -81,7 +81,7 @@ const SliderDemo = () => {
               <div className="text-center">
                 ${averageGasPrice.toLocaleString()}
               </div>
-              <Slider.Root className="SliderRoot" defaultValue={[0.1]} min={0.01} max={1} step={0.01} onValueChange={(value) => setAverageGasPrice(value[0])}>
+              <Slider.Root className="SliderRoot" defaultValue={[0.01]} min={0.01} max={1} step={0.01} onValueChange={(value) => setAverageGasPrice(value[0])}>
                 <Slider.Track className="SliderTrack">
                   <Slider.Range className="SliderRange" />
                 </Slider.Track>
