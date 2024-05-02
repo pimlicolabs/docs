@@ -43,6 +43,7 @@ export const bundlerSidebar = [
         items: [
           { text: "Invalid 'apikey' query parameter", link: "/bundler/reference/bundler-errors/invalid-api-key" },
           { text: "Chain is not supported", link: "/bundler/reference/bundler-errors/chain-not-supported" },
+          { text: "Validation Error: Invalid Discriminator Value", link: "/bundler/reference/bundler-errors/invalid-discriminator-value" },
           { text: "Unknown error from alto bundler", link: "/bundler/reference/bundler-errors/unknown-error" },
         ]
       },

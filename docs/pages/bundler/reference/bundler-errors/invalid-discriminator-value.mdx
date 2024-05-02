@@ -1,0 +1,20 @@
+# Validation error: Invalid discriminator value
+
+```txt
+Validation error: Invalid discriminator value. Expected 'eth_chainId' | 'eth_supportedEntryPoints' | 'eth_coinbase' | 'eth_estimateUserOperationGas' | 'eth_sendUserOperation' | 'eth_getUserOperationByHash' | 'eth_getUserOperationReceipt' | 'pm_supportedEntryPoints' | 'pm_sponsorUserOperation' | 'web3_clientVersion' | 'pimlico_sendCompressedUserOperation' | 'pimlico_getUserOperationStatus' | 'pimlico_getUserOperationGasPrice' | 'pimlico_getBalance' | 'pm_validateSponsorshipPolicies' at \"method\""
+```
+
+If you see an error similar to the one above, it means you are calling a method on the Pimlico API that is not supported. The most common reason for this is using the Pimlico API endpoint for standard public Ethereum JSON-RPC methods. As a reminder, the Pimlico API only supports bundler and paymaster methods.
+
+## Possible solutions
+
+Make sure you are using a standard RPC endpoint for public Ethereum methods and the Pimlico API endpoint for Pimlico-specific methods.
+
+```ts
+import { createPublicClient, http } from "viem"
+
+const publicClient = createPublicClient({
+    transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_PIMLICO_API_KEY") // [!code --]
+    transport: http("https://rpc.ankr.com/eth_sepolia") // [!code ++]
+})
+```
