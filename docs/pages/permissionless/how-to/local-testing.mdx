@@ -187,6 +187,8 @@ export const ensurePaymasterIsReady = async () => {
 ```
 :::
 
+For a more detailed example, checkout our [permissionless.js E2E integration tests](https://github.com/pimlicolabs/permissionless.js/tree/main/packages/permissionless-test) where we use the same mock environment as this guide.
+
 ## Extension: Testing against forked state
 
 If you want your tests to run against a live blockchain, you can slightly edit the **docker-compose.yaml** file to fork from the latest block by adding the anvil flag **--fork-url** and the environment variable **SKIP_DEPLOYMENTS** to skip the local contract deployments.
