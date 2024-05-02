@@ -1,0 +1,217 @@
+# Local Testing
+
+This guide introduces a ready-to-use mock test environment, that contains:
+- A local Alto bundler
+- A mock verifying paymaster
+- An Anvil node
+- And all Account Abstraction related contracts
+
+The test environment is orchestrated using **docker compose**. Where the docker containers are pulled from [this repo](https://github.com/pimlicolabs/mock-aa-environment).
+
+The mock environment is designed to mimic mainnet as closely as possible by building with the latest alto version and by deploying all contracts (entrypoints, paymaster, smart account factories, ...)
+
+This has advantages over testing against a prod testnet as you have more control over the testing environment and can make use of things like anvil cheatcodes.
+
+## Setup
+
+To get started, create a **docker-compose.yaml** file at the root of your test directory with the following contents.
+
+```yaml [docker-compose.yaml]
+services:
+  anvil:
+    image: ghcr.io/foundry-rs/foundry:nightly-f6208d8db68f9acbe4ff8cd76958309efb61ea0b
+    ports: [ "8545:8545" ]
+    entrypoint: [ "anvil", "--host", "0.0.0.0", "--block-time", "0.1", "--silent"]
+    platform: linux/amd64/v8
+
+  mock-paymaster:
+    image: ghcr.io/pimlicolabs/mock-verifying-paymaster:main
+    ports: [ "3000:3000" ]
+    environment:
+      - ALTO_RPC=http://alto:4337
+      - ANVIL_RPC=http://anvil:8545
+
+  alto:
+    image: ghcr.io/pimlicolabs/mock-alto-bundler:main
+    ports: [ "4337:4337" ]
+    environment:
+      - ANVIL_RPC=http://anvil:8545
+```
+
+To start the test environment, run
+
+```console
+docker compose up
+```
+
+Once docker has started, the following services can be accessed locally through the following endpoints:
+- `Anvil` at **localhost:8545**
+- `Alto Bundler` at **localhost:4337**
+- `Mock Paymaster` at **localhost:3000**
+
+You can now use permissionless like you normally would but instead of referencing the live endpoints, use the local endpoints mentioned above when creating the clients.
+
+```ts [clients.ts]
+import { createBundlerClient, ENTRYPOINT_ADDRESS_V07 } from 'permissionless'
+import { createPimlicoPaymasterClient } from "permissionless/clients/pimlico"
+import { http, createPublicClient } from "viem"
+import { foundry } from 'viem/chains'
+
+const publicClient = createPublicClient({
+  transport: http("http://localhost:8545"), // [!code ++]
+})
+
+const bundlerClient = createBundlerClient({
+  chain: foundry,
+  transport: http("http://localhost:4337"), // [!code ++]
+  entryPoint: ENTRYPOINT_ADDRESS_V07,
+})
+
+const paymasterClient = createPimlicoPaymasterClient({
+  chain: foundry,
+  transport: http("http://localhost:3000"), // [!code ++]
+  entryPoint: ENTRYPOINT_ADDRESS_V07,
+})
+```
+
+:::info
+Note: All smart account types will work out of the box as all related factories and modules are deployed on the local anvil instance.
+:::
+
+## Vitest Integration
+
+You can add scripts in your **package.json** to automatically set up and tear down your mock environment when running tests.
+
+```json [package.json]
+{
+    "name": "aa-tests",
+    "scripts": {
+        "test": "bun run docker:up && vitest run && bun run docker:down",
+        "docker:up": "docker-compose up -d", // [!code ++]
+        "docker:down": "docker-compose down" // [!code ++]
+    },
+    "dependencies": {
+        "viem": "^2.9.17",
+        "permissionless": "^0.1.24"
+    },
+    "devDependencies": {
+        "vitest": "^1.5.2"
+    }
+}
+```
+
+When writing test cases, we need to ensure that the bundler and paymaster are fully setup before sending any request to them. To do this, we can make a simple health check in the beforeAll declaration.
+
+:::code-group
+```ts [basic.test.ts]
+import { beforeAll, describe, expect, test } from "vitest"
+import { ensureBundlerIsReady, ensurePaymasterIsReady } from "./healthCheck"
+import { foundry } from 'viem/chains'
+import { http } from "viem"
+import {
+    createBundlerClient,
+    ENTRYPOINT_ADDRESS_V06,
+    ENTRYPOINT_ADDRESS_V07
+} from 'permissionless'
+
+describe("Test basic bundler functions", () => {
+    beforeAll(async () => {             // [!code ++]
+        await ensureBundlerIsReady()    // [!code ++]
+        await ensurePaymasterIsReady()  // [!code ++]
+    })                                  // [!code ++]
+
+    test("Can get chainId", async () => {
+      const bundlerClient = createBundlerClient({
+        chain: foundry,
+        transport: http("http://localhost:4337"),
+        entryPoint: ENTRYPOINT_ADDRESS_V07,
+      })
+
+      const chainId = await bundlerClient.chainId()
+
+      expect(chainId).toEqual(foundry.id)
+    })
+
+    test("Can get supported entryPoints", async () => {
+      const bundlerClient = createBundlerClient({
+        chain: foundry,
+        transport: http("http://localhost:4337"),
+        entryPoint: ENTRYPOINT_ADDRESS_V07,
+      })
+
+      const supportedEntryPoints = await bundlerClient.supportedEntryPoints()
+
+      expect(supportedEntryPoints).toEqual([ENTRYPOINT_ADDRESS_V06, ENTRYPOINT_ADDRESS_V07])
+    })
+})
+```
+
+```ts [healthCheck.ts]
+import { createBundlerClient, ENTRYPOINT_ADDRESS_V07 } from 'permissionless'
+import { http } from "viem"
+import { foundry } from 'viem/chains'
+
+export const ensureBundlerIsReady = async () => {
+  const bundlerClient = createBundlerClient({
+    chain: foundry,
+    transport: http("http://localhost:4337"),
+    entryPoint: ENTRYPOINT_ADDRESS_V07,
+  })
+
+  while (true) {
+    try {
+      await bundlerClient.chainId()
+      return
+    } catch {
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+    }
+  }
+}
+
+export const ensurePaymasterIsReady = async () => {
+  while (true) {
+    try {
+      // mock paymaster will open up this endpoint when ready
+      const res = await fetch(`http://localhost:3000/ping`)
+      const data = await res.json()
+      if (data.message !== "pong") {
+        throw new Error("paymaster not ready yet")
+      }
+
+      return
+    } catch {
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+    }
+  }
+}
+```
+:::
+
+For a more detailed example, checkout our [permissionless.js E2E integration tests](https://github.com/pimlicolabs/permissionless.js/tree/main/packages/permissionless-test) where we use the same mock environment as this guide.
+
+## Extension: Testing against forked state
+
+If you want your tests to run against a live blockchain, you can slightly edit the **docker-compose.yaml** file to fork from the latest block by adding the anvil flag **--fork-url** and the environment variable **SKIP_DEPLOYMENTS** to skip the local contract deployments.
+
+```yaml [docker-compose.yaml]
+services:
+  anvil:
+    image: ghcr.io/foundry-rs/foundry:nightly-f6208d8db68f9acbe4ff8cd76958309efb61ea0b
+    ports: [ "8545:8545" ]
+    entrypoint: [ "anvil", "--fork-url", "https://rpc.sepolia.org", "--host", "0.0.0.0", "--block-time", "0.1", "--silent"] // [!code ++]
+    platform: linux/amd64/v8
+
+  mock-paymaster:
+    image: ghcr.io/pimlicolabs/mock-verifying-paymaster:main
+    ports: [ "3000:3000" ]
+    environment:
+      - ALTO_RPC=http://alto:4337
+      - ANVIL_RPC=http://anvil:8545
+
+  alto:
+    image: ghcr.io/pimlicolabs/mock-alto-bundler:main
+    ports: [ "4337:4337" ]
+    environment:
+      - ANVIL_RPC=http://anvil:8545
+      - SKIP_DEPLOYMENTS=true // [!code ++]
+```
