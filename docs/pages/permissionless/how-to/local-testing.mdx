@@ -4,11 +4,11 @@ This guide introduces a ready-to-use mock test environment, that contains:
 - A local Alto bundler
 - A mock verifying paymaster
 - An Anvil node
-- ERC-4337 related contracts, including the EntryPoint and account factories for all major ERC-4337 account implemnetations.
+- ERC-4337 related contracts, including the EntryPoint and account factories for all major ERC-4337 account implementations.
 
 The test environment is orchestrated using **docker compose**. Where the docker containers are pulled from [this repo](https://github.com/pimlicolabs/mock-aa-environment).
 
-The mock environment is designed to mimic mainnet as closely as possible by building with the latest Alto version and by deploying all contracts (entrypoints, paymaster, smart account factories, etc.)
+The mock environment is designed to mimic mainnet as closely as possible by building with the latest Alto version and by deploying all contracts (entrypoints, paymasters, smart account factories, etc.)
 
 This has advantages over testing against a production testnet as you have more control over the testing environment and can make use of features like anvil cheatcodes.
 
