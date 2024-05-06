@@ -1,0 +1,81 @@
+# signerToLightSmartAccount
+
+Creates a LightAccount instance controlled by a `SmartAccountSigner`.
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+import { signerToLightSmartAccount } from "permissionless/accounts"
+import { publicClient } from "./publicClient"
+import { signer } from "./signer"
+
+const lightAccount = await signerToLightSmartAccount(publicClient, {
+	signer,
+    lightAccountVersion: 'v1.1.0',
+	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+})
+```
+
+```ts [publicClient.ts]
+// [!include ~/snippets/publicClient.ts:client]
+```
+
+```ts [signer.ts]
+// [!include ~/snippets/signer.ts]
+```
+
+::::
+
+## Returns
+
+- **Type:** `LightSmartAccount`
+
+The smart account instance.
+
+## Parameters
+
+### signer
+
+- **Type:** `SmartAccountSigner`
+
+The signer that will be used to sign messages and user operations.
+
+### lightAccountVersion
+
+- **Type:** `LightAccountVersion`
+
+The light account version. Currently only `v1.1.0` is supported.
+
+### factoryAddress
+
+- **Type:** `Address`
+
+The address of the light account factory that will be used to deploy the smart account.
+
+:::info
+The canonical light account factory for v1.1.0 is `0x00004EC70002a32400f8ae005A26081065620D20`
+:::
+
+### entryPoint
+
+- **Type:** `Address`
+
+The address of the EntryPoint contract.
+
+### index (optional)
+
+- **Type:** `bigint`
+
+It represents salt nonce that will be used to deploy the smart account. If not provided, `0` will be used.
+
+### address (optional)
+
+- **Type:** `Address`
+
+:::warning
+If you provide an address, the smart account can not be deployed. This should be used if you want to interact with an existing smart account.
+:::
+
+The address of the smart account. If not provided, the determinstic smart account address will be used.
