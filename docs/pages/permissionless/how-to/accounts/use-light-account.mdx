@@ -13,27 +13,9 @@ This guide will show you how to create and use a LightAccount with permissionles
 First we must create the public, bundler, and (optionally) paymaster clients that will be used to interact with the LightAccount.
 
 ```ts
-// Get your API key here: https://dashboard.pimlico.io/apikeys
-const API_KEY = 'API_KEY';
-
-export const publicClient = createPublicClient({
-	transport: http("https://rpc.ankr.com/eth_sepolia"),
-});
-
-export const paymasterClient = createPimlicoPaymasterClient({
-	entryPoint: ENTRYPOINT_ADDRESS_V06,
-	transport: http(
-		`https://api.pimlico.io/v2/sepolia/rpc?apikey=${API_KEY}`,
-	),
-});
-
-export const pimlicoBundlerClient = createPimlicoBundlerClient({
-	transport: http(
-		`https://api.pimlico.io/v2/sepolia/rpc?apikey=${API_KEY}`,
-	),
-	entryPoint: ENTRYPOINT_ADDRESS_V06,
-});
+// [!include ~/snippets/accounts/light.ts:clients]
 ```
+
 
 ### Create the LightAccount
 
@@ -44,40 +26,23 @@ For a full list of options for creating a LightAccount, take a look at the refer
 You can also pass an `address` to use an already created LightAccount.
 
 ```ts
-const lightAccount = await signerToLightSmartAccount(publicClient, {
-    signer: privateKeyToAccount('0x...'),
-    entryPoint: ENTRYPOINT_ADDRESS_V06,
-    lightAccountVersion: '1.1.0'
-})
+// [!include ~/snippets/accounts/light.ts:smartAccount]
 ```
+
 
 ### Create the smart account client
 
 The smart account client is a permissionless.js client that is meant to serve as an almost drop-in replacement for viem's [walletClient](https://viem.sh/docs/clients/wallet.html).
 
 ```ts
-const smartAccountClient = createSmartAccountClient({
-	account: lightAccount,
-	entryPoint: ENTRYPOINT_ADDRESS_V06,
-	chain: sepolia,
-	bundlerTransport: http(
-		`https://api.pimlico.io/v2/sepolia/rpc?apikey=${API_KEY}`,
-	),
-	middleware: {
-		sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
-		gasPrice: async () => (await pimlicoBundlerClient.getUserOperationGasPrice()).fast, // use pimlico bundler to get gas prices
-	}
-});
+// [!include ~/snippets/accounts/light.ts:smartAccountClient]
 ```
+
 
 ### Send a transaction
 
 Transactions using permissionless.js simply wrap around user operations. This means you can switch to permissionless.js from your existing viem EOA codebase with minimal-to-no changes.
 
 ```ts
-const txHash = await smartAccountClient.sendTransaction({
-	to: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045", // Vitalik
-    data: "0x",
-    value: 0n,
-});
+// [!include ~/snippets/accounts/light.ts:submit]
 ```
