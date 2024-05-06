@@ -44,8 +44,8 @@ For a full list of options for creating a LightAccount, take a look at the refer
 You can also pass an `address` to use an already created LightAccount.
 
 ```ts
-const lightAccount = await privateKeyToLightSmartAccount(publicClient, {
-    privateKey: '0x...',
+const lightAccount = await signerToLightSmartAccount(publicClient, {
+    signer: privateKeyToAccount('0x...'),
     entryPoint: ENTRYPOINT_ADDRESS_V06,
     lightAccountVersion: '1.1.0'
 })
