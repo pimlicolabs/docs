@@ -69,7 +69,7 @@ const smartAccountClient_$2 = createSmartAccountClient({
 		sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
 	}
 });
-// [!region smartAccountClientGasPrice]
+// [!endregion smartAccountClientGasPrice]
 
 
 // [!region submit]
