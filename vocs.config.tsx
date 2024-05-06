@@ -325,6 +325,20 @@ export const permissionlessSidebar = [
       }
     ]
   },
+  {
+    text: "Experimental",
+    collapsed: false,
+    items: [
+      { 
+        text: "EIP-7677",
+        collapsed: false,
+        items: [
+          { text: "getPaymasterData", link: "/permissionless/experimental/eip7677/getPaymasterData" },
+          { text: "getPaymasterStubData", link: "/permissionless/experimental/eip7677/getPaymasterStubData" }
+        ]
+      },
+    ]
+  },
 ]
 
 export default defineConfig({

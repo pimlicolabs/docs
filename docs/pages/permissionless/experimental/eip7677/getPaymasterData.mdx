@@ -1,15 +1,16 @@
-# sendUserOperation
+# getPaymasterData
 
-Submits a user operation to the bundler.
+Return values to be used in paymaster-related fields of a signed user operation. This method calls `pm_getPaymasterData` and is part of the experimental [ERC-7677 specification](https://github.com/ethereum/ERCs/pull/360/files).
 
 ## Usage
 
 ::::code-group
 
 ```ts [example.ts]
-import { bundlerClient } from "./client"
+import { paymasterEip7677Client } from "./client"
+import { sepolia } from 'viem/chains'
 
-const userOpHash = await bundlerClient.sendUserOperation({
+const paymasterReturnData = paymasterClient.getPaymasterData({
     userOperation: {
         sender: "0x6152348912fb1e78c9037D83f9d4524D4a2988Ed",
         nonce: "0x8104e3ad430ea6d354d013a6789fdfc71e671c4300000000000000000000",
@@ -23,51 +24,56 @@ const userOpHash = await bundlerClient.sendUserOperation({
         preVerificationGas: 66875n,
         verificationGasLimit: 373705n,
         callGasLimit: 170447n,
-        paymaster: "0x9d0021A869f1Ed3a661Ffe8C9B41Ec6244261d98",
-        paymasterData:
-            "0x000000000000000000000000000000000000000000000000000000006638ab470000000000000000000000000000000000000000000000000000000000000000e9311d1945317dc6a1c750e8e6d0641a598beb59edc5652ed3807ca57338a7a107123e1a479386b2c91f242d2dff367c18e0ad9d1021acfe47afc890e252644e1c",
         paymasterVerificationGasLimit: 20274n
-        paymasterPostOpGasLimit: 1n,
-        signature:
-            "0xa58d445f26b126fcd644975f0c66bd45f3e6e5b9c1acec2eeee490aa9341cfc312988231c228f84e12eac2d90ed9cd8825546d70d73b2e0fabdd6c8089ab29581b",
+        paymasterPostOpGasLimit: 1n
     },
-    entryPoint: "0x0000000071727De22E5E9d8BAf0edAc6f37da032"
+    entryPoint: "0x0000000071727De22E5E9d8BAf0edAc6f37da032",
+    chainId: sepolia.id
 })
+/**
+ * {
+ *  paymaster: "0x9d0021A869f1Ed3a661Ffe8C9B41Ec6244261d98",
+ *  paymasterData: "0x000000000000000000000000000000000000000000000000000000006638ab470000000000000000000000000000000000000000000000000000000000000000e9311d1945317dc6a1c750e8e6d0641a598beb59edc5652ed3807ca57338a7a107123e1a479386b2c91f242d2dff367c18e0ad9d1021acfe47afc890e252644e1c"
+ * }
+ */
 ```
 
 ```ts [client.ts]
 import { createClient, http } from 'viem'
 import { sepolia } from 'viem/chains'
-import { bundlerActions } from 'permissionless'
+import { paymasterEip7677Actions } from 'permissionless/experimental'
 
-export const bundlerClient = createClient({ 
+export const paymasterEip7677Client = createClient({ 
   chain: sepolia,
   transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_API_KEY_HERE")
-}).extend(bundlerActions)
+}).extend(paymasterEip7677Actions)
 ```
 
 ::::
 
 ## Returns
 
-- **Type:** `Hash`
+- **Type:** `GetPaymasterDataReturnType<entryPoint>`
 
-The user operation hash.
+The paymaster values to be used in the paymaster-related fields of a signed user operation.
 
-## Parameters
+For EntryPoint v0.7, the return type is:
 
-### userOperation
+```ts
+{
+    paymaster: Address,
+    paymasterData: Hex
+}
+```
 
-- **Type:** `UserOperation`
+For EntryPoint v0.6, the return type is:
 
-The full user operation object.
-
-### entryPoint
-
-- **Type:** `Address`
-
-The address of the entry point contract.
+```ts
+{
+    paymasterAndData: Hex
+}
+```
 
 ## JSON-RPC Method
 
-[`eth_sendUserOperation`](https://eips.ethereum.org/EIPS/eip-4337#rpc-methods-eth-namespace)
+[`pm_getPaymasterData`](https://github.com/ethereum/ERCs/pull/360/files)
