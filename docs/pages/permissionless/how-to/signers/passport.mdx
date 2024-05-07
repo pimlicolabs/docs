@@ -1,6 +1,7 @@
 import SmartAccounts from "./smartAccounts.mdx";
+import PassportSigners from "./passportSigners.mdx";
 
-# How to use a Passport Netwrok signer with permissionless.js
+# How to use a Passport Protocol signer with permissionless.js
 
 [Passport](https://0xpass.io/) is an MPC-based programmable, distributed, and non-custodial key management system, that allows users to generate wallets, scoped to their application, either via user Passkeys or any developer defined authentication method. Our signer allows you to sign messages and transactions with a Passport Network account.
 
@@ -17,11 +18,10 @@ Integrating permissionless.js with Passport is straightforward after setting up 
 
 ### Create the Passport signer
 
-After following the Passport documentation, you will have access to a Passport `WalletClient` object that you can use to create a `SmartAccountSigner` object:
+After following the Passport documentation, you will have access to a Passport `WalletClient` object that you can use to create a `SmartAccountSigner` object, both examples show how to register a user
+but if you already have a registered user you can skip the registration step. For Developer Owned Auth, the authentication is handled on the developer's side. For more detail on both you can check the [authentication guide](https://docs.0xpass.io/authentication/overview).
 
-```typescript
-// [!include ~/snippets/signers/passport.ts:main]
-```
+<PassportSigners />
 
 ### Use with permissionless.js
 
