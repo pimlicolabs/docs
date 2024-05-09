@@ -210,7 +210,7 @@ export const permissionlessSidebar = [
           { text: "How to use a Kernel account", link: "/permissionless/how-to/accounts/use-kernel-account" },
           { text: "How to use a SimpleAccount", link: "/permissionless/how-to/accounts/use-simple-account" },
           { text: "How to use a Biconomy account", link: "/permissionless/how-to/accounts/use-biconomy-account" },
-          { text: "How to use a LightAccount account", link: "/permissionless/how-to/accounts/use-light-account" },
+          { text: "How to use a LightAccount", link: "/permissionless/how-to/accounts/use-light-account" },
         ]
       },
       {

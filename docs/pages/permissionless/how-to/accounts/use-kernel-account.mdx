@@ -64,14 +64,6 @@ The smart account client is a permissionless.js client that is meant to serve as
 // [!include ~/snippets/accounts/kernel.ts:smartAccountClient]
 ```
 
-### Fetch the gas prices (optional)
-
-If you're using Pimlico as your bundler, fetch the required gas price to use beforehand and pass it in as the `maxFeePerGas` and `maxPriorityFeePerGas` parameters. Other providers might have different requirements for fetching the gas price.
-
-```ts
-// [!include ~/snippets/accounts/kernel.ts:gasPrices]
-```
-
 ### Send a transaction
 
 Transactions using permissionless.js simply wrap around user operations. This means you can switch to permissionless.js from your existing viem EOA codebase with minimal-to-no changes.

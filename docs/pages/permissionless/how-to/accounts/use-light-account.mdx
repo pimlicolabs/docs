@@ -8,6 +8,12 @@ This guide will show you how to create and use a LightAccount with permissionles
 
 ::::steps
 
+### Import the required packages
+
+```ts
+// [!include ~/snippets/accounts/light.ts:imports]
+```
+
 ### Create the clients
 
 First we must create the public, bundler, and (optionally) paymaster clients that will be used to interact with the LightAccount.
@@ -45,4 +51,16 @@ Transactions using permissionless.js simply wrap around user operations. This me
 
 ```ts
 // [!include ~/snippets/accounts/light.ts:submit]
+```
+
+This also means you can also use viem Contract instances to transact without any modifications.
+
+```ts
+// [!include ~/snippets/accounts/light.ts:submitNft]
+```
+
+You can also send an array of transactions in a single batch.
+
+```ts
+// [!include ~/snippets/accounts/light.ts:submitBatch]
 ```

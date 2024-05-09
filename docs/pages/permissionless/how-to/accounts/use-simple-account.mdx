@@ -6,6 +6,12 @@
 
 ::::steps
 
+### Import the required packages
+
+```ts
+// [!include ~/snippets/accounts/simple.ts:imports]
+```
+
 ### Create the clients
 
 First we must create the public, bundler, and (optionally) paymaster clients that will be used to interact with the SimpleAccount.
@@ -34,16 +40,6 @@ The smart account client is a permissionless.js client that is meant to serve as
 ```ts
 // [!include ~/snippets/accounts/simple.ts:smartAccountClient]
 ```
-
-
-### Fetch the gas prices (optional)
-
-If you're using Pimlico as your bundler, fetch the required gas price to use beforehand and pass it in as the `maxFeePerGas` and `maxPriorityFeePerGas` parameters. Other providers might have different requirements for fetching the gas price.
-
-```ts
-// [!include ~/snippets/accounts/simple.ts:smartAccountClientGasPrice]
-```
-
 
 ### Send a transaction
 

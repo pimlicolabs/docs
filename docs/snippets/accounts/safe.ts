@@ -48,8 +48,8 @@ const smartAccountClient = createSmartAccountClient({
 	chain: sepolia,
 	bundlerTransport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
 	middleware: {
-		gasPrice: async () => (await pimlicoBundlerClient.getUserOperationGasPrice()).fast, // use pimlico bundler to get gas prices
 		sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
+		gasPrice: async () => (await pimlicoBundlerClient.getUserOperationGasPrice()).fast, // if using pimlico bundler
 	},
 })
 // [!endregion smartAccountClient]
