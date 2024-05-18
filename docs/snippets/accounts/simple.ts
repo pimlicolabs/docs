@@ -1,11 +1,12 @@
 // [!region imports]
-import { ENTRYPOINT_ADDRESS_V07, createSmartAccountClient } from "permissionless"
-import { signerToSafeSmartAccount } from "permissionless/accounts"
+import { createSmartAccountClient, ENTRYPOINT_ADDRESS_V07 } from "permissionless"
+import { signerToSimpleSmartAccount } from "permissionless/accounts"
 import {
 	createPimlicoBundlerClient,
 	createPimlicoPaymasterClient,
 } from "permissionless/clients/pimlico"
 import { createPublicClient, getContract, http, parseEther } from "viem"
+import { privateKeyToAccount } from "viem/accounts"
 import { sepolia } from "viem/chains"
 // [!endregion imports]
 
@@ -15,8 +16,8 @@ export const publicClient = createPublicClient({
 })
 
 export const paymasterClient = createPimlicoPaymasterClient({
-	transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
 	entryPoint: ENTRYPOINT_ADDRESS_V07,
+	transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
 })
 
 export const pimlicoBundlerClient = createPimlicoBundlerClient({
@@ -25,25 +26,17 @@ export const pimlicoBundlerClient = createPimlicoBundlerClient({
 })
 // [!endregion clients]
 
-// [!region signer]
-import { privateKeyToAccount } from "viem/accounts"
-
-const signer = privateKeyToAccount("0xPRIVATE_KEY")
-// [!endregion signer]
-
 // [!region smartAccount]
-const safeAccount = await signerToSafeSmartAccount(publicClient, {
+const simpleAccount = await signerToSimpleSmartAccount(publicClient, {
+	signer: privateKeyToAccount("0x..."),
 	entryPoint: ENTRYPOINT_ADDRESS_V07,
-	signer: signer,
-	saltNonce: 0n, // optional
-	safeVersion: "1.4.1",
-	address: "0x...", // optional, only if you are using an already created account
+	factoryAddress: "0x91E60e0613810449d098b0b5Ec8b51A0FE8c8985",
 })
 // [!endregion smartAccount]
 
 // [!region smartAccountClient]
 const smartAccountClient = createSmartAccountClient({
-	account: safeAccount,
+	account: simpleAccount,
 	entryPoint: ENTRYPOINT_ADDRESS_V07,
 	chain: sepolia,
 	bundlerTransport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),

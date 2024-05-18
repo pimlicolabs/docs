@@ -4,7 +4,7 @@
 ZeroDev, the author of Kernel, maintains their own in-house SDK built closely on top of permissionless.js that you can use for the account system while still plugging in all the other components from permissionless.js. Take a look at [their documentation](https://docs.zerodev.app) for more information.
 :::
 
-[Kernel](https://github.com/zerodevapp/kernel) is a modular smart account that supports plugins, which are smart contracts that extend the account's functionalities.  You can use Kernel with popular plugins such as session keys and account recovery, and even write your own plugins.
+[Kernel](https://github.com/zerodevapp/kernel) is a **modular smart account** that supports plugins, which are smart contracts that extend the account's functionalities.  You can use Kernel with popular plugins such as session keys and account recovery, and even write your own plugins.  Kernel is compatible with [ERC-7579](https://erc7579.com/).
 
 ## Picking an EntryPoint
 
@@ -62,14 +62,6 @@ The smart account client is a permissionless.js client that is meant to serve as
 
 ```ts
 // [!include ~/snippets/accounts/kernel.ts:smartAccountClient]
-```
-
-### Fetch the gas prices (optional)
-
-If you're using Pimlico as your bundler, fetch the required gas price to use beforehand and pass it in as the `maxFeePerGas` and `maxPriorityFeePerGas` parameters. Other providers might have different requirements for fetching the gas price.
-
-```ts
-// [!include ~/snippets/accounts/kernel.ts:gasPrices]
 ```
 
 ### Send a transaction

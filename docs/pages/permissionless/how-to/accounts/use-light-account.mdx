@@ -1,0 +1,66 @@
+# How to create and use a LightAccount with permissionless.js
+
+[LightAccount](https://github.com/alchemyplatform/light-account) is the smart account implementation made by Alchemy and inspired by SimpleAccount.
+It has a few additional [features](https://github.com/alchemyplatform/light-account?tab=readme-ov-file#features), such as transferrable ownership and upgradability.
+This guide will show you how to create and use a LightAccount with permissionless.js.
+
+## Steps
+
+::::steps
+
+### Import the required packages
+
+```ts
+// [!include ~/snippets/accounts/light.ts:imports]
+```
+
+### Create the clients
+
+First we must create the public, bundler, and (optionally) paymaster clients that will be used to interact with the LightAccount.
+
+```ts
+// [!include ~/snippets/accounts/light.ts:clients]
+```
+
+
+### Create the LightAccount
+
+:::info
+For a full list of options for creating a LightAccount, take a look at the reference documentation page for [`signerToLightSmartAccount`](/permissionless/reference/accounts/signerToLightSmartAccount).
+:::
+
+You can also pass an `address` to use an already created LightAccount.
+
+```ts
+// [!include ~/snippets/accounts/light.ts:smartAccount]
+```
+
+
+### Create the smart account client
+
+The smart account client is a permissionless.js client that is meant to serve as an almost drop-in replacement for viem's [walletClient](https://viem.sh/docs/clients/wallet.html).
+
+```ts
+// [!include ~/snippets/accounts/light.ts:smartAccountClient]
+```
+
+
+### Send a transaction
+
+Transactions using permissionless.js simply wrap around user operations. This means you can switch to permissionless.js from your existing viem EOA codebase with minimal-to-no changes.
+
+```ts
+// [!include ~/snippets/accounts/light.ts:submit]
+```
+
+This also means you can also use viem Contract instances to transact without any modifications.
+
+```ts
+// [!include ~/snippets/accounts/light.ts:submitNft]
+```
+
+You can also send an array of transactions in a single batch.
+
+```ts
+// [!include ~/snippets/accounts/light.ts:submitBatch]
+```

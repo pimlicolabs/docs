@@ -43,7 +43,7 @@ dependencies:
     version: 1.3.2(@particle-network/auth@1.3.1)
   '@permissionless/wagmi':
     specifier: ^0.0.4
-    version: 0.0.4(permissionless@0.1.19)(viem@2.9.23)(wagmi@2.5.5)
+    version: 0.0.4(permissionless@0.1.28)(viem@2.9.23)(wagmi@2.5.5)
   '@radix-ui/colors':
     specifier: ^3.0.0
     version: 3.0.0
@@ -84,8 +84,8 @@ dependencies:
     specifier: ^22.1.1
     version: 22.1.1
   permissionless:
-    specifier: ^0.1.19
-    version: 0.1.19(viem@2.9.23)
+    specifier: 0.1.28
+    version: 0.1.28(viem@2.9.23)
   react:
     specifier: latest
     version: 18.2.0
@@ -4947,14 +4947,14 @@ packages:
       - debug
     dev: false
 
-  /@permissionless/wagmi@0.0.4(permissionless@0.1.19)(viem@2.9.23)(wagmi@2.5.5):
+  /@permissionless/wagmi@0.0.4(permissionless@0.1.28)(viem@2.9.23)(wagmi@2.5.5):
     resolution: {integrity: sha512-vWVsgpJVZz37ty5RE1r/xfWq59GyKbNlA5R/om77pBWEjm6DItpEfcgWNjCudhvGRiaBVBKWs7Don/I9aRm8YQ==}
     peerDependencies:
       permissionless: ^0.0.36
       viem: ^2.0.0
       wagmi: ^2.5.1
     dependencies:
-      permissionless: 0.1.19(viem@2.9.23)
+      permissionless: 0.1.28(viem@2.9.23)
       viem: 2.9.23(typescript@5.3.3)
       wagmi: 2.5.5(@tanstack/react-query@5.18.0)(@types/react@18.2.47)(react-dom@18.2.0)(react-native@0.73.3)(react@18.2.0)(rollup@4.9.5)(typescript@5.3.3)(viem@2.9.23)
     dev: false
@@ -14459,8 +14459,8 @@ packages:
       is-reference: 3.0.2
     dev: false
 
-  /permissionless@0.1.19(viem@2.9.23):
-    resolution: {integrity: sha512-PC92VMYBiOIzGCmFcuOS3l8z6E2Bwf5hh/m/iUQ2KjgZqmA6FLoOhFP3vujVJRGWu6OoV6nSDVjYnI+dKgnm8Q==}
+  /permissionless@0.1.28(viem@2.9.23):
+    resolution: {integrity: sha512-JjE4IofN2B1pqB4L7g/9G325pKXCGuPHfpc390jtVvk4CjnIIVQN1NwO97eb+bAYty+1aoBgYsw6ezxH1WmgWA==}
     peerDependencies:
       viem: ^2.9.17
     dependencies:

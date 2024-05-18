@@ -6,22 +6,20 @@
 
 ::::steps
 
+### Import the required packages
+
+```ts
+// [!include ~/snippets/accounts/simple.ts:imports]
+```
+
 ### Create the clients
 
 First we must create the public, bundler, and (optionally) paymaster clients that will be used to interact with the SimpleAccount.
 
 ```ts
-export const publicClient = createPublicClient({
-	transport: http("https://sepolia.infura.io/v3/API_KEY"),
-});
-
-export const paymasterClient = createPimlicoPaymasterClient({
-	entryPoint,
-	transport: http(
-		"https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY",
-	),
-});
+// [!include ~/snippets/accounts/simple.ts:clients]
 ```
+
 
 ### Create the SimpleAccount
 
@@ -32,12 +30,7 @@ For a full list of options for creating a SimpleAccount, take a look at the refe
 You can create a SimpleAccount with the canonical module addresses by specifying the factory address the account will be deployed from. You can also pass an `address` to use an already created SimpleAccount.
 
 ```ts
-const simpleAccount = await privateKeyToSimpleSmartAccount(publicClient, {
-	privateKey: "0xPRIVATE_KEY",
-	factoryAddress: "0x9406Cc6185a346906296840746125a0E44976454",
-	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789", // global entrypoint
-	address: "0x..." // optional, only if you are using an already created account
-});
+// [!include ~/snippets/accounts/simple.ts:smartAccount]
 ```
 
 ### Create the smart account client
@@ -45,43 +38,7 @@ const simpleAccount = await privateKeyToSimpleSmartAccount(publicClient, {
 The smart account client is a permissionless.js client that is meant to serve as an almost drop-in replacement for viem's [walletClient](https://viem.sh/docs/clients/wallet.html).
 
 ```ts
-const smartAccountClient = createSmartAccountClient({
-	account: simpleAccount,
-	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
-	chain: sepolia,
-	bundlerTransport: http(
-		"https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY",
-	),
-	middleware: {
-		sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
-	}
-});
-```
-
-### Fetch the gas prices (optional)
-
-If you're using Pimlico as your bundler, fetch the required gas price to use beforehand and pass it in as the `maxFeePerGas` and `maxPriorityFeePerGas` parameters. Other providers might have different requirements for fetching the gas price.
-
-```ts
-export const pimlicoBundlerClient = createPimlicoBundlerClient({
-	transport: http(
-		"https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY",
-	),
-	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
-});
-
-const smartAccountClient = createSmartAccountClient({
-	account: simpleAccount,
-	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
-	chain: sepolia,
-	bundlerTransport: http(
-		"https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY",
-	),
-	middleware: {
-		gasPrice: async () => (await pimlicoBundlerClient.getUserOperationGasPrice()).fast, // use pimlico bundler to get gas prices
-		sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
-	}
-});
+// [!include ~/snippets/accounts/simple.ts:smartAccountClient]
 ```
 
 ### Send a transaction
@@ -89,23 +46,14 @@ const smartAccountClient = createSmartAccountClient({
 Transactions using permissionless.js simply wrap around user operations. This means you can switch to permissionless.js from your existing viem EOA codebase with minimal-to-no changes.
 
 ```ts
-const txHash = await smartAccountClient.sendTransaction({
-	to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
-	value: parseEther("0.1"),
-});
+// [!include ~/snippets/accounts/simple.ts:submit]
 ```
 
 This also means you can also use viem Contract instances to transact without any modifications.
 
 ```ts
-const nftContract = getContract({
-	address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2',
-	abi: nftAbi,
-	publicClient,
-	walletClient: smartAccountClient,
-});
-
-const txHash = await nftContract.write.mint()
+// [!include ~/snippets/accounts/simple.ts:submitNft]
 ```
+
 
 ::::

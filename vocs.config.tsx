@@ -210,6 +210,7 @@ export const permissionlessSidebar = [
           { text: "How to use a Kernel account", link: "/permissionless/how-to/accounts/use-kernel-account" },
           { text: "How to use a SimpleAccount", link: "/permissionless/how-to/accounts/use-simple-account" },
           { text: "How to use a Biconomy account", link: "/permissionless/how-to/accounts/use-biconomy-account" },
+          { text: "How to use a LightAccount", link: "/permissionless/how-to/accounts/use-light-account" },
         ]
       },
       {
@@ -259,6 +260,7 @@ export const permissionlessSidebar = [
           { text: "signerToSimpleSmartAccount", link: "/permissionless/reference/accounts/signerToSimpleSmartAccount" },
           { text: "signerToSafeSmartAccount", link: "/permissionless/reference/accounts/signerToSafeSmartAccount" },
           { text: "signerToKernelSmartAccount", link: "/permissionless/reference/accounts/signerToKernelSmartAccount" },
+          { text: "signerToLightSmartAccount", link: "/permissionless/reference/accounts/signerToLightSmartAccount" },
         ]
       },
       {
@@ -323,6 +325,20 @@ export const permissionlessSidebar = [
           { text: "Errors", link: "/permissionless/reference/glossary/errors" },
         ]
       }
+    ]
+  },
+  {
+    text: "Experimental",
+    collapsed: false,
+    items: [
+      { 
+        text: "EIP-7677",
+        collapsed: false,
+        items: [
+          { text: "getPaymasterData", link: "/permissionless/experimental/eip7677/getPaymasterData" },
+          { text: "getPaymasterStubData", link: "/permissionless/experimental/eip7677/getPaymasterStubData" }
+        ]
+      },
     ]
   },
 ]

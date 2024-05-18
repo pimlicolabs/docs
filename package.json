@@ -34,7 +34,7 @@
     "@web3auth/modal": "^7.3.2",
     "lucide-react": "^0.309.0",
     "magic-sdk": "^22.1.1",
-    "permissionless": "^0.1.19",
+    "permissionless": "0.1.28",
     "react": "latest",
     "react-dom": "latest",
     "viem": "^2.9.23",

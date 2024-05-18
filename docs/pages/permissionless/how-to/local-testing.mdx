@@ -4,15 +4,19 @@ This guide introduces a ready-to-use mock test environment, that contains:
 - A local Alto bundler
 - A mock verifying paymaster
 - An Anvil node
-- And all Account Abstraction related contracts
+- ERC-4337 related contracts, including the EntryPoint and account factories for all major ERC-4337 account implementations.
 
 The test environment is orchestrated using **docker compose**. Where the docker containers are pulled from [this repo](https://github.com/pimlicolabs/mock-aa-environment).
 
-The mock environment is designed to mimic mainnet as closely as possible by building with the latest alto version and by deploying all contracts (entrypoints, paymaster, smart account factories, ...)
+The mock environment is designed to mimic mainnet as closely as possible by building with the latest Alto version and by deploying all contracts (entrypoints, paymasters, smart account factories, etc.)
 
-This has advantages over testing against a prod testnet as you have more control over the testing environment and can make use of things like anvil cheatcodes.
+This has advantages over testing against a production testnet as you have more control over the testing environment and can make use of features like anvil cheatcodes.
 
-## Setup
+## Steps
+
+::::steps
+
+### Setup
 
 To get started, create a **docker-compose.yaml** file at the root of your test directory with the following contents.
 
@@ -40,7 +44,7 @@ services:
 
 To start the test environment, run
 
-```console
+```sh
 docker compose up
 ```
 
@@ -75,10 +79,10 @@ const paymasterClient = createPimlicoPaymasterClient({
 ```
 
 :::info
-Note: All smart account types will work out of the box as all related factories and modules are deployed on the local anvil instance.
+Note: All smart account types supported by permissionless.js will work out of the box as all related factories and modules are deployed on the local anvil instance.
 :::
 
-## Vitest Integration
+### Vitest Integration
 
 You can add scripts in your **package.json** to automatically set up and tear down your mock environment when running tests.
 
@@ -100,7 +104,7 @@ You can add scripts in your **package.json** to automatically set up and tear do
 }
 ```
 
-When writing test cases, we need to ensure that the bundler and paymaster are fully setup before sending any request to them. To do this, we can make a simple health check in the beforeAll declaration.
+When writing test cases, ensure that the bundler and paymaster are fully setup before sending any request to them. To do this, make a simple health check in the `beforeAll` declaration.
 
 :::code-group
 ```ts [basic.test.ts]
@@ -187,9 +191,9 @@ export const ensurePaymasterIsReady = async () => {
 ```
 :::
 
-For a more detailed example, checkout our [permissionless.js E2E integration tests](https://github.com/pimlicolabs/permissionless.js/tree/main/packages/permissionless-test) where we use the same mock environment as this guide.
+For a more detailed example, take a look at the [permissionless.js E2E integration tests](https://github.com/pimlicolabs/permissionless.js/tree/main/packages/permissionless-test) which uses the same mock environment as this guide.
 
-## Extension: Testing against forked state
+### Extension: Testing against forked state
 
 If you want your tests to run against a live blockchain, you can slightly edit the **docker-compose.yaml** file to fork from the latest block by adding the anvil flag **--fork-url** and the environment variable **SKIP_DEPLOYMENTS** to skip the local contract deployments.
 
@@ -215,3 +219,5 @@ services:
       - ANVIL_RPC=http://anvil:8545
       - SKIP_DEPLOYMENTS=true // [!code ++]
 ```
+
+::::
