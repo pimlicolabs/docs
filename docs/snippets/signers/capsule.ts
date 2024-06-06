@@ -1,5 +1,6 @@
 // [!region main]
-import Capsule, { createCapsuleViemClient } from "@usecapsule/web-sdk"
+import Capsule from "@usecapsule/web-sdk"
+import { createCapsuleViemClient } from '@usecapsule/viem-v2-integration';
 import { walletClientToSmartAccountSigner } from "permissionless"
 import { http } from "viem"
 import { sepolia } from "viem/chains"
