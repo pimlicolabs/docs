@@ -1,0 +1,65 @@
+# signerToTrustSmartAccount
+
+Creates a Trust Wallet Smart Account instance controlled by a `SmartAccountSigner`.  Check out [this guide](/permissionless/how-to/accounts/use-trustwallet-account) for a complete tutorial.
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+import { signerToTrustSmartAccount } from "permissionless/accounts"
+import { publicClient } from "./publicClient"
+import { signer } from "./signer"
+
+const account = await signerToTrustSmartAccount(client, {
+	signer,
+    entryPoint: ENTRYPOINT_ADDRESS_V06,
+	address: "0x..." // optional, only if you are using an already created account
+})
+```
+
+```ts [publicClient.ts]
+// [!include ~/snippets/publicClient.ts:client]
+```
+
+```ts [signer.ts]
+// [!include ~/snippets/signer.ts]
+```
+
+::::
+
+## Returns
+
+- **Type:** `TrustSmartAccount`
+
+The Trust smart account instance.
+
+## Parameters
+
+### signer
+
+- **Type:** `SmartAccountSigner`
+
+The signer that will be used to sign messages and user operations.
+
+### entryPoint
+
+- **Type:** `Address`
+
+The address of the EntryPoint contract.
+
+### index (optional)
+
+- **Type:** `bigint`
+
+The index (which is basically a salt) that will be used to deploy the smart account. If not provided, `0` will be used.
+
+### address (optional)
+
+- **Type:** `Address`
+
+:::warning
+If you provide an address, the smart account can not be deployed. This should be used if you want to interact with an existing smart account.
+:::
+
+The address of the smart account. If not provided, the determinstic smart account address will be used.
