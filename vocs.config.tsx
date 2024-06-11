@@ -211,6 +211,7 @@ export const permissionlessSidebar = [
           { text: "How to use a SimpleAccount", link: "/permissionless/how-to/accounts/use-simple-account" },
           { text: "How to use a Biconomy account", link: "/permissionless/how-to/accounts/use-biconomy-account" },
           { text: "How to use a LightAccount", link: "/permissionless/how-to/accounts/use-light-account" },
+          { text: "How to use a Trust Wallet account", link: "/permissionless/how-to/accounts/use-trustwallet-account" },
         ]
       },
       {
@@ -261,6 +262,7 @@ export const permissionlessSidebar = [
           { text: "signerToSafeSmartAccount", link: "/permissionless/reference/accounts/signerToSafeSmartAccount" },
           { text: "signerToKernelSmartAccount", link: "/permissionless/reference/accounts/signerToKernelSmartAccount" },
           { text: "signerToLightSmartAccount", link: "/permissionless/reference/accounts/signerToLightSmartAccount" },
+          { text: "signerToTrustSmartAccount", link: "/permissionless/reference/accounts/signerToTrustSmartAccount" },
         ]
       },
       {
