@@ -1,5 +1,5 @@
 // [!region imports]
-import { ENTRYPOINT_ADDRESS_V07, createSmartAccountClient } from "permissionless"
+import { ENTRYPOINT_ADDRESS_V06, createSmartAccountClient } from "permissionless"
 import { signerToTrustSmartAccount } from "permissionless/accounts"
 import {
 	createPimlicoBundlerClient,
@@ -16,12 +16,12 @@ export const publicClient = createPublicClient({
 
 export const paymasterClient = createPimlicoPaymasterClient({
 	transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
-	entryPoint: ENTRYPOINT_ADDRESS_V07,
+	entryPoint: ENTRYPOINT_ADDRESS_V06,
 })
 
 export const pimlicoBundlerClient = createPimlicoBundlerClient({
 	transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
-	entryPoint: ENTRYPOINT_ADDRESS_V07,
+	entryPoint: ENTRYPOINT_ADDRESS_V06,
 })
 // [!endregion clients]
 
@@ -33,7 +33,7 @@ const signer = privateKeyToAccount("0xPRIVATE_KEY")
 
 // [!region smartAccount]
 const trustAccount = await signerToTrustSmartAccount(publicClient, {
-	entryPoint: ENTRYPOINT_ADDRESS_V07,
+	entryPoint: ENTRYPOINT_ADDRESS_V06,
 	signer: signer,
 	index: 0n, // optional
 	address: "0x...", // optional, only if you are using an already created account
