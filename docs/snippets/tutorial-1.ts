@@ -57,7 +57,9 @@ const smartAccountClient = createSmartAccountClient({
 	bundlerTransport: http(bundlerUrl),
 	middleware: {
 		gasPrice: async () => {
-			return (await bundlerClient.getUserOperationGasPrice()).fast
+			const gasPrice = await bundlerClient.getUserOperationGasPrice();
+            		console.log('Received gas prices:', gasPrice);
+			return gasPrice.fast;
 		},
 		sponsorUserOperation: paymasterClient.sponsorUserOperation,
 	},
