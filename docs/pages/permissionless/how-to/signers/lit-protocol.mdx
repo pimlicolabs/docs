@@ -188,20 +188,24 @@ You can now use the `pkpWallet` as a regular Ethers.js wallet to sign user opera
 Modified from [tutorial 1](/permissionless/tutorial/tutorial-1), an example of how to use the PKP wallet to sign a user operation is shown below:
 
 ```typescript
-const signature = await pkpWallet.signMessage(
-	ethers.utils.arrayify(await entryPoint.getUserOpHash(userOperation)),
-)
+import { toBytes } from 'viem';
 
-userOperation.signature = signature
+const signature = await pkpWallet.signMessage(
+	toBytes(await entryPoint.getUserOpHash(userOperation)),
+);
+
+userOperation.signature = signature;
 ```
 
 And an example of how you would generate the initCode for a SimpleAccount using the PKP wallet is shown below:
 
 ```typescript
-const initCode = ethers.utils.hexConcat([
+import { concat } from 'viem';
+
+const initCode = concat([
 	SIMPLE_ACCOUNT_FACTORY_ADDRESS,
 	simpleAccountFactory.interface.encodeFunctionData("createAccount", [pkpWallet.address, 0]),
-])
+]);
 ```
 
 :::::
