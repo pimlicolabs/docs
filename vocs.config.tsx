@@ -188,6 +188,10 @@ export const permissionlessSidebar = [
     text: "How-to Guides",
     items: [
       {
+        text: "Update your existing app to sponsor gas fees for smart account users",
+        link: "/permissionless/how-to/dapp-gas-sponsorship"
+      },
+      {
         text: "Error Handling",
         link: "/permissionless/how-to/error-handling"
       },
@@ -333,7 +337,7 @@ export const permissionlessSidebar = [
     text: "Experimental",
     collapsed: false,
     items: [
-      { 
+      {
         text: "EIP-7677",
         collapsed: false,
         items: [
