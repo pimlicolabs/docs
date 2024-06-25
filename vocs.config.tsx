@@ -359,7 +359,7 @@ export default defineConfig({
     text: 'Edit on GitHub',
   },
   description: "Pimlico is the world's most popular account abstraction infrastructure platform",
-  head: (
+  head: () => (
     <>
       <script src="/posthog.js"></script>
     </>
