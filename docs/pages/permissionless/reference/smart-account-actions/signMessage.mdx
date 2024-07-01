@@ -4,8 +4,8 @@ Uses a smart account to sign and calculate an Ethereum-specific signature in [EI
 
 With the calculated signature, you can:
 
-- use [`verifyMessage`](/docs/utilities/verifyMessage) to verify the signature,
-- use [`recoverMessageAddress`](/docs/utilities/recoverMessageAddress) to recover the signing address from a signature.
+- use `verifyMessage` to verify the signature.
+- use `recoverMessageAddress` to recover the signing address from a signature.
 
 ## Usage
 
@@ -38,27 +38,3 @@ The signed message.
 - **Type:** `string | { raw: Hex | ByteArray }`
 
 Message to sign.
-
-By default, signing will be done on the UTF-8 representation of the message.
-
-```ts twoslash
-import { privateKeyToAccount } from 'viem/accounts'
-
-const account = privateKeyToAccount('0x...')
-// ---cut---
-const signature = await account.signMessage({
-  message: 'hello world', // [!code focus:1]
-})
-```
-
-To sign the data representation of the message, you can use the `raw` attribute.
-
-```ts twoslash
-import { privateKeyToAccount } from 'viem/accounts'
-
-const account = privateKeyToAccount('0x...')
-// ---cut---
-const signature = await account.signMessage({
-  message: { raw: '0x68656c6c6f20776f726c64' }, // [!code focus:1]
-})
-```
