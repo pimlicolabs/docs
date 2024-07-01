@@ -1,0 +1,91 @@
+# sendTransactions
+
+Send a batch of transaction from a smart account.
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+import { smartAccountClient, simpleSmartAccount } from "./smartAccountClient"
+import { pimlicoBundlerClient } from "./bundlerClient"
+import { parseAbiItem, encodeFunctionData } from "viem"
+
+const hash = await smartAccountClient.sendTransactions([
+	{
+		to: "0x0488bEE1Ec682db0F0E74AB52faFdDdEf10Af123",
+		data: encodeFunctionData({
+			abi: [parseAbiItem("function mint()")],
+		}),
+		value: 0n,
+	},
+	{
+		to: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
+		data: "0x68656c6c6f",
+		value: 0n,
+	},
+]);
+```
+
+```ts [smartAccountClient.ts]
+// [!include ~/snippets/smartAccountClient.ts:client]
+```
+
+```ts [bundlerClient.ts]
+// [!include ~/snippets/pimlicoBundlerClient.ts:client]
+```
+
+::::
+
+## Returns
+
+- **Type:** `Hash`
+
+The transaction hash of the mined userOperation
+
+## Parameters
+
+Takes in an array of transaction objects with the following fields
+
+### to
+
+- **Type:** `0x${string}`
+
+The transaction recipient or contract address.
+
+### data (optional)
+
+- **Type:** `0x${string}`
+
+A contract hashed method call with encoded args.
+
+### value (optional)
+
+- **Type:** `bigint`
+
+Value in wei sent with this transaction.
+
+### maxFeePerGas (optional)
+
+- **Type:** `bigint`
+
+Total fee per gas (in wei), inclusive of `maxPriorityFeePerGas`. Only applies to EIP-1559 Transactions.
+
+### maxPriorityFeePerGas (optional)
+
+- **Type:** `bigint`
+
+Max priority fee per gas (in wei). Only applies to EIP-1559 Transactions.
+
+### nonce (optional)
+
+- **Type:** `number`
+
+Unique number identifying this transaction.
+
+### account (optional)
+
+- **Type:** `SmartAccount`
+
+The Account to send the transaction from.
+

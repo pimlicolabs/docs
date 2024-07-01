@@ -282,12 +282,19 @@ export const permissionlessSidebar = [
         ]
       },
       {
-        text: "Smart Account Actions",
-        collapsed: false,
-        items: [
-          { text: "prepareUserOperationRequest", link: "/permissionless/reference/smart-account-actions/prepareUserOperationRequest" },
-        ]
-      },
+	  	text: "Smart Account Actions",
+	  	collapsed: false,
+	  	items: [
+	  		{ text: "prepareUserOperationRequest", link: "/permissionless/reference/smart-account-actions/prepareUserOperationRequest" },
+	  		{ text: "sendTransaction", link: "/permissionless/reference/smart-account-actions/sendTransaction" },
+	  		{ text: "sendTransactions", link: "/permissionless/reference/smart-account-actions/sendTransactions" },
+	  		{ text: "sendUserOperation", link: "/permissionless/reference/smart-account-actions/sendUserOperation" },
+	  		{ text: "deployContract", link: "/permissionless/reference/smart-account-actions/deployContract" },
+	  		{ text: "writeContract", link: "/permissionless/reference/smart-account-actions/writeContract" },
+	  		{ text: "signMessage", link: "/permissionless/reference/smart-account-actions/signMessage" },
+	  		{ text: "signTypedData", link: "/permissionless/reference/smart-account-actions/signTypedData" },
+	  	],
+	  },
       {
         text: "Pimlico Bundler Actions",
         collapsed: false,

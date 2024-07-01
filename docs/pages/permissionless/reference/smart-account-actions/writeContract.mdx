@@ -1,0 +1,121 @@
+# writeContract
+
+Uses a smart account to executes a write function on a contract.
+
+A "write" function on a Solidity contract modifies the state of the blockchain.
+
+## Usage
+
+:::code-group
+
+```ts [example.ts]
+import { smartAccountClient } from "./smartAccountClient"
+import { simpleAbi } from './abi'
+
+const hash = await smartAccountClient.writeContract({
+    address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2',
+    abi: simpleAbi,
+    functionName: 'mint',
+})
+```
+
+```ts [smartAccountClient.ts]
+// [!include ~/snippets/smartAccountClient.ts:client]
+```
+
+```ts [abi.ts]
+export const simpleAbi = [
+  ...
+  {
+    inputs: [],
+    name: "mint",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  ...
+] as const;
+```
+
+:::
+
+## Return Value
+
+- **Type:** `Hash`
+
+The transaction hash of the associated write operation
+
+## Parameters
+
+### address
+
+- **Type:** `Address`
+
+The contract address.
+
+### abi
+
+- **Type:** `Abi`
+
+The contract's ABI.
+
+### functionName
+
+- **Type:** `string`
+
+A function to extract from the ABI.
+
+### args (optional)
+
+- **Type:** Inferred from ABI.
+
+Arguments to pass to function call.
+
+### gas (optional)
+
+- **Type:** `bigint`
+
+The gas limit for the transaction. Note that passing a gas limit also skips the gas estimation step.
+
+### nonce (optional)
+
+- **Type:** `number`
+
+Unique number identifying this transaction.
+
+### value (optional)
+
+- **Type:** `number`
+
+Value in wei sent with this transaction.
+
+### gasPrice (optional)
+
+- **Type:** `bigint`
+
+The price (in wei) to pay per gas. Only applies to Legacy Transactions
+
+### maxFeePerGas (optional)
+
+- **Type:** `bigint`
+
+Total fee per gas (in wei), inclusive of `maxPriorityFeePerGas`. Only applies to EIP-1559 Transactions
+
+### maxPriorityFeePerGas (optional)
+
+- **Type:** `bigint`
+
+Max priority fee per gas (in wei). Only applies to EIP-1559 Transactions
+
+### dataSuffix (optional)
+
+- **Type:** `Hex`
+
+Data to append to the end of the calldata.
+
+### account (optional)
+
+- **Type:** `SmartAccount`
+
+The Account to write to the contract from.
+
