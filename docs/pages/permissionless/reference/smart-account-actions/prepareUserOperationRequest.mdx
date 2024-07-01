@@ -11,19 +11,19 @@ import { smartAccountClient, simpleSmartAccount } from "./smartAccountClient"
 import { pimlicoBundlerClient } from "./bundlerClient"
 import { parseAbiItem, encodeFunctionData } from "viem"
 
-const callData = await simpleSmartAccount.encodeCallData({ 
-    to: "0x0488bEE1Ec682db0F0E74AB52faFdDdEf10Af123", 
+const callData = await simpleSmartAccount.encodeCallData({
+    to: "0x0488bEE1Ec682db0F0E74AB52faFdDdEf10Af123",
     data: encodeFunctionData({
         abi: [parseAbiItem('function mint()')]
-    }), 
-    value: 0n 
+    }),
+    value: 0n
 })
 
 // only if using pimlico
 const gasPrices = await pimlicoBundlerClient.getUserOperationGasPrice()
 
 const userOperation = await smartAccountClient.prepareUserOperationRequest({
-    userOperation: { 
+    userOperation: {
         callData, // callData is the only required field in the partial user operation
         maxFeePerGas: gasPrices.fast.maxFeePerGas,
         maxPriorityFeePerGas: gasPrices.fast.maxPriorityFeePerGas

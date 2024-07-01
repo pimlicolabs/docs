@@ -1,33 +1,21 @@
-# prepareUserOperationRequest
+# writeContract
 
-Prepares a user operation request for signing by populating a `sender`, `nonce`, `initCode`, gas price values, gas limit values, and optionally requesting sponsorship from a paymaster.
+Uses a smart account to executes a write function on a contract.
+
+A "write" function on a Solidity contract modifies the state of the blockchain.
 
 ## Usage
 
-::::code-group
+:::code-group
 
 ```ts [example.ts]
-import { smartAccountClient, simpleSmartAccount } from "./smartAccountClient"
-import { pimlicoBundlerClient } from "./bundlerClient"
-import { parseAbiItem, encodeFunctionData } from "viem"
+import { smartAccountClient } from "./smartAccountClient"
+import { simpleAbi } from './abi'
 
-const callData = await simpleSmartAccount.encodeCallData({
-    to: "0x0488bEE1Ec682db0F0E74AB52faFdDdEf10Af123",
-    data: encodeFunctionData({
-        abi: [parseAbiItem('function mint()')]
-    }),
-    value: 0n
-})
-
-// only if using pimlico
-const gasPrices = await pimlicoBundlerClient.getUserOperationGasPrice()
-
-const userOperation = await smartAccountClient.prepareUserOperationRequest({
-    userOperation: {
-        callData, // callData is the only required field in the partial user operation
-        maxFeePerGas: gasPrices.fast.maxFeePerGas,
-        maxPriorityFeePerGas: gasPrices.fast.maxPriorityFeePerGas
-    }
+const hash = await smartAccountClient.writeContract({
+    address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2',
+    abi: simpleAbi,
+    functionName: 'mint',
 })
 ```
 
@@ -35,34 +23,99 @@ const userOperation = await smartAccountClient.prepareUserOperationRequest({
 // [!include ~/snippets/smartAccountClient.ts:client]
 ```
 
-```ts [bundlerClient.ts]
-// [!include ~/snippets/pimlicoBundlerClient.ts:client]
+```ts [abi.ts]
+export const simpleAbi = [
+  ...
+  {
+    inputs: [],
+    name: "mint",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  ...
+] as const;
 ```
 
-::::
+:::
 
-## Returns
+## Return Value
 
-- **Type:** `UserOperation`
+`Hash`
 
-The `UserOperation` with the remaining fields (except the `signature`) filled.
+The transaction hash of the associated write operation
 
 ## Parameters
 
-### userOperation
+### address
 
-- **Type:** `Partial<UserOperation>`
+- **Type:** `Address`
 
-The partial user operation. Only the `callData` field is required.
+The contract address.
 
-### sponsorUserOperation (optional)
+### abi
 
-- **Type:** `(args: { userOperation: UserOperation, entryPoint: Address }) => Promise<UserOperation>`
+- **Type:** `Abi`
 
-The paymaster middleware function (if one is used).
+The contract's ABI.
+
+### functionName
+
+- **Type:** `string`
+
+A function to extract from the ABI.
+
+### args (optional)
+
+- **Type:** Inferred from ABI.
+
+Arguments to pass to function call.
+
+### gas (optional)
+
+- **Type:** `bigint`
+
+The gas limit for the transaction. Note that passing a gas limit also skips the gas estimation step.
+
+### nonce (optional)
+
+- **Type:** `number`
+
+Unique number identifying this transaction.
+
+### value (optional)
+
+- **Type:** `number`
+
+Value in wei sent with this transaction.
+
+### gasPrice (optional)
+
+- **Type:** `bigint`
+
+The price (in wei) to pay per gas. Only applies to Legacy Transactions
+
+### maxFeePerGas (optional)
+
+- **Type:** `bigint`
+
+Total fee per gas (in wei), inclusive of `maxPriorityFeePerGas`. Only applies to EIP-1559 Transactions
+
+### maxPriorityFeePerGas (optional)
+
+- **Type:** `bigint`
+
+Max priority fee per gas (in wei). Only applies to EIP-1559 Transactions
+
+### dataSuffix (optional)
+
+- **Type:** `Hex`
+
+Data to append to the end of the calldata.
 
 ### account (optional)
 
 - **Type:** `SmartAccount`
 
-The smart account that will be used to fetch the `nonce`, `initCode`, `sender`, and the gas price values if they are not already filled.
+The Account to write to the contract from.
+

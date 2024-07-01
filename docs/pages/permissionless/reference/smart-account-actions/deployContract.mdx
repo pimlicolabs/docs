@@ -1,6 +1,10 @@
 # deployContract
 
-deploys a contract to the network, given bytecode & constructor arguments.
+deploys a contract to the network from a smart account, given bytecode & constructor arguments.
+
+:::info
+This action is only supported by some smart account types.
+:::
 
 ## Usage
 
@@ -48,45 +52,26 @@ The transaction hash of the mined userOperation
 
 ## Parameters
 
-### to
+### abi
 
-- **Type:** `0x${string}`
+- **Type:** `Abi`
 
-The transaction recipient or contract address.
+The contract's ABI.
 
-### data (optional)
+### bytecode
 
-- **Type:** `0x${string}`
+- **Type:** `Hex`
 
-A contract hashed method call with encoded args.
+The contract's bytecode.
 
-### value (optional)
+### args (if required)
 
-- **Type:** `bigint`
+- **Type:** Inferred from ABI.
 
-Value in wei sent with this transaction.
-
-### maxFeePerGas (optional)
-
-- **Type:** `bigint`
-
-Total fee per gas (in wei), inclusive of `maxPriorityFeePerGas`. Only applies to [EIP-1559 Transactions](/docs/glossary/terms#eip-1559-transaction)
-
-### maxPriorityFeePerGas (optional)
-
-- **Type:** `bigint`
-
-Max priority fee per gas (in wei). Only applies to [EIP-1559 Transactions](/docs/glossary/terms#eip-1559-transaction)
-
-### nonce (optional)
-
-- **Type:** `number`
-
-Unique number identifying this transaction.
+Constructor arguments to call upon deployment.
 
 ### account (optional)
 
 - **Type:** `SmartAccount`
 
-The Account to send the transaction from.
-
+The Account to deploy the contract from.
