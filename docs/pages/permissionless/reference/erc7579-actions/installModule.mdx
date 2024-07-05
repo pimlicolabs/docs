@@ -1,0 +1,69 @@
+# installModule
+
+Installs a [ERC7579](https://eips.ethereum.org/EIPS/eip-7579) module to the smart account. Check out [this guide](/permissionless/how-to/accounts/use-7579-account) for a complete tutorial.
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+// [!include ~/snippets/erc7579/installModule.ts:safe-smart-account-client]
+```
+
+```ts [publicClient.ts]
+// [!include ~/snippets/publicClient.ts:client]
+```
+
+```ts [signer.ts]
+// [!include ~/snippets/signer.ts]
+```
+
+::::
+
+## Returns
+
+- **Type:** `hash`
+
+The user operation hash.
+
+:::warning
+This is user operation hash, not transaction hash, you must use `waitForUserOperationReceipt` to wait for the user operation to be included on-chain.
+:::
+
+## Parameters
+
+### address
+
+- **Type:** `Address`
+
+Address of the module to install.
+
+### type
+
+- **Type:** `ModuleType`
+
+Type of the module to install. Accepted values are `"validator" | "executor" | "fallback" | "hook"`.
+
+### context
+
+- **Type:** `Hex`
+
+Context bytes that will be passed to the module as part of initData.
+
+### maxFeePerGas (optional)
+
+- **Type:** `bigint`
+
+The maximum fee per gas that the user is willing to pay for this transaction. If not provided, the bundler will use its own recommendation.
+
+### maxPriorityFeePerGas (optional)
+
+- **Type:** `bigint`
+
+The maximum priority fee per gas that the user is willing to pay for this transaction. If not provided, the bundler will use its own recommendation.
+
+### nonce (optional)
+
+- **Type:** `bigint`
+
+The nonce of the smart account that will be used to send this transaction. If not provided, current nonce will be used.
