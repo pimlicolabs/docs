@@ -23,6 +23,11 @@
             "permanent": false
         },
         {
+            "source": "/pricing",
+            "destination": "/infra/platform/pricing",
+            "permanent": false
+        },
+        {
             "source": "/docs/:match*",
             "destination": "/",
             "permanent": false
