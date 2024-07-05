@@ -294,6 +294,18 @@ export const permissionlessSidebar = [
 	  		{ text: "writeContract", link: "/permissionless/reference/smart-account-actions/writeContract" },
 	  		{ text: "signMessage", link: "/permissionless/reference/smart-account-actions/signMessage" },
 	  		{ text: "signTypedData", link: "/permissionless/reference/smart-account-actions/signTypedData" },
+        {
+          text: "Erc7579 Actions",
+	  	    collapsed: false,
+          items: [
+            { text: "accountId", link: "/permissionless/reference/erc7579-actions/accountId" },
+            { text: "installModule", link: "/permissionless/reference/erc7579-actions/installModule" },
+            { text: "uninstallModule", link: "/permissionless/reference/erc7579-actions/uninstallModule" },
+            { text: "isModuleInstalled", link: "/permissionless/reference/erc7579-actions/isModuleInstalled" },
+            { text: "supportsExecutionMode", link: "/permissionless/reference/erc7579-actions/supportsExecutionMode" },
+            { text: "supportsModule", link: "/permissionless/reference/erc7579-actions/supportsModule" },
+          ]
+        }
 	  	],
 	  },
       {
