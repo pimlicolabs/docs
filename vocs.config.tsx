@@ -380,8 +380,8 @@ export const permissionlessSidebar = [
             link: "/permissionless/how-to/accounts/use-trustwallet-account",
           },
           {
-            text: "How to use a Erc 7579 compatible smart account",
-            link: "/permissionless/how-to/accounts/user-erc7579-actions",
+            text: "How to use an ERC-7579 compatible smart account",
+            link: "/permissionless/how-to/accounts/use-erc7579-account",
           },
         ],
       },
@@ -571,36 +571,6 @@ export const permissionlessSidebar = [
         ],
       },
       {
-        text: "Erc7579 Actions",
-        collapsed: false,
-        items: [
-          {
-            text: "accountId",
-            link: "/permissionless/reference/erc7579-actions/accountId",
-          },
-          {
-            text: "installModule",
-            link: "/permissionless/reference/erc7579-actions/installModule",
-          },
-          {
-            text: "uninstallModule",
-            link: "/permissionless/reference/erc7579-actions/uninstallModule",
-          },
-          {
-            text: "isModuleInstalled",
-            link: "/permissionless/reference/erc7579-actions/isModuleInstalled",
-          },
-          {
-            text: "supportsExecutionMode",
-            link: "/permissionless/reference/erc7579-actions/supportsExecutionMode",
-          },
-          {
-            text: "supportsModule",
-            link: "/permissionless/reference/erc7579-actions/supportsModule",
-          },
-        ],
-      },
-      {
         text: "Pimlico Bundler Actions",
         collapsed: false,
         items: [
@@ -643,6 +613,36 @@ export const permissionlessSidebar = [
           {
             text: "getAccountNonce",
             link: "/permissionless/reference/public-actions/getAccountNonce",
+          },
+        ],
+      },
+      {
+        text: "ERC-7579 Actions",
+        collapsed: false,
+        items: [
+          {
+            text: "accountId",
+            link: "/permissionless/reference/erc7579-actions/accountId",
+          },
+          {
+            text: "installModule",
+            link: "/permissionless/reference/erc7579-actions/installModule",
+          },
+          {
+            text: "uninstallModule",
+            link: "/permissionless/reference/erc7579-actions/uninstallModule",
+          },
+          {
+            text: "isModuleInstalled",
+            link: "/permissionless/reference/erc7579-actions/isModuleInstalled",
+          },
+          {
+            text: "supportsExecutionMode",
+            link: "/permissionless/reference/erc7579-actions/supportsExecutionMode",
+          },
+          {
+            text: "supportsModule",
+            link: "/permissionless/reference/erc7579-actions/supportsModule",
           },
         ],
       },

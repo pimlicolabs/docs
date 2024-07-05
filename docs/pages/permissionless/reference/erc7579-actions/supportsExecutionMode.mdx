@@ -1,8 +1,10 @@
 # supportsExecutionMode
 
-Checks if a [ERC7579](https://eips.ethereum.org/EIPS/eip-7579) execution mode is supported on the smart account. Check out [this guide](/permissionless/how-to/accounts/user-erc7579-actions) for a complete tutorial.
+Checks if a [ERC-7579](https://eips.ethereum.org/EIPS/eip-7579) execution mode is supported on the smart account. Check out [this guide](/permissionless/how-to/accounts/use-erc7579-account) for a complete tutorial.
 
-NOTE: According to spec, not all execution modes must be supported. So use this function to check if the execution mode is supported before using it.
+:::info
+According to the specification, not all execution modes must be supported. So it is recommended to use this function to check if the execution mode is supported before using it.
+:::
 
 ## Usage
 
@@ -46,10 +48,10 @@ If true, the execution will revert if the call fails. Defaults to false.
 
 - **Type:** `Hex`
 
-The selector of the function to call. If not provided, "0x" will be used.
+The selector of the function to call. If not provided, `0x` will be used.
 
 ### context (optional)
 
 - **Type:** `Hex`
 
-Context bytes that will be passed to the module as part of modeContext.
+Context bytes that will be passed to the module as part of `modeContext`.
