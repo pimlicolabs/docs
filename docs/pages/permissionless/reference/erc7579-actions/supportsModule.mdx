@@ -1,0 +1,35 @@
+# supportsModule
+
+Checks if a [ERC7579](https://eips.ethereum.org/EIPS/eip-7579) module type is supported by the smart account. Check out [this guide](/permissionless/how-to/accounts/user-erc7579-actions) for a complete tutorial.
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+// [!include ~/snippets/erc7579/supportsModule.ts:safe-smart-account-client]
+```
+
+```ts [publicClient.ts]
+// [!include ~/snippets/publicClient.ts:client]
+```
+
+```ts [signer.ts]
+// [!include ~/snippets/signer.ts]
+```
+
+::::
+
+## Returns
+
+- **Type:** `boolean`
+
+True if the module type is supported, false otherwise.
+
+## Parameters
+
+### type
+
+- **Type:** `ModuleType`
+
+Type of the module to check. Accepted values are `"validator" | "executor" | "fallback" | "hook"`.
