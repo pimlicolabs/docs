@@ -18,7 +18,7 @@ While the specifics can vary depending on the specific ERC20 token and chain you
 
 ### Step 1: Find the appropriate ERC20 Paymaster address for the token and chain you're using.
 
-You can do this either by going to our [ERC20 Paymaster Contracts](/paymaster/erc20-paymaster/contract-addresses) reference page or
+You can do this either by going to our [ERC20 Paymaster Contracts](/infra/paymaster/erc20-paymaster/contract-addresses) reference page or
 
 ### Step 2: Approve ERC20 tokens to the ERC20 Paymaster so it can spent it on your behalf
 
@@ -34,7 +34,7 @@ Alternatively, you can make the `paymasterAndData` a concatenation of the ERC20 
 
 ### Step 4: Submit the UserOperation
 
-Do any final touches to your UserOperation, such as signing, then submit the UserOperation to a bundler [like ours](/bundler/how-to/bundle-a-user-operation) and watch it be included on-chain!
+Do any final touches to your UserOperation, such as signing, then submit the UserOperation to a bundler [like ours](/infra/bundler/usage) and watch it be included on-chain!
 
 ## Is there a walkthrough I can use to see how to interact with the paymaster?
 
@@ -44,7 +44,7 @@ Check out our [Getting Started with the ERC20 Paymaster](/permissionless/tutoria
 
 ## What ERC20 tokens and on what chains can I use Pimlico's ERC20 Paymaster with?
 
-The currently supported tokens are listed [here](/paymaster/erc20-paymaster/contract-addresses).
+The currently supported tokens are listed [here](/infra/paymaster/erc20-paymaster/contract-addresses).
 
 Theoretically, we can support any token on any EVM chains that have Chainlink support. If you have a token that you would like supported, please [reach out to us](https://t.me/pimlicoHQ)!
 

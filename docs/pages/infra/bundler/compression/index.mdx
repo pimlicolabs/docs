@@ -9,7 +9,7 @@ This guide walks you through how to create your own inflator contract, compress 
 In order to submit compressed user operations to Pimlico's bundler, you need to:
 - Write and deploy your inflator contract implementing the `IOpInflator` interface
 - Get the Inflator contract address whitelisted by Pimlico
-- Start submitting your compressed user operations using the [`pimlico_sendCompressedUserOperation`](/bundler/reference/endpoints/pimlico_sendCompressedUserOperation) JSON-RPC method 
+- Start submitting your compressed user operations using the [`pimlico_sendCompressedUserOperation`](/infra/bundler/endpoints/pimlico_sendCompressedUserOperation) JSON-RPC method 
 
 :::::steps
 
@@ -96,7 +96,7 @@ We have deployed the above `SimpleInflator` contract to `0x564c7dC50f8293d070F49
 If you are using [permissionless.js](/permissionless), there is a useful helper function that will allow you to easily submit compressed user operations. See the [`sendCompressedUserOperation`](/permissionless/reference/pimlico-bundler-actions/sendCompressedUserOperation) helper function.
 :::
 
-Once your decompressor contract is deployed and whitelisted, you can start submitting compressed user operations to Pimlico's bundler using the [`pimlico_sendCompressedUserOperation`](/bundler/reference/endpoints/pimlico_sendCompressedUserOperation) JSON-RPC method.
+Once your decompressor contract is deployed and whitelisted, you can start submitting compressed user operations to Pimlico's bundler using the [`pimlico_sendCompressedUserOperation`](/infra/bundler/endpoints/pimlico_sendCompressedUserOperation) JSON-RPC method.
 
 Using the above `SimpleInflator` contract and the permissionless.js function as an example, we can compress and submit a user operation as follows:
 

@@ -39,7 +39,7 @@
     "react": "latest",
     "react-dom": "latest",
     "viem": "^2.9.23",
-    "vocs": "=1.0.0-alpha.46",
+    "vocs": "=1.0.0-alpha.52",
     "wagmi": "^2.5.5"
   },
   "devDependencies": {

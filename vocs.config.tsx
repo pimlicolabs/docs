@@ -1,138 +1,139 @@
 import { defineConfig } from 'vocs';
 import viteConfig from "./utils";
 
-export const bundlerSidebar = [
+export const platformSidebar = [
   {
-    text: 'Overview',
-    link: '/bundler',
+    text: "Overview",
+    link: "/infra/platform"
   },
   {
     text: "Pricing",
-    link: "/pricing"
+    link: "/infra/platform/pricing"
   },
   {
-    text: 'How-to Guides',
-    items: [
-      { text: "How to create your own inflator contract and submit compressed user operations", link: "/bundler/how-to/compress-user-operations" },
-      { text: "How to Bundle a User Operation", link: "/bundler/how-to/bundle-a-user-operation" },
-      { text: "How to Estimate the Gas Limits for a User Operation", link: "/bundler/how-to/estimate-user-operation-gas-limits" },
-    ]
+    text: "Supported Chains",
+    link: "/infra/platform/supported-chains"
   },
   {
-    text: "Reference",
+    text: "Sponsorship Policies",
     items: [
-      { text: "Supported Chains", link: "/bundler/reference/supported-chains" },
-      { text: "FAQs", link: "/bundler/reference/faqs" },
-      { text: "Compression Contracts", link: "/bundler/reference/compression" },
-      {
-        text: "Endpoints",
-        collapsed: false,
-        items: [
-          { text: "eth_sendUserOperation", link: "/bundler/reference/endpoints/eth_sendUserOperation" },
-          { text: "eth_estimateUserOperationGas", link: "/bundler/reference/endpoints/eth_estimateUserOperationGas" },
-          { text: "eth_getUserOperationReceipt", link: "/bundler/reference/endpoints/eth_getUserOperationReceipt" },
-          { text: "eth_getUserOperationByHash", link: "/bundler/reference/endpoints/eth_getUserOperationByHash" },
-          { text: "eth_supportedEntryPoints", link: "/bundler/reference/endpoints/eth_supportedEntryPoints" },
-          { text: "pimlico_sendCompressedUserOperation", link: "/bundler/reference/endpoints/pimlico_sendCompressedUserOperation" },
-          { text: "pimlico_getUserOperationGasPrice", link: "/bundler/reference/endpoints/pimlico_getUserOperationGasPrice" },
-          { text: "pimlico_getUserOperationStatus", link: "/bundler/reference/endpoints/pimlico_getUserOperationStatus" },
-        ]
-      },
-      {
-        text: "Bundler Errors",
-        items: [
-          { text: "Invalid 'apikey' query parameter", link: "/bundler/reference/bundler-errors/invalid-api-key" },
-          { text: "Chain is not supported", link: "/bundler/reference/bundler-errors/chain-not-supported" },
-          { text: "Validation Error: Invalid Discriminator Value", link: "/bundler/reference/bundler-errors/invalid-discriminator-value" },
-          { text: "Unknown error from alto bundler", link: "/bundler/reference/bundler-errors/unknown-error" },
-        ]
-      },
-      {
-        text: "EntryPoint Errors",
-        collapsed: false,
-        items: [
-          { text: "AA10 sender already constructed", link: "/bundler/reference/entrypoint-errors/aa10" },
-          { text: "AA13 initCode failed or OOG", link: "/bundler/reference/entrypoint-errors/aa13" },
-          { text: "AA14 initCode must return sender", link: "/bundler/reference/entrypoint-errors/aa14" },
-          { text: "AA15 initCode must create sender", link: "/bundler/reference/entrypoint-errors/aa15" },
-          { text: "AA20 account not deployed", link: "/bundler/reference/entrypoint-errors/aa20" },
-          { text: "AA21 didn't pay prefund", link: "/bundler/reference/entrypoint-errors/aa21" },
-          { text: "AA22 expired or not due", link: "/bundler/reference/entrypoint-errors/aa22" },
-          { text: "AA23 reverted", link: "/bundler/reference/entrypoint-errors/aa23" },
-          { text: "AA24 signature error", link: "/bundler/reference/entrypoint-errors/aa24" },
-          { text: "AA25 invalid account nonce", link: "/bundler/reference/entrypoint-errors/aa25" },
-          { text: "AA30 paymaster not deployed", link: "/bundler/reference/entrypoint-errors/aa30" },
-          { text: "AA31 paymaster deposit too low", link: "/bundler/reference/entrypoint-errors/aa31" },
-          { text: "AA32 paymaster expired or not due", link: "/bundler/reference/entrypoint-errors/aa32" },
-          { text: "AA33 reverted", link: "/bundler/reference/entrypoint-errors/aa33" },
-          { text: "AA34 signature error", link: "/bundler/reference/entrypoint-errors/aa34" },
-          { text: "AA40 over verificationGasLimit", link: "/bundler/reference/entrypoint-errors/aa40" },
-          { text: "AA41 too little verificationGas", link: "/bundler/reference/entrypoint-errors/aa41" },
-          { text: "AA50 postOp reverted", link: "/bundler/reference/entrypoint-errors/aa50" },
-          { text: "AA51 prefund below actualGasCost", link: "/bundler/reference/entrypoint-errors/aa51" },
-          { text: "AA90 invalid beneficiary", link: "/bundler/reference/entrypoint-errors/aa90" },
-          { text: "AA91 failed send to beneficiary", link: "/bundler/reference/entrypoint-errors/aa91" },
-          { text: "AA92 internal call only", link: "/bundler/reference/entrypoint-errors/aa92" },
-          { text: "AA93 invalid paymasterAndData", link: "/bundler/reference/entrypoint-errors/aa93" },
-          { text: "AA94 gas values overflow", link: "/bundler/reference/entrypoint-errors/aa94" },
-          { text: "AA95 out of gas", link: "/bundler/reference/entrypoint-errors/aa95" },
-          { text: "AA96 invalid aggregator", link: "/bundler/reference/entrypoint-errors/aa96" },
-        ]
-      },
+      { text: "How to use sponsorship policies", link: "/infra/platform/sponsorship-policies" },
     ]
   }
+]
+
+export const bundlerSidebar = [
+  {
+    text: 'Overview',
+    link: '/infra/bundler',
+  },
+  {
+    text: "How to use the bundler",
+    link: "/infra/bundler/usage",
+  },
+  { text: "FAQs", link: "/infra/bundler/faqs" },
+  {
+    text: "Compression",
+    items: [
+      { text: "How to create your own inflator contract and submit compressed user operations", link: "/infra/bundler/compression" },
+      { text: "Contracts Reference", link: "/infra/bundler/compression/reference" },
+    ]
+  },
+  {
+    text: "Endpoints",
+    collapsed: false,
+    items: [
+      { text: "eth_sendUserOperation", link: "/infra/bundler/endpoints/eth_sendUserOperation" },
+      { text: "eth_estimateUserOperationGas", link: "/infra/bundler/endpoints/eth_estimateUserOperationGas" },
+      { text: "eth_getUserOperationReceipt", link: "/infra/bundler/endpoints/eth_getUserOperationReceipt" },
+      { text: "eth_getUserOperationByHash", link: "/infra/bundler/endpoints/eth_getUserOperationByHash" },
+      { text: "eth_supportedEntryPoints", link: "/infra/bundler/endpoints/eth_supportedEntryPoints" },
+      { text: "pimlico_sendCompressedUserOperation", link: "/infra/bundler/endpoints/pimlico_sendCompressedUserOperation" },
+      { text: "pimlico_getUserOperationGasPrice", link: "/infra/bundler/endpoints/pimlico_getUserOperationGasPrice" },
+      { text: "pimlico_getUserOperationStatus", link: "/infra/bundler/endpoints/pimlico_getUserOperationStatus" },
+    ]
+  },
+  {
+    text: "Bundler Errors",
+    collapsed: true,
+    items: [
+      { text: "Invalid 'apikey' query parameter", link: "/infra/bundler/bundler-errors/invalid-api-key" },
+      { text: "Chain is not supported", link: "/infra/bundler/bundler-errors/chain-not-supported" },
+      { text: "Validation Error: Invalid Discriminator Value", link: "/infra/bundler/bundler-errors/invalid-discriminator-value" },
+      { text: "Unknown error from alto bundler", link: "/infra/bundler/bundler-errors/unknown-error" },
+    ]
+  },
+  {
+    text: "EntryPoint Errors",
+    collapsed: true,
+    items: [
+      { text: "AA10 sender already constructed", link: "/infra/bundler/entrypoint-errors/aa10" },
+      { text: "AA13 initCode failed or OOG", link: "/infra/bundler/entrypoint-errors/aa13" },
+      { text: "AA14 initCode must return sender", link: "/infra/bundler/entrypoint-errors/aa14" },
+      { text: "AA15 initCode must create sender", link: "/infra/bundler/entrypoint-errors/aa15" },
+      { text: "AA20 account not deployed", link: "/infra/bundler/entrypoint-errors/aa20" },
+      { text: "AA21 didn't pay prefund", link: "/infra/bundler/entrypoint-errors/aa21" },
+      { text: "AA22 expired or not due", link: "/infra/bundler/entrypoint-errors/aa22" },
+      { text: "AA23 reverted", link: "/infra/bundler/entrypoint-errors/aa23" },
+      { text: "AA24 signature error", link: "/infra/bundler/entrypoint-errors/aa24" },
+      { text: "AA25 invalid account nonce", link: "/infra/bundler/entrypoint-errors/aa25" },
+      { text: "AA30 paymaster not deployed", link: "/infra/bundler/entrypoint-errors/aa30" },
+      { text: "AA31 paymaster deposit too low", link: "/infra/bundler/entrypoint-errors/aa31" },
+      { text: "AA32 paymaster expired or not due", link: "/infra/bundler/entrypoint-errors/aa32" },
+      { text: "AA33 reverted", link: "/infra/bundler/entrypoint-errors/aa33" },
+      { text: "AA34 signature error", link: "/infra/bundler/entrypoint-errors/aa34" },
+      { text: "AA40 over verificationGasLimit", link: "/infra/bundler/entrypoint-errors/aa40" },
+      { text: "AA41 too little verificationGas", link: "/infra/bundler/entrypoint-errors/aa41" },
+      { text: "AA50 postOp reverted", link: "/infra/bundler/entrypoint-errors/aa50" },
+      { text: "AA51 prefund below actualGasCost", link: "/infra/bundler/entrypoint-errors/aa51" },
+      { text: "AA90 invalid beneficiary", link: "/infra/bundler/entrypoint-errors/aa90" },
+      { text: "AA91 failed send to beneficiary", link: "/infra/bundler/entrypoint-errors/aa91" },
+      { text: "AA92 internal call only", link: "/infra/bundler/entrypoint-errors/aa92" },
+      { text: "AA93 invalid paymasterAndData", link: "/infra/bundler/entrypoint-errors/aa93" },
+      { text: "AA94 gas values overflow", link: "/infra/bundler/entrypoint-errors/aa94" },
+      { text: "AA95 out of gas", link: "/infra/bundler/entrypoint-errors/aa95" },
+      { text: "AA96 invalid aggregator", link: "/infra/bundler/entrypoint-errors/aa96" },
+    ]
+  },
 ]
 
 export const paymasterSidebar = [
   {
     text: 'Overview',
-    link: '/paymaster',
-  },
-  {
-    text: "Pricing",
-    link: "/pricing"
+    link: '/infra/paymaster',
   },
   {
     text: "Verifying Paymaster",
-    link: "/paymaster/verifying-paymaster",
+    link: "/infra/paymaster/verifying-paymaster",
     items: [
       {
-        text: "How-to Guides",
-        items: [
-          { text: "How to sponsor a User Operation", link: "/paymaster/verifying-paymaster/how-to/sponsor-a-user-operation" },
-          { text: "How to use sponsorship policies", link: "/paymaster/verifying-paymaster/how-to/use-sponsorship-policies" },
-        ]
+        text: "How to use the Verifying Paymaster",
+        link: "/infra/paymaster/verifying-paymaster/usage"
       },
-      {
-        text: "Reference",
-        items: [
-          { text: "Supported Chains", link: "/paymaster/verifying-paymaster/reference/supported-chains" },
-          { text: "Endpoints", link: "/paymaster/verifying-paymaster/reference/endpoints" },
-          { text: "FAQs", link: "/paymaster/verifying-paymaster/reference/faqs" },
-          { text: "Common Errors", link: "/paymaster/verifying-paymaster/reference/common-errors" },
-        ]
-      }
+      { text: "Endpoints", link: "/infra/paymaster/verifying-paymaster/endpoints" },
+      { text: "FAQs", link: "/infra/paymaster/verifying-paymaster/faqs" },
+      { text: "Common Errors", link: "/infra/paymaster/verifying-paymaster/common-errors" },
     ]
   },
   {
     text: "ERC-20 Paymaster",
-    link: "/paymaster/erc20-paymaster",
+    link: "/infra/paymaster/erc20-paymaster",
     items: [
-      { text: "Overview", link: "/paymaster/erc20-paymaster" },
-      { text: "Contract Addresses", link: "/paymaster/erc20-paymaster/contract-addresses" },
-      { text: "Architecture", link: "/paymaster/erc20-paymaster/architecture" },
-      { text: "FAQs", link: "/paymaster/erc20-paymaster/faqs" },
+      { text: "Overview", link: "/infra/paymaster/erc20-paymaster" },
+      { text: "Contract Addresses", link: "/infra/paymaster/erc20-paymaster/contract-addresses" },
+      { text: "Architecture", link: "/infra/paymaster/erc20-paymaster/architecture" },
+      { text: "FAQs", link: "/infra/paymaster/erc20-paymaster/faqs" },
     ]
   },
   {
     text: "ERC-20 Paymaster (legacy)",
     collapsed: true,
-    link: "/paymaster/erc20-paymaster-legacy",
+    link: "/infra/paymaster/erc20-paymaster-legacy",
     items: [
-      { text: "Overview", link: "/paymaster/erc20-paymaster-legacy" },
-      { text: "Contract Addresses", link: "/paymaster/erc20-paymaster-legacy/contract-addresses" },
-      { text: "Architecture", link: "/paymaster/erc20-paymaster-legacy/architecture" },
-      { text: "FAQs", link: "/paymaster/erc20-paymaster-legacy/faqs" },
+      { text: "Overview", link: "/infra/paymaster/erc20-paymaster-legacy" },
+      { text: "Contract Addresses", link: "/infra/paymaster/erc20-paymaster-legacy/contract-addresses" },
+      { text: "Architecture", link: "/infra/paymaster/erc20-paymaster-legacy/architecture" },
+      { text: "FAQs", link: "/infra/paymaster/erc20-paymaster-legacy/faqs" },
     ]
   }
 ]
@@ -147,24 +148,24 @@ export const paymasterSidebar = [
 
 */
 
-// export const conceptualSidebar = [
-//   {
-//     text: "Overview",
-//     link: "/conceptual"
-//   },
-//   {
-//     text: "Account Abstraction",
-//     link: "/conceptual/account-abstraction"
-//   },
-//   {
-//     text: "ERC-4337",
-//     link: "/conceptual/erc4337"
-//   },
-//   {
-//     text: "ERC-7579",
-//     link: "/conceptual/erc7579"
-//   },
-// ]
+export const conceptualSidebar = [
+  {
+    text: "Overview",
+    link: "/conceptual"
+  },
+  {
+    text: "Account Abstraction",
+    link: "/conceptual/account-abstraction"
+  },
+  {
+    text: "ERC-4337",
+    link: "/conceptual/erc4337"
+  },
+  {
+    text: "ERC-7579",
+    link: "/conceptual/erc7579"
+  },
+]
 
 export const permissionlessSidebar = [
   {
@@ -368,7 +369,7 @@ export default defineConfig({
   description: "Pimlico is the world's most popular account abstraction infrastructure platform",
   head: () => (
     <>
-      <script src="/posthog.js"></script>
+      <script src="/posthog.js" />
     </>
   ),
   banner: {
@@ -384,9 +385,24 @@ export default defineConfig({
   vite: viteConfig,
   sidebar: {
     '/permissionless': permissionlessSidebar,
-    '/bundler': bundlerSidebar,
-    '/paymaster': paymasterSidebar,
-    // '/conceptual': conceptualSidebar,
+    '/infra': [
+      {
+        text: 'Platform',
+        link: '/infra/platform',
+        items: platformSidebar
+      },
+      {
+        text: 'Bundler',
+        link: '/infra/bundler',
+        items: bundlerSidebar
+      },
+      {
+        text: 'Paymaster',
+        link: '/infra/paymaster',
+        items: paymasterSidebar
+      }
+    ],
+    '/conceptual': conceptualSidebar,
   },
   ogImageUrl: {
     "/": "https://docs-og-pimlico.vercel.app/api/og?logo=%logo&title=%title&description=%description"
@@ -419,17 +435,18 @@ export default defineConfig({
       link: '/permissionless',
     },
     {
-      text: 'Bundler',
-      link: '/bundler',
+      text: "Infrastructure",
+      items: [
+        { text: "Platform", link: "/infra/platform" },
+        { text: "Bundler", link: "/infra/bundler" },
+        { text: "Paymaster", link: "/infra/paymaster" },
+      ],
+      match: "/infra"
     },
     {
-      text: 'Paymasters',
-      link: '/paymaster',
+      text: "Conceptual",
+      link: "/conceptual"
     },
-    // {
-    //   text: "Conceptual",
-    //   link: "/conceptual"
-    // },
     {
       text: "Dashboard",
       link: "https://dashboard.pimlico.io"

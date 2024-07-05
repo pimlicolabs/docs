@@ -6,7 +6,7 @@ The Pimlico paymaster actions in permissionless.js only work with the v2 Pimlico
 This version, instead of simply signing over the passed-in User Operation, estimates the gas values for the User Operation and then signs over the estimated gas values, returning not only the `paymasterAndData` but also the `preVerificationGas`, `verificationGasLimit`, and `callGasLimit`.
 :::
 
-A Pimlico Paymaster Client is an interface to the [Pimlico-specific paymaster methods](/paymaster/verifying-paymaster/reference/endpoints).
+A Pimlico Paymaster Client is an interface to the [Pimlico-specific paymaster methods](/infra/paymaster/verifying-paymaster/endpoints).
 
 To create a Pimlico Paymaster Client, create a basic client and extend it with the Pimlico Paymaster Actions.
 
