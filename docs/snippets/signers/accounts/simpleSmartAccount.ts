@@ -14,7 +14,6 @@ export const publicClient = createPublicClient({
 
 const smartAccount = await signerToSimpleSmartAccount(publicClient, {
 	signer: smartAccountSigner,
-	factoryAddress: "0x9406Cc6185a346906296840746125a0E44976454",
 	entryPoint: ENTRYPOINT_ADDRESS_V06,
 })
 // [!endregion main]
