@@ -26,5 +26,5 @@ const client = await createPassportClient(
   "https://tiramisu.0xpass.io"
 );
 
-const signer = walletClientToSmartAccountSigner(client);
+const smartAccountSigner = walletClientToSmartAccountSigner(client);
 // [!endregion main]

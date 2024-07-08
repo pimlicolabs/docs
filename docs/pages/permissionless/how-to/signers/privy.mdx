@@ -2,6 +2,8 @@
 
 permissionless.js allows you to plug in custom signers to control the accounts that you create. Privy is an embedded wallet provider that allows you to easily onboard users to your dapp. It is possible to use Privy as a signer with permissionless.js, allowing you to use Privy to create and control smart accounts and sign transactions.
 
+Additionally you may want to look at Privy's guide on working with permissionless.js [here](https://docs.privy.io/guide/react/recipes/account-abstraction/pimlico).
+
 ::::steps
 
 ### Install the dependencies
@@ -56,31 +58,39 @@ useEffect(() => setActiveWallet(embeddedWallet), [embeddedWallet])
 Create the smart account client using the Privy signer. This is where you would configure what smart account implementation (e.g. [Safe](/permissionless/how-to/accounts/use-safe-account), [Kernel](/permissionless/how-to/accounts/use-kernel-account), Biconomy, [TrustWallet](/permissionless/how-to/accounts/use-trustwallet-account), [SimpleAccount](/permissionless/how-to/accounts/use-simple-account)) and what paymaster logic you want to use.
 
 ```ts
-import { createSmartAccountClient, walletClientToSmartAccountSigner } from "permissionless";
+import { createSmartAccountClient, walletClientToSmartAccountSigner, ENTRYPOINT_ADDRESS_V06 } from "permissionless";
 import { signerToSimpleSmartAccount } from "permissionless/accounts";
 import { useWalletClient } from "wagmi";
+import { createPublicClient, http, zeroAddress } from "viem";
+import { sepolia } from "viem/chains";
 
 const {
     data: walletClient
 } = useWalletClient()
 
+const publicClient = createPublicClient({
+  chain: sepolia, // or whatever chain you are using
+  transport: http()
+})
+
 const signer = walletClientToSmartAccountSigner(walletClient)
 
 const simpleSmartAccountClient = await signerToSimpleSmartAccount(publicClient, {
-    entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
-    signer: signer,
-    factoryAddress: "0x9406Cc6185a346906296840746125a0E44976454"
+  entryPoint: ENTRYPOINT_ADDRESS_V06,
+  signer,
 })
 
 const smartAccountClient = createSmartAccountClient({
-    account: safeAccount,
-    entryPoint: ENTRYPOINT_ADDRESS_V06,
-    chain: sepolia,
-    bundlerTransport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
-    middleware: {
-      gasPrice: async () => (await pimlicoBundlerClient.getUserOperationGasPrice()).fast, // use pimlico bundler to get gas prices, if using pimlico
-      sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
-    },
+  account: simpleSmartAccountClient,
+  entryPoint: ENTRYPOINT_ADDRESS_V06,
+  chain: sepolia, // or whatever chain you are using
+  bundlerTransport: http("<bundler_endpoint>", {
+    timeout: 30_000 // optional
+  }),
+  middleware: {
+    gasPrice: async () => (await bundlerClient.getUserOperationGasPrice()).fast,
+    sponsorUserOperation: pimlicoPaymaster.sponsorUserOperation,
+  },
 })
 ```
 
