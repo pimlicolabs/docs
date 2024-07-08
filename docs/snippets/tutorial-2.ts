@@ -28,7 +28,9 @@ const apiKey = "YOUR_PIMLICO_API_KEY" // REPLACE THIS
 const endpointUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=${apiKey}`
 
 const bundlerClient = createClient({
-	transport: http(endpointUrl),
+	transport: http(endpointUrl, {
+        timeout: 30_000
+    }),
 	chain: sepolia,
 })
 	.extend(bundlerActions(ENTRYPOINT_ADDRESS_V07))

@@ -78,18 +78,14 @@ Since we will be looking to fund our account with USDC (which is what we will us
 Let's run this code with `npm start`. You should see something like this:
 
 ```txt
-Smart account address: https://sepolia.etherscan.io/address/0xbAd38BdCf884ED92ab370f69C0CD0B7b8a1459A1
+Smart account address: https://sepolia.basescan.org/address/0xbAd38BdCf884ED92ab370f69C0CD0B7b8a1459A1
 ```
 
 ### Get Testnet USDC on Sepolia
 
 Let's get some USDC on the Sepolia testnet to the counterfactual address of the wallet we will be deploying. This will be used to pay for the gas fees of the user operation we will be submitting.
 
-The recommended way to do this is to use the [USDC faucet](https://usdcfaucet.com/), select 'Ethereum Sepolia' and enter the counterfactual sender address you generated in the previous step.
-
-:::tip
-Alternatively, if the faucet does not work, you can get some Sepolia ETH. Then, if you're using Metamask, [switch your chain to Sepolia](https://chainlist.org/chain/11155111) and then [visit this page to swap some of the Sepolia ETH to testnet USDC on Uniswap](https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238&exactAmount=1&exactField=input&chain=sepolia) and then send that USDC to the counterfactual sender address.
-:::
+The recommended way to do this is to use the [USDC faucet](https://usdcfaucet.com/), select 'Base Sepolia' and enter the counterfactual sender address you generated in the previous step.
 
 ### Verify you have USDC on the counterfactual sender address
 
@@ -136,10 +132,10 @@ Add the following to the bottom of `index.ts`:
 Let's run this code again with `npm start`. You should see the transaction hash bundling the user operation on-chain printed to the console.
 
 ```txt
-User operation included: https://sepolia.etherscan.io/tx/0xf8e4fc41a134fc9530a0c019167f9dc0981874b90187717605355bdcce8b2fb7
+User operation included: https://sepolia.basescan.org/tx/0xf8e4fc41a134fc9530a0c019167f9dc0981874b90187717605355bdcce8b2fb7
 ```
 
-You can now view the transaction on the Sepolia testnet explorer. By sending this user operation, you have:
+You can now view the transaction on the Base Sepolia testnet explorer. By sending this user operation, you have:
 - Deployed the counterfactual smart account contract
 - Had your smart account approve the ERC-20 Paymaster to spend USDC during deployment
 - Had this newly-deployed smart account verify the private key's signature
@@ -147,7 +143,7 @@ You can now view the transaction on the Sepolia testnet explorer. By sending thi
 - Executed a simple transaction to `vitalik.eth`'s address
 
 
-If you visit the address of the `sender` account on the [Sepolia explorer](https://sepolia.etherscan.io), you should also see that some of your USDC balance has been deducted!
+If you visit the address of the `sender` account on the [Base Sepolia explorer](https://sepolia.basescan.org), you should also see that some of your USDC balance has been deducted!
 
 That's it! Congratulations!
 
