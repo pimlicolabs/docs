@@ -22,7 +22,7 @@ export const platformSidebar = [
         link: "/infra/platform/sponsorship-policies",
       },
       {
-        text: "How to use webhook",
+        text: "How to use a webhook",
         link: "/infra/platform/sponsorship-policies/webhook",
       },
     ],

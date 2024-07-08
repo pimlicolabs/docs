@@ -1,9 +1,8 @@
 # How to use Sponsorship Policy webhook
 
-Webhooks are a way for you to receive real-time notifications when a sponsorship policy is triggered. You can use webhooks to trigger actions in your application when a policy is triggered. Request is sent with POST, where body is a JSON object with the following structure:
+Webhook allows you to receive real-time notifications when a sponsorship policy is triggered. You can use webhooks to approve or reject sponsoring userops. Start by going to the [sponsorship policies page](https://dashboard.pimlico.io/sponsorship-policies) on the Pimlico dashboard, clicking on the existing policy and clicking on the "Edit button".
 
-Start by going to the [sponsorship policies page](https://dashboard.pimlico.io/sponsorship-policies) on the Pimlico dashboard and clicking on the "Edit Policy" button.
-
+Request is sent with POST, where body is a JSON object with the following structure:
 
 ```typescript
 const body = {
@@ -19,7 +18,7 @@ const body = {
 };
 ```
 
-The returned value will be a valid JSON with the following structure. 
+The returned value should be a JSON with the following structure:
 
 ```json
 {
