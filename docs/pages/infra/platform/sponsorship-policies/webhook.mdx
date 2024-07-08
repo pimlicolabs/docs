@@ -1,0 +1,25 @@
+# How to use Sponsorship Policy webhook
+
+Webhooks are a way for you to receive real-time notifications when a sponsorship policy is triggered. You can use webhooks to trigger actions in your application when a policy is triggered. Request is sent with POST, where body is a JSON object with the following structure:
+
+```typescript
+const body = {
+    type: 'sponsorshipPolicy.webhook',
+    data: {
+        object: {
+            userOperation,
+            entryPoint,
+            chainId,
+            sponsorshipPolicyId: sponsorshipPolicy.id    
+        }
+    }
+};
+```
+
+The returned value will be a valid JSON with the following structure. 
+
+```json
+{
+    "sponsor": true // Boolean
+}
+```
