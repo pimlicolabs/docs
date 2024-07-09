@@ -27,6 +27,15 @@ export const platformSidebar = [
       },
     ],
   },
+  {
+    text: "Debugging",
+    items: [
+      {
+        text: "How to debug dropped user operations",
+        link: "/infra/platform/debugging/dropped-user-operations",
+      }
+    ]
+  }
 ];
 
 export const bundlerSidebar = [
