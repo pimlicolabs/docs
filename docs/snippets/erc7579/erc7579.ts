@@ -30,7 +30,7 @@ const safeAccount = await signerToSafeSmartAccount(publicClient, {
 	safeVersion: "1.4.1",
 	entryPoint: ENTRYPOINT_ADDRESS_V07,
 	safe4337ModuleAddress: "0x3Fdb5BC686e861480ef99A6E3FaAe03c0b9F32e2", // These are not meant to be used in production as of now.
-	erc7569LaunchpadAddress: "0xEBe001b3D534B9B6E2500FB78E67a1A137f561CE", // These are not meant to be used in production as of now.
+	erc7579LaunchpadAddress: "0xEBe001b3D534B9B6E2500FB78E67a1A137f561CE", // These are not meant to be used in production as of now.
 })
 // [!endregion smartAccount]
 
