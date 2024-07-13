@@ -45,30 +45,39 @@ export const App = () => {
 Create the smart account client using the Dynamic signer. Note: DynamicWagmiConnector internally sets up the WagmiConfig, so there is no need to do it separately. This is where you would configure what smart account implementation (e.g. [Safe](/permissionless/how-to/accounts/use-safe-account), [Kernel](/permissionless/how-to/accounts/use-kernel-account), Biconomy, [TrustWallet](/permissionless/how-to/accounts/use-trustwallet-account) [SimpleAccount](/permissionless/how-to/accounts/use-simple-account)) and what paymaster logic you want to use.
 
 ```ts
-import { createSmartAccountClient, walletClientToSmartAccountSigner } from "permissionless";
+import { createSmartAccountClient, walletClientToSmartAccountSigner, ENTRYPOINT_ADDRESS_V06 } from "permissionless";
 import { signerToSimpleSmartAccount } from "permissionless/accounts";
 import { useWalletClient } from "wagmi";
+import { createPublicClient, http, zeroAddress } from "viem";
+import { sepolia } from "viem/chains";
 
 const {
-    data: walletClient
+  data: walletClient
 } = useWalletClient()
+
+const publicClient = createPublicClient({
+  chain: sepolia, // or whatever chain you are using
+  transport: http()
+})
 
 const signer = walletClientToSmartAccountSigner(walletClient)
 
 const simpleSmartAccountClient = await signerToSimpleSmartAccount(publicClient, {
-    entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
-    signer: signer,
-    factoryAddress: "0x9406Cc6185a346906296840746125a0E44976454"
+  entryPoint: ENTRYPOINT_ADDRESS_V06,
+  signer,
 })
 
 const smartAccountClient = createSmartAccountClient({
-    account: simpleSmartAccountClient,
-    chain: sepolia, // or whatever chain you are using
-    bundlerTransport: http("<bundler_endpoint>"),
-    entryPoint: ENTRYPOINT_ADDRESS_V06,
-    middleware: {
-		  sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional, if using a paymaster
-	  },
+  account: simpleSmartAccountClient,
+  entryPoint: ENTRYPOINT_ADDRESS_V06,
+  chain: sepolia, // or whatever chain you are using
+  bundlerTransport: http("<bundler_endpoint>", {
+    timeout: 30_000 // optional
+  }),
+  middleware: {
+    gasPrice: async () => (await bundlerClient.getUserOperationGasPrice()).fast,
+    sponsorUserOperation: pimlicoPaymaster.sponsorUserOperation,
+  },
 })
 ```
 

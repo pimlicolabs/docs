@@ -6,11 +6,11 @@ import { pimlicoPaymasterActions } from "permissionless/actions/pimlico"
 import { createPimlicoBundlerClient } from "permissionless/clients/pimlico"
 import { type Hex, createPublicClient, encodeFunctionData, http, parseAbiItem } from "viem"
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts"
-import { sepolia } from "viem/chains"
+import { baseSepolia } from "viem/chains"
 
 // [!region clients]
-const erc20PaymasterAddress = "0x000000000041F3aFe8892B48D88b6862efe0ec8d"
-const usdcAddress = "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238"
+const erc20PaymasterAddress = "0x00000000002E3A39aFEf1132214fEee5a55ce127"
+const usdcAddress = "0x036CbD53842c5426634e7929541eC2318f3dCF7e"
 
 const privateKey =
 	(process.env.PRIVATE_KEY as Hex) ??
@@ -21,11 +21,11 @@ const privateKey =
 	})()
 
 const publicClient = createPublicClient({
-	transport: http("https://rpc.ankr.com/eth_sepolia"),
+	transport: http("https://sepolia.base.org"),
 })
 
 const apiKey = "YOUR_PIMLICO_API_KEY"
-const bundlerUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=${apiKey}`
+const bundlerUrl = `https://api.pimlico.io/v2/84532/rpc?apikey=${apiKey}`
 
 const bundlerClient = createPimlicoBundlerClient({
 	transport: http(bundlerUrl),
@@ -53,7 +53,7 @@ const account = await signerToSafeSmartAccount(publicClient, {
 	],
 })
 
-console.log(`Smart account address: https://sepolia.etherscan.io/address/${account.address}`)
+console.log(`Smart account address: https://sepolia.basescan.org/address/${account.address}`)
 // [!endregion smartAccount]
 
 // [!region checkBalance]
@@ -68,7 +68,7 @@ if (senderUsdcBalance < 1_000_000n) {
 	throw new Error(
 		`insufficient USDC balance for counterfactual wallet address ${account.address}: ${
 			Number(senderUsdcBalance) / 1000000
-		} USDC, required at least 1 USDC. Load up balance at https://faucet.circle.com/`,
+		} USDC, required at least 1 USDC. Load up balance at https://faucet.circle.com/ (Base Sepolia)`,
 	)
 }
 
@@ -79,7 +79,7 @@ console.log(`Smart account USDC balance: ${Number(senderUsdcBalance) / 1000000} 
 const smartAccountClient = createSmartAccountClient({
 	account,
 	entryPoint: ENTRYPOINT_ADDRESS_V07,
-	chain: sepolia,
+	chain: baseSepolia,
 	bundlerTransport: http(bundlerUrl),
 	middleware: {
 		gasPrice: async () => {
@@ -109,5 +109,5 @@ const txHash = await smartAccountClient.sendTransaction({
 	data: "0x1234",
 })
 
-console.log(`User operation included: https://sepolia.etherscan.io/tx/${txHash}`)
+console.log(`User operation included: https://sepolia.basescan.org/tx/${txHash}`)
 // [!endregion submit]
