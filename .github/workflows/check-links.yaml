@@ -1,0 +1,20 @@
+name: Check broken links
+
+on:
+  deployment:
+#   push:
+#     branches:
+#       - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm install -g linkinator
+
+      - name: Check links
+        run: linkinator https://docs.pimlico.io -r --format csv > links-report.csv
