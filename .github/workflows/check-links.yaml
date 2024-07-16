@@ -22,7 +22,7 @@ jobs:
       - name: Prepare report
         id: prepare-report
         run: |
-          LENGTH=$(jq '.links | length' links-report.json)
+          LENGTH=$(jq '[.links[] | select(.state == "BROKEN")] | length' links-report.json)
 
           if [ "$LENGTH" -gt 0 ]; then
               echo "send_report=true" >> $GITHUB_OUTPUT
