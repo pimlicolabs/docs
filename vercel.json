@@ -28,6 +28,11 @@
             "permanent": false
         },
         {
+            "source": "/bundler/how-to/compress-user-operations",
+            "destination": "/infra/bundler/compression",
+            "permanent": false
+        },
+        {
             "source": "/docs/:match*",
             "destination": "/",
             "permanent": false
