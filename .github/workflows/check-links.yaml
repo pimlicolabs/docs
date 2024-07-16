@@ -21,7 +21,7 @@ jobs:
       - name: Prepare report
         id: prepare-report
         run: |
-          LENGTH=$(jq '[.links[] | select(.state == "BROKEN")] | length' links-report.json)
+          LENGTH=$(jq '[.links[] | select(.state == "BROKEN" and .status!=403 and .status!=429 and .status!=0)] | length' links-report.json)
 
           if [ "$LENGTH" -gt 0 ]; then
               echo "send_report=true" >> $GITHUB_OUTPUT
@@ -33,7 +33,7 @@ jobs:
             echo 'report_message<<EOF'
             echo 'Broken links found in the docs 😱:'
 
-            jq -r '.links[] | select(.state == "BROKEN") | "• `\(.url)` (status: `\(.status)`) on the page \(.parent)"' links-report.json
+            jq -r '.links[] | select(.state == "BROKEN" and .status!=403 and .status!=429 and .status!=0) | "• `\(.url)` (status: `\(.status)`) on the page \(.parent)"' links-report.json
             echo EOF
           } >> "$GITHUB_OUTPUT"
 
