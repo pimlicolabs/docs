@@ -17,7 +17,7 @@ jobs:
         run: npm install -g linkinator
 
       - name: Check links
-        run: linkinator https://docs.pimlico.io -r --format json > links-report.json
+        run: linkinator https://docs.pimlico.io https://pimlico.io -r --retry --format json --skip api.pimlico.io > links-report.json
 
       - name: Prepare report
         id: prepare-report
@@ -32,7 +32,7 @@ jobs:
 
           {
             echo 'report_list<<EOF'
-            jq '[.links[] | select(.state == "BROKEN" and .status == 404) | "• `\(.url)` (status: `\(.status)`) on the page \(.parent)"]' links-report.json
+            jq '[.links[] | select(.state == "BROKEN") | "• `\(.url)` (status: `\(.status)`) on the page \(.parent)"]' links-report.json
             echo EOF
           } >> "$GITHUB_OUTPUT"
 
@@ -42,21 +42,8 @@ jobs:
         with:
           channel-id: "#alerts-test"
           slack-message: |
-            Broken links found in the docs:
+            Broken links found in the docs 😱:
 
             ${{ join(fromJson(steps.prepare-report.outputs.report_list), '\n') }}
-          # payload: |
-          #   {
-          #       "text": "Report",
-          #       "blocks": [
-          #           {
-          #               "type": "section",
-          #               "text": {
-          #               "type": "mrkdwn",
-          #               "text": ${{ steps.prepare-report.outputs.report_list }}
-          #               }
-          #           }
-          #       ]
-          #   }
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
