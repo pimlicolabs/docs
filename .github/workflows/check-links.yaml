@@ -24,7 +24,7 @@ jobs:
         run: |
           LENGTH=$(jq '.links | length' links-report.json)
 
-          if [ "$length" -gt 0 ]; then
+          if [ "$LENGTH" -gt 0 ]; then
               echo "send_report=true" >> $GITHUB_OUTPUT
           else
               echo "send_report=false" >> $GITHUB_OUTPUT
