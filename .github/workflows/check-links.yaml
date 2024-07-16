@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: npm install -g linkinator
+        run: npm install -g linkinator@6.1.1
 
       - name: Check links
         run: linkinator https://docs.pimlico.io https://pimlico.io -r --retry --format json --skip api.pimlico.io  --concurrency 5 > links-report.json
