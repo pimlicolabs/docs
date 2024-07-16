@@ -17,4 +17,39 @@ jobs:
         run: npm install -g linkinator
 
       - name: Check links
-        run: linkinator https://docs.pimlico.io -r --format csv > links-report.csv
+        run: linkinator https://docs.pimlico.io -r --format json > links-report.json
+
+      - name: Prepare report
+        id: prepare-report
+        run: |
+            LENGTH=$(jq '.links | length' links-report.json)
+
+            if [ "$length" -gt 0 ]; then
+                echo "send_report=true" >> $GITHUB_OUTPUT
+            else
+                echo "send_report=false" >> $GITHUB_OUTPUT
+            fi
+
+            REPORT_LIST=$(jq '[.links[] | select(.state == "OK") | "- `\(.url)` (status: `\(.status)`) on the page \(.parent)"] | join(" \n")' links-report.json)
+            echo "report_list=$REPORT_LIST" >> $GITHUB_OUTPUT
+
+      - name: Send report
+        uses: slackapi/slack-github-action@v1.26.0
+        if: steps.prepare-report.outputs.send_report == 'true'
+        with:
+            channel-id: 'alerts-test'
+            payload: |
+                {
+                    "text": "Report",
+                    "blocks": [
+                    {
+                        "type": "section",
+                        "text": {
+                        "type": "mrkdwn",
+                        "text": ${{ steps.prepare-report.outputs.report_list }}
+                        }
+                    }
+                    ]
+                }
+          env:
+            SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
