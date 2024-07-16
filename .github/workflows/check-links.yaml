@@ -38,18 +38,19 @@ jobs:
         if: steps.prepare-report.outputs.send_report == 'true'
         with:
           channel-id: "#alerts-test"
-          payload: |
-            {
-                "text": "Report",
-                "blocks": [
-                    {
-                        "type": "section",
-                        "text": {
-                        "type": "mrkdwn",
-                        "text": ${{ steps.prepare-report.outputs.report_list }}
-                        }
-                    }
-                ]
-            }
+          slack-message: ${{ steps.prepare-report.outputs.report_list }}
+          # payload: |
+          #   {
+          #       "text": "Report",
+          #       "blocks": [
+          #           {
+          #               "type": "section",
+          #               "text": {
+          #               "type": "mrkdwn",
+          #               "text": ${{ steps.prepare-report.outputs.report_list }}
+          #               }
+          #           }
+          #       ]
+          #   }
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
