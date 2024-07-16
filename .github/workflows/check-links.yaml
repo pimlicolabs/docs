@@ -30,8 +30,10 @@ jobs:
           fi
 
           {
-            echo 'report_list<<EOF'
-            jq '[.links[] | select(.state == "BROKEN") | "• `\(.url)` (status: `\(.status)`) on the page \(.parent)"]' links-report.json
+            echo 'report_message<<EOF'
+            echo 'Broken links found in the docs 😱:'
+
+            jq '.links[] | select(.state == "BROKEN") | "• `\(.url)` (status: `\(.status)`) on the page \(.parent)"' links-report.json
             echo EOF
           } >> "$GITHUB_OUTPUT"
 
@@ -40,9 +42,6 @@ jobs:
         if: steps.prepare-report.outputs.send_report == 'true'
         with:
           channel-id: "#alerts-test"
-          slack-message: |
-            Broken links found in the docs 😱:
-
-            ${{ join(fromJson(steps.prepare-report.outputs.report_list), ' %0A') }}
+          slack-message: ${{ steps.prepare-report.outputs.report_message }}
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
