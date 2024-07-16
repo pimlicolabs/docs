@@ -2,9 +2,8 @@ name: Check broken links
 
 on:
   deployment:
-#   push:
-#     branches:
-#       - main
+  schedule:
+    - cron: "0 13 * * *"
 
 jobs:
   build:
@@ -44,6 +43,6 @@ jobs:
           slack-message: |
             Broken links found in the docs 😱:
 
-            ${{ join(fromJson(steps.prepare-report.outputs.report_list), '\n') }}
+            ${{ join(fromJson(steps.prepare-report.outputs.report_list), '\\n') }}
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
