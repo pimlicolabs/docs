@@ -6,7 +6,7 @@ on:
     - cron: "0 13 * * *"
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -43,6 +43,6 @@ jobs:
           slack-message: |
             Broken links found in the docs 😱:
 
-            ${{ join(fromJson(steps.prepare-report.outputs.report_list), '%0A') }}
+            ${{ join(fromJson(steps.prepare-report.outputs.report_list), ' %0A') }}
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
