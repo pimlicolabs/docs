@@ -1,0 +1,99 @@
+# The Sponsorship Policy object
+
+## Attributes
+
+- **id:** `string`
+
+The unique identifier for the sponsorship policy.
+
+- **policy_name:** `string`
+
+The name of the sponsorship policy.
+
+- **policy_status:** `string`
+
+The status of the sponsorship policy. Possible values are `active`, `inactive`, and `deleted`.
+
+- **created_at:** `string`
+
+The date and time the sponsorship policy was created formatted as an ISO 8601 string (e.g. `2024-05-23T15:23:38Z`).
+
+- **start_time:** `string` or `null`
+
+The date and time the sponsorship policy will become active formatted as an ISO 8601 string (e.g. `2024-05-23T15:23:38Z`). If `null`, there is no start time before which the policy is inactive.
+
+- **end_time:** `string` or `null`
+
+The date and time the sponsorship policy will become inactive formatted as an ISO 8601 string (e.g. `2024-05-23T15:23:38Z`). If `null`, there is no end time after which the policy is inactive.
+
+- **chain_ids:** `object`
+
+An object containing the chain IDs that are allowed to use the sponsorship policy. The object has the following attributes:
+
+:::note
+- **allowlist:** `array` or `null`
+
+An array of chain IDs that are allowed to use the sponsorship policy. If `null`, the policy is valid for all chains.
+:::
+
+- **limits:** `object`
+
+An object containing the spending limits for the sponsorship policy. The object has the following attributes:
+
+:::::note
+- **global:** `object` or `null`
+
+An object containing the global spending limits for the sponsorship policy. The object has the following attributes:
+
+::::note
+  - **user_operation_spending:** `object` or `null`
+
+An object containing the spending limit for user operations. The object has the following attributes:
+
+:::note
+    - **amount:** `integer`
+
+The spending limit amount. The API expect amounts to be provided in a currency’s smallest unit. For example, to set the limit to 10 USD, provide an amount value of 1000 (that is, 1000 cents).
+
+    - **currency:** `string`
+
+The currency of the spending limit amount. Currently only `USD` is supported.
+:::
+
+  - **user_operation_count:** `integer` or `null`
+
+The spending limit for the number of user operations. The API expects a positive integer value.
+
+::::
+
+:::::
+
+## Example
+
+```json
+{
+  "id": "sp_tangible_knight",
+  "policy_name": "Pimlico Example Gas Fund",
+  "policy_status": "active",
+  "created_at": "2024-05-23T15:23:38Z",
+  "start_time": null,
+  "end_time": null,
+  "chain_ids": {
+    "allowlist": [
+      10,
+      8453,
+      34443,
+      690,
+      7777777
+    ]
+  },
+  "limits": {
+    "global": {
+      "user_operation_spending": {
+        "amount": 10000000,
+        "currency": "USD"
+      }
+    }
+  }
+}
+```

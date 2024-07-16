@@ -40,6 +40,41 @@ export const platformSidebar = [
 			},
 		],
 	},
+	{
+		text: "API",
+		items: [
+			{
+				text: "Pagination",
+				link: "/infra/platform/api/pagination",
+			},
+			{
+				text: "Sponsorship Policies",
+				collapsed: false,
+				items: [
+					{
+						text: "The Sponsorship Policy object",
+						link: "/infra/platform/api/sponsorship-policies/object"
+					},
+					{
+						text: "Retrieve a sponsorship policy",
+						link: "/infra/platform/api/sponsorship-policies/retrieve",
+					},
+					{
+						text: "List all sponsorship policies",
+						link: "/infra/platform/api/sponsorship-policies/list",
+					},
+					{
+						text: "Create a sponsorship policy",
+						link: "/infra/platform/api/sponsorship-policies/create",
+					},
+					{
+						text: "Update a sponsorship policy",
+						link: "/infra/platform/api/sponsorship-policies/update",
+					},
+				]
+			}
+		]
+	}
 ]
 
 export const bundlerSidebar = [

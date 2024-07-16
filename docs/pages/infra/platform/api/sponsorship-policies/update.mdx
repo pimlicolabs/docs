@@ -1,0 +1,69 @@
+# Update a sponsorship policy
+
+Updates a sponsorship policy. Any parameters not provided will be left unchanged.
+
+## HTTP Request
+
+`POST /v2/account/sponsorship_policies/:id`
+
+## Query Parameters
+
+- **apikey**
+
+Your Pimlico API key.
+
+## Request Body
+
+The sponsorship policy object, without the `id` and `created_at` fields.
+
+## Returns
+
+Returns the updated sponsorship policy object.
+
+## Example Request
+
+```shell
+curl -X POST "https://api.pimlico.io/v2/account/sponsorship_policies/sp_tangible_knight?apikey=YOUR_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+        "policy_name": "New Policy Name",
+        "limits": {
+            "global": {
+                "user_operation_spending": {
+                    "amount": 20000000,
+                    "currency": "USD"
+                }
+            }
+        }
+    }'
+```
+
+## Example Response
+
+```json
+{
+  "id": "sp_tangible_knight",
+  "policy_name": "New Policy Name",
+  "policy_status": "active",
+  "created_at": "2024-05-23T15:23:38Z",
+  "start_time": null,
+  "end_time": null,
+  "chain_ids": {
+    "allowlist": [
+      10,
+      8453,
+      34443,
+      690,
+      7777777
+    ]
+  },
+  "limits": {
+    "global": {
+      "user_operation_spending": {
+        "amount": 20000000,
+        "currency": "USD"
+      }
+    }
+  }
+}
+```

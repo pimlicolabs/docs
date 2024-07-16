@@ -1,0 +1,63 @@
+# Create a sponsorship policy
+
+Creates a sponsorship policy.
+
+## HTTP Request
+
+`POST /v2/account/sponsorship_policies`
+
+## Query Parameters
+
+- **apikey**
+
+Your Pimlico API key.
+
+## Request Body
+
+The sponsorship policy object, without the `id` and `created_at` and `policy_status` fields.
+
+## Returns
+
+Returns the created sponsorship policy object.
+
+## Example Request
+
+```shell
+curl -X POST "https://api.pimlico.io/v2/account/sponsorship_policies?apikey=YOUR_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+        "policy_name": "Newly Created Policy",
+        "limits": {
+            "global": {
+                "user_operation_spending": {
+                    "amount": 20000000,
+                    "currency": "USD"
+                }
+            }
+        }
+    }'
+```
+
+## Example Response
+
+```json
+{
+  "id": "sp_mighty_chameleon",
+  "policy_name": "Newly Created Policy",
+  "policy_status": "active",
+  "created_at": "2024-07-16T17:36:23.296Z",
+  "start_time": null,
+  "end_time": null,
+  "chain_ids": {
+    "allowlist": null
+  },
+  "limits": {
+    "global": {
+      "user_operation_spending": {
+        "amount": 20000000,
+        "currency": "USD"
+      }
+    }
+  }
+}
+```
