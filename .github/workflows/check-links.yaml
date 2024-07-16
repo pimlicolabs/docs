@@ -30,7 +30,7 @@ jobs:
               echo "send_report=false" >> $GITHUB_OUTPUT
           fi
 
-          REPORT_LIST=$(jq '[.links[] | select(.state == "BROKEN" and .status == 404) | "- `\(.url)` (status: `\(.status)`) on the page \(.parent)"] | join(" \n ")' links-report.json)
+          REPORT_LIST=$(jq '[.links[] | select(.state == "BROKEN" and .status == 404) | "• `\(.url)` (status: `\(.status)`) on the page \(.parent)"]' links-report.json)
           echo "report_list=$REPORT_LIST" >> $GITHUB_OUTPUT
 
       - name: Send report
@@ -41,7 +41,7 @@ jobs:
           slack-message: |
             Broken links found in the docs:
 
-            ${{ steps.prepare-report.outputs.report_list }}
+            ${{ join(fromJson(steps.prepare-report.outputs.report_list), '\n') }}
           # payload: |
           #   {
           #       "text": "Report",
