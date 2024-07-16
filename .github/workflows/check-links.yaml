@@ -34,7 +34,7 @@ jobs:
             echo 'report_list<<EOF'
             $(jq '[.links[] | select(.state == "BROKEN" and .status == 404) | "• `\(.url)` (status: `\(.status)`) on the page \(.parent)"]' links-report.json)
             echo EOF
-          } >> $GITHUB_OUTPUT
+          } >> "$GITHUB_OUTPUT"
 
       - name: Send report
         uses: slackapi/slack-github-action@v1.26.0
