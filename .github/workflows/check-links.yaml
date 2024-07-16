@@ -38,7 +38,10 @@ jobs:
         if: steps.prepare-report.outputs.send_report == 'true'
         with:
           channel-id: "#alerts-test"
-          slack-message: ${{ steps.prepare-report.outputs.report_list }}
+          slack-message: |
+            Broken links found in the docs:
+
+            ${{ steps.prepare-report.outputs.report_list }}
           # payload: |
           #   {
           #       "text": "Report",
