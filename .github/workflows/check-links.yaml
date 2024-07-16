@@ -30,8 +30,11 @@ jobs:
               echo "send_report=false" >> $GITHUB_OUTPUT
           fi
 
-          REPORT_LIST="$(jq '[.links[] | select(.state == "BROKEN" and .status == 404) | "• `\(.url)` (status: `\(.status)`) on the page \(.parent)"]' links-report.json)"
-          echo "report_list=$REPORT_LIST" >> $GITHUB_OUTPUT
+          {
+            echo 'report_list<<EOF'
+            $(jq '[.links[] | select(.state == "BROKEN" and .status == 404) | "• `\(.url)` (status: `\(.status)`) on the page \(.parent)"]' links-report.json)
+            echo EOF
+          } >> $GITHUB_OUTPUT
 
       - name: Send report
         uses: slackapi/slack-github-action@v1.26.0
