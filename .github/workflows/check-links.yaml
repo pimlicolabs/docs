@@ -43,6 +43,6 @@ jobs:
           slack-message: |
             Broken links found in the docs 😱:
 
-            ${{ join(fromJson(steps.prepare-report.outputs.report_list), '\\n') }}
+            ${{ join(fromJson(steps.prepare-report.outputs.report_list), '%0A') }}
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
