@@ -16,7 +16,7 @@ jobs:
         run: npm install -g linkinator
 
       - name: Check links
-        run: linkinator https://docs.pimlico.io https://pimlico.io -r --retry --format json --skip api.pimlico.io > links-report.json
+        run: linkinator https://docs.pimlico.io https://pimlico.io -r --retry --format json --skip api.pimlico.io  --concurrency 5 > links-report.json
 
       - name: Prepare report
         id: prepare-report
@@ -33,7 +33,7 @@ jobs:
             echo 'report_message<<EOF'
             echo 'Broken links found in the docs 😱:'
 
-            jq '.links[] | select(.state == "BROKEN") | "• `\(.url)` (status: `\(.status)`) on the page \(.parent)"' links-report.json
+            jq -r '.links[] | select(.state == "BROKEN") | "• `\(.url)` (status: `\(.status)`) on the page \(.parent)"' links-report.json
             echo EOF
           } >> "$GITHUB_OUTPUT"
 
