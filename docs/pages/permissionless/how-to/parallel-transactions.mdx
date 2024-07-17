@@ -17,7 +17,11 @@ In an Externally Owned Account (EOA), the `nonce` is a simple incrementing numbe
 - 192-bit “key”
 - 64-bit “sequence”
 
-For each unique `key`, the sequence must be incremented by 1 for each transaction. This means that if you send multiple transactions in parallel, you can use different `keys` for the parallel transactions
+For each unique `key`, the sequence must be incremented by 1 for each transaction. This means that if you send multiple transactions in parallel, you can use different `keys` for the parallel transactions.
+
+:::info
+Note: Pimlico bundler currently only support up to 10 parallel transactions. If you need to send more than 10 transactions in parallel feel free to contact us at [support@pimlico.io](mailto:support@pimlico.io).
+:::
 
 In the example below, we use the current timestamp as the `key` to send parallel transactions. You can use any other value as the `key`.
 
