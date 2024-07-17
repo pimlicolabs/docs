@@ -1,0 +1,22 @@
+# How to send multiple transactions
+
+permissionless.js allows you to send multiple transactions in one go or in parallel.
+This can be useful if you want to send multiple transactions in a single user operation or if you want to send multiple transactions in parallel.
+
+## Sending multiple transactions
+
+If you just want to send multiple transactions in a single user operation, you can use the `sendTransactions` method.
+
+```ts
+// [!include ~/snippets/how-to/transactions/multiple-parallel.ts:multiple-transactions]
+```
+
+## Send multiple transactions in parallel
+
+In EOA, `nonce` is a simple incrementing number while in smart accounts, the nonce is a combination of two components: a `key` and a `sequence`:
+
+- 192-bit “key”
+- 64-bit “sequence”
+
+For each unique `key`, sequence must be incremented by 1 for each transaction.
+This means that if you send multiple transactions in parallel, you can use different `key` for parallel transactions.

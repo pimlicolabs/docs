@@ -54,7 +54,7 @@ export const platformSidebar = [
 				items: [
 					{
 						text: "The Sponsorship Policy object",
-						link: "/infra/platform/api/sponsorship-policies/object"
+						link: "/infra/platform/api/sponsorship-policies/object",
 					},
 					{
 						text: "Retrieve a sponsorship policy",
@@ -72,10 +72,10 @@ export const platformSidebar = [
 						text: "Update a sponsorship policy",
 						link: "/infra/platform/api/sponsorship-policies/update",
 					},
-				]
-			}
-		]
-	}
+				],
+			},
+		],
+	},
 ]
 
 export const bundlerSidebar = [
@@ -499,6 +499,15 @@ export const permissionlessSidebar = [
 					{
 						text: "How to use a Particle Network signer",
 						link: "/permissionless/how-to/signers/particle-network",
+					},
+				],
+			},
+			{
+				text: "Transactions",
+				items: [
+					{
+						text: "How to send multiple transactions",
+						link: "/permissionless/how-to/transactions/multiple-parallel",
 					},
 				],
 			},
