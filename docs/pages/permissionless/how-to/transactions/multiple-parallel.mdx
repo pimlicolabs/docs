@@ -1,28 +1,28 @@
-# How to send multiple transactions
+# How to Send Multiple Transactions
 
-permissionless.js allows you to send multiple transactions in one go or in parallel.
-This can be useful if you want to send multiple transactions in a single user operation or if you want to send multiple transactions in parallel.
+The permissionless.js library allows you to send multiple transactions at once or in parallel. This can be useful if you want to handle multiple transactions in a single user action or if you want to send transactions concurrently.
 
-## Sending multiple transactions
+## Sending Multiple Transactions
 
-If you just want to send multiple transactions in a single user operation, you can use the `sendTransactions` method.
+To send multiple transactions in a single user action, you can use the `sendTransactions` method.
 
 ```ts
 // [!include ~/snippets/how-to/transactions/multiple-parallel.ts:multiple-transactions]
 ```
 
-## Send multiple transactions in parallel
+## Sending Multiple Transactions in Parallel
 
-In EOA, `nonce` is a simple incrementing number while in smart accounts, the nonce is a combination of two components: a `key` and a `sequence`:
+In an Externally Owned Account (EOA), the `nonce` is a simple incrementing number. However, in smart accounts, the `nonce` consists of two components: a `key` and a `sequence`:
 
 - 192-bit “key”
 - 64-bit “sequence”
 
-For each unique `key`, sequence must be incremented by 1 for each transaction.
-This means that if you send multiple transactions in parallel, you can use different `key` for parallel transactions.
+For each unique `key`, the sequence must be incremented by 1 for each transaction. This means that if you send multiple transactions in parallel, you can use different `keys` for the parallel transactions
 
-In the below example, we are using current timestamp as the `key` to send parallel transactions. You can use any other value as the `key`.
+In the example below, we use the current timestamp as the `key` to send parallel transactions. You can use any other value as the `key`.
 
 ```ts
 // [!include ~/snippets/how-to/transactions/multiple-parallel.ts:multiple-transactions-parallel]
 ```
+
+This way, you can efficiently manage multiple transactions either sequentially or concurrently.
