@@ -4,7 +4,6 @@ import { privateKeyToSimpleSmartAccount } from "permissionless/accounts"
 import { createPimlicoPaymasterClient } from "permissionless/clients/pimlico"
 import { concat, createPublicClient, http, parseEther } from "viem"
 import { sepolia } from "viem/chains"
-import { encodeNonce } from "permissionless/utils"
 
 export const publicClient = createPublicClient({
 	transport: http("https://rpc.ankr.com/eth_sepolia"),
@@ -51,6 +50,8 @@ const trasnactionHash = await smartAccountClient.sendTransactions({
 // [!endregion multiple-transactions]
 
 // [!region multiple-transactions-parallel]
+import { encodeNonce } from "permissionless/utils"
+
 const parallelNonce1 = encodeNonce({
 	key: BigInt(Date.now()),
 	sequence: 0n,
