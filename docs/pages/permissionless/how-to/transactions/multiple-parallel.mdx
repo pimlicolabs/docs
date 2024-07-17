@@ -20,3 +20,9 @@ In EOA, `nonce` is a simple incrementing number while in smart accounts, the non
 
 For each unique `key`, sequence must be incremented by 1 for each transaction.
 This means that if you send multiple transactions in parallel, you can use different `key` for parallel transactions.
+
+In the below example, we are using current timestamp as the `key` to send parallel transactions. You can use any other value as the `key`.
+
+```ts
+// [!include ~/snippets/how-to/transactions/multiple-parallel.ts:multiple-transactions-parallel]
+```
