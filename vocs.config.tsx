@@ -391,6 +391,10 @@ export const permissionlessSidebar = [
 				link: "/permissionless/how-to/dapp-gas-sponsorship",
 			},
 			{
+				text: "How to send multiple transactions",
+				link: "/permissionless/how-to/parallel-transactions",
+			},
+			{
 				text: "Error Handling",
 				link: "/permissionless/how-to/error-handling",
 			},
@@ -499,15 +503,6 @@ export const permissionlessSidebar = [
 					{
 						text: "How to use a Particle Network signer",
 						link: "/permissionless/how-to/signers/particle-network",
-					},
-				],
-			},
-			{
-				text: "Transactions",
-				items: [
-					{
-						text: "How to send multiple transactions",
-						link: "/permissionless/how-to/transactions/multiple-parallel",
 					},
 				],
 			},

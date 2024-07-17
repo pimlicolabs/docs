@@ -7,7 +7,7 @@ The permissionless.js library allows you to send multiple transactions at once o
 To send multiple transactions in a single user action, you can use the `sendTransactions` method.
 
 ```ts
-// [!include ~/snippets/how-to/transactions/multiple-parallel.ts:multiple-transactions]
+// [!include ~/snippets/how-to/parallel-transactions.ts:multiple-transactions]
 ```
 
 ## Sending Multiple Transactions in Parallel
@@ -22,7 +22,7 @@ For each unique `key`, the sequence must be incremented by 1 for each transactio
 In the example below, we use the current timestamp as the `key` to send parallel transactions. You can use any other value as the `key`.
 
 ```ts
-// [!include ~/snippets/how-to/transactions/multiple-parallel.ts:multiple-transactions-parallel]
+// [!include ~/snippets/how-to/parallel-transactions.ts:multiple-transactions-parallel]
 ```
 
 This way, you can efficiently manage multiple transactions either sequentially or concurrently.
