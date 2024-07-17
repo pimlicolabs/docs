@@ -66,3 +66,9 @@ Examples include:
 ## When using a bundler without a verifying paymaster, who ends up paying the added fees?
 
 When using the bundler without you sponsoring the gas fees for your users, the users themselves will be the ones covering the gas fees as well as the small bundler overhead for the user operations.
+
+## If the bundler gets exploited, are my ERC-4337 accounts at risk?
+
+No. If the private keys Pimlico uses were to get compromised, that would have no effect on the security of your ERC-4337 accounts. ERC-4337 was designed to make bundlers a completely permissionless entity, meaning in fact that any address could technically be a bundler by calling the `handleOps` function on the EntryPoint contract. Bundler services like Pimlico merely provide a convenient, fast, and reliable way to bundle user operations for you.
+
+The EOA address (if there is one) that controls your ERC-4337 would be controlled by you or a separate service you trust, completely independent of the bundler and Pimlico. 
