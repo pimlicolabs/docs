@@ -391,7 +391,7 @@ export const permissionlessSidebar = [
 				link: "/permissionless/how-to/dapp-gas-sponsorship",
 			},
 			{
-				text: "How to send multiple transactions",
+				text: "How to send multiple user operations in parallel",
 				link: "/permissionless/how-to/parallel-transactions",
 			},
 			{
