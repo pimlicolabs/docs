@@ -49,6 +49,7 @@ export const platformSidebar = [
 			},
 			{
 				text: "Sponsorship Policies",
+				link: "/infra/platform/api/sponsorship-policies",
 				collapsed: false,
 				items: [
 					{
