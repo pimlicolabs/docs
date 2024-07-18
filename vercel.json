@@ -28,6 +28,11 @@
             "permanent": false
         },
         {
+            "source": "/paymaster/erc20-paymaster",
+            "destination": "/infra/paymaster/erc20-paymaster/",
+            "permanent": false
+        },
+        {
             "source": "/bundler/how-to/compress-user-operations",
             "destination": "/infra/bundler/compression",
             "permanent": false
