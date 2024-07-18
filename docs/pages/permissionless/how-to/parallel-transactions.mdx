@@ -1,16 +1,16 @@
 # How to send multiple user operations in parallel
 
-The permissionless.js library allows you to send multiple transactions at once or in parallel. This can be useful if you want to handle multiple transactions in a single user action or if you want to send transactions concurrently.
+permissionless.js library lets you to send multiple transactions in parallel. This can be useful if you want to batch multiple calls in a single user operation or if you want to send user operations concurrently.
 
-## Sending Multiple Transactions
+## Batching Multiple Calls
 
-To send multiple transactions in a single user action, you can use the `sendTransactions` method.
+To batch multiple calls in a single user operation, you can use the `sendTransactions` method.
 
 ```ts
 // [!include ~/snippets/how-to/parallel-transactions.ts:multiple-transactions]
 ```
 
-## Sending Multiple Transactions in Parallel
+## Sending Multiple User Operations in Parallel
 
 In an Externally Owned Account (EOA), the `nonce` is a simple incrementing number. However, in smart accounts, the `nonce` consists of two components: a `key` and a `sequence`:
 
