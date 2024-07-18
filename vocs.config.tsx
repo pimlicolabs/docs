@@ -399,6 +399,10 @@ export const permissionlessSidebar = [
 				link: "/permissionless/how-to/parallel-transactions",
 			},
 			{
+				text: "How to conditionally sponsor a user operation",
+				link: "/permissionless/how-to/conditional-sponsoring",
+			},
+			{
 				text: "Error Handling",
 				link: "/permissionless/how-to/error-handling",
 			},
