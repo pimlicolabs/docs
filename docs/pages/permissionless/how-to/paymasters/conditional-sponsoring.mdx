@@ -15,7 +15,7 @@ Let's take an example where you want to sponsor only the first 10 transactions.
 First we must create the public, bundler, and (optionally) paymaster clients that will be used to interact with the SimpleAccount.
 
 ```ts
-// [!include ~/snippets/how-to/conditional-sponsoring.ts:client]
+// [!include ~/snippets/how-to/paymasters/conditional-sponsoring.ts:client]
 ```
 
 ### Create an account
@@ -23,7 +23,7 @@ First we must create the public, bundler, and (optionally) paymaster clients tha
 Now, create an account. This can any of the accounts supported by permissionless.js or custom accounts conforming to the interface. For this example, we'll use a Simple account.
 
 ```ts
-// [!include ~/snippets/how-to/conditional-sponsoring.ts:account]
+// [!include ~/snippets/how-to/paymasters/conditional-sponsoring.ts:account]
 ```
 
 ### Create the smart account client with the custom paymaster logic
@@ -32,7 +32,7 @@ When creating the `smartAccountClient`, we can pass in a `middleware.sponsorUser
 This function can conditionally choose to add a paymaster to the user operation if the desired conditions are met.
 
 ```ts
-// [!include ~/snippets/how-to/conditional-sponsoring.ts:smart-account-client]
+// [!include ~/snippets/how-to/paymasters/conditional-sponsoring.ts:smart-account-client]
 ```
 
 :::::

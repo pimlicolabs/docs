@@ -32,7 +32,7 @@ export const platformSidebar = [
 			{
 				text: "How to create a gas program",
 				link: "/infra/platform/sponsorship-policies/gas-program",
-			}
+			},
 		],
 	},
 	{
@@ -399,10 +399,6 @@ export const permissionlessSidebar = [
 				link: "/permissionless/how-to/parallel-transactions",
 			},
 			{
-				text: "How to conditionally sponsor a user operation",
-				link: "/permissionless/how-to/conditional-sponsoring",
-			},
-			{
 				text: "Error Handling",
 				link: "/permissionless/how-to/error-handling",
 			},
@@ -457,6 +453,10 @@ export const permissionlessSidebar = [
 					{
 						text: "How to use a custom Paymaster",
 						link: "/permissionless/how-to/paymasters/use-custom-paymaster",
+					},
+					{
+						text: "How to conditionally sponsor a user operation",
+						link: "/permissionless/how-to/paymasters/conditional-sponsoring",
 					},
 				],
 			},
