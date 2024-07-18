@@ -29,6 +29,10 @@ export const platformSidebar = [
 				text: "How to use a webhook",
 				link: "/infra/platform/sponsorship-policies/webhook",
 			},
+			{
+				text: "How to create a gas program",
+				link: "/infra/platform/sponsorship-policies/gas-program",
+			}
 		],
 	},
 	{
