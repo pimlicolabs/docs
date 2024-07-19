@@ -1,12 +1,51 @@
 # How to use Sponsorship Policies
 
+## What are Sponsorship Policies?
+
 Sponsorship Policies are hosted policies that allow you to define custom rules for sponsorships.
 
 You can put limits to the global amount of sponsorships, the amount of sponsorships per user, and per user operation.
 
-Start by going to the [sponsorship policies page](https://dashboard.pimlico.io/sponsorship-policies) on the Pimlico dashboard and clicking on the "Create Policy" button.
+Start by going to the [sponsorship policies page](/infra/platform/sponsorship-policies) on the Pimlico dashboard and clicking on the "Create Policy" button.
 
 ![](https://i.imgur.com/sJM7l7m.png)
+
+## Usage of Sponsorship Policies with permisionless.js
+
+If you are using [permissionless.js](/permissionless), you can use the `PimlicoPaymasterClient` to use sponsorship policies.
+
+:::::steps
+
+### Create the clients
+
+First we must create the public, bundler, and (optionally) paymaster clients that will be used to interact with the SimpleAccount.
+
+```ts
+// [!include ~/snippets/infra/platform/sponsorship-policies/index.ts:client]
+```
+
+### Create an account
+
+Now, create an account. This can any of the accounts supported by permissionless.js or custom accounts conforming to the interface. For this example, we'll use a Simple account.
+
+```ts
+// [!include ~/snippets/infra/platform/sponsorship-policies/index.ts:account]
+```
+
+### Create the smart account client with middleware
+
+When creating the `smartAccountClient`, we can pass in a `middleware.sponsorUserOperation` function that will be called before a user operation is signed and sent.
+This is where we can pass in the `sponsorshipPolicyId` that we want to use.
+
+```ts
+// [!include ~/snippets/infra/platform/sponsorship-policies/index.ts:smart-account-client]
+```
+
+
+:::::
+
+
+## Usage of Sponsorship Policies API
 
 After creating a policy, you can take its ID and use it by passing it into the `pm_sponsorUserOperation` method. If the user operation does not meet the requirements of the policy, the method will return an error.
 
