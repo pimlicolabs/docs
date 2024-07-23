@@ -1,4 +1,4 @@
-# Self Host Guide
+# Self-Host Guide
 
 This guide holds all information related to self hosting your own Alto bundler instance. Including installation, setting up, running, and troubleshooting.
 
@@ -18,10 +18,6 @@ And then to start Alto, run
 ./alto help
 ```
 
-:::tip[Tip]
-Building from source ensures that you are running the bleeding edge version of Alto. However, Alto can also be ran using docker with `docker run pimlico/alto`
-:::
-
 ## Setup And Prerequisites
 
 Alto manages multiple executor wallets. If any wallet's balance falls below a set minimum, its balance is automatically refilled using funds from the utility wallet. The utility wallet needs to be funded before starting Alto.
@@ -38,7 +34,7 @@ EntryPoint V0.7 relies on a simulation contract to be deployed. Alto uses this c
 Once all the prerequisite conditions are met, Alto can be started using
 
 ```bash
-./alto
+./alto run
     --entrypoints "0x0000000071727De22E5E9d8BAf0edAc6f37da032,0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
     --entrypoint-simulation-contract "0x74cb5e4ee81b86e70f9045036a1c5477de69ee87"
     --executor-private-keys "0x34e9a7...,0xb08d34...,0x163cbb..."
@@ -67,7 +63,7 @@ Create and setup `alto-config.json`
 Run Alto using `alto-config.json` configurations
 
 ```bash
-./alto --config "alto-config.json"
+./alto run --config "alto-config.json"
 ```
 
 :::tip[Tip]
@@ -82,19 +78,19 @@ Some chains have certain compatability restrictions that require Alto to be ran 
 For chains that only support pre EIP-1559 transactions, alto needs to be ran with the flag
 
 ```bash
-./alto --legacy-transactions ...
+./alto run --legacy-transactions ...
 ```
 
 #### OP Stack Chains
 For chains that are deployed using the OP Stack, alto needs to be ran with the flag
 
 ```bash
-./alto --chain-type "op-stack" ...
+./alto run --chain-type "op-stack" ...
 ```
 
 #### Arbitrum Chains
 For chains that are deployed using Arbitrum, alto needs to be ran with the flag
 
 ```bash
-./alto --chain-type "arbitrum" ...
+./alto run --chain-type "arbitrum" ...
 ```
