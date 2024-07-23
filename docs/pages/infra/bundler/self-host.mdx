@@ -1,0 +1,100 @@
+# Self Host Guide
+
+This guide holds all information related to self hosting your own Alto bundler instance. Including installation, setting up, running, and troubleshooting.
+
+## Installation (Building from source)
+
+To install and build Alto from source, run the following commands
+
+```bash
+git clone https://github.com/pimlicolabs/alto.git
+pnpm install
+pnpm build
+```
+
+And then to start Alto, run
+
+```bash
+./alto help
+```
+
+:::tip[Tip]
+Building from source ensures that you are running the bleeding edge version of Alto. However, Alto can also be ran using docker with `docker run pimlico/alto`
+:::
+
+## Setup And Prerequisites
+
+Alto manages multiple executor wallets. If any wallet's balance falls below a set minimum, its balance is automatically refilled using funds from the utility wallet. The utility wallet needs to be funded before starting Alto.
+
+EntryPoint V0.7 relies on a simulation contract to be deployed. Alto uses this contract during validation and gas estimations. `0x74cb5e4ee81b86e70f9045036a1c5477de69ee87` is the address of the simulation contract on all chains that we support. You can deploy the same contract to any network by using [this helper function](https://gist.github.com/mouseless-eth/9221f12542553250252f3dbc22b5e1c1)
+
+##### Prerequisites:
+
+- Utility wallet is funded
+- Simulations contract is deployed
+
+## Running
+
+Once all the prerequisite conditions are met, Alto can be started using
+
+```bash
+./alto
+    --entrypoints "0x0000000071727De22E5E9d8BAf0edAc6f37da032,0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
+    --entrypoint-simulation-contract "0x74cb5e4ee81b86e70f9045036a1c5477de69ee87"
+    --executor-private-keys "0x34e9a7...,0xb08d34...,0x163cbb..."
+    --utility-private-keys "0xe768f1..."
+    --rpc-url "http://localhost:8545"
+    --safe-mode false
+```
+
+### Running Alto using JSON configurations
+
+Alto can also be ran using configurations from a JSON file
+
+Create and setup `alto-config.json`
+
+```
+{
+    "entrypoints"=0x0000000071727De22E5E9d8BAf0edAc6f37da032,0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789
+    "entrypoint-simulation-contract"=0x74cb5e4ee81b86e70f9045036a1c5477de69ee87
+    "executor-private-keys"=0x34e9a7...,0xb08d34...,0x163cbb...
+    "utility-private-keys"=0xe768f1...
+    "rpc-url"=http://localhost:8545
+    "safe-mode"=false
+}
+```
+
+Run Alto using `alto-config.json` configurations
+
+```bash
+./alto --config "alto-config.json"
+```
+
+:::tip[Tip]
+It is reccomended to run Alto using `safe-mode=false` as it will skip the ERC-7562 reputation checks and DOS prevention. To run alto with `safe-mode=true`, you will need to provide an RPC that has debug_traceCall enabled.
+:::
+
+## Compatability
+
+Some chains have certain compatability restrictions that require Alto to be ran with special flags.
+
+#### Legacy Transaction Chains
+For chains that only support pre EIP-1559 transactions, alto needs to be ran with the flag
+
+```bash
+./alto --legacy-transactions ...
+```
+
+#### OP Stack Chains
+For chains that are deployed using the OP Stack, alto needs to be ran with the flag
+
+```bash
+./alto --chain-type "op-stack" ...
+```
+
+#### Arbitrum Chains
+For chains that are deployed using Arbitrum, alto needs to be ran with the flag
+
+```bash
+./alto --chain-type "arbitrum" ...
+```

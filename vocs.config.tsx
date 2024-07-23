@@ -91,6 +91,10 @@ export const bundlerSidebar = [
 		text: "How to use the bundler",
 		link: "/infra/bundler/usage",
 	},
+	{
+		text: "Self host guide",
+		link: "/infra/bundler/self-host",
+	},
 	{ text: "FAQs", link: "/infra/bundler/faqs" },
 	{
 		text: "Compression",
