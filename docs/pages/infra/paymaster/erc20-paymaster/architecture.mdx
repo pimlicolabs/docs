@@ -10,7 +10,7 @@ However, an audit report does not guarantee that using the paymaster is risk-fre
 
 # Design
 
-The most important design decision for Pimlico's ERC20Paymaster was permissionlessness — you do not have to interact with any hosted APIs to leverage the paymaster. This has the tradeoff however that token approvals to the paymaster cannot be done during the execution phrase of the UserOperation, and must rather be done during the validation phase or in a previous UserOperation. We felt like this was a good tradeoff to make, because token approvals should only be a one-time friction for users under normal circumstances. 
+The most important design decision for Pimlico's ERC20Paymaster was permissionlessness — you do not have to interact with any hosted APIs to leverage the paymaster. This has the tradeoff however that token approvals to the paymaster cannot be done during the execution phrase of the UserOperation, and must rather be done during the validation phase or in a previous UserOperation. We felt like this was a good tradeoff to make, because token approvals should only be a one-time friction for users under normal circumstances.
 
 It is important to note that while Pimlico's paymaster is permissionless, it is not decentralized. The owner of the paymaster is able to do a couple very limited actions. These are further explained in the Admin functions section of this page. It was however designed so it can easily be made decentralized in the future.
 
@@ -68,7 +68,7 @@ The paymaster validates a userOperation by checking if the guarantor signed the 
 import { erc20Paymaster }  from "./erc20Paymaster.ts"
 import { getPackedUserOperation } from "permissionless/utils"
 import { sign, privateKeyToAddress } from "viem/accounts"
-import { getContract, encodePacked } from "viem"
+import { getContract, encodePacked, pad } from "viem"
 
 const guarantorPrivateKey = "0x..."
 const userOperation = ...
@@ -88,7 +88,7 @@ const hash = await erc20Paymaster.read.getHash([
 const { r, s, v } = await sign({ hash, privateKey: guarantorPrivateKey })
 const signature = encodePacked(
     ["bytes32", "bytes32", "uint8"],
-    [r, s, Number(v)]
+    [pad(r), pad(s), Number(v)]
 )
 
 // creating paymaster and data for a Mode2 sponsor
