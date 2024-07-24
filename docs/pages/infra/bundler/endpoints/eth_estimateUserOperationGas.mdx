@@ -24,15 +24,15 @@ If the operation is not successful, it will return an error.
 
 :::warning[Warning]
 
-The EntryPoint v0.7 API expects an `UnPackedUserOperation` instead of a `PackedUserOperation`.
+The EntryPoint v0.7 API expects an `UnpackedUserOperation` instead of a `PackedUserOperation`.
 According to spec it is bundler's responsibility to pack the userOp before sending it to the EntryPoint.
-So make sure to send an `UnPackedUserOperation` to the bundler.
+So make sure to send an `UnpackedUserOperation` to the bundler.
 
 :::
 
 :::tip[Tip]
 
-For entryPoint v0.7, we will revert if the `callData` field in the user operation fails.
+For entryPoint v0.7, we will revert if the execution of the `callData` in the user operation fails.
 However, this is not the case for entryPoint v0.6.
 
 :::
