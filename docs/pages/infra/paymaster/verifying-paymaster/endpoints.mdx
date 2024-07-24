@@ -18,7 +18,75 @@ This time limit is necessary in order to avoid DoS attacks, as leaving an infini
 
 If you require a longer time window for your User Operations, please get in touch!
 
-Request:
+## EntryPoint v0.7
+
+:::warning[Warning]
+
+The EntryPoint v0.7 API expects an `UnpackedUserOperation` instead of a `PackedUserOperation`.
+According to the spec it is bundler's responsibility to pack the userOp before sending it to the EntryPoint.
+So make sure to send an `UnpackedUserOperation` to the bundler.
+
+:::
+
+:::tip[Tip]
+
+For entryPoint v0.7, we will revert if the execution of the `callData` in the user operation fails.
+However, this is not the case for entryPoint v0.6.
+
+:::
+
+### Request:
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "pm_sponsorUserOperation",
+    "params": [
+        {
+            "sender": "0xa203fDb8bC335F86016F635b85389B62B189E417",
+            "nonce": "0x35bf2a054f92f3730b87582ef223c8d663f9eb01158154750000000000000000",
+            "factory": "0x",
+            "factoryData": "0x",
+            "callData": "0xb61d27f6000000000000000000000000530fff22987e137e7c8d2adcc4c15eb45b4fa752000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000600000000000000000000000000000000000000000000000000000000000000184165398be00000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000002fcf1000000000000000000000000000000000000000000000000000000e8d4ac25fd000000000000000000000000000000000000000000000000000001d1a94f86e3000000000000000000000000000000000000000000000000000000e8d4ac13d6000000000000000000000000000000000000000000000000000001d1a94edaef000000000000000000000000000000000000000000000000000000e8d4ac25fa00000000000000000000000000000000000000000000000000000000",
+            "callGasLimit": "0x115b5c0",
+            "verificationGasLimit": "0x249f0",
+            "preVerificationGas": "0xeb11",
+            "maxPriorityFeePerGas": "0x12a05f200",
+            "maxFeePerGas": "0x5b08082fa",
+            "paymaster": "0x",
+            "paymasterVerificationGasLimit": "0x",
+            "paymasterPostOpGasLimit": "0x",
+            "paymasterData": "0x",
+            "signature": "0xa6cc6589c8bd561cfd68d7b6b0757ef6f208e7438782939938498eee7d703260137856c840c491b3d415956265e81bf5c2184a725be2abfc365f7536b6af525e1c"
+        },
+        "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+        { "sponsorshipPolicyId": "sp_example_policy_id" } // optional
+    ],
+    "id": 1
+}
+```
+
+### Response:
+
+```json
+{
+    "jsonrpc": "2.0",
+    "result": {
+        "preVerificationGas": "0xc178",
+        "verificationGasLimit": "0x2a768",
+        "callGasLimit": "0x225ec",
+        "paymasterPostOpGasLimit": "0x23"
+        "paymasterVerificationGasLimit": "0x237328",
+        "paymaster": "0xDFF7FA1077Bce740a6a212b3995990682c0Ba66d"
+        "paymasterData": "0xbcd12340a2109876543210987654301098765432198765432a210987654321098765430a210987654321098765430",
+    },
+    "id": 1
+}
+```
+
+## EntryPoint v0.6
+
+### Request:
 
 ```json
 {
@@ -44,6 +112,7 @@ Request:
     "id": 1
 }
 ```
+
 ```typescript
 import { JsonRpcProvider } from "@ethersproject/providers";
 
@@ -59,7 +128,7 @@ const result = await provider.send("pm_sponsorUserOperation", [userOperation, {e
 
 ```
 
-Response:
+### Response:
 
 ```json
 {
@@ -76,7 +145,10 @@ Response:
 
 ## pm_validateSponsorshipPolicies
 
-This method validates a User Operation against an array of [sponsorship policies](https://dashboard.pimlico.io/sponsorship-policies), and returns an array of sponsorship policies (alongside additional data for each policy) that are willing to sponsor the user operation.
+This method validates a User Operation against an array of [sponsorship policies](https://dashboard.pimlico.io/sponsorship-policies),
+and returns an array of sponsorship policies (alongside additional data for each policy) that are willing to sponsor the user operation.
+This method is available for both EntryPoint v0.6 and v0.7.
+
 
 Request:
 
@@ -147,75 +219,10 @@ Response:
 ```json
 {
     "jsonrpc": "2.0",
-    "result": ["0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"],
-    "id": 1
-}
-```
-
-## pm_sponsorUserOperation (v1)
-
-:::warning
-v1 of the API is deprecated and will be removed in the future. Please use v2 instead.
-:::
-
-User Operations sponsored using pm_sponsorUserOperation have a 10 minute time window during which they must be included. After this time window elapses, all unused gas will be refunded to your Pimlico balance.
-
-This time limit is necessary in order to avoid DoS attacks, as leaving an infinite time window would allow potential attackers to accumulate User Operations and drain Pimlico's paymaster all in one go, requiring us to maintain enough balance to cover all possible User Operations we ever signed up to sponsor in the entire history of the paymaster.
-
-If you require a longer time window for your User Operations, please get in touch!
-
-Request:
-
-```json
-{
-    "jsonrpc": "2.0",
-    "method": "pm_sponsorUserOperation",
-    "params": [
-        {
-            "sender": "0x1234567890123456789012345678901234567890",
-            "nonce": "0x1",
-            "initCode": "0x",
-            "callData": "0x",
-            "callGasLimit": "0x100000",
-            "verificationGasLimit": "0x20000",
-            "preVerificationGas": "0x10000",
-            "maxFeePerGas": "0x3b9aca00",
-            "maxPriorityFeePerGas": "0x3b9aca00",
-            "paymasterAndData": "0x",
-            "signature": "0x"
-        },
-        {
-          "entryPoint": "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
-        }
+    "result": [
+        "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+        "0x0000000071727De22E5E9d8BAf0edAc6f37da032"
     ],
     "id": 1
 }
-```
-```typescript
-import { JsonRpcProvider } from "@ethersproject/providers";
-
-const chain = "sepolia"
-const apiKey = "YOUR_API_KEY_HERE"
-const entryPoint = "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
-
-const userOperation = ... // generate your User Operation here
-
-const provider = new JsonRpcProvider(`https://api.pimlico.io/v2/${chain}/rpc?apikey=${apiKey}`)
-
-const paymasterAndData = await provider.send("pm_sponsorUserOperation", [userOperation, {entryPoint: entryPoint}])
-
-```
-
-Response:
-
-```json
-{
-    "jsonrpc": "2.0",
-    "result": {
-      "paymasterAndData": "0xbcd12340a2109876543210987654301098765432198765432a210987654321098765430a210987654321098765430"
-    },
-    "id": 1
-}
-
-
 ```

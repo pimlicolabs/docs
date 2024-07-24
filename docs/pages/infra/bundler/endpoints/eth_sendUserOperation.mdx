@@ -9,7 +9,7 @@ This method returns submits the user operation to be included on-chain, and retu
 :::warning[Warning]
 
 The EntryPoint v0.7 API expects an `UnpackedUserOperation` instead of a `PackedUserOperation`.
-According to spec it is bundler's responsibility to pack the userOp before sending it to the EntryPoint.
+According to the spec it is bundler's responsibility to pack the userOp before sending it to the EntryPoint.
 So make sure to send an `UnpackedUserOperation` to the bundler.
 
 :::
