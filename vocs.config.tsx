@@ -10,6 +10,10 @@ export const platformSidebar = [
 		text: "Why Pimlico",
 		items: [
 			{
+				text: "For Startups",
+				link: "/infra/platform/why-pimlico/startups",
+			},
+			{
 				text: "For Enterprise",
 				link: "/infra/platform/why-pimlico/enterprise",
 			}
