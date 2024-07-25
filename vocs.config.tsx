@@ -12,7 +12,12 @@ export const platformSidebar = [
 	},
 	{
 		text: "Why Pimlico",
-		link: "/infra/platform/why-pimlico",
+		items: [
+			{
+				text: "For Enterprise",
+				link: "/infra/platform/why-pimlico/enterprise",
+			}
+		]
 	},
 	{
 		text: "Supported Chains",
