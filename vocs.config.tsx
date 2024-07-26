@@ -383,6 +383,10 @@ export const permissionlessSidebar = [
 		link: "/permissionless/why",
 	},
 	{
+		text: "FAQs",
+		link: "/permissionless/faqs",
+	},
+	{
 		text: "Tutorials",
 		link: "/permissionless/tutorial",
 		items: [

@@ -1,0 +1,23 @@
+# permissionless.js FAQs
+
+## Getting `WaitForUserOperationReceiptTimeoutError`?
+
+This error is thrown when the bundler takes too long to bundle your user operation or the default timeout configured in permissionless.js is not enough.
+This could be due to the block time of the chain you are using is more than the default timeout.
+
+The easiest way to fix this is to increase the timeout in permissionless.js. You can do this by changing timeout value in `bundlerTransport` like so:
+
+```typescript
+const smartAccountClient = createSmartAccountClient({
+  account: simpleSmartAccountClient,
+  entryPoint: ENTRYPOINT_ADDRESS_V06,
+  chain: sepolia, // or whatever chain you are using
+  bundlerTransport: http("<bundler_endpoint>", {
+    timeout: 30_000 // Custom timeout
+  }),
+  middleware: {
+    gasPrice: async () => (await bundlerClient.getUserOperationGasPrice()).fast,
+    sponsorUserOperation: pimlicoPaymaster.sponsorUserOperation,
+  },
+})
+```
