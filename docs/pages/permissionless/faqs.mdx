@@ -21,3 +21,18 @@ const smartAccountClient = createSmartAccountClient({
   },
 })
 ```
+
+## Getting `out of gas` / `preVerificationGas is not enough` error?
+
+Such errors are thrown when the provided gas limits are not enough to execute the user operation. Usually the gas limits are calculated by the bundler. If you are getting such error, you can try setting up gas limits manually.
+
+```typescript
+const userOp = await smartAccountClient.prepareUserOperationRequest({
+  userOperation: {
+    callData,
+    callGasLimit: 100_000n,
+    verificationGasLimit: 100_000n,
+    preVerificationGas: 100_000n,
+  },
+})
+```
