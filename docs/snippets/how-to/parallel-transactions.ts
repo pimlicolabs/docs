@@ -33,7 +33,7 @@ export const smartAccountClient = createSmartAccountClient({
 // [!endregion client]
 
 // [!region multiple-transactions]
-const trasnactionHash = await smartAccountClient.sendTransactions({
+const transactionHash = await smartAccountClient.sendTransactions({
 	transactions: [
 		{
 			to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
