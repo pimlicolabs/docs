@@ -313,16 +313,30 @@ export const paymasterSidebar = [
 		link: "/infra/paymaster/erc20-paymaster",
 		items: [
 			{ text: "Overview", link: "/infra/paymaster/erc20-paymaster" },
+			{ text: "How to use the ERC-20 Paymaster", link: "/infra/paymaster/erc20-paymaster/guides" },
 			{
-				text: "Contract Addresses",
-				link: "/infra/paymaster/erc20-paymaster/contract-addresses",
+				text: "Endpoints",
+				items: [
+					{
+						text: "pimlico_getTokenQuotes",
+						link: "/infra/paymaster/erc20-paymaster/endpoints/pimlico_getTokenQuotes",
+					},
+					{
+						text: "pm_getPaymasterData",
+						link: "/infra/paymaster/erc20-paymaster/endpoints/pm_getPaymasterData",
+					},
+					{
+						text: "pm_getPaymasterStubData",
+						link: "/infra/paymaster/erc20-paymaster/endpoints/pm_getPaymasterStubData",
+					},
+					{
+						text: "pm_sponsorUserOperation",
+						link: "/infra/paymaster/erc20-paymaster/endpoints/pm_sponsorUserOperation",
+					},
+				],
 			},
-			{
-				text: "Architecture",
-				link: "/infra/paymaster/erc20-paymaster/architecture",
-			},
-			{ text: "Guides", link: "/infra/paymaster/erc20-paymaster/guides" },
-			{ text: "FAQs", link: "/infra/paymaster/erc20-paymaster/faqs" },
+			{ text: "Architecture", link: "/infra/paymaster/erc20-paymaster/architecture" },
+			{ text: "Contract Addresses", link: "/infra/paymaster/erc20-paymaster/contract-addresses" },
 		],
 	},
 	{
