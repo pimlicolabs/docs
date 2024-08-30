@@ -66,7 +66,7 @@ const publicClient = createPublicClient({
   transport: http()
 })
 
-const pimlicoUrl = `https://api-staging.pimlico.io/v2/sepolia/rpc?apikey=<PIMLICO_API_KEY>`
+const pimlicoUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=<PIMLICO_API_KEY>`
 
 const pimlicoClient = createPimlicoClient({
 	transport: http(pimlicoUrl),
