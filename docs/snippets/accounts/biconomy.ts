@@ -10,7 +10,7 @@ export const publicClient = createPublicClient({
 	transport: http("https://rpc.ankr.com/eth_sepolia"),
 })
 
-export const paymasterClient = createPimlicoClient({
+export const pimlicoClient = createPimlicoClient({
 	transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
 	entryPoint: {
 		address: entryPoint06Address,
@@ -42,9 +42,9 @@ const smartAccountClient = createSmartAccountClient({
 	account: biconomyAccount,
 	chain: sepolia,
 	bundlerTransport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
-	paymaster: paymasterClient,
+	paymaster: pimlicoClient,
 	userOperation: {
-		estimateFeesPerGas: async () => (await paymasterClient.getUserOperationGasPrice()).fast,
+		estimateFeesPerGas: async () => (await pimlicoClient.getUserOperationGasPrice()).fast,
 	},
 })
 // [!endregion smartAccountClient]
