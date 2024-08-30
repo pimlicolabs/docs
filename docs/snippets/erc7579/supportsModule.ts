@@ -1,6 +1,6 @@
 import { signerToSafeSmartAccount } from "permissionless/accounts"
 import { publicClient } from "../publicClient"
-import { signer } from "../signer"
+import { signer } from "../owner"
 import { ENTRYPOINT_ADDRESS_V07, createSmartAccountClient } from "permissionless"
 import { sepolia } from "viem/chains"
 import { http } from "viem"

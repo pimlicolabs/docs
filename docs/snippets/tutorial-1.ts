@@ -1,18 +1,16 @@
 import "dotenv/config"
-import { writeFileSync } from "node:fs"
-import { ENTRYPOINT_ADDRESS_V07, createSmartAccountClient } from "permissionless"
-import { signerToSafeSmartAccount } from "permissionless/accounts"
-import {
-	createPimlicoBundlerClient,
-	createPimlicoPaymasterClient,
-} from "permissionless/clients/pimlico"
-import { type Hex, createPublicClient, http } from "viem"
+import { writeFileSync } from "fs"
+import { toSafeSmartAccount } from "permissionless/accounts"
+import { Hex, createPublicClient, http } from "viem"
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts"
 import { sepolia } from "viem/chains"
+import { createPimlicoClient } from "permissionless/clients/pimlico"
+import { entryPoint07Address } from "viem/account-abstraction"
+import { createSmartAccountClient } from "permissionless"
 
 // [!region clients]
-const apiKey = "YOUR_PIMLICO_API_KEY"
-const paymasterUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=${apiKey}`
+const apiKey = process.env.PIMLICO_API_KEY
+if (!apiKey) throw new Error("Missing PIMLICO_API_KEY")
 
 const privateKey =
 	(process.env.PRIVATE_KEY as Hex) ??
@@ -23,45 +21,45 @@ const privateKey =
 	})()
 
 export const publicClient = createPublicClient({
+	chain: sepolia,
 	transport: http("https://rpc.ankr.com/eth_sepolia"),
 })
 
-export const paymasterClient = createPimlicoPaymasterClient({
-	transport: http(paymasterUrl),
-	entryPoint: ENTRYPOINT_ADDRESS_V07,
+const pimlicoUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=${apiKey}`
+
+const pimlicoClient = createPimlicoClient({
+	transport: http(pimlicoUrl),
+	entryPoint: {
+		address: entryPoint07Address,
+		version: "0.7",
+	},
 })
 // [!endregion clients]
 
 // [!region smartAccount]
-const account = await signerToSafeSmartAccount(publicClient, {
-	signer: privateKeyToAccount(privateKey),
-	entryPoint: ENTRYPOINT_ADDRESS_V07, // global entrypoint
-	safeVersion: "1.4.1",
+const account = await toSafeSmartAccount({
+	client: publicClient,
+	owners: [privateKeyToAccount(privateKey)],
+	entryPoint: {
+		address: entryPoint07Address,
+		version: "0.7",
+	}, // global entrypoint
+	version: "1.4.1",
 })
 
 console.log(`Smart account address: https://sepolia.etherscan.io/address/${account.address}`)
 // [!endregion smartAccount]
 
 // [!region smartAccountClient]
-const bundlerUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=${apiKey}`
-
-const bundlerClient = createPimlicoBundlerClient({
-	transport: http(bundlerUrl),
-	entryPoint: ENTRYPOINT_ADDRESS_V07,
-})
-
 const smartAccountClient = createSmartAccountClient({
 	account,
-	entryPoint: ENTRYPOINT_ADDRESS_V07,
 	chain: sepolia,
-	bundlerTransport: http(bundlerUrl, {
-		timeout: 30_000 // Wait 30 seconds for user operation to be included
-	}),
-	middleware: {
-		gasPrice: async () => {
-			return (await bundlerClient.getUserOperationGasPrice()).fast
+	bundlerTransport: http(pimlicoUrl),
+	paymaster: pimlicoClient,
+	userOperation: {
+		estimateFeesPerGas: async () => {
+			return (await pimlicoClient.getUserOperationGasPrice()).fast
 		},
-		sponsorUserOperation: paymasterClient.sponsorUserOperation,
 	},
 })
 // [!endregion smartAccountClient]

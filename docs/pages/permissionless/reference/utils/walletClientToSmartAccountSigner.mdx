@@ -1,3 +1,7 @@
+import VersionWarning from "../../VersionWarning"
+
+<VersionWarning version="0.2" />
+
 # walletClientToSmartAccountSigner
 
 Takes a walletClient and returns a custom signer that can be used as a signer with permissionless accounts. This is especially useful when using `useWallet` from wagmi, allowing for an easy way to plug in custom frontend wagmi signers to permissionless accounts.

@@ -1,0 +1,44 @@
+import VersionWarning from "../../../VersionWarning"
+
+<VersionWarning version="0.1" />
+
+# signMessage
+
+Uses a smart account to sign and calculate an Ethereum-specific signature in [EIP-191 format](https://eips.ethereum.org/EIPS/eip-191): `keccak256("\x19Ethereum Signed Message:\n" + len(message) + message))`.
+
+With the calculated signature, you can:
+
+- use `verifyMessage` to verify the signature.
+- use `recoverMessageAddress` to recover the signing address from a signature.
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+import { smartAccountClient } from "./smartAccountClient"
+
+const hash = await smartAccountClient.signMessage({
+    message: "build with smart accounts!"
+})
+```
+
+```ts [smartAccountClient.ts]
+// [!include ~/snippets/v0_1/smartAccountClient.ts:client]
+```
+
+::::
+
+## Returns
+
+- **Type:*** `Hex`
+
+The signed message.
+
+## Parameters
+
+### message
+
+- **Type:** `string | { raw: Hex | ByteArray }`
+
+Message to sign.

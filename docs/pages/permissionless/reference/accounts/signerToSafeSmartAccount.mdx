@@ -1,3 +1,7 @@
+import VersionWarning from "../../VersionWarning"
+
+<VersionWarning version="0.2" />
+
 # signerToSafeSmartAccount
 
 Creates a Safe smart account instance controlled by a `SmartAccountSigner`.
@@ -23,8 +27,8 @@ const safeAccount = await signerToSafeSmartAccount(publicClient, {
 // [!include ~/snippets/publicClient.ts:client]
 ```
 
-```ts [signer.ts]
-// [!include ~/snippets/signer.ts]
+```ts [owner.ts]
+// [!include ~/snippets/owner.ts]
 ```
 
 ::::

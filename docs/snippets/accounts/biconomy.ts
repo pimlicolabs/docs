@@ -1,11 +1,7 @@
 // [!region imports]
-import { ENTRYPOINT_ADDRESS_V06, createSmartAccountClient } from "permissionless"
-import { signerToBiconomySmartAccount } from "permissionless/accounts"
-import {
-	createPimlicoBundlerClient,
-	createPimlicoPaymasterClient,
-} from "permissionless/clients/pimlico"
+import { createSmartAccountClient } from "permissionless"
 import { createPublicClient, getContract, http, parseEther } from "viem"
+import { createPimlicoClient } from "permissionless/clients/pimlico"
 import { sepolia } from "viem/chains"
 // [!endregion imports]
 
@@ -14,27 +10,28 @@ export const publicClient = createPublicClient({
 	transport: http("https://rpc.ankr.com/eth_sepolia"),
 })
 
-export const paymasterClient = createPimlicoPaymasterClient({
+export const paymasterClient = createPimlicoClient({
 	transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
-	entryPoint: ENTRYPOINT_ADDRESS_V06,
+	entryPoint: {
+		address: entryPoint06Address,
+		version: "0.6",
+	},
 })
 
-export const pimlicoBundlerClient = createPimlicoBundlerClient({
-	transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
-	entryPoint: ENTRYPOINT_ADDRESS_V06,
-})
 // [!endregion clients]
 
 // [!region signer]
 import { privateKeyToAccount } from "viem/accounts"
+import { entryPoint06Address } from "viem/account-abstraction"
+import { toBiconomySmartAccount } from "permissionless/accounts"
 
-const signer = privateKeyToAccount("0xPRIVATE_KEY")
+const owner = privateKeyToAccount("0xPRIVATE_KEY")
 // [!endregion signer]
 
 // [!region smartAccount]
-const biconomyAccount = await signerToBiconomySmartAccount(publicClient, {
-	entryPoint: ENTRYPOINT_ADDRESS_V06,
-	signer: signer,
+const biconomyAccount = await toBiconomySmartAccount({
+	client: publicClient,
+	owners: [owner],
 	index: 0n, // optional
 	address: "0x...", // optional, only if you are using an already created account
 })
@@ -43,12 +40,11 @@ const biconomyAccount = await signerToBiconomySmartAccount(publicClient, {
 // [!region smartAccountClient]
 const smartAccountClient = createSmartAccountClient({
 	account: biconomyAccount,
-	entryPoint: ENTRYPOINT_ADDRESS_V06,
 	chain: sepolia,
 	bundlerTransport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
-	middleware: {
-		sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
-		gasPrice: async () => (await pimlicoBundlerClient.getUserOperationGasPrice()).fast, // if using pimlico bundler
+	paymaster: paymasterClient,
+	userOperation: {
+		estimateFeesPerGas: async () => (await paymasterClient.getUserOperationGasPrice()).fast,
 	},
 })
 // [!endregion smartAccountClient]
@@ -84,8 +80,8 @@ const txHash_$2 = await nftContract.write.mint()
 // [!endregion submitNft]
 
 // [!region submitBatch]
-const txHash_$3 = await smartAccountClient.sendTransactions({
-	transactions: [
+const userOpHash_$3 = await smartAccountClient.sendUserOperation({
+	calls: [
 		{
 			to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
 			value: parseEther("0.1"),

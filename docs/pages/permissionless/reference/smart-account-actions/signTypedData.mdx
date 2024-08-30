@@ -1,3 +1,7 @@
+import VersionWarning from "../../VersionWarning"
+
+<VersionWarning version="0.2" />
+
 # signTypedData
 
 Signs typed data from a smart account and calculates an Ethereum-specific signature in [https://eips.ethereum.org/EIPS/eip-712](https://eips.ethereum.org/EIPS/eip-712): `sign(keccak256("\x19\x01" ‖ domainSeparator ‖ hashStruct(message)))`

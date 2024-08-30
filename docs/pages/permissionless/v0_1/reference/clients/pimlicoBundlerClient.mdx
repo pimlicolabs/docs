@@ -1,0 +1,54 @@
+import VersionWarning from "../../../VersionWarning"
+
+<VersionWarning version="0.1" />
+
+# Pimlico Bundler Client
+
+A Pimlico Bundler Client is an interface to official ERC-4337 JSON-RPC API methods that include sending user operations, estimation user operation gas limits, getting user operation receipts and more as well as the Pimlico-specific bundler methods [pimlico_getUserOperationStatus](/infra/bundler/endpoints/pimlico_getUserOperationStatus) and [pimlico_getUserOperationGasPrice](/infra/bundler/endpoints/pimlico_getUserOperationGasPrice).
+
+To create a Pimlico Bundler Client, create a basic client and extend it with the Bundler Actions and Pimlico Bundler Actions.
+
+## Import
+
+```ts
+import { pimlicoBundlerActions } from 'permissionless/actions/pimlico'
+```
+
+## Usage
+
+Initialize a Bundler Client with your desired Chain (e.g. mainnet) and Transport (e.g. http) from viem by creating a simple client and extending it with the Pimlico bundler methods and (optionally) the standard bundler methods.
+
+```ts
+import { createClient, http } from 'viem'
+import { sepolia } from 'viem/chains'
+import { bundlerActions, ENTRYPOINT_ADDRESS_V07 } from 'permissionless'
+import { pimlicoBundlerActions } from 'permissionless/actions/pimlico'
+
+const pimlicoBundlerClient = createClient({ 
+  chain: sepolia,
+  transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_API_KEY_HERE"),
+})
+.extend(bundlerActions(ENTRYPOINT_ADDRESS_V07))
+.extend(pimlicoBundlerActions(ENTRYPOINT_ADDRESS_V07))
+```
+
+Then you can consume Pimlico Bundler Actions:
+
+```ts
+const userOperationGasPrice = await pimlicoBundlerClient.getUserOperationGasPrice()
+```
+
+Alternatively, you can initialize a Bundler Client with the `createPimlicoBundlerClient` method:
+
+```ts
+import { http } from 'viem'
+import { sepolia } from 'viem/chains'
+import { ENTRYPOINT_ADDRESS_V07 } from 'permissionless'
+import { createPimlicoBundlerClient } from "permissionless/clients/pimlico";
+
+const pimlicoBundlerClient = createPimlicoBundlerClient({
+  chain: sepolia,
+  transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_API_KEY_HERE"),
+  entryPoint: ENTRYPOINT_ADDRESS_V07
+})
+```

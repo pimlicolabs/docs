@@ -1,3 +1,7 @@
+import VersionWarning from "../../VersionWarning"
+
+<VersionWarning version="0.2" />
+
 # signerToTrustSmartAccount
 
 Creates a Trust Wallet Smart Account instance controlled by a `SmartAccountSigner`.  Check out [this guide](/permissionless/how-to/accounts/use-trustwallet-account) for a complete tutorial.
@@ -22,8 +26,8 @@ const account = await signerToTrustSmartAccount(client, {
 // [!include ~/snippets/publicClient.ts:client]
 ```
 
-```ts [signer.ts]
-// [!include ~/snippets/signer.ts]
+```ts [owner.ts]
+// [!include ~/snippets/owner.ts]
 ```
 
 ::::

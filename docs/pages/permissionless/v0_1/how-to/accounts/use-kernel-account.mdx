@@ -1,0 +1,91 @@
+import VersionWarning from "../../../VersionWarning"
+
+<VersionWarning version="0.1" />
+
+# How to create and use a Kernel account with permissionless.js
+
+:::info
+ZeroDev, the author of Kernel, maintains their own in-house SDK built closely on top of permissionless.js that you can use for the account system while still plugging in all the other components from permissionless.js. Take a look at [their documentation](https://docs.zerodev.app) for more information.
+:::
+
+[Kernel](https://github.com/zerodevapp/kernel) is a **modular smart account** that supports plugins, which are smart contracts that extend the account's functionalities.  You can use Kernel with popular plugins such as session keys and account recovery, and even write your own plugins.  Kernel is compatible with [ERC-7579](https://erc7579.com/).
+
+## Picking an EntryPoint
+
+Kernel is compatible with EntryPoint versions v0.6 and v0.7.
+
+If you are building a new application, we recommend using EntryPoint v0.7, which gives you the latest and greatest features and optimizations. If you already have an application using Kernel on EntryPoint v0.6, just stick with it -- it will be supported indefinitely.
+
+In this guide, we will use EntryPoint v0.7.
+
+## Steps
+
+::::steps
+
+### Import the required packages
+
+```ts
+// [!include ~/snippets/v0_1/accounts/kernel.ts:imports]
+```
+
+### Create the clients
+
+First we must create the public, bundler, and (optionally) paymaster clients that will be used to interact with the Kernel account.
+
+```ts
+// [!include ~/snippets/v0_1/accounts/kernel.ts:clients]
+```
+
+### Create the signer
+
+Kernel accounts can work with a variety of signing algorithms such as ECDSA, passkeys, and multisig. In permissionless.js, the default Kernel account validates ECDSA signatures. [Any signer](/permissionless/how-to/signers) can be used as a signer for the Kernel account.
+
+For example, to create a signer based on a private key:
+
+```ts
+// [!include ~/snippets/v0_1/accounts/kernel.ts:signer]
+```
+
+### Create the Kernel account
+
+:::info
+For a full list of options for creating a Kernel account, take a look at the reference documentation page for [`signerToKernelSmartAccount`](/permissionless/reference/accounts/signerToKernelSmartAccount).
+:::
+
+With a signer, you can create a Kernel account as such:
+
+```ts
+// [!include ~/snippets/v0_1/accounts/kernel.ts:smartAccount]
+```
+
+The Kernel address is computed deterministically from the signer, but you can optionally pass an `index` to create any number of different accounts using the same signer. You can also pass an `address` to use an already created Kernel account.
+
+### Create the smart account client
+
+The smart account client is a permissionless.js client that is meant to serve as an almost drop-in replacement for viem's [walletClient](https://viem.sh/docs/clients/wallet.html).
+
+```ts
+// [!include ~/snippets/v0_1/accounts/kernel.ts:smartAccountClient]
+```
+
+### Send a transaction
+
+Transactions using permissionless.js simply wrap around user operations. This means you can switch to permissionless.js from your existing viem EOA codebase with minimal-to-no changes.
+
+```ts
+// [!include ~/snippets/v0_1/accounts/kernel.ts:submit]
+```
+
+This also means you can also use viem Contract instances to transact without any modifications.
+
+```ts
+// [!include ~/snippets/v0_1/accounts/kernel.ts:submitNft]
+```
+
+You can also send an array of transactions in a single batch.
+
+```ts
+// [!include ~/snippets/v0_1/accounts/kernel.ts:submitBatch]
+```
+
+::::

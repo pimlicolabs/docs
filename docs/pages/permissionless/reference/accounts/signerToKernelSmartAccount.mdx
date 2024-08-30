@@ -1,3 +1,7 @@
+import VersionWarning from "../../VersionWarning"
+
+<VersionWarning version="0.2" />
+
 # signerToKernelSmartAccount
 
 Creates a KernelAccount instance controlled by a `SmartAccountSigner`.  Check out [this guide](/permissionless/how-to/accounts/use-kernel-account) for a complete tutorial.
@@ -23,8 +27,8 @@ const kernelAccount = await signerToEcdsaKernelSmartAccount(publicClient, {
 // [!include ~/snippets/publicClient.ts:client]
 ```
 
-```ts [signer.ts]
-// [!include ~/snippets/signer.ts]
+```ts [owner.ts]
+// [!include ~/snippets/owner.ts]
 ```
 
 ::::

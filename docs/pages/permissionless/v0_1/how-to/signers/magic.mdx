@@ -1,0 +1,33 @@
+import VersionWarning from "../../../VersionWarning"
+
+<VersionWarning version="0.1" />
+
+import SmartAccounts from "./smartAccounts.mdx"
+
+# How to use a Magic signer with permissionless.js
+
+[Magic](https://magic.link/) is a popular embedded wallet provider that supports social logins. While social logins are great, your users still need to onramp in order to pay for gas, which introduces significant friction.
+
+By combining permissionless.js with Magic, you can use Magic to enable a smooth social login experience, while using permissionless.js accounts as the smart wallets to sponsor gas for users, batch transactions, and more.
+
+## Setup
+
+To use Magic with permissionless.js, first create an application that integrates with Magic.
+
+- Refer to the [Magic documentation site](https://magic.link/docs/home/welcome) for instructions on setting up an application with the Magic SDK.
+- For a quick start, Magic provides a CLI to create a starter project, available [here](https://magic.link/docs/home/quickstart/cli#run-make-magic).
+
+## Integration
+
+Integrating permissionless.js with Magic is straightforward after setting up the Magic SDK. Magic provides an Externally Owned Account (EOA) wallet to use as a signer with permissionless.js accounts.
+
+### Create the Magic object
+After following the Magic documentation, you will have access to a `MagicBase` object as shown below that you can use to create the `SmartAccountSigner` object:
+
+```typescript
+// [!include ~/snippets/v0_1/signers/magic.ts:main]
+```
+
+### Use with permissionless.js
+
+<SmartAccounts />

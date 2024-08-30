@@ -1,3 +1,7 @@
+import VersionWarning from "../../VersionWarning"
+
+<VersionWarning version="0.2" />
+
 # signerToLightSmartAccount
 
 Creates a LightAccount instance controlled by a `SmartAccountSigner`.
@@ -22,8 +26,8 @@ const lightAccount = await signerToLightSmartAccount(publicClient, {
 // [!include ~/snippets/publicClient.ts:client]
 ```
 
-```ts [signer.ts]
-// [!include ~/snippets/signer.ts]
+```ts [owner.ts]
+// [!include ~/snippets/owner.ts]
 ```
 
 ::::
