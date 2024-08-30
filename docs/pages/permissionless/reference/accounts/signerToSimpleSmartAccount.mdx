@@ -4,7 +4,7 @@ import VersionWarning from "../../VersionWarning"
 
 # signerToSimpleSmartAccount
 
-Creates a SimpleAccount instance controlled by a `SmartAccountSigner`.
+Creates a SimpleAccount instance controlled by a `owner`.
 
 ## Usage
 
@@ -40,11 +40,11 @@ The smart account instance.
 
 ## Parameters
 
-### signer
+### owner
 
-- **Type:** `SmartAccountSigner`
+- **Type:** `LocalAccount | EIP1193Provider | WalletClient`
 
-The signer that will be used to sign messages and user operations.
+The owner that will be used to sign messages and user operations.
 
 ### factoryAddress
 

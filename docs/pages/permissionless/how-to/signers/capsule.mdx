@@ -20,7 +20,7 @@ To use Capsule with permissionless.js, first create an application that integrat
 Integrating permissionless.js with Capsule is straightforward after setting up the project. Capsule provides an Externally Owned Account (EOA) wallet to use as a signer with permissionless.js accounts.
 
 ### Create the Capsule signer
-After following the Capsule documentation, you will have access to a `CapsuleWeb3Provider` object that you can use to create a `SmartAccountSigner` object:
+After following the Capsule documentation, you will have access to a `CapsuleWeb3Provider` object that you can pass as an owner to `createeSmartAccountClient`:
 
 ```typescript
 // [!include ~/snippets/signers/capsule.ts:main]

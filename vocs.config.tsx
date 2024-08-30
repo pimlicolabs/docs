@@ -740,41 +740,13 @@ export const permissionlessSidebar = [
 					{
 						text: "getRequiredPrefund",
 						link: "/permissionless/reference/utils/getRequiredPrefund",
-					},
-					{
-						text: "walletClientToSmartAccountSigner",
-						link: "/permissionless/reference/utils/walletClientToSmartAccountSigner",
-					},
-					{
-						text: "providerToSmartAccountSigner",
-						link: "/permissionless/reference/utils/providerToSmartAccountSigner",
-					},
+					}
 				],
 			},
 			{
 				text: "Glossary",
 				collapsed: false,
 				items: [{ text: "Errors", link: "/permissionless/reference/glossary/errors" }],
-			},
-		],
-	},
-	{
-		text: "Experimental",
-		collapsed: false,
-		items: [
-			{
-				text: "EIP-7677",
-				collapsed: false,
-				items: [
-					{
-						text: "getPaymasterData",
-						link: "/permissionless/experimental/eip7677/getPaymasterData",
-					},
-					{
-						text: "getPaymasterStubData",
-						link: "/permissionless/experimental/eip7677/getPaymasterStubData",
-					},
-				],
 			},
 		],
 	},

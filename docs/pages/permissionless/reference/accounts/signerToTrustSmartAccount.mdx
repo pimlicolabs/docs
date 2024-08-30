@@ -4,7 +4,7 @@ import VersionWarning from "../../VersionWarning"
 
 # signerToTrustSmartAccount
 
-Creates a Trust Wallet Smart Account instance controlled by a `SmartAccountSigner`.  Check out [this guide](/permissionless/how-to/accounts/use-trustwallet-account) for a complete tutorial.
+Creates a Trust Wallet Smart Account instance controlled by a `owner`.  Check out [this guide](/permissionless/how-to/accounts/use-trustwallet-account) for a complete tutorial.
 
 ## Usage
 
@@ -40,11 +40,11 @@ The Trust smart account instance.
 
 ## Parameters
 
-### signer
+### owner
 
-- **Type:** `SmartAccountSigner`
+- **Type:** `LocalAccount | EIP1193Provider | WalletClient`
 
-The signer that will be used to sign messages and user operations.
+The owner that will be used to sign messages and user operations.
 
 ### entryPoint
 

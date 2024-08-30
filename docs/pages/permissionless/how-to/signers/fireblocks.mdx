@@ -19,7 +19,7 @@ To use Fireblocks with permissionless.js, first create an application that integ
 Integrating permissionless.js with Fireblocks is straightforward after setting up the project. Fireblocks provides an Externally Owned Account (EOA) wallet to use as a signer with permissionless.js accounts.
 
 ### Create the Fireblocks object
-After following the Fireblocks documentation, you will have access to a `FireblocksWeb3Provider` object as shown below which you can use to create a `SmartAccountSigner` object:
+After following the Fireblocks documentation, you will have access to a `FireblocksWeb3Provider` object as shown that you can pass as an owner to `createeSmartAccountClient`:
 
 ```typescript
 // [!include ~/snippets/signers/fireblocks.ts:main]

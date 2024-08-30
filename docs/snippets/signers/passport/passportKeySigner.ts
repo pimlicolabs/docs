@@ -2,7 +2,6 @@
 import { Passport, TESTNET_RSA_PUBLIC_KEY } from "@0xpass/passport"
 import { KeySigner } from "@0xpass/key-signer"
 import { createPassportClient } from "@0xpass/passport-viem"
-import { walletClientToSmartAccountSigner } from "permissionless"
 import { http } from "viem"
 import { sepolia } from "viem/chains"
 
@@ -19,12 +18,11 @@ await passport.delegatedRegisterAccount({ username: "test" })
 
 passport.setUserData({ username: "test" })
 
-const client = await createPassportClient(
+const smartAccountOwner = await createPassportClient(
 	await passport.getDelegatedAuthenticatedHeaders(),
 	fallbackProvider,
 	sepolia,
 	"https://tiramisu.0xpass.io",
 )
 
-const smartAccountSigner = walletClientToSmartAccountSigner(client)
 // [!endregion main]

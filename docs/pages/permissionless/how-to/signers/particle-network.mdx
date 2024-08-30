@@ -21,7 +21,7 @@ To use Particle Network with permissionless.js, first create an application that
 Integrating permissionless.js with Particle Network is straightforward after setting up the project. Particle Network provides an Externally Owned Account (EOA) wallet to use as a signer with permissionless.js accounts.
 
 ### Create the Particle Network object
-After following the Particle Network documentation, you will have access to a `ParticleProvider` object as shown below that you can use to create a `SmartAccountSigner` object:
+After following the Particle Network documentation, you will have access to a `ParticleProvider` object as shown below that you can pass as an owner to `createeSmartAccountClient`:
 
 ```typescript
 // [!include ~/snippets/signers/particle-network.ts:main]

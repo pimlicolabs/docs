@@ -21,7 +21,7 @@ To use Turnkey with permissionless.js, first create an application that integrat
 Integrating permissionless.js with Turnkey is straightforward after setting up the project. Turnkey provides an Externally Owned Account (EOA) wallet to use as a signer with permissionless.js accounts.
 
 ### Create the TurnkeyClient and a Turnkey viem account
-After following the Turnkey documentation, you will have access to a `TurnkeyClient`. An example is shown below that you can use to create a `SmartAccountSigner` object:
+After following the Turnkey documentation, you will have access to a `TurnkeyClient`. An example is shown below that you can pass as an owner to `createeSmartAccountClient`:
 
 ```typescript
 // [!include ~/snippets/signers/turnkey.ts:main]

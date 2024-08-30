@@ -4,7 +4,7 @@ import VersionWarning from "../../VersionWarning"
 
 # signerToKernelSmartAccount
 
-Creates a KernelAccount instance controlled by a `SmartAccountSigner`.  Check out [this guide](/permissionless/how-to/accounts/use-kernel-account) for a complete tutorial.
+Creates a KernelAccount instance controlled by a `owners`.  Check out [this guide](/permissionless/how-to/accounts/use-kernel-account) for a complete tutorial.
 
 ## Usage
 
@@ -41,11 +41,11 @@ The Kernel smart account instance.
 
 ## Parameters
 
-### signer
+### owners
 
-- **Type:** `SmartAccountSigner`
+- **Type:** `[LocalAccount | EIP1193Provider | WalletClient]`
 
-The signer that will be used to sign messages and user operations.
+The owners that will be used to sign messages and user operations.
 
 ### entryPoint
 

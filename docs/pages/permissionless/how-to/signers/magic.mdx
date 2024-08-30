@@ -22,7 +22,7 @@ To use Magic with permissionless.js, first create an application that integrates
 Integrating permissionless.js with Magic is straightforward after setting up the Magic SDK. Magic provides an Externally Owned Account (EOA) wallet to use as a signer with permissionless.js accounts.
 
 ### Create the Magic object
-After following the Magic documentation, you will have access to a `MagicBase` object as shown below that you can use to create the `SmartAccountSigner` object:
+After following the Magic documentation, you will have access to a `MagicBase` object as shown below that you can pass as an owner to `createeSmartAccountClient`:
 
 ```typescript
 // [!include ~/snippets/signers/magic.ts:main]

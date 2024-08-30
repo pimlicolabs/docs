@@ -22,7 +22,7 @@ Integrating permissionless.js with Passport is straightforward after setting up 
 
 ### Create the Passport signer
 
-After following the Passport documentation, you will have access to a Passport `WalletClient` object that you can use to create a `SmartAccountSigner` object, both examples show how to register a user
+After following the Passport documentation, you will have access to a Passport `WalletClient` object that you can pass as an owner to `createeSmartAccountClient`, both examples show how to register a user
 but if you already have a registered user you can skip the registration step. For Developer Owned Auth, the authentication is handled on the developer's side. For more detail on both you can check the [authentication guide](https://docs.0xpass.io/authentication/overview).
 
 <PassportSigners />
