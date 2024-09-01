@@ -11,14 +11,13 @@ Creates a Trust Wallet Smart Account instance controlled by a `owner`.  Check ou
 ::::code-group
 
 ```ts [example.ts]
-import { signerToTrustSmartAccount } from "permissionless/accounts"
+import { toTrustSmartAccount } from "permissionless/accounts"
 import { publicClient } from "./publicClient"
-import { signer } from "./signer"
+import { owner } from "./owner"
 
-const account = await signerToTrustSmartAccount(client, {
-	signer,
-    entryPoint: ENTRYPOINT_ADDRESS_V06,
-	address: "0x..." // optional, only if you are using an already created account
+const account = await toTrustSmartAccount(client, {
+	client: publicClient,
+	owner
 })
 ```
 
