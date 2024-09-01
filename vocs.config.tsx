@@ -582,10 +582,6 @@ export const permissionlessSidebar = [
 						link: "/permissionless/reference/smart-account-actions/sendTransaction",
 					},
 					{
-						text: "deployContract",
-						link: "/permissionless/reference/smart-account-actions/deployContract",
-					},
-					{
 						text: "writeContract",
 						link: "/permissionless/reference/smart-account-actions/writeContract",
 					},
