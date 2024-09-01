@@ -2,7 +2,7 @@ import VersionWarning from "../../VersionWarning"
 
 <VersionWarning version="0.2" />
 
-# signerToLightSmartAccount
+# toLightSmartAccount
 
 Creates a LightAccount instance controlled by a `owner`.
 
@@ -11,15 +11,20 @@ Creates a LightAccount instance controlled by a `owner`.
 ::::code-group
 
 ```ts [example.ts]
-import { signerToLightSmartAccount } from "permissionless/accounts"
+import { toLightSmartAccount } from "permissionless/accounts"
+import { entryPoint07Address } from "viem/account-abstraction"
 import { publicClient } from "./publicClient"
-import { signer } from "./signer"
+import { owner } from "./owner"
 
-const lightAccount = await signerToLightSmartAccount(publicClient, {
-	signer,
-    lightAccountVersion: 'v1.1.0',
-	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
-})
+const lightAccount = await toLightSmartAccount({
+        entryPoint: {
+            address: entryPoint07Address,
+            version: "0.7"
+        },
+        client: publicClient,
+        version: "1.1.0", // or "2.0.0"
+        owner
+    })
 ```
 
 ```ts [publicClient.ts]
@@ -34,11 +39,16 @@ const lightAccount = await signerToLightSmartAccount(publicClient, {
 
 ## Returns
 
-- **Type:** `LightSmartAccount`
+- **Type:** `SmartAccount<LightSmartAccountImplementation>>`
 
 The smart account instance.
 
 ## Parameters
+
+### client
+- **Type:** `Client`
+
+A public client as smart account needs access to the Network to query for information about its state (e.g. nonce, address, etc).
 
 ### owner
 
@@ -46,13 +56,19 @@ The smart account instance.
 
 The owner that will be used to sign messages and user operations.
 
-### lightAccountVersion
+### entryPoint (optional)
+
+- **Type:** `{ address: Address, version: "0.6" | "0.7" }`
+
+The address and the version of the EntryPoint contract. If not provided, entryPoint 0.7 will be used.
+
+### version
 
 - **Type:** `LightAccountVersion`
 
-The light account version. Currently only `v1.1.0` is supported.
+The light account version. Currently `v1.1.0` and `v2.0.0` is supported. `v1.1.0` can only be used with entryPoint 0.6. `v2.0.0` can only be used with entryPoint 0.7.
 
-### factoryAddress
+### factoryAddress (optional)
 
 - **Type:** `Address`
 
@@ -61,12 +77,6 @@ The address of the light account factory that will be used to deploy the smart a
 :::info
 The canonical light account factory for v1.1.0 is `0x00004EC70002a32400f8ae005A26081065620D20`
 :::
-
-### entryPoint
-
-- **Type:** `Address`
-
-The address of the EntryPoint contract.
 
 ### index (optional)
 

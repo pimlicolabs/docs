@@ -1,0 +1,64 @@
+import VersionWarning from "../../VersionWarning"
+
+<VersionWarning version="0.2" />
+
+# Pimlico Client
+
+A Pimlico Bundler Client is an interface to official ERC-4337 & ERC-7677 JSON-RPC API methods that include sending user operations, estimation user operation gas limits, getting user operation receipts, supporting paymaster rpc methods and more as well as the Pimlico-specific bundler methods [pimlico_getUserOperationStatus](/infra/bundler/endpoints/pimlico_getUserOperationStatus) and [pimlico_getUserOperationGasPrice](/infra/bundler/endpoints/pimlico_getUserOperationGasPrice).
+
+To create a Pimlico Client, you can use the `createPimlicoClient` method.
+
+## Import
+
+```ts twoslash
+import { createPimlicoClient } from 'permissionless/clients/pimlico'
+```
+
+## Usage
+
+Initialize th client with your desired Chain (e.g. mainnet) and Transport (e.g. http) from viem. Pimlico client will by default have bundler actions, paymaster actions and custom pimlico actions.
+
+```ts twoslash
+import { http } from 'viem'
+import { sepolia } from 'viem/chains'
+import { createPimlicoClient } from 'permissionless/clients/pimlico'
+import { entryPoint07Address } from "viem/account-abstraction"
+
+const pimlicoClient = createPimlicoClient({ 
+  transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_API_KEY_HERE"),
+  entryPoint: {
+    address: entryPoint07Address,
+    version: "0.7",
+  }
+})
+```
+
+Then you can consume Pimlico Bundler Actions:
+
+```ts
+const userOperationGasPrice = await pimlicoClient.getUserOperationGasPrice()
+```
+
+Alternatively, you can create a barebon client and extend pimlico specific actions:
+
+```ts twoslash
+import { http, createClient } from 'viem'
+import { sepolia } from 'viem/chains'
+import { pimlicoActions } from "permissionless/actions/pimlico";
+import { bundlerActions, paymasterActions, entryPoint07Address } from "viem/account-abstraction";
+
+const client = createClient({
+    chain: sepolia,
+    transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_API_KEY_HERE"),
+})
+    .extend(bundlerActions)
+    .extend(paymasterActions)
+    .extend(
+        pimlicoActions({
+            entryPoint: {
+                address: entryPoint07Address,
+                version: "0.7",
+            }
+        })
+    )
+```

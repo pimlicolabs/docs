@@ -538,16 +538,8 @@ export const permissionlessSidebar = [
 				collapsed: false,
 				items: [
 					{
-						text: "Bundler Client",
-						link: "/permissionless/reference/clients/bundlerClient",
-					},
-					{
-						text: "Pimlico Bundler Client",
-						link: "/permissionless/reference/clients/pimlicoBundlerClient",
-					},
-					{
-						text: "Pimlico Paymaster Client",
-						link: "/permissionless/reference/clients/pimlicoPaymasterClient",
+						text: "Pimlico Client",
+						link: "/permissionless/reference/clients/pimlicoClient",
 					},
 					{
 						text: "Smart Account Client",
@@ -560,54 +552,24 @@ export const permissionlessSidebar = [
 				collapsed: false,
 				items: [
 					{
-						text: "signerToSimpleSmartAccount",
-						link: "/permissionless/reference/accounts/signerToSimpleSmartAccount",
+						text: "toSimpleSmartAccount",
+						link: "/permissionless/reference/accounts/toSimpleSmartAccount",
 					},
 					{
-						text: "signerToSafeSmartAccount",
-						link: "/permissionless/reference/accounts/signerToSafeSmartAccount",
+						text: "toSafeSmartAccount",
+						link: "/permissionless/reference/accounts/toSafeSmartAccount",
 					},
 					{
-						text: "signerToKernelSmartAccount",
-						link: "/permissionless/reference/accounts/signerToKernelSmartAccount",
+						text: "toEcdsaKernelSmartAccount",
+						link: "/permissionless/reference/accounts/toEcdsaKernelSmartAccount",
 					},
 					{
-						text: "signerToLightSmartAccount",
-						link: "/permissionless/reference/accounts/signerToLightSmartAccount",
+						text: "toLightSmartAccount",
+						link: "/permissionless/reference/accounts/toLightSmartAccount",
 					},
 					{
-						text: "signerToTrustSmartAccount",
-						link: "/permissionless/reference/accounts/signerToTrustSmartAccount",
-					},
-				],
-			},
-			{
-				text: "Bundler Actions",
-				collapsed: false,
-				items: [
-					{
-						text: "sendUserOperation",
-						link: "/permissionless/reference/bundler-actions/sendUserOperation",
-					},
-					{
-						text: "estimateUserOperationGas",
-						link: "/permissionless/reference/bundler-actions/estimateUserOperationGas",
-					},
-					{
-						text: "getUserOperationReceipt",
-						link: "/permissionless/reference/bundler-actions/getUserOperationReceipt",
-					},
-					{
-						text: "waitForUserOperationReceipt",
-						link: "/permissionless/reference/bundler-actions/waitForUserOperationReceipt",
-					},
-					{
-						text: "getUserOperationByHash",
-						link: "/permissionless/reference/bundler-actions/getUserOperationByHash",
-					},
-					{
-						text: "supportedEntryPoints",
-						link: "/permissionless/reference/bundler-actions/supportedEntryPoints",
+						text: "toTrustSmartAccount",
+						link: "/permissionless/reference/accounts/toTrustSmartAccount",
 					},
 				],
 			},
@@ -616,20 +578,8 @@ export const permissionlessSidebar = [
 				collapsed: false,
 				items: [
 					{
-						text: "prepareUserOperationRequest",
-						link: "/permissionless/reference/smart-account-actions/prepareUserOperationRequest",
-					},
-					{
 						text: "sendTransaction",
 						link: "/permissionless/reference/smart-account-actions/sendTransaction",
-					},
-					{
-						text: "sendTransactions",
-						link: "/permissionless/reference/smart-account-actions/sendTransactions",
-					},
-					{
-						text: "sendUserOperation",
-						link: "/permissionless/reference/smart-account-actions/sendUserOperation",
 					},
 					{
 						text: "deployContract",
@@ -640,44 +590,66 @@ export const permissionlessSidebar = [
 						link: "/permissionless/reference/smart-account-actions/writeContract",
 					},
 					{
-						text: "signMessage",
-						link: "/permissionless/reference/smart-account-actions/signMessage",
+						text: "estimateUserOperationGas",
+						link: "/permissionless/reference/smart-account-actions/estimateUserOperationGas",
 					},
 					{
-						text: "signTypedData",
-						link: "/permissionless/reference/smart-account-actions/signTypedData",
+						text: "getChainId",
+						link: "/permissionless/reference/smart-account-actions/getChainId",
+					},
+					{
+						text: "getSupportedEntryPoints",
+						link: "/permissionless/reference/smart-account-actions/getSupportedEntryPoints",
+					},
+					{
+						text: "getUserOperation",
+						link: "/permissionless/reference/smart-account-actions/getUserOperation",
+					},
+					{
+						text: "getUserOperationReceipt",
+						link: "/permissionless/reference/smart-account-actions/getUserOperationReceipt",
+					},
+					{
+						text: "prepareUserOperation",
+						link: "/permissionless/reference/smart-account-actions/prepareUserOperation",
+					},
+					{
+						text: "sendUserOperation",
+						link: "/permissionless/reference/smart-account-actions/sendUserOperation",
+					},
+					{
+						text: "waitForUserOperationReceipt",
+						link: "/permissionless/reference/smart-account-actions/waitForUserOperationReceipt",
 					},
 				],
 			},
 			{
-				text: "Pimlico Bundler Actions",
+				text: "Pimlico Actions",
 				collapsed: false,
 				items: [
 					{
+						text: "getPaymasterData",
+						link: "/permissionless/reference/pimlico-actions/getPaymasterData",
+					},
+					{
+						text: "getPaymasterStubData",
+						link: "/permissionless/reference/pimlico-actions/getPaymasterStubData",
+					},
+					{
 						text: "sendCompressedUserOperation",
-						link: "/permissionless/reference/pimlico-bundler-actions/sendCompressedUserOperation",
+						link: "/permissionless/reference/pimlico-actions/sendCompressedUserOperation",
 					},
 					{
 						text: "getUserOperationGasPrice",
-						link: "/permissionless/reference/pimlico-bundler-actions/getUserOperationGasPrice",
+						link: "/permissionless/reference/pimlico-actions/getUserOperationGasPrice",
 					},
 					{
 						text: "getUserOperationStatus",
-						link: "/permissionless/reference/pimlico-bundler-actions/getUserOperationStatus",
-					},
-				],
-			},
-			{
-				text: "Pimlico Paymaster Actions",
-				collapsed: false,
-				items: [
-					{
-						text: "sponsorUserOperation",
-						link: "/permissionless/reference/pimlico-paymaster-actions/sponsorUserOperation",
+						link: "/permissionless/reference/pimlico-actions/getUserOperationStatus",
 					},
 					{
 						text: "validateSponsorshipPolicies",
-						link: "/permissionless/reference/pimlico-paymaster-actions/validateSponsorshipPolicies",
+						link: "/permissionless/reference/pimlico-actions/validateSponsorshipPolicies",
 					},
 				],
 			},
@@ -730,23 +702,10 @@ export const permissionlessSidebar = [
 				collapsed: false,
 				items: [
 					{
-						text: "getUserOperationHash",
-						link: "/permissionless/reference/utils/getUserOperationHash",
-					},
-					{
-						text: "signUserOperationHashWithECDSA",
-						link: "/permissionless/reference/utils/signUserOperationHashWithECDSA",
-					},
-					{
 						text: "getRequiredPrefund",
 						link: "/permissionless/reference/utils/getRequiredPrefund",
-					}
+					},
 				],
-			},
-			{
-				text: "Glossary",
-				collapsed: false,
-				items: [{ text: "Errors", link: "/permissionless/reference/glossary/errors" }],
 			},
 		],
 	},

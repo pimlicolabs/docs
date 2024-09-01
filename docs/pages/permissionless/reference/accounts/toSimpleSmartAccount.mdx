@@ -11,14 +11,17 @@ Creates a SimpleAccount instance controlled by a `owner`.
 ::::code-group
 
 ```ts [example.ts]
-import { signerToSimpleSmartAccount } from "permissionless/accounts"
+import { toSimpleSmartAccount } from "permissionless/accounts"
 import { publicClient } from "./publicClient"
-import { signer } from "./signer"
+import { owner } from "./owner"
 
-const simpleAccount = await signerToSimpleSmartAccount(publicClient, {
-	signer,
-	factoryAddress: "0x9406Cc6185a346906296840746125a0E44976454",
-	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+const simpleSmartAccount = await toSimpleSmartAccount({
+  owner,
+  client: publicClient,
+  entryPoint: {
+		address: entryPoint07Address,
+		version: "0.7"
+	}
 })
 ```
 
@@ -34,11 +37,16 @@ const simpleAccount = await signerToSimpleSmartAccount(publicClient, {
 
 ## Returns
 
-- **Type:** `SimpleSmartAccount`
+- **Type:** `SmartAccount<SimpleSmartAccountImplementation>`
 
 The smart account instance.
 
 ## Parameters
+
+### client
+- **Type:** `Client`
+
+A public client as smart account needs access to the Network to query for information about its state (e.g. nonce, address, etc).
 
 ### owner
 
@@ -46,7 +54,7 @@ The smart account instance.
 
 The owner that will be used to sign messages and user operations.
 
-### factoryAddress
+### factoryAddress (optional)
 
 - **Type:** `Address`
 
@@ -56,11 +64,11 @@ The address of the simple account factory that will be used to deploy the smart 
 The canonical simple account factory for v0.6 of the EntryPoint is `0x9406Cc6185a346906296840746125a0E44976454`
 :::
 
-### entryPoint
+### entryPoint (optional)
 
-- **Type:** `Address`
+- **Type:** `{ address: Address, version: "0.6" | "0.7" }`
 
-The address of the EntryPoint contract.
+The address and the version of the EntryPoint contract. If not provided, entryPoint 0.7 will be used.
 
 ### index (optional)
 

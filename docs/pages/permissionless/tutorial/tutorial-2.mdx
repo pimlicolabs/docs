@@ -67,7 +67,7 @@ For the purposes of this guide, we will be using [Safe](https://safe.global) acc
 Want to learn more about using Safe accounts? Take a look at our [dedicated Safe guide](/permissionless/how-to/accounts/use-safe-account)
 :::
 
-To create the Safe account, we will use the `signerToSafeSmartAccount` utility function from permissionless.js. 
+To create the Safe account, we will use the `toSafeSmartAccount` utility function from permissionless.js. 
 
 In addition, we will also specify a call that must be executed during the deployment of the Safe account with the `setupTransactions` option. Namely, we will approve unlimited USDC to the ERC-20 Paymaster to allow it to withdraw USDC from the Safe account when we use it.
 

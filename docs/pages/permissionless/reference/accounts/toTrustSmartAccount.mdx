@@ -2,7 +2,7 @@ import VersionWarning from "../../VersionWarning"
 
 <VersionWarning version="0.2" />
 
-# signerToTrustSmartAccount
+# toTrustSmartAccount
 
 Creates a Trust Wallet Smart Account instance controlled by a `owner`.  Check out [this guide](/permissionless/how-to/accounts/use-trustwallet-account) for a complete tutorial.
 
@@ -34,11 +34,16 @@ const account = await signerToTrustSmartAccount(client, {
 
 ## Returns
 
-- **Type:** `TrustSmartAccount`
+- **Type:** `SmartAccount<TrustSmartAccountImplementation>`
 
 The Trust smart account instance.
 
 ## Parameters
+
+### client
+- **Type:** `Client`
+
+A public client as smart account needs access to the Network to query for information about its state (e.g. nonce, address, etc).
 
 ### owner
 
@@ -46,11 +51,11 @@ The Trust smart account instance.
 
 The owner that will be used to sign messages and user operations.
 
-### entryPoint
+### entryPoint (optional)
 
-- **Type:** `Address`
+- **Type:** `{ address: Address, version: "0.6" | "0.7" }`
 
-The address of the EntryPoint contract.
+The address and the version of the EntryPoint contract. If not provided, entryPoint 0.7 will be used.
 
 ### index (optional)
 
@@ -67,3 +72,9 @@ If you provide an address, the smart account can not be deployed. This should be
 :::
 
 The address of the smart account. If not provided, the determinstic smart account address will be used.
+
+### secp256k1VerificationFacetAddress (optional)
+
+- **Type:** `Address`
+
+The address of the `Secp256k1VerificationFacet` contract. If not provided, the default address for the Trust version will be used.
