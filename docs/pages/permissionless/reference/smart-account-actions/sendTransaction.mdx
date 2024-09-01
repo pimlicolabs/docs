@@ -6,7 +6,7 @@ import VersionWarning from "../../VersionWarning"
 
 Send a transaction from a smart account using the same `sendTransaction` interface as viem.
 
-Internally, sendTransaction calls the smartAccount's `prepareUserOperation`, `sendUserOperation`, and `waitForUserOperationReceipt` actions.
+Internally, sendTransaction calls the smartAccount's `prepareUserOperation`, `sendTransaction`, and `waitForUserOperationReceipt` actions.
 
 ## Usage
 
@@ -44,11 +44,10 @@ const hash = await smartAccountClient.sendTransaction({
             value: 0n
         },
         {
-            to: "0x0488bEE1Ec682db0F0E74AB52faFdDdEf10Af123",
-            data: encodeFunctionData({
-                abi: [parseAbiItem('function mint()')]
-            }),
-            value: 0n
+            to: "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc",
+            abi: [{"inputs":[],"name":"getLastGreeter","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"greet","outputs":[],"stateMutability":"nonpayable","type":"function"}],
+            functionName: "greet",
+            args: [],
         }
     ]
 })
@@ -71,7 +70,7 @@ The Account to use for User Operation execution.
 ```ts
 import { account, smartAccountClient } from './config'
 import { parseEther } from 'viem'
-const hash = await smartAccountClient.sendUserOperation({
+const hash = await smartAccountClient.sendTransaction({
   account, // [!code focus]
   calls: [{
     to: '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
@@ -89,7 +88,7 @@ The calls to execute in the User Operation.
 ```ts
 import { account, smartAccountClient } from './config'
 import { parseEther } from 'viem'
-const hash = await smartAccountClient.sendUserOperation({
+const hash = await smartAccountClient.sendTransaction({
   account,
   calls: [{ // [!code focus]
     to: '0x70997970c51812dc3a010c7d01b50e0d17dc79c8', // [!code focus]
@@ -108,7 +107,7 @@ You can also pass raw call data via the `callData` property:
 ```ts
 import { account, smartAccountClient } from './config'
 import { parseEther } from 'viem'
-const hash = await smartAccountClient.sendUserOperation({
+const hash = await smartAccountClient.sendTransaction({
   account,
   callData: '0xdeadbeef', // [!code focus]
 })
@@ -124,7 +123,7 @@ The amount of gas to allocate the main execution call.
 ```ts
 import { account, smartAccountClient } from './config'
 import { parseEther } from 'viem'
-const hash = await smartAccountClient.sendUserOperation({
+const hash = await smartAccountClient.sendTransaction({
   account,
   calls: [{
     to: '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
@@ -147,7 +146,7 @@ This property should only be populated when the Smart Account has not been deplo
 ```ts
 import { account, smartAccountClient } from './config'
 import { parseEther } from 'viem'
-const hash = await smartAccountClient.sendUserOperation({
+const hash = await smartAccountClient.sendTransaction({
   account,
   calls: [{
     to: '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
@@ -171,7 +170,7 @@ This property should only be populated when the Smart Account has not been deplo
 ```ts
 import { account, smartAccountClient } from './config'
 import { parseEther } from 'viem'
-const hash = await smartAccountClient.sendUserOperation({
+const hash = await smartAccountClient.sendTransaction({
   account,
   calls: [{
     to: '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
@@ -191,7 +190,7 @@ Maximum fee per gas for User Operation execution.
 ```ts
 import { account, smartAccountClient } from './config'
 import { parseEther } from 'viem'
-const hash = await smartAccountClient.sendUserOperation({
+const hash = await smartAccountClient.sendTransaction({
   account,
   calls: [{
     to: '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
@@ -210,7 +209,7 @@ Maximum priority fee per gas for User Operation execution.
 ```ts
 import { account, smartAccountClient } from './config'
 import { parseEther } from 'viem'
-const hash = await smartAccountClient.sendUserOperation({
+const hash = await smartAccountClient.sendTransaction({
   account,
   calls: [{
     to: '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
@@ -230,7 +229,7 @@ Nonce for the User Operation.
 ```ts
 import { account, smartAccountClient } from './config'
 import { parseEther } from 'viem'
-const hash = await smartAccountClient.sendUserOperation({
+const hash = await smartAccountClient.sendTransaction({
   account,
   calls: [{
     to: '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
@@ -255,7 +254,7 @@ Sets Paymaster configuration for the User Operation.
 ```ts
 import { account, smartAccountClient } from './config'
 import { parseEther } from 'viem'
-const hash = await smartAccountClient.sendUserOperation({
+const hash = await smartAccountClient.sendTransaction({
   account,
   calls: [{
     to: '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
@@ -275,7 +274,7 @@ const paymasterClient = createPaymasterClient({ // [!code focus]
   transport: http('https://api.pimlico.io/v2/1/rpc?apikey={API_KEY}') // [!code focus]
 }) // [!code focus]
 
-const hash = await smartAccountClient.sendUserOperation({
+const hash = await smartAccountClient.sendTransaction({
   account,
   calls: [{
     to: '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
@@ -290,7 +289,7 @@ const hash = await smartAccountClient.sendUserOperation({
 ```ts
 import { account, smartAccountClient } from './config'
 import { parseEther } from 'viem'
-const hash = await smartAccountClient.sendUserOperation({
+const hash = await smartAccountClient.sendTransaction({
   account,
   calls: [{
     to: '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
@@ -317,7 +316,7 @@ const paymasterClient = createPaymasterClient({
   transport: http('https://api.pimlico.io/v2/1/rpc?apikey={API_KEY}')
 })
 
-const hash = await smartAccountClient.sendUserOperation({
+const hash = await smartAccountClient.sendTransaction({
   account,
   calls: [{
     to: '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
@@ -343,7 +342,7 @@ This property is only available if **`paymaster` is an address**.
 ```ts
 import { account, smartAccountClient } from './config'
 import { parseEther } from 'viem'
-const hash = await smartAccountClient.sendUserOperation({
+const hash = await smartAccountClient.sendTransaction({
   account,
   calls: [{
     to: '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
@@ -363,7 +362,7 @@ The amount of gas to allocate for the Paymaster post-operation code.
 ```ts
 import { account, smartAccountClient } from './config'
 import { parseEther } from 'viem'
-const hash = await smartAccountClient.sendUserOperation({
+const hash = await smartAccountClient.sendTransaction({
   account,
   calls: [{
     to: '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
@@ -384,7 +383,7 @@ The amount of gas to allocate for the Paymaster validation code.
 ```ts
 import { account, smartAccountClient } from './config'
 import { parseEther } from 'viem'
-const hash = await smartAccountClient.sendUserOperation({
+const hash = await smartAccountClient.sendTransaction({
   account,
   calls: [{
     to: '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
@@ -405,7 +404,7 @@ Extra gas to pay the Bunder.
 ```ts
 import { account, smartAccountClient } from './config'
 import { parseEther } from 'viem'
-const hash = await smartAccountClient.sendUserOperation({
+const hash = await smartAccountClient.sendTransaction({
   account,
   calls: [{
     to: '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
@@ -424,7 +423,7 @@ Signature for the User Operation.
 ```ts
 import { account, smartAccountClient } from './config'
 import { parseEther } from 'viem'
-const hash = await smartAccountClient.sendUserOperation({
+const hash = await smartAccountClient.sendTransaction({
   account,
   calls: [{
     to: '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
@@ -443,7 +442,7 @@ The amount of gas to allocate for the verification step.
 ```ts
 import { account, smartAccountClient } from './config'
 import { parseEther } from 'viem'
-const hash = await smartAccountClient.sendUserOperation({
+const hash = await smartAccountClient.sendTransaction({
   account,
   calls: [{
     to: '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
