@@ -12,11 +12,12 @@ Returns the current nonce of the smart account for a specified key.
 
 ```ts [example.ts]
 import { publicClient } from "./client.ts"
-import { getAccountNonce, ENTRYPOINT_ADDRESS_V07 } from "permissionless"
+import { getAccountNonce } from "permissionless"
+import { entryPoint07Address } from "viem/account-abstraction"
 
 const nonce = await getAccountNonce(publicClient, {
     address: "0x277F6C1D8d4faFA3d8DcC837489cd69d86c682BA",
-    entryPoint: ENTRYPOINT_ADDRESS_V07,
+    entryPointAddress: entryPoint07Address,
     key: 0n // optional
 })
 // 23n
