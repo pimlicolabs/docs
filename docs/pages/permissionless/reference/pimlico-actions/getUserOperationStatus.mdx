@@ -11,9 +11,9 @@ Return a status of the User Operation as well as potentially the hash of the tra
 ::::code-group
 
 ```ts [example.ts]
-import { pimlicoBundlerClient } from "./client"
+import { pimlicoClient } from "./client"
 
-const getStatusResult = await pimlicoBundlerClient.getUserOperationStatus({
+const getStatusResult = await pimlicoClient.getUserOperationStatus({
     hash: "0x3c037f957fde5d87e35d5b8582f6c274343bcf3bc0e010d72fc2de0e27f4a6aa"
 })
 /**
@@ -26,7 +26,7 @@ const getStatusResult = await pimlicoBundlerClient.getUserOperationStatus({
 ```
 
 ```ts [client.ts]
-// [!include ~/snippets/pimlicoBundlerClient.ts:client]
+// [!include ~/snippets/pimlicoClient.ts:client]
 ```
 
 ::::
