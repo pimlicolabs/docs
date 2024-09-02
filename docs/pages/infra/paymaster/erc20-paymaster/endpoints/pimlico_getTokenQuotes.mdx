@@ -1,0 +1,53 @@
+# pimlico_getTokenQuotes
+
+This method returns the tenatative token exhange rates used by the ERC-20 Paymaster.
+
+## Request
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "pimlico_getTokenQuotes",
+    "params": [
+        {
+            "tokens": [
+                "0x6b175474e89094c44da98b954eedeac495271d0f",
+                "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
+                "0x514910771af9ca656af840dff83e8264ecf986ca"
+            ] // list of token addresses to get quotes for
+        },
+        "0x0000000071727De22E5E9d8BAf0edAc6f37da032", // entrypoint address
+        "0xa4b1" // chain id
+    ],
+    "id": 1
+}
+```
+
+## Response
+
+:::warning
+If a token in the request input is not supported by the ERC-20 Paymaster, the request will still succeed but it will not be included in `quotes` array in the response.
+:::
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+        "quotes": [
+            {
+                "paymaster": "0x00000000000000fB866DaAA79352cC568a005D96",
+                "token": "0x6b175474e89094c44da98b954eedeac495271d0f",
+                "postOpGas": "0xc350",
+                "exchangeRate": "0x5cc717fbb3450c0000"
+            },
+            {
+                "paymaster": "0x00000000000000fB866DaAA79352cC568a005D96",
+                "token": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
+                "postOpGas": "0xd390",
+                "exchangeRate": "0xf1836b42c9691000000"
+            }
+        ]
+  }
+}
+```

@@ -313,33 +313,36 @@ export const paymasterSidebar = [
 		link: "/infra/paymaster/erc20-paymaster",
 		items: [
 			{ text: "Overview", link: "/infra/paymaster/erc20-paymaster" },
-			{
-				text: "Contract Addresses",
-				link: "/infra/paymaster/erc20-paymaster/contract-addresses",
+			{ text: "How to use the ERC-20 Paymaster", link: "/infra/paymaster/erc20-paymaster/guides" },
+			{ 
+				text: "Endpoints", 
+				items: [
+					{ text: "pimlico_getTokenQuotes", link: "/infra/paymaster/erc20-paymaster/endpoints/pimlico_getTokenQuotes" },
+					{ text: "pm_getPaymasterData", link: "/infra/paymaster/erc20-paymaster/endpoints/pm_getPaymasterData" },
+					{ text: "pm_getPaymasterStubData", link: "/infra/paymaster/erc20-paymaster/endpoints/pm_getPaymasterStubData" },
+					{ text: "pm_sponsorUserOperation", link: "/infra/paymaster/erc20-paymaster/endpoints/pm_sponsorUserOperation" },
+				] 
 			},
-			{
-				text: "Architecture",
-				link: "/infra/paymaster/erc20-paymaster/architecture",
-			},
-			{ text: "Guides", link: "/infra/paymaster/erc20-paymaster/guides" },
-			{ text: "FAQs", link: "/infra/paymaster/erc20-paymaster/faqs" },
-		],
+			{ text: "Architecture", link: "/infra/paymaster/erc20-paymaster/architecture" },
+			{ text: "Contract Addresses", link: "/infra/paymaster/erc20-paymaster/contract-addresses" },
+		]
 	},
 	{
-		text: "ERC-20 Paymaster (legacy)",
+		text: "ERC-20 Paymaster (permissionless)",
 		collapsed: true,
-		link: "/infra/paymaster/erc20-paymaster-legacy",
+		link: "/infra/paymaster/erc20-paymaster-permissionless",
 		items: [
-			{ text: "Overview", link: "/infra/paymaster/erc20-paymaster-legacy" },
+			{ text: "Overview", link: "/infra/paymaster/erc20-paymaster-permissionless" },
 			{
 				text: "Contract Addresses",
-				link: "/infra/paymaster/erc20-paymaster-legacy/contract-addresses",
+				link: "/infra/paymaster/erc20-paymaster-permissionless/contract-addresses",
 			},
 			{
 				text: "Architecture",
-				link: "/infra/paymaster/erc20-paymaster-legacy/architecture",
+				link: "/infra/paymaster/erc20-paymaster-permissionless/architecture",
 			},
-			{ text: "FAQs", link: "/infra/paymaster/erc20-paymaster-legacy/faqs" },
+			{ text: "Guides", link: "/infra/paymaster/erc20-paymaster-permissionless/guides" },
+			{ text: "FAQs", link: "/infra/paymaster/erc20-paymaster-permissionless/faqs" },
 		],
 	},
 ]
