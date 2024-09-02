@@ -1,0 +1,87 @@
+import VersionWarning from "../../VersionWarning"
+
+<VersionWarning version="0.2" />
+
+# signerToSimpleSmartAccount
+
+Creates a SimpleAccount instance controlled by a `owner`.
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+import { toSimpleSmartAccount } from "permissionless/accounts"
+import { publicClient } from "./publicClient"
+import { owner } from "./owner"
+
+const simpleSmartAccount = await toSimpleSmartAccount({
+  owner,
+  client: publicClient,
+  entryPoint: {
+		address: entryPoint07Address,
+		version: "0.7"
+	}
+})
+```
+
+```ts [publicClient.ts]
+// [!include ~/snippets/publicClient.ts:client]
+```
+
+```ts [owner.ts]
+// [!include ~/snippets/owner.ts]
+```
+
+::::
+
+## Returns
+
+- **Type:** `SmartAccount<SimpleSmartAccountImplementation>`
+
+The smart account instance.
+
+## Parameters
+
+### client
+- **Type:** `Client`
+
+A public client as smart account needs access to the Network to query for information about its state (e.g. nonce, address, etc).
+
+### owner
+
+- **Type:** `LocalAccount | EIP1193Provider | WalletClient`
+
+The owner that will be used to sign messages and user operations.
+
+### factoryAddress (optional)
+
+- **Type:** `Address`
+
+The address of the simple account factory that will be used to deploy the smart account.
+
+:::info
+The canonical simple account factory for v0.6 of the EntryPoint is `0x9406Cc6185a346906296840746125a0E44976454`
+:::
+
+### entryPoint (optional)
+
+- **Type:** `{ address: Address, version: "0.6" | "0.7" }`
+
+The address and the version of the EntryPoint contract. If not provided, entryPoint 0.7 will be used.
+
+### index (optional)
+
+- **Type:** `bigint`
+
+It represents salt nonce that will be used to deploy the smart account. If not provided, `0` will be used.
+
+### address (optional)
+
+- **Type:** `Address`
+
+:::warning
+If you provide an address, the smart account can not be deployed. This should be used if you want to interact with an existing smart account.
+:::
+
+The address of the smart account. If not provided, the determinstic smart account address will be used.

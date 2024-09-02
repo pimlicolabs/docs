@@ -1,0 +1,85 @@
+import VersionWarning from "../../../VersionWarning"
+
+<VersionWarning version="0.1" />
+
+# signTypedData
+
+Signs typed data from a smart account and calculates an Ethereum-specific signature in [https://eips.ethereum.org/EIPS/eip-712](https://eips.ethereum.org/EIPS/eip-712): `sign(keccak256("\x19\x01" ‖ domainSeparator ‖ hashStruct(message)))`
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+import { smartAccountClient } from "./smartAccountClient"
+
+const signedData = await smartAccountClient.signTypedData({
+	domain: {
+		name: "Ether Mail",
+		version: "1",
+		chainId: 1,
+		verifyingContract: getAddress("0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC"),
+	},
+	types: {
+		Person: [
+			{ name: "name", type: "string" },
+			{ name: "wallet", type: "address" },
+		],
+		Mail: [
+			{ name: "from", type: "Person" },
+			{ name: "to", type: "Person" },
+			{ name: "contents", type: "string" },
+		],
+	},
+	primaryType: "Mail" as const,
+	message: {
+		from: {
+			name: "Bob",
+			wallet: "0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB",
+		},
+		to: {
+			name: "Alice",
+			wallet: "0xaAaAaAaaAaAaAaaAaAAAAAAAAaaaAaAaAaaAaaAa",
+		},
+		contents: "Hello Alice!",
+	},
+})
+```
+
+```ts [smartAccountClient.ts]
+// [!include ~/snippets/v0_1/smartAccountClient.ts:client]
+```
+
+::::
+
+## Returns
+
+- **Type:** `Hex`
+
+The signed data.
+
+## Parameters
+
+### domain
+
+- **Type:** `TypedDataDomain`
+
+The typed data domain.
+
+### types
+
+- **Type:** `TypedData`
+
+The type definitions for the typed data.
+
+### primaryType
+
+- **Type:** Inferred `string`.
+
+The primary type to extract from `types` and use in `value`.
+
+### message
+
+- **Type:** Inferred from `types` & `primaryType`.
+
+The message to sign

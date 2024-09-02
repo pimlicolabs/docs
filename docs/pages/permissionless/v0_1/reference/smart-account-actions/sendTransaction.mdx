@@ -1,0 +1,83 @@
+import VersionWarning from "../../../VersionWarning"
+
+<VersionWarning version="0.1" />
+
+# sendTransaction
+
+Send a transaction from a smart account using the same `sendTransaction` interface as viem.
+
+Internally, sendTransaction calls the smartAccount's `prepareUserOperationRequest`, `sendUserOperation`, and `waitForUserOperationReceipt` actions.
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+import { smartAccountClient, simpleSmartAccount } from "./smartAccountClient"
+import { parseAbiItem, encodeFunctionData } from "viem"
+
+const hash = await smartAccountClient.sendTransaction({
+    to: "0x0488bEE1Ec682db0F0E74AB52faFdDdEf10Af123",
+    data: encodeFunctionData({
+        abi: [parseAbiItem('function mint()')]
+    }),
+    value: 0n
+})
+```
+
+```ts [smartAccountClient.ts]
+// [!include ~/snippets/v0_1/smartAccountClient.ts:client]
+```
+
+::::
+
+## Returns
+
+- **Type:** `Hash`
+
+The transaction hash of the mined userOperation
+
+## Parameters
+
+### to
+
+- **Type:** `0x${string}`
+
+The transaction recipient or contract address.
+
+### data (optional)
+
+- **Type:** `0x${string}`
+
+A contract hashed method call with encoded args.
+
+### value (optional)
+
+- **Type:** `bigint`
+
+Value in wei sent with this transaction.
+
+### maxFeePerGas (optional)
+
+- **Type:** `bigint`
+
+Total fee per gas (in wei), inclusive of `maxPriorityFeePerGas`. Only applies to EIP-1559 Transactions.
+
+### maxPriorityFeePerGas (optional)
+
+- **Type:** `bigint`
+
+Max priority fee per gas (in wei). Only applies to EIP-1559 Transactions.
+
+### nonce (optional)
+
+- **Type:** `number`
+
+Unique number identifying this transaction.
+
+### account (optional)
+
+- **Type:** `SmartAccount`
+
+The Account to send the transaction from.
+

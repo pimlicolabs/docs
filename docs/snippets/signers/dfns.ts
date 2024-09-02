@@ -10,7 +10,6 @@ const SEPOLIA_WALLET_ID = null
 import { DfnsWallet } from "@dfns/lib-viem"
 import { DfnsApiClient } from "@dfns/sdk"
 import { AsymmetricKeySigner } from "@dfns/sdk-keysigner"
-import { walletClientToSmartAccountSigner } from "permissionless"
 import { AccountSource, createWalletClient, http } from "viem"
 import { toAccount } from "viem/accounts"
 
@@ -37,10 +36,8 @@ const initDfnsWallet = (walletId: string) => {
 
 const sepoliaWallet = await initDfnsWallet(SEPOLIA_WALLET_ID)
 const account = toAccount(sepoliaWallet as AccountSource)
-const walletClient = createWalletClient({
+const smartAccountOwner = createWalletClient({
 	account,
 	transport: http("https://rpc.ankr.com/eth_sepolia"),
 })
-
-const smartAccountSigner = walletClientToSmartAccountSigner(walletClient)
 // [!endregion main]

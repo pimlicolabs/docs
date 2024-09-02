@@ -1,7 +1,6 @@
 // [!region main]
 import { ParticleNetwork } from "@particle-network/auth"
 import { ParticleProvider } from "@particle-network/provider"
-import { providerToSmartAccountSigner } from "permissionless"
 
 // Param options here will be specific to your project.  See the Particle docs for more info.
 const particle = new ParticleNetwork({
@@ -11,8 +10,5 @@ const particle = new ParticleNetwork({
 	chainName,
 	chainId,
 })
-const particleProvider = new ParticleProvider(particle.auth)
-
-// Convert the particleProvider to a SmartAccountSigner
-const smartAccountSigner = await providerToSmartAccountSigner(particleProvider)
+const smartAccountOwner = new ParticleProvider(particle.auth)
 // [!endregion main]

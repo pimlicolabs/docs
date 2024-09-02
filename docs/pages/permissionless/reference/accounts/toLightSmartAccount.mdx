@@ -1,0 +1,95 @@
+import VersionWarning from "../../VersionWarning"
+
+<VersionWarning version="0.2" />
+
+# toLightSmartAccount
+
+Creates a LightAccount instance controlled by a `owner`.
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+import { toLightSmartAccount } from "permissionless/accounts"
+import { entryPoint07Address } from "viem/account-abstraction"
+import { publicClient } from "./publicClient"
+import { owner } from "./owner"
+
+const lightAccount = await toLightSmartAccount({
+        entryPoint: {
+            address: entryPoint07Address,
+            version: "0.7"
+        },
+        client: publicClient,
+        version: "1.1.0", // or "2.0.0"
+        owner
+    })
+```
+
+```ts [publicClient.ts]
+// [!include ~/snippets/publicClient.ts:client]
+```
+
+```ts [owner.ts]
+// [!include ~/snippets/owner.ts]
+```
+
+::::
+
+## Returns
+
+- **Type:** `SmartAccount<LightSmartAccountImplementation>>`
+
+The smart account instance.
+
+## Parameters
+
+### client
+- **Type:** `Client`
+
+A public client as smart account needs access to the Network to query for information about its state (e.g. nonce, address, etc).
+
+### owner
+
+- **Type:** `LocalAccount | EIP1193Provider | WalletClient`
+
+The owner that will be used to sign messages and user operations.
+
+### entryPoint (optional)
+
+- **Type:** `{ address: Address, version: "0.6" | "0.7" }`
+
+The address and the version of the EntryPoint contract. If not provided, entryPoint 0.7 will be used.
+
+### version
+
+- **Type:** `LightAccountVersion`
+
+The light account version. Currently `v1.1.0` and `v2.0.0` is supported. `v1.1.0` can only be used with entryPoint 0.6. `v2.0.0` can only be used with entryPoint 0.7.
+
+### factoryAddress (optional)
+
+- **Type:** `Address`
+
+The address of the light account factory that will be used to deploy the smart account.
+
+:::info
+The canonical light account factory for v1.1.0 is `0x00004EC70002a32400f8ae005A26081065620D20`
+:::
+
+### index (optional)
+
+- **Type:** `bigint`
+
+It represents salt nonce that will be used to deploy the smart account. If not provided, `0` will be used.
+
+### address (optional)
+
+- **Type:** `Address`
+
+:::warning
+If you provide an address, the smart account can not be deployed. This should be used if you want to interact with an existing smart account.
+:::
+
+The address of the smart account. If not provided, the determinstic smart account address will be used.

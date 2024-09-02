@@ -1,0 +1,16 @@
+import VersionWarning from "../../../VersionWarning"
+
+<VersionWarning version="0.1" />
+
+# Account Support
+
+permissionless.js supports 6 types of accounts natively (but can easily be extended to support any compatible ERC-4337 account). The below table details which EntryPoints each account is valid for.
+
+| Account       | EntryPoint v0.7   | EntryPoint v0.6 |
+| :------       | :------ | :------ |
+| Safe          | ✅ (Safe v1.4.1 and above)     | ✅ (Safe v1.4.1 and above) |
+| SimpleAccount | ✅      | ✅ |
+| Kernel        | ✅      | ✅ |
+| Biconomy      | ❌      | ✅ |
+| LightAccount  | ❌      | ✅ |
+| TrustWallet   | ❌      | ✅ |

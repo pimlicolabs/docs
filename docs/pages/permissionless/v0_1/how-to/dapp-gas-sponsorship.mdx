@@ -1,0 +1,21 @@
+import VersionWarning from "../../VersionWarning"
+
+<VersionWarning version="0.1" />
+
+# Update your existing app to sponsor gas fees for smart account users
+
+If you are looking to sponsor gas fees for your users without embedding a wallet in your app, you can use this guide to update your existing app to sponsor gas fees for smart accounts.
+
+## Steps
+
+::::steps
+
+### Spin up an ERC-7677 proxy server
+
+Follow the deployment guide on the [ERC-7677 Proxy Server](https://github.com/pimlicolabs/erc7677-proxy) repository readme to deploy an ERC-7677 proxy server.
+
+### Update your app to sponsor gas fees
+
+Follow Step 3 on the [erc7677.xyz guide](https://www.erc7677.xyz/guides/sponsoring-transactions#3-send-eip-5792-requests-with-a-paymaster-service-capability) to update your app to support EIP-5792 requests and enable the paymaster service capability feature, using the public URL you created for the ERC-7677 proxy in the previous step.
+
+::::

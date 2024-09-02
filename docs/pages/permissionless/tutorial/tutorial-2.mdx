@@ -1,16 +1,26 @@
-# Tutorial 2 — Submit a user operation with a Verifying Paymaster
+import VersionWarning from "../VersionWarning"
 
-:::note
-This is a low-level tutorial that walks you through the steps of constructing a user operation from scratch. If you would like to leverage permissionless.js's high-level functions, take a look at [tutorial 1](/permissionless/tutorial/tutorial-1).
+<VersionWarning version="0.2" />
+
+import { GeneratePrivateKey } from "../../../components/generatePrivateKey"
+
+# Tutorial 2 — Submit a user operation with an ERC-20 Paymaster
+
+:::info
+You can visit our [ERC-20 Paymaster overview page](/infra/paymaster/erc20-paymaster) to learn more about the design and architecture of our ERC-20 Paymaster, and the deployed smart contract addresses.
 :::
 
-In this tutorial, you will generate a user operation, ask Pimlico's verifying paymaster to sponsor it, and then submit the sponsored user operation on-chain with Pimlico's Alto bundler.
+In this tutorial, you will deploy an ERC-4337 smart contract wallet on Sepolia, and submit a user operation that pays for its gas fees with USDC using an ERC-20 Paymaster.
 
 ## Steps
 
 ::::steps
 
 ### Get a Pimlico API key
+
+:::info
+**The ERC-20 paymaster itself is completely permissionless, there is no requirement to use an API key for it**. We are using an API key in this tutorial to get access to the bundler to make the tutorial flow easier.
+:::
 
 To get started, please go to our [dashboard](https://dashboard.pimlico.io) and generate a Pimlico API key.
 
@@ -37,12 +47,9 @@ npm start
 
 If everything has been set up correctly, you should see `Hello world!` printed to the console.
 
-### Create the viem clients
+### Create the public and bundler clients, and generate a private key
 
-We will be using three different clients for this example.
-1. Standard publicClient for normal Ethereum RPC calls — https://rpc.sepolia.org
-2. Pimlico v1 api for the Bundler methods — https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_PIMLICO_API_KEY
-3. Pimlico v2 api for the Paymaster methods — https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_PIMLICO_API_KEY
+The public client will be responsible for querying the blockchain, while the bundler client will be responsible for submitting user operations for relaying.
 
 Make sure to replace `YOUR_PIMLICO_API_KEY` in the code below with your actual Pimlico API key.
 
@@ -52,119 +59,73 @@ Let's open up `index.ts`, and add the following to the bottom:
 // [!include ~/snippets/tutorial-2.ts:clients]
 ```
 
-### Generate the factory and factoryData
+### Create the `SmartAccount` instance
 
-For the purposes of this guide, we will be using the [SimpleAccount.sol](https://github.com/eth-infinitism/account-abstraction/blob/develop/contracts/samples/SimpleAccount.sol) wallet found in the eth-infinitism repository. This Wallet is a simple ERC-4337 wallet controlled by a single EOA signer.
+For the purposes of this guide, we will be using [Safe](https://safe.global) accounts. This account is an ERC-4337 wallet controlled by a single EOA signer.
 
-At `0x91E60e0613810449d098b0b5Ec8b51A0FE8c8985`, most chain already have deployed a [SimpleAccountFactory.sol](https://github.com/eth-infinitism/account-abstraction/blob/develop/contracts/samples/SimpleAccountFactory.sol) contract, that is able to easily deploy new SimpleAccount instances via the `createAccount` function. We will be leveraging this contract to help us generate the `factory` and `factoryData`.
+:::tip[Tip]
+Want to learn more about using Safe accounts? Take a look at our [dedicated Safe guide](/permissionless/how-to/accounts/use-safe-account)
+:::
 
-Requesting a smart contract deployment is done through the `factory` and `factoryData` field, where the `factory` field specifies the address the EntryPoint will call, and the `factoryData` corresponds to the data that will be called on that factory.
+To create the Safe account, we will use the `toSafeSmartAccount` utility function from permissionless.js. 
 
-Add the following to the bottom of `index.ts`:
-
-```ts
-// [!include ~/snippets/tutorial-2.ts:initCode]
-```
-
-Let's run this code with `npm start`. You should see the generated initCode printed to the console.
-
-```txt
-Generated factoryData: 0x9406cc6185a346906296840746125a0e449764545fbfb9cf000000000000000000000000508a7005f997a21cd662d6fb41ad69f945c129c10000000000000000000000000000000000000000000000000000000000000000
-```
-
-### Calculate the sender address
-
-Now that we have the `factory` and `factoryData`, we have to calculate the corresponding `sender` address, which is the address the `SimpleAccount` will be deployed to, and thereby the address which will handle the verification and execution steps of the UserOperation.
-
-We do this by calling the `getSenderAddress` utility function on the EntryPoint. Upon success, it will revert with a special error type that contains the counterfactual address of the smart contract wallet that will be deployed
+In addition, we will also specify a call that must be executed during the deployment of the Safe account with the `setupTransactions` option. Namely, we will approve unlimited USDC to the ERC-20 Paymaster to allow it to withdraw USDC from the Safe account when we use it.
 
 Add the following to the bottom of `index.ts`:
 
-```typescript
-// [!include ~/snippets/tutorial-2.ts:sender]
+```ts 
+// [!include ~/snippets/tutorial-2.ts:smartAccount]
 ```
 
-Let's run this code with `npm start`. You should see the address printed to the console.
-
-```txt
-Calculated sender address: 0xbAd38BdCf884ED92ab370f69C0CD0B7b8a1459A1
-```
-
-### Generate the callData
-
-Now, let's decide on the `callData` that we want the wallet to actually execute once the UserOperation passes verification.
-
-Add the following to the bottom of `index.ts`:
-
-```typescript
-// [!include ~/snippets/tutorial-2.ts:callData]
-```
-
-Above, we are leveraging the `execute` function of the SimpleWallet, which simply calls an arbitrary address, with arbitrary value and arbitrary callData.
-
-Let's run this code with `npm start`. You should see the callData printed to the console.
-
-```txt
-Generated callData: 0xb61d27f6000000000000000000000000d8da6bf26964af9d7eed9e03e53415d37aa9604500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000000568656c6c6f000000000000000000000000000000000000000000000000000000
-```
-
-### Fill out remaining UserOperation values
-
-We're almost there, now let's fill out the rest of the UserOperation values.
-
-Add the following to the bottom of `index.ts`:
-
-```typescript
-// [!include ~/snippets/tutorial-2.ts:remaining]
-```
-
-### Request Pimlico verifying paymaster sponsorship
-
-To make the operation gasless, we will leverage Pimlico's verifying paymaster. Using paymasters allows you to delegate the gas fee payment to a third-party contract that can decide whether it is willing to pay the gas fees for the user operation. In this case, Pimlico's verifying paymaster checks whether its off-chain signer has signed off on the user operation. To request Pimlico's signer to sign your user operation, call the `pm_sponsorUserOperation` endpoint or use the `sponsorUserOperation` method from the permissionless.js Pimlico paymaster actions.
-
-Add the following to the bottom of `index.ts`:
-
-```typescript
-// [!include ~/snippets/tutorial-2.ts:paymaster]
-```
+Since we will be looking to fund our account with USDC (which is what we will use to pay gas fees with), we need to know the address where our smart wallet will be deployed.
 
 Let's run this code with `npm start`. You should see something like this:
 
 ```txt
-Received paymaster sponsor result: {
-  paymaster: '0xcF60744ef322396a6d0a5B7d396F5814176855F1',
-  paymasterVerificationGasLimit: 526114n,
-  paymasterPostOpGasLimit: 75900n,
-  paymasterData: '000000000000000000000000000000000000000000000000000000006518a0c100000000000000000000000000000000000000000000000000000000000000003251910f0e14691ca19a8e2cca216ce77a1ce8d002e975e113cfbc36d8e489a550dbb24ff485ee61c1b91cf8e20261d307ef79f22cf9359fba3271f721dade4d1b',
-  preVerificationGas: 247487n,
-  verificationGasLimit: 526114n,
-  callGasLimit: 75900n
-}
+Smart account address: https://sepolia.basescan.org/address/0xbAd38BdCf884ED92ab370f69C0CD0B7b8a1459A1
 ```
 
-Great! Now we have received the gas limit estimates and added the paymaster-related fields containing Pimlico's signature to our UserOperation.
+### Get Testnet USDC on Sepolia
 
-### Sign the UserOperation
+Let's get some USDC on the Sepolia testnet to the counterfactual address of the wallet we will be deploying. This will be used to pay for the gas fees of the user operation we will be submitting.
 
-The last field to fill out is the `signature`. This is a simple ECDSA signature consistent with typical Ethereum private key signing procedures.
+The recommended way to do this is to use the [USDC faucet](https://usdcfaucet.com/), select 'Base Sepolia' and enter the counterfactual sender address you generated in the previous step.
+
+### Verify you have USDC on the counterfactual sender address
+
+To make sure you have USDC on the counterfactual sender address, let's add a check to the bottom of `index.ts`:
+
+```ts 
+// [!include ~/snippets/tutorial-2.ts:checkBalance]
+```
+
+If you run this code with `npm start`, you should not see any errors, and you should see the USDC balance of the counterfactual sender address printed to the console.
+
+```txt
+Smart account USDC balance: 10 USDC
+```
+
+### Create the smart account client
+
+Now that we have a `SmartAccount` instance, we need to create a `SmartAccountClient` instance to make transact from it. `SmartAccountClient` is an almost drop-in replacement for a viem [`WalletClient`](https://viem.sh/docs/clients/wallet), but it also includes some additional functionality for interacting with smart accounts. 
+
+We then specify the optional `sponsorUserOperation` middleware function. This function will set the ERC-20 Paymaster as the designated sponsor for the user operation, allowing the paymaster to pay for the gas fees of the user operation in exchange for USDC.
+
+During the same middleware function, we will also call the the `estimateUserOperationGas` function to fill in the gas limits for the user operation.
+
+Finally, we specify the `gasPrice` middleware function to fetch the gas price from the bundler that we will use to submit the user operation in the next step.
 
 Add the following to the bottom of `index.ts`:
 
 ```typescript
-// [!include ~/snippets/tutorial-2.ts:sign]
+// [!include ~/snippets/tutorial-2.ts:smartAccountClient]
 ```
 
-Let's run this code with `npm start`. You should see something like this:
+### Send a transaction from the smart account, paying only with USDC for gas fees.
 
-```txt
-Generated signature: 0xcaae357fcd3882f1ea4b48f7dcce9d7f2482794ab72d1075ce5d7fcef4c5ec03265fe03e5fd7f8af65a4cd05b7e01300f3938f7e245dc8038748ddef93d5f4061c
-```
+Finally, let's submit a transaction from the smart account. We will send a transaction to the `0xd8da6bf26964af9d7eed9e03e53415d37aa96045` (vitalik.eth) address with `0x1234` as example `callData`. We will also specify the gas price we want to use, which we fetched from the bundler in the previous step.
 
-### Submit the UserOperation to be bundled
-
-Finally, we're ready to submit the UserOperation to Pimlico's bundler, which will include it on-chain. The `eth_sendUserOperation` RPC call or the `sendUserOperation` method from permissionless.js will submit the UserOperation to the bundler.
-
-You can also query for receipts to keep checking the status of the UserOperation until it is included.
+Underneath the hood, the `SmartAccountClient` will build a user operation with the designated ERC-20 Paymaster, sign it with the smart account's private key, and then submit it to the bundler. The bundler will then query for receipts until it sees the user operation included on-chain.
 
 Add the following to the bottom of `index.ts`:
 
@@ -172,21 +133,23 @@ Add the following to the bottom of `index.ts`:
 // [!include ~/snippets/tutorial-2.ts:submit]
 ```
 
-If we run this code with `npm start`, we will go through the whole flow of executing the User Operation. You should see something like this:
+Let's run this code again with `npm start`. You should see the transaction hash bundling the user operation on-chain printed to the console.
 
 ```txt
-UserOperation included: https://sepolia.etherscan.io/tx/0xe0a47e0e6637d0d4062cda3683afe2f5809bf545b917888277905de38f08e188
+User operation included: https://sepolia.basescan.org/tx/0xf8e4fc41a134fc9530a0c019167f9dc0981874b90187717605355bdcce8b2fb7
 ```
 
-Once the UserOperation is included, you can view the transaction on the Sepolia testnet explorer.
+You can now view the transaction on the Base Sepolia testnet explorer. By sending this user operation, you have:
+- Deployed the counterfactual smart account contract
+- Had your smart account approve the ERC-20 Paymaster to spend USDC during deployment
+- Had this newly-deployed smart account verify the private key's signature
+- Made an ERC-20 Paymaster sponsor the user operation's gas fees by taking USDC from the smart account
+- Executed a simple transaction to `vitalik.eth`'s address
 
-That's it! You've successfully generated a UserOperation and submitted it using Pimlico's Alto bundler.
 
-By leveraging Pimlico's paymaster, you were able to make the User Operation completely gasless, and by using Pimlico's Alto bundler, you were able to submit the User Operation to the chain without having to worry about maintaining your own relaying infrastructure.
+If you visit the address of the `sender` account on the [Base Sepolia explorer](https://sepolia.basescan.org), you should also see that some of your USDC balance has been deducted!
 
-Congratulations, you are now a pioneer of Account Abstraction! 🎉
-
-Please get in touch if you have any questions or if you'd like to share what you're building!
+That's it! Congratulations!
 
 ::::
 

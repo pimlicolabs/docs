@@ -1,13 +1,13 @@
 // [!region imports]
-import { signerToSafeSmartAccount } from "permissionless/accounts"
-import { signer } from "../signer"
-import { ENTRYPOINT_ADDRESS_V07, createSmartAccountClient } from "permissionless"
+import { owner } from "../owner"
+import { createSmartAccountClient } from "permissionless"
 import { sepolia } from "viem/chains"
 import { encodePacked, http } from "viem"
-import { createPimlicoBundlerClient } from "permissionless/clients/pimlico"
-import { pimlicoPaymasterActions } from "permissionless/actions/pimlico"
 import { erc7579Actions } from "permissionless/actions/erc7579"
 import { createPublicClient } from "viem"
+import { createPimlicoClient } from "permissionless/clients/pimlico"
+import { entryPoint07Address } from "viem/account-abstraction"
+import { toSafeSmartAccount } from "permissionless/accounts"
 // [!endregion imports]
 
 // [!region clients]
@@ -18,17 +18,24 @@ const publicClient = createPublicClient({
 	transport: http("https://rpc.ankr.com/eth_sepolia"),
 })
 
-const pimlicoBundlerClient = createPimlicoBundlerClient({
+const pimlicoClient = createPimlicoClient({
 	transport: http(bundlerUrl),
-	entryPoint: ENTRYPOINT_ADDRESS_V07,
-}).extend(pimlicoPaymasterActions(ENTRYPOINT_ADDRESS_V07))
+	entryPoint: {
+		address: entryPoint07Address,
+		version: "0.7",
+	},
+})
 // [!endregion clients]
 
 // [!region smartAccount]
-const safeAccount = await signerToSafeSmartAccount(publicClient, {
-	signer,
-	safeVersion: "1.4.1",
-	entryPoint: ENTRYPOINT_ADDRESS_V07,
+const safeAccount = await toSafeSmartAccount({
+	client: publicClient,
+	owners: [owner],
+	version: "1.4.1",
+	entryPoint: {
+		address: entryPoint07Address,
+		version: "0.7",
+	},
 	safe4337ModuleAddress: "0x3Fdb5BC686e861480ef99A6E3FaAe03c0b9F32e2", // These are not meant to be used in production as of now.
 	erc7579LaunchpadAddress: "0xEBe001b3D534B9B6E2500FB78E67a1A137f561CE", // These are not meant to be used in production as of now.
 })
@@ -38,16 +45,15 @@ const safeAccount = await signerToSafeSmartAccount(publicClient, {
 // [!region smartAccountClient]
 const smartAccountClient = createSmartAccountClient({
 	account: safeAccount,
-	entryPoint: ENTRYPOINT_ADDRESS_V07,
 	chain: sepolia,
 	bundlerTransport: http(bundlerUrl),
-	middleware: {
-		gasPrice: async () => {
-			return (await pimlicoBundlerClient.getUserOperationGasPrice()).fast
+	paymaster: pimlicoClient,
+	userOperation: {
+		estimateFeesPerGas: async () => {
+			return (await pimlicoClient.getUserOperationGasPrice()).fast
 		},
-		sponsorUserOperation: pimlicoBundlerClient.sponsorUserOperation,
 	},
-}).extend(erc7579Actions({ entryPoint: ENTRYPOINT_ADDRESS_V07 }))
+}).extend(erc7579Actions())
 // [!endregion smartAccountClient]
 
 // [!region installModule]
@@ -59,7 +65,7 @@ const userOpHash = await smartAccountClient.installModule({
 	context: moduleData,
 })
 
-const receipt = await pimlicoBundlerClient.waitForUserOperationReceipt({ hash: userOpHash })
+const receipt = await pimlicoClient.waitForUserOperationReceipt({ hash: userOpHash })
 // [!endregion installModule]
 
 // [!region supportsExecutionMode]

@@ -1,0 +1,48 @@
+import VersionWarning from "../../../VersionWarning"
+
+<VersionWarning version="0.1" />
+
+# providerToSmartAccountSigner
+
+Takes an EIP-1193 provider and returns a signer that can be used as a signer with permissionless accounts.
+
+## Import
+
+```ts twoslash
+import { providerToSmartAccountSigner } from "permissionless"
+```
+
+## Usage
+
+```ts twoslash
+import { type EIP1193Provider } from "viem"
+declare global {
+    interface Window {
+        ethereum: EIP1193Provider;
+    }
+}
+// ---cut---
+import { providerToSmartAccountSigner } from "permissionless"
+
+const smartAccountSigner = await providerToSmartAccountSigner(window.ethereum)
+```
+
+## Returns
+
+`SmartAccountSigner`
+
+The smart account signer that can be used with permissionless accounts.
+
+## Parameters
+
+### provider
+
+- **Type:** `EIP1193Provider`
+
+The EIP-1193 provider.
+
+### signerAddress (optional)
+
+- **Type:** `Address`
+
+The address of the signer. If not provided, it will automatically be fetched from the provider using `eth_requestAccounts`.

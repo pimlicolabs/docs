@@ -1,0 +1,31 @@
+import VersionWarning from "../../../VersionWarning"
+
+<VersionWarning version="0.1" />
+
+import SmartAccounts from "./smartAccounts.mdx"
+
+# How to use a Capsule signer with permissionless.js
+
+[Capsule](https://usecapsule.com/) offers a signing solution enabling the creation of secure, embedded MPC wallets accessible via email or social login. These wallets, compatible across different applications, offer portability, recoverability, and programmability, eliminating the need for users to establish separate signers or contract accounts for each application.
+
+## Setup
+
+To use Capsule with permissionless.js, first create an application that integrates with Capsule.
+
+- Refer to the [Capsule documentation site](https://docs.usecapsule.com/) for instructions on setting up an application with the Capsule.
+- For a quick start, Capsule provides an example hub, available [here](https://docs.usecapsule.com/getting-started/examples).
+
+## Integration
+
+Integrating permissionless.js with Capsule is straightforward after setting up the project. Capsule provides an Externally Owned Account (EOA) wallet to use as a signer with permissionless.js accounts.
+
+### Create the Capsule signer
+After following the Capsule documentation, you will have access to a `CapsuleWeb3Provider` object that you can use to create a `SmartAccountSigner` object:
+
+```typescript
+// [!include ~/snippets/v0_1/signers/capsule.ts:main]
+```
+
+### Use with permissionless.js
+
+<SmartAccounts />

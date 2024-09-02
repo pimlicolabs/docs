@@ -5,7 +5,7 @@ The `validateUserOp` function of the smart account rejected the signature of the
 ## Possible solutions
 
 - Verify that the user operation was correctly signed, and that the signature was correctly encoded in the `signature` field of the user operation.
-  - Most smart account implementations sign over the `userOpHash`. Make sure that the `userOpHash` is correctly computed. Consider leveraging functions like [`getUserOperationHash`](/permissionless/reference/utils/getUserOperationHash).
+  - Most smart account implementations sign over the `userOpHash`. Make sure that the `userOpHash` is correctly computed. Consider leveraging functions like `getUserOperationHash` from `viem/account-abstraction`.
   - Make sure you have selected the correct `chainId` and `entryPointAddress` when computing the `userOpHash`.
   - Make sure the smart account signature verification function is correctly implemented.
 - If all else fails, investigate why the `validateUserOp` function rejected the user operation signature using tools like [Tenderly](https://tenderly.co/).

@@ -1,3 +1,7 @@
+import VersionWarning from "../../VersionWarning"
+
+<VersionWarning version="0.2" />
+
 # How to conditionally sponsor a user operation
 
 The permissionless.js library allows you to conditionally sponsor a user operation. This can be useful in situations like:
@@ -12,7 +16,7 @@ Let's take an example where you want to sponsor only the first 10 transactions.
 :::::steps
 ### Create the clients
 
-First we must create the public, bundler, and (optionally) paymaster clients that will be used to interact with the SimpleAccount.
+First we must create the public, (optionally) pimlico paymaster clients that will be used to interact with the SimpleAccount.
 
 ```ts
 // [!include ~/snippets/how-to/paymasters/conditional-sponsoring.ts:client]

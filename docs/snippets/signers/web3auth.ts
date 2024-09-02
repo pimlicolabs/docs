@@ -4,7 +4,6 @@ const clientId =
 // [!region main]
 import { CHAIN_NAMESPACES, WEB3AUTH_NETWORK } from "@web3auth/base"
 import { Web3Auth } from "@web3auth/modal"
-import { providerToSmartAccountSigner } from "permissionless"
 import { EIP1193Provider } from "viem"
 
 // Config options here will be specific to your project.  See the Web3Auth docs for more info.
@@ -24,12 +23,9 @@ const web3auth = new Web3Auth({
 })
 
 // Get the Provider and EOA address (this will be the address of the signer) from Web3Auth
-const web3authProvider = web3auth.provider
+const smartAccountOwner = web3auth.provider as EIP1193Provider
 
-if (!web3authProvider) {
+if (!smartAccountOwner) {
 	throw new Error("No provider found")
 }
-
-// Create the smart account signer from the provider and signer address
-const smartAccountSigner = await providerToSmartAccountSigner(web3authProvider as EIP1193Provider)
 // [!endregion main]
