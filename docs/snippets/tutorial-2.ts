@@ -1,12 +1,9 @@
 import "dotenv/config"
-import { toSimpleSmartAccount } from "permissionless/accounts"
+import { createSmartAccountClient } from "permissionless"
+import { toSafeSmartAccount } from "permissionless/accounts"
 import { createPimlicoClient } from "permissionless/clients/pimlico"
-import { type Hex, createPublicClient, getAddress, http, maxUint256, parseAbi } from "viem"
-import {
-	type EntryPointVersion,
-	createBundlerClient,
-	entryPoint07Address,
-} from "viem/account-abstraction"
+import { createPublicClient, getAddress, type Hex, http, maxUint256, parseAbi } from "viem"
+import { entryPoint07Address, type EntryPointVersion } from "viem/account-abstraction"
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts"
 import { baseSepolia } from "viem/chains"
 import { writeFileSync } from "node:fs"
@@ -14,9 +11,6 @@ import { writeFileSync } from "node:fs"
 // [!region clients]
 const usdc = "0x036CbD53842c5426634e7929541eC2318f3dCF7e"
 const paymaster = "0x0000000000000039cd5e8ae05257ce51c473ddd1"
-
-const apiKey = process.env.PIMLICO_API_KEY
-const pimlicoUrl = `https://api.pimlico.io/v2/${baseSepolia.id}/rpc?apikey=${apiKey}`
 
 const privateKey =
 	(process.env.PRIVATE_KEY as Hex) ??
@@ -30,7 +24,12 @@ const publicClient = createPublicClient({
 	chain: baseSepolia,
 	transport: http("https://sepolia.base.org"),
 })
+
+const apiKey = process.env.PIMLICO_API_KEY
+const pimlicoUrl = `https://api.pimlico.io/v2/${baseSepolia.id}/rpc?apikey=${apiKey}`
+
 const pimlicoClient = createPimlicoClient({
+	chain: baseSepolia,
 	transport: http(pimlicoUrl),
 	entryPoint: {
 		address: entryPoint07Address,
@@ -40,16 +39,16 @@ const pimlicoClient = createPimlicoClient({
 // [!endregion clients]
 
 // [!region smartAccount]
-const account = await toSimpleSmartAccount({
+const account = await toSafeSmartAccount({
 	client: publicClient,
-	owner: privateKeyToAccount(privateKey),
-	bu,
+	owners: [privateKeyToAccount(privateKey)],
+	version: "1.4.1",
 })
 
-const bundlerClient = createBundlerClient({
+const smartAccountClient = createSmartAccountClient({
 	account,
 	chain: baseSepolia,
-	transport: http(pimlicoUrl),
+	bundlerTransport: http(pimlicoUrl),
 	paymaster: pimlicoClient,
 	userOperation: {
 		estimateFeesPerGas: async () => {
@@ -76,32 +75,26 @@ if (senderUsdcBalance < 1_000_000n) {
 		} USDC, required at least 1 USDC. Load up balance at https://faucet.circle.com/`,
 	)
 }
+// [!endregion checkBalance]
 
 // [!region submit]
-const calls = [
-	{
-		to: getAddress(usdc),
-		abi: parseAbi(["function approve(address,uint)"]),
-		functionName: "approve",
-		args: [paymaster, maxUint256],
-	},
-	{
-		to: getAddress("0xd8da6bf26964af9d7eed9e03e53415d37aa96045"),
-		data: "0x1234" as Hex,
-	},
-]
-
-const hash = await bundlerClient.sendUserOperation({
-	account,
+const txHash = await smartAccountClient.sendTransaction({
+	calls: [
+		{
+			to: getAddress(usdc),
+			abi: parseAbi(["function approve(address,uint)"]),
+			functionName: "approve",
+			args: [paymaster, maxUint256],
+		},
+		{
+			to: getAddress("0xd8da6bf26964af9d7eed9e03e53415d37aa96045"),
+			data: "0x1234" as Hex,
+		},
+	],
 	paymasterContext: {
 		token: usdc,
 	},
-	calls,
 })
 
-const opReceipt = await bundlerClient.waitForUserOperationReceipt({
-	hash,
-})
-
-console.log(`transactionHash: ${opReceipt.receipt.transactionHash}`)
-// [!endregion submit]
+console.log(`transactionHash: ${txHash}`)
+// [!region submit]
