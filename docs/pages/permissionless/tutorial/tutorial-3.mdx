@@ -4,10 +4,10 @@ import VersionWarning from "../VersionWarning"
 
 import { GeneratePrivateKey } from "../../../components/generatePrivateKey"
 
-# Tutorial 2 — Submit a user operation with an ERC-20 Paymaster
+# Tutorial 3 — Submit a user operation with an ERC-20 Paymaster (permissionless)
 
 :::info
-You can visit our [ERC-20 Paymaster overview page](/infra/paymaster/erc20-paymaster) to learn more about the design and architecture of our ERC-20 Paymaster, and the deployed smart contract addresses.
+You can visit our [ERC-20 Paymaster (Permissionless) overview page](/infra/paymaster/erc20-paymaster-permissionless) to learn more about the design and architecture of our ERC-20 Paymaster, and the deployed smart contract addresses.
 :::
 
 In this tutorial, you will deploy an ERC-4337 smart contract wallet on Sepolia, and submit a user operation that pays for its gas fees with USDC using an ERC-20 Paymaster.
@@ -29,8 +29,8 @@ To get started, please go to our [dashboard](https://dashboard.pimlico.io) and g
 We have created a [Pimlico tutorial template repository](https://github.com/pimlicolabs/tutorial-template) that you can use to get started. It comes set up with Typescript, viem, and permissionless.js.
 
 ```bash
-git clone https://github.com/pimlicolabs/tutorial-template.git pimlico-tutorial-2
-cd pimlico-tutorial-2
+git clone https://github.com/pimlicolabs/tutorial-template.git pimlico-tutorial-3
+cd pimlico-tutorial-3
 ```
 
 Now, let's install the dependencies:
@@ -56,7 +56,7 @@ Make sure to replace `YOUR_PIMLICO_API_KEY` in the code below with your actual P
 Let's open up `index.ts`, and add the following to the bottom:
 
 ```ts
-// [!include ~/snippets/tutorial-2.ts:clients]
+// [!include ~/snippets/tutorial-3.ts:clients]
 ```
 
 ### Create the `SmartAccount` instance
@@ -74,7 +74,7 @@ In addition, we will also specify a call that must be executed during the deploy
 Add the following to the bottom of `index.ts`:
 
 ```ts
-// [!include ~/snippets/tutorial-2.ts:smartAccount]
+// [!include ~/snippets/tutorial-3.ts:smartAccount]
 ```
 
 Since we will be looking to fund our account with USDC (which is what we will use to pay gas fees with), we need to know the address where our smart wallet will be deployed.
@@ -96,7 +96,7 @@ The recommended way to do this is to use the [USDC faucet](https://usdcfaucet.co
 To make sure you have USDC on the counterfactual sender address, let's add a check to the bottom of `index.ts`:
 
 ```ts
-// [!include ~/snippets/tutorial-2.ts:checkBalance]
+// [!include ~/snippets/tutorial-3.ts:checkBalance]
 ```
 
 If you run this code with `npm start`, you should not see any errors, and you should see the USDC balance of the counterfactual sender address printed to the console.
@@ -118,7 +118,7 @@ Finally, we specify the `gasPrice` middleware function to fetch the gas price fr
 Add the following to the bottom of `index.ts`:
 
 ```typescript
-// [!include ~/snippets/tutorial-2.ts:smartAccountClient]
+// [!include ~/snippets/tutorial-3.ts:smartAccountClient]
 ```
 
 ### Send a transaction from the smart account, paying only with USDC for gas fees.
@@ -130,7 +130,7 @@ Underneath the hood, the `SmartAccountClient` will build a user operation with t
 Add the following to the bottom of `index.ts`:
 
 ```typescript
-// [!include ~/snippets/tutorial-2.ts:submit]
+// [!include ~/snippets/tutorial-3.ts:submit]
 ```
 
 Let's run this code again with `npm start`. You should see the transaction hash bundling the user operation on-chain printed to the console.
