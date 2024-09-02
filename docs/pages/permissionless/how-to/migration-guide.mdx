@@ -12,9 +12,9 @@ This migration guide is assuming you have already migrated to ^0.1.0 and are now
 
 ### Using viem 2.20.0
 
-Viem released their own version of account-abstraction in the version `2.18.0`.
-Since permissionless.js has viem as a peer dependency and are heavily inspired by viem, we will not be updating to use the native account-abstraction provided by viem.
-For full documentation on viem's account-abstraction, please refer to the [viem documentation](https://viem.sh/account-abstraction).
+Viem released their own version of account abstraction primitives since version `2.18.0`.
+Since permissionless.js has viem as a peer dependency and are heavily inspired by viem, we will be updating to use the native account abstraction primitives provided by viem.
+For full documentation on viem's account abstraction primitives, please refer to the [viem documentation](https://viem.sh/account-abstraction).
 
 ### Deprecated `createBundlerClient`
 
@@ -66,7 +66,7 @@ const biconomyAccount = await toBiconomySmartAccount({ // [!code ++]
 ```
 
 :::warning
-Note, biconomy's account doesn't work with entryPoint 0.7.
+Note, Biconomy's account doesn't work with entryPoint 0.7.
 :::
 
 ### Changed `signerToEcdsaKernelSmartAccount` to `toEcdsaKernelSmartAccount`
@@ -207,7 +207,7 @@ Note, trust wallet's account doesn't work with entryPoint 0.7.
 
 ### Deprecated `privateKeyTo\<account-name\>SmartAccount
 
-All the private key to account conversion functions are now deprecated. You can now use `to<account-name>SmartAccount` to create a smart account now.
+All the private key to account conversion functions are now deprecated. You can use `to<account-name>SmartAccount` to create a smart account instead.
 
 Example: 
 
@@ -261,7 +261,7 @@ const pimlicoClient = createPimlicoClient({ // [!code ++]
 
 All the previous actions that were part of `createPimlicoBundlerClient` and `createPimlicoPaymasterClient` are now part of `createPimlicoClient` and can also be acccessed individually.
 
-Pimlico client also extends actions of Paymaster client by viem. It uses EIP-7677 as the default standard to communicate with Pimlico paymasters.
+Pimlico client also extends actions of Paymaster client by viem. It uses ERC-7677 as the default standard to communicate with Pimlico paymasters.
 
 ### Deprecated `smartAccountClient.deployContract`
 
@@ -333,11 +333,29 @@ const userOperationHash = await smartAccountClient.sendUserOperation({ // [!code
 }) // [!code ++]
 ```
 
-It also allows you to just send `calls` like you do with `sendTransaction`. You can read more about it [here](https://viem.sh/account-abstraction/actions/bundler/sendUserOperation).
+It also allows you to submit user operations with using `calls` object like with `sendTransaction`. You can read more about it [here](https://viem.sh/account-abstraction/actions/bundler/sendUserOperation).
 
 ### Deprecated `smartAccountClient.sendTransactions`
 
 Use `smartAccountClient.sendTransaction` instead. It now accepts an array of transactions. Read more about it [here](/permissionless/reference/smart-account-actions/sendTransaction#usage).
+
+Example:
+
+```ts
+import { account, smartAccountClient } from './config'
+import { parseEther } from 'viem'
+const hash = await smartAccountClient.sendTransaction({
+  account,
+  calls: [{ // [!code focus]
+    to: '0x70997970c51812dc3a010c7d01b50e0d17dc79c8', // [!code focus]
+    value: parseEther('1') // [!code focus]
+  }, { // [!code focus]
+    abi: wagmiAbi, // [!code focus]
+    functionName: 'mint', // [!code focus]
+    to: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2', // [!code focus]
+  }] // [!code focus]
+})
+```
 
 ### Error handling
 
