@@ -317,15 +317,27 @@ export const paymasterSidebar = [
 			{ 
 				text: "Endpoints", 
 				items: [
-					{ text: "pimlico_getTokenQuotes", link: "/infra/paymaster/erc20-paymaster/endpoints/pimlico_getTokenQuotes" },
-					{ text: "pm_getPaymasterData", link: "/infra/paymaster/erc20-paymaster/endpoints/pm_getPaymasterData" },
-					{ text: "pm_getPaymasterStubData", link: "/infra/paymaster/erc20-paymaster/endpoints/pm_getPaymasterStubData" },
-					{ text: "pm_sponsorUserOperation", link: "/infra/paymaster/erc20-paymaster/endpoints/pm_sponsorUserOperation" },
-				] 
+					{
+						text: "pimlico_getTokenQuotes",
+						link: "/infra/paymaster/erc20-paymaster/endpoints/pimlico_getTokenQuotes",
+					},
+					{
+						text: "pm_getPaymasterData",
+						link: "/infra/paymaster/erc20-paymaster/endpoints/pm_getPaymasterData",
+					},
+					{
+						text: "pm_getPaymasterStubData",
+						link: "/infra/paymaster/erc20-paymaster/endpoints/pm_getPaymasterStubData",
+					},
+					{
+						text: "pm_sponsorUserOperation",
+						link: "/infra/paymaster/erc20-paymaster/endpoints/pm_sponsorUserOperation",
+					},
+				],
 			},
 			{ text: "Architecture", link: "/infra/paymaster/erc20-paymaster/architecture" },
 			{ text: "Contract Addresses", link: "/infra/paymaster/erc20-paymaster/contract-addresses" },
-		]
+		],
 	},
 	{
 		text: "ERC-20 Paymaster (permissionless)",
@@ -400,6 +412,10 @@ export const permissionlessSidebar = [
 			{
 				text: "2. Submit a user operation with an ERC-20 Paymaster",
 				link: "/permissionless/tutorial/tutorial-2",
+			},
+			{
+				text: "3. Submit a user operation with an ERC-20 Paymaster (permissionless)",
+				link: "/permissionless/tutorial/tutorial-3",
 			},
 		],
 	},

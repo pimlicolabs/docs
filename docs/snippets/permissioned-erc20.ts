@@ -2,15 +2,7 @@
 import { getRequiredPrefund } from "permissionless"
 import { toSimpleSmartAccount } from "permissionless/accounts"
 import { createPimlicoClient } from "permissionless/clients/pimlico"
-import {
-	createPublicClient,
-	encodeFunctionData,
-	getAddress,
-	getContract,
-	type Hex,
-	http,
-	parseAbi,
-} from "viem"
+import { createPublicClient, getAddress, getContract, type Hex, http, parseAbi } from "viem"
 import {
 	createBundlerClient,
 	entryPoint07Address,
@@ -26,6 +18,7 @@ const publicClient = createPublicClient({
 	transport: http("https://sepolia.base.org"),
 })
 const pimlicoClient = createPimlicoClient({
+	chain: baseSepolia,
 	transport: http(pimlicoUrl),
 	entryPoint: {
 		address: entryPoint07Address,
@@ -67,25 +60,22 @@ if (senderUsdcBalance < 1_000_000n) {
 // [!region getTokenQuotes]
 const quotes = await pimlicoClient.getTokenQuotes({
 	tokens: [usdc],
-	chainId: baseSepolia.id,
 })
 const { postOpGas, exchangeRate, paymaster } = quotes[0]
 
-let calls = [
-	{
-		to: getAddress("0xd8da6bf26964af9d7eed9e03e53415d37aa96045"),
-		data: "0x1234" as Hex,
-	},
-]
-
 const userOperation = await bundlerClient.prepareUserOperation({
-	calls,
+	calls: [
+		{
+			to: getAddress("0xd8da6bf26964af9d7eed9e03e53415d37aa96045"),
+			data: "0x1234" as Hex,
+		},
+	],
 })
 
 const paymasterContract = getContract({
 	address: paymaster,
 	abi: parseAbi([
-		"function getCostInToken(uint256 _actualGasCost, uint256 _postOpGas, uint256 _actualUserOpFeePerGas, uint256 _exchangeRate) public pure returns (uint256)",
+		"function getCostInToken(uint256 actualGasCost, uint256 postOpGas, uint256 actualUserOpFeePerGas, uint256 exchangeRate) public pure returns (uint256)",
 	]),
 	client: publicClient,
 })
@@ -99,25 +89,23 @@ const maxCostInToken = await paymasterContract.read.getCostInToken([
 // [!endregion getTokenQuotes]
 
 // [!region sendUserOperation]
-calls = [
-	{
-		to: usdc,
-		data: encodeFunctionData({
-			abi: parseAbi(["function approve(address,uint)"]),
-			args: [paymaster, maxCostInToken],
-		}),
-	},
-	{
-		to: getAddress("0xd8da6bf26964af9d7eed9e03e53415d37aa96045"),
-		data: "0x1234" as Hex,
-	},
-]
 
 const hash = await bundlerClient.sendUserOperation({
 	paymasterContext: {
 		token: usdc,
 	},
-	calls,
+	calls: [
+		{
+			abi: parseAbi(["function approve(address,uint)"]),
+			functionName: "approve",
+			args: [paymaster, maxCostInToken],
+			to: usdc,
+		},
+		{
+			to: getAddress("0xd8da6bf26964af9d7eed9e03e53415d37aa96045"),
+			data: "0x1234" as Hex,
+		},
+	],
 })
 
 const opReceipt = await bundlerClient.waitForUserOperationReceipt({
