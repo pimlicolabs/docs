@@ -6,7 +6,7 @@
 			"destination": "https://app.posthog.com/:path*"
 		},
 		{
-			"source": "/permissionless/v0.1/:path*",
+			"source": "/permissionless/v0.1/:path(.*)",
 			"destination": "/permissionless/v0_1/:path*"
 		}
 	],
