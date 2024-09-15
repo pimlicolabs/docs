@@ -1,0 +1,9 @@
+import VersionWarning from "../../../VersionWarning"
+
+<VersionWarning version="0.1" />
+
+# Signers for permissionless.js
+
+Smart accounts are able to define custom authentication and authorization schemes, but still require signatures to validate user operations coming from signers. permissionless.js defines the `SmartAccountSigner` interface, which is a generic interface that signers for smart accounts can implement. While by default these signers have full control over the smart account, it's possible to define custom roles and permissions for signers, and mix-and-match them to create complex multi-signature schemes, as well as rotate signers and revoke their access.
+
+In addition to pure EOA signers, permissionless.js supports a variety of third-party wallet services as signers for smart accounts.  This allows you to leverage the UIs and infrastructure of these services, while still using smart accounts supported by permissionless.js.

@@ -1,3 +1,7 @@
+import VersionWarning from "../../VersionWarning"
+
+<VersionWarning version="0.2" />
+
 import SmartAccounts from "./smartAccounts.mdx"
 
 # How to use an Arcana Auth signer with permissionless.js
@@ -9,13 +13,13 @@ import SmartAccounts from "./smartAccounts.mdx"
 To use Arcana Auth with permissionless.js, first create an application that integrates with Arcana Auth.
 
 - Refer to the [Arcana Auth documentation site](https://docs.arcana.network/) for instructions on setting up an application with the Arcana Auth.
-- For a quick start, Arcana Auth provides a web app guide, available [here](https://docs.arcana.network/auth/).
+- For a quick start, Arcana Auth provides a web app guide, available [here](https://docs.arcana.network/auth/sdk-installation/).
 
 ## Integration
 Integrating permissionless.js with Arcana Auth is straightforward after setting up the project. Arcana Auth provides an Externally Owned Account (EOA) wallet to use as a signer with accounts created using permissionless.js.
 
 ### Create the authProvider object
-After following the Arcana Auth documentation, you will have access to a `authProvider` object as shown below which you can use to create a `SmartAccountSigner` object:
+After following the Arcana Auth documentation, you will have access to a `authProvider` object as shown below that you can pass as an owner to `createeSmartAccountClient`:
 
 ```typescript
 // [!include ~/snippets/signers/arcana.ts:main]

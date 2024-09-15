@@ -3,7 +3,6 @@ import { LitAbility, LitActionResource } from "@lit-protocol/auth-helpers"
 import { LitNodeClient } from "@lit-protocol/lit-node-client"
 import { PKPEthersWallet } from "@lit-protocol/pkp-ethers"
 import { AuthCallbackParams } from "@lit-protocol/types"
-import { providerToSmartAccountSigner } from "permissionless"
 
 const POLYGON_MUMBAI_RPC_URL = "<YOUR RPC URL HERE>"
 const PKP_PUBLIC_KEY = "<YOUR PKP PUBLIC KEY>"
@@ -50,13 +49,11 @@ const sessionSigs = await litNodeClient
 		throw err
 	})
 
-const pkpWallet = new PKPEthersWallet({
+const smartAccountOwner = new PKPEthersWallet({
 	pkpPubKey: PKP_PUBLIC_KEY,
 	rpc: POLYGON_MUMBAI_RPC_URL,
 	controllerSessionSigs: sessionSigs,
 })
 
-await pkpWallet.init()
-
-const smartAccountSigner = await providerToSmartAccountSigner(pkpWallet)
+await smartAccountOwner.init()
 // [!endregion main]

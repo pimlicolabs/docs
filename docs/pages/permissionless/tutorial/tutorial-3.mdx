@@ -1,9 +1,13 @@
+import VersionWarning from "../VersionWarning"
+
+<VersionWarning version="0.2" />
+
 import { GeneratePrivateKey } from "../../../components/generatePrivateKey"
 
-# Tutorial 3 — Submit a user operation with an ERC-20 Paymaster
+# Tutorial 3 — Submit a user operation with an ERC-20 Paymaster (permissionless)
 
 :::info
-You can visit our [ERC-20 Paymaster overview page](/infra/paymaster/erc20-paymaster) to learn more about the design and architecture of our ERC-20 Paymaster, and the deployed smart contract addresses.
+You can visit our [ERC-20 Paymaster (Permissionless) overview page](/infra/paymaster/erc20-paymaster-permissionless) to learn more about the design and architecture of our ERC-20 Paymaster, and the deployed smart contract addresses.
 :::
 
 In this tutorial, you will deploy an ERC-4337 smart contract wallet on Sepolia, and submit a user operation that pays for its gas fees with USDC using an ERC-20 Paymaster.
@@ -63,13 +67,13 @@ For the purposes of this guide, we will be using [Safe](https://safe.global) acc
 Want to learn more about using Safe accounts? Take a look at our [dedicated Safe guide](/permissionless/how-to/accounts/use-safe-account)
 :::
 
-To create the Safe account, we will use the `signerToSafeSmartAccount` utility function from permissionless.js. 
+To create the Safe account, we will use the `toSafeSmartAccount` utility function from permissionless.js.
 
 In addition, we will also specify a call that must be executed during the deployment of the Safe account with the `setupTransactions` option. Namely, we will approve unlimited USDC to the ERC-20 Paymaster to allow it to withdraw USDC from the Safe account when we use it.
 
 Add the following to the bottom of `index.ts`:
 
-```ts 
+```ts
 // [!include ~/snippets/tutorial-3.ts:smartAccount]
 ```
 
@@ -85,13 +89,13 @@ Smart account address: https://sepolia.basescan.org/address/0xbAd38BdCf884ED92ab
 
 Let's get some USDC on the Sepolia testnet to the counterfactual address of the wallet we will be deploying. This will be used to pay for the gas fees of the user operation we will be submitting.
 
-The recommended way to do this is to use the [USDC faucet](https://usdcfaucet.com/), select 'Base Sepolia' and enter the counterfactual sender address you generated in the previous step.
+The recommended way to do this is to use the [USDC faucet](https://usdcfaucet.com/), select 'Sepolia' and enter the counterfactual sender address you generated in the previous step.
 
 ### Verify you have USDC on the counterfactual sender address
 
 To make sure you have USDC on the counterfactual sender address, let's add a check to the bottom of `index.ts`:
 
-```ts 
+```ts
 // [!include ~/snippets/tutorial-3.ts:checkBalance]
 ```
 
@@ -103,7 +107,7 @@ Smart account USDC balance: 10 USDC
 
 ### Create the smart account client
 
-Now that we have a `SmartAccount` instance, we need to create a `SmartAccountClient` instance to make transact from it. `SmartAccountClient` is an almost drop-in replacement for a viem [`WalletClient`](https://viem.sh/docs/clients/wallet), but it also includes some additional functionality for interacting with smart accounts. 
+Now that we have a `SmartAccount` instance, we need to create a `SmartAccountClient` instance to make transact from it. `SmartAccountClient` is an almost drop-in replacement for a viem [`WalletClient`](https://viem.sh/docs/clients/wallet), but it also includes some additional functionality for interacting with smart accounts.
 
 We then specify the optional `sponsorUserOperation` middleware function. This function will set the ERC-20 Paymaster as the designated sponsor for the user operation, allowing the paymaster to pay for the gas fees of the user operation in exchange for USDC.
 

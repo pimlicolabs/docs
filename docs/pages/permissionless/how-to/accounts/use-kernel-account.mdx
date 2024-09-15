@@ -1,3 +1,7 @@
+import VersionWarning from "../../VersionWarning"
+
+<VersionWarning version="0.2" />
+
 # How to create and use a Kernel account with permissionless.js
 
 :::info
@@ -26,7 +30,7 @@ In this guide, we will use EntryPoint v0.7.
 
 ### Create the clients
 
-First we must create the public, bundler, and (optionally) paymaster clients that will be used to interact with the Kernel account.
+First we must create the public, (optionally) pimlico paymaster clients that will be used to interact with the Kernel account.
 
 ```ts
 // [!include ~/snippets/accounts/kernel.ts:clients]
@@ -45,7 +49,7 @@ For example, to create a signer based on a private key:
 ### Create the Kernel account
 
 :::info
-For a full list of options for creating a Kernel account, take a look at the reference documentation page for [`signerToKernelSmartAccount`](/permissionless/reference/accounts/signerToKernelSmartAccount).
+For a full list of options for creating a Kernel account, take a look at the reference documentation page for [`toEcdsaKernelSmartAccount`](/permissionless/reference/accounts/toEcdsaKernelSmartAccount).
 :::
 
 With a signer, you can create a Kernel account as such:

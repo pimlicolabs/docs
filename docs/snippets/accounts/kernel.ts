@@ -1,10 +1,5 @@
 // [!region imports]
-import { ENTRYPOINT_ADDRESS_V07, createSmartAccountClient } from "permissionless"
-import { signerToEcdsaKernelSmartAccount } from "permissionless/accounts"
-import {
-	createPimlicoBundlerClient,
-	createPimlicoPaymasterClient,
-} from "permissionless/clients/pimlico"
+import { createSmartAccountClient } from "permissionless"
 import { createPublicClient, getContract, http, parseEther } from "viem"
 import { sepolia } from "viem/chains"
 // [!endregion imports]
@@ -14,27 +9,32 @@ export const publicClient = createPublicClient({
 	transport: http("https://rpc.ankr.com/eth_sepolia"),
 })
 
-export const paymasterClient = createPimlicoPaymasterClient({
+export const paymasterClient = createPimlicoClient({
 	transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
-	entryPoint: ENTRYPOINT_ADDRESS_V07,
-})
-
-export const pimlicoBundlerClient = createPimlicoBundlerClient({
-	transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
-	entryPoint: ENTRYPOINT_ADDRESS_V07,
+	entryPoint: {
+		address: entryPoint07Address,
+		version: "0.7",
+	},
 })
 // [!endregion clients]
 
 // [!region signer]
 import { privateKeyToAccount } from "viem/accounts"
+import { createPimlicoClient } from "permissionless/clients/pimlico"
+import { entryPoint07Address } from "viem/account-abstraction"
+import { toEcdsaKernelSmartAccount } from "permissionless/accounts"
 
-const signer = privateKeyToAccount("0xPRIVATE_KEY")
+const owner = privateKeyToAccount("0xPRIVATE_KEY")
 // [!endregion signer]
 
 // [!region smartAccount]
-const kernelAccount = await signerToEcdsaKernelSmartAccount(publicClient, {
-	entryPoint: ENTRYPOINT_ADDRESS_V07,
-	signer: signer,
+const kernelAccount = await toEcdsaKernelSmartAccount({
+	client: publicClient,
+	entryPoint: {
+		address: entryPoint07Address,
+		version: "0.7",
+	},
+	owners: [owner],
 	index: 0n, // optional
 	address: "0x...", // optional, only if you are using an already created account
 })
@@ -43,12 +43,11 @@ const kernelAccount = await signerToEcdsaKernelSmartAccount(publicClient, {
 // [!region smartAccountClient]
 const smartAccountClient = createSmartAccountClient({
 	account: kernelAccount,
-	entryPoint: ENTRYPOINT_ADDRESS_V07,
 	chain: sepolia,
+	paymaster: paymasterClient,
 	bundlerTransport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
-	middleware: {
-		sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
-		gasPrice: async () => (await pimlicoBundlerClient.getUserOperationGasPrice()).fast, // use pimlico bundler to get gas prices
+	userOperation: {
+		estimateFeesPerGas: async () => (await paymasterClient.getUserOperationGasPrice()).fast,
 	},
 })
 // [!endregion smartAccountClient]
@@ -84,8 +83,8 @@ const txHash_$2 = await nftContract.write.mint()
 // [!endregion submitNft]
 
 // [!region submitBatch]
-const txHash_$3 = await smartAccountClient.sendTransactions({
-	transactions: [
+const userOpHash_$3 = await smartAccountClient.sendUserOperation({
+	calls: [
 		{
 			to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
 			value: parseEther("0.1"),

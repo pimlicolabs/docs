@@ -1,3 +1,7 @@
+import VersionWarning from "../../VersionWarning"
+
+<VersionWarning version="0.2" />
+
 import SmartAccounts from "./smartAccounts.mdx"
 
 # How to use a Web3Auth signer with permissionless.js
@@ -17,7 +21,7 @@ To use Web3Auth with permissionless.js, first create an application that integra
 Integrating permissionless.js with Web3Auth is straightforward after setting up the project. Web3Auth provides an Externally Owned Account (EOA) wallet to use as a signer with permissionless.js accounts.
 
 ### Create the Web3Auth object
-After following the Web3Auth documentation, you will have access to a `web3auth` object as shown below that you can use to create a `SmartAccountSigner` object:
+After following the Web3Auth documentation, you will have access to a `web3auth` object as shown below that you can pass as an owner to `createeSmartAccountClient`:
 
 ```typescript
 // [!include ~/snippets/signers/web3auth.ts:main]

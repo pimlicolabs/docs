@@ -1,0 +1,55 @@
+import VersionWarning from "../../../VersionWarning"
+
+<VersionWarning version="0.1" />
+
+# getSenderAddress
+
+Return a sender address corresponding to the initCode of the User Operation where the smart account will be deployed.
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+import { publicClient } from "./client.ts"
+import { getSenderAddress } from "permissionless"
+
+const senderAddress = await getSenderAddress(publicClient, {
+    factory: "0x91E60e0613810449d098b0b5Ec8b51A0FE8c8985",
+    factoryData: "0x5fbfb9cf000000000000000000000000cafb211a4ea1290370d43732fed4da817a2e11ed0000000000000000000000000000000000000000000000000000000000000000"
+    entryPoint: ENTRYPOINT_ADDRESS_V07
+})
+// "0x0C123D90Da0a640fFE54a2359D159629065775C5"
+```
+
+```ts [client.ts]
+import { createPublicClient, http } from 'viem'
+import { mainnet } from 'viem/chains'
+
+export const publicClient = createPublicClient({ 
+  chain: mainnet,
+  transport: http("https://mainnet.infura.io/v3/...")
+})
+```
+
+::::
+
+## Returns
+
+- **Type:** `Address`
+
+The sender address corresponding to the initCode of the User Operation where the smart account will be deployed.
+
+## Parameters
+
+### initCode
+
+- **Type:** `Hex`
+
+The initCode of the User Operation that deploys the smart account.
+
+### entryPoint
+
+- **Type:** `Address`
+
+The entry point address.

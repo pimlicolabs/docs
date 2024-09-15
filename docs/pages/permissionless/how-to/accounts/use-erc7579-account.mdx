@@ -1,3 +1,7 @@
+import VersionWarning from "../../VersionWarning"
+
+<VersionWarning version="0.2" />
+
 # How to use an ERC-7579 compatible smart account with permissionless.js
 
 [ERC-7579](https://eips.ethereum.org/EIPS/eip-7579) defines a standard for modular smart account interfaces. It also defines behavior for interoperability with minimal restrictions for accounts and modules.
@@ -20,7 +24,7 @@ This guide will show you how to create and use a ERC-7579 compatible smart accou
 
 ### Create the clients
 
-First we must create the public, bundler, and (optionally) paymaster clients that will be used to interact with the SafeAccount.
+First we must create the public, (optionally) pimlico paymaster clients that will be used to interact with the SafeAccount.
 
 ```ts
 // [!include ~/snippets/erc7579/erc7579.ts:clients]
@@ -29,7 +33,7 @@ First we must create the public, bundler, and (optionally) paymaster clients tha
 ### Create the SafeAccount
 
 :::info
-For a full list of options for creating a SafeAccount, take a look at the reference documentation page for [`signerToSafeSmartAccount`](/permissionless/reference/accounts/signerToSafeSmartAccount).
+For a full list of options for creating a SafeAccount, take a look at the reference documentation page for [`toSafeSmartAccount`](/permissionless/reference/accounts/toSafeSmartAccount).
 :::
 
 You can also pass an `address` to use an already created SafeAccount.

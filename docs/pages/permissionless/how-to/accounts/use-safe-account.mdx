@@ -1,3 +1,7 @@
+import VersionWarning from "../../VersionWarning"
+
+<VersionWarning version="0.2" />
+
 # How to create and use a Safe account with permissionless.js
 
 [Safe](https://safe.global) is the most battle-tested Ethereum smart account provider. With their recent release of their ERC-4337 module, it is now possible to plug in Safe accounts to ERC-4337 bundlers and paymasters. This guide will walk you through how to create and use a Safe account with permissionless.js.
@@ -14,7 +18,7 @@
 
 ### Create the clients
 
-First we must create the public, bundler, and (optionally) paymaster clients that will be used to interact with the Safe account.
+First we must create the public, (optionally) pimlico paymaster clients that will be used to interact with the Safe account.
 
 ```ts
 // [!include ~/snippets/accounts/safe.ts:clients]
@@ -33,7 +37,7 @@ For example, to create a signer based on a private key:
 ### Create the Safe account
 
 :::info
-For a full list of options for creating a Safe account, take a look at the reference documentation page for [`signerToSafeSmartAccount`](/permissionless/reference/accounts/signerToSafeSmartAccount).
+For a full list of options for creating a Safe account, take a look at the reference documentation page for [`toSafeSmartAccount`](/permissionless/reference/accounts/toSafeSmartAccount).
 :::
 
 With a signer, you can create a Safe account as such:
@@ -69,5 +73,9 @@ You can also send an array of transactions in a single batch.
 ```ts
 // [!include ~/snippets/accounts/safe.ts:submitBatch]
 ```
+
+### Understanding the errors
+
+If you're getting an error that starts with `GS`, it probably means that something went off with the Safe account. Checkout the Safe error codes [here](https://github.com/safe-global/safe-smart-account/blob/main/docs/error_codes.md).
 
 ::::

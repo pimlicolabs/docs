@@ -7,9 +7,11 @@ title: permissionless.js
 ---
 
 import { HomePage } from 'vocs/components'
+import VersionWarning from "./VersionWarning"
  
 <HomePage.Root>
   <h1 className='vocs_HomePage_title'>permissionless.js</h1>
+  <VersionWarning version="0.2" />
   <HomePage.Tagline>Build with ERC-4337 smart accounts, bundlers, paymasters, and user operations</HomePage.Tagline>
   <HomePage.InstallPackage name="permissionless" type="install" />
   <HomePage.Description>permissionless.js is a TypeScript library built on viem for building with ERC-4337 smart accounts, bundlers, paymasters, and user operations. The core focuses are avoiding provider lock-in, having no dependencies, maximum viem compatibility, and a small bundle size. permissionless.js also provides high-level support for the major ERC-4337 smart accounts, including Safe, Kernel, Biconomy, SimpleAccount, TrustWallet and LightAccount.</HomePage.Description>
@@ -33,15 +35,14 @@ const userOpHash = "0x5faea6a3af76292c2b23468bbea96ef63fb31360848be195748437f0a7
 
 // ---cut---
 // Import the required modules.
-import { createBundlerClient } from "permissionless"
+import { createSmartAccountClient } from "permissionless"
 import { sepolia } from "viem/chains"
 import { http } from "viem"
 
 // Create the required clients.
-const bundlerClient = createBundlerClient({
+const bundlerClient = createSmartAccountClient({
     chain: sepolia,
-    transport: http(bundlerUrl), // Use any bundler url
-    entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+    bundlerTransport: http(bundlerUrl), // Use any bundler url
 })
 
 // Consume bundler, paymaster, and smart account actions!

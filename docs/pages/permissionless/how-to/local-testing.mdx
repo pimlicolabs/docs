@@ -1,3 +1,7 @@
+import VersionWarning from "../VersionWarning"
+
+<VersionWarning version="0.2" />
+
 # Local Testing
 
 This guide introduces a ready-to-use mock test environment, that contains:
@@ -58,27 +62,29 @@ Once docker has started, the following services can be accessed locally through 
 
 You can now use permissionless like you normally would but instead of referencing the live endpoints, use the local endpoints mentioned above when creating the clients.
 
-```ts [clients.ts]
-import { createBundlerClient, ENTRYPOINT_ADDRESS_V07 } from "permissionless";
-import { createPimlicoPaymasterClient } from "permissionless/clients/pimlico";
+```ts [clients.ts] twoslash
+import { createPimlicoClient } from "permissionless/clients/pimlico";
 import { http, createPublicClient } from "viem";
+import { createBundlerClient, entryPoint07Address } from "viem/account-abstraction"
 import { foundry } from "viem/chains";
 
 const publicClient = createPublicClient({
+  chain: foundry,
   transport: http("http://localhost:8545"), // [!code ++]
 });
 
 const bundlerClient = createBundlerClient({
   chain: foundry,
-  transport: http("http://localhost:4337"), // [!code ++]
-  entryPoint: ENTRYPOINT_ADDRESS_V07,
+  transport: http("http://localhost:4337") // [!code ++]
 });
 
-const paymasterClient = createPimlicoPaymasterClient({
-  chain: foundry,
-  transport: http("http://localhost:3000"), // [!code ++]
-  entryPoint: ENTRYPOINT_ADDRESS_V07,
-});
+const pimlicoClient = createPimlicoClient({
+	transport: http("http://localhost:3000"),
+	entryPoint: {
+		address: entryPoint07Address,
+		version: "0.7",
+	}
+})
 ```
 
 :::info
@@ -118,9 +124,9 @@ import { foundry } from "viem/chains";
 import { http } from "viem";
 import {
   createBundlerClient,
-  ENTRYPOINT_ADDRESS_V06,
-  ENTRYPOINT_ADDRESS_V07,
-} from "permissionless";
+  entryPoint06Address,
+  entryPoint07Address
+} from "viem/account-abstraction";
 
 describe("Test basic bundler functions", () => {
   beforeAll(async () => {
@@ -133,10 +139,9 @@ describe("Test basic bundler functions", () => {
     const bundlerClient = createBundlerClient({
       chain: foundry,
       transport: http("http://localhost:4337"),
-      entryPoint: ENTRYPOINT_ADDRESS_V07,
     });
 
-    const chainId = await bundlerClient.chainId();
+    const chainId = await bundlerClient.getChainId();
 
     expect(chainId).toEqual(foundry.id);
   });
@@ -145,21 +150,20 @@ describe("Test basic bundler functions", () => {
     const bundlerClient = createBundlerClient({
       chain: foundry,
       transport: http("http://localhost:4337"),
-      entryPoint: ENTRYPOINT_ADDRESS_V07,
     });
 
-    const supportedEntryPoints = await bundlerClient.supportedEntryPoints();
+    const supportedEntryPoints = await bundlerClient.getSupportedEntryPoints();
 
     expect(supportedEntryPoints).toEqual([
-      ENTRYPOINT_ADDRESS_V06,
-      ENTRYPOINT_ADDRESS_V07,
+      entryPoint06Address,
+      entryPoint07Address,
     ]);
   });
 });
 ```
 
-```ts [healthCheck.ts]
-import { createBundlerClient, ENTRYPOINT_ADDRESS_V07 } from "permissionless";
+```ts [healthCheck.ts] twoslash
+import { createBundlerClient } from "viem/account-abstraction";
 import { http } from "viem";
 import { foundry } from "viem/chains";
 
@@ -167,12 +171,11 @@ export const ensureBundlerIsReady = async () => {
   const bundlerClient = createBundlerClient({
     chain: foundry,
     transport: http("http://localhost:4337"),
-    entryPoint: ENTRYPOINT_ADDRESS_V07,
   });
 
   while (true) {
     try {
-      await bundlerClient.chainId();
+      await bundlerClient.getChainId();
       return;
     } catch {
       await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -211,7 +214,7 @@ services:
   anvil:
     image: ghcr.io/foundry-rs/foundry:nightly-f6208d8db68f9acbe4ff8cd76958309efb61ea0b
     ports: [ "8545:8545" ]
-    entrypoint: [ "anvil", "--fork-url", "https://rpc.sepolia.org", "--host", "0.0.0.0", "--block-time", "0.1", "--silent"] // [!code ++]
+    entrypoint: [ "anvil", "--fork-url", "https://rpc.sepolia.org", "--chain-id", "11155111", "--host", "0.0.0.0", "--block-time", "0.1", "--silent"] // [!code ++]
     platform: linux/amd64/v8
 
   mock-paymaster:

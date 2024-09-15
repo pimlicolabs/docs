@@ -1,3 +1,7 @@
+import VersionWarning from "./VersionWarning"
+
+<VersionWarning version="0.2" />
+
 # permissionless.js FAQs
 
 ## Getting `WaitForUserOperationReceiptTimeoutError`?
@@ -9,16 +13,11 @@ The easiest way to fix this is to increase the timeout in permissionless.js. You
 
 ```typescript
 const smartAccountClient = createSmartAccountClient({
-  account: simpleSmartAccountClient,
-  entryPoint: ENTRYPOINT_ADDRESS_V06,
+  account: simpleSmartAccount,
   chain: sepolia, // or whatever chain you are using
   bundlerTransport: http("<bundler_endpoint>", {
     timeout: 30_000 // Custom timeout
-  }),
-  middleware: {
-    gasPrice: async () => (await bundlerClient.getUserOperationGasPrice()).fast,
-    sponsorUserOperation: pimlicoPaymaster.sponsorUserOperation,
-  },
+  })
 })
 ```
 
@@ -27,12 +26,10 @@ const smartAccountClient = createSmartAccountClient({
 Such errors are thrown when the provided gas limits are not enough to execute the user operation. Usually the gas limits are calculated by the bundler. If you are getting such error, you can try setting up gas limits manually.
 
 ```typescript
-const userOp = await smartAccountClient.prepareUserOperationRequest({
-  userOperation: {
-    callData,
+const userOp = await smartAccountClient.prepareUserOperation({
+    calls,
     callGasLimit: 100_000n,
     verificationGasLimit: 100_000n,
     preVerificationGas: 100_000n,
-  },
 })
 ```
