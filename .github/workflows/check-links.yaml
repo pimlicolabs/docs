@@ -16,7 +16,7 @@ jobs:
         run: npm install -g linkinator@6.1.1
 
       - name: Check links
-        run: linkinator https://docs.pimlico.io https://pimlico.io -r --retry --format json --skip api.pimlico.io  --concurrency 5 > links-report.json
+        run: linkinator https://docs.pimlico.io https://pimlico.io -r --retry --format json --skip api.pimlico.io --skip dashboard.pimlico.io  --concurrency 5 > links-report.json
 
       - name: Prepare report
         id: prepare-report
