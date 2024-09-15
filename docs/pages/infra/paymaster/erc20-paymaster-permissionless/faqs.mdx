@@ -60,7 +60,7 @@ Do any final touches to your user operation, such as signing, then submit the us
 
 ## Is there a walkthrough I can use to see how to interact with the paymaster?
 
-Yes! 
+Yes!
 
 Check out our [Getting Started with the ERC-20 Paymaster](/permissionless/tutorial/tutorial-2) guide that walks you through deploying your SimpleWallet and getting your first UserOperation sponsored with USDC.
 
@@ -80,7 +80,7 @@ No, we do not. The contracts we deploy can never be upgraded. However there is o
 
 ## Has Pimlico's ERC-20 Paymaster been audited?
 
-Yes, the ERC-20 Paymaster contract by Pimlico has been audited by [OpenZeppelin](https://openzeppelin.com/). The full audit report can be found [here](https://github.com/pimlicolabs/erc20-paymaster/blob/main/audits/2024-03-openzeppelin.pdf). 
+Yes, the ERC-20 Paymaster contract by Pimlico has been audited by [OpenZeppelin](https://openzeppelin.com/). The full audit report can be found [here](https://github.com/pimlicolabs/erc20-paymaster/blob/main/audits/2024-03-openzeppelin.pdf).
 
 However, an audit does not guarantee complete security. Please use the paymaster at your own risk.
 
@@ -114,6 +114,6 @@ However, it is possible to bypass this extra step for smart contract wallets if 
 
 ## Does the owner take a fee?
 
-Yes, the owner takes a fee in the form of a `priceMarkup` on the ERC-20 token price. This markup serves to compensate the onwer for maintaining the infrastructure and covering risks associated with price fluctuations and slippage risk. The default `priceMarkup` Pimlico takes is 10%, but that can depend on on the token, so double-check before using the paymaster.
+Yes, the owner takes a fee in the form of a `priceMarkup` on the ERC-20 token price. This markup serves to compensate the onwer for maintaining the infrastructure and covering risks associated with price fluctuations and slippage risk. The default `priceMarkup` Pimlico takes is 10%, but that can depend on the token, so double-check before using the paymaster.
 
 The `priceMarkup` can be changed by the owner of the paymaster, however there is a hardcoded maximum set during the contructor that is enforced by the smart contract. This means we can never set the `priceMarkup` to more than what is chosen during the constructor.

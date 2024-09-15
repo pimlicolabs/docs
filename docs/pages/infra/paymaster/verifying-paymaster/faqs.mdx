@@ -7,7 +7,7 @@ V1 is for bundlers, while v2 is for paymasters. V2 for bundlers will be released
 Decide whether to enable or disable the policy based on operational requirements and objectives. Enable it if you wish the policy to be active, or keep it disabled if not needed or under review.
 
 ## Can I make a transfer to load up my balance in a different currency?
-Yes, you can make a transfer to load up your balance in a different currency, such as USDC. We also accept transfers in ETH. Plesae reach out to [us](https://t.me/kristofgazso) and provide the recipient address and specify the currency you wish to transfer.
+Yes, you can make a transfer to load up your balance in a different currency, such as USDC. We also accept transfers in ETH. Please reach out to [us](https://t.me/kristofgazso) and provide the recipient address and specify the currency you wish to transfer.
 
 ## Are there any API-related payments?
 
@@ -25,7 +25,7 @@ The verifying paymaster payments are charged offchain. We calculate how much gas
 
 If you use both the bundler and the paymaster together, the fee payments would stack.
 
-For instance, if you ended up paying a 5% overhead for the bundler and a 10% overhead for the verifying paymaster on a user operation that costs us $0.01 to include, you would end up paying a total of $0.01 * (1.05) * (1.1) = $0.01155 => a 15.5% overhead. 
+For instance, if you ended up paying a 5% overhead for the bundler and a 10% overhead for the verifying paymaster on a user operation that costs us $0.01 to include, you would end up paying a total of $0.01 * (1.05) * (1.1) = $0.01155 => a 15.5% overhead.
 
 Important to note however that the bundler and paymaster are completely independent and you can use one without the other.
 
@@ -49,7 +49,7 @@ Examples include:
 It is not natively possible to partially sponsor transactions with the verifying paymaster, however you can achieve a similar setup in a few different ways:
 - You could sponsor all the gas fees, but for a more limited set of user operations using our [sponsorship policies](/infra/platform/sponsorship-policies), for instance setting per user sponsorship limits, global spending limits, and more.
 - You could also consider requiring your users to transfer a certain amount of ETH or ERC-20 tokens to an account you own for every transaction they do, making it so they in effect partially pay for the transaction fees.
-- You could develop and maintain your own paymaster contract which allows the user to stake their tokens and make the sponsorship happen partially using the users' tokens. 
+- You could develop and maintain your own paymaster contract which allows the user to stake their tokens and make the sponsorship happen partially using the users' tokens.
 
 ## Does the verifying paymaster require upfront funding?
 
