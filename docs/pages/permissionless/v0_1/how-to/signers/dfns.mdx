@@ -1,0 +1,29 @@
+import VersionWarning from "../../../VersionWarning"
+
+<VersionWarning version="0.1" />
+
+import SmartAccounts from "./smartAccounts.mdx"
+
+# How to use a DFNS signer with permissionless.js
+
+[Dfns](https://www.dfns.co/) is an MPC/TSS Wallet-as-a-Service API/SDK provider. Dfns aims to optimize the balance of security and UX by deploying key shares into a decentralized network on the backend while enabling wallet access via biometric open standards on the frontend like Webauthn. Reach out [here](https://www.dfns.co/learn-more) to set up a sandbox environment to get started.
+
+## Setup
+
+To use Dfns with permissionless.js, first create an application that integrates with Dfns.
+
+- Refer to the [Dfns documentation site](https://docs.dfns.co/d/) for instructions on setting up an application with the Dfns.
+
+## Integration
+Integrating permissionless.js with Dfns is straightforward after setting up the project. Dfns provides an Externally Owned Account (EOA) wallet to use as a signer with permissionless.js accounts.
+
+### Set up Dfns
+After following the Dfns documentation, you will have access to a `dfnsWallet` object as shown below:
+
+```typescript
+// [!include ~/snippets/v0_1/signers/dfns.ts:main]
+```
+
+### Use with permissionless.js
+
+<SmartAccounts />

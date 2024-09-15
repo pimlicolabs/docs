@@ -1,201 +1,205 @@
 {
-    "cleanUrls": true,
-    "rewrites": [
-        {
-            "source": "/ingest/:path(.*)",
-            "destination": "https://app.posthog.com/:path*"
-        }
-    ],
-    "redirects": [
-        {
-            "source": "/:match*.html",
-            "destination": "/:match",
-            "permanent": false
-        },
-        {
-            "source": "/tutorial/:match*",
-            "destination": "/permissionless/tutorial/:match",
-            "permanent": false
-        },
-        {
-            "source": "/bundler/reference/entrypoint-errors/:match*",
-            "destination": "/infra/bundler/entrypoint-errors/:match",
-            "permanent": false
-        },
-        {
-            "source": "/pricing",
-            "destination": "/infra/platform/pricing",
-            "permanent": false
-        },
-        {
-            "source": "/paymaster/erc20-paymaster",
-            "destination": "/infra/paymaster/erc20-paymaster/",
-            "permanent": false
-        },
-        {
-            "source": "/bundler/how-to/compress-user-operations",
-            "destination": "/infra/bundler/compression",
-            "permanent": false
-        },
-        {
-            "source": "/docs/:match*",
-            "destination": "/",
-            "permanent": false
-        },
-        {
-            "source": "/how-to/quick-start",
-            "destination": "/",
-            "permanent": false
-        },
-        {
-            "source": "/how-to/quick-start",
-            "destination": "/",
-            "permanent": false
-        },
-        {
-            "source": "/how-to/bundler/:match*",
-            "destination": "/bundler/how-to/:match",
-            "permanent": false
-        },
-        {
-            "source": "/reference/bundler/:match*",
-            "destination": "/bundler",
-            "permanent": false
-        },
-        {
-            "source": "/how-to/verifying-paymaster/:match*",
-            "destination": "/paymaster/verifying-paymaster/how-to/:match",
-            "permanent": false
-        },
-        {
-            "source": "/reference/verifying-paymaster/:match*",
-            "destination": "/paymaster/verifying-paymaster/reference/:match",
-            "permanent": false
-        },
-        {
-            "source": "/reference/erc20-paymaster/:match*",
-            "destination": "/paymaster/erc20-paymaster/",
-            "permanent": false
-        },
-        {
-            "source": "/how-to/verifying-paymaster/:match*",
-            "destination": "/paymaster/verifying-paymaster/how-to/:match",
-            "permanent": false
-        },
-        {
-            "source": "/reference/erc20-paymaster/:match*",
-            "destination": "/paymaster/erc20-paymaster/:match",
-            "permanent": false
-        },
-        {
-            "source": "/reference/erc20-paymaster-architecture",
-            "destination": "/paymaster/erc20-paymaster/architecture",
-            "permanent": false
-        },
-        {
-            "source": "/reference/erc20-paymaster-contracts",
-            "destination": "/paymaster/erc20-paymaster/contract-addresses",
-            "permanent": false
-        },
-        {
-            "source": "/reference/erc20-paymaster-sdk",
-            "destination": "/paymaster/erc20-paymaster",
-            "permanent": false
-        },
-        {
-            "source": "/reference/getting-started-with-pimlico",
-            "destination": "/permissionless/tutorial/tutorial-1",
-            "permanent": false
-        },
-        {
-            "source": "/reference/account-abstraction",
-            "destination": "/conceptual/account-abstraction",
-            "permanent": false
-        },
-        {
-            "source": "/docs/erc20-paymaster-getting-started",
-            "destination": "/permissionless/tutorial/tutorial-2",
-            "permanent": false
-        },
-        {
-            "source": "/docs/getting-started",
-            "destination": "/permissionless/tutorial/tutorial-1",
-            "permanent": false
-        },
-        {
-            "source": "/docs/wallets/api",
-            "destination": "/",
-            "permanent": false
-        },
-        {
-            "source": "/docs",
-            "destination": "/",
-            "permanent": false
-        },
-        {
-            "source": "/how-to/quick-start",
-            "destination": "/",
-            "permanent": false
-        },
-        {
-            "source": "/overview/bundler",
-            "destination": "/bundler",
-            "permanent": false
-        },
-        {
-            "source": "/how-to/bundler/how-to-bundle-a-user-operation",
-            "destination": "/bundler/how-to/bundle-a-user-operation",
-            "permanent": false
-        },
-        {
-            "source": "/how-to/bundler/how-to-estimate-user-operation-gas-limits",
-            "destination": "/bundler/how-to/estimate-user-operation-gas-limits",
-            "permanent": false
-        },
-        {
-            "source": "/overview/verifying-paymaster",
-            "destination": "/paymaster/verifying-paymaster",
-            "permanent": false
-        },
-        {
-            "source": "/how-to/verifying-paymaster/how-to-sponsor-a-user-operation",
-            "destination": "/paymaster/verifying-paymaster/how-to/sponsor-a-user-operation",
-            "permanent": false
-        },
-        {
-            "source": "/reference/verifying-paymaster/common-errors",
-            "destination": "/paymaster/verifying-paymaster",
-            "permanent": false
-        },
-        {
-            "source": "/reference/verifying-paymaster/endpoints",
-            "destination": "/paymaster/verifying-paymaster/",
-            "permanent": false
-        },
-        {
-            "source": "/overview/erc20-paymaster",
-            "destination": "/paymaster/erc20-paymaster",
-            "permanent": false
-        },
-        {
-            "source": "/reference/erc20-paymaster/contracts",
-            "destination": "/paymaster/erc20-paymaster/reference/contract-addresses",
-            "permanent": false
-        },
-        {
-            "source": "/reference/erc20-paymaster/sdk",
-            "destination": "/paymaster/erc20-paymaster",
-            "permanent": false
-        },
-        {
-            "source": "/how-to/integrations/lit-protocol",
-            "destination": "/permissionless/how-to/signers/lit-protocol",
-            "permanent": false
-        },
-        {
-            "source": "/tutorial/integrations/lit-protocol",
-            "destination": "/permissionless/how-to/signers/lit-protocol",
-            "permanent": false
-        }
-    ]
+	"cleanUrls": true,
+	"rewrites": [
+		{
+			"source": "/ingest/:path(.*)",
+			"destination": "https://app.posthog.com/:path*"
+		},
+		{
+			"source": "/permissionless/v0.1/:path*",
+			"destination": "/permissionless/v0_1/:path*"
+		}
+	],
+	"redirects": [
+		{
+			"source": "/:match*.html",
+			"destination": "/:match",
+			"permanent": false
+		},
+		{
+			"source": "/tutorial/:match*",
+			"destination": "/permissionless/tutorial/:match",
+			"permanent": false
+		},
+		{
+			"source": "/bundler/reference/entrypoint-errors/:match*",
+			"destination": "/infra/bundler/entrypoint-errors/:match",
+			"permanent": false
+		},
+		{
+			"source": "/pricing",
+			"destination": "/infra/platform/pricing",
+			"permanent": false
+		},
+		{
+			"source": "/paymaster/erc20-paymaster",
+			"destination": "/infra/paymaster/erc20-paymaster/",
+			"permanent": false
+		},
+		{
+			"source": "/bundler/how-to/compress-user-operations",
+			"destination": "/infra/bundler/compression",
+			"permanent": false
+		},
+		{
+			"source": "/docs/:match*",
+			"destination": "/",
+			"permanent": false
+		},
+		{
+			"source": "/how-to/quick-start",
+			"destination": "/",
+			"permanent": false
+		},
+		{
+			"source": "/how-to/quick-start",
+			"destination": "/",
+			"permanent": false
+		},
+		{
+			"source": "/how-to/bundler/:match*",
+			"destination": "/bundler/how-to/:match",
+			"permanent": false
+		},
+		{
+			"source": "/reference/bundler/:match*",
+			"destination": "/bundler",
+			"permanent": false
+		},
+		{
+			"source": "/how-to/verifying-paymaster/:match*",
+			"destination": "/paymaster/verifying-paymaster/how-to/:match",
+			"permanent": false
+		},
+		{
+			"source": "/reference/verifying-paymaster/:match*",
+			"destination": "/paymaster/verifying-paymaster/reference/:match",
+			"permanent": false
+		},
+		{
+			"source": "/reference/erc20-paymaster/:match*",
+			"destination": "/paymaster/erc20-paymaster/",
+			"permanent": false
+		},
+		{
+			"source": "/how-to/verifying-paymaster/:match*",
+			"destination": "/paymaster/verifying-paymaster/how-to/:match",
+			"permanent": false
+		},
+		{
+			"source": "/reference/erc20-paymaster/:match*",
+			"destination": "/paymaster/erc20-paymaster/:match",
+			"permanent": false
+		},
+		{
+			"source": "/reference/erc20-paymaster-architecture",
+			"destination": "/paymaster/erc20-paymaster/architecture",
+			"permanent": false
+		},
+		{
+			"source": "/reference/erc20-paymaster-contracts",
+			"destination": "/paymaster/erc20-paymaster/contract-addresses",
+			"permanent": false
+		},
+		{
+			"source": "/reference/erc20-paymaster-sdk",
+			"destination": "/paymaster/erc20-paymaster",
+			"permanent": false
+		},
+		{
+			"source": "/reference/getting-started-with-pimlico",
+			"destination": "/permissionless/tutorial/tutorial-1",
+			"permanent": false
+		},
+		{
+			"source": "/reference/account-abstraction",
+			"destination": "/conceptual/account-abstraction",
+			"permanent": false
+		},
+		{
+			"source": "/docs/erc20-paymaster-getting-started",
+			"destination": "/permissionless/tutorial/tutorial-2",
+			"permanent": false
+		},
+		{
+			"source": "/docs/getting-started",
+			"destination": "/permissionless/tutorial/tutorial-1",
+			"permanent": false
+		},
+		{
+			"source": "/docs/wallets/api",
+			"destination": "/",
+			"permanent": false
+		},
+		{
+			"source": "/docs",
+			"destination": "/",
+			"permanent": false
+		},
+		{
+			"source": "/how-to/quick-start",
+			"destination": "/",
+			"permanent": false
+		},
+		{
+			"source": "/overview/bundler",
+			"destination": "/bundler",
+			"permanent": false
+		},
+		{
+			"source": "/how-to/bundler/how-to-bundle-a-user-operation",
+			"destination": "/bundler/how-to/bundle-a-user-operation",
+			"permanent": false
+		},
+		{
+			"source": "/how-to/bundler/how-to-estimate-user-operation-gas-limits",
+			"destination": "/bundler/how-to/estimate-user-operation-gas-limits",
+			"permanent": false
+		},
+		{
+			"source": "/overview/verifying-paymaster",
+			"destination": "/paymaster/verifying-paymaster",
+			"permanent": false
+		},
+		{
+			"source": "/how-to/verifying-paymaster/how-to-sponsor-a-user-operation",
+			"destination": "/paymaster/verifying-paymaster/how-to/sponsor-a-user-operation",
+			"permanent": false
+		},
+		{
+			"source": "/reference/verifying-paymaster/common-errors",
+			"destination": "/paymaster/verifying-paymaster",
+			"permanent": false
+		},
+		{
+			"source": "/reference/verifying-paymaster/endpoints",
+			"destination": "/paymaster/verifying-paymaster/",
+			"permanent": false
+		},
+		{
+			"source": "/overview/erc20-paymaster",
+			"destination": "/paymaster/erc20-paymaster",
+			"permanent": false
+		},
+		{
+			"source": "/reference/erc20-paymaster/contracts",
+			"destination": "/paymaster/erc20-paymaster/reference/contract-addresses",
+			"permanent": false
+		},
+		{
+			"source": "/reference/erc20-paymaster/sdk",
+			"destination": "/paymaster/erc20-paymaster",
+			"permanent": false
+		},
+		{
+			"source": "/how-to/integrations/lit-protocol",
+			"destination": "/permissionless/how-to/signers/lit-protocol",
+			"permanent": false
+		},
+		{
+			"source": "/tutorial/integrations/lit-protocol",
+			"destination": "/permissionless/how-to/signers/lit-protocol",
+			"permanent": false
+		}
+	]
 }

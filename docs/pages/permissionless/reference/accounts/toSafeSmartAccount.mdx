@@ -1,0 +1,201 @@
+import VersionWarning from "../../VersionWarning"
+
+<VersionWarning version="0.2" />
+
+# toSafeSmartAccount
+
+Creates a Safe smart account instance controlled by a `owners`.
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+import { toSafeSmartAccount } from "permissionless/accounts"
+import { publicClient } from "./publicClient"
+import { owner } from "./owner"
+import { entryPoint07Address } from "viem/account-abstraction"
+
+const safeAccount = await toSafeSmartAccount({
+	client: publicClient,
+	owner,
+	entryPoint: {
+		address: entryPoint07Address,
+		version: "0.7"
+	}, // global entrypoint
+	version: "1.4.1",
+})
+```
+
+```ts [publicClient.ts]
+// [!include ~/snippets/publicClient.ts:client]
+```
+
+```ts [owner.ts]
+// [!include ~/snippets/owner.ts]
+```
+
+::::
+
+## Returns
+
+- **Type:** `SmartAccount<SafeSmartAccountImplementation>`
+
+The smart account instance.
+
+## Parameters
+
+### client
+- **Type:** `Client`
+
+A public client as smart account needs access to the Network to query for information about its state (e.g. nonce, address, etc).
+
+### owners
+
+- **Type:** `[LocalAccount | EIP1193Provider | WalletClient]`
+
+The owners that will be used to sign messages and user operations.
+
+### safeVersion
+
+- **Type:** `1.4.1`
+
+The version of the Safe contract that will be used.
+
+### entryPoint (optional)
+
+- **Type:** `{ address: Address, version: "0.6" | "0.7" }`
+
+The address and the version of the EntryPoint contract. If not provided, entryPoint 0.7 will be used.
+
+### saltNonce (optional)
+
+- **Type:** `bigint`
+
+The salt nonce that will be used to deploy the smart account. If not provided, `0` will be used.
+
+### addModuleLibAddress (optional)
+
+- **Type:** `Address`
+
+The address of the `AddModuleLib` contract. If not provided, the default address for the Safe version will be used.
+
+### safe4337ModuleAddress (optional)
+
+- **Type:** `Address`
+
+The address of the `Safe4337Module` contract. If not provided, the default address for the Safe version will be used.
+
+### safeProxyFactoryAddress (optional)
+
+- **Type:** `Address`
+
+The address of the `SafeProxyFactory` contract. If not provided, the default address for the Safe version will be used.
+
+### safeSingletonAddress (optional)
+
+- **Type:** `Address`
+
+The address of the `SafeSingleton` contract. If not provided, the default address for the Safe version will be used.
+
+### multiSendAddress (optional)
+
+- **Type:** `Address`
+
+The address of the `MultiSend` contract. If not provided, the default address for the Safe version will be used.
+
+### multiSendCallOnlyAddress (optional)
+
+- **Type:** `Address`
+
+The address of the `MultiSendCallOnly` contract. If not provided, the default address for the Safe version will be used.
+
+### safeModules (optional)
+
+- **Type:** `Address[]`
+
+:::info
+The ERC-4337 module will always be added and does not need to be provided.
+:::
+
+The addresses of the Safe modules that will be added during deployment.
+
+### setupTransactions (optional)
+
+- **Type:** `Call[]`
+
+:::info
+This can be useful, for example, to approve tokens to an ERC-20 paymaster contract so it can pay for the gas of the first user operation. 
+:::
+
+An array of calls that will be executed during the deployment of the smart account (when the `initCode` is executed).
+
+### address (optional)
+
+- **Type:** `Address`
+
+:::warning
+If you provide an address, the smart account can not be deployed. This should be used if you want to interact with an existing smart account.
+:::
+
+The address of the smart account. If not provided, the determinstic smart account address will be used.
+
+### validUnit (optional)
+
+- **Type:** `number`
+
+The timestamp until which the signature is valid by default.
+
+### paymentToken (optional)
+
+- **Type:** `Address`
+
+The address of the token that will be passed in the setup function of the Safe contract.
+
+### payment (optional)
+
+- **Type:** `bigint`
+
+The amount of the payment token that will be passed in the setup function of the Safe contract.
+
+### paymentReceiver (optional)
+
+- **Type:** `Address`
+
+The address that will be passed in the setup function of the Safe contract.
+
+### validators (optional)
+
+- **Type:** `{ address: Address; context: Address }[]`
+
+The default validators for the safe contract, these must be 7579 compliant and the safe MUST be initialised with the 7479 module.
+
+### executors (optional)
+
+- **Type:** `{ address: Address; context: Address }[]`
+
+The default executors for the safe contract, these must be 7579 compliant and the safe MUST be initialised with the 7479 module.
+
+### fallbacks (optional)
+
+- **Type:** `{ address: Address; context: Address }[]`
+
+The default fallback handlers for the safe contract, these must be 7579 compliant and the safe MUST be initialised with the 7479 module.
+
+### hooks (optional)
+
+- **Type:** `{ address: Address; context: Address }[]`
+
+The default hooks for the safe contract, these must be 7579 compliant and the safe MUST be initialised with the 7479 module.
+
+### attesters (optional)
+
+- **Type:** `Address[]`
+
+The attesters for the safe contract, these must be 7579 compliant and the safe MUST be initialised with the 7479 module.
+
+### attestersThreshold (optional)
+
+- **Type:** `number`
+
+The attesters threshold for the safe contract, these must be 7579 compliant and the safe MUST be initialised with the 7479 module.

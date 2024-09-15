@@ -1,0 +1,119 @@
+# ERC-20 Paymaster FAQs
+
+## What is a paymaster?
+
+A Paymaster is a special smart contract under the [ERC-4337](https://eips.ethereum.org/EIPS/eip-4337) specification that user operations are able to delegate the responsibility of gas fee payments to. This means that ERC-4337 smart contract wallets no longer need to necessarily be responsible for directly paying gas fees in ETH. The paymaster contracts are able to use custom logic (with certain limitations) to decide whether or not they are willing to sponsor a UserOperation.
+
+## What is an ERC-20 Paymaster?
+
+An ERC-20 Paymaster is a specific type of paymaster that is willing to sponsor the gas fees for a UserOperation if and only if the smart contract wallet pays the paymaster for it in an ERC-20 token like USDC, DAI, etc. In effect, this allows smart contract wallets to pay for gas fees purely in ERC-20 tokens and means, if designed correctly, they never need to hold any native tokens like ETH.
+
+## What are the four modes of the ERC-20 Paymaster?
+
+This paymaster has four modes. It allows the user to be simply made to pay themselves, but also allows the selection of a guarnator who can front the ERC-20 token fees during validation, allowing the user to approve tokens to the paymaster or fetch / claim tokens if they do not already have any. For each mode, it is possible to set a ERC-20 token spend limit to protect against sudden price fluctuations or oracle manipulation.
+
+### Mode 0
+- The user (sender) pays for gas fees with the ERC-20 token.
+- paymasterData is empty
+
+### Mode 1
+- The user (sender) pays for gas fees with the ERC-20 token,
+- There is a limit to the amount of ERC-20 tokens that can be taken from the user for the user opertion.
+- paymasterData: "0x01" + token spend limit (32 bytes)
+
+### Mode 2
+- A guarantor fronts the ERC-20 token gas fees during validation, and expects the user to be able to pay the actual cost during the postOp phase and get refunded. Otherwise the guarantor is liable.
+- paymasterData: "0x02" + guarantor address (20 bytes) + validUntil (6 bytes) + validAfter (6 bytes) + guarantor signature (dynamic bytes)
+
+### Mode 3
+- A guarantor fronts the ERC-20 token gas fees during validation, and expects the user to be able to pay the actual cost during the postOp phase and get refunded. Otherwise the guarantor is liable.
+- There is a limit to the amount of ERC-20 tokens that can be taken from the user/guarantor for the user opertion.
+- paymasterData: "0x03" + token spend limit (32 bytes) + guarantor address (20 bytes) + validUntil (6 bytes) + validAfter (6 bytes) + guarantor signature (dynamic bytes)
+
+## How do I use Pimlico's ERC-20 Paymaster?
+
+:::info
+**Check out our tutorial!** We wrote a [tutorial](/permissionless/tutorial/tutorial-2) that takes you through the whole flow of deploying a Safe account and sending your first user operation sponsored with USDC.
+:::
+
+While the specifics can vary depending on the specific ERC-20 token and chain you're using, the general steps are as follows:
+
+::::steps
+
+### Find the appropriate ERC-20 Paymaster address for the token and chain you're using.
+
+You can do this either by going to our [ERC-20 Paymaster Contracts](/infra/paymaster/erc20-paymaster/contract-addresses) reference page or
+
+### Approve ERC-20 tokens to the ERC-20 Paymaster so it can spent it on your behalf
+
+Call the `approve` function on the ERC-20 token you wish to use, specifying the corresponding ERC-20 paymaster as the contract you are approving the tokens to.
+
+### Generate the paymasterData to place in your user operation
+
+The `paymaster` field is just the ERC-20 paymaster address, but the `paymsterData` for the ERC-20 Paymaster can look in one of four ways depending on which paymaster mode you use.
+
+### Submit the user operation
+
+Do any final touches to your user operation, such as signing, then submit the user operation to a bundler [like ours](/infra/bundler/usage) and watch it be included on-chain!
+
+::::
+
+## Is there a walkthrough I can use to see how to interact with the paymaster?
+
+Yes! 
+
+Check out our [Getting Started with the ERC-20 Paymaster](/permissionless/tutorial/tutorial-2) guide that walks you through deploying your SimpleWallet and getting your first UserOperation sponsored with USDC.
+
+## What ERC-20 tokens and on what chains can I use Pimlico's ERC-20 Paymaster with?
+
+The currently supported tokens are listed [here](/infra/paymaster/erc20-paymaster/contract-addresses).
+
+Theoretically, we can support any token on any EVM chains that have Chainlink interface compatible oracle support. If you have a token that you would like supported, please [reach out to us](https://t.me/pimlicoHQ)!
+
+## Where can I find the ERC-20 Paymaster contract?
+
+You can find the contract source code [here](https://github.com/pimlicolabs/erc20-paymaster/blob/0b3375c9ea6436b12c752146060ab785082f0734/src/ERC20Paymaster.sol).
+
+## Does the ERC-20 Paymaster use an admin upgradeable proxy?
+
+No, we do not. The contracts we deploy can never be upgraded. However there is only one variable that can be changed by the owner: the `priceMarkup`.
+
+## Has Pimlico's ERC-20 Paymaster been audited?
+
+Yes, the ERC-20 Paymaster contract by Pimlico has been audited by [OpenZeppelin](https://openzeppelin.com/). The full audit report can be found [here](https://github.com/pimlicolabs/erc20-paymaster/blob/main/audits/2024-03-openzeppelin.pdf). 
+
+However, an audit does not guarantee complete security. Please use the paymaster at your own risk.
+
+## Is there an SDK I can use to interact with the ERC-20 Paymaster?
+
+You can use permissionless.js to easily interact with the ERC-20 Paymaster. Check out the [documentation](/permissionless/how-to/paymasters/use-custom-paymaster) for more information.
+
+## Is the ERC-20 Paymaster permissionless?
+
+Yes. You do not need to go through our backend API to interact with the ERC-20 Paymaster.
+
+## Is the ERC-20 Paymaster decentralized?
+
+Currently, no. There is an owner in the ERC-20 Paymaster contract that can update the `priceMarkup` up to a certain hardcoded threshold, as well as to withdraw the ERC-20 tokens accumulated by the paymaster.
+
+## What admin controls does Pimlico have over the ERC-20 Paymaster?
+
+The owner of the ERC-20 Paymaster has limited admin control. They can withdraw accumulated ERC-20 tokens from the contract for the purpose of swapping them back into native tokens and depositing them back into the paymaster. Additionally, the owner can update the `priceMarkup` and `priceUpdateThreshold` configurations within predefined limits to manage operational costs and risks.
+
+## How can I use a token that is not currently supported by Pimlico?
+
+Please get in touch with us. We will do what we can to see if we can add support for the token you are interested in.
+
+You can only deploy the contract yourself.
+
+## What are the tradeoffs versus a non-permissionless paymaster?
+
+A non-permissionless paymaster could potentially offer a slightly smoother user experience as it could handle token approvals during the execution phase of the UserOperation. However, this would require interaction with a hosted API, which could introduce potential points of failure or trust. By contrast, this paymaster's permissionless design avoids these potential issues but requires users to manually handle token approvals.
+
+However, it is possible to bypass this extra step for smart contract wallets if they are able to make an approve call either during the deployment of the smart contract, or during the validation step of the UserOperation.
+
+## Does the owner take a fee?
+
+Yes, the owner takes a fee in the form of a `priceMarkup` on the ERC-20 token price. This markup serves to compensate the onwer for maintaining the infrastructure and covering risks associated with price fluctuations and slippage risk. The default `priceMarkup` Pimlico takes is 10%, but that can depend on on the token, so double-check before using the paymaster.
+
+The `priceMarkup` can be changed by the owner of the paymaster, however there is a hardcoded maximum set during the contructor that is enforced by the smart contract. This means we can never set the `priceMarkup` to more than what is chosen during the constructor.

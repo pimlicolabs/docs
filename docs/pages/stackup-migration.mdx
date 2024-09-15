@@ -1,0 +1,94 @@
+# Migration from Stackup [This guide is intended for users migrating from Stackup to Pimlico]
+
+Welcome to Pimlico! We're excited to help you in your transition from Stackup. This guide will help you understand the migration process, the changes you'll need to make to your existing setup, and give a brief overview of new features you will have access to.
+
+## Migration Process for Startup and Developer Tiers
+
+If you were previously subscribed to Stackup's Startup or Developer tiers, your information has been pre-loaded onto our system for a smooth migration process.
+
+Follow these steps to migrate to Pimlico:
+
+::::steps
+
+### Go to the Pimlico dashboard
+
+The Pimlico dashboard can be found at https://dashboard.pimlico.io.
+
+![dashboard-login](/dashboard-login.png)
+
+### Sign up using the email address previously used on Stackup
+
+We have used your email address you used for Stackup to pre-load your information for a seamless migration process.
+
+![dashboard-signup](/dashboard-signup.png)
+
+### Enter your card details
+
+Once signed in, you will be prompted to enter your card details and confirm your new plan. Enter your card information to continue your subscription seamlessly.
+
+::::
+
+After completing these steps, your Pimlico account will be fully set up and ready to use.
+
+## Pimlico Overview
+
+With Pimlico, you'll have largely the same functionality as Stackup, with a few small differences and several new features.
+
+### Dashboard
+
+The Pimlico dashboard offers a wide range of range of features to help streamline your smart account development.
+
+![dashboard](/dashboard.png)
+
+Dashboard features include:
+- [Rich analytics and metrics](https://dashboard.pimlico.io/metrics)
+- [Logs and requests overview](https://dashboard.pimlico.io/logs)
+- [Debugging tools](/infra/platform/debugging/dropped-user-operations#how-to-debug-dropped-user-operations)
+- [Gas grants](https://dashboard.pimlico.io/sponsorship-policies)
+- [Sponsorship policies](/infra/platform/sponsorship-policies)
+
+### API Credit system
+
+Pimlico uses a transparent API credit system, ensuring fair billing based on your actual usage. The 'worth' of each API credit is different than it is for Stackup. The API cost of each RPC call is detailed on our [pricing page](/infra/platform/pricing).
+
+### API Endpoint changes
+
+There are several API changes you may need to implement for a successful migration.
+
+#### pimlico_getUserOperationGasPrice
+
+The Pimlico bundler requires gasPrices to be fetched from the `pimlico_getUserOperationGasPrice` endpoint. This is necessary to ensure the UserOperation is sent with a sufficient gas price regardless of network conditions.
+
+#### Seperate RPC for node requests
+
+The Stackup endpoint supports both standard RPC and ERC-4337 calls, but Pimlico only supports ERC-4337. During migration, you'll need a separate RPC provider for standard calls.
+
+### Multichain support
+
+The Pimlico API supports seamless multichain access. This means that the same API key and sponsorship policies (if configured) can be used on all chains. The API uses a standardized endpoint structure for all networks:
+
+```ts
+const endpoint = `https://api.pimlico.io/v2/${chainId}/rpc?apikey=${apiKey}`
+```
+
+where `chainId` spefifies the target chainId. The Pimlico bundler is currently live on 90+ chains, the full breakdown can be found on the [supported-chains page](/infra/platform/supported-chains).
+
+### ERC-20 Paymaster endpoint
+
+If you are using Stackup's `pm_getERC20TokenQuotes` endpoint, you can migrate to Pimlico's `pimlico_getTokenQuotes`. The Pimlico endpoint does not take in a user operation, however you can follow this [how-to guide](/infra/paymaster/erc20-paymaster/how-to/use-paymaster) to achieve the same functionality.
+
+### Origin and user agent whitelist
+
+If you were previously using Stackup's origin whitelist or user agent whitelist, you can apply the same settings by navigating to apikeys and clicking the edit button.
+
+![apikey-settings](/apikey-settings.png)
+
+## FAQs
+
+### Do I need to enter my billing details to start using Pimlico?
+
+Yes, you'll be prompted to enter your billing details during the migration process. This ensures your account is fully configured and ready to use Pimlico seamlessly.
+
+### How do I reach out if I need help?
+
+If you run into any issues or have any questions during the migration, feel free to reach out to us at support@pimlico.io or [directly through telegram](https://t.me/kristofgazso).
