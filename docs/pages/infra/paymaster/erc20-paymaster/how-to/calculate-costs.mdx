@@ -1,4 +1,6 @@
-# How to use calculate UserOperation costs using the ERC-20 Paymaster
+# How to calculate UserOperation's costs using the ERC-20 Paymaster
+
+This guide will show you how to estimate your user operation's cost in denomination of the ERC-20 token as well as USD.
 
 When using Pimlico's ERC-20 Paymaster, the `pimlico_getTokenQuotes` endpoint helps you calculate the cost of your userOperation. It returns values `exchangeRate` and `exchangeRateNativeToUsd`. These are useful for determining how much to approve upfront or for displaying the cost to your users.
 
