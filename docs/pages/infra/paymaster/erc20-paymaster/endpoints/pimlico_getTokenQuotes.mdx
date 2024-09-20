@@ -32,22 +32,28 @@ If a token in the request input is not supported by the ERC-20 Paymaster, the re
 ```json
 {
   "jsonrpc": "2.0",
-  "id": 1,
+  "id": 24,
   "result": {
-        "quotes": [
-            {
-                "paymaster": "0x00000000000000fB866DaAA79352cC568a005D96",
-                "token": "0x6b175474e89094c44da98b954eedeac495271d0f",
-                "postOpGas": "0xc350",
-                "exchangeRate": "0x5cc717fbb3450c0000"
-            },
-            {
-                "paymaster": "0x00000000000000fB866DaAA79352cC568a005D96",
-                "token": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
-                "postOpGas": "0xd390",
-                "exchangeRate": "0xf1836b42c9691000000"
-            }
-        ]
+    "quotes": [
+      {
+        "paymaster": "0x00000000000000fB866DaAA79352cC568a005D96",
+        "token": "0xF57e7e7C23978C3cAEC3C3548E3D615c346e79fF",
+        "postOpGas": "0xc350",
+        "exchangeRate": "0x600d7237a1c7100000",
+        "exchangeRateNativeToUsd": "0x699c61c9"
+      },
+      {
+        "paymaster": "0x00000000000000fB866DaAA79352cC568a005D96",
+        "token": "0x6fB3e0A217407EFFf7Ca062D46c26E5d60a14d69",
+        "postOpGas": "0xc350",
+        "exchangeRate": "0xf27de07216ca3000000",
+        "exchangeRateNativeToUsd": "0x10a9f58e8e"
+      }
+    ]
   }
 }
 ```
+
+:::info
+**exchangeRateNativeToUsd** represents the exchange rate between the chain's native gas token and USD with 6 decimals of precision.
+:::

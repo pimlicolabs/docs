@@ -313,9 +313,16 @@ export const paymasterSidebar = [
 		link: "/infra/paymaster/erc20-paymaster",
 		items: [
 			{ text: "Overview", link: "/infra/paymaster/erc20-paymaster" },
-			{ text: "How to use the ERC-20 Paymaster", link: "/infra/paymaster/erc20-paymaster/how-to/use-paymaster" },
-			{ 
-				text: "Endpoints", 
+			{
+				text: "How to use the ERC-20 Paymaster",
+				link: "/infra/paymaster/erc20-paymaster/how-to/use-paymaster",
+			},
+			{
+				text: "Estimating costs with ERC-20 Paymaster",
+				link: "/infra/paymaster/erc20-paymaster/how-to/calculate-costs",
+			},
+			{
+				text: "Endpoints",
 				items: [
 					{
 						text: "pimlico_getTokenQuotes",
