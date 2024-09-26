@@ -420,10 +420,6 @@ export const permissionlessSidebar = [
 				text: "2. Submit a user operation with an ERC-20 Paymaster",
 				link: "/permissionless/tutorial/tutorial-2",
 			},
-			{
-				text: "3. Submit a user operation with an ERC-20 Paymaster (permissionless)",
-				link: "/permissionless/tutorial/tutorial-3",
-			},
 		],
 	},
 	{
@@ -765,10 +761,6 @@ export const permissionlessSidebar0Point1 = [
 			{
 				text: "2. Submit a user operation with a Verifying Paymaster",
 				link: "/permissionless/v0_1/tutorial/tutorial-2",
-			},
-			{
-				text: "3. Submit a user operation with an ERC-20 Paymaster",
-				link: "/permissionless/v0_1/tutorial/tutorial-3",
 			},
 		],
 	},
