@@ -313,6 +313,7 @@ export const paymasterSidebar = [
 		link: "/infra/paymaster/erc20-paymaster",
 		items: [
 			{ text: "Overview", link: "/infra/paymaster/erc20-paymaster" },
+			{ text: "Supported Tokens", link: "/infra/paymaster/erc20-paymaster/supported-tokens" },
 			{
 				text: "How to use the ERC-20 Paymaster",
 				link: "/infra/paymaster/erc20-paymaster/how-to/use-paymaster",

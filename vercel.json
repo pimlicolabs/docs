@@ -102,6 +102,11 @@
 			"permanent": false
 		},
 		{
+			"source": "/reference/supported-tokens",
+			"destination": "/paymaster/erc20-paymaster/supported-tokens",
+			"permanent": false
+		},
+		{
 			"source": "/reference/erc20-paymaster-sdk",
 			"destination": "/paymaster/erc20-paymaster",
 			"permanent": false
