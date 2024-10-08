@@ -1,0 +1,74 @@
+---
+showOutline: false
+content:
+  width: 100%
+description: Build with ERC-4337 smart accounts, bundlers, paymasters, and user operations
+title: permissionless.js
+---
+
+import { HomePage } from 'vocs/components'
+ 
+<HomePage.Root>
+  <h1 className='vocs_HomePage_title'>@permissionless/wagmi</h1>
+  <HomePage.Tagline>Build for ERC-4337 smart accounts, bundlers, paymasters, and user operations</HomePage.Tagline>
+  <HomePage.InstallPackage name="@permissionless/wagmi" type="install" />
+  <HomePage.Description>It is a TypeScript library built on wagmi for building with ERC-4337 smart accounts, bundlers, paymasters, and user operations with wagmi. The core focuses are avoiding provider lock-in, having no dependencies, maximum wagmi compatibility, and a small bundle size.</HomePage.Description>
+  <HomePage.Buttons>
+    <HomePage.Button href="/permissionless/tutorial/tutorial-1" variant="accent">Get started</HomePage.Button>
+    <HomePage.Button href="https://github.com/pimlicolabs/permissionless.js">GitHub</HomePage.Button>
+  </HomePage.Buttons>
+</HomePage.Root>
+
+
+<article className="vocs_Content max-w-4xl mt-[-80px] mx-auto">
+
+#
+# Overview
+
+```tsx
+import { WagmiProvider } from "wagmi"
+import { baseSepolia } from "wagmi/chains"
+import { PermissionlessProvider } from "@permissionless/wagmi" // [!code focus]
+import { config } from "./wagmi.ts"
+
+// enables eip 7677 if external account is a smart account and supports 7677 // [!code focus]
+// e.g. Coinbase Smart Account  // [!code focus]
+const paymasterServiceConfig = { // [!code focus]
+    [baseSepolia.id]: { // [!code focus]
+        url: `https://api.pimlico.io/v2/${baseSepolia.id}/rpc?apikey=` // [!code focus]
+    } // [!code focus]
+} // [!code focus]
+
+ReactDOM.createRoot(root).render(
+  <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+          <PermissionlessProvider // [!code focus]
+              capabilities={{ // [!code focus]
+                  paymasterService: paymasterServiceConfig // [!code focus]
+              }} // [!code focus]
+          > // [!code focus]
+              {/** ... */}
+          </PermissionlessProvider> // [!code focus]
+      </QueryClientProvider>
+  </WagmiProvider>
+)
+
+```
+
+# Features
+
+- **Eip 7677 Paymaster service**: Makes it easier to interact with an external smart account that offers support.
+- **Built on & for wagmi**: `@permissionless/wagmi` is designed to be a thin wrapper around wagmi, maintaining the same style and overall feel wagmi provides.
+- and a lot more coming soon...
+
+# Source Code
+
+The source code for `@permissionless/wagmi` is available on [GitHub](https://github.com/pimlicolabs/permissionless.js)
+
+`@permissionless/wagmi` is distributed under an MIT License.
+
+We welcome contributions from the community. If you would like to contribute, please open an issue or a pull request.
+
+Feel free to ask any questions in our [Telegram group](https://t.me/pimlicoHQ)
+
+</article>
