@@ -10,7 +10,7 @@ When using Pimlico's ERC-20 Paymaster, the `pimlico_getTokenQuotes` endpoint hel
 ### Define imports and create the clients
 
 ```ts
-// [!include ~/snippets/erc20-calculate-costs.ts:clients]
+// [!include ~/snippets/erc20-paymaster/calculate-costs.ts:clients]
 ```
 
 ### Fetch quote info for a certain token
@@ -18,7 +18,7 @@ When using Pimlico's ERC-20 Paymaster, the `pimlico_getTokenQuotes` endpoint hel
 For this example, we will be fetching quote info for USDC on base.
 
 ```ts
-// [!include ~/snippets/erc20-calculate-costs.ts:fetchQuotes]
+// [!include ~/snippets/erc20-paymaster/calculate-costs.ts:fetchQuotes]
 ```
 
 ### Calculate your userOperation's prefund
@@ -26,7 +26,7 @@ For this example, we will be fetching quote info for USDC on base.
 The prefund represents your userOperation's max cost.
 
 ```ts
-// [!include ~/snippets/erc20-calculate-costs.ts:calculatePrefund]
+// [!include ~/snippets/erc20-paymaster/calculate-costs.ts:calculatePrefund]
 ```
 
 ### Calculate your userOperation's maxCost in denomination of the ERC-20 token
@@ -34,7 +34,7 @@ The prefund represents your userOperation's max cost.
 To find the cost of your userOperation in denomition of the ERC-20, you should use this formula. This is the same formula that the paymaster executes onchain, the source code can be found on the [singleton-paymaster repo.](https://github.com/pimlicolabs/singleton-paymaster/blob/08c85d3190db5110a37f1a8555797ec63b6984ec/src/base/BaseSingletonPaymaster.sol#L326-L341)
 
 ```ts
-// [!include ~/snippets/erc20-calculate-costs.ts:calculateCostInToken]
+// [!include ~/snippets/erc20-paymaster/calculate-costs.ts:calculateCostInToken]
 ```
 
 ### Calculate your userOperation's maxCost in denomination of USD
@@ -42,5 +42,5 @@ To find the cost of your userOperation in denomition of the ERC-20, you should u
 The exchangeRateNativeToUsd represents the exchange rate of the chain's native gas token to USD. The value is returned with 6 digits of precision, to calculate the USD cost in a human readable format, you first need to find it's raw value and then divide it by 10^6.
 
 ```ts
-// [!include ~/snippets/erc20-calculate-costs.ts:calculateUsdCost]
+// [!include ~/snippets/erc20-paymaster/calculate-costs.ts:calculateUsdCost]
 ```
