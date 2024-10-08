@@ -246,7 +246,7 @@ const hash = await smartAccountClient.sendTransaction({
 Sets Paymaster configuration for the User Operation.
 
 - If `paymaster: Address`, it will use the provided Paymaster contract address for sponsorship.
-- If `paymaster: PaymasterClient`, it will use the provided Paymaster Client eg [Pimlico Client](/permissionless/reference/clients/pimlicoClient) for sponsorship.
+- If `paymaster: PaymasterClient`, it will use the provided Paymaster Client eg [Pimlico Client](/permissionless/core/reference/clients/pimlicoClient) for sponsorship.
 - If `paymaster: true`, it will be assumed that the Bundler Client also supports Paymaster RPC methods (e.g. `pm_getPaymasterData`), and use them for sponsorship.
 
 #### Using a Paymaster Contract Address

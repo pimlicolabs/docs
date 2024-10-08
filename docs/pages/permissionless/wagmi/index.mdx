@@ -14,7 +14,7 @@ import { HomePage } from 'vocs/components'
   <HomePage.InstallPackage name="@permissionless/wagmi" type="install" />
   <HomePage.Description>It is a TypeScript library built on wagmi for building with ERC-4337 smart accounts, bundlers, paymasters, and user operations with wagmi. The core focuses are avoiding provider lock-in, having no dependencies, maximum wagmi compatibility, and a small bundle size.</HomePage.Description>
   <HomePage.Buttons>
-    <HomePage.Button href="/permissionless/tutorial/tutorial-1" variant="accent">Get started</HomePage.Button>
+    <HomePage.Button href="/permissionless/core/tutorial/tutorial-1" variant="accent">Get started</HomePage.Button>
     <HomePage.Button href="https://github.com/pimlicolabs/permissionless.js">GitHub</HomePage.Button>
   </HomePage.Buttons>
 </HomePage.Root>
@@ -33,26 +33,25 @@ import { config } from "./wagmi.ts"
 
 // enables eip 7677 if external account is a smart account and supports 7677 // [!code focus]
 // e.g. Coinbase Smart Account  // [!code focus]
-const paymasterServiceConfig = { // [!code focus]
+const capabilities = { // [!code focus]
+  paymasterService: { // [!code focus]
     [baseSepolia.id]: { // [!code focus]
-        url: `https://api.pimlico.io/v2/${baseSepolia.id}/rpc?apikey=` // [!code focus]
+        url: `https://api.pimlico.io/v2/${baseSepolia.id}/rpc?apikey=${pimlicoApiKey}` // [!code focus]
     } // [!code focus]
+  } // [!code focus]
 } // [!code focus]
 
 ReactDOM.createRoot(root).render(
   <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
           <PermissionlessProvider // [!code focus]
-              capabilities={{ // [!code focus]
-                  paymasterService: paymasterServiceConfig // [!code focus]
-              }} // [!code focus]
+              capabilities={capabilities} // [!code focus]
           > // [!code focus]
               {/** ... */}
           </PermissionlessProvider> // [!code focus]
       </QueryClientProvider>
   </WagmiProvider>
 )
-
 ```
 
 # Features

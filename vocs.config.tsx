@@ -314,23 +314,23 @@ export const paymasterSidebar = [
 		items: [
 			{ text: "Overview", link: "/infra/paymaster/erc20-paymaster" },
 			{ text: "Supported Tokens", link: "/infra/paymaster/erc20-paymaster/supported-tokens" },
-            {
-                text: "Guides",
-                items: [
-			        {
-			        	text: "How to use the ERC-20 Paymaster",
-			        	link: "/infra/paymaster/erc20-paymaster/how-to/use-paymaster",
-			        },
-			        {
-			        	text: "Estimating costs",
-			        	link: "/infra/paymaster/erc20-paymaster/how-to/calculate-costs",
-			        },
-			        {
-			        	text: "Sponsoring without approving max",
-			        	link: "/infra/paymaster/erc20-paymaster/how-to/prepare-for-erc20paymaster",
-			        }
-                ]
-            },
+			{
+				text: "Guides",
+				items: [
+					{
+						text: "How to use the ERC-20 Paymaster",
+						link: "/infra/paymaster/erc20-paymaster/how-to/use-paymaster",
+					},
+					{
+						text: "Estimating costs",
+						link: "/infra/paymaster/erc20-paymaster/how-to/calculate-costs",
+					},
+					{
+						text: "Sponsoring without approving max",
+						link: "/infra/paymaster/erc20-paymaster/how-to/prepare-for-erc20paymaster",
+					},
+				],
+			},
 			{
 				text: "Endpoints",
 				items: [
@@ -377,12 +377,12 @@ export const paymasterSidebar = [
 ]
 
 /*
-          { text: "deployContract", link: "/permissionless/reference/smart-account-actions/deployContract" },
-          { text: "sendTransaction", link: "/permissionless/reference/smart-account-actions/sendTransaction" },
-          { text: "sendTransactions", link: "/permissionless/reference/smart-account-actions/sendTransactions" },
-          { text: "signMessage", link: "/permissionless/reference/smart-account-actions/signMessage" },
-          { text: "signTypedData", link: "/permissionless/reference/smart-account-actions/signTypedData" },
-          { text: "writeContract", link: "/permissionless/reference/smart-account-actions/writeContract" },
+          { text: "deployContract", link: "/permissionless/core/reference/smart-account-actions/deployContract" },
+          { text: "sendTransaction", link: "/permissionless/core/reference/smart-account-actions/sendTransaction" },
+          { text: "sendTransactions", link: "/permissionless/core/reference/smart-account-actions/sendTransactions" },
+          { text: "signMessage", link: "/permissionless/core/reference/smart-account-actions/signMessage" },
+          { text: "signTypedData", link: "/permissionless/core/reference/smart-account-actions/signTypedData" },
+          { text: "writeContract", link: "/permissionless/core/reference/smart-account-actions/writeContract" },
 
 */
 
@@ -755,6 +755,16 @@ export const permissionlessWagmiSidebar = [
 	{
 		text: "Why",
 		link: "/permissionless/wagmi/why",
+	},
+	{
+		text: "Tutorials",
+		link: "/permissionless/wagmi/tutorial",
+		items: [
+			{
+				text: "1. Send your first gasless transaction",
+				link: "/permissionless/wagmi/tutorial/tutorial-1",
+			},
+		],
 	},
 ]
 

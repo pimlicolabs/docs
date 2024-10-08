@@ -26,7 +26,7 @@ First we must create the public, bundler, and (optionally) paymaster clients tha
 
 ### Create the signer
 
-The Safe account will need to have a signer to sign user operations. In permissionless.js, the default Safe account validates ECDSA signatures. [Any permissionless.js-compatible signer](/permissionless/how-to/signers) can be used for the Safe account.
+The Safe account will need to have a signer to sign user operations. In permissionless.js, the default Safe account validates ECDSA signatures. [Any permissionless.js-compatible signer](/permissionless/core/how-to/signers) can be used for the Safe account.
 
 For example, to create a signer based on a private key:
 
@@ -37,7 +37,7 @@ For example, to create a signer based on a private key:
 ### Create the Safe account
 
 :::info
-For a full list of options for creating a Safe account, take a look at the reference documentation page for [`signerToSafeSmartAccount`](/permissionless/v0_1/reference/accounts/signerToSafeSmartAccount).
+For a full list of options for creating a Safe account, take a look at the reference documentation page for [`signerToSafeSmartAccount`](/permissionless/core/v0_1/reference/accounts/signerToSafeSmartAccount).
 :::
 
 With a signer, you can create a Safe account as such:
