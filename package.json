@@ -36,7 +36,7 @@
 		"caniuse-lite": "^1.0.30001655",
 		"lucide-react": "^0.309.0",
 		"magic-sdk": "^22.1.1",
-		"permissionless": "0.0.0-v0-2.20240830T145710",
+		"permissionless": "0.2.6",
 		"react": "latest",
 		"react-dom": "latest",
 		"viem": "^2.20.0",

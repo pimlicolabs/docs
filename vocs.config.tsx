@@ -314,14 +314,23 @@ export const paymasterSidebar = [
 		items: [
 			{ text: "Overview", link: "/infra/paymaster/erc20-paymaster" },
 			{ text: "Supported Tokens", link: "/infra/paymaster/erc20-paymaster/supported-tokens" },
-			{
-				text: "How to use the ERC-20 Paymaster",
-				link: "/infra/paymaster/erc20-paymaster/how-to/use-paymaster",
-			},
-			{
-				text: "Estimating costs with ERC-20 Paymaster",
-				link: "/infra/paymaster/erc20-paymaster/how-to/calculate-costs",
-			},
+            {
+                text: "Guides",
+                items: [
+			        {
+			        	text: "How to use the ERC-20 Paymaster",
+			        	link: "/infra/paymaster/erc20-paymaster/how-to/use-paymaster",
+			        },
+			        {
+			        	text: "Estimating costs",
+			        	link: "/infra/paymaster/erc20-paymaster/how-to/calculate-costs",
+			        },
+			        {
+			        	text: "Sponsoring without approving max",
+			        	link: "/infra/paymaster/erc20-paymaster/how-to/prepare-for-erc20paymaster",
+			        }
+                ]
+            },
 			{
 				text: "Endpoints",
 				items: [
