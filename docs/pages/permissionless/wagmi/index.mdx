@@ -31,7 +31,7 @@ import { baseSepolia } from "wagmi/chains"
 import { PermissionlessProvider } from "@permissionless/wagmi" // [!code focus]
 import { config } from "./wagmi.ts"
 
-// enables eip 7677 if external account is a smart account and supports 7677 // [!code focus]
+// enables ERC-7677 if external account is a smart account and supports 7677 // [!code focus]
 // e.g. Coinbase Smart Account  // [!code focus]
 const capabilities = { // [!code focus]
   paymasterService: { // [!code focus]
@@ -56,7 +56,7 @@ ReactDOM.createRoot(root).render(
 
 # Features
 
-- **Eip 7677 Paymaster service**: Makes it easier to interact with an external smart account that offers support.
+- **ERC-7677 Paymaster service**: Makes it easier to interact with an external smart account that offers support.
 - **Built on & for wagmi**: `@permissionless/wagmi` is designed to be a thin wrapper around wagmi, maintaining the same style and overall feel wagmi provides.
 - and a lot more coming soon...
 

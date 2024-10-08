@@ -1158,7 +1158,7 @@ export const permissionlessSidebar0Point1 = [
 		collapsed: false,
 		items: [
 			{
-				text: "EIP-7677",
+				text: "ERC-7677",
 				collapsed: false,
 				items: [
 					{
