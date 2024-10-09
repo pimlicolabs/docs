@@ -1,0 +1,211 @@
+import VersionWarning from "../../../VersionWarning"
+
+<VersionWarning version="0.1" />
+
+# How to Integrate Pimlico with Lit Protocol OTP Authentication
+
+This how-to guide will walk you through the steps to integrate Lit Protocol's OTP sign-in with email, SMS, and Whatsapp with a smart account whose user operations are relayed and sponsored by Pimlico.
+
+:::info
+Lit Protocol is an Authentication solution that lets you create and manage distributed cryptographic key-pairs for condition-based encryption and programmatic signing. A decentralized key management network, Lit can be used in place of centralized key custodians and other key management solutions. For more information on how Lit Protocol works, visit [their documentation page](https://developer.litprotocol.com/resources/how-it-works).
+:::
+
+[Stytch](https://stytch.com/) will be used to manage the OTP authentication flow.
+
+:::::steps
+
+### Install the required packages
+
+```bash
+npm install stytch @lit-protocol/pkp-ethers @lit-protocol/lit-auth-client @lit-protocol/auth-helpers @lit-protocol/types @lit-protocol/lit-node-client-nodejs
+```
+
+### Make an account with Stytch and get the Project ID and Secret
+
+You can sign up for a Stytch account [here](https://stytch.com/). Once you have an account, you can find your Project ID and Secret in the [Stytch Dashboard API Keys page](https://stytch.com/dashboard/api-keys).
+
+![](https://i.imgur.com/fR0oRGW.png)
+
+### Create a Stytch client with your Project ID and Secret
+
+```ts
+const stytchClient = new stytch.Client({
+    project_id: "project-test-XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+    secret: "secret-test-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+});
+```
+
+### Send an OTP to the user's email, SMS, or Whatsapp
+
+::::code-group
+
+```ts [email]
+const stytchResponse = await stytchClient.otps.email.loginOrCreate({
+    email: "<Your Email Address>",
+})
+```
+
+```ts [SMS]
+const stytchResponse = await stytchClient.otps.sms.loginOrCreate({
+    phone_number: "<Your Phone Number>",
+})
+```
+
+```ts [WhatsApp]
+const stytchResponse = await stytchClient.otps.whatsapp.loginOrCreate({
+    phone_number: "<Your Phone Number>",
+})
+```
+
+::::
+
+### Authenticate the user with the OTP and get a session token
+
+
+::::code-group
+
+```ts [email]
+const authResponse = await stytchClient.otps.authenticate({
+    method_id: stytchResponse.email_id,
+    code: otpResponse.code,
+    session_duration_minutes: 60 * 24 * 7,
+})
+
+const sessionStatus = await stytchClient.sessions.authenticate({
+    session_token: authResponse.session_token,
+})
+```
+
+```ts [SMS]
+const authResponse = await stytchClient.otps.authenticate({
+    method_id: stytchResponse.phone_id,
+    code: otpResponse.code,
+    session_duration_minutes: 60 * 24 * 7,
+})
+
+const sessionStatus = await stytchClient.sessions.authenticate({
+    session_token: authResponse.session_token,
+})
+```
+
+```ts [WhatsApp]
+const authResponse = await stytchClient.otps.authenticate({
+    method_id: stytchResponse.phone_id,
+    code: otpResponse.code,
+    session_duration_minutes: 60 * 24 * 7,
+})
+
+const sessionStatus = await stytchClient.sessions.authenticate({
+    session_token: authResponse.session_token,
+})
+```
+
+::::
+
+### Get a Lit Relay Server API Key
+
+You can get a Lit Relay Server API Key by filling out [the Lit Protocol team's form](https://forms.gle/RNZYtGYTY9BcD9MEA)
+
+### Mint a PKPs through Lit Protocol
+
+```ts
+const litClient = new LitAuthClient({
+    litRelayConfig: {
+        relayApiKey: '<Your Lit Relay Server API Key from the previous step>',
+    }
+});
+
+const session = litClient.initProvider(ProviderType.StytchOtp, {
+    userId: sessionStatus.session.user_id,
+    appId: "project-test-XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
+})
+
+const authMethod = await session.authenticate({ 
+    accessToken: sessionStatus.session_jwt 
+})
+
+await session.mintPKPThroughRelayer(authMethod)
+const pkps = await session.fetchPKPsThroughRelayer(authMethod)
+```
+
+### Generate the Controller Session Signatures
+
+```ts
+const litNodeClient = new LitNodeClientNodeJs({
+    litNetwork: 'serrano',
+    debug: false,
+})
+await litNodeClient.connect();
+
+const resourceAbilities = [
+    {
+        resource: new LitActionResource("*"),
+        ability: LitAbility.PKPSigning,
+    },
+];
+
+const sessionKeyPair = litNodeClient.getSessionKey();
+
+const authNeededCallback = async (params: AuthCallbackParams) => {
+    const response = await litNodeClient.signSessionKey({
+        sessionKey: sessionKeyPair,
+        statement: params.statement,
+        authMethods: [authMethod],
+        pkpPublicKey: pkp[pkp.length - 1].publicKey,
+        expiration: params.expiration,
+        resources: params.resources,
+        chainId: 1,
+    });
+    return response.authSig;
+};
+
+const sessionSigs = await litNodeClient.getSessionSigs({
+    chain: "ethereum",
+    expiration: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7).toISOString(),
+    resourceAbilityRequests: resourceAbilities,
+    sessionKey: sessionKeyPair,
+    authNeededCallback	
+}).catch((err) => {
+    console.log("error while attempting to access session signatures: ", err)
+    throw err;
+});
+```
+
+### Initialize the PKP Wallet
+
+We will now generate a wallet that can act a regular Ethers.js wallet, but will use the PKPs minted through Lit Protocol to sign transactions under the hood.
+
+```ts
+const pkpWallet = new PKPEthersWallet({
+    pkpPubKey: pkp[pkp.length - 1].publicKey,
+    rpc: "<standard RPC URL for the chain you are using>", // e.g. https://rpc.ankr.com/eth_sepolia
+    controllerSessionSigs: sessionSigs
+});
+
+await pkpWallet.init();
+```
+
+### Use the PKP Wallet to sign user operations and send them through Pimlico
+
+You can now use the `pkpWallet` as a regular Ethers.js wallet to sign user operations. To submit a user operation to Pimlico, you can follow the steps to [sponsor a user operation with Pimlico's verifying paymaster](/infra/paymaster/verifying-paymaster/usage) and/or [submit a user operation through Pimlico's bundler](/infra/bundler/usage). If you would like to integrate Lit Protocol with the full flow of generating, signing, and submitting a user operation, you can follow the steps in [tutorial 1](/permissionless/core/tutorial/tutorial-1), replacing the signing step with the PKP wallet and using `pkpWallet.address` as the owner address of the smart account.
+
+Modified from [tutorial 1](/permissionless/core/tutorial/tutorial-1), an example of how to use the PKP wallet to sign a user operation is shown below:
+
+```typescript
+const signature = await pkpWallet.signMessage(
+	ethers.utils.arrayify(await entryPoint.getUserOpHash(userOperation)),
+)
+
+userOperation.signature = signature
+```
+
+And an example of how you would generate the initCode for a SimpleAccount using the PKP wallet is shown below:
+
+```typescript
+const initCode = ethers.utils.hexConcat([
+	SIMPLE_ACCOUNT_FACTORY_ADDRESS,
+	simpleAccountFactory.interface.encodeFunctionData("createAccount", [pkpWallet.address, 0]),
+])
+```
+
+:::::

@@ -1,0 +1,79 @@
+import VersionWarning from "../../VersionWarning"
+
+<VersionWarning version="0.2" />
+
+# toTrustSmartAccount
+
+Creates a Trust Wallet Smart Account instance controlled by a `owner`.  Check out [this guide](/permissionless/core/how-to/accounts/use-trustwallet-account) for a complete tutorial.
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+import { toTrustSmartAccount } from "permissionless/accounts"
+import { publicClient } from "./publicClient"
+import { owner } from "./owner"
+
+const account = await toTrustSmartAccount(client, {
+	client: publicClient,
+	owner
+})
+```
+
+```ts [publicClient.ts]
+// [!include ~/snippets/publicClient.ts:client]
+```
+
+```ts [owner.ts]
+// [!include ~/snippets/owner.ts]
+```
+
+::::
+
+## Returns
+
+- **Type:** `SmartAccount<TrustSmartAccountImplementation>`
+
+The Trust smart account instance.
+
+## Parameters
+
+### client
+- **Type:** `Client`
+
+A public client as smart account needs access to the Network to query for information about its state (e.g. nonce, address, etc).
+
+### owner
+
+- **Type:** `LocalAccount | EIP1193Provider | WalletClient`
+
+The owner that will be used to sign messages and user operations.
+
+### entryPoint (optional)
+
+- **Type:** `{ address: Address, version: "0.6" | "0.7" }`
+
+The address and the version of the EntryPoint contract. If not provided, entryPoint 0.7 will be used.
+
+### index (optional)
+
+- **Type:** `bigint`
+
+The index (which is basically a salt) that will be used to deploy the smart account. If not provided, `0` will be used.
+
+### address (optional)
+
+- **Type:** `Address`
+
+:::warning
+If you provide an address, the smart account can not be deployed. This should be used if you want to interact with an existing smart account.
+:::
+
+The address of the smart account. If not provided, the determinstic smart account address will be used.
+
+### secp256k1VerificationFacetAddress (optional)
+
+- **Type:** `Address`
+
+The address of the `Secp256k1VerificationFacet` contract. If not provided, the default address for the Trust version will be used.

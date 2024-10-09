@@ -1,0 +1,53 @@
+# Check if an external account supports paymasters
+
+If you have added support to sponsor transactions for external accounts using `@permissionless/wagmi`, you can use this guide to check if the external account supports ERC-7677 paymasters and display custom UI for your users.
+
+## Steps
+
+::::steps
+
+### Import useCapabilities
+
+```tsx
+import { useCapabilities } from 'wagmi/experimental'
+```
+
+### Fetch the available capabilities
+
+```tsx
+import { useCapabilities } from 'wagmi/experimental'
+
+function App() {
+  const capabilities = useCapabilities()
+}
+```
+
+### Parse the capabilities for the currect chain
+
+```tsx
+import { useCapabilities } from 'wagmi/experimental'
+
+function App() {
+  const capabilities = useCapabilities()
+  
+  const account = useAccount() // [!code focus]
+  const capabilitiesForChain = capabilities[account.chainId] // [!code focus]
+
+}
+```
+
+### Check if the paymaster service is supported
+
+```tsx
+import { useCapabilities } from 'wagmi/experimental'
+
+function App() {
+  const capabilities = useCapabilities()
+  const account = useAccount()
+
+  const capabilitiesForChain = capabilities[account.chainId]
+  const paymasterServiceSupported = capabilitiesForChain?.paymasterService?.supported // [!code focus]
+}
+```
+
+::::

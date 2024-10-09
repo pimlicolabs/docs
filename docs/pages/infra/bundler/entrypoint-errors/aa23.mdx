@@ -10,7 +10,7 @@ The `validateUserOp` function of the smart account either reverted or ran out of
 
 - Verify that the `verificationGasLimit` is high enough to cover the `validateUserOp` function's gas costs.
 - Verify that the `validateUserOp` function is implemented with the correct logic, and that the user operation is supposed to be valid.
-- If you are *not* using a paymaster, verify that the `sender` address has enough native tokens to cover the required prefund. Consider leveraging functions like [`getRequiredPrefund`](/permissionless/reference/utils/getRequiredPrefund).
+- If you are *not* using a paymaster, verify that the `sender` address has enough native tokens to cover the required prefund. Consider leveraging functions like [`getRequiredPrefund`](/permissionless/core/reference/utils/getRequiredPrefund).
 ```ts
 const requiredPrefund = getRequiredPrefund({
     userOperation

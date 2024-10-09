@@ -1,0 +1,79 @@
+import VersionWarning from "../../../VersionWarning"
+
+<VersionWarning version="0.1" />
+
+# How to create and use a Trust smart account with permissionless.js
+
+:::info
+[Trust Wallet](https://trustwallet.com/), the author of [Barz](https://github.com/trustwallet/barz), provides a smart contract security monitoring service for each and every Barz deployed on-chain including Barz created by SDK.
+This is a service that TrustWallet provides to builders to build innovative products on top of a secure foundation.
+Monitoring will automatically start as soon as the Barz account is deployed on-chain; for projects wanting to get security monitoring information, reach out to the smart wallet channel in [TrustWallet Discord](https://discord.gg/trustwallet).
+:::
+
+Trust Wallet is one of the most trusted wallet provider empowering more than 122 million users and is the first Web3 wallet to be [certified by ISO](https://trustwallet.com/security).
+After thorough development and extensive security audits, Trust Wallet launched the [Smart Wallet](https://trustwallet.com/swift) powered by account abstraction.
+
+With the recent opensource of their Smart Wallet system Barz, their smart account solution, together with their security infrastructure is disclosed for public to support builders build products on a secure foundation.
+
+This guide will walk you through how to create and use a Barz account with permissionless.js
+
+## Steps
+
+::::steps
+
+### Import the required packages
+
+```ts
+// [!include ~/snippets/v0_1/accounts/trustwallet.ts:imports]
+```
+
+### Create the clients
+
+First we must create the public, bundler, and (optionally) paymaster clients that will be used to interact with the Trust Smart Account.
+
+```ts
+// [!include ~/snippets/v0_1/accounts/trustwallet.ts:clients]
+```
+
+
+### Create the TrustAccount
+
+:::info
+For a full list of options for creating a TrustAccount, take a look at the reference documentation page for [`signerToTrustSmartAccount`](/permissionless/core/v0_1/reference/accounts/signerToTrustSmartAccount).
+:::
+
+You can also pass an `address` to use an already created TrustAccount.
+
+```ts
+// [!include ~/snippets/v0_1/accounts/trustwallet.ts:smartAccount]
+```
+
+
+### Create the smart account client
+
+The smart account client is a permissionless.js client that is meant to serve as an almost drop-in replacement for viem's [walletClient](https://viem.sh/docs/clients/wallet.html).
+
+```ts
+// [!include ~/snippets/v0_1/accounts/trustwallet.ts:smartAccountClient]
+```
+
+
+### Send a transaction
+
+Transactions using permissionless.js simply wrap around user operations. This means you can switch to permissionless.js from your existing viem EOA codebase with minimal-to-no changes.
+
+```ts
+// [!include ~/snippets/v0_1/accounts/trustwallet.ts:submit]
+```
+
+This also means you can also use viem Contract instances to transact without any modifications.
+
+```ts
+// [!include ~/snippets/v0_1/accounts/trustwallet.ts:submitNft]
+```
+
+You can also send an array of transactions in a single batch.
+
+```ts
+// [!include ~/snippets/v0_1/accounts/trustwallet.ts:submitBatch]
+```

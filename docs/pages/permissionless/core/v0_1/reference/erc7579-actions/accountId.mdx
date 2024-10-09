@@ -1,0 +1,39 @@
+import VersionWarning from "../../../VersionWarning"
+
+<VersionWarning version="0.1" />
+
+# accountId
+
+Gets the accountId of the smart account as defined in [ERC-7579](https://eips.ethereum.org/EIPS/eip-7579). Check out [this guide](/permissionless/core/how-to/accounts/use-erc7579-account) for a complete tutorial.
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+// [!include ~/snippets/v0_1/erc7579/accountId.ts:safe-smart-account-client]
+```
+
+```ts [publicClient.ts]
+// [!include ~/snippets/v0_1/publicClient.ts:client]
+```
+
+```ts [signer.ts]
+// [!include ~/snippets/v0_1/signer.ts]
+```
+
+::::
+
+## Returns
+
+- **Type:** `string`
+
+The account id of the smart account.
+
+## Parameters
+
+### account (optional)
+
+- **Type:** `SmartAccount`
+
+If your `SmartAccountClient` doesn't have an account, you should provide one here.

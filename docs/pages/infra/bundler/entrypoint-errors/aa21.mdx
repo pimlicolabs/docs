@@ -4,7 +4,7 @@ You are *not* using a paymaster, but the `sender` address did not have enough na
 
 ## Possible solutions
 
-- If you are *not* using a paymaster, verify that the `sender` address has enough native tokens to cover the required prefund. Consider leveraging functions like [`getRequiredPrefund`](/permissionless/reference/utils/getRequiredPrefund).
+- If you are *not* using a paymaster, verify that the `sender` address has enough native tokens to cover the required prefund. Consider leveraging functions like [`getRequiredPrefund`](/permissionless/core/reference/utils/getRequiredPrefund).
 ```ts
 const requiredPrefund = getRequiredPrefund({
     userOperation

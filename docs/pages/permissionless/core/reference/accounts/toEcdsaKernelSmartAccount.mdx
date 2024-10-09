@@ -1,0 +1,109 @@
+import VersionWarning from "../../VersionWarning"
+
+<VersionWarning version="0.2" />
+
+# toEcdsaKernelSmartAccount
+
+Creates a KernelAccount instance controlled by a `owners`.  Check out [this guide](/permissionless/core/how-to/accounts/use-kernel-account) for a complete tutorial.
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+import { toEcdsaKernelSmartAccount } from "permissionless/accounts"
+import { entryPoint07Address } from "viem/account-abstraction"
+import { publicClient } from "./publicClient"
+import { owner } from "./owner"
+
+const kernelAccount = await toEcdsaKernelSmartAccount({
+	client: publicClient,
+	entryPoint: {
+		address: entryPoint07Address,
+		version: "0.7"
+	},
+	owners: [owner],
+	version: "0.3.1"
+});
+```
+
+```ts [publicClient.ts]
+// [!include ~/snippets/publicClient.ts:client]
+```
+
+```ts [owner.ts]
+// [!include ~/snippets/owner.ts]
+```
+
+::::
+
+## Returns
+
+- **Type:** `SmartAccount<EcdsaKernelSmartAccountImplementation>`
+
+The Kernel smart account instance.
+
+## Parameters
+
+### client
+- **Type:** `Client`
+
+A public client as smart account needs access to the Network to query for information about its state (e.g. nonce, address, etc).
+
+### owners
+
+- **Type:** `[LocalAccount | EIP1193Provider | WalletClient]`
+
+The owners that will be used to sign messages and user operations.
+
+### entryPoint (optional)
+
+- **Type:** `{ address: Address, version: "0.6" | "0.7" }`
+
+The address and the version of the EntryPoint contract. If not provided, entryPoint 0.7 will be used.
+
+### index (optional)
+
+- **Type:** `bigint`
+
+The index (which is basically a salt) that will be used to deploy the smart account. If not provided, `0` will be used.
+
+### address (optional)
+
+- **Type:** `Address`
+
+:::warning
+If you provide an address, the smart account can not be deployed. This should be used if you want to interact with an existing smart account.
+:::
+
+The address of the smart account. If not provided, the determinstic smart account address will be used.
+
+### version (optional)
+
+- **Type:** `"0.2.1" | "0.2.2" | "0.2.3" | "0.2.4" | "0.3.0-beta" | "0.3.1"`
+
+The version of the Kernel contract that will be used. `0.2.x` can only be used with entryPoint 0.6. `0.3.x` can only be used with entryPoint 0.7.
+
+### factoryAddress (optional)
+
+- **Type:** `Address`
+
+The address of the Kernel factory that will be used to deploy the smart account. This is only used if the version is `0.2.x`.
+
+### metaFactoryAddress (optional)
+
+- **Type:** `Address`
+
+The address of the Kernel meta factory that will be used to deploy the smart account. This is only used if the version is `0.3.x`.
+
+### accountLogicAddress (optional)
+
+- **Type:** `Address`
+
+The address of the Kernel account logic that will be used to deploy the smart account.
+
+### ecdsaValidatorAddress (optional)
+
+- **Type:** `Address`
+
+The address of the ECDSA validator that will be used to deploy the smart account.

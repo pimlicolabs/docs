@@ -1,0 +1,82 @@
+---
+showOutline: false
+content:
+  width: 100%
+description: Build with ERC-4337 smart accounts, bundlers, paymasters, and user operations
+title: permissionless.js
+---
+
+import VersionWarning from "../VersionWarning"
+
+
+import { HomePage } from 'vocs/components'
+ 
+<HomePage.Root>
+  <h1 className='vocs_HomePage_title'>permissionless.js</h1>
+  <VersionWarning version="0.1" />
+  <HomePage.Tagline>Build with ERC-4337 smart accounts, bundlers, paymasters, and user operations</HomePage.Tagline>
+  <HomePage.InstallPackage name="permissionless" type="install" />
+  <HomePage.Description>permissionless.js is a TypeScript library built on viem for building with ERC-4337 smart accounts, bundlers, paymasters, and user operations. The core focuses are avoiding provider lock-in, having no dependencies, maximum viem compatibility, and a small bundle size. permissionless.js also provides high-level support for the major ERC-4337 smart accounts, including Safe, Kernel, Biconomy, SimpleAccount, TrustWallet and LightAccount.</HomePage.Description>
+  <HomePage.Buttons>
+    <HomePage.Button href="/permissionless/core/tutorial/tutorial-1" variant="accent">Get started</HomePage.Button>
+    <HomePage.Button href="https://github.com/pimlicolabs/permissionless.js">GitHub</HomePage.Button>
+  </HomePage.Buttons>
+</HomePage.Root>
+
+
+<article className="vocs_Content max-w-4xl mt-[-80px] mx-auto">
+
+#
+# Overview
+
+```ts
+const pimlicoApiKey = "YOUR_API_KEY_HERE"
+const bundlerUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=${pimlicoApiKey}`
+
+const userOpHash = "0x5faea6a3af76292c2b23468bbea96ef63fb31360848be195748437f0a79106c8"
+
+// ---cut---
+// Import the required modules.
+import { createBundlerClient } from "permissionless"
+import { sepolia } from "viem/chains"
+import { http } from "viem"
+
+// Create the required clients.
+const bundlerClient = createBundlerClient({
+    chain: sepolia,
+    transport: http(bundlerUrl), // Use any bundler url
+    entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+})
+
+// Consume bundler, paymaster, and smart account actions!
+const opReceipt = await bundlerClient.getUserOperationReceipt({
+    hash: userOpHash
+})
+
+// Build with strict TypeScript types
+opReceipt!.actualGasUsed
+//              ^?
+
+```
+
+# Features
+
+- **High-level smart account support**: We support a high-level API for deploying and managing smart accounts, including some of the most popular implementations ([Safe](https://safe.global), [Kernel](https://zerodev.app), [Biconomy](https://biconomy.io), [TrustWallet](https://trustwallet.com/swift), etc.)
+- **Bundler support**: We support all bundler actions following [ERC-4337](https://eips.ethereum.org/EIPS/eip-4337#rpc-methods-eth-namespace).
+- **Gas sponsorship**: We support paymaster actions to allow you to easily sponsor gas fees.
+- **User Operation utility functions**: We provide many low-level utility functions useful for dealing with User Operations.
+- **Modular and extensible**: We allow you to easily create and plug in your own smart account systems, bundlers, paymasters, and signers.
+- **Built on & for viem**: permissionless.js is designed to be a thin wrapper around viem, maintaining the same style and overall feel viem provides.
+- and a lot more...
+
+# Source Code
+
+The source code for permissionless.js is available on [GitHub](https://github.com/pimlicolabs/permissionless.js)
+
+permissionless.js is distributed under an MIT License.
+
+We welcome contributions from the community. If you would like to contribute, please open an issue or a pull request.
+
+Feel free to ask any questions in our [Telegram group](https://t.me/pimlicoHQ)
+
+</article>
