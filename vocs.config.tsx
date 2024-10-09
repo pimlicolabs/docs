@@ -753,10 +753,6 @@ export const permissionlessWagmiSidebar = [
 		link: "/permissionless/wagmi",
 	},
 	{
-		text: "Why",
-		link: "/permissionless/wagmi/why",
-	},
-	{
 		text: "Tutorials",
 		link: "/permissionless/wagmi/tutorial",
 		items: [
