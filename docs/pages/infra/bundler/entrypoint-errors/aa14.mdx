@@ -4,7 +4,7 @@ The address of the smart account deployed with the `initCode` provided does not 
 
 ## Possible solutions
 
-- Verify that the `sender` address was generated deterministically from the `initCode`. (consider leveraging functions like [getSenderAddress](/permissionless/core/reference/public-actions/getSenderAddress))
+- Verify that the `sender` address was generated deterministically from the `initCode`. (consider leveraging functions like [getSenderAddress](/permissionless/reference/public-actions/getSenderAddress))
 - Verify that the factory address in the `initCode` is correct (the factory address is the first 20 bytes of the `initCode`).
 - Verify that the `initCode` is correct.
 - If all else fails, investigate why the `initCode` deploys to a different address than expected using tools like [Tenderly](https://tenderly.co/).
