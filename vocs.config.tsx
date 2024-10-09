@@ -761,8 +761,45 @@ export const permissionlessWagmiSidebar = [
 		link: "/permissionless/wagmi/tutorial",
 		items: [
 			{
-				text: "1. Send your first gasless transaction",
+				text: "Send your first gasless transaction",
 				link: "/permissionless/wagmi/tutorial/tutorial-1",
+			},
+		],
+	},
+	{
+		text: "How-to Guides",
+		items: [
+			{
+				text: "Check if an external account supports paymasters",
+				link: "/permissionless/wagmi/how-to/check-paymaster-support",
+			},
+		],
+	},
+	{
+		text: "Reference",
+		link: "/permissionless/core/reference",
+		items: [
+			{
+				text: "Configuration",
+				items: [
+					{
+						text: "PermissionlessProvider",
+						link: "/permissionless/wagmi/reference/configuration/PermissionlessProvider",
+					},
+				],
+			},
+			{
+				text: "Hooks",
+				items: [
+					{
+						text: "useSendTransaction",
+						link: "/permissionless/wagmi/reference/hooks/useSendTransaction",
+					},
+					{
+						text: "useWaitForTransactionReceipt",
+						link: "/permissionless/wagmi/reference/hooks/useWaitForTransactionReceipt",
+					},
+				],
 			},
 		],
 	},

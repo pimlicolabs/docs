@@ -1,0 +1,68 @@
+# PermissionlessProvider
+
+React Context Provider for Permissionless.
+
+## Import
+
+```ts twoslash
+import { PermissionlessProvider } from "@permissionless/wagmi"
+```
+
+## Usage
+
+:::code-group
+
+```ts [main.ts]
+import { PermissionlessProvider } from "@permissionless/wagmi" // [!code focus]
+
+// enables ERC-7677 if external account is a smart account and supports 7677 // [!code focus]
+// e.g. Coinbase Smart Account  // [!code focus]
+const capabilities = { // [!code focus]
+  paymasterService: { // [!code focus]
+    [baseSepolia.id]: { // [!code focus]
+        url: `https://api.pimlico.io/v2/${baseSepolia.id}/rpc?apikey=${pimlicoApiKey}` // [!code focus]
+    } // [!code focus]
+  } // [!code focus]
+} // [!code focus]
+
+function App() {
+  return (
+    <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+            <PermissionlessProvider // [!code focus]
+                capabilities={capabilities} // [!code focus]
+            > // [!code focus]
+                {/** ... */}
+            </PermissionlessProvider> // [!code focus]
+        </QueryClientProvider>
+    </WagmiProvider>
+  )
+}
+```
+
+```ts twoslash [wagmi.ts]
+import { http, createConfig } from 'wagmi'
+import { mainnet, sepolia } from 'wagmi/chains'
+
+export const config = createConfig({
+  chains: [mainnet, sepolia],
+  transports: {
+    [mainnet.id]: http(),
+    [sepolia.id]: http(),
+  },
+})
+```
+:::
+
+## Parameters
+
+```ts
+import { type PermissionlessProviderProps } from "@permissionless/wagmi"
+```
+
+### capabilities
+
+`WalletCapabilities | undefined`
+
+Capability to use for the calls (e.g. specifying a paymaster).
+

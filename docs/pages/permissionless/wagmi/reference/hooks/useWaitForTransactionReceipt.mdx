@@ -1,0 +1,192 @@
+---
+title: useWaitForTransactionReceipt
+description: Hook that waits for the transaction to be included on a block, and then returns the transaction receipt. If the transaction reverts, then the action will throw an error. Replacement detection (e.g. sped up transactions) is also supported.
+---
+
+# useWaitForTransactionReceipt
+
+Hook that waits for the transaction to be included on a block, and then returns the transaction receipt. If the transaction reverts, then the action will throw an error. Replacement detection (e.g. sped up transactions) is also supported.
+
+## Import
+
+```ts
+import { useWaitForTransactionReceipt } from '@permissionless/wagmi'
+```
+
+## Usage
+
+```tsx [index.tsx]
+import {
+    useSendTransaction,
+    useWaitForTransactionReceipt // [!code focus]
+} from "@permissionless/wagmi"
+
+function App() {
+  const { // [!code focus]
+    sendTransaction, // [!code focus]
+    data: transactionReference, // [!code focus]
+    isPending
+  } = useSendTransaction()
+
+  const { data: receipt, } = // [!code focus]
+    useWaitForTransactionReceipt({ // [!code focus]
+      id: transactionReference // [!code focus]
+    }) // [!code focus]
+
+  return (
+    <div style={{ marginTop: 60 }}>
+      <h2>Send test transaction</h2>
+      {isPending && <div>Sending transaction...</div>}
+      {transactionReference && isReceiptPending && (
+        <div>Awaiting confirmation of transaction.</div>
+      )}
+      {receipt && <div>{receipt.status}</div>} // [!code focus]
+      <button onClick={() => sendTransaction({ // [!code focus]
+          to: '0xd2135CfB216b74109775236E36d4b433F1DF507B', // [!code focus]
+          value: parseEther('0.01'), // [!code focus]
+        }) // [!code focus]
+      } type="button">
+        Send Transaction
+      </button> // [!code focus]
+    </div>
+  )
+}
+```
+## Parameters
+
+```ts
+import { type UseWaitForTransactionReceiptParameters } from '@permissionless/wagmi'
+```
+
+### chainId
+
+`config['chains'][number]['id'] | undefined`
+
+ID of chain to use when fetching data.
+
+```ts [index.ts]
+import { useWaitForTransactionReceipt } from 'wagmi'
+import { mainnet } from 'wagmi/chains'
+
+function App() {
+  const result = useWaitForTransactionReceipt({
+    chainId: mainnet.id, // [!code focus]
+    hash: '0x4ca7ee652d57678f26e887c149ab0735f41de37bcad58c9f6d3ed5824f15b74d',
+  })
+}
+```
+
+### config
+
+`Config | undefined`
+
+[`Config`](https://wagmi.sh/react/api/createConfig#config) to use instead of retrieving from the from nearest [`WagmiProvider`](https://wagmi.sh/react/api/WagmiProvider).
+
+::: code-group
+```tsx [index.tsx]
+import { useWaitForTransactionReceipt } from 'wagmi'
+import { config } from './config' // [!code focus]
+
+function App() {
+  const result = useWaitForTransactionReceipt({
+    hash: '0x4ca7ee652d57678f26e887c149ab0735f41de37bcad58c9f6d3ed5824f15b74d',
+    config, // [!code focus]
+  })
+}
+```
+```tsx [config.ts] 
+import { http, createConfig } from 'wagmi'
+import { mainnet, sepolia } from 'wagmi/chains'
+
+export const config = createConfig({
+  chains: [mainnet, sepolia],
+  transports: {
+    [mainnet.id]: http(),
+    [sepolia.id]: http(),
+  },
+})
+```
+:::
+
+### confirmations
+
+`number | undefined`
+
+The number of confirmations (blocks that have passed) to wait before resolving.
+
+```ts [index.ts]
+import { useWaitForTransactionReceipt } from 'wagmi'
+
+function App() {
+  const result = useWaitForTransactionReceipt({
+    confirmations: 2, // [!code focus]
+    hash: '0x4ca7ee652d57678f26e887c149ab0735f41de37bcad58c9f6d3ed5824f15b74d',
+  })
+}
+```
+
+### onReplaced
+
+`
+(({ reason: 'replaced' | 'repriced' | 'cancelled'; replacedTransaction: Transaction; transaction: Transaction; transactionReceipt: TransactionReceipt }) => void) | undefined
+`
+
+Optional callback to emit if the transaction has been replaced.
+
+```ts [index.ts]
+import { useWaitForTransactionReceipt } from 'wagmi'
+
+function App() {
+  const result = useWaitForTransactionReceipt({
+    hash: '0x4ca7ee652d57678f26e887c149ab0735f41de37bcad58c9f6d3ed5824f15b74d',
+    onReplaced: replacement => console.log(replacement), // [!code focus]
+  })
+}
+```
+
+### pollingInterval
+
+`number | undefined`
+
+- Polling frequency (in milliseconds).
+- Defaults to the [Config's `pollingInterval` config](/react/api/createConfig#pollinginterval).
+
+```ts [index.ts]
+import { useWaitForTransactionReceipt } from 'wagmi'
+
+function App() {
+  const result = useWaitForTransactionReceipt({
+    hash: '0x4ca7ee652d57678f26e887c149ab0735f41de37bcad58c9f6d3ed5824f15b74d',
+    pollingInterval: 1_000, // [!code focus]
+  })
+}
+```
+
+### hash
+
+`` `0x${string}` | undefined ``
+
+The transaction hash to wait for. [`enabled`](#enabled) set to `false` if `hash` is `undefined`.
+
+```ts [index.ts]
+import { useWaitForTransactionReceipt } from 'wagmi'
+
+function App() {
+  const result = useWaitForTransactionReceipt({
+    hash: '0x4ca7ee652d57678f26e887c149ab0735f41de37bcad58c9f6d3ed5824f15b74d', // [!code focus]
+  })
+}
+```
+
+### query
+
+Same query object that you can pass to `useWaitForTransactionReceipt` [hook from wagmi](https://wagmi.sh/react/api/hooks/useWaitForTransactionReceipt#query). 
+
+{/* <!--@include: @shared/query-options.md--> */}
+
+## Return Type
+
+```ts
+import { type UseWaitForTransactionReceiptReturnType } from 'wagmi'
+```
+Same return type as `useWaitForTransactionReceipt` from [wagmi](https://wagmi.sh/react/api/hooks/useWaitForTransactionReceipt#return-type).
