@@ -10,9 +10,9 @@ import { HomePage } from 'vocs/components'
  
 <HomePage.Root>
   <h1 className='vocs_HomePage_title'>@permissionless/wagmi</h1>
-  <HomePage.Tagline>Build for ERC-4337 smart accounts, bundlers, paymasters, and user operations</HomePage.Tagline>
+  <HomePage.Tagline>Enable gas sponsorship and transaction batching for your app with just a couple lines of code</HomePage.Tagline>
   <HomePage.InstallPackage name="@permissionless/wagmi" type="install" />
-  <HomePage.Description>It is a TypeScript library built on wagmi for building with ERC-4337 smart accounts, bundlers, paymasters, and user operations with wagmi. The core focuses are avoiding provider lock-in, having no dependencies, maximum wagmi compatibility, and a small bundle size.</HomePage.Description>
+  <HomePage.Description>@permissionless/wagmi is a TypeScript library built on top of permissionless.js and wagmi for quickly enabling support for EIP-5792 features on your app, including gas sponsorship and transaction batching, with just a couple lines of code. We built @permissionless/wagmi to allow app developers to support the features of new smart accounts such as Coinbase Smart Wallet without any of the complexity.</HomePage.Description>
   <HomePage.Buttons>
     <HomePage.Button href="/permissionless/core/tutorial/tutorial-1" variant="accent">Get started</HomePage.Button>
     <HomePage.Button href="https://github.com/pimlicolabs/permissionless.js">GitHub</HomePage.Button>
@@ -57,6 +57,7 @@ ReactDOM.createRoot(root).render(
 # Features
 
 - **ERC-7677 Paymaster service**: Makes it easier to interact with an external smart account that offers support.
+- **Sending multiple transactions**: Makes it easier to send multiple transactions from an external smart account.
 - **Built on & for wagmi**: `@permissionless/wagmi` is designed to be a thin wrapper around wagmi, maintaining the same style and overall feel wagmi provides.
 - and a lot more coming soon...
 

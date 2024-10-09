@@ -1251,12 +1251,12 @@ export default defineConfig({
 		"/permissionless": [
 			{
 				link: "/permissionless/core",
-				text: "Core",
+				text: "permissionless.js Core",
 				items: permissionlessSidebar,
 			},
 			{
 				link: "/permissionless/wagmi",
-				text: "Wagmi",
+				text: "permissionless.js Wagmi",
 				items: permissionlessWagmiSidebar,
 			},
 		],
