@@ -322,12 +322,12 @@ export const paymasterSidebar = [
 						link: "/infra/paymaster/erc20-paymaster/how-to/use-paymaster",
 					},
 					{
-						text: "Estimating costs",
-						link: "/infra/paymaster/erc20-paymaster/how-to/calculate-costs",
+						text: "How to use the ERC-20 Paymaster without unlimited token approvals",
+						link: "/infra/paymaster/erc20-paymaster/how-to/use-paymaster-without-unlimited-approval",
 					},
 					{
-						text: "Sponsoring without approving max",
-						link: "/infra/paymaster/erc20-paymaster/how-to/prepare-for-erc20paymaster",
+						text: "How to estimate token cost and cost in USD",
+						link: "/infra/paymaster/erc20-paymaster/how-to/calculate-costs",
 					},
 				],
 			},

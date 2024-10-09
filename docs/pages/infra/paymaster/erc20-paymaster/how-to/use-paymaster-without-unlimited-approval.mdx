@@ -1,4 +1,4 @@
-# Sponsoring without approving max
+# How to use the ERC-20 Paymaster without unlimited token approvals
 
 This guide will show you how to use the `prepareUserOperationForErc20Paymaster` function in permissionless.
 
@@ -10,7 +10,7 @@ This function lets you approve only the required amount of tokens for your userO
 ### Define imports and create the clients
 
 ```ts
-// [!include ~/snippets/erc20-paymaster/prepare-for-erc20-paymasters.ts:clients]
+// [!include ~/snippets/erc20-paymaster/use-paymaster-without-unlimited-approval.ts:clients]
 ```
 
 ### Add the `prepareUserOperationForErc20Paymaster` override to `createSmartAccountClient`
@@ -18,7 +18,7 @@ This function lets you approve only the required amount of tokens for your userO
 This override will replace viem's `prepareUserOperation` action.
 
 ```ts
-// [!include ~/snippets/erc20-paymaster/prepare-for-erc20-paymasters.ts:prepareUserOperation]
+// [!include ~/snippets/erc20-paymaster/use-paymaster-without-unlimited-approval.ts:prepareUserOperation]
 ```
 
 ### Call `sendTransaction`
@@ -28,7 +28,7 @@ Calling sendTransaction will now automatically approve the required amount of to
 If the sender has a sufficient existing approval, then the additional approval call will not be added to the calldata.
 
 ```ts
-// [!include ~/snippets/erc20-paymaster/prepare-for-erc20-paymasters.ts:sendOp]
+// [!include ~/snippets/erc20-paymaster/use-paymaster-without-unlimited-approval.ts:sendOp]
 ```
 
 ::::
