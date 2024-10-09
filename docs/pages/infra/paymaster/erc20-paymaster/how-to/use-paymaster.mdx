@@ -1,6 +1,6 @@
 # How to use the ERC-20 Paymaster
 
-When using Pimlico's ERC-20 Paymaster, the paymaster needs approval to spend funds on the payer's behalf. The amount to approve must be atleast equal to the userOperation's prefund value.
+When using Pimlico's ERC-20 Paymaster, the paymaster needs approval to spend funds on the payer's behalf. The amount to approve must be atleast equal to the userOperation's maxCost.
 
 You can use the helper function below to get the required approval amount.
 
@@ -23,7 +23,7 @@ For this example, we will assume that our user only holds USDC on Base Sepolia.
 
 ### Call `pimlico_getTokenQuotes` and calculate the approval amount needed for your userOperation
 
-After calling `pimlico_getTokenQuotes`, use the returned values to calculate the approval amount for a specific userOperation by calling the paymaster's `getCostInToken`.
+After calling `pimlico_getTokenQuotes`, use the returned values to calculate the approval amount for a specific userOperation by calling using formula from the paymaster's `getCostInToken` function.
 
 ```ts
 // [!include ~/snippets/erc20-paymaster/how-to.ts:getTokenQuotes]

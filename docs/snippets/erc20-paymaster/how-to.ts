@@ -1,11 +1,11 @@
 // [!region clients]
-import { getRequiredPrefund } from "permissionless"
 import { toSimpleSmartAccount } from "permissionless/accounts"
 import { createPimlicoClient } from "permissionless/clients/pimlico"
-import { createPublicClient, getAddress, getContract, type Hex, http, parseAbi } from "viem"
+import { createPublicClient, getAddress, type Hex, http, parseAbi } from "viem"
 import {
 	createBundlerClient,
 	entryPoint07Address,
+	UserOperation,
 	type EntryPointVersion,
 } from "viem/account-abstraction"
 import { privateKeyToAccount } from "viem/accounts"
@@ -63,7 +63,7 @@ const quotes = await pimlicoClient.getTokenQuotes({
 })
 const { postOpGas, exchangeRate, paymaster } = quotes[0]
 
-const userOperation = await bundlerClient.prepareUserOperation({
+const userOperation: UserOperation<"0.7"> = await bundlerClient.prepareUserOperation({
 	calls: [
 		{
 			to: getAddress("0xd8da6bf26964af9d7eed9e03e53415d37aa96045"),
@@ -72,20 +72,17 @@ const userOperation = await bundlerClient.prepareUserOperation({
 	],
 })
 
-const paymasterContract = getContract({
-	address: paymaster,
-	abi: parseAbi([
-		"function getCostInToken(uint256 actualGasCost, uint256 postOpGas, uint256 actualUserOpFeePerGas, uint256 exchangeRate) public pure returns (uint256)",
-	]),
-	client: publicClient,
-})
+const userOperationMaxGas =
+	userOperation.preVerificationGas +
+	userOperation.callGasLimit +
+	userOperation.verificationGasLimit +
+	(userOperation.paymasterPostOpGasLimit || 0n) +
+	(userOperation.paymasterVerificationGasLimit || 0n)
 
-const maxCostInToken = await paymasterContract.read.getCostInToken([
-	getRequiredPrefund({ userOperation, entryPointVersion: "0.7" }),
-	postOpGas,
-	userOperation.maxFeePerGas,
-	exchangeRate,
-])
+// using formula here https://github.com/pimlicolabs/singleton-paymaster/blob/main/src/base/BaseSingletonPaymaster.sol#L334-L341
+const maxCostInToken =
+	((userOperationMaxGas + postOpGas * userOperation.maxFeePerGas) * exchangeRate) / BigInt(1e18)
+
 // [!endregion getTokenQuotes]
 
 // [!region sendUserOperation]
