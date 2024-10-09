@@ -149,7 +149,7 @@ function App() {
 `number | undefined`
 
 - Polling frequency (in milliseconds).
-- Defaults to the [Config's `pollingInterval` config](/react/api/createConfig#pollinginterval).
+- Defaults to the [Config's `pollingInterval` config](https://wagmi.sh/core/api/createConfig#pollingintervall).
 
 ```ts [index.ts]
 import { useWaitForTransactionReceipt } from 'wagmi'
@@ -162,18 +162,18 @@ function App() {
 }
 ```
 
-### hash
+### id
 
-`` `0x${string}` | undefined ``
+`` string | undefined ``
 
-The transaction hash to wait for. [`enabled`](#enabled) set to `false` if `hash` is `undefined`.
+The transaction reference to wait for. [`enabled`](#enabled) set to `false` if `hash` is `undefined`.
 
 ```ts [index.ts]
 import { useWaitForTransactionReceipt } from 'wagmi'
 
 function App() {
   const result = useWaitForTransactionReceipt({
-    hash: '0x4ca7ee652d57678f26e887c149ab0735f41de37bcad58c9f6d3ed5824f15b74d', // [!code focus]
+    id: '4ca7ee652d57678f26e887c149ab0735f41de37bcad58c9f6d3ed5824f15b74d', // [!code focus]
   })
 }
 ```
