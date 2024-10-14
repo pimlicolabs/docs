@@ -79,9 +79,11 @@ const userOperationMaxGas =
 	(userOperation.paymasterPostOpGasLimit || 0n) +
 	(userOperation.paymasterVerificationGasLimit || 0n)
 
+const userOperationMaxCost = userOperationMaxGas * userOperation.maxFeePerGas
+
 // using formula here https://github.com/pimlicolabs/singleton-paymaster/blob/main/src/base/BaseSingletonPaymaster.sol#L334-L341
 const maxCostInToken =
-	((userOperationMaxGas + postOpGas * userOperation.maxFeePerGas) * exchangeRate) / BigInt(1e18)
+	((userOperationMaxCost + postOpGas * userOperation.maxFeePerGas) * exchangeRate) / BigInt(1e18)
 
 // [!endregion getTokenQuotes]
 

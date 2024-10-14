@@ -83,12 +83,14 @@ const op = await smartAccountClient.prepareUserOperation({
 	},
 })
 
-const userOperationMaxCost =
+const userOperationMaxGas =
 	op.preVerificationGas +
 	op.verificationGasLimit +
 	op.callGasLimit +
 	(op.paymasterVerificationGasLimit || 0n) +
 	(op.paymasterPostOpGasLimit || 0n)
+
+const userOperationMaxCost = userOperationMaxGas * op.maxFeePerGas
 // [!endregion calculateMaxCost]
 
 // [!region calculateCostInToken]

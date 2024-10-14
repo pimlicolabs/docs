@@ -30,6 +30,8 @@ To find your userOperation's max cost, we will need to sum up all it's gas value
 - `paymasterVerificationGasLimit` (v0.7 only)
 - `paymasterPostOpGasLimit` (v0.7 only)
 
+Once the gas values are summed up, we multiply it by the maxFeePerGas to get the max cost for the userOperation.
+
 ```ts
 // [!include ~/snippets/erc20-paymaster/calculate-costs.ts:calculateMaxCost]
 ```
