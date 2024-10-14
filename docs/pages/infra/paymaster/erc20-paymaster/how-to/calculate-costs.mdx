@@ -21,21 +21,28 @@ For this example, we will be fetching quote info for USDC on base.
 // [!include ~/snippets/erc20-paymaster/calculate-costs.ts:fetchQuotes]
 ```
 
-### Calculate your userOperation's prefund
+### Calculate your userOperation's max cost
 
-The prefund represents your userOperation's max cost.
+To find your userOperation's max cost, we will need to sum up all it's gas values. This includes:
+- `preVerificationGas`
+- `verificationGasLimit`
+- `callGasLimit`
+- `paymasterVerificationGasLimit` (v0.7 only)
+- `paymasterPostOpGasLimit` (v0.7 only)
 
 ```ts
-// [!include ~/snippets/erc20-paymaster/calculate-costs.ts:calculatePrefund]
+// [!include ~/snippets/erc20-paymaster/calculate-costs.ts:calculateMaxCost]
 ```
 
 ### Calculate your userOperation's maxCost in denomination of the ERC-20 token
 
-To find the cost of your userOperation in denomition of the ERC-20, you should use this formula. This is the same formula that the paymaster executes onchain, the source code can be found on the [singleton-paymaster repo.](https://github.com/pimlicolabs/singleton-paymaster/blob/08c85d3190db5110a37f1a8555797ec63b6984ec/src/base/BaseSingletonPaymaster.sol#L326-L341)
+To find the cost of your userOperation in denomination of the ERC-20, you should use this formula. This is the same formula that the paymaster executes onchain, the source code can be found on the [singleton-paymaster repo.](https://github.com/pimlicolabs/singleton-paymaster/blob/08c85d3190db5110a37f1a8555797ec63b6984ec/src/base/BaseSingletonPaymaster.sol#L326-L341)
 
 ```ts
 // [!include ~/snippets/erc20-paymaster/calculate-costs.ts:calculateCostInToken]
 ```
+
+> Note: We divide by `BigInt(1e18)` (constant) due to the ether decimals being encoded into exchangeRate.
 
 ### Calculate your userOperation's maxCost in denomination of USD
 

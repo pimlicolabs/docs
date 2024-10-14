@@ -1,5 +1,5 @@
 // [!region clients]
-import { createSmartAccountClient, getRequiredPrefund } from "permissionless"
+import { createSmartAccountClient } from "permissionless"
 import { toSafeSmartAccount } from "permissionless/accounts"
 import { createPimlicoClient } from "permissionless/clients/pimlico"
 import { type Address, createPublicClient, getAddress, http, maxUint256, parseAbi } from "viem"
@@ -10,51 +10,52 @@ import { base } from "viem/chains"
 const chain = base
 
 export const publicClient = createPublicClient({
-  chain,
-  transport: http("https://mainnet.base.org"),
+	chain,
+	transport: http("https://mainnet.base.org"),
 })
 
 const pimlicoUrl = `https://api.pimlico.io/v2/${chain.id}/rpc?apikey=${process.env.PIMLICO_API_KEY}`
 
 const pimlicoClient = createPimlicoClient({
-  chain,
-  transport: http(pimlicoUrl),
-  entryPoint: {
-    address: entryPoint07Address,
-    version: "0.7",
-  },
+	chain,
+	transport: http(pimlicoUrl),
+	entryPoint: {
+		address: entryPoint07Address,
+		version: "0.7",
+	},
 })
 
 const account = await toSafeSmartAccount({
-  client: publicClient,
-  owners: [
-    privateKeyToAccount("0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"),
-  ],
-  entryPoint: {
-    address: entryPoint07Address,
-    version: "0.7",
-  },
-  version: "1.4.1",
+	client: publicClient,
+	owners: [
+		privateKeyToAccount("0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"),
+	],
+	entryPoint: {
+		address: entryPoint07Address,
+		version: "0.7",
+	},
+	version: "1.4.1",
 })
 
 const smartAccountClient = createSmartAccountClient({
-  account,
-  chain,
-  bundlerTransport: http(pimlicoUrl),
-  paymaster: pimlicoClient,
-  userOperation: {
-    estimateFeesPerGas: async () => {
-      return (await pimlicoClient.getUserOperationGasPrice()).fast
-    },
-  },
+	account,
+	chain,
+	bundlerTransport: http(pimlicoUrl),
+	paymaster: pimlicoClient,
+	userOperation: {
+		estimateFeesPerGas: async () => {
+			return (await pimlicoClient.getUserOperationGasPrice()).fast
+		},
+	},
 })
 // [!endregion clients]
 
 // [!region fetchQuotes]
 const token = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+const tokenDecimals = 6
 
 const quotes = await pimlicoClient.getTokenQuotes({
-  tokens: [getAddress(token)],
+	tokens: [getAddress(token)],
 })
 
 const postOpGas: bigint = quotes[0].postOpGas
@@ -63,37 +64,42 @@ const exchangeRateNativeToUsd: bigint = quotes[0].exchangeRateNativeToUsd
 const paymaster: Address = quotes[0].paymaster
 // [!endregion fetchQuotes]
 
-// [!region calculatePrefund]
+// [!region calculateMaxCost]
 const op = await smartAccountClient.prepareUserOperation({
-  calls: [
-    {
-      to: token,
-      abi: parseAbi(["function approve(address, uint)"]),
-      args: [paymaster, maxUint256],
-    },
-    {
-      to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
-      value: 0n,
-      data: "0x1234",
-    },
-  ],
-  paymasterContext: {
-    token,
-  },
+	calls: [
+		{
+			to: token,
+			abi: parseAbi(["function approve(address, uint)"]),
+			args: [paymaster, maxUint256],
+		},
+		{
+			to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
+			value: 0n,
+			data: "0x1234",
+		},
+	],
+	paymasterContext: {
+		token,
+	},
 })
 
-const userOperationPrefund = getRequiredPrefund({
-  userOperation: op,
-  entryPointVersion: "0.7",
-})
-// [!endregion calculatePrefund]
+const userOperationMaxCost =
+	op.preVerificationGas +
+	op.verificationGasLimit +
+	op.callGasLimit +
+	(op.paymasterVerificationGasLimit || 0n) +
+	(op.paymasterPostOpGasLimit || 0n)
+// [!endregion calculateMaxCost]
 
 // [!region calculateCostInToken]
 // represents the userOperation's max cost in demoniation of wei
-const maxCostInWei = userOperationPrefund + postOpGas * op.maxFeePerGas
+const maxCostInWei = userOperationMaxCost + postOpGas * op.maxFeePerGas
 
 // represents the userOperation's max cost in token demoniation (wei)
-const maxCostInToken = (maxCostInWei * exchangeRate) / BigInt(1e18)
+const maxCostInTokenRaw = (maxCostInWei * exchangeRate) / BigInt(1e18)
+
+// represents the userOperation's max cost in token (human readable format)
+const maxCostInToken = Number(maxCostInTokenRaw) / 10 ** tokenDecimals
 // [!endregion calculateCostInToken]
 
 // [!region calculateUsdCost]
@@ -106,8 +112,9 @@ const costInUsd = Number(rawCostInUsd) / 10 ** 6
 // [!endregion calculateUsdCost]
 
 console.log({
-  maxCostInWei,
-  maxCostInToken,
-  rawCostInUsd,
-  costInUsd,
+	maxCostInWei,
+	maxCostInToken,
+	rawCostInUsd,
+	maxCostInTokenRaw,
+	costInUsd,
 })
