@@ -403,6 +403,10 @@ export const conceptualSidebar = [
 		text: "ERC-7579",
 		link: "/conceptual/erc7579",
 	},
+	{
+		text: "EIP-7702",
+		link: "/conceptual/eip7702",
+	},
 ]
 
 export const permissionlessSidebar = [

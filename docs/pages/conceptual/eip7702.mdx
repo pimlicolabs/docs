@@ -1,0 +1,39 @@
+# EIP-7702
+
+EIP-7702 is a proposal set for inclusion in the upcoming 2025 Pectra hardfork. The proposal introduces a new transaction type that allows EOA's to assign a "delegation designator" to their account. The delegation designator points to a smart contract and when a transaction is sent to the EOA, it executes the code at the designated address.
+
+This unlocks huge benefits for EOAs, as they can now access smart account features such as batching transactions, gas sponsorships, passkeys as signers, and more. This guide showcases a simple demo that uses ERC-4337 and EIP-7702 to send a userOperation from a EOA.
+
+## Steps
+
+::::steps
+
+### Setup
+
+This demo will be ran on the [Odyssey Testnet](https://www.ithaca.xyz/updates/odyssey), which already implements EIP-7702.
+
+To get started, you can bridge funds from Sepolia to Odyssey through [Conduit's SuperBridge](https://odyssey-fba0638ec5f46615.testnets.rollbridge.app/).
+
+You can confirm the bridge transfer by checking the [Odyssey blockchain explorer](https://odyssey-explorer.ithaca.xyz/).
+
+### Confirming the EOA has no code
+
+Before starting the demo, we can quickly confirm that our EOA has no code attached to it by running the following command:
+
+```bash
+cast code $YOUR_EOA_ADDRESS --rpc-url https://odyssey.ithaca.xyz
+```
+
+If should return back the following:
+
+```
+0x
+```
+
+### Signing the Delegation Designation Transaction
+
+Before we start sending UserOperations from our EOA, we first have to sign a authorization request to set our designated designator. This demo uses Safe as our smart account implementation, but you can use any ERC-4337 compatible smart account.
+
+::::
+
+it by sending the delegation designation tx. Not only this, but we also have to initialize/populate the EOA's storage so that the smart account implementation has context.
