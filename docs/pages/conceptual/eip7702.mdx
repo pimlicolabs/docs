@@ -2,9 +2,15 @@
 
 EIP-7702 is a proposal set for inclusion in the upcoming 2025 Pectra hardfork. The proposal introduces a new transaction type that allows EOA's to assign a "delegation designator" to their account. The delegation designator points to a smart contract and when a transaction is sent to the EOA, it executes the code at the designated address.
 
-This unlocks huge benefits for EOAs, as they can now access smart account features such as batching transactions, gas sponsorships, passkeys as signers, and more. This guide showcases a simple demo that uses ERC-4337 and EIP-7702 to send a userOperation from a EOA.
+This unlocks huge benefits for EOAs, as they can now access smart account features such as batching transactions, gas sponsorships, passkeys as signers, and more.
+
+This guide showcases a simple demo that uses ERC-4337 and EIP-7702 to send a sponsored userOperation from a EOA. We will use Safe as our smart account implementation of choice, but you can use any ERC-4337 compatible smart account.
 
 ## Steps
+
+This guide is divided into two parts. The first part will walk you through how to turn your EOA into a ERC-4337 compatible smart account using EIP-7702. The second part will show you how to send a sponsored userOperation originating from your EOA.
+
+## Part 1: Sending a EIP-7702 set code transaction
 
 ::::steps
 
@@ -26,14 +32,86 @@ cast code $YOUR_EOA_ADDRESS --rpc-url https://odyssey.ithaca.xyz
 
 If should return back the following:
 
-```
+```bash
 0x
 ```
 
-### Signing the Delegation Designation Transaction
+### Signing the Authorization Request
 
-Before we start sending UserOperations from our EOA, we first have to sign a authorization request to set our designated designator. This demo uses Safe as our smart account implementation, but you can use any ERC-4337 compatible smart account.
+We first need to prepare our EOA by signing a authorization request to set the Safe Singleton contract as our designated delegator. To do this, we extend our wallet client with [Viem's experimental EIP-7702 actions](https://viem.sh/experimental/eip7702).
+
+
+```ts index.ts
+// [!include ~/snippets/7702/1_authorize.ts:authorization]
+```
+
+### Sending the Authorization Request
+
+Before we can interact with our smart account, we also need to initialize it by populating it's storage. With Safe, this is done by calling the `setup` function.
+
+We can make a slight optimization by sending both the Authorization and `setup` call in one transaction which would both set our EOA's code and setup our smart account.
+
+:::info
+Note: We are using a seperate private key, `safePrivateKey` instead of our EOA's private key to act as our smart account owner. This is because Safe currently doesn't allow the account owner to equal address(this).
+:::
+
+:::code-group
+
+```ts [index.ts]
+// [!include ~/snippets/7702/1_authorize.ts:sendAuthorization]
+```
+
+```ts [getSetupData.ts]
+// [!include ~/snippets/7702/getSetupData.ts]
+```
+
+```ts [safeAbi.ts]
+// [!include ~/snippets/7702/safeAbi.ts]
+```
+
+:::
+
+### Confirming the EOA has code
+
+Now that the authorization request has been sent, we can confirm that our EOA has code attached to it by running the following command:
+
+```bash
+cast code $YOUR_EOA_ADDRESS --rpc-url https://odyssey.ithaca.xyz
+```
+
+If should return back the following:
+
+```bash
+0xef010041675c099f32341bf84bfc5382af534df5c7461a
+```
+
+Here the EOA's code is in the format of `(0xef0100 ++ address)` where `0xef0100` are magic bytes that indicate the EOA has a active delegation designator. The remaining bytes `0x41675c099f32341bf84bfc5382af534df5c7461a` is the Safe Singleton's address.
 
 ::::
 
-it by sending the delegation designation tx. Not only this, but we also have to initialize/populate the EOA's storage so that the smart account implementation has context.
+
+# Part 2: Sending the UserOperation
+
+::::steps
+
+### Preparing the clients
+
+Now that our EOA has a delegation designator, the setup process follows the typical flow of sending a userOperation. The only difference is that when creating the Safe smart account instance, we set it's sender address as our EOA.
+
+```ts
+// [!include ~/snippets/7702/2_sendUserOperation.ts:prepareClients]
+```
+
+### Sending the UserOperation
+
+We can now send the userOperation as usual.
+
+```ts
+// [!include ~/snippets/7702/2_sendUserOperation.ts:sendUserOperation]
+```
+
+### Review
+
+Congratulations! You have successfully sent a sponsored userOperation from your EOA, if you review the transaction on the blockchain explorer, you will see that the userOperation's sender address is equal to your EOA's address.
+
+::::

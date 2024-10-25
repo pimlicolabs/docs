@@ -1,11 +1,10 @@
-import { encodeFunctionData, encodePacked, size } from "viem"
-import { multiSendAbi } from "./abi/multisend"
-import { safeAbiImplementation } from "./abi/safe"
+import { encodeFunctionData, encodePacked, parseAbi, size } from "viem"
+import { safeAbiImplementation } from "./safeAbi"
 
 const SAFE_MODULE_SETUP_ADDRESS = "0x2dd68b007B46fBe91B9A7c3EDa5A7a1063cB5b47"
 const SAFE_4337_MODULE_ADDRESS = "0x75cf11467937ce3F2f357CE24ffc3DBF8fD5c226"
 
-export const getSafeModuleSetupCallData = () => {
+export const getSafeModuleSetupData = () => {
 	const enable4337ModuleCallData = encodeFunctionData({
 		abi: safeAbiImplementation,
 		functionName: "enableModules",
@@ -24,7 +23,7 @@ export const getSafeModuleSetupCallData = () => {
 	)
 
 	const safeModuleSetupCallData = encodeFunctionData({
-		abi: multiSendAbi,
+		abi: parseAbi(["function multiSend(bytes)"]),
 		functionName: "multiSend",
 		args: [encodedMultiSendTransaction],
 	})
