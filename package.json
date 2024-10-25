@@ -39,7 +39,7 @@
 		"permissionless": "0.2.6",
 		"react": "latest",
 		"react-dom": "latest",
-		"viem": "^2.20.0",
+		"viem": "^2.21.34",
 		"vitest": "^2.0.5",
 		"vocs": "=1.0.0-alpha.55",
 		"wagmi": "^2.5.5"

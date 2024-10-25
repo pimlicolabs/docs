@@ -403,6 +403,10 @@ export const conceptualSidebar = [
 		text: "ERC-7579",
 		link: "/conceptual/erc7579",
 	},
+	{
+		text: "EIP-7702",
+		link: "/conceptual/eip7702",
+	},
 ]
 
 export const permissionlessSidebar = [
@@ -442,6 +446,10 @@ export const permissionlessSidebar = [
 			{
 				text: "How to send multiple user operations in parallel",
 				link: "/permissionless/how-to/parallel-transactions",
+			},
+			{
+				text: "How to send a userOperation from a EOA using EIP-7702",
+				link: "/permissionless/how-to/eip-7702-demo",
 			},
 			// {
 			// 	text: "Error Handling",
