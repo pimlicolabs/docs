@@ -4,7 +4,7 @@ import { privateKeyToAccount, privateKeyToAddress } from "viem/accounts"
 import { odysseyTestnet } from "viem/chains"
 import { eip7702Actions } from "viem/experimental"
 import { safeAbiImplementation } from "./safeAbi"
-import { getSafeModuleSetupData } from "./getSetupData"
+import { getSafeModuleSetupData } from "./setupData"
 import dotenv from "dotenv"
 dotenv.config()
 
