@@ -1224,39 +1224,47 @@ export const permissionlessSidebar0Point1 = [
 export const magicSpendSidebar = [
 	{
 		text: "Overview",
-		link: "infra/magic-spend",
+		link: "/infra/magic-spend",
 	},
 	{
 		text: "Architecture",
-		link: "infra/magic-spend/architecture",
+		link: "/infra/magic-spend/architecture",
 	},
 	{
 		text: "Staking",
-		link: "infra/magic-spend/staking",
+		link: "/infra/magic-spend/staking",
 	},
 	{
 		text: "Endpoints",
-		link: "infra/magic-spend/endpoints",
 		collapsed: false,
 		items: [
 			{
 				text: "pimlico_getMagicSpendContracts",
-				link: "/infra/bundler/endpoints/pimlico_getMagicSpendContracts",
+				link: "/infra/magic-spend/endpoints/pimlico_getMagicSpendContracts",
 			},
 			{
 				text: "pimlico_getMagicSpendStakes",
-				link: "/infra/bundler/endpoints/pimlico_getMagicSpendStakes",
+				link: "/infra/magic-spend/endpoints/pimlico_getMagicSpendStakes",
 			},
 			{
 				text: "pimlico_prepareMagicSpendRequest",
-				link: "/infra/bundler/endpoints/pimlico_prepareMagicSpendRequest",
+				link: "/infra/magic-spend/endpoints/pimlico_prepareMagicSpendRequest",
 			},
 			{
 				text: "pimlico_sponsorMagicSpendRequest",
-				link: "/infra/bundler/endpoints/pimlico_sponsorMagicSpendRequest",
+				link: "/infra/magic-spend/endpoints/pimlico_sponsorMagicSpendRequest",
 			},
 		],
-	}
+	},
+	{
+		text: "Guides",
+		items: [
+			{
+				text: "How to request ETH from a Magic Spend contract",
+				link: "/infra/magic-spend/how-to/request-eth",
+			},
+		],
+	},
 ]
 
 export default defineConfig({
