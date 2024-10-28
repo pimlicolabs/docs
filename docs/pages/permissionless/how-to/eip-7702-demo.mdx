@@ -69,6 +69,10 @@ Note: We are using a seperate private key, `safePrivateKey` instead of our EOA's
 
 :::
 
+:::warning
+**Warning**: This demo is meant to serve as a overview of what EIP-7702 and ERC-4337 could look like. This approach should not be used in production as a malicious entity could take over your EOA by frontrunning the setup transaction and setting the **owners** field to an address they control.
+:::
+
 ### Confirming the EOA has code
 
 Now that the authorization request has been sent, we can confirm that our EOA has code attached to it by running the following command:
