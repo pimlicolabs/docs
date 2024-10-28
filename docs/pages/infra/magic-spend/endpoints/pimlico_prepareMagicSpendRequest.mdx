@@ -4,25 +4,38 @@ This method prepares a `ClaimRequest` request, which user will have to sign, in 
 
 ## Request
 
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "pimlico_prepareMagicSpendRequest",
+    "params": [
+        "0x129a50835EB5EFA2253b2f0Ec2fBF84b2cEe1fF9",
+        "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+        "0x7b"
+    ],
+    "id": 1
+}
+```
+
 ## Response
 
 ```json
 {
-"jsonrpc": "2.0",
-  "id": 1,
-  "result": {
-  "account": "0x129a50835EB5EFA2253b2f0Ec2fBF84b2cEe1fF9",
-  "claims": [
-    {
-      "chainId": "0x14a34",
-      "fee": "0x0",
-      "asset": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
-      "amount": "0x7b",
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+        "account": "0x129a50835EB5EFA2253b2f0Ec2fBF84b2cEe1fF9",
+        "claims": [
+            {
+                "chainId": "0xaa36a7",
+                "fee": "0x0",
+                "asset": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+                "amount": "0x7b"
+            }
+        ],
+        "validAfter": "0x671f71be",
+        "validUntil": "0x6723827c",
+        "salt": "0xc4e93"
     }
-  ],
-  "validAfter": "0x671ed956",
-  "validUntil": "0x6722ea14",
-  "salt": "0x3ce63",
-}
 }
 ```

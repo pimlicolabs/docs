@@ -10,7 +10,7 @@ On every chain, Magic Spend protocol is represented by two contracts: `MagicSpen
 
 ## MagicSpendStakeManager
 
-`MagicSpendStakeManager` is a contract that manages user stakes. Stake can be in native tokens (ETH, Matic, etc) or any ERC20 token. Users can add, unlock, and remove their stakes. Pimlico has no control over the stakes, and the user can remove them at any time. These funds are not used in fullfilling the user's requests. These stakes can only be claimed by Pimlico if user provided a signed `ClaimRequest` message.
+`MagicSpendStakeManager` is a contract that manages user stakes. Stake can be in native tokens (ETH, Matic, etc) or any ERC20 token. Users can add, unlock, and remove their stakes. Pimlico has no control over the stakes, and the user can remove them at any time. These funds are not used in fullfilling the user's requests. These stakes can only be claimed by Pimlico if user provided a signed `ClaimRequest` message, authorizing Pimlico to do that.
 
 ### `ClaimRequest` message
 
@@ -40,9 +40,9 @@ struct ClaimRequest {
 }
 ```
 
-`ClaimRequest` is a message that user signs and sends to Pimlico. It contains the details of the claim, such as the asset, amount, fee, chain id, etc. Pimlico can claim the user's stake only if the user provided a valid `ClaimRequest` message.
+`ClaimRequest` is a message that user signs and sends to Pimlico. It contains the details of the stake, such as the asset, amount, fee, chain id, etc. Pimlico can claim the user's stake only if the user provided a signed `ClaimRequest` message.
 
-Each `ClaimRequest` can have many `claims`, where each claim represents a single chain. It allows users to provide parts of their stake on different chains in a single message.
+Each `ClaimRequest` can have many `claims`, where each claim represents a single chain. It allows users to provide parts of their stake on different chains in a single request.
 
 ## MagicSpendLiquidityManager
 
@@ -87,14 +87,11 @@ struct WithdrawRequest {
 
 ## Magic Spend Flow
 
-This section describes the flow of the Magic Spend protocol.
+This section describes the flow of the Magic Spend protocol. In order to start using Magic Spend, users have to stake their funds. Read how to do that in the [Staking](/infra/magic-spend/staking) section.
 
-### Staking funds
-
-In order to start using Magic Spend, users have to stake their funds. Read how to do that in the [Staking](/infra/magic-spend/staking) section.
-
-### Withdrawing funds
-
-### Claiming funds
-
-Once the `WithdrawRequest` is executed onchain, Pimlico will claim users funds, by using the `ClaimRequest` message.
+1. User stakes their funds in the `MagicSpendStakeManager` contract, on one or many networks.
+2. User sends a `pimlico_prepareMagicSpendRequest` call, which returns the `ClaimRequest`
+3. User signs the `ClaimRequest` and sends it to with `pimlico_sponsorMagicSpendRequest` call.
+4. Pimlico signs the corresponding `WithdrawRequest` and returns it with a signature to user
+5. User sends a transaction, which contains `MagicSpendLiquidityManager.withdraw(WithdrawRequest,bytes)` call and receives the funds.
+6. Once `WithdrawRequest` is executed, Pimlico can claim the user's stake by calling `MagicSpendStakeManager.claim(ClaimRequest,bytes)`.
