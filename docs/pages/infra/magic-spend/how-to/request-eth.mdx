@@ -1,0 +1,44 @@
+# How to request ETH from MagicSpend protocol
+
+This guide will show you how to request ETH from the MagicSpend contracts. You'll be asked to create a stake in the Base Sepolia network and then you can request ETH from the MagicSpend protocol on Mainnet Sepolia.
+
+You can find the source code for this tutorial [here](https://github.com/pimlicolabs/tutorial-magic-spend).
+
+## Steps
+
+::::steps
+### Define imports and create the clients
+
+```ts
+// [!include ~/snippets/magic-spend/index.ts:clients]
+```
+
+### Fetch MagicSpend contract addresses
+
+```ts
+// [!include ~/snippets/magic-spend/index.ts:pimlico_getMagicSpendContracts]
+```
+
+### Fetch stakes
+
+```ts
+// [!include ~/snippets/magic-spend/index.ts:pimlico_getMagicSpendStakes]
+```
+
+### Prepare the `ClaimRequest` and sign it
+
+```ts
+// [!include ~/snippets/magic-spend/index.ts:pimlico_prepareMagicSpendRequest]
+```
+
+### Submit the `ClaimRequest` and receive signed `WithdrawRequest`
+
+```ts
+// [!include ~/snippets/magic-spend/index.ts:pimlico_sponsorMagicSpendRequest]
+```
+
+### Submit `WithdrawRequest` and receive ETH
+
+```ts
+// [!include ~/snippets/magic-spend/index.ts:sendUserOperation]
+```
