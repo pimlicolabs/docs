@@ -1,5 +1,6 @@
 import { defineConfig } from "vocs"
 import viteConfig from "./utils"
+import { link } from "fs"
 
 export const platformSidebar = [
 	{
@@ -1220,6 +1221,44 @@ export const permissionlessSidebar0Point1 = [
 	},
 ]
 
+export const magicSpendSidebar = [
+	{
+		text: "Overview",
+		link: "infra/magic-spend",
+	},
+	{
+		text: "Architecture",
+		link: "infra/magic-spend/architecture",
+	},
+	{
+		text: "Staking",
+		link: "infra/magic-spend/staking",
+	},
+	{
+		text: "Endpoints",
+		link: "infra/magic-spend/endpoints",
+		collapsed: false,
+		items: [
+			{
+				text: "pimlico_getMagicSpendContracts",
+				link: "/infra/bundler/endpoints/pimlico_getMagicSpendContracts",
+			},
+			{
+				text: "pimlico_getMagicSpendStakes",
+				link: "/infra/bundler/endpoints/pimlico_getMagicSpendStakes",
+			},
+			{
+				text: "pimlico_prepareMagicSpendRequest",
+				link: "/infra/bundler/endpoints/pimlico_prepareMagicSpendRequest",
+			},
+			{
+				text: "pimlico_sponsorMagicSpendRequest",
+				link: "/infra/bundler/endpoints/pimlico_sponsorMagicSpendRequest",
+			},
+		],
+	}
+]
+
 export default defineConfig({
 	title: "Pimlico",
 	logoUrl: { light: "/pimlico-purple.svg", dark: "/pimlico-white.svg" },
@@ -1281,6 +1320,11 @@ export default defineConfig({
 				link: "/infra/paymaster",
 				items: paymasterSidebar,
 			},
+			{
+				text: "Magic Spend",
+				link: "/infra/magic-spend",
+				items: magicSpendSidebar,
+			}
 		],
 		"/conceptual": conceptualSidebar,
 	},

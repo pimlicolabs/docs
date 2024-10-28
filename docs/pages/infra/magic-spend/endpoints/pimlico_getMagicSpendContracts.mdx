@@ -1,0 +1,26 @@
+# pimlico_getMagicSpendContracts
+
+This method returns the addresses for two Magic Spend contracts: `MagicSpendStakeManager` and `MagicSpendLiquidityManager`.
+
+## Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "pimlico_getMagicSpendContracts",
+    "params": [],
+    "id": 1
+}
+```
+
+## Response
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "stakeManager": "0x35505B06aC5c59dB36bB59f96d0DFDDE987185da",
+    "liquidityManager": "0x46Bc62B13e890f0B180e6E1A475bEC4Cc895aEA3"
+  }
+}
+```
