@@ -51,9 +51,6 @@ const sendMagicSpendRequest = async (method: string, params: any[]) => {
         id: 1,
     };
 
-    console.log('=== magic spend request ===');
-    console.log(JSON.stringify(body, null, 4));
-
     const response = await fetch(PIMLICO_URL, {
         method: "POST",
         headers: {
@@ -63,10 +60,6 @@ const sendMagicSpendRequest = async (method: string, params: any[]) => {
     });
 
     const j = await response.json();
-
-    console.log('=== magic spend response ===');
-    console.log(JSON.stringify(j, null, 4));
-    console.log('============================');
 
     // @ts-ignore
     return j.result;
