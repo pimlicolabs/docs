@@ -209,7 +209,7 @@
 	],
 	"headers": [
 		{
-			"source": "/pimlico-purple.svg",
+			"source": "/pimlico-purple.png",
 			"headers": [
 				{ "key": "Access-Control-Allow-Credentials", "value": "true" },
 				{ "key": "Access-Control-Allow-Origin", "value": "*" },
