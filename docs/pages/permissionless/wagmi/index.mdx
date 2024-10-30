@@ -59,7 +59,7 @@ function App() {
   
   const { data: receipt, isPending: isReceiptPending } =
     useWaitForTransactionReceipt({ 
-      hash: "0x1234", // [!code --]
+      hash: transactionReference, // [!code --]
       id: transactionReference  // [!code ++]
     })
 
