@@ -502,6 +502,10 @@ export const permissionlessSidebar = [
 						text: "How to use an ERC-7579 compatible smart account",
 						link: "/permissionless/how-to/accounts/use-erc7579-account",
 					},
+					{
+						text: "How to use a Biconomy [deprecated] account",
+						link: "/permissionless/how-to/accounts/use-biconomy-account",
+					},
 				],
 			},
 			{
