@@ -93,8 +93,8 @@ importers:
         specifier: ^22.1.1
         version: 22.1.1
       permissionless:
-        specifier: 0.2.6
-        version: 0.2.6(viem@2.21.34(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10))
+        specifier: 0.2.14
+        version: 0.2.14(viem@2.21.34(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10))
       react:
         specifier: latest
         version: 18.2.0
@@ -6420,10 +6420,10 @@ packages:
   periscopic@3.1.0:
     resolution: {integrity: sha512-vKiQ8RRtkl9P+r/+oefh25C3fhybptkHKCZSPlcXiJux2tJF55GnEj3BVn4A5gKfq9NWWXXrxkHBwVPUfH0opw==}
 
-  permissionless@0.2.6:
-    resolution: {integrity: sha512-U4c1N5q8D5vOYdJ4XKvjth8yF959c/bgxukh/VE7gTRiCVEBqq7TIU5rclBrqutvL9eRYH0uauESEOH3JSIAMw==}
+  permissionless@0.2.14:
+    resolution: {integrity: sha512-4/r4gf6uGE7WfFaE4tVBxNd+QSLh0cVMkhC6yHzPUBBBLgrPf+gcUZjLsTamSLFm81K+m13jq3IQ3J0ooenWhg==}
     peerDependencies:
-      viem: ^2.21.2
+      viem: ^2.21.22
 
   picocolors@1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
@@ -17521,7 +17521,7 @@ snapshots:
       estree-walker: 3.0.3
       is-reference: 3.0.2
 
-  permissionless@0.2.6(viem@2.21.34(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10)):
+  permissionless@0.2.14(viem@2.21.34(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10)):
     dependencies:
       viem: 2.21.34(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10)
 

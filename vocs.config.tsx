@@ -483,8 +483,8 @@ export const permissionlessSidebar = [
 						link: "/permissionless/how-to/accounts/use-simple-account",
 					},
 					{
-						text: "How to use a Biconomy account",
-						link: "/permissionless/how-to/accounts/use-biconomy-account",
+						text: "How to use a Biconomy Nexus account",
+						link: "/permissionless/how-to/accounts/use-nexus-account",
 					},
 					{
 						text: "How to use a LightAccount",

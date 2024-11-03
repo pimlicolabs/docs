@@ -23,15 +23,16 @@ export const pimlicoClient = createPimlicoClient({
 // [!region signer]
 import { privateKeyToAccount } from "viem/accounts"
 import { entryPoint06Address } from "viem/account-abstraction"
-import { toBiconomySmartAccount } from "permissionless/accounts"
+import { toBiconomySmartAccount, toNexusSmartAccount } from "permissionless/accounts"
 
 const owner = privateKeyToAccount("0xPRIVATE_KEY")
 // [!endregion signer]
 
 // [!region smartAccount]
-const biconomyAccount = await toBiconomySmartAccount({
+const nexusAccount = await toNexusSmartAccount({
 	client: publicClient,
 	owners: [owner],
+	version: "1.0.0",
 	index: 0n, // optional
 	address: "0x...", // optional, only if you are using an already created account
 })
@@ -39,7 +40,7 @@ const biconomyAccount = await toBiconomySmartAccount({
 
 // [!region smartAccountClient]
 const smartAccountClient = createSmartAccountClient({
-	account: biconomyAccount,
+	account: nexusAccount,
 	chain: sepolia,
 	bundlerTransport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
 	paymaster: pimlicoClient,
