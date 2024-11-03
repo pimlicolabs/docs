@@ -1,0 +1,112 @@
+import VersionWarning from "../../VersionWarning"
+
+<VersionWarning version="0.2" />
+
+# toNexusSmartAccount
+
+Creates a Biconomy's [Nexus SmartAccount](https://github.com/bcnmy/nexus) instance controlled by a `owner`.
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+import { toSimpleSmartAccount } from "permissionless/accounts"
+import { publicClient } from "./publicClient"
+import { owner } from "./owner"
+
+const simpleSmartAccount = await toNexusSmartAccount({
+  owner,
+  client: publicClient,
+  version: "1.0.0"
+})
+```
+
+```ts [publicClient.ts]
+// [!include ~/snippets/publicClient.ts:client]
+```
+
+```ts [owner.ts]
+// [!include ~/snippets/owner.ts]
+```
+
+::::
+
+## Returns
+
+- **Type:** `SmartAccount<NexusSmartAccountImplementation>`
+
+The smart account instance.
+
+## Parameters
+
+### client
+- **Type:** `Client`
+
+A public client as smart account needs access to the Network to query for information about its state (e.g. nonce, address, etc).
+
+### owners
+
+- **Type:** `[LocalAccount | EIP1193Provider | WalletClient]`
+
+The owners that will be used to sign messages and user operations.
+
+### version
+
+- **Type:** `1.0.0`
+
+The version of the Nexus smart account that will be used. Currently only `1.0.0` is supported.
+
+### factoryAddress (optional)
+
+- **Type:** `Address`
+
+The address of the nexus account factory that will be used to deploy the smart account.
+
+:::info
+The default factory address is `0x00000bb19a3579F4D779215dEf97AFbd0e30DB55`
+:::
+
+### validatorAddress (optional)
+
+- **Type:** `Address`
+
+The address of the nexus validator that will be used to deploy the smart account.
+
+:::info
+The default validator address is `0x00000004171351c442B202678c48D8AB5B321E8f`
+:::
+
+### attesters (optional)
+
+- **Type:** `[Address]`
+
+The addresses of the attesters that will be used when installing modules.
+
+### threshold (optional)
+
+- **Type:** `number`
+
+The minimum number of attesters that must validate a module for it to be valid.
+
+### entryPoint (optional)
+
+- **Type:** `{ address: Address, version: "0.7" }`
+
+The address and the version of the EntryPoint contract. Only 0.7 is supported.
+
+### index (optional)
+
+- **Type:** `bigint`
+
+It represents salt nonce that will be used to deploy the smart account. If not provided, `0` will be used.
+
+### address (optional)
+
+- **Type:** `Address`
+
+:::warning
+If you provide an address, the smart account can not be deployed. This should be used if you want to interact with an existing smart account.
+:::
+
+The address of the smart account. If not provided, the determinstic smart account address will be used.
