@@ -52,9 +52,6 @@ const { wallets } = useWallets();
 const embeddedWallet = wallets.find(
   (wallet) => wallet.walletClientType === "privy"
 );
-const { setActiveWallet } = usePrivyWagmi()
-
-useEffect(() => setActiveWallet(embeddedWallet), [embeddedWallet])
 ```
 
 ### Create the SmartAccountClient
@@ -89,8 +86,14 @@ const pimlicoClient = createPimlicoClient({
 	}
 })
 
+const owner = embeddedWallet.getEthereumProvider()
+
+if (!owner) {
+  throw new Error("No owner found")
+}
+
 const simpleSmartAccount = await toSimpleSmartAccount({
-  owner: walletClient,
+  owner: owner,
   client: publicClient,
   entryPoint: {
 		address: entryPoint07Address,
