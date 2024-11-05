@@ -1247,13 +1247,21 @@ export const magicSpendSidebar = [
 				link: "/infra/magic-spend/endpoints/pimlico_getMagicSpendStakes",
 			},
 			{
-				text: "pimlico_prepareMagicSpendRequest",
-				link: "/infra/magic-spend/endpoints/pimlico_prepareMagicSpendRequest",
+				text: "pimlico_prepareMagicSpendClaimRequest",
+				link: "/infra/magic-spend/endpoints/pimlico_prepareMagicSpendClaimRequest",
 			},
 			{
-				text: "pimlico_sponsorMagicSpendRequest",
-				link: "/infra/magic-spend/endpoints/pimlico_sponsorMagicSpendRequest",
+				text: "pimlico_sendMagicSpendClaimRequest",
+				link: "/infra/magic-spend/endpoints/pimlico_sendMagicSpendClaimRequest",
 			},
+			{
+				text: "pimlico_getMagicSpendClaimRequestsBySigner",
+				link: "/infra/magic-spend/endpoints/pimlico_getMagicSpendClaimRequestsBySigner",
+			},
+			{
+				text: "pimlico_getMagicSpendWithdrawRequest",
+				link: "/infra/magic-spend/endpoints/pimlico_getMagicSpendWithdrawRequest",
+			}
 		],
 	},
 	{
