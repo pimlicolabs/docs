@@ -1,4 +1,4 @@
-# Magic spend architecture
+# MagicSpend++ Architecture
 
 :::tip[Tip]
 Want to explore the contracts yourself? Take a look at the [GitHub repo](https://github.com/pimlicolabs/magic-spend)
@@ -6,7 +6,7 @@ Want to explore the contracts yourself? Take a look at the [GitHub repo](https:/
 
 ## Overview
 
-Magic Spend is a protocol that allows users to spend their funds on any chain they need. It consists of two main components: `MagicSpendStakeManager` and `MagicSpendWithdrawalManager`. The first one is responsible for managing user stakes, while the second one is responsible for managing the liquidity of the protocol. Each supported chain has deployed instances of these contracts.
+MagicSpend++ is a protocol that allows users to spend their funds on any chain they need. It consists of two main components: `MagicSpendStakeManager` and `MagicSpendWithdrawalManager`. The first one is responsible for managing user stakes, while the second one is responsible for managing the liquidity of the protocol. Each supported chain has deployed instances of these contracts.
 
 ## MagicSpendStakeManager
 
@@ -35,20 +35,20 @@ struct Allowance {
     uint48 validAfter;
     /// @dev The salt of the allowance.
     uint48 salt;
-    /// @dev Address which allowed to request withdrawals on behalf of this Allowance.
+    /// @dev Address which allowed to request withdrawals on behalf of this allowance.
     address operator;
 }
 ```
 
-`Allowance` is a message that user signs and sends to Pimlico. It contains the details of the stake, such as the asset, amount, fee, chain id, etc. Pimlico can claim the user's stake only if the user provided a signed `Allowance` message.
+`Allowance` is a message that user signs and sends to Pimlico. It contains the details of the stake, such as the asset, amount, chain id, etc. Pimlico can claim the user's stake only if the user provided a signed `Allowance` message.
 
-Each `Allowance` can have many `AssetAllowance`, where each allowance represents an allowance on a separate chain. It allows users to provide parts of their stake on different chains in a single request.
+Each `Allowance` can have many `AssetAllowance`, where each `AssetAllowance` represents an allowance on a separate chain. It allows users to provide parts of their stakes on different chains in a single request.
 
 ### Upgradability
 
 :::warning[Warning]
 
-MagicSpend++ contracts on mainnets are upgradable with a timelock equal to one week.
+MagicSpend++ contracts are upgradable on mainnets with a timelock equal to one week.
 
 :::
 
@@ -56,7 +56,7 @@ Pimlico can upgrade the contracts to add new features or fix bugs. However, the 
 
 ## MagicSpendWithdrawalManager
 
-`MagicSpendWithdrawalManager` is a contract that manages the liquidity of the Magic Spend protocol. It allows users to request withdrawals on any chain they need. This contract has no user's funds and stores only liquidity, added by Pimlico. Users can request withdrawals of their funds, if they provide a `Withdrawal` message, signed by Pimlico.
+`MagicSpendWithdrawalManager` is a contract that manages the liquidity of the MagicSpend++ protocol. It allows users to request withdrawals on any chain they need. This contract has no user's funds and stores only liquidity, added by Pimlico. Users can request withdrawals of their funds, if they provide a `Withdrawal` message, signed by Pimlico.
 
 ### `Withdrawal` message
 
@@ -92,7 +92,7 @@ struct Withdrawal {
 
 `Withdrawal` is a message that Pimlico signs and sends to user. It contains the details of the withdrawal, such as the asset, amount, recipient, chain id, etc.
 
-## Magic Spend Flow
+## MagicSpend++ Flow
 
 This section describes the flow of the MagicSpend++ protocol. In order to start using MagicSpend++, users have to stake their funds. Read how to do that in the [Staking](/infra/magic-spend/staking) section.
 

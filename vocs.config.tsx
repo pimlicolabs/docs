@@ -1255,12 +1255,12 @@ export const magicSpendSidebar = [
 				link: "/infra/magic-spend/endpoints/pimlico_grantMagicSpendAllowance",
 			},
 			{
-				text: "pimlico_getMagicSpendWithdrawRequest",
-				link: "/infra/magic-spend/endpoints/pimlico_getMagicSpendWithdrawRequest",
-			},
-			{
 				text: "pimlico_sponsorMagicSpendWithdrawal",
 				link: "/infra/magic-spend/endpoints/pimlico_sponsorMagicSpendWithdrawal",
+			},
+			{
+				text: "pimlico_getMagicSpendAllowancesByOperator",
+				link: "/infra/magic-spend/endpoints/pimlico_getMagicSpendAllowancesByOperator",
 			},
 		],
 	},
