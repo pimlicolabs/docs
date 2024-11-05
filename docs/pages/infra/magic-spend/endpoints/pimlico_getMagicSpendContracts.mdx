@@ -6,7 +6,7 @@ The MagicSpend++ protocol is in beta. API is subject to change with short notice
 
 :::
 
-This method returns the addresses for two Magic Spend contracts: `MagicSpendStakeManager` and `MagicSpendLiquidityManager`.
+This method returns the addresses for two Magic Spend contracts: `MagicSpendStakeManager` and `MagicSpendWithdrawalManager`.
 
 ## Request
 ```json
@@ -25,8 +25,8 @@ This method returns the addresses for two Magic Spend contracts: `MagicSpendStak
     "jsonrpc": "2.0",
     "id": 1,
     "result": {
-        "stakeManager": "0x98f521f92C588B9690193932667c43153502f206",
-        "liquidityManager": "0x4d43b57AF83246cdBF36104Bc4CC1866d7944115"
+        "stakeManagerAddress": "0x98f521f92C588B9690193932667c43153502f206",
+        "withdrawalManagerAddress": "0x4d43b57AF83246cdBF36104Bc4CC1866d7944115"
     }
 }
 ```

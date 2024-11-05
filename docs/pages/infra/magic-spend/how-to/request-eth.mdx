@@ -1,6 +1,6 @@
-# How to request ETH from MagicSpend protocol
+# How to request ETH from MagicSpend++ protocol
 
-This guide will show you how to request ETH from the MagicSpend contracts. You'll be asked to create a stake in the Base Sepolia network and then you can request ETH from the MagicSpend protocol on Mainnet Sepolia.
+This guide will show you how to request ETH from the MagicSpend++ contracts. You'll be asked to create a stake in the Base Sepolia network and then you can request ETH from the MagicSpend++ protocol on Mainnet Sepolia.
 
 You can find the source code for this tutorial [here](https://github.com/pimlicolabs/tutorial-magic-spend).
 
@@ -25,20 +25,28 @@ You can find the source code for this tutorial [here](https://github.com/pimlico
 // [!include ~/snippets/magic-spend/index.ts:pimlico_getMagicSpendStakes]
 ```
 
-### Prepare the `ClaimRequest` and sign it
+### Prepare the `Allowance` and sign it
 
 ```ts
-// [!include ~/snippets/magic-spend/index.ts:pimlico_prepareMagicSpendRequest]
+// [!include ~/snippets/magic-spend/index.ts:pimlico_prepareMagicSpendAllowance]
 ```
 
-### Submit the `ClaimRequest` and receive signed `WithdrawRequest`
+### Grant the `Allowance` to Pimlico
 
 ```ts
-// [!include ~/snippets/magic-spend/index.ts:pimlico_sponsorMagicSpendRequest]
+// [!include ~/snippets/magic-spend/index.ts:pimlico_grantMagicSpendAllowance]
 ```
 
-### Submit `WithdrawRequest` and receive ETH
+### Sponsor the `Withdrawal`
+
+After the `Allowance` is granted, you can sponsor the `Withdrawal` to request ETH from the MagicSpend++ protocol. Notice how the request details (recipient, amount, etc) are covered with signature. The signature must be done by the `Allowance.signer`.
 
 ```ts
-// [!include ~/snippets/magic-spend/index.ts:sendUserOperation]
+// [!include ~/snippets/magic-spend/index.ts:pimlico_sponsorMagicSpendWithdrawal]
+```
+
+### Execute the `Withdrawal`
+
+```ts
+// [!include ~/snippets/magic-spend/index.ts:execute]
 ```

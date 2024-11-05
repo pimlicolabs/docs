@@ -6,103 +6,101 @@ Want to explore the contracts yourself? Take a look at the [GitHub repo](https:/
 
 ## Overview
 
-Magic Spend is a protocol that allows users to spend their funds on any chain they need. It consists of two main components: `MagicSpendStakeManager` and `MagicSpendWithdrawManager`. The first one is responsible for managing user stakes, while the second one is responsible for managing the liquidity of the protocol. Each supported chain has its own instance of these contracts.
+Magic Spend is a protocol that allows users to spend their funds on any chain they need. It consists of two main components: `MagicSpendStakeManager` and `MagicSpendWithdrawalManager`. The first one is responsible for managing user stakes, while the second one is responsible for managing the liquidity of the protocol. Each supported chain has deployed instances of these contracts.
 
 ## MagicSpendStakeManager
 
-`MagicSpendStakeManager` is a contract that manages user stakes. The stake can be in native tokens (ETH, Matic, etc) or any ERC20 token. Users can add, unlock, and remove their staked balances. Pimlico has no control over the staked balances, and the user can remove them at any time. These funds are not used in fullfilling the user's requests. These stakes can only be claimed by Pimlico if the user explicitly provides a signed ClaimRequest message to authorize Pimlico to do so.
+`MagicSpendStakeManager` is a contract that manages user stakes. The stake can be in native tokens (ETH, Matic, etc) or any ERC20 token. Users can add, unlock, and remove their staked balances. Pimlico has no control over the staked balances, and the user can remove them at any time. These funds are not used in fullfilling the user's requests. These stakes can only be claimed by Pimlico if the user explicitly provides a signed `Allowance` message to authorize Pimlico to do so.
 
-### `ClaimRequest` message
+### `Allowance` message
 
 ```solidity
-struct ClaimStruct {
+struct AssetAllowance {
     /// @dev Asset that can be claimed.
     address asset;
     /// @dev The amount to claim.
     uint128 amount;
-    /// @dev The fee to claim.
-    uint128 fee;
-    /// @dev Chain id of the network, where the request will be claimed.
+    /// @dev The chain id of the network, where the claim will be made.
     uint128 chainId;
 }
 
-struct ClaimRequest {
-    /// @dev Address which stake is claimed.
+struct Allowance {
+    /// @dev Address which stake is allowed to be claimed.
     address account;
-    /// @dev List of claims, one claim per chain id
-    ClaimStruct[] claims;
-    /// @dev The time in which the request is valid until.
+    /// @dev List of allowances, one allowance per chain.
+    AssetAllowance[] allowances;
+    /// @dev The time in which the allowance is valid until.
     uint48 validUntil;
-    /// @dev The time in which the request is valid after.
+    /// @dev The time in which the allowance is valid after.
     uint48 validAfter;
-    /// @dev The salt of the request.
+    /// @dev The salt of the allowance.
     uint48 salt;
-    /// @dev Address which allowed to request WithdrawRequests on behalf of this ClaimRequest.
-    address signer;
+    /// @dev Address which allowed to request withdrawals on behalf of this Allowance.
+    address operator;
 }
 ```
 
-`ClaimRequest` is a message that user signs and sends to Pimlico. It contains the details of the stake, such as the asset, amount, fee, chain id, etc. Pimlico can claim the user's stake only if the user provided a signed `ClaimRequest` message.
+`Allowance` is a message that user signs and sends to Pimlico. It contains the details of the stake, such as the asset, amount, fee, chain id, etc. Pimlico can claim the user's stake only if the user provided a signed `Allowance` message.
 
-Each `ClaimRequest` can have many `claims`, where each claim represents a single chain. It allows users to provide parts of their stake on different chains in a single request.
+Each `Allowance` can have many `AssetAllowance`, where each allowance represents an allowance on a separate chain. It allows users to provide parts of their stake on different chains in a single request.
 
 ### Upgradability
 
 :::warning[Warning]
 
-MagicSpend++ contracts are upgradable with a timelock equal to one week.
+MagicSpend++ contracts on mainnets are upgradable with a timelock equal to one week.
 
 :::
 
-Pimlico can upgrade the contracts to add new features or fix bugs. However, the upgradability is only available with a timelock equal to one week, so users have enough time to withdraw their funds if they don't agree with the changes.
+Pimlico can upgrade the contracts to add new features or fix bugs. However, the upgradability is only available with a timelock equal to one week, so users have enough time to withdraw their funds if they don't agree with the changes. There is no timelock on testnets, so the contracts can be upgraded instantly.
 
-## MagicSpendWithdrawManager
+## MagicSpendWithdrawalManager
 
-`MagicSpendWithdrawManager` is a contract that manages the liquidity of the Magic Spend protocol. It allows users to request withdrawals on any chain they need. This contract has no user's funds and stores only liquidity, added by Pimlico. Users can request withdrawals of their funds, if they provide a `WithdrawRequest` message, signed by Pimlico.
+`MagicSpendWithdrawalManager` is a contract that manages the liquidity of the Magic Spend protocol. It allows users to request withdrawals on any chain they need. This contract has no user's funds and stores only liquidity, added by Pimlico. Users can request withdrawals of their funds, if they provide a `Withdrawal` message, signed by Pimlico.
 
-### `WithdrawRequest` message
+### `Withdrawal` message
 
 ```solidity
 /// @notice Helper struct that represents a call to make.
-struct CallStruct {
+struct Call {
     address to;
     uint256 value;
     bytes data;
 }
 
-struct WithdrawRequest {
-    /// @dev Asset that user wants to withdraw.
+struct Withdrawal {
+    /// @dev Asset that will be withdrawn.
     address asset;
     /// @dev The requested amount to withdraw.
     uint128 amount;
-    /// @dev Chain id of the network, where the request will be withdrawn.
+    /// @dev Chain id of the network, where the withdrawal will be made.
     uint128 chainId;
     /// @dev Address that will receive the funds.
     address recipient;
     /// @dev Calls that will be made before the funds are sent to the user.
-    CallStruct[] preCalls;
+    Call[] preCalls;
     /// @dev Calls that will be made after the funds are sent to the user.
-    CallStruct[] postCalls;
-    /// @dev The time in which the request is valid until.
+    Call[] postCalls;
+    /// @dev The time in which the withdrawal is valid until.
     uint48 validUntil;
-    /// @dev The time in which this request is valid after.
+    /// @dev The time in which this withdrawal is valid after.
     uint48 validAfter;
-    /// @dev The salt of the request.
+    /// @dev The salt of the withdrawal.
     uint48 salt;
 }
 ```
 
-`WithdrawRequest` is a message that Pimlico signs and sends to user. It contains the details of the withdrawal, such as the asset, amount, recipient, chain id, etc.
+`Withdrawal` is a message that Pimlico signs and sends to user. It contains the details of the withdrawal, such as the asset, amount, recipient, chain id, etc.
 
 ## Magic Spend Flow
 
 This section describes the flow of the MagicSpend++ protocol. In order to start using MagicSpend++, users have to stake their funds. Read how to do that in the [Staking](/infra/magic-spend/staking) section.
 
 1. User stakes their funds in the `MagicSpendStakeManager` contract, on one or many networks.
-2. User sends a `pimlico_prepareMagicSpendClaimRequest` call, which returns the `ClaimRequest`
-3. User signs the `ClaimRequest` and sends it with `pimlico_sendMagicSpendClaimRequest` call.
-4. Pimlico validates the `ClaimRequest` and returns it's hash.
-5. User sends a `pimlico_getMagicSpendWithdrawRequest` call, where they specify the asset, amount, recipient, chain id, etc.
-6. Pimlico signs the corresponding `WithdrawRequest` and returns it with a signature to user
-7. User sends a transaction, which contains `MagicSpendLiquidityManager.withdraw(WithdrawRequest request, bytes signature)` call and receives the funds.
-8. Once `WithdrawRequest` is executed, Pimlico can claim the user's stake by calling `MagicSpendStakeManager.claim(ClaimRequest request, bytes signature)`.
+2. User sends a `pimlico_prepareMagicSpendAllowance` call, which returns the `Allowance`
+3. User signs the `Allowance` and sends it with `pimlico_grantMagicSpendClaimAllowance` call.
+4. Pimlico validates the `Allowance` and returns it's hash.
+5. User sends a `pimlico_sponsorMagicSpendWithdrawal` call, where they specify the asset, amount, recipient, chain id, etc.
+6. Pimlico signs the corresponding `Withdrawal` and returns it with a signature to user
+7. User sends a transaction, which contains `MagicSpendWithdrawalManager.withdraw(Withdrawal withdrawal, bytes signature)` call and receives the funds.
+8. Once `Withdrawal` is executed, Pimlico can claim the user's stake by calling `MagicSpendStakeManager.claim(Allowance allowance, bytes signature)`.

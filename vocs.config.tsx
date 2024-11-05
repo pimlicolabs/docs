@@ -1247,35 +1247,35 @@ export const magicSpendSidebar = [
 				link: "/infra/magic-spend/endpoints/pimlico_getMagicSpendStakes",
 			},
 			{
-				text: "pimlico_prepareMagicSpendClaimRequest",
-				link: "/infra/magic-spend/endpoints/pimlico_prepareMagicSpendClaimRequest",
+				text: "pimlico_prepareMagicSpendAllowance",
+				link: "/infra/magic-spend/endpoints/pimlico_prepareMagicSpendAllowance",
 			},
 			{
-				text: "pimlico_sendMagicSpendClaimRequest",
-				link: "/infra/magic-spend/endpoints/pimlico_sendMagicSpendClaimRequest",
-			},
-			{
-				text: "pimlico_getMagicSpendClaimRequestsBySigner",
-				link: "/infra/magic-spend/endpoints/pimlico_getMagicSpendClaimRequestsBySigner",
+				text: "pimlico_grantMagicSpendAllowance",
+				link: "/infra/magic-spend/endpoints/pimlico_grantMagicSpendAllowance",
 			},
 			{
 				text: "pimlico_getMagicSpendWithdrawRequest",
 				link: "/infra/magic-spend/endpoints/pimlico_getMagicSpendWithdrawRequest",
-			}
+			},
+			{
+				text: "pimlico_sponsorMagicSpendWithdrawal",
+				link: "/infra/magic-spend/endpoints/pimlico_sponsorMagicSpendWithdrawal",
+			},
 		],
 	},
 	{
 		text: "Guides",
 		items: [
 			{
-				text: "How to request ETH from a Magic Spend contract",
+				text: "How to request ETH from a MagicSpend++",
 				link: "/infra/magic-spend/how-to/request-eth",
 			},
 		],
 	},
 	{
-		text: "Contract addresses",
-		link: "/infra/magic-spend/contract-addresses",
+		text: "Supported chains and tokens",
+		link: "/infra/magic-spend/supported-chains-and-tokens",
 	},
 ]
 

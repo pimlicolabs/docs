@@ -16,8 +16,10 @@ This method returns the list of stakes for a given user and asset.
     "jsonrpc": "2.0",
     "method": "pimlico_getMagicSpendStakes",
     "params": [
-        "0x129a50835EB5EFA2253b2f0Ec2fBF84b2cEe1fF9",
-        "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
+        {
+            "account": "0x77d1f68C3C924cFD4732e64E93AEBEA836797485",
+            "asset": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
+        }
     ],
     "id": 1
 }
@@ -47,8 +49,8 @@ This method returns the list of stakes for a given user and asset.
             "withdrawTime": 0,
             "unstakeDelaySec": "0x15180",
             "staked": true,
-            "pending": "0x7b",
-            "remaining": "0x2386f26fc0ff85"
+            "pending": "0x0",
+            "remaining": "0x2386f26fc10000"
         }
     ]
 }

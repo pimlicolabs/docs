@@ -4,7 +4,7 @@ import { Address, Hex, createPublicClient, encodeFunctionData, getContract, http
 import { sepolia } from "viem/chains"
 import { privateKeyToAccount } from "viem/accounts"
 import { MagicSpendStakeManagerAbi } from "./abi/MagicSpendStakeManager";
-import { MagicSpendLiquidityManagerAbi } from "./abi/MagicSpendLiquidityManager";
+import { MagicSpendWithdrawalManagerAbi } from "./abi/MagicSpendWithdrawalManager";
 import { entryPoint07Address } from "viem/account-abstraction";
 import { createPimlicoClient } from "permissionless/clients/pimlico"
 import { toSimpleSmartAccount } from "permissionless/accounts";
@@ -65,6 +65,7 @@ const sendMagicSpendRequest = async (method: string, params: any[]) => {
     return j.result;
 }
 
+// This is the address of the account that owns the stake
 const signer = privateKeyToAccount(PRIVATE_KEY as Hex)
 console.log(`Signer address: ${signer.address}`)
 
@@ -95,15 +96,15 @@ const smartAccountClient = createSmartAccountClient({
 
 // [!region pimlico_getMagicSpendContracts]
 const {
-    stakeManager,
-    liquidityManager,
+    stakeManagerAddress,
+    withdrawalManagerAddress,
 } = await sendMagicSpendRequest(
     'pimlico_getMagicSpendContracts',
     []
 )
 const stakeManagerContract = getContract({
     abi: MagicSpendStakeManagerAbi,
-    address: stakeManager,
+    address: stakeManagerAddress,
     client: publicClient,
 })
 
@@ -112,7 +113,10 @@ const stakeManagerContract = getContract({
 // [!region pimlico_getMagicSpendStakes]
 const stakes = await sendMagicSpendRequest(
     'pimlico_getMagicSpendStakes',
-    [signer.address, ETH]
+    [{
+        account: signer.address,
+        asset: ETH
+    }]
 )
 
 if (stakes.length === 0) {
@@ -121,50 +125,93 @@ if (stakes.length === 0) {
 
 // [!endregion pimlico_getMagicSpendStakes]
 
-// [!region pimlico_prepareMagicSpendRequest]
-const magicSpendRequest = await sendMagicSpendRequest(
-    'pimlico_prepareMagicSpendRequest',
-    [
-        signer.address,
-        ETH,
-        toHex(amount),
-    ]
+// [!region pimlico_prepareMagicSpendAllowance]
+const allowance = await sendMagicSpendRequest(
+    'pimlico_prepareMagicSpendAllowance',
+    [{
+        account: signer.address,
+        asset: ETH,
+        amount: toHex(amount),
+    }]
 );
 
-const hash_ = await stakeManagerContract.read.getClaimRequestHash([
-    magicSpendRequest,
+const hash_ = await stakeManagerContract.read.getAllowanceHash([
+    allowance,
 ]) as Hex;
 
-const magicSpendSignature = await signer.signMessage({
+const allowanceSignature = await signer.signMessage({
     message: {
         raw: hash_,
     }
 })
-// [!endregion pimlico_prepareMagicSpendRequest]
+// [!endregion pimlico_prepareMagicSpendAllowance]
 
-// [!region pimlico_sponsorMagicSpendRequest]
-const [withdrawRequest, withdrawSignature] = await sendMagicSpendRequest(
-    "pimlico_sponsorMagicSpendRequest",
-    [magicSpendRequest, magicSpendSignature, simpleAccount.address]
+// [!region pimlico_grantMagicSpendAllowance]
+await sendMagicSpendRequest(
+    "pimlico_grantMagicSpendAllowance",
+    [{
+        allowance,
+        signature: allowanceSignature
+    }]
 );
+// [!endregion pimlico_grantMagicSpendAllowance]
 
-const magicSpendCallData = await encodeFunctionData({
-    abi: MagicSpendLiquidityManagerAbi,
+// [!region pimlico_sponsorMagicSpendWithdrawal]
+const withdrawalManagerContract = getContract({
+    abi: MagicSpendWithdrawalManagerAbi,
+    address: withdrawalManagerAddress,
+    client: publicClient,
+})
+
+const operatorRequestHash = await withdrawalManagerContract.read.getWithdrawalHash([
+    {
+        asset: ETH,
+        amount,
+        chainId: sepolia.id,
+        recipient: simpleAccount.address,
+        preCalls: [],
+        postCalls: [],
+        validUntil: BigInt(0),
+        validAfter: BigInt(0),
+        salt: 0
+    }
+]) as Hex;
+
+const operatorRequestSignature = await signer.signMessage({
+    message: {
+        raw: operatorRequestHash
+    }
+})
+
+const [wiithdrawal, withdrawalSignature] = await sendMagicSpendRequest(
+    "pimlico_sponsorMagicSpendWithdrawal",
+    [{
+        recipient: simpleAccount.address,
+        asset: ETH,
+        amount,
+        salt: 0,
+        signature: operatorRequestSignature
+    }]
+)
+// [!endregion pimlico_sponsorMagicSpendWithdrawal]
+
+// [!region execute]
+const magicSpendCallData = encodeFunctionData({
+    abi: MagicSpendWithdrawalManagerAbi,
     functionName: 'withdraw',
     args: [
-        withdrawRequest,
-        withdrawSignature,
+        wiithdrawal,
+        withdrawalSignature,
     ]
 })
 
-// [!endregion pimlico_sponsorMagicSpendRequest]
-
-// [!region sendUserOperation]
+// Send user operation and withdraw funds
+// You can add subsequent calls after the withdrawal, like "buy NFT on OpenSea for ETH"
 const userOpHash = await smartAccountClient.sendUserOperation({
     account: simpleAccount,
     calls: [
         {
-            to: liquidityManager,
+            to: withdrawalManagerAddress,
             value: parseEther("0"),
             data: magicSpendCallData,
         }
@@ -178,4 +225,4 @@ const receipt = await pimlicoClient.waitForUserOperationReceipt({
 })
 
 console.log(`Transaction hash: ${receipt.receipt.transactionHash}`);
-// [!endregion sendUserOperation]
+// [!endregion execute]
