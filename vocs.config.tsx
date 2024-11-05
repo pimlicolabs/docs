@@ -1265,6 +1265,10 @@ export const magicSpendSidebar = [
 			},
 		],
 	},
+	{
+		text: "Contract addresses",
+		link: "/infra/magic-spend/contract-addresses",
+	},
 ]
 
 export default defineConfig({
@@ -1329,7 +1333,7 @@ export default defineConfig({
 				items: paymasterSidebar,
 			},
 			{
-				text: "Magic Spend",
+				text: "MagicSpend++",
 				link: "/infra/magic-spend",
 				items: magicSpendSidebar,
 			}
