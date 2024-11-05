@@ -1,6 +1,6 @@
-# Magic spend staking
+# MagicSpend++ Staking
 
-Using the Magic Spen requires having one or many stakes on any connected EVM chains. The staking process is simple and can be done using the block explorer or `cast` CLI.
+Using the MagicSpend++ requires having one or many stakes on any connected EVM chains. The staking process is simple and can be done using the block explorer or `cast` CLI.
 
 ## Adding stake
 
@@ -9,6 +9,10 @@ To add a stake user has to send a transaction to the `MagicSpendStakeManager` co
 ```bash
 cast send 0x023Cdb354f655DED93Df8F5C220Cb43F82194D92 "addStake(address,uint128,uint32)" 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE,1000000000000000,259200 --value 0.001ether --private-key 0x... --rpc-url https://11155111.rpc.thirdweb.com/
 ```
+
+### Choosing the unstake delay
+
+We recommend setting the unstake delay to 3 days (`259200` seconds). The value can't be higher than 5 days, so the maximum delay is `432000` seconds. For each asset, after stake added the first time, the delay can't be changed. If the user wants to change the delay, they have to remove the stake and add it again.
 
 ## Removing stake
 
