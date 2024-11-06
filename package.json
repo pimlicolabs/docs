@@ -36,10 +36,10 @@
 		"caniuse-lite": "^1.0.30001655",
 		"lucide-react": "^0.309.0",
 		"magic-sdk": "^22.1.1",
-		"permissionless": "0.2.15",
+		"permissionless": "0.2.14",
 		"react": "latest",
 		"react-dom": "latest",
-		"viem": "^2.20.0",
+		"viem": "^2.21.34",
 		"vitest": "^2.0.5",
 		"vocs": "=1.0.0-alpha.55",
 		"wagmi": "^2.5.5"

@@ -1,0 +1,55 @@
+# pimlico_getMagicSpendAllowancesByOperator
+
+:::warning[Warning]
+
+The MagicSpend++ protocol is in beta. API is subject to change with short notice.
+
+:::
+
+This method returns the list of `Allowance` messages, that are allowed to be spent by the operator.
+
+
+## Request
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "pimlico_getMagicSpendAllowancesByOperator",
+    "params": [
+        "0x77d1f68C3C924cFD4732e64E93AEBEA836797485"
+    ],
+    "id": 1
+}
+
+```
+
+## Response
+
+```json
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": [
+        {
+            "hash": "0x4d16d244201121ffc0227f893a73aa47058f84bde16bd634f02694dc4aa30482",
+            "body": {
+                "salt": "0x52b39",
+                "allowances": [
+                    {
+                        "asset": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+                        "amount": "0x7b",
+                        "chainId": "0x14a34",
+                        "used": "0x7b"
+                    }
+                ],
+                "operator": "0x77d1f68C3C924cFD4732e64E93AEBEA836797485",
+                "account": "0x77d1f68C3C924cFD4732e64E93AEBEA836797485",
+                "validAfter": "0x672a5f85",
+                "validUntil": "0x672e7043"
+            },
+            "signature": "0x662b38f9422f1c71d1d1a81d3cea65ee3e1d222c4dbd6866e585f5cc813e8cd77a147e714056481b9c31b219c5db5153dc4f45759ec7e8273a0d54147407ab4b1b",
+        }
+    ]
+}
+
+```

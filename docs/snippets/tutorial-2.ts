@@ -75,6 +75,8 @@ if (senderUsdcBalance < 1_000_000n) {
 		} USDC, required at least 1 USDC. Load up balance at https://faucet.circle.com/`,
 	)
 }
+
+console.log("Smart account USDC balance: ", Number(senderUsdcBalance) / 1_000_000)
 // [!endregion checkBalance]
 
 // [!region submit]

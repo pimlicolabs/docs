@@ -92,11 +92,13 @@ Ensure you configure the service for all the blockchain networks where you plan 
 
 Wrap your app in the `PermissionlessProvider` React Context Provider and pass the `capabilities` you created earlier.
 
-```tsx
+:::code-group
+
+```tsx [App.tsx]
 import { WagmiProvider } from "wagmi"
 import { baseSepolia } from "wagmi/chains"
 import { PermissionlessProvider } from "@permissionless/wagmi" // [!code focus]
-import { config } from "./wagmi.ts"
+import { config, capabilities } from "./wagmi.ts" // [!code focus]
 
 ReactDOM.createRoot(root).render(
   <WagmiProvider config={config}>
@@ -110,6 +112,29 @@ ReactDOM.createRoot(root).render(
   </WagmiProvider>
 )
 ```
+
+```tsx [wagmi.ts]
+export const config = createConfig({
+    chains: [baseSepolia],
+    connectors: [
+        // coinbase wallet is one of the smart accounts that supports ERC-7677
+        coinbaseWallet({ appName: "Pimlico", preference: "smartWalletOnly" })
+    ],
+    transports: {
+        [baseSepolia.id]: http("https://sepolia.base.org")
+    }
+})
+
+export const capabilities = {
+  paymasterService: {
+    [baseSepolia.id]: {
+        url: `https://api.pimlico.io/v2/${baseSepolia.id}/rpc?apikey=${pimlicoApiKey}`
+    }
+  }
+}
+```
+
+:::
 
 Check out the [PermissionlessProvider]() docs to learn more about React Context in @permissionless/wagmi.
 

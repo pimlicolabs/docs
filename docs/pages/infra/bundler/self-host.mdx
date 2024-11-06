@@ -22,7 +22,7 @@ And then to start Alto, run
 
 Alto manages multiple executor wallets. If any wallet's balance falls below a set minimum, its balance is automatically refilled using funds from the utility wallet. The utility wallet needs to be funded before starting Alto.
 
-EntryPoint V0.7 relies on a simulation contract to be deployed. Alto uses this contract during validation and gas estimations. `0x74cb5e4ee81b86e70f9045036a1c5477de69ee87` is the address of the simulation contract on all chains that we support. You can deploy the same contract to any network by using [this helper function](https://gist.github.com/mouseless0x/9221f12542553250252f3dbc22b5e1c1)
+EntryPoint V0.7 relies on a simulation contract to be deployed. Alto uses this contract during validation and gas estimations. The simulation contract can be deployed by enabling the `--deploy-simulations-contract` flag.
 
 ##### Prerequisites:
 

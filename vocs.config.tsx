@@ -1,5 +1,6 @@
 import { defineConfig } from "vocs"
 import viteConfig from "./utils"
+import { link } from "fs"
 
 export const platformSidebar = [
 	{
@@ -403,6 +404,10 @@ export const conceptualSidebar = [
 		text: "ERC-7579",
 		link: "/conceptual/erc7579",
 	},
+	{
+		text: "EIP-7702",
+		link: "/conceptual/eip7702",
+	},
 ]
 
 export const permissionlessSidebar = [
@@ -443,6 +448,10 @@ export const permissionlessSidebar = [
 				text: "How to send multiple user operations in parallel",
 				link: "/permissionless/how-to/parallel-transactions",
 			},
+			{
+				text: "How to send a userOperation from a EOA using EIP-7702",
+				link: "/permissionless/how-to/eip-7702-demo",
+			},
 			// {
 			// 	text: "Error Handling",
 			// 	link: "/permissionless/how-to/error-handling",
@@ -479,8 +488,8 @@ export const permissionlessSidebar = [
 						link: "/permissionless/how-to/accounts/use-simple-account",
 					},
 					{
-						text: "How to use a Biconomy account",
-						link: "/permissionless/how-to/accounts/use-biconomy-account",
+						text: "How to use a Biconomy Nexus account",
+						link: "/permissionless/how-to/accounts/use-nexus-account",
 					},
 					{
 						text: "How to use a LightAccount",
@@ -497,6 +506,10 @@ export const permissionlessSidebar = [
 					{
 						text: "How to use an ERC-7579 compatible smart account",
 						link: "/permissionless/how-to/accounts/use-erc7579-account",
+					},
+					{
+						text: "How to use a Biconomy [deprecated] account",
+						link: "/permissionless/how-to/accounts/use-biconomy-account",
 					},
 				],
 			},
@@ -602,6 +615,10 @@ export const permissionlessSidebar = [
 					{
 						text: "toEcdsaKernelSmartAccount",
 						link: "/permissionless/reference/accounts/toEcdsaKernelSmartAccount",
+					},
+					{
+						text: "toNexusSmartAccount",
+						link: "/permissionless/reference/accounts/toNexusSmartAccount",
 					},
 					{
 						text: "toLightSmartAccount",
@@ -1216,6 +1233,64 @@ export const permissionlessSidebar0Point1 = [
 	},
 ]
 
+export const magicSpendSidebar = [
+	{
+		text: "Overview",
+		link: "/infra/magic-spend",
+	},
+	{
+		text: "Architecture",
+		link: "/infra/magic-spend/architecture",
+	},
+	{
+		text: "Staking",
+		link: "/infra/magic-spend/staking",
+	},
+	{
+		text: "Endpoints",
+		collapsed: false,
+		items: [
+			{
+				text: "pimlico_getMagicSpendContracts",
+				link: "/infra/magic-spend/endpoints/pimlico_getMagicSpendContracts",
+			},
+			{
+				text: "pimlico_getMagicSpendStakes",
+				link: "/infra/magic-spend/endpoints/pimlico_getMagicSpendStakes",
+			},
+			{
+				text: "pimlico_prepareMagicSpendAllowance",
+				link: "/infra/magic-spend/endpoints/pimlico_prepareMagicSpendAllowance",
+			},
+			{
+				text: "pimlico_grantMagicSpendAllowance",
+				link: "/infra/magic-spend/endpoints/pimlico_grantMagicSpendAllowance",
+			},
+			{
+				text: "pimlico_sponsorMagicSpendWithdrawal",
+				link: "/infra/magic-spend/endpoints/pimlico_sponsorMagicSpendWithdrawal",
+			},
+			{
+				text: "pimlico_getMagicSpendAllowancesByOperator",
+				link: "/infra/magic-spend/endpoints/pimlico_getMagicSpendAllowancesByOperator",
+			},
+		],
+	},
+	{
+		text: "Guides",
+		items: [
+			{
+				text: "How to request ETH from a MagicSpend++",
+				link: "/infra/magic-spend/how-to/request-eth",
+			},
+		],
+	},
+	{
+		text: "Supported chains and tokens",
+		link: "/infra/magic-spend/supported-chains-and-tokens",
+	},
+]
+
 export default defineConfig({
 	title: "Pimlico",
 	logoUrl: { light: "/pimlico-purple.svg", dark: "/pimlico-white.svg" },
@@ -1277,6 +1352,11 @@ export default defineConfig({
 				link: "/infra/paymaster",
 				items: paymasterSidebar,
 			},
+			{
+				text: "MagicSpend++",
+				link: "/infra/magic-spend",
+				items: magicSpendSidebar,
+			}
 		],
 		"/conceptual": conceptualSidebar,
 	},
