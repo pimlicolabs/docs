@@ -22,8 +22,10 @@ const safeAccount = await signerToSafeSmartAccount(publicClient, {
 	signer,
 	safeVersion: "1.4.1",
 	entryPoint: ENTRYPOINT_ADDRESS_V07,
-	safe4337ModuleAddress: "0x3Fdb5BC686e861480ef99A6E3FaAe03c0b9F32e2", // These are not meant to be used in production as of now.
-	erc7579LaunchpadAddress: "0xEBe001b3D534B9B6E2500FB78E67a1A137f561CE", // These are not meant to be used in production as of now.
+	safe4337ModuleAddress: "0x7579EE8307284F293B1927136486880611F20002", 
+	erc7579LaunchpadAddress: "0x7579011aB74c46090561ea277Ba79D510c6C00ff", 
+	attesters: ["0x000000333034E9f539ce08819E12c1b8Cb29084d"],
+	attestersThreshold: 1
 })
 
 // Extend the client with the ERC7579 actions

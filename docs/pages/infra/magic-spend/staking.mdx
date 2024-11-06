@@ -1,0 +1,41 @@
+# MagicSpend++ Staking
+
+Using the MagicSpend++ requires having one or many stakes on any connected EVM chains. The staking process is simple and can be done using the block explorer or `cast` CLI.
+
+## Adding stake
+
+To add a stake user has to send a transaction to the `MagicSpendStakeManager` contract with the `addStake` function call. The function has three parameters: `asset`, `amount`, and `unstakeDelaySec`. The `asset` parameter is the address of the token to stake, `amount` is the amount of tokens to stake, and `unstakeDelaySec` is the time in seconds after which the stake can be removed.
+
+:::tip[Tip]
+For now, the only supported asset is ETH. It's represented by the `0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE` address.
+:::
+
+```bash
+cast send 0x023Cdb354f655DED93Df8F5C220Cb43F82194D92 "addStake(address,uint128,uint32)" 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE,1000000000000000,259200 --value 0.001ether --private-key 0x... --rpc-url https://11155111.rpc.thirdweb.com/
+```
+
+### Choosing the unstake delay
+
+We recommend setting the unstake delay to 3 days (`259200` seconds). The value can't be higher than 5 days, so the maximum delay is `432000` seconds. For each asset, after stake added the first time, the delay can't be changed. If the user wants to change the delay, they have to remove the stake and add it again.
+
+## Removing stake
+
+To remove stake user has to send two transactions: one to unlock the stake and another to remove it.
+
+### Unlocking stake
+
+To unlock the stake user has to send a transaction to the `MagicSpendStakeManager` contract with the `unlockStake` function call. The function has one parameter: `asset` which is the address of the token to unlock.
+
+Unlocking stake starts the unstake delay timer. After the delay is over the stake can be removed.
+
+```bash
+cast send 0x023Cdb354f655DED93Df8F5C220Cb43F82194D92 "unlockStake(address)" 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE --private-key 0x... --rpc-url https://11155111.rpc.thirdweb.com/
+```
+
+### Removing stake
+
+To remove the stake user has to send a transaction to the `MagicSpendStakeManager` contract with the `withdrawStake` function call. The function has two parameters: `asset` which is the address of the token to remove and `recipient` which is the address to send the tokens to.
+
+```bash
+cast send 0x023Cdb354f655DED93Df8F5C220Cb43F82194D92 "withdrawStake(address,address)" 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE,vitalik.eth --private-key 0x... --rpc-url https://11155111.rpc.thirdweb.com/
+```
