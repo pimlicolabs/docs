@@ -49,4 +49,8 @@ In the example below, we use the current timestamp as the `key` to send parallel
 // [!include ~/snippets/how-to/parallel-transactions.ts:multiple-transactions-parallel]
 ```
 
+:::info
+Note: The flow described in this section is only applicable to smart accounts that are already deployed, if your account is not deployed, you may run into AA10 errors as multiple userOperations will contain the factory/factoryData fields which will cause conflicts.
+:::
+
 This way, you can efficiently manage multiple transactions either sequentially or concurrently.
