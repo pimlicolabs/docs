@@ -12,21 +12,33 @@ According to the specification, not all execution modes must be supported. So it
 
 ## Usage
 
-::::code-group
+Create a smart account client with one of the following accounts that support ERC-7579:
 
-```ts [example.ts]
-// [!include ~/snippets/erc7579/supportsExecutionMode.ts:safe-smart-account-client]
+:::code-group
+
+```ts [Kernel Account]
+// [!include ~/snippets/erc7579/ecdsaKernelSmartAccount.ts]
 ```
 
-```ts [publicClient.ts]
-// [!include ~/snippets/publicClient.ts:client]
+```ts [Safe Account]
+// [!include ~/snippets/erc7579/safeSmartAccount.ts]
 ```
 
-```ts [owner.ts]
-// [!include ~/snippets/owner.ts]
+```ts [Biconomy Account]
+// [!include ~/snippets/erc7579/biconomySmartAccount.ts]
 ```
+:::
 
-::::
+Use the `supportsExecutionMode` method to check if an execution mode is supported on the smart account.
+
+```ts
+const isExecutionModeSupported = await smartAccountClient.supportsExecutionMode({
+	type: "delegatecall",
+	revertOnError: true,
+	selector: "0x",
+	context: "0x",
+})
+```
 
 ## Returns
 

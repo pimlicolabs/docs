@@ -8,21 +8,34 @@ Checks if an [ERC-7579](https://eips.ethereum.org/EIPS/eip-7579) module is insta
 
 ## Usage
 
-::::code-group
+Create a smart account client with one of the following accounts that support ERC-7579:
 
-```ts [example.ts]
-// [!include ~/snippets/erc7579/isModuleInstalled.ts:safe-smart-account-client]
+:::code-group
+
+```ts [Kernel Account]
+// [!include ~/snippets/erc7579/ecdsaKernelSmartAccount.ts]
 ```
 
-```ts [publicClient.ts]
-// [!include ~/snippets/publicClient.ts:client]
+```ts [Safe Account]
+// [!include ~/snippets/erc7579/safeSmartAccount.ts]
 ```
 
-```ts [owner.ts]
-// [!include ~/snippets/owner.ts]
+```ts [Biconomy Account]
+// [!include ~/snippets/erc7579/biconomySmartAccount.ts]
 ```
+:::
 
-::::
+Use the `isModuleInstalled` method to check if a module is installed on the smart account.
+
+```ts
+const ownableExecutorModule = "0xc98B026383885F41d9a995f85FC480E9bb8bB891"
+const moduleData = encodePacked(["address"], ["0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"])
+const isInstalled = await smartAccountClient.isModuleInstalled({
+	type: "executor",
+	address: ownableExecutorModule,
+	context: moduleData,
+})
+```
 
 ## Returns
 

@@ -46,7 +46,6 @@ const smartAccountClient = createSmartAccountClient({
 }).extend(erc7579Actions())
 
 const ownableExecutorModule = "0xc98B026383885F41d9a995f85FC480E9bb8bB891"
-
 const moduleData = encodePacked(["address"], ["0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"])
 const userOpHash = await smartAccountClient.uninstallModule({
 	type: "executor",

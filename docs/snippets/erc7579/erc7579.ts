@@ -36,10 +36,10 @@ const safeAccount = await toSafeSmartAccount({
 		address: entryPoint07Address,
 		version: "0.7",
 	},
-	safe4337ModuleAddress: "0x7579EE8307284F293B1927136486880611F20002", 
-	erc7579LaunchpadAddress: "0x7579011aB74c46090561ea277Ba79D510c6C00ff", 
-	attesters: ["0x000000333034E9f539ce08819E12c1b8Cb29084d"],
-	attestersThreshold: 1
+	safe4337ModuleAddress: "0x7579EE8307284F293B1927136486880611F20002",
+	erc7579LaunchpadAddress: "0x7579011aB74c46090561ea277Ba79D510c6C00ff",
+	attesters: ["0x000000333034E9f539ce08819E12c1b8Cb29084d"], // This address belongs to Rhinestone. By designating them as attesters, you authorize that only modules explicitly approved by Rhinestone can be installed on your safe.
+	attestersThreshold: 1,
 })
 // [!endregion smartAccount]
 

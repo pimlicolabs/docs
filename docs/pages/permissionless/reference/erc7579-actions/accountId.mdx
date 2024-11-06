@@ -8,21 +8,29 @@ Gets the accountId of the smart account as defined in [ERC-7579](https://eips.et
 
 ## Usage
 
-::::code-group
+Create a smart account client with one of the following accounts that support ERC-7579:
 
-```ts [example.ts]
-// [!include ~/snippets/erc7579/accountId.ts:safe-smart-account-client]
+:::code-group
+
+```ts [Kernel Account]
+// [!include ~/snippets/erc7579/ecdsaKernelSmartAccount.ts]
 ```
 
-```ts [publicClient.ts]
-// [!include ~/snippets/publicClient.ts:client]
+```ts [Safe Account]
+// [!include ~/snippets/erc7579/safeSmartAccount.ts]
 ```
 
-```ts [owner.ts]
-// [!include ~/snippets/owner.ts]
+```ts [Biconomy Account]
+// [!include ~/snippets/erc7579/biconomySmartAccount.ts]
 ```
+:::
 
-::::
+Use the `accountId` method to get the accountId of the smart account.
+
+```ts
+const accountId = await smartAccountClient.accountId()
+console.log(accountId)
+```
 
 ## Returns
 
