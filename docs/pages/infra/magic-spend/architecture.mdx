@@ -15,34 +15,39 @@ MagicSpend++ is a protocol that allows users to spend their funds on any chain t
 ### `Allowance` message
 
 ```solidity
+/// @notice Helper struct that represents an allowance for a specific asset.
 struct AssetAllowance {
-    /// @dev Asset that can be claimed.
-    address asset;
+    /// @dev Token that can be claimed.
+    address token;
     /// @dev The amount to claim.
     uint128 amount;
     /// @dev The chain id of the network, where the claim will be made.
     uint128 chainId;
 }
 
+/// @notice Helper struct that represents an allowance.
+/// @dev signed by the user it allows Pimlico to claim part of user's stake from the `MagicSpendStakeManager` contract
+/// @dev on one or many chains.
 struct Allowance {
     /// @dev Address which stake is allowed to be claimed.
     address account;
-    /// @dev List of allowances, one allowance per chain.
-    AssetAllowance[] allowances;
+    /// @dev List of assets, allowed to be claimed.
+    /// @dev One allowance per asset, where asset is the combination of (token,chainId)
+    AssetAllowance[] assets;
     /// @dev The time in which the allowance is valid until.
     uint48 validUntil;
     /// @dev The time in which the allowance is valid after.
     uint48 validAfter;
     /// @dev The salt of the allowance.
     uint48 salt;
-    /// @dev Address which allowed to request withdrawals on behalf of this allowance.
+    /// @dev Signer which is allowed to request withdrawals on behalf of this allowance.
     address operator;
 }
 ```
 
 `Allowance` is a message that user signs and sends to Pimlico. It contains the details of the stake, such as the asset, amount, chain id, etc. Pimlico can claim the user's stake only if the user provided a signed `Allowance` message.
 
-Each `Allowance` can have many `AssetAllowance`, where each `AssetAllowance` represents an allowance on a separate chain. It allows users to provide parts of their stakes on different chains in a single request.
+Each `Allowance` can have many `AssetAllowance`, where each `AssetAllowance` represents a unique combination of `(AssetAllowance.token,AssetAllowance.chainId)`. It allows users to provide parts of their stakes on different chains and tokens in a single request.
 
 ### Upgradability
 
@@ -68,12 +73,14 @@ struct Call {
     bytes data;
 }
 
+/// @notice This struct represents a withdrawal request.
+/// @dev signed by the signer it allows to withdraw funds from the `MagicSpendWithdrawalManager` contract
 struct Withdrawal {
-    /// @dev Asset that will be withdrawn.
-    address asset;
+    /// @dev Token that will be withdrawn.
+    address token;
     /// @dev The requested amount to withdraw.
     uint128 amount;
-    /// @dev Chain id of the network, where the withdrawal will be made.
+    /// @dev Chain id of the network, where the withdrawal will be executed.
     uint128 chainId;
     /// @dev Address that will receive the funds.
     address recipient;
@@ -88,6 +95,7 @@ struct Withdrawal {
     /// @dev The salt of the withdrawal.
     uint48 salt;
 }
+
 ```
 
 `Withdrawal` is a message that Pimlico signs and sends to user. It contains the details of the withdrawal, such as the asset, amount, recipient, chain id, etc.
