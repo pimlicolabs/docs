@@ -105,8 +105,8 @@ struct Withdrawal {
 This section describes the flow of the MagicSpend++ protocol. In order to start using MagicSpend++, users have to stake their funds. Read how to do that in the [Staking](/infra/magic-spend/staking) section.
 
 1. User stakes their funds in the `MagicSpendStakeManager` contract, on one or many networks.
-2. User sends a `pimlico_prepareMagicSpendAllowance` call, which returns the `Allowance`
-3. User signs the `Allowance` and sends it with `pimlico_grantMagicSpendClaimAllowance` call.
+2. User sends a `pimlico_prepareMagicSpendAllowance` call, which returns the `Allowance`.
+3. User signs the `Allowance` and sends it with `pimlico_grantMagicSpendAllowance` call.
 4. Pimlico validates the `Allowance` and returns it's hash.
 5. User sends a `pimlico_sponsorMagicSpendWithdrawal` call, where they specify the asset, amount, recipient, chain id, etc.
 6. Pimlico signs the corresponding `Withdrawal` and returns it with a signature to user
