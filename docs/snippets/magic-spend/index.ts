@@ -8,6 +8,7 @@ import { MagicSpendWithdrawalManagerAbi } from "./abi/MagicSpendWithdrawalManage
 import { entryPoint07Address } from "viem/account-abstraction";
 import { createPimlicoClient } from "permissionless/clients/pimlico"
 import { toSimpleSmartAccount } from "permissionless/accounts";
+import { MagicSpendAllowance, MagicSpendWithdrawal } from "./types";
 
 import "dotenv/config"
 
@@ -126,17 +127,22 @@ if (stakes.length === 0) {
 // [!endregion pimlico_getMagicSpendStakes]
 
 // [!region pimlico_prepareMagicSpendAllowance]
-const allowance = await sendMagicSpendRequest(
+const allowance = (await sendMagicSpendRequest(
     'pimlico_prepareMagicSpendAllowance',
     [{
         account: signer.address,
-        asset: ETH,
+        token: ETH,
         amount: toHex(amount),
     }]
-);
+)) as MagicSpendAllowance;
 
 const hash_ = await stakeManagerContract.read.getAllowanceHash([
-    allowance,
+    {
+        ...allowance,
+        validAfter: Number(allowance.validAfter),
+        validUntil: Number(allowance.validUntil),
+        salt: Number(allowance.salt),
+    }
 ]) as Hex;
 
 const allowanceSignature = await signer.signMessage({
@@ -165,14 +171,14 @@ const withdrawalManagerContract = getContract({
 
 const operatorRequestHash = await withdrawalManagerContract.read.getWithdrawalHash([
     {
-        asset: ETH,
-        amount,
-        chainId: sepolia.id,
+        token: ETH,
+        amount: BigInt(amount),
+        chainId: BigInt(sepolia.id),
         recipient: simpleAccount.address,
         preCalls: [],
         postCalls: [],
-        validUntil: BigInt(0),
-        validAfter: BigInt(0),
+        validUntil: Number(0),
+        validAfter: Number(0),
         salt: 0
     }
 ]) as Hex;
@@ -187,7 +193,7 @@ const [wiithdrawal, withdrawalSignature] = await sendMagicSpendRequest(
     "pimlico_sponsorMagicSpendWithdrawal",
     [{
         recipient: simpleAccount.address,
-        asset: ETH,
+        token: ETH,
         amount,
         salt: 0,
         signature: operatorRequestSignature

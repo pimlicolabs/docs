@@ -1,18 +1,20 @@
 export const MagicSpendStakeManagerAbi = [
     {
-      "type": "constructor",
-      "inputs": [
-        {
-          "name": "_owner",
-          "type": "address",
-          "internalType": "address"
-        }
-      ],
-      "stateMutability": "nonpayable"
-    },
-    {
       "type": "receive",
       "stateMutability": "payable"
+    },
+    {
+      "type": "function",
+      "name": "FIVE_DAYS",
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint32",
+          "internalType": "uint32"
+        }
+      ],
+      "stateMutability": "view"
     },
     {
       "type": "function",
@@ -29,10 +31,23 @@ export const MagicSpendStakeManagerAbi = [
     },
     {
       "type": "function",
+      "name": "THREE_DAYS",
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint32",
+          "internalType": "uint32"
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
       "name": "addStake",
       "inputs": [
         {
-          "name": "asset",
+          "name": "token",
           "type": "address",
           "internalType": "address"
         },
@@ -55,9 +70,9 @@ export const MagicSpendStakeManagerAbi = [
       "name": "claim",
       "inputs": [
         {
-          "name": "request",
+          "name": "allowance",
           "type": "tuple",
-          "internalType": "struct ClaimRequest",
+          "internalType": "struct Allowance",
           "components": [
             {
               "name": "account",
@@ -65,22 +80,17 @@ export const MagicSpendStakeManagerAbi = [
               "internalType": "address"
             },
             {
-              "name": "claims",
+              "name": "assets",
               "type": "tuple[]",
-              "internalType": "struct ClaimStruct[]",
+              "internalType": "struct AssetAllowance[]",
               "components": [
                 {
-                  "name": "asset",
+                  "name": "token",
                   "type": "address",
                   "internalType": "address"
                 },
                 {
                   "name": "amount",
-                  "type": "uint128",
-                  "internalType": "uint128"
-                },
-                {
-                  "name": "fee",
                   "type": "uint128",
                   "internalType": "uint128"
                 },
@@ -105,6 +115,11 @@ export const MagicSpendStakeManagerAbi = [
               "name": "salt",
               "type": "uint48",
               "internalType": "uint48"
+            },
+            {
+              "name": "operator",
+              "type": "address",
+              "internalType": "address"
             }
           ]
         },
@@ -114,7 +129,7 @@ export const MagicSpendStakeManagerAbi = [
           "internalType": "bytes"
         },
         {
-          "name": "claimId",
+          "name": "assetId",
           "type": "uint8",
           "internalType": "uint8"
         },
@@ -132,7 +147,7 @@ export const MagicSpendStakeManagerAbi = [
       "name": "claimed",
       "inputs": [
         {
-          "name": "asset",
+          "name": "token",
           "type": "address",
           "internalType": "address"
         }
@@ -191,12 +206,12 @@ export const MagicSpendStakeManagerAbi = [
     },
     {
       "type": "function",
-      "name": "getClaimRequestHash",
+      "name": "getAllowanceHash",
       "inputs": [
         {
-          "name": "request",
+          "name": "allowance",
           "type": "tuple",
-          "internalType": "struct ClaimRequest",
+          "internalType": "struct Allowance",
           "components": [
             {
               "name": "account",
@@ -204,22 +219,17 @@ export const MagicSpendStakeManagerAbi = [
               "internalType": "address"
             },
             {
-              "name": "claims",
+              "name": "assets",
               "type": "tuple[]",
-              "internalType": "struct ClaimStruct[]",
+              "internalType": "struct AssetAllowance[]",
               "components": [
                 {
-                  "name": "asset",
+                  "name": "token",
                   "type": "address",
                   "internalType": "address"
                 },
                 {
                   "name": "amount",
-                  "type": "uint128",
-                  "internalType": "uint128"
-                },
-                {
-                  "name": "fee",
                   "type": "uint128",
                   "internalType": "uint128"
                 },
@@ -244,6 +254,11 @@ export const MagicSpendStakeManagerAbi = [
               "name": "salt",
               "type": "uint48",
               "internalType": "uint48"
+            },
+            {
+              "name": "operator",
+              "type": "address",
+              "internalType": "address"
             }
           ]
         }
@@ -259,25 +274,20 @@ export const MagicSpendStakeManagerAbi = [
     },
     {
       "type": "function",
-      "name": "getClaimStructHash",
+      "name": "getAssetAllowanceHash",
       "inputs": [
         {
-          "name": "claim_",
+          "name": "asset",
           "type": "tuple",
-          "internalType": "struct ClaimStruct",
+          "internalType": "struct AssetAllowance",
           "components": [
             {
-              "name": "asset",
+              "name": "token",
               "type": "address",
               "internalType": "address"
             },
             {
               "name": "amount",
-              "type": "uint128",
-              "internalType": "uint128"
-            },
-            {
-              "name": "fee",
               "type": "uint128",
               "internalType": "uint128"
             },
@@ -308,7 +318,7 @@ export const MagicSpendStakeManagerAbi = [
           "internalType": "address"
         },
         {
-          "name": "asset",
+          "name": "token",
           "type": "address",
           "internalType": "address"
         }
@@ -343,6 +353,19 @@ export const MagicSpendStakeManagerAbi = [
         }
       ],
       "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "initialize",
+      "inputs": [
+        {
+          "name": "_owner",
+          "type": "address",
+          "internalType": "address"
+        }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
     },
     {
       "type": "function",
@@ -388,7 +411,7 @@ export const MagicSpendStakeManagerAbi = [
       "name": "skim",
       "inputs": [
         {
-          "name": "asset",
+          "name": "token",
           "type": "address",
           "internalType": "address"
         }
@@ -406,7 +429,7 @@ export const MagicSpendStakeManagerAbi = [
           "internalType": "address"
         },
         {
-          "name": "asset",
+          "name": "token",
           "type": "address",
           "internalType": "address"
         }
@@ -438,7 +461,7 @@ export const MagicSpendStakeManagerAbi = [
       "name": "unlockStake",
       "inputs": [
         {
-          "name": "asset",
+          "name": "token",
           "type": "address",
           "internalType": "address"
         }
@@ -451,7 +474,7 @@ export const MagicSpendStakeManagerAbi = [
       "name": "withdrawStake",
       "inputs": [
         {
-          "name": "asset",
+          "name": "token",
           "type": "address",
           "internalType": "address"
         },
@@ -466,10 +489,22 @@ export const MagicSpendStakeManagerAbi = [
     },
     {
       "type": "event",
-      "name": "AssetSkimmed",
+      "name": "AllowanceClaimed",
       "inputs": [
         {
-          "name": "asset",
+          "name": "hash_",
+          "type": "bytes32",
+          "indexed": true,
+          "internalType": "bytes32"
+        },
+        {
+          "name": "account",
+          "type": "address",
+          "indexed": true,
+          "internalType": "address"
+        },
+        {
+          "name": "token",
           "type": "address",
           "indexed": true,
           "internalType": "address"
@@ -487,6 +522,38 @@ export const MagicSpendStakeManagerAbi = [
       "type": "event",
       "name": "EIP712DomainChanged",
       "inputs": [],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "FeeSkimmed",
+      "inputs": [
+        {
+          "name": "token",
+          "type": "address",
+          "indexed": true,
+          "internalType": "address"
+        },
+        {
+          "name": "amount",
+          "type": "uint256",
+          "indexed": false,
+          "internalType": "uint256"
+        }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "Initialized",
+      "inputs": [
+        {
+          "name": "version",
+          "type": "uint64",
+          "indexed": false,
+          "internalType": "uint64"
+        }
+      ],
       "anonymous": false
     },
     {
@@ -510,37 +577,6 @@ export const MagicSpendStakeManagerAbi = [
     },
     {
       "type": "event",
-      "name": "RequestClaimed",
-      "inputs": [
-        {
-          "name": "hash_",
-          "type": "bytes32",
-          "indexed": true,
-          "internalType": "bytes32"
-        },
-        {
-          "name": "account",
-          "type": "address",
-          "indexed": true,
-          "internalType": "address"
-        },
-        {
-          "name": "asset",
-          "type": "address",
-          "indexed": true,
-          "internalType": "address"
-        },
-        {
-          "name": "amount",
-          "type": "uint256",
-          "indexed": false,
-          "internalType": "uint256"
-        }
-      ],
-      "anonymous": false
-    },
-    {
-      "type": "event",
       "name": "StakeClaimed",
       "inputs": [
         {
@@ -550,7 +586,7 @@ export const MagicSpendStakeManagerAbi = [
           "internalType": "address"
         },
         {
-          "name": "asset",
+          "name": "token",
           "type": "address",
           "indexed": true,
           "internalType": "address"
@@ -575,7 +611,7 @@ export const MagicSpendStakeManagerAbi = [
           "internalType": "address"
         },
         {
-          "name": "asset",
+          "name": "token",
           "type": "address",
           "indexed": true,
           "internalType": "address"
@@ -606,7 +642,7 @@ export const MagicSpendStakeManagerAbi = [
           "internalType": "address"
         },
         {
-          "name": "asset",
+          "name": "token",
           "type": "address",
           "indexed": true,
           "internalType": "address"
@@ -631,7 +667,7 @@ export const MagicSpendStakeManagerAbi = [
           "internalType": "address"
         },
         {
-          "name": "asset",
+          "name": "token",
           "type": "address",
           "indexed": true,
           "internalType": "address"
@@ -644,6 +680,16 @@ export const MagicSpendStakeManagerAbi = [
         }
       ],
       "anonymous": false
+    },
+    {
+      "type": "error",
+      "name": "AllowanceExpired",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "AllowanceNotYetValid",
+      "inputs": []
     },
     {
       "type": "error",
@@ -662,22 +708,32 @@ export const MagicSpendStakeManagerAbi = [
     },
     {
       "type": "error",
+      "name": "AssetAllowanceInvalidChain",
+      "inputs": []
+    },
+    {
+      "type": "error",
       "name": "InsufficientFunds",
       "inputs": []
     },
     {
       "type": "error",
-      "name": "InvalidClaimId",
+      "name": "InvalidAssetAllowanceId",
       "inputs": []
     },
     {
       "type": "error",
-      "name": "InvalidShortString",
+      "name": "InvalidInitialization",
       "inputs": []
     },
     {
       "type": "error",
       "name": "InvalidUnstakeDelay",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "NotInitializing",
       "inputs": []
     },
     {
@@ -709,21 +765,6 @@ export const MagicSpendStakeManagerAbi = [
     },
     {
       "type": "error",
-      "name": "RequestExpired",
-      "inputs": []
-    },
-    {
-      "type": "error",
-      "name": "RequestInvalidChain",
-      "inputs": []
-    },
-    {
-      "type": "error",
-      "name": "RequestNotYetValid",
-      "inputs": []
-    },
-    {
-      "type": "error",
       "name": "SignatureInvalid",
       "inputs": []
     },
@@ -746,17 +787,5 @@ export const MagicSpendStakeManagerAbi = [
       "type": "error",
       "name": "StakeTooLow",
       "inputs": []
-    },
-    {
-      "type": "error",
-      "name": "StringTooLong",
-      "inputs": [
-        {
-          "name": "str",
-          "type": "string",
-          "internalType": "string"
-        }
-      ]
     }
-  ]
-  
+  ] as const
