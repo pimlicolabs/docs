@@ -1,14 +1,9 @@
 // [!region main]
-import { ParticleNetwork } from "@particle-network/auth"
-import { ParticleProvider } from "@particle-network/provider"
+import { useEthereum } from "@particle-network/authkit";
 
-// Param options here will be specific to your project.  See the Particle docs for more info.
-const particle = new ParticleNetwork({
-	projectId,
-	clientKey,
-	appId,
-	chainName,
-	chainId,
-})
-const smartAccountOwner = new ParticleProvider(particle.auth)
+// Inside your component or app function
+const { provider } = useEthereum();
+
+// Assign provider to smartAccountOwner
+const smartAccountOwner = provider;
 // [!endregion main]

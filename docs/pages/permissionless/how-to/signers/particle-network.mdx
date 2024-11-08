@@ -6,22 +6,25 @@ import SmartAccounts from "./smartAccounts.mdx"
 
 # How to use a Particle Network signer with permissionless.js
 
-[Particle Network](https://particle.network/) is an intent-centric, modular wallet-as-a-service (WaaS). By utilizing MPC-TSS for key management, Particle can streamline onboarding via familiar Web2 methods such as Google, emails, and phone numbers.
+[Particle Network](https://particle.network) provides Wallet Abstraction services that simplify user onboarding.
 
-By combining permissionless.js with Particle, you can use Particle to enable a smooth social login experience, while using ZeroDev as the smart wallet to sponsor gas for users, batch transactions, and more.
+The [Particle Auth SDK](https://developers.particle.network/api-reference/auth/desktop-sdks/web) offers seamless 2-click onboarding using social logins. It allows users to quickly sign up using familiar Web2 options like Google, email, or phone numbers. Particle uses MPC-TSS for secure key management, ensuring both convenience and security.
 
-## Setup
+For a streamlined social login experience, you can combine Particle with permissionless.js while leveraging ZeroDev as the smart wallet. This setup enables features like gas fee sponsorship, transaction batching, and more, enhancing the user experience within your application.
+
+## Setup 
 
 To use Particle Network with permissionless.js, first create an application that integrates with Particle Network.
 
-- Refer to the [Particle Network documentation site](https://docs.particle.network/) for instructions on setting up an application with the Particle Network.
-- For a quick start, Particle Network provides a guide, available [here](https://docs.particle.network/getting-started/get-started).
+- Follow the Quickstart on the [Particle docs](https://developers.particle.network/guides/wallet-as-a-service/waas/auth/web-quickstart) to quickly spin up a Particle Auth project.
 
 ## Integration
+
 Integrating permissionless.js with Particle Network is straightforward after setting up the project. Particle Network provides an Externally Owned Account (EOA) wallet to use as a signer with permissionless.js accounts.
 
-### Create the Particle Network object
-After following the Particle Network documentation, you will have access to a `ParticleProvider` object as shown below that you can pass as an owner to `createeSmartAccountClient`:
+### Initialize the Particle Network Object
+
+After setting up your Particle Auth project, you’ll have access to a `provider` object via the `useEthereum()` hook, as shown below. You can then pass this `provider` as the owner parameter when initializing `createSmartAccountClient`:
 
 ```typescript
 // [!include ~/snippets/signers/particle-network.ts:main]
