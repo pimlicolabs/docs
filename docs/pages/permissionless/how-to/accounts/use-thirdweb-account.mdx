@@ -2,7 +2,7 @@ import VersionWarning from "../../VersionWarning"
 
 <VersionWarning version="0.2" />
 
-# How to create and use a thirdweb account with permissionless.js
+# How to create and use a Thirdweb account with permissionless.js
 
 ## Picking an EntryPoint
 
@@ -10,7 +10,7 @@ Thirdweb is compatible with EntryPoint versions v0.6 and v0.7. In this guide, we
 
 ## Steps
 
-::::steps
+:::::steps
 
 ### Import the required packages
 
@@ -22,9 +22,9 @@ Thirdweb is compatible with EntryPoint versions v0.6 and v0.7. In this guide, we
 
 First we must create the public, (optionally) pimlico paymaster clients that will be used to interact with the account.
 
-::::info
-Get your client ID from the [thirdweb dashboard](https://thirdweb.com/dashboard/settings/api-keys) for free bundler and RPC access.
-::::
+:::info
+Get your client ID from the [Thirdweb dashboard](https://thirdweb.com/dashboard/settings/api-keys) for free RPC access.
+:::
 
 ```ts
 // [!include ~/snippets/accounts/thirdweb.ts:clients]
@@ -78,4 +78,4 @@ You can also send an array of transactions in a single batch.
 // [!include ~/snippets/accounts/thirdweb.ts:submitBatch]
 ```
 
-::::
+:::::

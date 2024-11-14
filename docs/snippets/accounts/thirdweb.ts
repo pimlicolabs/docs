@@ -9,9 +9,8 @@ export const publicClient = createPublicClient({
 	transport: http("https://11155111.rpc.thirdweb.com"),
 })
 
-const CLIENT_ID = "CLIENT_ID"
 export const paymasterClient = createPimlicoClient({
-	transport: http(`https://11155111.bundler.thirdweb.com/v2?clientId=${CLIENT_ID}`),
+	transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
 	entryPoint: {
 		address: entryPoint07Address,
 		version: "0.7",
@@ -46,7 +45,7 @@ const smartAccountClient = createSmartAccountClient({
 	account: thirdwebAccount,
 	chain: sepolia,
 	paymaster: paymasterClient,
-	bundlerTransport: http(`https://11155111.bundler.thirdweb.com/v2?clientId=${CLIENT_ID}`),
+	bundlerTransport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY"),
 	userOperation: {
 		estimateFeesPerGas: async () => (await paymasterClient.getUserOperationGasPrice()).fast,
 	},

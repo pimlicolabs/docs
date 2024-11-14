@@ -480,7 +480,7 @@ export const permissionlessSidebar = [
 						link: "/permissionless/how-to/accounts/use-kernel-account",
 					},
 					{
-						text: "How to use a thirdweb account",
+						text: "How to use a Thirdweb account",
 						link: "/permissionless/how-to/accounts/use-thirdweb-account",
 					},
 					{
@@ -1356,7 +1356,7 @@ export default defineConfig({
 				text: "MagicSpend++",
 				link: "/infra/magic-spend",
 				items: magicSpendSidebar,
-			}
+			},
 		],
 		"/conceptual": conceptualSidebar,
 	},
