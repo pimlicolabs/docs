@@ -378,12 +378,12 @@ export const paymasterSidebar = [
 ]
 
 /*
-          { text: "deployContract", link: "/permissionless/reference/smart-account-actions/deployContract" },
-          { text: "sendTransaction", link: "/permissionless/reference/smart-account-actions/sendTransaction" },
-          { text: "sendTransactions", link: "/permissionless/reference/smart-account-actions/sendTransactions" },
-          { text: "signMessage", link: "/permissionless/reference/smart-account-actions/signMessage" },
-          { text: "signTypedData", link: "/permissionless/reference/smart-account-actions/signTypedData" },
-          { text: "writeContract", link: "/permissionless/reference/smart-account-actions/writeContract" },
+					{ text: "deployContract", link: "/permissionless/reference/smart-account-actions/deployContract" },
+					{ text: "sendTransaction", link: "/permissionless/reference/smart-account-actions/sendTransaction" },
+					{ text: "sendTransactions", link: "/permissionless/reference/smart-account-actions/sendTransactions" },
+					{ text: "signMessage", link: "/permissionless/reference/smart-account-actions/signMessage" },
+					{ text: "signTypedData", link: "/permissionless/reference/smart-account-actions/signTypedData" },
+					{ text: "writeContract", link: "/permissionless/reference/smart-account-actions/writeContract" },
 
 */
 
@@ -478,6 +478,10 @@ export const permissionlessSidebar = [
 					{
 						text: "How to use a Kernel account",
 						link: "/permissionless/how-to/accounts/use-kernel-account",
+					},
+					{
+						text: "How to use a Thirdweb account",
+						link: "/permissionless/how-to/accounts/use-thirdweb-account",
 					},
 					{
 						text: "How to use a SimpleAccount",
