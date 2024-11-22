@@ -46,7 +46,7 @@ fastify.addHook('preHandler', async (request, reply) => {
 // Setup proxy to Pimlico API
 fastify.register(proxy, {
   upstream: `https://api.pimlico.io/v2/137/rpc?apikey=${PIMLICO_API_KEY}`,
-  prefix: '/api/proxy', // Optional: prefix all routes with /api/proxy
+  prefix: '/api/proxy',
   rewriteRequestHeaders: (req, headers) => ({
     ...headers,
   })
@@ -92,10 +92,10 @@ app.use('/api/proxy',  createProxyMiddleware({
     target: targetUrl,
     changeOrigin: true,
     pathRewrite: {
-      '^/proxy': '', // Remove '/proxy' from the path
+      '^/api/proxy': '', // Remove '/proxy' from the path
     },
     onProxyReq: (proxyReq, req) => {
-      // Ensure JSON content type if necessary
+      // Ensure JSON content type
       proxyReq.setHeader('Content-Type', 'application/json');
     },
   }));
