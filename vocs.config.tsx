@@ -1,6 +1,7 @@
 import { defineConfig } from "vocs"
 import viteConfig from "./utils"
 import { link } from "fs"
+import { text } from "stream/consumers"
 
 export const platformSidebar = [
 	{
@@ -42,6 +43,15 @@ export const platformSidebar = [
 			{
 				text: "How to create a gas program",
 				link: "/infra/platform/sponsorship-policies/gas-program",
+			},
+		],
+	},
+	{
+		text: "Security",
+		items: [
+			{
+				text: "How to protect your API keys",
+				link: "/infra/platform/security/protect-api-keys",
 			},
 		],
 	},
