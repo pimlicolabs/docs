@@ -36,7 +36,7 @@ With Pimlico, you'll have largely the same functionality as Stackup, with a few 
 
 ### Dashboard
 
-The Pimlico dashboard offers a wide range of range of features to help streamline your smart account development.
+The Pimlico dashboard offers a wide range of features to help streamline your smart account development.
 
 ![dashboard](/dashboard.png)
 
@@ -59,7 +59,7 @@ There are several API changes you may need to implement for a successful migrati
 
 The Pimlico bundler requires gasPrices to be fetched from the `pimlico_getUserOperationGasPrice` endpoint. This is necessary to ensure the UserOperation is sent with a sufficient gas price regardless of network conditions.
 
-#### Seperate RPC for node requests
+#### Separate RPC for node requests
 
 The Stackup endpoint supports both standard RPC and ERC-4337 calls, but Pimlico only supports ERC-4337. During migration, you'll need a separate RPC provider for standard calls.
 
@@ -71,7 +71,7 @@ The Pimlico API supports seamless multichain access. This means that the same AP
 const endpoint = `https://api.pimlico.io/v2/${chainId}/rpc?apikey=${apiKey}`
 ```
 
-where `chainId` spefifies the target chainId. The Pimlico bundler is currently live on 90+ chains, the full breakdown can be found on the [supported-chains page](/infra/platform/supported-chains).
+where `chainId` specifies the target chainId. The Pimlico bundler is currently live on 90+ chains, the full breakdown can be found on the [supported-chains page](/infra/platform/supported-chains).
 
 ### ERC-20 Paymaster endpoint
 
