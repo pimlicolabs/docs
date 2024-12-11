@@ -51,3 +51,21 @@ The cost of individual API requests is measured in credits, with the breakdown o
 | eth_supportedEntryPoints            | 1       |
 | eth_chainId                         | 1       |
 
+## FAQ
+
+### How do we calculate the paymaster surcharge?
+
+When you request paymaster data using `pm_getPaymasterData`, you need to include the user operation with its gas fee values. We calculate and sign these gas fees because it's the bundler's responsibility to reject user operations that underpay. Once the transaction is added to the blockchain, we determine the actual gas used and calculate the gas price using this formula:
+
+```javascript
+const gasPrice = Math.min(userop.maxFeePerGas, baseFee + userop.maxPriorityFeePerGas);
+const gasCost = gasUsed * gasPrice;
+```
+
+After calculating the gas cost, we add a 10% surcharge and bill you at the end of the month. The billed amount is calculated as:
+
+```javascript
+const billedAmount = gasCost * 1.1; // 10% surcharge
+```
+
+Why don’t we simply charge 10% of what the bundler pays? The reason is that we might not be the bundler—you can use any available bundler. Since the paymaster is responsible for covering the `gasCost` paid to the bundler, and there’s no guarantee we will act as the bundler, we must charge the full `gasCost` plus the surcharge.
