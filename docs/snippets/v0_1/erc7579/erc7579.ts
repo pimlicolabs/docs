@@ -29,10 +29,10 @@ const safeAccount = await signerToSafeSmartAccount(publicClient, {
 	signer,
 	safeVersion: "1.4.1",
 	entryPoint: ENTRYPOINT_ADDRESS_V07,
-	safe4337ModuleAddress: "0x7579EE8307284F293B1927136486880611F20002", 
-	erc7579LaunchpadAddress: "0x7579011aB74c46090561ea277Ba79D510c6C00ff", 
+	safe4337ModuleAddress: "0x7579EE8307284F293B1927136486880611F20002",
+	erc7579LaunchpadAddress: "0x7579011aB74c46090561ea277Ba79D510c6C00ff",
 	attesters: ["0x000000333034E9f539ce08819E12c1b8Cb29084d"],
-	attestersThreshold: 1
+	attestersThreshold: 1,
 })
 // [!endregion smartAccount]
 
@@ -53,7 +53,7 @@ const smartAccountClient = createSmartAccountClient({
 // [!endregion smartAccountClient]
 
 // [!region installModule]
-const ownableExecutorModule = "0xc98B026383885F41d9a995f85FC480E9bb8bB891"
+const ownableExecutorModule = "0x4Fd8d57b94966982B62e9588C27B4171B55E8354"
 const moduleData = encodePacked(["address"], ["0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"])
 const userOpHash = await smartAccountClient.installModule({
 	type: "executor",
