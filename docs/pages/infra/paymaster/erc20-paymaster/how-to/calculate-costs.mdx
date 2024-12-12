@@ -38,7 +38,7 @@ Once the gas values are summed up, we multiply it by the maxFeePerGas to get the
 
 ### Calculate your userOperation's maxCost in denomination of the ERC-20 token
 
-To find the cost of your userOperation in denomination of the ERC-20, you should use this formula. This is the same formula that the paymaster executes onchain, the source code can be found on the [singleton-paymaster repo.](https://github.com/pimlicolabs/singleton-paymaster/blob/08c85d3190db5110a37f1a8555797ec63b6984ec/src/base/BaseSingletonPaymaster.sol#L326-L341)
+To find the cost of your userOperation in denomination of the ERC-20, you should use this formula. This is the same formula that the paymaster executes onchain, the source code can be found on the [singleton-paymaster repo.](https://github.com/pimlicolabs)
 
 ```ts
 // [!include ~/snippets/erc20-paymaster/calculate-costs.ts:calculateCostInToken]

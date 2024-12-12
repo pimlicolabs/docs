@@ -1,7 +1,7 @@
 # ERC-20 Paymaster Architecture
 
 :::info
-You can view the whole ERC-20 Paymaster contract [in our repository](https://github.com/pimlicolabs/singleton-paymaster/blob/master/src/SingletonPaymasterV7.sol).
+You can view the whole ERC-20 Paymaster contract [in our repository](https://github.com/pimlicolabs).
 
 This paymaster is an onchain contract, we can not guarantee that using the paymaster is risk-free. Please use the paymaster at your own risk.
 :::
@@ -14,4 +14,4 @@ Pimlico's ERC-20 Paymaster is an ERC-4337 Paymaster that relies on an offchain A
 
 After calling the `pimlico_getTokenQuotes` function, the Pimlico API will return two important values, `exchangeRate` and `postOpGas`. You can use these two values, alongside information about the user operation you're looking to sponsor, to get an estimate of the amount of tokens required for the user operation.
 
-You can do this by using [this onchain function](https://github.com/pimlicolabs/singleton-paymaster/blob/08c85d3190db5110a37f1a8555797ec63b6984ec/src/base/BaseSingletonPaymaster.sol#L334-L341) on the paymaster.
+You can do this by using [this onchain function](https://github.com/pimlicolabs) on the paymaster.
