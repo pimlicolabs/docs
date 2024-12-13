@@ -1,5 +1,28 @@
 # Paymaster FAQs [Frequently Asked Questions about Pimlico's Verifying Paymaster]
 
+## What's the difference between `pm_getPaymasterData` and `pm_sponsorUserOperation`?
+`pm_getPaymasterData` is part of the [ERC-7677 spec](https://www.erc7677.xyz/introduction) which standardizes the way to request sponsorship for a given userOperation. `pm_getPaymasterData` doesn't do any gas estimations and only returns back the relevant userOperation fields for sponsorship.
+- For v0.6, the endpoint returns
+    - `paymasterAndData`
+- For v0.7, the endpoint returns
+    - `paymaster`
+    - `paymasterData`.
+
+`pm_sponsorUserOperation` is a Pimlico specific endpoint that also estimates gas as well as sponsoring the userOperation.
+- For v0.6, the endpoint returns
+    - `paymasterAndData`
+    - `preVerificationGas`
+    - `verificationGasLimit`
+    - `callGasLimit`
+- For v0.7, the endpoint returns
+    - `paymaster`
+    - `paymasterData`
+    - `paymasterVerificationGasLimit`
+    - `paymasterPostOpGasLimit`
+    - `preVerificationGas`
+    - `verificationGasLimit`
+    - `callGasLimit`
+
 ## What's the difference between v1 and v2 endpoints?
 V1 is for bundlers, while v2 is for paymasters. V2 for bundlers will be released soon with a long notice period for migration.
 

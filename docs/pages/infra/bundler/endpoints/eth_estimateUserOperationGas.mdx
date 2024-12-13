@@ -31,10 +31,11 @@ So make sure to send an `UnpackedUserOperation` to the bundler.
 :::
 
 :::tip[Tip]
+If the UserOperation's callData fails during estimation, the bundler will return the revert reason.
+:::
 
-For entryPoint v0.7, we will revert if the execution of the `callData` in the user operation fails.
-However, this is not the case for entryPoint v0.6.
-
+:::tip[Tip]
+Estimations are done with a balance override on the UserOperation's sender, this allows you to estimate the gas cost even if the sender has no funds. However, if the userOperation is sent onchain when the sender has no balance, it will revert during the callphase due to out of funds.
 :::
 
 ### Request

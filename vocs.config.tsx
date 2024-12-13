@@ -1,6 +1,7 @@
 import { defineConfig } from "vocs"
 import viteConfig from "./utils"
 import { link } from "fs"
+import { text } from "stream/consumers"
 
 export const platformSidebar = [
 	{
@@ -42,6 +43,15 @@ export const platformSidebar = [
 			{
 				text: "How to create a gas program",
 				link: "/infra/platform/sponsorship-policies/gas-program",
+			},
+		],
+	},
+	{
+		text: "Security",
+		items: [
+			{
+				text: "How to protect your API keys",
+				link: "/infra/platform/security/protect-api-keys",
 			},
 		],
 	},
@@ -378,12 +388,12 @@ export const paymasterSidebar = [
 ]
 
 /*
-          { text: "deployContract", link: "/permissionless/reference/smart-account-actions/deployContract" },
-          { text: "sendTransaction", link: "/permissionless/reference/smart-account-actions/sendTransaction" },
-          { text: "sendTransactions", link: "/permissionless/reference/smart-account-actions/sendTransactions" },
-          { text: "signMessage", link: "/permissionless/reference/smart-account-actions/signMessage" },
-          { text: "signTypedData", link: "/permissionless/reference/smart-account-actions/signTypedData" },
-          { text: "writeContract", link: "/permissionless/reference/smart-account-actions/writeContract" },
+					{ text: "deployContract", link: "/permissionless/reference/smart-account-actions/deployContract" },
+					{ text: "sendTransaction", link: "/permissionless/reference/smart-account-actions/sendTransaction" },
+					{ text: "sendTransactions", link: "/permissionless/reference/smart-account-actions/sendTransactions" },
+					{ text: "signMessage", link: "/permissionless/reference/smart-account-actions/signMessage" },
+					{ text: "signTypedData", link: "/permissionless/reference/smart-account-actions/signTypedData" },
+					{ text: "writeContract", link: "/permissionless/reference/smart-account-actions/writeContract" },
 
 */
 
@@ -480,6 +490,10 @@ export const permissionlessSidebar = [
 						link: "/permissionless/how-to/accounts/use-kernel-account",
 					},
 					{
+						text: "How to use a Thirdweb account",
+						link: "/permissionless/how-to/accounts/use-thirdweb-account",
+					},
+					{
 						text: "How to use a SimpleAccount",
 						link: "/permissionless/how-to/accounts/use-simple-account",
 					},
@@ -522,6 +536,10 @@ export const permissionlessSidebar = [
 				text: "Signers",
 				link: "/permissionless/how-to/signers",
 				items: [
+					{
+						text: "How to use a Passkey (WebAuthn) signer",
+						link: "/permissionless/how-to/signers/passkey",
+					},
 					{
 						text: "How to use a Dynamic signer",
 						link: "/permissionless/how-to/signers/dynamic",
