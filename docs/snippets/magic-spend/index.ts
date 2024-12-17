@@ -1,14 +1,12 @@
 // [!region clients]
 import { createSmartAccountClient } from "permissionless"
-import { Address, Hex, createPublicClient, encodeFunctionData, getContract, http, parseEther, toHex } from "viem"
+import { Address, Hex, createPublicClient, encodeFunctionData, getContract, http, parseEther } from "viem"
 import { sepolia } from "viem/chains"
 import { privateKeyToAccount } from "viem/accounts"
-import { MagicSpendStakeManagerAbi } from "./abi/MagicSpendStakeManager";
 import { MagicSpendWithdrawalManagerAbi } from "./abi/MagicSpendWithdrawalManager";
 import { entryPoint07Address } from "viem/account-abstraction";
 import { createPimlicoClient } from "permissionless/clients/pimlico"
 import { toSimpleSmartAccount } from "permissionless/accounts";
-import { MagicSpendAllowance, MagicSpendWithdrawal } from "./types";
 
 import "dotenv/config"
 
@@ -97,70 +95,13 @@ const smartAccountClient = createSmartAccountClient({
 
 // [!region pimlico_getMagicSpendContracts]
 const {
-    stakeManagerAddress,
     withdrawalManagerAddress,
 } = await sendMagicSpendRequest(
     'pimlico_getMagicSpendContracts',
     []
 )
-const stakeManagerContract = getContract({
-    abi: MagicSpendStakeManagerAbi,
-    address: stakeManagerAddress,
-    client: publicClient,
-})
 
 // [!endregion pimlico_getMagicSpendContracts]
-
-// [!region pimlico_getMagicSpendStakes]
-const stakes = await sendMagicSpendRequest(
-    'pimlico_getMagicSpendStakes',
-    [{
-        account: signer.address,
-        asset: ETH
-    }]
-)
-
-if (stakes.length === 0) {
-    throw new Error("No stakes found")
-}
-
-// [!endregion pimlico_getMagicSpendStakes]
-
-// [!region pimlico_prepareMagicSpendAllowance]
-const allowance = (await sendMagicSpendRequest(
-    'pimlico_prepareMagicSpendAllowance',
-    [{
-        account: signer.address,
-        token: ETH,
-        amount: toHex(amount),
-    }]
-)) as MagicSpendAllowance;
-
-const hash_ = await stakeManagerContract.read.getAllowanceHash([
-    {
-        ...allowance,
-        validAfter: Number(allowance.validAfter),
-        validUntil: Number(allowance.validUntil),
-        salt: Number(allowance.salt),
-    }
-]) as Hex;
-
-const allowanceSignature = await signer.signMessage({
-    message: {
-        raw: hash_,
-    }
-})
-// [!endregion pimlico_prepareMagicSpendAllowance]
-
-// [!region pimlico_grantMagicSpendAllowance]
-await sendMagicSpendRequest(
-    "pimlico_grantMagicSpendAllowance",
-    [{
-        allowance,
-        signature: allowanceSignature
-    }]
-);
-// [!endregion pimlico_grantMagicSpendAllowance]
 
 // [!region pimlico_sponsorMagicSpendWithdrawal]
 const withdrawalManagerContract = getContract({

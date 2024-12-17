@@ -1253,10 +1253,6 @@ export const magicSpendSidebar = [
 		link: "/infra/magic-spend/architecture",
 	},
 	{
-		text: "Staking",
-		link: "/infra/magic-spend/staking",
-	},
-	{
 		text: "Endpoints",
 		collapsed: false,
 		items: [
@@ -1265,24 +1261,8 @@ export const magicSpendSidebar = [
 				link: "/infra/magic-spend/endpoints/pimlico_getMagicSpendContracts",
 			},
 			{
-				text: "pimlico_getMagicSpendStakes",
-				link: "/infra/magic-spend/endpoints/pimlico_getMagicSpendStakes",
-			},
-			{
-				text: "pimlico_prepareMagicSpendAllowance",
-				link: "/infra/magic-spend/endpoints/pimlico_prepareMagicSpendAllowance",
-			},
-			{
-				text: "pimlico_grantMagicSpendAllowance",
-				link: "/infra/magic-spend/endpoints/pimlico_grantMagicSpendAllowance",
-			},
-			{
 				text: "pimlico_sponsorMagicSpendWithdrawal",
 				link: "/infra/magic-spend/endpoints/pimlico_sponsorMagicSpendWithdrawal",
-			},
-			{
-				text: "pimlico_getMagicSpendAllowancesByOperator",
-				link: "/infra/magic-spend/endpoints/pimlico_getMagicSpendAllowancesByOperator",
 			},
 		],
 	},
