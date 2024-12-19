@@ -205,6 +205,31 @@
 			"source": "/tutorial/integrations/lit-protocol",
 			"destination": "/permissionless/how-to/signers/lit-protocol",
 			"permanent": false
+		},
+		{
+			"source": "/infra/magic-spend/staking",
+			"destination": "/infra/magic-spend",
+			"permanent": false
+		},
+		{
+			"source": "/infra/magic-spend/endpoints/pimlico_getMagicSpendStakes",
+			"destination": "/infra/magic-spend",
+			"permanent": false
+		},
+		{
+			"source": "/infra/magic-spend/endpoints/pimlico_prepareMagicSpendAllowance",
+			"destination": "/infra/magic-spend",
+			"permanent": false
+		},
+		{
+			"source": "/infra/magic-spend/endpoints/pimlico_grantMagicSpendAllowance",
+			"destination": "/infra/magic-spend",
+			"permanent": false
+		},
+		{
+			"source": "/infra/magic-spend/endpoints/pimlico_getMagicSpendAllowancesByOperator",
+			"destination": "/infra/magic-spend",
+			"permanent": false
 		}
 	],
 	"headers": [
