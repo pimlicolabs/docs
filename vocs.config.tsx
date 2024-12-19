@@ -191,6 +191,7 @@ export const bundlerSidebar = [
 	},
 	{
 		text: "EntryPoint Errors",
+		link: "/infra/bundler/entrypoint-errors",
 		collapsed: true,
 		items: [
 			{
