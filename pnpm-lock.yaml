@@ -93,8 +93,8 @@ importers:
         specifier: ^22.1.1
         version: 22.1.1
       permissionless:
-        specifier: 0.2.14
-        version: 0.2.14(viem@2.21.41(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10))
+        specifier: 0.2.24
+        version: 0.2.24(viem@2.21.41(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10))(webauthn-p256@0.0.10)
       react:
         specifier: latest
         version: 18.2.0
@@ -6271,10 +6271,11 @@ packages:
   periscopic@3.1.0:
     resolution: {integrity: sha512-vKiQ8RRtkl9P+r/+oefh25C3fhybptkHKCZSPlcXiJux2tJF55GnEj3BVn4A5gKfq9NWWXXrxkHBwVPUfH0opw==}
 
-  permissionless@0.2.14:
-    resolution: {integrity: sha512-4/r4gf6uGE7WfFaE4tVBxNd+QSLh0cVMkhC6yHzPUBBBLgrPf+gcUZjLsTamSLFm81K+m13jq3IQ3J0ooenWhg==}
+  permissionless@0.2.24:
+    resolution: {integrity: sha512-46B/2zuvuEifIMRMLRJEH60LvxduPhEGnX6jzei9f7AoJEL3TEWQorPxOLwx3XUASU2c+ssTNSFigNmVGRkGCw==}
     peerDependencies:
-      viem: ^2.21.22
+      viem: ^2.21.54
+      webauthn-p256: 0.0.10
 
   picocolors@1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
@@ -7108,6 +7109,7 @@ packages:
 
   sudo-prompt@9.2.1:
     resolution: {integrity: sha512-Mu7R0g4ig9TUuGSxJavny5Rv0egCEtpZRNMrZaYS1vxkiIxGiGUwoezU3LazIQ+KE04hTrTfNPgxU5gzi7F5Pw==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   superstruct@0.14.2:
     resolution: {integrity: sha512-nPewA6m9mR3d6k7WkZ8N8zpTWfenFH3q9pA2PkuiZxINr9DKB2+40wEQf0ixn8VaGuJ78AB6iWOtStI+/4FKZQ==}
@@ -17007,9 +17009,10 @@ snapshots:
       estree-walker: 3.0.3
       is-reference: 3.0.2
 
-  permissionless@0.2.14(viem@2.21.41(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10)):
+  permissionless@0.2.24(viem@2.21.41(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10))(webauthn-p256@0.0.10):
     dependencies:
       viem: 2.21.41(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10)
+      webauthn-p256: 0.0.10
 
   picocolors@1.0.0: {}
 

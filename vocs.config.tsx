@@ -1,7 +1,5 @@
 import { defineConfig } from "vocs"
 import viteConfig from "./utils"
-import { link } from "fs"
-import { text } from "stream/consumers"
 
 export const platformSidebar = [
 	{
@@ -485,6 +483,10 @@ export const permissionlessSidebar = [
 					{
 						text: "How to use a Safe account",
 						link: "/permissionless/how-to/accounts/use-safe-account",
+					},
+					{
+						text: "How to use a Safe account with multiple signers",
+						link: "/permissionless/how-to/accounts/use-safe-account-with-multiple-signers",
 					},
 					{
 						text: "How to use a Kernel account",
