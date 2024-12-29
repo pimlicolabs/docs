@@ -50,7 +50,7 @@ Before we can interact with our smart account, we also need to initialize it by 
 We can make a slight optimization by sending both the Authorization and `setup` call in one transaction which would both set our EOA's code and setup our smart account.
 
 :::info
-Note: We are using a seperate private key, `safePrivateKey` instead of our EOA's private key to act as our smart account owner. This is because Safe currently doesn't allow the account owner to equal address(this).
+Note: We are using a separate private key, `safePrivateKey` instead of our EOA's private key to act as our smart account owner. This is because Safe currently doesn't allow the account owner to equal address(this).
 :::
 
 :::code-group
