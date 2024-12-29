@@ -433,6 +433,10 @@ export const permissionlessSidebar = [
 		link: "/permissionless/faqs",
 	},
 	{
+		text: "Difference between multiple account types",
+		link: "/permissionless/difference-between-multiple-account-types",
+	},
+	{
 		text: "Tutorials",
 		link: "/permissionless/tutorial",
 		items: [

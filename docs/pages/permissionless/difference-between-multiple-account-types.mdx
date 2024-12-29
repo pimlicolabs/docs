@@ -1,0 +1,99 @@
+# Overview of Supported Account Types in Permissionless.js
+
+Permissionless.js supports 8 types of accounts. Below is an overview of each account type and their key features:
+
+1. **Safe**
+2. **Kernel**
+3. **Biconomy Nexus**
+4. **Simple Smart Account**
+5. **LightAccount**
+6. **TrustWallet**
+7. **Etherspot**
+8. **Thirdweb**
+
+---
+
+## 1. **Safe**
+
+[Safe](https://safe.global) is a robust and widely used Ethereum smart account provider. With its ERC-4337 module, Safe accounts can integrate with ERC-4337 bundlers and paymasters.
+
+- **ERC-7579 Support**: Yes, via [Rhinestone's safe7579](https://github.com/rhinestonewtf/safe7579) module.
+- **Passkeys Support**: Supported through [Safe's passkey module](https://github.com/safe-global/safe-modules/blob/466a9b8ef169003c5df856c6ecd295e6ecb9e99d/modules/passkey/README.md); not yet supported in Permissionless.js.
+- **Multiple Signers**: Yes, as Safe is one of the first multi-signature smart accounts.
+- **Chain Support**: Available on all chains where Safe factories are deployed.
+- **Usage Stats**: ~34,958 Safe accounts created in the last 6 months ([source](https://stats.pimlico.io/factories)).
+- **Security**: Secures over $100B+ in assets, making it highly reliable.
+
+## 2. **Kernel**
+
+[Kernel](https://github.com/zerodevapp/kernel) by [ZeroDev](https://zerodev.app) is a highly gas-efficient smart account compatible with ERC-4337 and ERC-7579.
+
+- **ERC-7579 Support**: Yes, authored by the ZeroDev team.
+- **Passkeys Support**: Yes.
+- **Multiple Signers**: Supported through flexible permission settings:
+  - Define who can perform actions.
+  - Specify conditions for actions.
+  - Configure what actions can be performed.
+- **Usage Stats**: ~133,314 Kernel v3 and 771,072 Kernel v2 accounts created in the last 6 months ([source](https://stats.pimlico.io/factories)).
+- **Audits**: Audited by [ChainLight](https://github.com/zerodevapp/kernel/blob/dev/audits/chainlight_v3_0.pdf) and [Kalos](https://github.com/zerodevapp/kernel/tree/dev/audits).
+
+## 3. **Biconomy Nexus**
+
+[Biconomy Nexus](https://github.com/bcnmy/nexus) focuses on modularity, security, and scalability. Support for the older Biconomy Smart Account is being deprecated in favor of Nexus.
+
+- **ERC-7579 Support**: Yes.
+- **Passkeys Support**: Supported via Rhinestone's Passkeys Validator (not yet in Permissionless.js).
+- **Multiple Signers**: Enabled using Rhinestone's session keys module.
+- **Usage Stats**: ~314 Nexus accounts and 224,758 Biconomy v2 accounts created in the last 6 months ([source](https://stats.pimlico.io/factories)).
+- **Audits**: Audited by [Cyfrin](https://github.com/bcnmy/nexus/blob/dev/audits/CodeHawks-Cyfrin-Competition-170924.pdf) and [Spearbit](https://github.com/bcnmy/nexus/blob/dev/audits/report-cantinacode-biconomy-0708-final.pdf).
+
+## 4. **Simple Smart Account**
+
+[Simple Smart Account](https://github.com/eth-infinitism/account-abstraction/blob/v0.7.0/contracts/samples/SimpleAccount.sol) is a sample smart account by the Eth-Infinitism team.
+
+- **ERC-7579 Support**: No.
+- **Passkeys Support**: No.
+- **Multiple Signers**: No.
+- **Usage Stats**: ~1,481,305 accounts created in the last 6 months ([source](https://stats.pimlico.io/factories)).
+- **Audits**: Audited by [OpenZeppelin](https://github.com/eth-infinitism/account-abstraction/blob/develop/audits/EIP_4337_%E2%80%93_Ethereum_Account_Abstraction_Incremental_Audit_Feb_2023.pdf).
+
+## 5. **LightAccount**
+
+[LightAccount](https://accountkit.alchemy.com/smart-contracts/light-account) is a lightweight ERC-4337 smart account based on [SimpleAccount](https://github.com/eth-infinitism/account-abstraction/blob/v0.7.0/contracts/samples/SimpleAccount.sol) with added functionality for smart account signers.
+
+- **ERC-7579 Support**: No.
+- **Passkeys Support**: No.
+- **Multiple Signers**: No.
+- **Usage Stats**: ~7,323,817 accounts created in the last 6 months ([source](https://stats.pimlico.io/factories)).
+- **Audits**: Audited by [QuantStamp](https://github.com/alchemyplatform/light-account/blob/develop/audits/2024-01-09_quantstamp_aa8196b.pdf).
+
+## 6. **TrustWallet**
+
+[TrustWallet](https://trustwallet.com/) is a popular cryptocurrency wallet supporting a wide range of digital assets across multiple blockchains. It provides users with a secure, self-custody solution and has introduced ERC-4337-compatible features.
+
+- **ERC-7579 Support**: No.
+- **Passkeys Support**: Yes, through [Barz](https://trustwallet.com/blog/introducing-barz-smart-contract-wallet-solution), Trust Wallet's ERC-4337-compatible smart contract wallet, which supports passkey-based authentication.
+- **Multiple Signers**: Yes, Trust Wallet offers multisig functionality to enhance transaction security.
+- **Usage Stats**: ~36,838 accounts created in the last 6 months ([source](https://stats.pimlico.io/factories)).
+- **Audits**: Trust Wallet has undergone independent audits.
+
+## 7. **Etherspot**
+
+Details on Etherspot integration coming soon.
+
+## 8. **Thirdweb**
+
+Details on Thirdweb integration coming soon.
+
+### Summary of Key Features
+
+| Account Type      | ERC-7579 | Passkeys | Multiple Signers | Accounts Created (6 months) | Audited By             |
+|-------------------|-----------|----------|-------------------|-----------------------------|-------------------------|
+| Safe              | Yes       | Yes      | Yes               | 34,958                     | Various                |
+| Kernel            | Yes       | Yes      | Yes               | 133,314 (v3), 771,072 (v2)  | ChainLight, Kalos      |
+| Biconomy Nexus    | Yes       | Yes      | Yes               | 314 (Nexus), 224,758 (v2)   | Cyfrin, Spearbit       |
+| Simple Smart Acc. | No        | No       | No                | No                  | 1,481,305                  | OpenZeppelin           |
+| LightAccount      | No        | No       | No                | 7,323,817                  | QuantStamp             |
+| TrustWallet       | No        | Yes      | Yes               | 36,838                     | Independent audits                    |
+| Etherspot         | TBD       | TBD      | TBD               | TBD                         | TBD                    |
+| Thirdweb          | TBD       | TBD      | TBD               | TBD                         | TBD                    |
