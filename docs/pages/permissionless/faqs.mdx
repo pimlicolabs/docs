@@ -21,6 +21,17 @@ const smartAccountClient = createSmartAccountClient({
 })
 ```
 
+## Can I use social logins (Google, Facebook, etc.) with permissionless.js?
+
+Yes! While permissionless.js doesn't directly implement social logins, you can integrate third-party providers that offer social login capabilities. Popular options include:
+
+- [Magic](https://magic.link)
+- [Privy](https://privy.io)
+- [Dynamic](https://www.dynamic.xyz)
+- [Web3Auth](https://web3auth.io)
+
+These providers can be integrated with permissionless.js to enable social login experiences while leveraging smart accounts for features like gas sponsorship and transaction batching. Check out our [Signers documentation](/permissionless/v0_1/how-to/signers) for integration guides with these providers.
+
 ## Getting `out of gas` errors?
 
 Such errors are thrown when the provided gas limits are not enough to execute the user operation. Usually the gas limits are calculated by the bundler. If you are getting such error, you can try setting up gas limits manually.
