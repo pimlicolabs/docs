@@ -482,7 +482,7 @@ export const permissionlessSidebar = [
 						link: "/permissionless/how-to/accounts/support",
 					},
 					{
-						text: "Difference between various Smart Account types",
+						text: "Account types comparison",
 						link: "/permissionless/how-to/accounts/comparison",
 					},
 					{
