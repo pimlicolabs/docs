@@ -86,7 +86,7 @@ Details on Etherspot integration coming soon.
 
 Details on Thirdweb integration coming soon.
 
-### Summary of Key Features
+## Summary of Key Features
 
 | Account Type      | ERC-7579 | Passkeys | Multiple Signers | Accounts Created (6 months) | Audited By             |
 |-------------------|-----------|----------|-------------------|-----------------------------|-------------------------|
@@ -99,3 +99,27 @@ Details on Thirdweb integration coming soon.
 | TrustWallet       | ❌        | ✅      | ✅               | 36k                     | Independent audits                    |
 | Etherspot         | TBD       | TBD      | TBD               | TBD                         | TBD                    |
 | Thirdweb          | TBD       | TBD      | TBD               | TBD                         | TBD                    |
+
+
+## Gas Efficiency of various Smart Account types
+
+## Results (as of February 24, 2024)
+
+**Disclaimer** the numbers are obtained from [aa-benchmark](https://github.com/zerodevapp/aa-benchmark) from ZeroDev.
+
+Since these are gas numbers, lower is better.
+
+|                   | Creation | Native transfer | ERC20 transfer | Total  |
+| ----------------- | -------- | --------------- | -------------- | ------ |
+| SimpleAccount     | 383218   | 101319          | 90907          | 575444 |
+| Biconomy          | 270013   | 104408          | 93730          | 468151 |
+| Etherspot         | 279219   | 103719          | 93324          | 476262 |
+| Kernel v2.0       | 339882   | 110018          | 99622          | 549522 |
+| Kernel v2.1       | 265215   | 106460          | 96038          | 467713 |
+| Kernel v2.1-lite  | 230968   | 101002          | 90321          | 422291 |
+| Solady ERC4337    | 212262   | 100149          | 89532          | 401943 |
+| SoulWalletCore    | 276529   | 101162          | 90466          | 468157 |
+| Safe 4337         | 401848   | 115469          | 105089         | 622406 |
+| LightAccount      | 279820   | 100910          | 90411          | 471141 |
+| ERC7579 reference | 289438   | 103811          | 93213          | 486462 |
+| Alchemy ModularAccount | 827723   | 106630          | 96438          | 1030791 |
