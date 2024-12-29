@@ -44,3 +44,24 @@ const userOp = await smartAccountClient.prepareUserOperation({
     preVerificationGas: 100_000n,
 })
 ```
+
+## Do I need the same saltNonce to re-initialize my Safe?
+
+When initializing a Safe account with `toSafeSmartAccount`, if you want to get the same account address when re-initializing the Safe wallet, you must use the same `saltNonce` value that was used during the initial creation. If no `saltNonce` is specified, `toSafeSmartAccount` defaults to `0n`.
+
+Using a different `saltNonce` will result in a different account address being generated. Here's an example of how to specify the `saltNonce`:
+
+```typescript
+const safeAccount = await toSafeSmartAccount({
+    client: publicClient,
+    entryPoint: {
+        address: entryPoint07Address,
+        version: "0.7",
+    },
+    owners: [someSigner],
+    saltNonce: 100n, // must match the original saltNonce to get the same address
+    version: "1.4.1",
+});
+```
+
+For more details about the `saltNonce` parameter and other configuration options, see the [reference documentation for toSafeSmartAccount](/permissionless/reference/accounts/toSafeSmartAccount#saltnonce).
