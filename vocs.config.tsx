@@ -432,10 +432,7 @@ export const permissionlessSidebar = [
 		text: "FAQs",
 		link: "/permissionless/faqs",
 	},
-	{
-		text: "Difference between multiple account types",
-		link: "/permissionless/difference-between-multiple-account-types",
-	},
+
 	{
 		text: "Tutorials",
 		link: "/permissionless/tutorial",
@@ -483,6 +480,10 @@ export const permissionlessSidebar = [
 					{
 						text: "EntryPoint support",
 						link: "/permissionless/how-to/accounts/support",
+					},
+					{
+						text: "Difference between various Smart Account types",
+						link: "/permissionless/how-to/accounts/comparison",
 					},
 					{
 						text: "How to use a Safe account",
