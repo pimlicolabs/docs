@@ -4,7 +4,7 @@ permissionless.js supports 8 types of accounts. Below is an overview of each acc
 
 1. **Safe**
 2. **Kernel**
-3. **Biconomy Nexus**
+3. **Nexus**
 4. **Simple Smart Account**
 5. **LightAccount**
 6. **TrustWallet**
@@ -21,7 +21,7 @@ permissionless.js supports 8 types of accounts. Below is an overview of each acc
 - **Passkeys Support**: Supported through [Safe's passkey module](https://github.com/safe-global/safe-modules/blob/466a9b8ef169003c5df856c6ecd295e6ecb9e99d/modules/passkey/README.md); not yet supported in permissionless.js.
 - **Multiple Signers**: Yes, as Safe is one of the first multi-signature smart accounts.
 - **Chain Support**: Available on all chains where Safe factories are deployed.
-- **Usage Stats**: ~34,958 Safe accounts created in the last 6 months ([source](https://stats.pimlico.io/factories)).
+- **Usage Stats**: ~34k Safe accounts created in the last 6 months ([source](https://stats.pimlico.io/factories)).
 - **Security**: Secures over $100B+ in assets, making it highly reliable.
 
 ## 2. **Kernel**
@@ -34,12 +34,12 @@ permissionless.js supports 8 types of accounts. Below is an overview of each acc
   - Define who can perform actions.
   - Specify conditions for actions.
   - Configure what actions can be performed.
-- **Usage Stats**: ~133,314 Kernel v3 and 771,072 Kernel v2 accounts created in the last 6 months ([source](https://stats.pimlico.io/factories)).
+- **Usage Stats**: ~133k Kernel v3 and 771k Kernel v2 accounts created in the last 6 months ([source](https://stats.pimlico.io/factories)).
 - **Audits**: Audited by [ChainLight](https://github.com/zerodevapp/kernel/blob/dev/audits/chainlight_v3_0.pdf) and [Kalos](https://github.com/zerodevapp/kernel/tree/dev/audits).
 
-## 3. **Biconomy Nexus**
+## 3. **Nexus**
 
-[Biconomy Nexus](https://github.com/bcnmy/nexus) focuses on modularity, security, and scalability. Support for the older Biconomy Smart Account is being deprecated in favor of Nexus.
+Biconomy [Nexus](https://github.com/bcnmy/nexus) focuses on modularity, security, and scalability. Support for the older Biconomy Smart Account is being deprecated in favor of Nexus.
 
 - **ERC-7579 Support**: Yes.
 - **Passkeys Support**: Supported via Rhinestone's Passkeys Validator (not yet in permissionless.js).
@@ -50,11 +50,12 @@ permissionless.js supports 8 types of accounts. Below is an overview of each acc
 ## 4. **Simple Smart Account**
 
 [Simple Smart Account](https://github.com/eth-infinitism/account-abstraction/blob/v0.7.0/contracts/samples/SimpleAccount.sol) is a sample smart account by the Eth-Infinitism team.
+This is supposed to be a reference implementation for ERC-4337 and not a production-ready smart account.
 
 - **ERC-7579 Support**: No.
 - **Passkeys Support**: No.
 - **Multiple Signers**: No.
-- **Usage Stats**: ~1,481,305 accounts created in the last 6 months ([source](https://stats.pimlico.io/factories)).
+- **Usage Stats**: ~1.5M accounts created in the last 6 months ([source](https://stats.pimlico.io/factories)).
 - **Audits**: Audited by [OpenZeppelin](https://github.com/eth-infinitism/account-abstraction/blob/develop/audits/EIP_4337_%E2%80%93_Ethereum_Account_Abstraction_Incremental_Audit_Feb_2023.pdf).
 
 ## 5. **LightAccount**
@@ -64,7 +65,7 @@ permissionless.js supports 8 types of accounts. Below is an overview of each acc
 - **ERC-7579 Support**: No.
 - **Passkeys Support**: No.
 - **Multiple Signers**: No.
-- **Usage Stats**: ~7,323,817 accounts created in the last 6 months ([source](https://stats.pimlico.io/factories)).
+- **Usage Stats**: ~7.3M accounts created in the last 6 months ([source](https://stats.pimlico.io/factories)).
 - **Audits**: Audited by [QuantStamp](https://github.com/alchemyplatform/light-account/blob/develop/audits/2024-01-09_quantstamp_aa8196b.pdf).
 
 ## 6. **TrustWallet**
@@ -89,11 +90,11 @@ Details on Thirdweb integration coming soon.
 
 | Account Type      | ERC-7579 | Passkeys | Multiple Signers | Accounts Created (6 months) | Audited By             |
 |-------------------|-----------|----------|-------------------|-----------------------------|-------------------------|
-| Safe              | ✅         | ✅       | ✅               | 34,958                     | Various                |
-| Kernel            | ✅         | ✅       | ✅               | 133,314 (v3), 771,072 (v2)  | ChainLight, Kalos      |
-| Biconomy Nexus    | ✅        | ✅       | ✅               | 314 (Nexus), 224,758 (v2)   | Cyfrin, Spearbit       |
-| Simple Smart Acc. | ❌        | ❌       | ❌                | 1,481,305                  | OpenZeppelin           |
-| LightAccount      | ❌        | ❌       | ❌                | 7,323,817                  | QuantStamp             |
-| TrustWallet       | ❌        | ✅      | ✅               | 36,838                     | Independent audits                    |
+| Safe              | ✅         | ✅       | ✅               | 34k                     | Various                |
+| Kernel            | ✅         | ✅       | ✅               | 133k (v3), 771k (v2)  | ChainLight, Kalos      |
+| Nexus    | ✅        | ✅       | ✅               | 314 (Nexus), 224k (v2)   | Cyfrin, Spearbit       |
+| Simple  | ❌        | ❌       | ❌                | 1.5M                  | OpenZeppelin           |
+| LightAccount      | ❌        | ❌       | ❌                | 7.3M                  | QuantStamp             |
+| TrustWallet       | ❌        | ✅      | ✅               | 36k                     | Independent audits                    |
 | Etherspot         | TBD       | TBD      | TBD               | TBD                         | TBD                    |
 | Thirdweb          | TBD       | TBD      | TBD               | TBD                         | TBD                    |
