@@ -57,6 +57,11 @@
 			"permanent": false
 		},
 		{
+			"source": "/permissionless/how-to/accounts/use-safe-account",
+			"destination": "/permissionless/accounts/how-to/use-safe-account",
+			"permanent": false
+		},
+		{
 			"source": "/:match*.html",
 			"destination": "/:match",
 			"permanent": false
