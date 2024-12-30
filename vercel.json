@@ -12,6 +12,11 @@
 	],
 	"redirects": [
 		{
+			"source": "/permissionless/how-to/accounts/use-coinbase-account",
+			"destination": "/permissionless/accounts/how-to/use-coinbase-account",
+			"permanent": false
+		},
+		{
 			"source": "/permissionless/how-to/accounts/use-biconomy-account",
 			"destination": "/permissionless/accounts/how-to/use-biconomy-account",
 			"permanent": false
