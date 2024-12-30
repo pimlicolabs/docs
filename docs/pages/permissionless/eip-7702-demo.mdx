@@ -1,0 +1,57 @@
+# EIP-7702 Demo
+
+This demo shows how to use ERC-4337 with EIP-7702 to enable smart account features for EOAs.
+
+## Prerequisites
+
+- An EOA (Externally Owned Account)
+- Basic understanding of ERC-4337 and EIP-7702
+
+## Implementation
+
+Here's a basic example of how to use EIP-7702 with an EOA:
+
+```typescript
+import { createEip7702Client } from "permissionless"
+
+// Create an EIP-7702 client
+const client = await createEip7702Client({
+  account,
+  chain,
+  transport,
+  sponsorUserOperation: true // Optional: Enable gas sponsorship
+})
+
+// Send a user operation
+const userOpHash = await client.sendUserOperation({
+  target: "0x...", // Contract to interact with
+  data: "0x...", // Encoded function call
+  value: 0n // Optional: Amount of ETH to send
+})
+
+// Wait for the user operation to be included
+const receipt = await client.waitForUserOperationReceipt({ hash: userOpHash })
+```
+
+## Features
+
+With EIP-7702, your EOA can now:
+
+1. **Batch Transactions**: Send multiple transactions in a single user operation
+2. **Gas Sponsorship**: Have transaction fees sponsored by a paymaster
+3. **Smart Account Features**: Access features like account recovery and multisig
+4. **Passkey Support**: Use WebAuthn/passkeys for signing
+
+## Benefits
+
+- No need to deploy a smart contract account
+- Maintain EOA security model
+- Access all ERC-4337 features
+- Reduced gas costs
+- Improved UX with batching and sponsorship
+
+## Next Steps
+
+- Learn more about [EIP-7702](/conceptual/eip7702)
+- Explore [gas sponsorship](/permissionless/paymasters/use-custom-paymaster)
+- Try [batching transactions](/permissionless/parallel-transactions)
