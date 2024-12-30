@@ -12,6 +12,11 @@
 	],
 	"redirects": [
 		{
+			"source": "/permissionless/how-to/accounts/use-safe-account-with-multiple-signers",
+			"destination": "/permissionless/accounts/how-to/use-safe-account-with-multiple-signers",
+			"permanent": false
+		},
+		{
 			"source": "/permissionless/how-to/accounts/use-nexus-account",
 			"destination": "/permissionless/accounts/how-to/use-nexus-account",
 			"permanent": false
