@@ -483,7 +483,7 @@ export const permissionlessSidebar = [
 					},
 					{
 						text: "Account types comparison",
-						link: "/permissionless/how-to/accounts/comparison",
+						link: "/permissionless/accounts/how-to/comparison",
 					},
 					{
 						text: "How to use a Safe account",
