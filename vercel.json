@@ -32,6 +32,26 @@
 			"permanent": false
 		},
 		{
+			"source": "/permissionless/how-to/signers/dynamic",
+			"destination": "/permissionless/signers/dynamic",
+			"permanent": false
+		},
+		{
+			"source": "/permissionless/how-to/signers/privy",
+			"destination": "/permissionless/signers/privy",
+			"permanent": false
+		},
+		{
+			"source": "/permissionless/v0_1/how-to/signers/dynamic",
+			"destination": "/permissionless/v0_1/signers/dynamic",
+			"permanent": false
+		},
+		{
+			"source": "/permissionless/v0_1/how-to/signers/privy",
+			"destination": "/permissionless/v0_1/signers/privy",
+			"permanent": false
+		},
+		{
 			"source": "/permissionless/how-to/accounts/use-light-account",
 			"destination": "/permissionless/accounts/use-light-account",
 			"permanent": false
@@ -134,6 +154,11 @@
 		{
 			"source": "/permissionless/how-to/parallel-transactions",
 			"destination": "/permissionless/parallel-transactions",
+			"permanent": false
+		},
+		{
+			"source": "/permissionless/v0_1/how-to/parallel-transactions",
+			"destination": "/permissionless/v0_1/parallel-transactions",
 			"permanent": false
 		},
 		{
