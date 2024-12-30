@@ -495,7 +495,7 @@ export const permissionlessSidebar = [
 					},
 					{
 						text: "How to use a Kernel account",
-						link: "/permissionless/how-to/accounts/use-kernel-account",
+						link: "/permissionless/accounts/how-to/use-kernel-account",
 					},
 					{
 						text: "How to use a Thirdweb account",
@@ -903,7 +903,7 @@ export const permissionlessSidebar0Point1 = [
 					},
 					{
 						text: "How to use a Kernel account",
-						link: "/permissionless/v0_1/how-to/accounts/use-kernel-account",
+						link: "/permissionless/v0_1/accounts/how-to/use-kernel-account",
 					},
 					{
 						text: "How to use a SimpleAccount",

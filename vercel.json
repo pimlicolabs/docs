@@ -37,6 +37,11 @@
 			"permanent": false
 		},
 		{
+			"source": "/permissionless/how-to/accounts/use-kernel-account",
+			"destination": "/permissionless/accounts/how-to/use-kernel-account",
+			"permanent": false
+		},
+		{
 			"source": "/:match*.html",
 			"destination": "/:match",
 			"permanent": false
