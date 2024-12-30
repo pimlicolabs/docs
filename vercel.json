@@ -12,6 +12,11 @@
 	],
 	"redirects": [
 		{
+			"source": "/permissionless/how-to/accounts/comparison",
+			"destination": "/permissionless/accounts/how-to/comparison",
+			"permanent": false
+		},
+		{
 			"source": "/:match*.html",
 			"destination": "/:match",
 			"permanent": false
