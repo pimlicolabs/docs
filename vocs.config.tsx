@@ -491,7 +491,7 @@ export const permissionlessSidebar = [
 					},
 					{
 						text: "How to use a Safe account with multiple signers",
-						link: "/permissionless/how-to/accounts/use-safe-account-with-multiple-signers",
+						link: "/permissionless/accounts/how-to/use-safe-account-with-multiple-signers",
 					},
 					{
 						text: "How to use a Kernel account",
