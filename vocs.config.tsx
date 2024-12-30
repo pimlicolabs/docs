@@ -523,7 +523,7 @@ export const permissionlessSidebar = [
 					},
 					{
 						text: "How to use an ERC-7579 compatible smart account",
-						link: "/permissionless/how-to/accounts/use-erc7579-account",
+						link: "/permissionless/accounts/how-to/use-erc7579-account",
 					},
 				],
 			},
@@ -923,7 +923,7 @@ export const permissionlessSidebar0Point1 = [
 					},
 					{
 						text: "How to use an ERC-7579 compatible smart account",
-						link: "/permissionless/v0_1/how-to/accounts/use-erc7579-account",
+						link: "/permissionless/v0_1/accounts/how-to/use-erc7579-account",
 					},
 				],
 			},
