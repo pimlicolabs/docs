@@ -12,6 +12,11 @@
 	],
 	"redirects": [
 		{
+			"source": "/permissionless/how-to/accounts/use-light-account",
+			"destination": "/permissionless/accounts/how-to/use-light-account",
+			"permanent": false
+		},
+		{
 			"source": "/permissionless/how-to/accounts/use-erc7579-account",
 			"destination": "/permissionless/accounts/how-to/use-erc7579-account",
 			"permanent": false
