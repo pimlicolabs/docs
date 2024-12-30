@@ -532,69 +532,69 @@ export const permissionlessSidebar = [
 				items: [
 					{
 						text: "How to use a custom Paymaster",
-						link: "/permissionless/how-to/paymasters/use-custom-paymaster",
+						link: "/permissionless/paymasters/use-custom-paymaster",
 					},
 					{
 						text: "How to conditionally sponsor a user operation",
-						link: "/permissionless/how-to/paymasters/conditional-sponsoring",
+						link: "/permissionless/paymasters/conditional-sponsoring",
 					},
 				],
 			},
 			{
 				text: "Signers",
-				link: "/permissionless/how-to/signers",
+				link: "/permissionless/signers",
 				items: [
 					{
 						text: "How to use a Passkey (WebAuthn) signer",
-						link: "/permissionless/how-to/signers/passkey",
+						link: "/permissionless/signers/passkey",
 					},
 					{
 						text: "How to use a Dynamic signer",
-						link: "/permissionless/how-to/signers/dynamic",
+						link: "/permissionless/signers/dynamic",
 					},
 					{
 						text: "How to use a Privy signer",
-						link: "/permissionless/how-to/signers/privy",
+						link: "/permissionless/signers/privy",
 					},
 					{
 						text: "How to use a Magic signer",
-						link: "/permissionless/how-to/signers/magic",
+						link: "/permissionless/signers/magic",
 					},
 					{
 						text: "How to use a Passport signer",
-						link: "/permissionless/how-to/signers/passport",
+						link: "/permissionless/signers/passport",
 					},
 					{
 						text: "How to use a Lit Protocol signer",
-						link: "/permissionless/how-to/signers/lit-protocol",
+						link: "/permissionless/signers/lit-protocol",
 					},
 					{
 						text: "How to use a Web3Auth signer",
-						link: "/permissionless/how-to/signers/web3auth",
+						link: "/permissionless/signers/web3auth",
 					},
 					{
 						text: "How to use a Turnkey signer",
-						link: "/permissionless/how-to/signers/turnkey",
+						link: "/permissionless/signers/turnkey",
 					},
 					{
 						text: "How to use a Fireblocks signer",
-						link: "/permissionless/how-to/signers/fireblocks",
+						link: "/permissionless/signers/fireblocks",
 					},
 					{
 						text: "How to use a Capsule signer",
-						link: "/permissionless/how-to/signers/capsule",
+						link: "/permissionless/signers/capsule",
 					},
 					{
 						text: "How to use a DFNS signer",
-						link: "/permissionless/how-to/signers/dfns",
+						link: "/permissionless/signers/dfns",
 					},
 					{
 						text: "How to use an Arcana Auth signer",
-						link: "/permissionless/how-to/signers/arcana",
+						link: "/permissionless/signers/arcana",
 					},
 					{
 						text: "How to use a Particle Network signer",
-						link: "/permissionless/how-to/signers/particle-network",
+						link: "/permissionless/signers/particle-network",
 					},
 				],
 			},
