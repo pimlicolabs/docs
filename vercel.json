@@ -13,52 +13,102 @@
 	"redirects": [
 		{
 			"source": "/permissionless/how-to/accounts/use-safe-account-with-multiple-signers",
-			"destination": "/permissionless/accounts/how-to/use-safe-account-with-multiple-signers",
+			"destination": "/permissionless/accounts/use-safe-account-with-multiple-signers",
+			"permanent": false
+		},
+		{
+			"source": "/permissionless/accounts/how-to/use-safe-account-with-multiple-signers",
+			"destination": "/permissionless/accounts/use-safe-account-with-multiple-signers",
 			"permanent": false
 		},
 		{
 			"source": "/permissionless/how-to/accounts/use-nexus-account",
-			"destination": "/permissionless/accounts/how-to/use-nexus-account",
+			"destination": "/permissionless/accounts/use-nexus-account",
+			"permanent": false
+		},
+		{
+			"source": "/permissionless/accounts/how-to/use-nexus-account",
+			"destination": "/permissionless/accounts/use-nexus-account",
 			"permanent": false
 		},
 		{
 			"source": "/permissionless/how-to/accounts/use-light-account",
-			"destination": "/permissionless/accounts/how-to/use-light-account",
+			"destination": "/permissionless/accounts/use-light-account",
+			"permanent": false
+		},
+		{
+			"source": "/permissionless/accounts/how-to/use-light-account",
+			"destination": "/permissionless/accounts/use-light-account",
 			"permanent": false
 		},
 		{
 			"source": "/permissionless/how-to/accounts/use-erc7579-account",
-			"destination": "/permissionless/accounts/how-to/use-erc7579-account",
+			"destination": "/permissionless/accounts/use-erc7579-account",
+			"permanent": false
+		},
+		{
+			"source": "/permissionless/accounts/how-to/use-erc7579-account",
+			"destination": "/permissionless/accounts/use-erc7579-account",
 			"permanent": false
 		},
 		{
 			"source": "/permissionless/how-to/accounts/use-coinbase-account",
-			"destination": "/permissionless/accounts/how-to/use-coinbase-account",
+			"destination": "/permissionless/accounts/use-coinbase-account",
+			"permanent": false
+		},
+		{
+			"source": "/permissionless/accounts/how-to/use-coinbase-account",
+			"destination": "/permissionless/accounts/use-coinbase-account",
 			"permanent": false
 		},
 		{
 			"source": "/permissionless/how-to/accounts/use-biconomy-account",
-			"destination": "/permissionless/accounts/how-to/use-biconomy-account",
+			"destination": "/permissionless/accounts/use-biconomy-account",
+			"permanent": false
+		},
+		{
+			"source": "/permissionless/accounts/how-to/use-biconomy-account",
+			"destination": "/permissionless/accounts/use-biconomy-account",
 			"permanent": false
 		},
 		{
 			"source": "/permissionless/how-to/accounts/support",
-			"destination": "/permissionless/accounts/how-to/support",
+			"destination": "/permissionless/accounts/support",
+			"permanent": false
+		},
+		{
+			"source": "/permissionless/accounts/how-to/support",
+			"destination": "/permissionless/accounts/support",
 			"permanent": false
 		},
 		{
 			"source": "/permissionless/how-to/accounts/comparison",
-			"destination": "/permissionless/accounts/how-to/comparison",
+			"destination": "/permissionless/accounts/comparison",
+			"permanent": false
+		},
+		{
+			"source": "/permissionless/accounts/how-to/comparison",
+			"destination": "/permissionless/accounts/comparison",
 			"permanent": false
 		},
 		{
 			"source": "/permissionless/how-to/accounts/use-kernel-account",
-			"destination": "/permissionless/accounts/how-to/use-kernel-account",
+			"destination": "/permissionless/accounts/use-kernel-account",
+			"permanent": false
+		},
+		{
+			"source": "/permissionless/accounts/how-to/use-kernel-account",
+			"destination": "/permissionless/accounts/use-kernel-account",
 			"permanent": false
 		},
 		{
 			"source": "/permissionless/how-to/accounts/use-safe-account",
-			"destination": "/permissionless/accounts/how-to/use-safe-account",
+			"destination": "/permissionless/accounts/use-safe-account",
+			"permanent": false
+		},
+		{
+			"source": "/permissionless/accounts/how-to/use-safe-account",
+			"destination": "/permissionless/accounts/use-safe-account",
 			"permanent": false
 		},
 		{
@@ -283,7 +333,27 @@
 		},
 		{
 			"source": "/permissionless/difference-between-multiple-account-types",
-			"destination": "/permissionless/how-to/accounts/comparison",
+			"destination": "/permissionless/accounts/comparison",
+			"permanent": false
+		},
+		{
+			"source": "/permissionless/v0_1/how-to/accounts/use-safe-account",
+			"destination": "/permissionless/v0_1/accounts/use-safe-account",
+			"permanent": false
+		},
+		{
+			"source": "/permissionless/v0_1/how-to/accounts/use-simple-account",
+			"destination": "/permissionless/v0_1/accounts/use-simple-account",
+			"permanent": false
+		},
+		{
+			"source": "/permissionless/v0_1/how-to/accounts/use-trustwallet-account",
+			"destination": "/permissionless/v0_1/accounts/use-trustwallet-account",
+			"permanent": false
+		},
+		{
+			"source": "/permissionless/v0_1/how-to/accounts/support",
+			"destination": "/permissionless/v0_1/accounts/support",
 			"permanent": false
 		}
 	],

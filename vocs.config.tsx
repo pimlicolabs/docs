@@ -451,57 +451,52 @@ export const permissionlessSidebar = [
 		text: "Accounts",
 		items: [
 			{
-				text: "How-to Guides",
-				items: [
-					{
-						text: "EntryPoint support",
-						link: "/permissionless/accounts/how-to/support",
-					},
-					{
-						text: "Account types comparison",
-						link: "/permissionless/accounts/how-to/comparison",
-					},
-					{
-						text: "How to use a Safe account",
-						link: "/permissionless/accounts/how-to/use-safe-account",
-					},
-					{
-						text: "How to use a Safe account with multiple signers",
-						link: "/permissionless/accounts/how-to/use-safe-account-with-multiple-signers",
-					},
-					{
-						text: "How to use a Kernel account",
-						link: "/permissionless/accounts/how-to/use-kernel-account",
-					},
-					{
-						text: "How to use a Thirdweb account",
-						link: "/permissionless/accounts/how-to/use-thirdweb-account",
-					},
-					{
-						text: "How to use a SimpleAccount",
-						link: "/permissionless/accounts/how-to/use-simple-account",
-					},
-					{
-						text: "How to use a Biconomy Nexus account",
-						link: "/permissionless/accounts/how-to/use-nexus-account",
-					},
-					{
-						text: "How to use a LightAccount",
-						link: "/permissionless/accounts/how-to/use-light-account",
-					},
-					{
-						text: "How to use a Trust Wallet account",
-						link: "/permissionless/accounts/how-to/use-trustwallet-account",
-					},
-					{
-						text: "How to use a Coinbase Wallet account",
-						link: "/permissionless/accounts/how-to/use-coinbase-account",
-					},
-					{
-						text: "How to use an ERC-7579 compatible smart account",
-						link: "/permissionless/accounts/how-to/use-erc7579-account",
-					},
-				],
+				text: "EntryPoint support",
+				link: "/permissionless/accounts/support",
+			},
+			{
+				text: "Account types comparison",
+				link: "/permissionless/accounts/comparison",
+			},
+			{
+				text: "How to use a Safe account",
+				link: "/permissionless/accounts/use-safe-account",
+			},
+			{
+				text: "How to use a Safe account with multiple signers",
+				link: "/permissionless/accounts/use-safe-account-with-multiple-signers",
+			},
+			{
+				text: "How to use a Kernel account",
+				link: "/permissionless/accounts/use-kernel-account",
+			},
+			{
+				text: "How to use a Thirdweb account",
+				link: "/permissionless/accounts/use-thirdweb-account",
+			},
+			{
+				text: "How to use a SimpleAccount",
+				link: "/permissionless/accounts/use-simple-account",
+			},
+			{
+				text: "How to use a Biconomy Nexus account",
+				link: "/permissionless/accounts/use-nexus-account",
+			},
+			{
+				text: "How to use a LightAccount",
+				link: "/permissionless/accounts/use-light-account",
+			},
+			{
+				text: "How to use a Trust Wallet account",
+				link: "/permissionless/accounts/use-trustwallet-account",
+			},
+			{
+				text: "How to use a Coinbase Wallet account",
+				link: "/permissionless/accounts/use-coinbase-account",
+			},
+			{
+				text: "How to use an ERC-7579 compatible smart account",
+				link: "/permissionless/accounts/use-erc7579-account",
 			},
 		],
 	},
@@ -895,43 +890,43 @@ export const permissionlessSidebar0Point1 = [
 				text: "Local Testing",
 				link: "/permissionless/v0_1/how-to/local-testing",
 			},
+	{
+		text: "Accounts",
+		items: [
 			{
-				text: "Accounts",
-				items: [
-					{
-						text: "EntryPoint support",
-						link: "/permissionless/v0_1/how-to/accounts/support",
-					},
-					{
-						text: "How to use a Safe account",
-						link: "/permissionless/v0_1/how-to/accounts/use-safe-account",
-					},
-					{
-						text: "How to use a Kernel account",
-						link: "/permissionless/v0_1/accounts/how-to/use-kernel-account",
-					},
-					{
-						text: "How to use a SimpleAccount",
-						link: "/permissionless/v0_1/how-to/accounts/use-simple-account",
-					},
-					{
-						text: "How to use a Biconomy account",
-						link: "/permissionless/v0_1/accounts/how-to/use-biconomy-account",
-					},
-					{
-						text: "How to use a LightAccount",
-						link: "/permissionless/v0_1/accounts/how-to/use-light-account",
-					},
-					{
-						text: "How to use a Trust Wallet account",
-						link: "/permissionless/v0_1/how-to/accounts/use-trustwallet-account",
-					},
-					{
-						text: "How to use an ERC-7579 compatible smart account",
-						link: "/permissionless/v0_1/accounts/how-to/use-erc7579-account",
-					},
-				],
+				text: "EntryPoint support",
+				link: "/permissionless/v0_1/accounts/support",
 			},
+			{
+				text: "How to use a Safe account",
+				link: "/permissionless/v0_1/accounts/use-safe-account",
+			},
+			{
+				text: "How to use a Kernel account",
+				link: "/permissionless/v0_1/accounts/use-kernel-account",
+			},
+			{
+				text: "How to use a SimpleAccount",
+				link: "/permissionless/v0_1/accounts/use-simple-account",
+			},
+			{
+				text: "How to use a Biconomy account",
+				link: "/permissionless/v0_1/accounts/use-biconomy-account",
+			},
+			{
+				text: "How to use a LightAccount",
+				link: "/permissionless/v0_1/accounts/use-light-account",
+			},
+			{
+				text: "How to use a Trust Wallet account",
+				link: "/permissionless/v0_1/accounts/use-trustwallet-account",
+			},
+			{
+				text: "How to use an ERC-7579 compatible smart account",
+				link: "/permissionless/v0_1/accounts/use-erc7579-account",
+			},
+		],
+	},
 			{
 				text: "Paymasters",
 				items: [
