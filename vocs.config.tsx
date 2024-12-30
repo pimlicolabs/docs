@@ -511,7 +511,7 @@ export const permissionlessSidebar = [
 					},
 					{
 						text: "How to use a LightAccount",
-						link: "/permissionless/how-to/accounts/use-light-account",
+						link: "/permissionless/accounts/how-to/use-light-account",
 					},
 					{
 						text: "How to use a Trust Wallet account",
@@ -915,7 +915,7 @@ export const permissionlessSidebar0Point1 = [
 					},
 					{
 						text: "How to use a LightAccount",
-						link: "/permissionless/v0_1/how-to/accounts/use-light-account",
+						link: "/permissionless/v0_1/accounts/how-to/use-light-account",
 					},
 					{
 						text: "How to use a Trust Wallet account",
