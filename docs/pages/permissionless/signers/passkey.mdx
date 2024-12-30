@@ -1,0 +1,213 @@
+import VersionWarning from "../../VersionWarning"
+
+<VersionWarning version="0.2" />
+
+# How to Integrate Pimlico with Passkey (WebAuthn) signer
+
+This how-to guide will walk you through the steps to integrate Passkey (WebAuthn) signer with a smart account whose user operations are relayed and sponsored by Pimlico.
+
+:::info
+Passkey (WebAuthn) is a modern authentication method that allows users to sign in to websites and apps using their fingerprint, face, or other biometric information. For more information on how Passkey works, visit [the documentation page](https://developer.mozilla.org/en-US/docs/Web/API/Web_Authentication_API).
+:::
+
+:::::steps
+
+### Install the required packages
+
+```bash
+npm install viem permissionless
+```
+
+### Create credentials
+
+```tsx
+import { useState } from "react"
+import {
+    createWebAuthnCredential,
+} from "viem/account-abstraction"
+
+export function PasskeysDemo() {
+    const [credential, setCredential] = useState<P256Credential>(() =>
+        JSON.parse(localStorage.getItem("credential"))
+    )
+
+    const createCredential = async () => {
+        const credential = await createWebAuthnCredential({
+            name: "Wallet"
+        })
+        localStorage.setItem("credential", JSON.stringify(credential))
+        setCredential(credential)
+    }
+
+    if (!credential)
+        return (
+            <button type="button" onClick={createCredential}>
+                Create credential
+            </button>
+        )
+
+    return (
+        <div>
+            <p>Credential: {credential.id}</p>
+        </div>
+    )
+}
+```
+
+:::warning
+We suggest using a paykeys server to share the same credential across multiple devices easily. To learn how to set up a paykeys server with [simplewebauthn](https://simplewebauthn.dev/docs/packages/server), check out their guide. Zerodev also provides a [paykeys server](https://docs.zerodev.app/sdk/advanced/passkeys#setting-up-passkey-server) you can use.
+:::
+
+### Create Kernel Smart Account
+
+```tsx
+import {
+    type SmartAccountClient,
+    createSmartAccountClient
+} from "permissionless"
+import {
+    type ToKernelSmartAccountReturnType,
+    toKernelSmartAccount
+} from "permissionless/accounts"
+import {
+    entryPoint07Address,
+    toWebAuthnAccount
+} from "viem/account-abstraction"
+
+const pimlicoUrl = `https://api.pimlico.io/v2/${chain.id}/rpc?apikey=${pimlicoApiKey}`// [!code focus]
+const pimlicoClient = createPimlicoClient({ // [!code focus]
+    chain, // [!code focus]
+    transport: http(pimlicoUrl) // [!code focus]
+}) // [!code focus]
+
+export function PasskeysDemo() {
+    const [smartAccountClient, setSmartAccountClient] =// [!code focus]
+        React.useState<// [!code focus]
+            SmartAccountClient<// [!code focus]
+                Transport,// [!code focus]
+                Chain,// [!code focus]
+                ToKernelSmartAccountReturnType<"0.7">// [!code focus]
+            >// [!code focus]
+        >()// [!code focus]
+    ...
+    React.useEffect(() => { // [!code focus]
+        if (!credential) return // [!code focus]
+        toKernelSmartAccount({ // [!code focus]
+            client: publicClient, // [!code focus]
+            version: "0.3.1", // [!code focus]
+            owners: [toWebAuthnAccount({ credential })], // [!code focus]
+            entryPoint: { // [!code focus]
+                address: entryPoint07Address, // [!code focus]
+                version: "0.7" // [!code focus]
+            } // [!code focus]
+        }).then((account: ToKernelSmartAccountReturnType<"0.7">) => { // [!code focus]
+            setSmartAccountClient( // [!code focus]
+                createSmartAccountClient({ // [!code focus]
+                    account, // [!code focus]
+                    paymaster: pimlicoClient, // [!code focus]
+                    chain, // [!code focus]
+                    userOperation: { // [!code focus]
+                        estimateFeesPerGas: async () => // [!code focus]
+                            (await pimlicoClient.getUserOperationGasPrice()) // [!code focus]
+                                .fast // [!code focus]
+                    }, // [!code focus]
+                    bundlerTransport: http(pimlicoUrl) // [!code focus]
+                }) // [!code focus]
+            ) // [!code focus]
+        }) // [!code focus]
+    }, [credential]) // [!code focus]
+    ...
+}
+```
+
+:::info
+Currently, `permissionless` supports passkeys only with kernel accounts.
+:::
+
+### Send a transaction
+
+```tsx
+export function PasskeysDemo() {
+    ...
+    const [txHash, setTxHash] = React.useState<Hex>() // [!code focus]
+
+    const sendUserOperation = async ( // [!code focus]
+        event: React.FormEvent<HTMLFormElement> // [!code focus]
+    ) => { // [!code focus]
+        event.preventDefault() // [!code focus]
+        if (!smartAccountClient) return // [!code focus]
+
+        const formData = new FormData(event.currentTarget) // [!code focus]
+        const to = formData.get("to") as `0x${string}` // [!code focus]
+        const value = formData.get("value") as string // [!code focus]
+
+        const txHash = await smartAccountClient.sendTransaction({ // [!code focus]
+            calls: [ // [!code focus]
+                { // [!code focus]
+                    to, // [!code focus]
+                    value: parseEther(value) // [!code focus]
+                } // [!code focus]
+            ], // [!code focus]
+        }) // [!code focus]
+        setTxHash(txHash) // [!code focus]
+    } // [!code focus]
+
+    return ( // [!code focus]
+        <> // [!code focus]
+            <h2>Account</h2> // [!code focus]
+            <p>Address: {smartAccountClient?.account?.address}</p> // [!code focus]
+
+            <h2>Send User Operation</h2> // [!code focus]
+            <form onSubmit={sendUserOperation}> // [!code focus]
+                <input name="to" placeholder="Address" /> // [!code focus]
+                <input name="value" placeholder="Amount (ETH)" /> // [!code focus]
+                <button type="submit">Send</button> // [!code focus]
+                {txHash && <p>Transaction Hash: {txHash}</p>} // [!code focus]
+            </form> // [!code focus]
+        </> // [!code focus]
+    ) // [!code focus]
+}
+```
+
+### Sign & verify a message
+
+```tsx
+export function PasskeysDemo() {
+    const [signature, setSignature] = React.useState<Hex>() // [!code focus]
+    const [isVerified, setIsVerified] = React.useState<boolean>() // [!code focus]
+    ...
+    const signAndVerifyMessage = async () => { // [!code focus]
+        if (!smartAccountClient) return // [!code focus]
+        const signature = await smartAccountClient.signTypedData(typedData) // [!code focus]
+
+        const isVerified = await publicClient.verifyTypedData({ // [!code focus]
+            ...typedData, // [!code focus]
+            address: smartAccountClient.account.address, // [!code focus]
+            signature // [!code focus]
+        }) // [!code focus]
+        setIsVerified(isVerified) // [!code focus]
+        setSignature(signature) // [!code focus]
+    } // [!code focus]
+    return ( // [!code focus]
+        <> // [!code focus]
+            <h2>Account</h2> // [!code focus]
+            <p>Address: {smartAccountClient?.account?.address}</p> // [!code focus]
+
+            <h2>Sign typed data</h2> // [!code focus]
+            <button type="button" onClick={signAndVerifyMessage}> // [!code focus]
+                Sign typed data Test // [!code focus]
+            </button> // [!code focus]
+            {signature && ( // [!code focus]
+                <p> // [!code focus]
+                    Signature: <pre>{signature}</pre> // [!code focus]
+                </p> // [!code focus]
+            )} // [!code focus]
+            {isVerified !== undefined && ( // [!code focus]
+                <p>Verified: {isVerified.toString()}</p> // [!code focus]
+            )} // [!code focus]
+        </> // [!code focus]
+    ) // [!code focus]
+}
+``` 
+
+:::::
