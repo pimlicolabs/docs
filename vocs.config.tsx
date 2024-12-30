@@ -519,7 +519,7 @@ export const permissionlessSidebar = [
 					},
 					{
 						text: "How to use a Coinbase Wallet account",
-						link: "/permissionless/how-to/accounts/use-coinbase-account",
+						link: "/permissionless/accounts/how-to/use-coinbase-account",
 					},
 					{
 						text: "How to use an ERC-7579 compatible smart account",
