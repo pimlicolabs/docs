@@ -12,6 +12,11 @@
 	],
 	"redirects": [
 		{
+			"source": "/permissionless/how-to/accounts/use-biconomy-account",
+			"destination": "/permissionless/accounts/how-to/use-biconomy-account",
+			"permanent": false
+		},
+		{
 			"source": "/permissionless/how-to/accounts/support",
 			"destination": "/permissionless/accounts/how-to/support",
 			"permanent": false
