@@ -12,6 +12,16 @@
 	],
 	"redirects": [
 		{
+			"source": "/permissionless/how-to/parallel-transactions",
+			"destination": "/permissionless/parallel-transactions",
+			"permanent": false
+		},
+		{
+			"source": "/permissionless/v0_1/how-to/parallel-transactions",
+			"destination": "/permissionless/v0_1/parallel-transactions",
+			"permanent": false
+		},
+		{
 			"source": "/permissionless/how-to/accounts/use-safe-account-with-multiple-signers",
 			"destination": "/permissionless/accounts/use-safe-account-with-multiple-signers",
 			"permanent": false
