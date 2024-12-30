@@ -479,7 +479,7 @@ export const permissionlessSidebar = [
 				items: [
 					{
 						text: "EntryPoint support",
-						link: "/permissionless/how-to/accounts/support",
+						link: "/permissionless/accounts/how-to/support",
 					},
 					{
 						text: "Account types comparison",
