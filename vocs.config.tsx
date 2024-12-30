@@ -507,7 +507,7 @@ export const permissionlessSidebar = [
 					},
 					{
 						text: "How to use a Biconomy Nexus account",
-						link: "/permissionless/how-to/accounts/use-nexus-account",
+						link: "/permissionless/accounts/how-to/use-nexus-account",
 					},
 					{
 						text: "How to use a LightAccount",
@@ -911,7 +911,7 @@ export const permissionlessSidebar0Point1 = [
 					},
 					{
 						text: "How to use a Biconomy account",
-						link: "/permissionless/v0_1/how-to/accounts/use-biconomy-account",
+						link: "/permissionless/v0_1/accounts/how-to/use-biconomy-account",
 					},
 					{
 						text: "How to use a LightAccount",
