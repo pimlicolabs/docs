@@ -415,6 +415,26 @@
 			"source": "/permissionless/v0_1/how-to/accounts/support",
 			"destination": "/permissionless/v0_1/accounts/support",
 			"permanent": false
+		},
+		{
+			"source": "/permissionless/how-to/paymasters/use-custom-paymaster",
+			"destination": "/permissionless/paymasters/use-custom-paymaster",
+			"permanent": false
+		},
+		{
+			"source": "/permissionless/how-to/paymasters/conditional-sponsoring",
+			"destination": "/permissionless/paymasters/conditional-sponsoring",
+			"permanent": false
+		},
+		{
+			"source": "/permissionless/v0_1/how-to/paymasters/use-custom-paymaster",
+			"destination": "/permissionless/v0_1/paymasters/use-custom-paymaster",
+			"permanent": false
+		},
+		{
+			"source": "/permissionless/v0_1/how-to/paymasters/conditional-sponsoring",
+			"destination": "/permissionless/v0_1/paymasters/conditional-sponsoring",
+			"permanent": false
 		}
 	],
 	"headers": [
