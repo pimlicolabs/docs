@@ -162,16 +162,6 @@
 			"permanent": false
 		},
 		{
-			"source": "/permissionless/how-to/parallel-transactions",
-			"destination": "/permissionless/parallel-transactions",
-			"permanent": false
-		},
-		{
-			"source": "/permissionless/v0_1/how-to/parallel-transactions",
-			"destination": "/permissionless/v0_1/parallel-transactions",
-			"permanent": false
-		},
-		{
 			"source": "/:match*.html",
 			"destination": "/:match",
 			"permanent": false
