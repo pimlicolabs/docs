@@ -12,13 +12,13 @@
 	],
 	"redirects": [
 		{
-			"source": "/permissionless/how-to/parallel-transactions",
-			"destination": "/permissionless/parallel-transactions",
+			"source": "/permissionless/parallel-transactions",
+			"destination": "/permissionless/how-to/parallel-transactions",
 			"permanent": false
 		},
 		{
-			"source": "/permissionless/v0_1/how-to/parallel-transactions",
-			"destination": "/permissionless/v0_1/parallel-transactions",
+			"source": "/permissionless/v0_1/parallel-transactions",
+			"destination": "/permissionless/v0_1/how-to/parallel-transactions",
 			"permanent": false
 		},
 		{

@@ -463,7 +463,7 @@ export const permissionlessSidebar: SidebarItem[] = [
 			},
 			{
 				text: "How to send multiple user operations in parallel",
-				link: "/permissionless/parallel-transactions",
+				link: "/permissionless/how-to/parallel-transactions",
 			},
 			{
 				text: "How to send a userOperation from a EOA using EIP-7702",
@@ -921,7 +921,7 @@ export const permissionlessSidebar0Point1: SidebarItem[] = [
 			},
 			{
 				text: "How to send multiple user operations in parallel",
-				link: "/permissionless/v0_1/parallel-transactions",
+				link: "/permissionless/v0_1/how-to/parallel-transactions",
 			},
 			{
 				text: "Error Handling",
