@@ -8,7 +8,7 @@ The `nonce` of the user operation is invalid.
   - Make sure that you are not reusing a nonce that has already been used.
   - Make sure that you are not using a nonce that is too far in the future (more than 10 higher than the current nonce). 
 - Verify that the nonce is formatted correctly.
-- Use custom nonce `key` to send parallel transactions. See [How to Send Multiple Transactions](/permissionless/how-to/parallel-transactions#sending-multiple-transactions-in-parallel).
+- Use custom nonce `key` to send parallel transactions. See [How to Send Multiple Transactions](/permissionless/parallel-transactions#sending-multiple-transactions-in-parallel).
 
 :::info
 Instead of sequential nonce the EntryPoint implements a nonce mechanism that uses a single `uint256` nonce value in the user operation, but treats it as two values:
