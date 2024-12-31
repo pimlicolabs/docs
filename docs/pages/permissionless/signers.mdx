@@ -1,0 +1,60 @@
+# Signers
+
+Signers are responsible for generating valid signatures for user operations. permissionless.js supports various signer implementations to accommodate different authentication methods and security requirements.
+
+## Available Signers
+
+### WebAuthn/Passkey
+- [How to use a Passkey (WebAuthn) signer](/permissionless/signers/passkey)
+  - Enables biometric authentication
+  - Supports hardware security keys
+  - Enhanced security with WebAuthn standard
+
+### Social Login
+- [How to use a Dynamic signer](/permissionless/signers/dynamic)
+- [How to use a Privy signer](/permissionless/signers/privy)
+- [How to use a Magic signer](/permissionless/signers/magic)
+- [How to use a Passport signer](/permissionless/signers/passport)
+- [How to use a Web3Auth signer](/permissionless/signers/web3auth)
+- [How to use an Arcana Auth signer](/permissionless/signers/arcana)
+- [How to use a Particle Network signer](/permissionless/signers/particle-network)
+
+### Enterprise Solutions
+- [How to use a Turnkey signer](/permissionless/signers/turnkey)
+- [How to use a Fireblocks signer](/permissionless/signers/fireblocks)
+- [How to use a Capsule signer](/permissionless/signers/capsule)
+- [How to use a DFNS signer](/permissionless/signers/dfns)
+
+### Protocol Integration
+- [How to use a Lit Protocol signer](/permissionless/signers/lit-protocol)
+
+## Choosing a Signer
+
+When selecting a signer, consider:
+
+1. **Security Requirements**: Hardware security keys and biometrics offer enhanced security
+2. **User Experience**: Social logins provide familiar authentication flows
+3. **Integration Complexity**: Some signers require additional setup and configuration
+4. **Enterprise Features**: Custody solutions offer advanced key management
+5. **Cost**: Different providers have varying pricing models
+
+## Implementation
+
+Each signer implementation follows a similar pattern:
+
+```typescript
+import { type Signer } from "permissionless"
+
+// Initialize the signer
+const signer = await createSigner({
+  // Signer-specific configuration
+})
+
+// Use the signer with a smart account
+const account = await createSmartAccountClient({
+  signer,
+  // Other account configuration
+})
+```
+
+For specific implementation details, refer to the individual signer documentation pages listed above.

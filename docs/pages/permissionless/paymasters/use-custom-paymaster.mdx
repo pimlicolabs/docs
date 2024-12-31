@@ -1,0 +1,168 @@
+import VersionWarning from "../VersionWarning"
+
+<VersionWarning version="0.2" />
+
+# How to use a custom paymaster with accounts in permissionless.js
+
+permissionless.js allows you to define custom logic to select the paymaster (if any) to use with the accounts you control. This allows you to use your own paymaster or even use multiple paymasters in different scenarios.
+
+:::::steps
+
+### Create the clients
+
+First we must create the public, (optionally) pimlico paymaster clients that will be used to interact with the SimpleAccount.
+
+```ts
+export const publicClient = createPublicClient({
+	chain: sepolia,
+	transport: http("https://rpc.ankr.com/eth_sepolia"),
+})
+
+const pimlicoUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=${apiKey}`
+
+export const pimlicoClient = createPimlicoClient({
+	transport: http(pimlicoUrl),
+	entryPoint: {
+		address: entryPoint07Address,
+		version: "0.7",
+	},
+})
+```
+
+### Create an account
+
+Now, create an account. This can any of the accounts supported by permissionless.js or custom accounts conforming to the interface. For this example, we'll use a Simple account.
+
+```ts
+const simpleAccount = await toSimpleSmartAccount({
+	client: publicClient,
+	owner: privateKeyToAccount(privateKey),
+	entryPoint: {
+		address: entryPoint07Address,
+		version: "0.7",
+	}
+})
+```
+
+### Create the smart account client with the custom paymaster logic
+
+When creating the `smartAccountClient`, we can pass in a `sponsorUserOperation` function that will be called before a user operation is signed and sent. This function must return the `paymasterAndData`, `preVerificationGas`, `verificationGasLimit`, and `callGasLimit` fields.
+
+::::code-group
+
+```ts [Pimlico Paymaster]
+const smartAccountClient = createSmartAccountClient({
+	account,
+	chain: sepolia,
+	bundlerTransport: http(pimlicoUrl),
+	paymaster: pimlicoClient,
+	userOperation: {
+		estimateFeesPerGas: async () => {
+			return (await pimlicoClient.getUserOperationGasPrice()).fast
+		},
+	}
+})
+```
+
+You can also set completely custom client-side logic to select the paymaster to use. This can be useful if you want to use multiple paymasters in different scenarios.
+
+```ts [ERC-20 Paymaster]
+const smartAccountClient = createSmartAccountClient({
+	client: publicClient,
+	account,
+	chain: sepolia,
+	bundlerTransport: http(pimlicoUrl),
+	paymaster: {
+		async getPaymasterData(parameters) {
+			const gasEstimates = await pimlicoClient.estimateUserOperationGas({
+				...parameters,
+				paymaster: erc20PaymasterAddress,
+			})
+			return {
+				paymaster: erc20PaymasterAddress,
+				paymasterData: "0x" as Hex,
+				paymasterPostOpGasLimit: gasEstimates.paymasterPostOpGasLimit ?? 0n,
+				paymasterVerificationGasLimit: gasEstimates.paymasterVerificationGasLimit ?? 0n,
+			}
+		},
+		async getPaymasterStubData(parameters) {
+			return {
+				paymaster: erc20PaymasterAddress,
+				paymasterData: "0x" as Hex,
+				paymasterVerificationGasLimit: 50_000n,
+				paymasterPostOpGasLimit: 20_000n
+			}
+		}
+	},
+	userOperation: {
+		estimateFeesPerGas: async () => {
+			return (await pimlicoClient.getUserOperationGasPrice()).fast
+		},
+	}
+})
+```
+
+```ts [Dynamic Paymaster Logic]
+const smartAccountClient = createSmartAccountClient({
+	client: publicClient,
+	account,
+	chain: sepolia,
+	bundlerTransport: http(pimlicoUrl),
+	paymaster: {
+		async getPaymasterData(parameters) {
+			const usdcBalance = usdcToken.read.getBalance([account.address]) // get the user's usdc token balance on sepolia
+
+			if (usdcBalance > parseEther("10")) {
+				const gasEstimates = await pimlicoClient.estimateUserOperationGas({
+					...parameters,
+					paymaster: erc20PaymasterAddress,
+				})
+				return {
+					paymaster: erc20PaymasterAddress,
+					paymasterData: "0x" as Hex,
+					paymasterPostOpGasLimit: gasEstimates.paymasterPostOpGasLimit ?? 0n,
+					paymasterVerificationGasLimit: gasEstimates.paymasterVerificationGasLimit ?? 0n,
+				}
+			} else {
+				return pimlicoClient.getPaymasterStubData(parameters)
+			}
+		},
+		async getPaymasterStubData(parameters) {
+			const usdcBalance = usdcToken.read.getBalance([account.address]) // get the user's usdc token balance on sepolia
+
+			if (usdcBalance > parseEther("10")) {
+				const usdcPaymaster = "0x0000000000325602a77416A16136FDafd04b299f" // usdc paymaster on sepolia
+				return {
+					paymaster: usdcPaymaster,
+					paymasterData: "0x" as Hex,
+					paymasterVerificationGasLimit: 50_000n,
+					paymasterPostOpGasLimit: 20_000n
+				}
+			} else {
+				// otherwise sponsor it for the user
+				return pimlicoClient.getPaymasterStubData(parameters)
+			}
+		}
+	},
+	userOperation: {
+		estimateFeesPerGas: async () => {
+			return (await pimlicoClient.getUserOperationGasPrice()).fast
+		},
+	}
+})
+```
+
+::::
+
+### Send a transaction
+
+You can now send transactions as normal. The `sponsorUserOperation` function will be called before each transaction is signed and sent, applying the custom paymaster logic you have set.
+
+```ts
+const txHash = await smartAccountClient.sendTransaction({
+	to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
+	value: parseEther("0.1")
+});
+```
+
+:::::

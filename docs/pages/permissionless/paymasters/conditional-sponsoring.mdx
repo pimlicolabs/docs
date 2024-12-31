@@ -1,0 +1,42 @@
+import VersionWarning from "../VersionWarning"
+
+<VersionWarning version="0.2" />
+
+# How to conditionally sponsor a user operation
+
+The permissionless.js library allows you to conditionally sponsor a user operation. This can be useful in situations like:
+
+- Sponsor only first 10 transactions
+- Sponsor if they have a specific NFT
+
+The use cases can be many, but the general idea is to use the `middleware.sponsorUserOperation` parameter to conditionally sponsor a user operation.
+
+Let's take an example where you want to sponsor only the first 10 transactions.
+
+:::::steps
+### Create the clients
+
+First we must create the public, (optionally) pimlico paymaster clients that will be used to interact with the SimpleAccount.
+
+```ts
+// [!include ~/snippets/paymasters/conditional-sponsoring.ts:client]
+```
+
+### Create an account
+
+Now, create an account. This can any of the accounts supported by permissionless.js or custom accounts conforming to the interface. For this example, we'll use a Simple account.
+
+```ts
+// [!include ~/snippets/paymasters/conditional-sponsoring.ts:account]
+```
+
+### Create the smart account client with the custom paymaster logic
+
+When creating the `smartAccountClient`, we can pass in a `middleware.sponsorUserOperation` function that will be called before a user operation is signed and sent.
+This function can conditionally choose to add a paymaster to the user operation if the desired conditions are met.
+
+```ts
+// [!include ~/snippets/paymasters/conditional-sponsoring.ts:smart-account-client]
+```
+
+:::::

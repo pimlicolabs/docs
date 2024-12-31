@@ -1,7 +1,14 @@
 import { defineConfig } from "vocs"
 import viteConfig from "./utils"
 
-export const platformSidebar = [
+type SidebarItem = {
+	text: string;
+	link?: string;
+	collapsed?: boolean;
+	items?: SidebarItem[];
+};
+
+export const platformSidebar: SidebarItem[] = [
 	{
 		text: "Overview",
 		link: "/infra/platform",
@@ -100,7 +107,7 @@ export const platformSidebar = [
 	},
 ]
 
-export const bundlerSidebar = [
+export const bundlerSidebar: SidebarItem[] = [
 	{
 		text: "Overview",
 		link: "/infra/bundler",
@@ -294,7 +301,7 @@ export const bundlerSidebar = [
 	},
 ]
 
-export const paymasterSidebar = [
+export const paymasterSidebar: SidebarItem[] = [
 	{
 		text: "Overview",
 		link: "/infra/paymaster",
@@ -396,7 +403,7 @@ export const paymasterSidebar = [
 
 */
 
-export const conceptualSidebar = [
+export const conceptualSidebar: SidebarItem[] = [
 	{
 		text: "Overview",
 		link: "/conceptual",
@@ -419,7 +426,7 @@ export const conceptualSidebar = [
 	},
 ]
 
-export const permissionlessSidebar = [
+export const permissionlessSidebar: SidebarItem[] = [
 	{
 		text: "Overview",
 		link: "/permissionless",
@@ -462,10 +469,6 @@ export const permissionlessSidebar = [
 				text: "How to send a userOperation from a EOA using EIP-7702",
 				link: "/permissionless/how-to/eip-7702-demo",
 			},
-			// {
-			// 	text: "Error Handling",
-			// 	link: "/permissionless/how-to/error-handling",
-			// },
 			{
 				text: "Migration Guide",
 				link: "/permissionless/how-to/migration-guide",
@@ -474,132 +477,134 @@ export const permissionlessSidebar = [
 				text: "Local Testing",
 				link: "/permissionless/how-to/local-testing",
 			},
+		],
+	},
+	{
+		text: "Accounts",
+		items: [
 			{
-				text: "Accounts",
-				items: [
-					{
-						text: "EntryPoint support",
-						link: "/permissionless/how-to/accounts/support",
-					},
-					{
-						text: "Account types comparison",
-						link: "/permissionless/how-to/accounts/comparison",
-					},
-					{
-						text: "How to use a Safe account",
-						link: "/permissionless/how-to/accounts/use-safe-account",
-					},
-					{
-						text: "How to use a Safe account with multiple signers",
-						link: "/permissionless/how-to/accounts/use-safe-account-with-multiple-signers",
-					},
-					{
-						text: "How to use a Kernel account",
-						link: "/permissionless/how-to/accounts/use-kernel-account",
-					},
-					{
-						text: "How to use a Thirdweb account",
-						link: "/permissionless/how-to/accounts/use-thirdweb-account",
-					},
-					{
-						text: "How to use a SimpleAccount",
-						link: "/permissionless/how-to/accounts/use-simple-account",
-					},
-					{
-						text: "How to use a Biconomy Nexus account",
-						link: "/permissionless/how-to/accounts/use-nexus-account",
-					},
-					{
-						text: "How to use a LightAccount",
-						link: "/permissionless/how-to/accounts/use-light-account",
-					},
-					{
-						text: "How to use a Trust Wallet account",
-						link: "/permissionless/how-to/accounts/use-trustwallet-account",
-					},
-					{
-						text: "How to use a Coinbase Wallet account",
-						link: "/permissionless/how-to/accounts/use-coinbase-account",
-					},
-					{
-						text: "How to use an ERC-7579 compatible smart account",
-						link: "/permissionless/how-to/accounts/use-erc7579-account",
-					},
-				],
+				text: "EntryPoint support",
+				link: "/permissionless/accounts/support",
 			},
 			{
-				text: "Paymasters",
-				items: [
-					{
-						text: "How to use a custom Paymaster",
-						link: "/permissionless/how-to/paymasters/use-custom-paymaster",
-					},
-					{
-						text: "How to conditionally sponsor a user operation",
-						link: "/permissionless/how-to/paymasters/conditional-sponsoring",
-					},
-				],
+				text: "Account types comparison",
+				link: "/permissionless/accounts/comparison",
 			},
 			{
-				text: "Signers",
-				link: "/permissionless/how-to/signers",
-				items: [
-					{
-						text: "How to use a Passkey (WebAuthn) signer",
-						link: "/permissionless/how-to/signers/passkey",
-					},
-					{
-						text: "How to use a Dynamic signer",
-						link: "/permissionless/how-to/signers/dynamic",
-					},
-					{
-						text: "How to use a Privy signer",
-						link: "/permissionless/how-to/signers/privy",
-					},
-					{
-						text: "How to use a Magic signer",
-						link: "/permissionless/how-to/signers/magic",
-					},
-					{
-						text: "How to use a Passport signer",
-						link: "/permissionless/how-to/signers/passport",
-					},
-					{
-						text: "How to use a Lit Protocol signer",
-						link: "/permissionless/how-to/signers/lit-protocol",
-					},
-					{
-						text: "How to use a Web3Auth signer",
-						link: "/permissionless/how-to/signers/web3auth",
-					},
-					{
-						text: "How to use a Turnkey signer",
-						link: "/permissionless/how-to/signers/turnkey",
-					},
-					{
-						text: "How to use a Fireblocks signer",
-						link: "/permissionless/how-to/signers/fireblocks",
-					},
-					{
-						text: "How to use a Capsule signer",
-						link: "/permissionless/how-to/signers/capsule",
-					},
-					{
-						text: "How to use a DFNS signer",
-						link: "/permissionless/how-to/signers/dfns",
-					},
-					{
-						text: "How to use an Arcana Auth signer",
-						link: "/permissionless/how-to/signers/arcana",
-					},
-					{
-						text: "How to use a Particle Network signer",
-						link: "/permissionless/how-to/signers/particle-network",
-					},
-				],
+				text: "How to use a Safe account",
+				link: "/permissionless/accounts/use-safe-account",
+			},
+			{
+				text: "How to use a Safe account with multiple signers",
+				link: "/permissionless/accounts/use-safe-account-with-multiple-signers",
+			},
+			{
+				text: "How to use a Kernel account",
+				link: "/permissionless/accounts/use-kernel-account",
+			},
+			{
+				text: "How to use a Thirdweb account",
+				link: "/permissionless/accounts/use-thirdweb-account",
+			},
+			{
+				text: "How to use a SimpleAccount",
+				link: "/permissionless/accounts/use-simple-account",
+			},
+			{
+				text: "How to use a Biconomy Nexus account",
+				link: "/permissionless/accounts/use-nexus-account",
+			},
+			{
+				text: "How to use a LightAccount",
+				link: "/permissionless/accounts/use-light-account",
+			},
+			{
+				text: "How to use a Trust Wallet account",
+				link: "/permissionless/accounts/use-trustwallet-account",
+			},
+			{
+				text: "How to use a Coinbase Wallet account",
+				link: "/permissionless/accounts/use-coinbase-account",
+			},
+			{
+				text: "How to use an ERC-7579 compatible smart account",
+				link: "/permissionless/accounts/use-erc7579-account",
 			},
 		],
 	},
+	{
+		text: "Paymasters",
+		link: "/permissionless/paymasters",
+		items: [
+			{
+				text: "How to use a custom Paymaster",
+				link: "/permissionless/paymasters/use-custom-paymaster",
+			},
+			{
+				text: "How to conditionally sponsor a user operation",
+				link: "/permissionless/paymasters/conditional-sponsoring",
+			},
+		],
+	},
+	{
+		text: "Signers",
+		link: "/permissionless/signers",
+		items: [
+			{
+				text: "How to use a Passkey (WebAuthn) signer",
+				link: "/permissionless/signers/passkey",
+			},
+			{
+				text: "How to use a Dynamic signer",
+				link: "/permissionless/signers/dynamic",
+			},
+			{
+				text: "How to use a Privy signer",
+				link: "/permissionless/signers/privy",
+			},
+			{
+				text: "How to use a Magic signer",
+				link: "/permissionless/signers/magic",
+			},
+			{
+				text: "How to use a Passport signer",
+				link: "/permissionless/signers/passport",
+			},
+			{
+				text: "How to use a Lit Protocol signer",
+				link: "/permissionless/signers/lit-protocol",
+			},
+			{
+				text: "How to use a Web3Auth signer",
+				link: "/permissionless/signers/web3auth",
+			},
+			{
+				text: "How to use a Turnkey signer",
+				link: "/permissionless/signers/turnkey",
+			},
+			{
+				text: "How to use a Fireblocks signer",
+				link: "/permissionless/signers/fireblocks",
+			},
+			{
+				text: "How to use a Capsule signer",
+				link: "/permissionless/signers/capsule",
+			},
+			{
+				text: "How to use a DFNS signer",
+				link: "/permissionless/signers/dfns",
+			},
+			{
+				text: "How to use an Arcana Auth signer",
+				link: "/permissionless/signers/arcana",
+			},
+			{
+				text: "How to use a Particle Network signer",
+				link: "/permissionless/signers/particle-network",
+			},
+		],
+	},
+
 	{
 		text: "Reference",
 		link: "/permissionless/reference",
@@ -786,7 +791,47 @@ export const permissionlessSidebar = [
 	},
 ]
 
-export const permissionlessWagmiSidebar = [
+export const magicSpendSidebarItems: SidebarItem[] = [
+	{
+		text: "Overview",
+		link: "/infra/magic-spend",
+	},
+	{
+		text: "Architecture",
+		link: "/infra/magic-spend/architecture",
+	},
+	{
+		text: "Endpoints",
+		collapsed: false,
+		items: [
+			{
+				text: "pimlico_getMagicSpendContracts",
+				link: "/infra/magic-spend/endpoints/pimlico_getMagicSpendContracts",
+			},
+			{
+				text: "pimlico_sponsorMagicSpendWithdrawal",
+				link: "/infra/magic-spend/endpoints/pimlico_sponsorMagicSpendWithdrawal",
+			},
+		],
+	},
+	{
+		text: "Guides",
+		items: [
+			{
+				text: "How to request ETH from a MagicSpend++",
+				link: "/infra/magic-spend/how-to/request-eth",
+			},
+		],
+	},
+	{
+		text: "Supported chains and tokens",
+		link: "/infra/magic-spend/supported-chains-and-tokens",
+	},
+]
+
+export const magicSpendSidebar: SidebarItem[] = magicSpendSidebarItems
+
+export const permissionlessWagmiSidebar: SidebarItem[] = [
 	{
 		text: "Overview",
 		link: "/permissionless/wagmi",
@@ -840,7 +885,7 @@ export const permissionlessWagmiSidebar = [
 	},
 ]
 
-export const permissionlessSidebar0Point1 = [
+export const permissionlessSidebar0Point1: SidebarItem[] = [
 	{
 		text: "Overview",
 		link: "/permissionless/v0_1",
@@ -890,358 +935,74 @@ export const permissionlessSidebar0Point1 = [
 				text: "Local Testing",
 				link: "/permissionless/v0_1/how-to/local-testing",
 			},
+		],
+	},
+	{
+		text: "Accounts",
+		items: [
 			{
-				text: "Accounts",
-				items: [
-					{
-						text: "EntryPoint support",
-						link: "/permissionless/v0_1/how-to/accounts/support",
-					},
-					{
-						text: "How to use a Safe account",
-						link: "/permissionless/v0_1/how-to/accounts/use-safe-account",
-					},
-					{
-						text: "How to use a Kernel account",
-						link: "/permissionless/v0_1/how-to/accounts/use-kernel-account",
-					},
-					{
-						text: "How to use a SimpleAccount",
-						link: "/permissionless/v0_1/how-to/accounts/use-simple-account",
-					},
-					{
-						text: "How to use a Biconomy account",
-						link: "/permissionless/v0_1/how-to/accounts/use-biconomy-account",
-					},
-					{
-						text: "How to use a LightAccount",
-						link: "/permissionless/v0_1/how-to/accounts/use-light-account",
-					},
-					{
-						text: "How to use a Trust Wallet account",
-						link: "/permissionless/v0_1/how-to/accounts/use-trustwallet-account",
-					},
-					{
-						text: "How to use an ERC-7579 compatible smart account",
-						link: "/permissionless/v0_1/how-to/accounts/use-erc7579-account",
-					},
-				],
+				text: "EntryPoint support",
+				link: "/permissionless/v0_1/accounts/support",
 			},
 			{
-				text: "Paymasters",
-				items: [
-					{
-						text: "How to use a custom Paymaster",
-						link: "/permissionless/v0_1/how-to/paymasters/use-custom-paymaster",
-					},
-					{
-						text: "How to conditionally sponsor a user operation",
-						link: "/permissionless/v0_1/how-to/paymasters/conditional-sponsoring",
-					},
-				],
+				text: "How to use a Safe account",
+				link: "/permissionless/v0_1/accounts/use-safe-account",
 			},
 			{
-				text: "Signers",
-				link: "/permissionless/v0_1/how-to/signers",
-				items: [
-					{
-						text: "How to use a Dynamic signer",
-						link: "/permissionless/v0_1/how-to/signers/dynamic",
-					},
-					{
-						text: "How to use a Privy signer",
-						link: "/permissionless/v0_1/how-to/signers/privy",
-					},
-					{
-						text: "How to use a Magic signer",
-						link: "/permissionless/v0_1/how-to/signers/magic",
-					},
-					{
-						text: "How to use a Passport signer",
-						link: "/permissionless/v0_1/how-to/signers/passport",
-					},
-					{
-						text: "How to use a Lit Protocol signer",
-						link: "/permissionless/v0_1/how-to/signers/lit-protocol",
-					},
-					{
-						text: "How to use a Web3Auth signer",
-						link: "/permissionless/v0_1/how-to/signers/web3auth",
-					},
-					{
-						text: "How to use a Turnkey signer",
-						link: "/permissionless/v0_1/how-to/signers/turnkey",
-					},
-					{
-						text: "How to use a Fireblocks signer",
-						link: "/permissionless/v0_1/how-to/signers/fireblocks",
-					},
-					{
-						text: "How to use a Capsule signer",
-						link: "/permissionless/v0_1/how-to/signers/capsule",
-					},
-					{
-						text: "How to use a DFNS signer",
-						link: "/permissionless/v0_1/how-to/signers/dfns",
-					},
-					{
-						text: "How to use an Arcana Auth signer",
-						link: "/permissionless/v0_1/how-to/signers/arcana",
-					},
-					{
-						text: "How to use a Particle Network signer",
-						link: "/permissionless/v0_1/how-to/signers/particle-network",
-					},
-				],
+				text: "How to use a Kernel account",
+				link: "/permissionless/v0_1/accounts/use-kernel-account",
+			},
+			{
+				text: "How to use a SimpleAccount",
+				link: "/permissionless/v0_1/accounts/use-simple-account",
+			},
+			{
+				text: "How to use a Biconomy account",
+				link: "/permissionless/v0_1/accounts/use-biconomy-account",
+			},
+			{
+				text: "How to use a LightAccount",
+				link: "/permissionless/v0_1/accounts/use-light-account",
+			},
+			{
+				text: "How to use a Trust Wallet account",
+				link: "/permissionless/v0_1/accounts/use-trustwallet-account",
+			},
+			{
+				text: "How to use an ERC-7579 compatible smart account",
+				link: "/permissionless/v0_1/accounts/use-erc7579-account",
 			},
 		],
 	},
 	{
-		text: "Reference",
-		link: "/permissionless/v0_1/reference",
+		text: "Paymasters",
+		link: "/permissionless/v0_1/paymasters",
 		items: [
 			{
-				text: "Clients",
-				collapsed: false,
-				items: [
-					{
-						text: "Bundler Client",
-						link: "/permissionless/v0_1/reference/clients/bundlerClient",
-					},
-					{
-						text: "Pimlico Bundler Client",
-						link: "/permissionless/v0_1/reference/clients/pimlicoBundlerClient",
-					},
-					{
-						text: "Pimlico Paymaster Client",
-						link: "/permissionless/v0_1/reference/clients/pimlicoPaymasterClient",
-					},
-					{
-						text: "Smart Account Client",
-						link: "/permissionless/v0_1/reference/clients/smartAccountClient",
-					},
-				],
+				text: "How to use a custom Paymaster",
+				link: "/permissionless/v0_1/paymasters/use-custom-paymaster",
 			},
 			{
-				text: "Accounts",
-				collapsed: false,
-				items: [
-					{
-						text: "signerToSimpleSmartAccount",
-						link: "/permissionless/v0_1/reference/accounts/signerToSimpleSmartAccount",
-					},
-					{
-						text: "signerToSafeSmartAccount",
-						link: "/permissionless/v0_1/reference/accounts/signerToSafeSmartAccount",
-					},
-					{
-						text: "signerToKernelSmartAccount",
-						link: "/permissionless/v0_1/reference/accounts/signerToKernelSmartAccount",
-					},
-					{
-						text: "signerToLightSmartAccount",
-						link: "/permissionless/v0_1/reference/accounts/signerToLightSmartAccount",
-					},
-					{
-						text: "signerToTrustSmartAccount",
-						link: "/permissionless/v0_1/reference/accounts/signerToTrustSmartAccount",
-					},
-				],
-			},
-			{
-				text: "Bundler Actions",
-				collapsed: false,
-				items: [
-					{
-						text: "sendUserOperation",
-						link: "/permissionless/v0_1/reference/bundler-actions/sendUserOperation",
-					},
-					{
-						text: "estimateUserOperationGas",
-						link: "/permissionless/v0_1/reference/bundler-actions/estimateUserOperationGas",
-					},
-					{
-						text: "getUserOperationReceipt",
-						link: "/permissionless/v0_1/reference/bundler-actions/getUserOperationReceipt",
-					},
-					{
-						text: "waitForUserOperationReceipt",
-						link: "/permissionless/v0_1/reference/bundler-actions/waitForUserOperationReceipt",
-					},
-					{
-						text: "getUserOperationByHash",
-						link: "/permissionless/v0_1/reference/bundler-actions/getUserOperationByHash",
-					},
-					{
-						text: "supportedEntryPoints",
-						link: "/permissionless/v0_1/reference/bundler-actions/supportedEntryPoints",
-					},
-				],
-			},
-			{
-				text: "Smart Account Actions",
-				collapsed: false,
-				items: [
-					{
-						text: "prepareUserOperationRequest",
-						link: "/permissionless/v0_1/reference/smart-account-actions/prepareUserOperationRequest",
-					},
-					{
-						text: "sendTransaction",
-						link: "/permissionless/v0_1/reference/smart-account-actions/sendTransaction",
-					},
-					{
-						text: "sendTransactions",
-						link: "/permissionless/v0_1/reference/smart-account-actions/sendTransactions",
-					},
-					{
-						text: "sendUserOperation",
-						link: "/permissionless/v0_1/reference/smart-account-actions/sendUserOperation",
-					},
-					{
-						text: "deployContract",
-						link: "/permissionless/v0_1/reference/smart-account-actions/deployContract",
-					},
-					{
-						text: "writeContract",
-						link: "/permissionless/v0_1/reference/smart-account-actions/writeContract",
-					},
-					{
-						text: "signMessage",
-						link: "/permissionless/v0_1/reference/smart-account-actions/signMessage",
-					},
-					{
-						text: "signTypedData",
-						link: "/permissionless/v0_1/reference/smart-account-actions/signTypedData",
-					},
-				],
-			},
-			{
-				text: "Pimlico Bundler Actions",
-				collapsed: false,
-				items: [
-					{
-						text: "sendCompressedUserOperation",
-						link: "/permissionless/v0_1/reference/pimlico-bundler-actions/sendCompressedUserOperation",
-					},
-					{
-						text: "getUserOperationGasPrice",
-						link: "/permissionless/v0_1/reference/pimlico-bundler-actions/getUserOperationGasPrice",
-					},
-					{
-						text: "getUserOperationStatus",
-						link: "/permissionless/v0_1/reference/pimlico-bundler-actions/getUserOperationStatus",
-					},
-				],
-			},
-			{
-				text: "Pimlico Paymaster Actions",
-				collapsed: false,
-				items: [
-					{
-						text: "sponsorUserOperation",
-						link: "/permissionless/v0_1/reference/pimlico-paymaster-actions/sponsorUserOperation",
-					},
-					{
-						text: "validateSponsorshipPolicies",
-						link: "/permissionless/v0_1/reference/pimlico-paymaster-actions/validateSponsorshipPolicies",
-					},
-				],
-			},
-			{
-				text: "Public Actions",
-				collapsed: false,
-				items: [
-					{
-						text: "getSenderAddress",
-						link: "/permissionless/v0_1/reference/public-actions/getSenderAddress",
-					},
-					{
-						text: "getAccountNonce",
-						link: "/permissionless/v0_1/reference/public-actions/getAccountNonce",
-					},
-				],
-			},
-			{
-				text: "ERC-7579 Actions",
-				collapsed: false,
-				items: [
-					{
-						text: "accountId",
-						link: "/permissionless/v0_1/reference/erc7579-actions/accountId",
-					},
-					{
-						text: "installModule",
-						link: "/permissionless/v0_1/reference/erc7579-actions/installModule",
-					},
-					{
-						text: "uninstallModule",
-						link: "/permissionless/v0_1/reference/erc7579-actions/uninstallModule",
-					},
-					{
-						text: "isModuleInstalled",
-						link: "/permissionless/v0_1/reference/erc7579-actions/isModuleInstalled",
-					},
-					{
-						text: "supportsExecutionMode",
-						link: "/permissionless/v0_1/reference/erc7579-actions/supportsExecutionMode",
-					},
-					{
-						text: "supportsModule",
-						link: "/permissionless/v0_1/reference/erc7579-actions/supportsModule",
-					},
-				],
-			},
-			{
-				text: "Utilities",
-				collapsed: false,
-				items: [
-					{
-						text: "getUserOperationHash",
-						link: "/permissionless/v0_1/reference/utils/getUserOperationHash",
-					},
-					{
-						text: "signUserOperationHashWithECDSA",
-						link: "/permissionless/v0_1/reference/utils/signUserOperationHashWithECDSA",
-					},
-					{
-						text: "getRequiredPrefund",
-						link: "/permissionless/v0_1/reference/utils/getRequiredPrefund",
-					},
-					{
-						text: "walletClientToSmartAccountSigner",
-						link: "/permissionless/v0_1/reference/utils/walletClientToSmartAccountSigner",
-					},
-					{
-						text: "providerToSmartAccountSigner",
-						link: "/permissionless/v0_1/reference/utils/providerToSmartAccountSigner",
-					},
-				],
-			},
-			{
-				text: "Glossary",
-				collapsed: false,
-				items: [{ text: "Errors", link: "/permissionless/v0_1/reference/glossary/errors" }],
+				text: "How to conditionally sponsor a user operation",
+				link: "/permissionless/v0_1/paymasters/conditional-sponsoring",
 			},
 		],
 	},
 	{
-		text: "Experimental",
-		collapsed: false,
+		text: "Signers",
+		link: "/permissionless/v0_1/signers",
 		items: [
 			{
-				text: "ERC-7677",
-				collapsed: false,
-				items: [
-					{
-						text: "getPaymasterData",
-						link: "/permissionless/v0_1/experimental/eip7677/getPaymasterData",
-					},
-					{
-						text: "getPaymasterStubData",
-						link: "/permissionless/v0_1/experimental/eip7677/getPaymasterStubData",
-					},
-				],
+				text: "How to use a Dynamic signer",
+				link: "/permissionless/v0_1/signers/dynamic",
+			},
+			{
+				text: "How to use a Privy signer",
+				link: "/permissionless/v0_1/signers/privy",
+			},
+			{
+				text: "How to use a Magic signer",
+				link: "/permissionless/v0_1/signers/magic",
 			},
 		],
 	},
@@ -1251,44 +1012,7 @@ export const permissionlessSidebar0Point1 = [
 	},
 ]
 
-export const magicSpendSidebar = [
-	{
-		text: "Overview",
-		link: "/infra/magic-spend",
-	},
-	{
-		text: "Architecture",
-		link: "/infra/magic-spend/architecture",
-	},
-	{
-		text: "Endpoints",
-		collapsed: false,
-		items: [
-			{
-				text: "pimlico_getMagicSpendContracts",
-				link: "/infra/magic-spend/endpoints/pimlico_getMagicSpendContracts",
-			},
-			{
-				text: "pimlico_sponsorMagicSpendWithdrawal",
-				link: "/infra/magic-spend/endpoints/pimlico_sponsorMagicSpendWithdrawal",
-			},
-		],
-	},
-	{
-		text: "Guides",
-		items: [
-			{
-				text: "How to request ETH from a MagicSpend++",
-				link: "/infra/magic-spend/how-to/request-eth",
-			},
-		],
-	},
-	{
-		text: "Supported chains and tokens",
-		link: "/infra/magic-spend/supported-chains-and-tokens",
-	},
-]
-
+// Export the configuration
 export default defineConfig({
 	title: "Pimlico",
 	logoUrl: { light: "/pimlico-purple.svg", dark: "/pimlico-white.svg" },
