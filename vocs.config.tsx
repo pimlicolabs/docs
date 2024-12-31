@@ -455,6 +455,31 @@ export const permissionlessSidebar: SidebarItem[] = [
 		],
 	},
 	{
+		text: "How-to Guides",
+		items: [
+			{
+				text: "Update your existing app to sponsor gas fees for smart account users",
+				link: "/permissionless/how-to/dapp-gas-sponsorship",
+			},
+			{
+				text: "How to send multiple user operations in parallel",
+				link: "/permissionless/how-to/parallel-transactions",
+			},
+			{
+				text: "How to send a userOperation from a EOA using EIP-7702",
+				link: "/permissionless/how-to/eip-7702-demo",
+			},
+			{
+				text: "Migration Guide",
+				link: "/permissionless/how-to/migration-guide",
+			},
+			{
+				text: "Local Testing",
+				link: "/permissionless/how-to/local-testing",
+			},
+		],
+	},
+	{
 		text: "Accounts",
 		items: [
 			{
@@ -579,36 +604,7 @@ export const permissionlessSidebar: SidebarItem[] = [
 			},
 		],
 	},
-	{
-		text: "How-to Guides",
-		items: [
-			{
-				text: "Update your existing app to sponsor gas fees for smart account users",
-				link: "/permissionless/how-to/dapp-gas-sponsorship",
-			},
-			{
-				text: "How to send multiple user operations in parallel",
-				link: "/permissionless/how-to/parallel-transactions",
-			},
-			{
-				text: "How to send a userOperation from a EOA using EIP-7702",
-				link: "/permissionless/how-to/eip-7702-demo",
-			},
-			// {
-			// 	text: "Error Handling",
-			// 	link: "/permissionless/how-to/error-handling",
-			// },
-			{
-				text: "Migration Guide",
-				link: "/permissionless/how-to/migration-guide",
-			},
-			{
-				text: "Local Testing",
-				link: "/permissionless/how-to/local-testing",
-			},
 
-		],
-	},
 	{
 		text: "Reference",
 		link: "/permissionless/reference",
