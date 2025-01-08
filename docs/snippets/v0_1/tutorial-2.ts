@@ -20,7 +20,7 @@ import { sepolia } from "viem/chains"
 
 // [!region clients]
 export const publicClient = createPublicClient({
-	transport: http("https://rpc.ankr.com/eth_sepolia"),
+	transport: http(),
 	chain: sepolia,
 })
 
@@ -29,8 +29,8 @@ const endpointUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=${apiKey}`
 
 const bundlerClient = createClient({
 	transport: http(endpointUrl, {
-        timeout: 30_000
-    }),
+		timeout: 30_000,
+	}),
 	chain: sepolia,
 })
 	.extend(bundlerActions(ENTRYPOINT_ADDRESS_V07))
