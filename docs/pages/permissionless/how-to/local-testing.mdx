@@ -214,7 +214,7 @@ services:
   anvil:
     image: ghcr.io/foundry-rs/foundry:nightly-f6208d8db68f9acbe4ff8cd76958309efb61ea0b
     ports: [ "8545:8545" ]
-    entrypoint: [ "anvil", "--fork-url", "https://rpc.sepolia.org", "--chain-id", "11155111", "--host", "0.0.0.0", "--block-time", "0.1", "--silent"] // [!code ++]
+    entrypoint: [ "anvil", "--fork-url", "https://rpc.ankr.com/eth_sepolia", "--chain-id", "11155111", "--host", "0.0.0.0", "--block-time", "0.1", "--silent"] // [!code ++]
     platform: linux/amd64/v8
 
   mock-paymaster:
