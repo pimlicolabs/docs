@@ -1,6 +1,6 @@
 // [!region clients]
 import { createSmartAccountClient } from "permissionless"
-import { Address, Hex, createPublicClient, encodeFunctionData, getContract, http, parseEther } from "viem"
+import { Address, Hex, createPublicClient, encodeFunctionData, getContract, http, parseEther, toHex } from "viem"
 import { sepolia } from "viem/chains"
 import { privateKeyToAccount } from "viem/accounts"
 import { MagicSpendWithdrawalManagerAbi } from "./abi/MagicSpendWithdrawalManager";
@@ -12,7 +12,7 @@ import "dotenv/config"
 
 const RPC_URL = "https://11155111.rpc.thirdweb.com"
 const ETH: Address = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
-const amount = 123; // 123 wei
+const amount = "0.001"; // 0.001 ETH
 
 
 const PRIVATE_KEY = process.env.ACCOUNT_PRIVATE_KEY;
@@ -104,41 +104,16 @@ const {
 // [!endregion pimlico_getMagicSpendContracts]
 
 // [!region pimlico_sponsorMagicSpendWithdrawal]
-const withdrawalManagerContract = getContract({
-    abi: MagicSpendWithdrawalManagerAbi,
-    address: withdrawalManagerAddress,
-    client: publicClient,
-})
 
-const operatorRequestHash = await withdrawalManagerContract.read.getWithdrawalHash([
-    {
-        token: ETH,
-        amount: BigInt(amount),
-        chainId: BigInt(sepolia.id),
-        recipient: simpleAccount.address,
-        preCalls: [],
-        postCalls: [],
-        validUntil: Number(0),
-        validAfter: Number(0),
-        salt: 0
-    }
-]) as Hex;
-
-const operatorRequestSignature = await signer.signMessage({
-    message: {
-        raw: operatorRequestHash
-    }
-})
-
-const [wiithdrawal, withdrawalSignature] = await sendMagicSpendRequest(
+const [withdrawal, withdrawalSignature] = await sendMagicSpendRequest(
     "pimlico_sponsorMagicSpendWithdrawal",
     [{
         recipient: simpleAccount.address,
         token: ETH,
-        amount,
-        salt: 0,
-        signature: operatorRequestSignature
-    }]
+        amount: toHex(parseEther(amount)),
+        salt: "0x0",
+        signature: "0x0",
+    }, null]
 )
 // [!endregion pimlico_sponsorMagicSpendWithdrawal]
 
@@ -147,7 +122,7 @@ const magicSpendCallData = encodeFunctionData({
     abi: MagicSpendWithdrawalManagerAbi,
     functionName: 'withdraw',
     args: [
-        wiithdrawal,
+        withdrawal,
         withdrawalSignature,
     ]
 })

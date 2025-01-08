@@ -1,23 +1,52 @@
-# MagicSpend++
+# Magic Spend
 
-:::warning[Warning]
+Magic Spend is an infrastructure solution that lets you fund blockchain transactions across multiple networks using a single fiat balance. You can try out the demo at [magic.pimlico.io](https://magic.pimlico.io/).
 
-This protocol is in active development. Use it at your own responsibility. API is subject to change.
+## Quick Links
 
-:::
+- 🚀 [Try the Demo](https://magic.pimlico.io/)
+- 💻 [Demo Source Code](https://github.com/pimlicolabs/magic-spend-ui)
+- 📅 [Schedule a Call](https://cal.com/sergey-potekhin)
 
-The MagicSpend++ protocol solves the problem of having a fragmented balances across multiple chains. It allows users to spend their assets on any chain without having to worry about bridging.
+## How It Works
 
-## Abstract
+1. **Top Up Your Balance**: Add funds to your Pimlico account using a credit card or bank transfer through the [dashboard](https://dashboard.pimlico.io/billing/payment-methods)
+2. **Request Withdrawals**: Use these funds to request signed withdrawal messages for any supported token on any supported chain
+3. **Execute Transactions**: Submit the signed messages to receive tokens directly on your target chain
 
-MagicSpend++ allows users to request funds on any chain they need, by sending a single withdraw request to a MagicSpend++ contract. This call contains all the details about recipient, amount, asset, etc as long as the valid signature. Any user can request a withdrawal signature, in exchange for a portion of the user's balance.
+This means you can:
+- Fund transactions on any supported chain without bridging assets
+- Pay for gas fees in any supported token
+- Execute cross-chain operations without managing multiple token balances
+- Handle all blockchain interactions while keeping a single fiat-denominated balance
 
-To enable MagicSpend++ functionality for your API key, please contact support@pimlico.io.
+## Features
 
-Read more about the architecture of the MagicSpend++ protocol in the [Architecture](/infra/magic-spend/architecture) section.
+- Multi-chain support
+- Gasless transactions
+- Smart account integration
+- Pre and post-call hooks for complex operations
+- Simple fiat on-ramp through credit card or bank transfer
 
-## Changelog
+## Getting Started
 
-### 16 Dec 2024
+To start using Magic Spend:
 
-- Removed all the staking-related endpoints. For now, MagicSpend++ requests can only be funded by off-chain balances.
+1. Get your Pimlico API key
+2. Ask the Pimlico team to enable the Magic Spend feature for your API key
+3. For mainnet usage, add Magic Spend balance in the [dashboard](https://dashboard.pimlico.io/billing/payment-methods) (testnet usage is free)
+4. Choose your target chain and token
+5. Initialize the clients
+6. Make your first withdrawal
+
+For a practical example, check out our [demo application](https://magic.pimlico.io/) or review the [demo source code](https://github.com/pimlicolabs/magic-spend-ui/blob/main/src/app/transfer/page.tsx).
+
+## Support
+
+Need help integrating Magic Spend? [Schedule a call](https://cal.com/sergey-potekhin) with our team to discuss your requirements and get personalized assistance.
+
+## Next Steps
+
+- [Architecture Overview](./magic-spend/architecture)
+- [How to Request ETH](./magic-spend/how-to/request-eth)
+- [Supported Chains and Tokens](./magic-spend/supported-chains-and-tokens)
