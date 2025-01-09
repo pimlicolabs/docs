@@ -36,7 +36,6 @@
 			"destination": "/infra/paymaster/erc20-paymaster/",
 			"permanent": false
 		},
-		},
 		{
 			"source": "/docs/:match*",
 			"destination": "/",
