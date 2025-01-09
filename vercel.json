@@ -36,10 +36,6 @@
 			"destination": "/infra/paymaster/erc20-paymaster/",
 			"permanent": false
 		},
-		{
-			"source": "/bundler/how-to/compress-user-operations",
-			"destination": "/infra/bundler/compression",
-			"permanent": false
 		},
 		{
 			"source": "/docs/:match*",
@@ -235,6 +231,31 @@
 			"source": "/permissionless/difference-between-multiple-account-types",
 			"destination": "/permissionless/how-to/accounts/comparison",
 			"permanent": false
+		},
+		{
+			"source": "/conceptual/compression",
+			"destination": "/404",
+			"permanent": true
+		},
+		{
+			"source": "/infra/bundler/compression/:path*",
+			"destination": "/404",
+			"permanent": true
+		},
+		{
+			"source": "/infra/bundler/endpoints/pimlico_sendCompressedUserOperation",
+			"destination": "/404",
+			"permanent": true
+		},
+		{
+			"source": "/permissionless/reference/pimlico-actions/sendCompressedUserOperation",
+			"destination": "/404",
+			"permanent": true
+		},
+		{
+			"source": "/permissionless/v0_1/reference/pimlico-bundler-actions/sendCompressedUserOperation",
+			"destination": "/404",
+			"permanent": true
 		}
 	],
 	"headers": [
