@@ -65,3 +65,34 @@ const safeAccount = await toSafeSmartAccount({
 ```
 
 For more details about the `saltNonce` parameter and other configuration options, see the [reference documentation for toSafeSmartAccount](/permissionless/reference/accounts/toSafeSmartAccount#saltnonce).
+
+## Getting `preVerificationGas is not enough` errors?
+
+This error occurs when the gas estimation for your UserOperation's pre-verification phase is insufficient. You might see an error message like this:
+
+```json
+{
+    "message": "preVerificationGas is not enough, required: 60676, got: 48550",
+    "code": -32500
+}
+```
+
+The `preVerificationGas` value accounts for:
+- Gas overhead that can't be calculated onchain
+- L1 data costs when operating on L2 networks
+
+This error typically occurs in two scenarios:
+
+1. When using gas estimation methods (`pimlico_getUserOperationGasPrice`, `eth_estimateUserOperation`) without proper signature preparation
+2. When submitting a UserOperation after the bundler's gas estimation has expired
+
+To resolve this issue:
+
+1. Ensure proper signature handling during estimation:
+   - Provide a dummy signature that matches your final signature's length
+   - Follow your smart account's signature length requirements
+
+2. Account for gas estimation timing:
+   - The bundler commits to the estimated `preVerificationGas` for 30 seconds
+   - Submit your UserOperation within this window to avoid insufficient gas errors
+   - If needed, increase `preVerificationGas` by ~15000 units as a buffer
