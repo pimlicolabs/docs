@@ -80,7 +80,6 @@ This error occurs when the gas estimation for your UserOperation's pre-verificat
 The `preVerificationGas` value accounts for:
 - Gas overhead that can't be calculated onchain
 - L1 data costs when operating on L2 networks
-- Initial validation steps performed by the bundler
 
 This error typically occurs in two scenarios:
 
@@ -91,11 +90,9 @@ To resolve this issue:
 
 1. Ensure proper signature handling during estimation:
    - Provide a dummy signature that matches your final signature's length
-   - Use valid hex characters (0-9, a-f) in the dummy signature
    - Follow your smart account's signature length requirements
 
 2. Account for gas estimation timing:
    - The bundler commits to the estimated `preVerificationGas` for 30 seconds
    - Submit your UserOperation within this window to avoid insufficient gas errors
    - If needed, increase `preVerificationGas` by ~15000 units as a buffer
-   - Similarly, add ~15000 units to `verificationGasLimit` for safety
