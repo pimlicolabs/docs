@@ -68,12 +68,8 @@ For more details about the `saltNonce` parameter and other configuration options
 
 ## Getting `preVerificationGas is not enough` errors?
 
-This error occurs when the estimated gas for pre-verification is insufficient. This typically happens in two scenarios:
+This error occurs when the gas estimation for your UserOperation's pre-verification phase is insufficient. You might see an error message like this:
 
-1. When using gas estimation methods like `pimlico_getUserOperationGasPrice` and `eth_estimateUserOperationGas`
-2. When using dummy signatures during gas estimation that don't match the length of your final signature
-
-The error message will look like this:
 ```json
 {
     "message": "preVerificationGas is not enough, required: 60676, got: 48550",
@@ -81,26 +77,25 @@ The error message will look like this:
 }
 ```
 
+The `preVerificationGas` value accounts for:
+- Gas overhead that can't be calculated onchain
+- L1 data costs when operating on L2 networks
+- Initial validation steps performed by the bundler
+
+This error typically occurs in two scenarios:
+
+1. When using gas estimation methods (`pimlico_getUserOperationGasPrice`, `eth_estimateUserOperation`) without proper signature preparation
+2. When submitting a UserOperation after the bundler's gas estimation has expired
+
 To resolve this issue:
 
-1. Add a buffer to your gas estimation values:
-   - Increase `preVerificationGas` by ~15000 units
-   - Increase `verificationGasLimit` by ~15000 units
-2. If using a dummy signature during estimation, ensure it:
-   - Has the same byte length as your final signature
-   - Contains valid hex characters (0-9, a-f)
-   - Matches any length requirements of your smart account implementation
+1. Ensure proper signature handling during estimation:
+   - Provide a dummy signature that matches your final signature's length
+   - Use valid hex characters (0-9, a-f) in the dummy signature
+   - Follow your smart account's signature length requirements
 
-Here's an example of adding buffers to gas values after estimation:
-
-```typescript
-// First get the estimated gas values from your bundler
-const estimatedGas = await bundlerClient.estimateUserOperationGas(userOperation)
-
-// Then add buffers when preparing the operation
-const userOp = await smartAccountClient.prepareUserOperation({
-    calls,
-    preVerificationGas: estimatedGas.preVerificationGas + 15000n, // Add buffer
-    verificationGasLimit: estimatedGas.verificationGasLimit + 15000n, // Add buffer
-})
-```
+2. Account for gas estimation timing:
+   - The bundler commits to the estimated `preVerificationGas` for 30 seconds
+   - Submit your UserOperation within this window to avoid insufficient gas errors
+   - If needed, increase `preVerificationGas` by ~15000 units as a buffer
+   - Similarly, add ~15000 units to `verificationGasLimit` for safety
