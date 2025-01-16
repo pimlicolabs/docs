@@ -65,3 +65,42 @@ const safeAccount = await toSafeSmartAccount({
 ```
 
 For more details about the `saltNonce` parameter and other configuration options, see the [reference documentation for toSafeSmartAccount](/permissionless/reference/accounts/toSafeSmartAccount#saltnonce).
+
+## Getting `preVerificationGas is not enough` errors?
+
+This error occurs when the estimated gas for pre-verification is insufficient. This typically happens in two scenarios:
+
+1. When using gas estimation methods like `pimlico_getUserOperationGasPrice` and `eth_estimateUserOperationGas`
+2. When using dummy signatures during gas estimation that don't match the length of your final signature
+
+The error message will look like this:
+```json
+{
+    "message": "preVerificationGas is not enough, required: 60676, got: 48550",
+    "code": -32500
+}
+```
+
+To resolve this issue:
+
+1. Add a buffer to your gas estimation values:
+   - Increase `preVerificationGas` by ~15000 units
+   - Increase `verificationGasLimit` by ~15000 units
+2. If using a dummy signature during estimation, ensure it:
+   - Has the same byte length as your final signature
+   - Contains valid hex characters (0-9, a-f)
+   - Matches any length requirements of your smart account implementation
+
+Here's an example of adding buffers to gas values after estimation:
+
+```typescript
+// First get the estimated gas values from your bundler
+const estimatedGas = await bundlerClient.estimateUserOperationGas(userOperation)
+
+// Then add buffers when preparing the operation
+const userOp = await smartAccountClient.prepareUserOperation({
+    calls,
+    preVerificationGas: estimatedGas.preVerificationGas + 15000n, // Add buffer
+    verificationGasLimit: estimatedGas.verificationGasLimit + 15000n, // Add buffer
+})
+```
