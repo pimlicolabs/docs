@@ -115,19 +115,6 @@ export const bundlerSidebar = [
 	},
 	{ text: "FAQs", link: "/infra/bundler/faqs" },
 	{
-		text: "Compression",
-		items: [
-			{
-				text: "How to create your own inflator contract and submit compressed user operations",
-				link: "/infra/bundler/compression",
-			},
-			{
-				text: "Contracts Reference",
-				link: "/infra/bundler/compression/reference",
-			},
-		],
-	},
-	{
 		text: "Endpoints",
 		collapsed: false,
 		items: [
@@ -150,10 +137,6 @@ export const bundlerSidebar = [
 			{
 				text: "eth_supportedEntryPoints",
 				link: "/infra/bundler/endpoints/eth_supportedEntryPoints",
-			},
-			{
-				text: "pimlico_sendCompressedUserOperation",
-				link: "/infra/bundler/endpoints/pimlico_sendCompressedUserOperation",
 			},
 			{
 				text: "pimlico_getUserOperationGasPrice",
@@ -707,10 +690,6 @@ export const permissionlessSidebar = [
 						link: "/permissionless/reference/pimlico-actions/getPaymasterStubData",
 					},
 					{
-						text: "sendCompressedUserOperation",
-						link: "/permissionless/reference/pimlico-actions/sendCompressedUserOperation",
-					},
-					{
 						text: "getUserOperationGasPrice",
 						link: "/permissionless/reference/pimlico-actions/getUserOperationGasPrice",
 					},
@@ -1120,10 +1099,6 @@ export const permissionlessSidebar0Point1 = [
 				text: "Pimlico Bundler Actions",
 				collapsed: false,
 				items: [
-					{
-						text: "sendCompressedUserOperation",
-						link: "/permissionless/v0_1/reference/pimlico-bundler-actions/sendCompressedUserOperation",
-					},
 					{
 						text: "getUserOperationGasPrice",
 						link: "/permissionless/v0_1/reference/pimlico-bundler-actions/getUserOperationGasPrice",
