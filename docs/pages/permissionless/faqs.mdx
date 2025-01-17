@@ -77,20 +77,20 @@ This error occurs when the gas estimation for your UserOperation's pre-verificat
 }
 ```
 
-The `preVerificationGas` value accounts for:
+The `preVerificationGas` accounts for:
 - Gas overhead that can't be calculated onchain
 - L1 data costs when operating on L2 networks
 
 This error typically occurs in two scenarios:
 
-1. When using gas estimation methods (`pimlico_getUserOperationGasPrice`, `eth_estimateUserOperation`) without proper signature preparation
-2. When submitting a UserOperation after the bundler's gas estimation has expired
+1. When calling `eth_estimateUserOperationGas` with a signature that is not the same length as the real signature
+2. When submitting a UserOperation after the bundler's commitment has expired
 
 To resolve this issue:
 
-1. Ensure proper signature handling during estimation:
-   - Provide a dummy signature that matches your final signature's length
-   - Follow your smart account's signature length requirements
+1. Ensure proper dummy signature is used during estimation:
+   - Provide a semi-valid dummy signature that matches your final signature's length
+   - The signature should be semi valid such that the validation doesn't revert
 
 2. Account for gas estimation timing:
    - The bundler commits to the estimated `preVerificationGas` for 30 seconds
