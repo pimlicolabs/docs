@@ -65,3 +65,35 @@ const safeAccount = await toSafeSmartAccount({
 ```
 
 For more details about the `saltNonce` parameter and other configuration options, see the [reference documentation for toSafeSmartAccount](/permissionless/reference/accounts/toSafeSmartAccount#saltnonce).
+
+## Getting `preVerificationGas is not enough` errors?
+
+This error occurs when a userOperation is submitted with a preVerificationGas that is insufficient to cover the offchain overhead.
+You might see an error message like:
+
+```json
+{
+    "message": "preVerificationGas is not enough, required: 60676, got: 48550",
+    "code": -32500
+}
+```
+
+The `preVerificationGas` accounts for:
+- Gas overhead that can't be calculated onchain
+- L1 data costs when operating on L2 networks
+
+This error typically occurs in two scenarios:
+
+1. When calling `eth_estimateUserOperationGas` with a userOperation signature that is not the same length as the real signature.
+2. When submitting a UserOperation after the bundler's preVerificationGas commitment has expired.
+
+To resolve this issue:
+
+1. Ensure proper dummy signature is used during estimation to ensure proper L1DataCost calculations:
+   - Provide a semi-valid dummy signature that matches your final signature's length
+   - The signature should be semi valid such that the validation doesn't revert
+
+2. Account for gas estimation timing:
+   - The bundler commits to the estimated `preVerificationGas` for 30 seconds
+   - You should submit your UserOperation within this window to avoid insufficient preVerificationGas errors
+   - If you are submitting after the window, you can add a fixed overhead to your `preVerificationGas` to increase the chances it gets included
