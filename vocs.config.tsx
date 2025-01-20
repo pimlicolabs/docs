@@ -614,8 +614,8 @@ export const permissionlessSidebar = [
 						link: "/permissionless/reference/accounts/toSafeSmartAccount",
 					},
 					{
-						text: "toEcdsaKernelSmartAccount",
-						link: "/permissionless/reference/accounts/toEcdsaKernelSmartAccount",
+						text: "toKernelSmartAccount",
+						link: "/permissionless/reference/accounts/toKernelSmartAccount",
 					},
 					{
 						text: "toNexusSmartAccount",

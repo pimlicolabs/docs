@@ -22,13 +22,13 @@ export const paymasterClient = createPimlicoClient({
 import { privateKeyToAccount } from "viem/accounts"
 import { createPimlicoClient } from "permissionless/clients/pimlico"
 import { entryPoint07Address } from "viem/account-abstraction"
-import { toEcdsaKernelSmartAccount } from "permissionless/accounts"
+import { toKernelSmartAccount } from "permissionless/accounts"
 
 const owner = privateKeyToAccount("0xPRIVATE_KEY")
 // [!endregion signer]
 
 // [!region smartAccount]
-const kernelAccount = await toEcdsaKernelSmartAccount({
+const kernelAccount = await toKernelSmartAccount({
 	client: publicClient,
 	entryPoint: {
 		address: entryPoint07Address,

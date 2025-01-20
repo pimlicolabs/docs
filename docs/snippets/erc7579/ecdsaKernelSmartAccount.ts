@@ -6,7 +6,7 @@ import { entryPoint07Address } from "viem/account-abstraction"
 import { createPimlicoClient } from "permissionless/clients/pimlico"
 import { erc7579Actions } from "permissionless/actions/erc7579"
 import { owner } from "../owner"
-import { toEcdsaKernelSmartAccount } from "permissionless/accounts"
+import { toKernelSmartAccount } from "permissionless/accounts"
 
 const apiKey = "YOUR_PIMLICO_API_KEY"
 const pimlicoUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=${apiKey}`
@@ -20,7 +20,7 @@ const pimlicoClient = createPimlicoClient({
 	},
 })
 
-const kernelAccount = await toEcdsaKernelSmartAccount({
+const kernelAccount = await toKernelSmartAccount({
 	client: publicClient,
 	owners: [owner],
 	version: "0.3.1",

@@ -2,7 +2,7 @@ import VersionWarning from "../../VersionWarning"
 
 <VersionWarning version="0.2" />
 
-# toEcdsaKernelSmartAccount
+# toKernelSmartAccount
 
 Creates a KernelAccount instance controlled by a `owners`.  Check out [this guide](/permissionless/how-to/accounts/use-kernel-account) for a complete tutorial.
 
@@ -11,12 +11,12 @@ Creates a KernelAccount instance controlled by a `owners`.  Check out [this guid
 ::::code-group
 
 ```ts [example.ts]
-import { toEcdsaKernelSmartAccount } from "permissionless/accounts"
+import { toKernelSmartAccount } from "permissionless/accounts"
 import { entryPoint07Address } from "viem/account-abstraction"
 import { publicClient } from "./publicClient"
 import { owner } from "./owner"
 
-const kernelAccount = await toEcdsaKernelSmartAccount({
+const kernelAccount = await toKernelSmartAccount({
 	client: publicClient,
 	entryPoint: {
 		address: entryPoint07Address,
@@ -102,7 +102,7 @@ The address of the Kernel meta factory that will be used to deploy the smart acc
 
 The address of the Kernel account logic that will be used to deploy the smart account.
 
-### ecdsaValidatorAddress (optional)
+### validatorAddress (optional)
 
 - **Type:** `Address`
 

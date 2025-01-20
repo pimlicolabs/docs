@@ -8,7 +8,7 @@ import { createPublicClient, http } from "viem"
 import { sepolia } from "viem/chains"
 import { createPimlicoClient } from "permissionless/clients/pimlico"
 import { entryPoint07Address } from "viem/account-abstraction"
-import { toEcdsaKernelSmartAccount } from "permissionless/accounts"
+import { toKernelSmartAccount } from "permissionless/accounts"
 
 const publicClient = createPublicClient({
 	chain: sepolia, // or whatever chain you are using
@@ -25,7 +25,7 @@ const pimlicoClient = createPimlicoClient({
 	},
 })
 
-const simpleSmartAccount = await toEcdsaKernelSmartAccount({
+const simpleSmartAccount = await toKernelSmartAccount({
 	owners: [smartAccountOwner],
 	client: publicClient,
 	entryPoint: {
