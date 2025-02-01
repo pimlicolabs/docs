@@ -1,0 +1,79 @@
+# API Upgrade
+
+We are announcing a change to our API behavior for the `eth_estimateUserOperationGas` method. Previously, our system provided a default ETH balance override when estimating gas for User Operations. This default override will soon be removed.
+
+## What’s Changing?
+
+### No More Default ETH Balance Override
+
+After the change goes into effect, we will not add an ETH balance override by default when you call `eth_estimateUserOperationGas`.
+
+### Possible AA21 Error
+
+If a User Operation is not sponsored by a paymaster and the sender does not have enough ETH to cover the operation’s cost, you will encounter an AA21 error.
+
+### If Users Have Sufficient Balance
+
+If you already expect users to hold enough ETH for non-sponsored transactions, no changes are required on your end. You should be able to upgrade without any issues. Click [here](https://dashboard.pimlico.io/apikeys/upgrade) to upgrade.
+
+## Estimating Without a User’s Balance
+
+If you need to estimate a User Operation for a sender without sufficient balance, you can add state overrides to the `eth_estimateUserOperationGas` method.
+
+#### Upgrade with permissionless
+
+::::code-group
+
+
+```ts [upgrade.ts]
+// [!include ~/snippets/infra/platform/api/upgrade/upgrade.ts]
+```
+
+```ts [createSmartAccountClient.ts]
+// [!include ~/snippets/infra/platform/api/upgrade/createSmartAccountClient.ts]
+```
+
+::::
+
+#### Upgrade to the raw API
+
+You can use state overrides to simulate the user operation with a different
+state the same way you would with
+[`eth_call`](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-eth#eth-call)
+by including an optional third parameter. This is supported for both EntryPoint
+v0.6 and v0.7.
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "eth_estimateUserOperationGas",
+  "params": [
+    {
+      "sender": "0xa203fDb8bC335F86016F635b85389B62B189E417",
+      "nonce": "0x35bf2a054f92f3730b87582ef223c8d663f9eb01158154750000000000000000",
+      "initCode": "0x",
+      "callData": "0xb61d27f6000000000000000000000000530fff22987e137e7c8d2adcc4c15eb45b4fa752000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000600000000000000000000000000000000000000000000000000000000000000184165398be00000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000002fcf1000000000000000000000000000000000000000000000000000000e8d4ac25fd000000000000000000000000000000000000000000000000000001d1a94f86e3000000000000000000000000000000000000000000000000000000e8d4ac13d6000000000000000000000000000000000000000000000000000001d1a94edaef000000000000000000000000000000000000000000000000000000e8d4ac25fa00000000000000000000000000000000000000000000000000000000",
+      "callGasLimit": "0x115b5c0",
+      "verificationGasLimit": "0x249f0",
+      "preVerificationGas": "0xeb11",
+      "maxPriorityFeePerGas": "0x12a05f200",
+      "maxFeePerGas": "0x5b08082fa",
+      "paymasterAndData": "0x",
+      "signature": "0xa6cc6589c8bd561cfd68d7b6b0757ef6f208e7438782939938498eee7d703260137856c840c491b3d415956265e81bf5c2184a725be2abfc365f7536b6af525e1c"
+    },
+    "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+    {
+      "0xd9c9cd5f6779558b6e0ed4e6acf6b1947e7fa1f3": {
+        // Adding 100 ETH to the smart account during estimation to prevent AA21 errors while estimating
+        "balance": "0x56BC75E2D63100000"
+      },
+      "0xebe8efa441b9302a0d7eaecc277c09d20d684540": {
+        "stateDiff": {
+          "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80": "0x21"
+        }
+      }
+    }
+  ],
+  "id": 1
+}
+```
