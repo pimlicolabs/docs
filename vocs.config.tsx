@@ -564,8 +564,8 @@ export const permissionlessSidebar = [
 						link: "/permissionless/how-to/signers/fireblocks",
 					},
 					{
-						text: "How to use a Capsule signer",
-						link: "/permissionless/how-to/signers/capsule",
+						text: "How to use a Para signer",
+						link: "/permissionless/how-to/signers/para",
 					},
 					{
 						text: "How to use a DFNS signer",
@@ -956,8 +956,8 @@ export const permissionlessSidebar0Point1 = [
 						link: "/permissionless/v0_1/how-to/signers/fireblocks",
 					},
 					{
-						text: "How to use a Capsule signer",
-						link: "/permissionless/v0_1/how-to/signers/capsule",
+						text: "How to use a Para signer",
+						link: "/permissionless/v0_1/how-to/signers/para",
 					},
 					{
 						text: "How to use a DFNS signer",

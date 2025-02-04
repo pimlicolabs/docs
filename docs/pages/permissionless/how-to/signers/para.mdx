@@ -1,0 +1,31 @@
+import VersionWarning from "../../VersionWarning"
+
+<VersionWarning version="0.2" />
+
+import SmartAccounts from "./smartAccounts.mdx"
+
+# How to use a Para signer with permissionless.js
+
+[Para](https://www.getpara.com/) offers a signing solution enabling the creation of secure, embedded MPC wallets accessible via email or social login. These wallets, compatible across different applications, offer portability, recoverability, and programmability, eliminating the need for users to establish separate signers or contract accounts for each application.
+
+## Setup
+
+To use Para with permissionless.js, first create an application that integrates with Para.
+
+- Refer to the [Para documentation site](https://docs.getpara.com/welcome) for instructions on setting up an application with the Para.
+- For a quick start, Para provides an example hub, available [here](https://docs.getpara.com/getting-started/examples).
+
+## Integration
+
+Integrating permissionless.js with Para is straightforward after setting up the project. Para provides an Externally Owned Account (EOA) wallet to use as a signer with permissionless.js accounts.
+
+### Create the Para signer
+After following the Para documentation, you will have access to a `CapsuleWeb3Provider` object that you can pass as an owner to `createSmartAccountClient`:
+
+```typescript
+// [!include ~/snippets/signers/para.ts:main]
+```
+
+### Use with permissionless.js
+
+<SmartAccounts />
