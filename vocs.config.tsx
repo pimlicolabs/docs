@@ -35,7 +35,7 @@ export const platformSidebar = [
 				link: "/infra/platform/sponsorship-policies",
 			},
 			{
-				text: "How to use a webhook",
+				text: "Webhook docs",
 				link: "/infra/platform/sponsorship-policies/webhook",
 			},
 			{

@@ -1,28 +1,103 @@
-# How to use Sponsorship Policy webhook
+# How to use Sponsorship Policy webhooks
 
-Webhook allows you to receive real-time notifications when a sponsorship policy is triggered. You can use webhooks to approve or reject sponsoring userops. Start by going to the [sponsorship policies page](https://dashboard.pimlico.io/sponsorship-policies) on the Pimlico dashboard, clicking on the existing policy and clicking on the "Edit button".
+Webhooks allow you to receive real-time notifications when sponsorship-related events occur. You can use webhooks to approve or reject sponsorship requests and receive notifications about finalized sponsorships. Start by going to the [sponsorship policies page](https://dashboard.pimlico.io/sponsorship-policies) on the Pimlico dashboard, clicking on the existing policy and clicking on the "Edit button".
 
-Request is sent with POST, where body is a JSON object with the following structure:
+## Webhook Types
+
+### UserOperation Sponsorship
+These webhooks are triggered when using the [pm_sponsorUserOperation](/infra/paymaster/erc20-paymaster/endpoints/pm_sponsorUserOperation) endpoint.
+
+#### Request for Sponsorship
+:::warning[Deprecation Notice]
+The webhook type "sponsorshipPolicy.webhook" will be replaced with "user_operation.sponsorship.requested" on March 1st, 2024.
+:::
 
 ```typescript
 const body = {
-    type: 'sponsorshipPolicy.webhook',
+    type: "sponsorshipPolicy.webhook", // Will become "user_operation.sponsorship.requested"
     data: {
         object: {
             userOperation,
             entryPoint,
             chainId,
-            sponsorshipPolicyId: sponsorshipPolicy.id    
+            sponsorshipPolicyId,
+            apiKey
         }
     }
-};
+}
 ```
 
-The returned value should be a JSON with the following structure:
-
+The webhook must return a response with the following structure:
 ```json
 {
-    "sponsor": true // Boolean
+    "sponsor": true // Boolean - whether to approve the sponsorship
+}
+```
+
+#### Sponsorship Finalized
+Sent when a UserOperation sponsorship is approved and finalized:
+
+```typescript
+const body = {
+    type: "user_operation.sponsorship.finalized",
+    data: {
+        object: {
+            userOperation,
+            entryPoint,
+            chainId,
+            sponsorshipPolicyId,
+            apiKey
+        }
+    }
+}
+```
+
+### MagicSpend Withdrawal
+These webhooks are triggered when using the [pimlico_sponsorMagicSpendWithdrawal](/infra/magic-spend/endpoints/pimlico_sponsorMagicSpendWithdrawal) endpoint.
+
+#### Request for Withdrawal
+Sent when a MagicSpend withdrawal sponsorship is requested:
+
+```typescript
+const body = {
+    type: "magic_spend.sponsorship.requested",
+    data: {
+        object: {
+            recipient,
+            token,
+            amount,
+            signature,
+            chainId,
+            apiKey,
+            sponsorshipPolicyId
+        }
+    }
+}
+```
+
+The webhook must return a response with the following structure:
+```json
+{
+    "sponsor": true // Boolean - whether to approve the withdrawal
+}
+```
+
+#### Withdrawal Finalized
+Sent when a MagicSpend withdrawal is approved and finalized:
+
+```typescript
+const body = {
+    type: "magic_spend.sponsorship.finalized",
+    data: {
+        object: {
+            withdrawal,
+            hash,
+            signature,
+            chainId,
+            apiKey,
+            sponsorshipPolicyId
+        }
+    }
 }
 ```
 
@@ -52,10 +127,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         JSON.stringify(req.body)
     )
 
-    // console.log(webhookEvent.data.object.userOperation)
-
-    return res.status(200).json({
-        sponsor: true
-    })
+    // Handle different webhook types
+    switch(webhookEvent.type) {
+        case "sponsorshipPolicy.webhook":
+        case "user_operation.sponsorship.requested":
+        case "magic_spend.sponsorship.requested":
+            return res.status(200).json({
+                sponsor: true
+            })
+        case "user_operation.sponsorship.finalized":
+        case "magic_spend.sponsorship.finalized":
+            // Handle notification - no response needed
+            return res.status(200).end()
+        default:
+            return res.status(400).json({ error: "Unknown webhook type" })
+    }
 }
-```
