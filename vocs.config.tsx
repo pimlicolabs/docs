@@ -110,6 +110,10 @@ export const bundlerSidebar = [
 		link: "/infra/bundler/usage",
 	},
 	{
+		text: "How to use Alto in CI/CD testing",
+		link: "/infra/bundler/testing",
+	},
+	{
 		text: "Self host guide",
 		link: "/infra/bundler/self-host",
 	},
