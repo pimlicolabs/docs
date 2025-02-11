@@ -1,20 +1,26 @@
-# How to use Sponsorship Policy webhooks
+# How to Use Sponsorship Policy Webhooks
 
-Webhooks allow you to receive real-time notifications when sponsorship-related events occur. You can use webhooks to approve or reject sponsorship requests and receive notifications about finalized sponsorships. Start by going to the [sponsorship policies page](https://dashboard.pimlico.io/sponsorship-policies) on the Pimlico dashboard, clicking on the existing policy and clicking on the "Edit button".
+Webhooks allow you to receive real-time notifications about sponsorship-related events. You can use them to approve or reject sponsorship requests and get updates on finalized sponsorships.
+
+To set up a webhook:
+1. Go to the [Sponsorship Policies page](https://dashboard.pimlico.io/sponsorship-policies) in the Pimlico dashboard.
+2. Click on an existing policy.
+3. Click the "Edit" button to configure webhooks.
 
 ## Webhook Types
 
 ### UserOperation Sponsorship
-These webhooks are triggered when using the [pm_sponsorUserOperation](/infra/paymaster/erc20-paymaster/endpoints/pm_sponsorUserOperation) endpoint.
+These webhooks are triggered when using the [`pm_sponsorUserOperation`](/infra/paymaster/erc20-paymaster/endpoints/pm_sponsorUserOperation) endpoint.
 
 #### Request for Sponsorship
 :::warning[Deprecation Notice]
-The webhook type "sponsorshipPolicy.webhook" will be replaced with "user_operation.sponsorship.requested" on March 1st, 2024.
+The webhook type `sponsorshipPolicy.webhook` will be replaced with `user_operation.sponsorship.requested` on **March 1st, 2024**.
 :::
 
+Webhook payload example:
 ```typescript
 const body = {
-    type: "sponsorshipPolicy.webhook", // Will become "user_operation.sponsorship.requested"
+    type: "user_operation.sponsorship.requested",
     data: {
         object: {
             userOperation,
@@ -27,7 +33,7 @@ const body = {
 }
 ```
 
-The webhook must return a response with the following structure:
+Response format:
 ```json
 {
     "sponsor": true // Boolean - whether to approve the sponsorship
@@ -35,8 +41,9 @@ The webhook must return a response with the following structure:
 ```
 
 #### Sponsorship Finalized
-Sent when a UserOperation sponsorship is approved and finalized:
+Sent when a UserOperation sponsorship is approved and finalized.
 
+Webhook payload example:
 ```typescript
 const body = {
     type: "user_operation.sponsorship.finalized",
@@ -53,11 +60,12 @@ const body = {
 ```
 
 ### MagicSpend Withdrawal
-These webhooks are triggered when using the [pimlico_sponsorMagicSpendWithdrawal](/infra/magic-spend/endpoints/pimlico_sponsorMagicSpendWithdrawal) endpoint.
+These webhooks are triggered when using the [`pimlico_sponsorMagicSpendWithdrawal`](/infra/magic-spend/endpoints/pimlico_sponsorMagicSpendWithdrawal) endpoint.
 
 #### Request for Withdrawal
-Sent when a MagicSpend withdrawal sponsorship is requested:
+Sent when a MagicSpend withdrawal sponsorship is requested.
 
+Webhook payload example:
 ```typescript
 const body = {
     type: "magic_spend.sponsorship.requested",
@@ -75,7 +83,7 @@ const body = {
 }
 ```
 
-The webhook must return a response with the following structure:
+Response format:
 ```json
 {
     "sponsor": true // Boolean - whether to approve the withdrawal
@@ -83,8 +91,9 @@ The webhook must return a response with the following structure:
 ```
 
 #### Withdrawal Finalized
-Sent when a MagicSpend withdrawal is approved and finalized:
+Sent when a MagicSpend withdrawal is approved and finalized.
 
+Webhook payload example:
 ```typescript
 const body = {
     type: "magic_spend.sponsorship.finalized",
@@ -101,9 +110,8 @@ const body = {
 }
 ```
 
-## How to verify the webhook
-
-To verify the webhook, you can use the `@pimlico/webhook` package. You will need to provide the webhook secret, which you can find in the sponsorship policy [settings](https://dashboard.pimlico.io/sponsorship-policies).
+## How to Verify the Webhook
+To verify the webhook, use the `@pimlico/webhook` package. You will need the webhook secret, which can be found in the sponsorship policy [settings](https://dashboard.pimlico.io/sponsorship-policies).
 
 ### Installation
 
@@ -114,32 +122,43 @@ pnpm install @pimlico/webhook
 ### Usage
 
 ```typescript
-import { pimlicoWebhookVerifier } from "@pimlico/webhook"
-import type { VercelRequest, VercelResponse } from "@vercel/node"
+import { pimlicoWebhookVerifier } from "@pimlico/webhook";
+import type { VercelRequest, VercelResponse } from "@vercel/node";
 
-const webhookSecret = process.env.PIMLICO_WEBHOOK_SECRET as string
-
-const verifyWebhook = pimlicoWebhookVerifier(webhookSecret)
+const webhookSecret = process.env.PIMLICO_WEBHOOK_SECRET as string;
+const verifyWebhook = pimlicoWebhookVerifier(webhookSecret);
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-    const webhookEvent = verifyWebhook(
-        req.headers as Record<string, string>,
-        JSON.stringify(req.body)
-    )
+    try {
+        const webhookEvent = verifyWebhook(
+            req.headers as Record<string, string>,
+            JSON.stringify(req.body)
+        );
 
-    // Handle different webhook types
-    switch(webhookEvent.type) {
-        case "sponsorshipPolicy.webhook":
-        case "user_operation.sponsorship.requested":
-        case "magic_spend.sponsorship.requested":
-            return res.status(200).json({
-                sponsor: true
-            })
-        case "user_operation.sponsorship.finalized":
-        case "magic_spend.sponsorship.finalized":
-            // Handle notification - no response needed
-            return res.status(200).end()
-        default:
-            return res.status(400).json({ error: "Unknown webhook type" })
+        switch (webhookEvent.type) {
+            case "user_operation.sponsorship.requested":
+            case "magic_spend.sponsorship.requested":
+                return res.status(200).json({ sponsor: true });
+
+            case "user_operation.sponsorship.finalized":
+            case "magic_spend.sponsorship.finalized":
+                return res.status(200).end();
+
+            default:
+                return res.status(400).json({ error: "Unknown webhook type" });
+        }
+    } catch (error) {
+        return res.status(400).json({ error: "Invalid webhook signature" });
     }
 }
+```
+
+## Testing Webhooks
+Before deploying webhooks in production, test them using services like Beeceptor and Request Inspector. These tools help you debug webhook requests and responses in real time.
+
+| Service         | Features                                      | URL |
+|---------------|----------------------------------|---------------------------------|
+| **Beeceptor** | Inspect, test, and debug webhooks | [beeceptor.com](https://beeceptor.com/) |
+| **Request Inspector** | Capture and analyze HTTP requests | [requestinspector.com](https://requestinspector.com/) |
+
+Using these tools, you can validate webhook payloads, check response structures, and ensure everything functions correctly before live deployment.
