@@ -5,3 +5,16 @@ EIP-7702 is a proposal set for inclusion in the upcoming 2025 Pectra hardfork. T
 This unlocks huge benefits for EOAs, as they can now access smart account features such as batching transactions, gas sponsorships, passkeys as signers, and more.
 
 A full demo showing how to use ERC-4337 with EIP-7702 can be found [here](/permissionless/how-to/eip-7702-demo).
+
+## FAQ
+
+### What are the limitations of wallet implementations for EIP-7702?
+
+Most wallets restrict the EIP-7702 upgrade feature to:
+- Their own implementation
+- A very limited set of smart account implementations
+
+Wallets typically do not allow users to choose custom code to upgrade to. This means you have two options when implementing EIP-7702:
+
+1. Have the user provide their private key (this is a significant security risk and not recommended)
+2. Prompt the user to upgrade their EOA wallet (e.g., Metamask) to the respective 7702 implementation that the wallet allows, and use the features available through that implementation
