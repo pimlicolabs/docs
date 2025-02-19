@@ -58,9 +58,9 @@ Let's open up `index.ts`, and add the following to the bottom:
 
 ### Generate the factory and factoryData
 
-For the purposes of this guide, we will be using the [SimpleAccount.sol](https://github.com/eth-infinitism/account-abstraction/blob/develop/contracts/samples/SimpleAccount.sol) wallet found in the eth-infinitism repository. This Wallet is a simple ERC-4337 wallet controlled by a single EOA signer.
+For the purposes of this guide, we will be using the [SimpleAccount.sol](https://github.com/eth-infinitism/account-abstraction/blob/develop/contracts/accounts/SimpleAccount.sol) wallet found in the eth-infinitism repository. This Wallet is a simple ERC-4337 wallet controlled by a single EOA signer.
 
-At `0x91E60e0613810449d098b0b5Ec8b51A0FE8c8985`, most chain already have deployed a [SimpleAccountFactory.sol](https://github.com/eth-infinitism/account-abstraction/blob/develop/contracts/samples/SimpleAccountFactory.sol) contract, that is able to easily deploy new SimpleAccount instances via the `createAccount` function. We will be leveraging this contract to help us generate the `factory` and `factoryData`.
+At `0x91E60e0613810449d098b0b5Ec8b51A0FE8c8985`, most chain already have deployed a [SimpleAccountFactory.sol](https://github.com/eth-infinitism/account-abstraction/blob/develop/contracts/accounts/SimpleAccountFactory.sol) contract, that is able to easily deploy new SimpleAccount instances via the `createAccount` function. We will be leveraging this contract to help us generate the `factory` and `factoryData`.
 
 Requesting a smart contract deployment is done through the `factory` and `factoryData` field, where the `factory` field specifies the address the EntryPoint will call, and the `factoryData` corresponds to the data that will be called on that factory.
 
