@@ -20,3 +20,11 @@ This restriction exists because upgrading your account with EIP-7702 effectively
 2. Work within the features available through that implementation
 
 Note: Having users provide their private key would technically allow upgrading to any implementation but is a significant security risk and is not recommended.
+
+## Testing
+
+You can test out EIP-7702 with Pimlico's infrastructure on the Odyssey Testnet. Pimlico provides experimental endpoints for testing:
+- `pimlico_experimental_estimateUserOperationGas`
+- `pimlico_experimental_sendUserOperation`
+
+For a complete guide on how to test EIP-7702, check out our [step-by-step tutorial](/permissionless/how-to/eip-7702-demo) which walks through the process of sending a sponsored userOperation from an EOA. You can also find a complete working example in our [7702 UserOp demo repository](https://github.com/pimlicolabs/7702-userop-demo).
