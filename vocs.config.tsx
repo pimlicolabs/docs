@@ -536,6 +536,10 @@ export const permissionlessSidebar = [
 						link: "/permissionless/how-to/signers/passkey",
 					},
 					{
+						text: "How to use a Passkey (WebAuthn) server",
+						link: "/permissionless/how-to/signers/passkey-server",
+					},
+					{
 						text: "How to use a Dynamic signer",
 						link: "/permissionless/how-to/signers/dynamic",
 					},

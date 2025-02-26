@@ -2,7 +2,7 @@ import VersionWarning from "../../VersionWarning"
 
 <VersionWarning version="0.2" />
 
-# How to Integrate Pimlico with Passkey (WebAuthn) signer
+# How to use a Passkey (WebAuthn) signer
 
 This how-to guide will walk you through the steps to integrate Passkey (WebAuthn) signer with a smart account whose user operations are relayed and sponsored by Pimlico.
 
@@ -55,7 +55,11 @@ export function PasskeysDemo() {
 ```
 
 :::warning
-We suggest using a paykeys server to share the same credential across multiple devices easily. To learn how to set up a paykeys server with [simplewebauthn](https://simplewebauthn.dev/docs/packages/server), check out their guide. Zerodev also provides a [paykeys server](https://docs.zerodev.app/sdk/advanced/passkeys#setting-up-passkey-server) you can use.
+We suggest using a passkeys server to share the same credential across multiple devices easily.
+Checkout the guide to use your own or Pimlico's passkeys server at [How to use a Passkey (WebAuthn) server](https://docs.pimlico.io/docs/sdk/advanced/passkeys).
+To learn how to set up a passkeys server with [simplewebauthn](https://simplewebauthn.dev/docs/packages/server), check out their guide.
+Zerodev also provides a [passkeys server](https://docs.zerodev.app/sdk/advanced/passkeys#setting-up-passkey-server) that you can use.
+
 :::
 
 ### Create Kernel Smart Account
