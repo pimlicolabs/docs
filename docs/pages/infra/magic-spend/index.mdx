@@ -1,6 +1,6 @@
-# Magic Spend++
+# Magic Spend
 
-Magic Spend++ is an infrastructure solution that lets you fund blockchain transactions across multiple networks using a single fiat balance. You can try out the demo at [magic.pimlico.io](https://magic.pimlico.io/).
+Magic Spend solves liquidity fragmentation by enabling flexible token spending across multiple chains. If you have tokens spread across different chains and formats, Magic Spend allows you to instantly access their value while handling the underlying token management for you.
 
 ## Quick Links
 
@@ -8,34 +8,51 @@ Magic Spend++ is an infrastructure solution that lets you fund blockchain transa
 - 💻 [Demo Source Code](https://github.com/pimlicolabs/magic-spend-ui)
 - 📅 [Schedule a Call](https://cal.com/sergey-potekhin)
 
-## How It Works
+## Modes of Operation
 
-1. **Top Up Your Balance**: Add funds to your Pimlico account using a credit card or bank transfer through the [dashboard](https://dashboard.pimlico.io/billing/payment-methods)
-2. **Request Withdrawals**: Use these funds to request signed withdrawal messages for any supported token on any supported chain
-3. **Execute Transactions**: Submit the signed messages to receive tokens directly on your target chain
+### Magic Spend Credit
 
-This means you can:
-- Fund transactions on any supported chain without bridging assets
-- Pay for gas fees in any supported token
-- Execute cross-chain operations without managing multiple token balances
-- Handle all blockchain interactions while keeping a single fiat-denominated balance
+Perfect for demos and small amounts. Developers fund their balance through the Pimlico dashboard and we instantly provide ETH on any chain.
+
+Key features:
+- Instant ETH provision on any supported chain
+- Developer-funded model with dashboard management
+- Webhook support for transaction monitoring
+- Currently supports ETH only
+
+[Learn more about Credit Mode →](/infra/magic-spend/modes/credit)
+
+### Magic Spend Resource Lock
+
+Ideal for production use cases. Users lock their tokens in smart contracts and can instantly access ETH on any chain through simple message signing.
+
+Key features:
+- No developer funding required
+- User-controlled token locking
+- Instant cross-chain ETH access
+- Currently supports ETH only
+
+[Learn more about Resource Lock Mode →](/infra/magic-spend/modes/resource-lock)
 
 ## Features
 
 - Multi-chain support
 - Gasless transactions
 - Smart account integration
-- Pre and post-call hooks for complex operations
-- Simple fiat on-ramp through credit card or bank transfer
+- Multiple operation modes for different use cases
 
 ## Getting Started
 
 To start using Magic Spend:
 
 1. Get your Pimlico API key
-2. Ask the Pimlico team to enable the Magic Spend feature for your API key
-3. For mainnet usage, add Magic Spend balance in the [dashboard](https://dashboard.pimlico.io/billing/payment-methods) (testnet usage is free)
-4. Choose your target chain and token
+2. Choose your preferred mode (Credit or Resource Lock)
+3. For Credit mode:
+   - Ask the Pimlico team to enable the Magic Spend feature for your API key
+   - Add Magic Spend balance in the [dashboard](https://dashboard.pimlico.io/billing/payment-methods)
+4. For Resource Lock mode:
+   - Choose your preferred resource lock type (OneBalance or Pimlico Lock)
+   - Lock your tokens in the chosen resource lock
 5. Initialize the clients
 6. Make your first withdrawal
 
@@ -47,6 +64,8 @@ Need help integrating Magic Spend? [Schedule a call](https://cal.com/sergey-pote
 
 ## Next Steps
 
+- [Learn about Credit Mode](/infra/magic-spend/modes/credit)
+- [Learn about Resource Lock Mode](/infra/magic-spend/modes/resource-lock)
 - [Architecture Overview](/infra/magic-spend/architecture)
-- [How to Request ETH](/infra/magic-spend/how-to/request-eth)
+- [Resource Lock Types](/infra/magic-spend/resource-lock-types)
 - [Supported Chains and Tokens](/infra/magic-spend/supported-chains-and-tokens)

@@ -1240,8 +1240,25 @@ export const magicSpendSidebar = [
 		link: "/infra/magic-spend",
 	},
 	{
+		text: "Modes",
+		items: [
+			{
+				text: "Credit Mode",
+				link: "/infra/magic-spend/modes/credit",
+			},
+			{
+				text: "Resource Lock Mode",
+				link: "/infra/magic-spend/modes/resource-lock",
+			},
+		],
+	},
+	{
 		text: "Architecture",
 		link: "/infra/magic-spend/architecture",
+	},
+	{
+		text: "Resource Lock Types",
+		link: "/infra/magic-spend/resource-lock-types",
 	},
 	{
 		text: "Endpoints",
