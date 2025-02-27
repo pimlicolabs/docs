@@ -1253,10 +1253,6 @@ export const magicSpendSidebar = [
 		],
 	},
 	{
-		text: "Resource Lock Types",
-		link: "/infra/magic-spend/resource-lock-types",
-	},
-	{
 		text: "Endpoints",
 		collapsed: false,
 		items: [
