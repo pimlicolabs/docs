@@ -1253,10 +1253,6 @@ export const magicSpendSidebar = [
 		],
 	},
 	{
-		text: "Architecture",
-		link: "/infra/magic-spend/architecture",
-	},
-	{
 		text: "Resource Lock Types",
 		link: "/infra/magic-spend/resource-lock-types",
 	},
@@ -1265,8 +1261,16 @@ export const magicSpendSidebar = [
 		collapsed: false,
 		items: [
 			{
-				text: "pimlico_getMagicSpendContracts",
-				link: "/infra/magic-spend/endpoints/pimlico_getMagicSpendContracts",
+				text: "pimlico_getMagicSpendStakes",
+				link: "/infra/magic-spend/endpoints/pimlico_getMagicSpendStakes",
+			},
+			{
+				text: "pimlico_prepareMagicSpendStake",
+				link: "/infra/magic-spend/endpoints/pimlico_prepareMagicSpendStake",
+			},
+			{
+				text: "pimlico_prepareMagicSpendAllowance",
+				link: "/infra/magic-spend/endpoints/pimlico_prepareMagicSpendAllowance",
 			},
 			{
 				text: "pimlico_sponsorMagicSpendWithdrawal",

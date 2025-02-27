@@ -1,0 +1,85 @@
+# pimlico_prepareMagicSpendAllowance
+
+:::warning[Warning]
+The MagicSpend++ protocol is in beta. API is subject to change with short notice.
+:::
+
+This method prepares an allowance for MagicSpend++ withdrawals.
+
+## Request
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "pimlico_prepareMagicSpendAllowance",
+    "params": [
+        {
+            "type": "pimlico_lock",
+            "data": {
+                "account": "0x1234567890123456789012345678901234567890",
+                "token": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+                "amount": "1000000000000000000",
+                "recipient": "0x2345678901234567890123456789012345678901"
+            }
+        }
+    ],
+    "id": 1
+}
+```
+
+## Response
+
+For `pimlico_lock` type:
+```json
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+        "account": "0x1234567890123456789012345678901234567890",
+        "assets": [
+            {
+                "token": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+                "amount": "1000000000000000000",
+                "chainId": "11155111"
+            }
+        ],
+        "validUntil": "1709308800",
+        "validAfter": "1709222400",
+        "salt": "123456",
+        "version": "1",
+        "metadata": "0x"
+    }
+}
+```
+
+For `onebalance` type, the response will be a Quote object.
+
+## Types
+
+```typescript
+type PimlicoMagicSpendPrepareAllowanceParams = {
+    type: "pimlico_lock" | "onebalance";
+    data: {
+        account: Address;
+        token: Address;
+        amount: string;
+        recipient: Address;
+    };
+};
+
+type MagicSpendAllowance = {
+    account: Address;
+    assets: MagicSpendAssetAllowance[];
+    validUntil: bigint;
+    validAfter: bigint;
+    salt: bigint;
+    version: bigint;
+    metadata: Hex;
+};
+
+type MagicSpendAssetAllowance = {
+    token: Address;
+    amount: bigint;
+    chainId: bigint;
+};
+``` 

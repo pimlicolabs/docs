@@ -1,0 +1,65 @@
+# pimlico_prepareMagicSpendStake
+
+:::warning[Warning]
+The MagicSpend++ protocol is in beta. API is subject to change with short notice.
+:::
+
+This method prepares a stake transaction for MagicSpend++.
+
+## Request
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "pimlico_prepareMagicSpendStake",
+    "params": [
+        {
+            "type": "pimlico_lock",
+            "data": {
+                "token": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+                "amount": "1000000000000000000",
+                "unstakeDelaySec": "604800"
+            }
+        }
+    ],
+    "id": 1
+}
+```
+
+## Response
+
+Returns the components for the stake transaction - target address, calldata and value.
+
+```json
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": [
+        "0x1234567890123456789012345678901234567890",
+        "0xabcdef...",
+        "0x0"
+    ]
+}
+```
+
+## Types
+
+```typescript
+type PimlicoMagicSpendStakeParams =
+    | {
+        type: "pimlico_lock";
+        data: {
+            token: Address;
+            amount: string;
+            unstakeDelaySec: string;
+        };
+    }
+    | {
+        type: "onebalance";
+        data: {
+            token: Address;
+            amount: string;
+            account: Address;
+        };
+    };
+``` 
