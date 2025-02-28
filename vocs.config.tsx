@@ -1240,16 +1240,33 @@ export const magicSpendSidebar = [
 		link: "/infra/magic-spend",
 	},
 	{
-		text: "Architecture",
-		link: "/infra/magic-spend/architecture",
+		text: "Modes",
+		items: [
+			{
+				text: "Credit Mode",
+				link: "/infra/magic-spend/modes/credit",
+			},
+			{
+				text: "Resource Lock Mode",
+				link: "/infra/magic-spend/modes/resource-lock",
+			},
+		],
 	},
 	{
 		text: "Endpoints",
 		collapsed: false,
 		items: [
 			{
-				text: "pimlico_getMagicSpendContracts",
-				link: "/infra/magic-spend/endpoints/pimlico_getMagicSpendContracts",
+				text: "pimlico_getMagicSpendStakes",
+				link: "/infra/magic-spend/endpoints/pimlico_getMagicSpendStakes",
+			},
+			{
+				text: "pimlico_prepareMagicSpendStake",
+				link: "/infra/magic-spend/endpoints/pimlico_prepareMagicSpendStake",
+			},
+			{
+				text: "pimlico_prepareMagicSpendAllowance",
+				link: "/infra/magic-spend/endpoints/pimlico_prepareMagicSpendAllowance",
 			},
 			{
 				text: "pimlico_sponsorMagicSpendWithdrawal",
@@ -1261,8 +1278,12 @@ export const magicSpendSidebar = [
 		text: "Guides",
 		items: [
 			{
-				text: "How to request ETH from a MagicSpend++",
-				link: "/infra/magic-spend/how-to/request-eth",
+				text: "How to use Credit Mode",
+				link: "/infra/magic-spend/how-to/credit-mode",
+			},
+			{
+				text: "How to use Pimlico Lock",
+				link: "/infra/magic-spend/how-to/pimlico-lock",
 			},
 		],
 	},

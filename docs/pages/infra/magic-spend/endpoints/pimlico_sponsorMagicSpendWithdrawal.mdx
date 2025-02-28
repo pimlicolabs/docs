@@ -1,27 +1,84 @@
 # pimlico_sponsorMagicSpendWithdrawal
 
 :::warning[Warning]
-
 The MagicSpend++ protocol is in beta. API is subject to change with short notice.
-
 :::
 
-This method accepts the withdrawal parameteres along with a signature over this parameters. The signature should be done by the `operator` of the `Allowance` message.
+This method requests a sponsored withdrawal from MagicSpend++. It accepts different types of withdrawal parameters based on the withdrawal mode.
 
 ## Request
 
+For credits mode:
 ```json
 {
     "jsonrpc": "2.0",
     "method": "pimlico_sponsorMagicSpendWithdrawal",
     "params": [
         {
-            "recipient": "0x100c817c465034CcbEC8Dc0436dbB6C2983032B2",
-            "asset": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
-            "amount": 123,
-            "salt": 0,
-            "signature": "0x606b713744cfab2a440c07a564c7630195f974372b3c1ef62f10048f84931fdd7ad89b9ea48212994960b1e09ab34ead8c0a7e05aeae89427d3200d8e4463a1e1c"
-        }
+            "type": "credits",
+            "data": {
+                "token": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+                "recipient": "0x1234567890123456789012345678901234567890",
+                "amount": "1000000000000000000",
+                "signature": "0xabcdef..."
+            }
+        },
+        null
+    ],
+    "id": 1
+}
+```
+
+For pimlico_lock mode:
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "pimlico_sponsorMagicSpendWithdrawal",
+    "params": [
+        {
+            "type": "pimlico_lock",
+            "data": {
+                "allowance": {
+                    "account": "0x1234567890123456789012345678901234567890",
+                    "assets": [
+                        {
+                            "token": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+                            "amount": "1000000000000000000",
+                            "chainId": "11155111"
+                        }
+                    ],
+                    "validUntil": "1709308800",
+                    "validAfter": "1709222400",
+                    "salt": "123456",
+                    "version": "1",
+                    "metadata": "0x"
+                },
+                "signature": "0xabcdef..."
+            }
+        },
+        null
+    ],
+    "id": 1
+}
+```
+
+For onebalance mode:
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "pimlico_sponsorMagicSpendWithdrawal",
+    "params": [
+        {
+            "type": "onebalance",
+            "data": {
+                "quote": {
+                    // Quote object from pimlico_prepareMagicSpendAllowance
+                },
+                "amount": "1000000000000000000",
+                "recipient": "0x1234567890123456789012345678901234567890"
+            }
+        },
+        null
     ],
     "id": 1
 }
@@ -34,18 +91,41 @@ This method accepts the withdrawal parameteres along with a signature over this 
     "jsonrpc": "2.0",
     "id": 1,
     "result": [
-        {
-            "asset": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
-            "amount": "0x7b",
-            "recipient": "0x100c817c465034CcbEC8Dc0436dbB6C2983032B2",
-            "preCalls": [],
-            "postCalls": [],
-            "validAfter": "0x672a7f55",
-            "validUntil": "0x672a867b",
-            "salt": "0x18524",
-            "chainId": "0xaa36a7"
-        },
-        "0x275f4c928c484d11437d0f8b54a5b3b89fb540085d0e3bdd7184417d005bdca2541d37d5651c198d4923969dee896c321059fc0c16deb299f2bbc9b3a341bd0d1c"
+        "0x1234567890123456789012345678901234567890",
+        "0xabcdef..."
     ]
 }
+```
+
+## Types
+
+```typescript
+type SponsorWithdrawalCreditParams = {
+    type: "credits";
+    data: {
+        token: Address;
+        recipient: Address;
+        amount: string;
+        signature: Hex;
+    };
+};
+
+type SponsorWithdrawalPimlicoLockParams = {
+    type: "pimlico_lock";
+    data: {
+        allowance: MagicSpendAllowance;
+        signature: Hex;
+    };
+};
+
+type SponsorWithdrawalOneBalanceParams = {
+    type: "onebalance";
+    data: {
+        quote: Quote;
+        amount: string;
+        recipient: Address;
+    };
+};
+
+type MagicSpendSponsorWithdrawalResponse = [Address, Hex];
 ```

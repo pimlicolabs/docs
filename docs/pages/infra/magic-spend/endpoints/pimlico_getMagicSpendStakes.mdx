@@ -1,0 +1,57 @@
+# pimlico_getMagicSpendStakes
+
+:::warning[Warning]
+The MagicSpend++ protocol is in beta. API is subject to change with short notice.
+:::
+
+This method returns the stakes and total USD value for a given account.
+
+## Request
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "pimlico_getMagicSpendStakes",
+    "params": [
+        {
+            "account": "0x1234567890123456789012345678901234567890"
+        }
+    ],
+    "id": 1
+}
+```
+
+## Response
+
+```json
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+        "usdValue": "1000000000000000000",
+        "stakes": [
+            {
+                "type": "pimlico_lock",
+                "chainId": 11155111,
+                "token": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+                "amount": "1000000000000000000",
+                "usdValue": "1000000000000000000",
+                "testnet": true,
+            }
+        ]
+    }
+}
+```
+
+## Types
+
+```typescript
+type PimlicoMagicSpendStake = {
+    type: "pimlico_lock" | "onebalance";
+    chainId: number;
+    token: Address;
+    amount: bigint;
+    usdValue: bigint;
+    testnet: boolean;
+};
+``` 
