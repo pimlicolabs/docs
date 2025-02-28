@@ -1,0 +1,44 @@
+# How to use Pimlico Lock
+
+This guide will show you how to use Pimlico Lock to request ETH from the MagicSpend++ contracts.
+
+## Steps
+
+::::steps
+### Define imports and create the clients
+
+```ts
+// [!include ~/snippets/magic-spend/pimlico-lock.ts:clients]
+```
+
+### Add funds in the resource lock
+
+```ts
+// [!include ~/snippets/magic-spend/pimlico-lock.ts:pimlico_prepareMagicSpendStake]
+```
+
+### Get the stakes
+
+```ts
+// [!include ~/snippets/magic-spend/pimlico-lock.ts:pimlico_getMagicSpendStakes]
+```
+
+### Prepare the allowance
+
+```ts
+// [!include ~/snippets/magic-spend/pimlico-lock.ts:pimlico_prepareMagicSpendAllowance]
+```
+
+### Request a withdrawal sponsorship
+
+```ts
+// [!include ~/snippets/magic-spend/pimlico-lock.ts:pimlico_sponsorMagicSpendWithdrawal]
+```
+
+### Execute the withdrawal
+
+```ts
+// [!include ~/snippets/magic-spend/pimlico-lock.ts:execute]
+```
+
+::::

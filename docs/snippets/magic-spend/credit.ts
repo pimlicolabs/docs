@@ -1,6 +1,6 @@
 // [!region clients]
 import { createSmartAccountClient } from "permissionless"
-import { Address, Hex, createPublicClient, encodeFunctionData, http, parseEther, toHex } from "viem"
+import { Address, Hex, createPublicClient, http, parseEther, toHex } from "viem"
 import { sepolia } from "viem/chains"
 import { privateKeyToAccount } from "viem/accounts"
 import { entryPoint07Address } from "viem/account-abstraction";
@@ -8,6 +8,7 @@ import { createPimlicoClient } from "permissionless/clients/pimlico"
 import { toSimpleSmartAccount } from "permissionless/accounts";
 
 import "dotenv/config"
+import { getPimlicoUrl, MagicSpend } from "./magic-spend";
 
 const RPC_URL = "https://11155111.rpc.thirdweb.com"
 const ETH: Address = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
@@ -20,11 +21,7 @@ if (PRIVATE_KEY === undefined) {
     throw new Error("ACCOUNT_PRIVATE_KEY env var is required")
 }
 
-const PIMLICO_URL = process.env.PIMLICO_URL;
-
-if (PIMLICO_URL === undefined) {
-    throw new Error("PIMLICO_URL env var is required")
-}
+const pimlicoUrl = getPimlicoUrl(sepolia.id);
 
 export const publicClient = createPublicClient({
 	transport: http(RPC_URL),
@@ -32,7 +29,7 @@ export const publicClient = createPublicClient({
 })
   
 const pimlicoClient = createPimlicoClient({
-	transport: http(PIMLICO_URL),
+	transport: http(pimlicoUrl),
     chain: sepolia,
 	entryPoint: {
 		address: entryPoint07Address,
@@ -40,28 +37,6 @@ const pimlicoClient = createPimlicoClient({
 	},
 })
 
-
-const sendMagicSpendRequest = async (method: string, params: any[]) => {
-    const body = {
-        jsonrpc: "2.0",
-        method,
-        params,
-        id: 1,
-    };
-
-    const response = await fetch(PIMLICO_URL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-    });
-
-    const j = await response.json();
-
-    // @ts-ignore
-    return j.result;
-}
 
 // This is the address of the account that owns the stake
 const signer = privateKeyToAccount(PRIVATE_KEY as Hex)
@@ -79,7 +54,7 @@ const simpleAccount = await toSimpleSmartAccount({
 const smartAccountClient = createSmartAccountClient({
     account: simpleAccount,
     chain: sepolia,
-    bundlerTransport: http(PIMLICO_URL, {
+    bundlerTransport: http(pimlicoUrl, {
         timeout: 60_000,
     }),
     userOperation: {
@@ -94,15 +69,17 @@ const smartAccountClient = createSmartAccountClient({
 
 // [!region pimlico_sponsorMagicSpendWithdrawal]
 
-const [contract, calldata] = await sendMagicSpendRequest(
-    "pimlico_sponsorMagicSpendWithdrawal",
-    [{
-        recipient: simpleAccount.address,
+const magicSpend = new MagicSpend();
+
+const [contract, calldata] = await magicSpend.sponsorWithdrawal({
+    type: "credits",
+    data: {
         token: ETH,
         amount: toHex(parseEther(amount)),
-        signature: "0x0",
-    }, null]
-)
+        recipient: simpleAccount.address,
+        signature: '0x',
+    }
+})
 // [!endregion pimlico_sponsorMagicSpendWithdrawal]
 
 // [!region execute]
