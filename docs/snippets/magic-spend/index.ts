@@ -1,9 +1,8 @@
 // [!region clients]
 import { createSmartAccountClient } from "permissionless"
-import { Address, Hex, createPublicClient, encodeFunctionData, getContract, http, parseEther, toHex } from "viem"
+import { Address, Hex, createPublicClient, encodeFunctionData, http, parseEther, toHex } from "viem"
 import { sepolia } from "viem/chains"
 import { privateKeyToAccount } from "viem/accounts"
-import { MagicSpendWithdrawalManagerAbi } from "./abi/MagicSpendWithdrawalManager";
 import { entryPoint07Address } from "viem/account-abstraction";
 import { createPimlicoClient } from "permissionless/clients/pimlico"
 import { toSimpleSmartAccount } from "permissionless/accounts";
@@ -93,49 +92,29 @@ const smartAccountClient = createSmartAccountClient({
 
 // [!endregion clients]
 
-// [!region pimlico_getMagicSpendContracts]
-const {
-    withdrawalManagerAddress,
-} = await sendMagicSpendRequest(
-    'pimlico_getMagicSpendContracts',
-    []
-)
-
-// [!endregion pimlico_getMagicSpendContracts]
-
 // [!region pimlico_sponsorMagicSpendWithdrawal]
 
-const [withdrawal, withdrawalSignature] = await sendMagicSpendRequest(
+const [contract, calldata] = await sendMagicSpendRequest(
     "pimlico_sponsorMagicSpendWithdrawal",
     [{
         recipient: simpleAccount.address,
         token: ETH,
         amount: toHex(parseEther(amount)),
-        salt: "0x0",
         signature: "0x0",
     }, null]
 )
 // [!endregion pimlico_sponsorMagicSpendWithdrawal]
 
 // [!region execute]
-const magicSpendCallData = encodeFunctionData({
-    abi: MagicSpendWithdrawalManagerAbi,
-    functionName: 'withdraw',
-    args: [
-        withdrawal,
-        withdrawalSignature,
-    ]
-})
-
 // Send user operation and withdraw funds
 // You can add subsequent calls after the withdrawal, like "buy NFT on OpenSea for ETH"
 const userOpHash = await smartAccountClient.sendUserOperation({
     account: simpleAccount,
     calls: [
         {
-            to: withdrawalManagerAddress,
+            to: contract,
             value: parseEther("0"),
-            data: magicSpendCallData,
+            data: calldata,
         }
     ]
 })
