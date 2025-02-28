@@ -1278,8 +1278,12 @@ export const magicSpendSidebar = [
 		text: "Guides",
 		items: [
 			{
-				text: "How to request ETH from a MagicSpend++",
-				link: "/infra/magic-spend/how-to/request-eth",
+				text: "How to use Credit Mode",
+				link: "/infra/magic-spend/how-to/credit-mode",
+			},
+			{
+				text: "How to use Pimlico Lock",
+				link: "/infra/magic-spend/how-to/pimlico-lock",
 			},
 		],
 	},
