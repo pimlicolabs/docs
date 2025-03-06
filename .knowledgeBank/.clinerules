@@ -1,0 +1,83 @@
+# Cline Rules for Pimlico Documentation
+
+## Project Understanding
+
+1. **Account Abstraction Focus**: Pimlico is focused on Ethereum account abstraction infrastructure, including the permissionless.js library, bundler services, and paymaster solutions.
+
+2. **Documentation Structure**: The documentation is organized into conceptual guides, how-to guides, reference documentation, and tutorials.
+
+3. **Technical Depth**: Content should balance technical depth with accessibility, providing both high-level explanations and detailed implementation details.
+
+4. **Code Examples**: All concepts should be accompanied by practical code examples that can be directly used by developers.
+
+## Content Patterns
+
+1. **Diataxis Documentation Framework**: Follow the Diataxis framework for organizing documentation (guides can be found in ./knowledgeBank/diataxis/):
+   - **Tutorials**: Learning-oriented content that guides users through practical experiences
+   - **How-to Guides**: Task-oriented content that helps users accomplish specific goals
+   - **Reference**: Information-oriented content that provides technical details
+   - **Explanation**: Understanding-oriented content that explains concepts and provides context
+
+2. **Terminology Consistency**: Use consistent terminology throughout documentation:
+   - "permissionless.js" (not "Permissionless.js" or "permissionless")
+   - "`UserOperation`" or "`UserOperation` object" with backticks (not "User Operation" or "userOperation" or User Operation)
+   - "`EntryPoint`" or "`EntryPoint` contract" with backticks (not "Entrypoint" or "entry point")
+   - "Smart Account" (not "smart contract wallet" or "contract account")
+   - "Bundler" (not "relayer" or "aggregator")
+   - "Paymaster" (not "gas sponsor" or "fee abstractor")
+
+2. **Code Block Format**: TypeScript code blocks should:
+   - Include imports
+   - Use consistent variable naming
+   - Follow the client-action pattern when applicable
+   - Include comments for complex operations
+
+4. **Tutorial Structure**: Tutorials should follow a consistent pattern:
+   - Clear objective statement
+   - Prerequisites
+   - Step-by-step instructions
+   - Code examples
+   - Expected results
+   - Troubleshooting tips
+
+## Technical Insights
+
+1. **Client-Action Pattern**: The Permissionless library uses a client-action pattern where clients are extended with action modules.
+
+2. **Account Implementation Differences**: Different account implementations (Simple, Safe, Kernel, etc.) have varying features, security models, and compatibility considerations.
+
+3. **Gas Estimation Complexity**: Gas estimation for UserOperations is complex and involves multiple components (verification gas, execution gas, etc.).
+
+4. **Paymaster Integration**: Paymaster integration requires careful consideration of security, token approvals, and sponsorship conditions.
+
+## User Preferences
+
+1. **Code-First Approach**: Users prefer a code-first approach with practical examples they can directly use.
+
+2. **Progressive Complexity**: Start with simple examples and progressively introduce more complex scenarios.
+
+3. **Complete Solutions**: Provide complete, working solutions rather than partial snippets that require significant additional work.
+
+4. **Troubleshooting Guidance**: Include common errors and their solutions to help users debug issues.
+
+5. **Performance Considerations**: Highlight performance implications and optimization opportunities.
+
+## Documentation Maintenance
+
+1. **Version Tracking**: Clearly indicate which library version each document applies to.
+
+2. **Deprecation Notices**: Clearly mark deprecated features and provide migration paths.
+
+3. **Update Frequency**: Documentation should be updated with each significant library release.
+
+4. **Feedback Loop**: Incorporate user feedback to continuously improve documentation.
+
+5. **Cross-Referencing**: Maintain proper cross-references between related documentation sections.
+
+## MCP Server Integration
+
+1. **Research Needs**: Use Firecrawl MCP for researching complex technical topics, standards, and best practices.
+
+2. **Sequential Thinking**: Use Sequential Thinking MCP for breaking down complex implementation tasks and troubleshooting issues.
+
+3. **Browser Automation**: Use Puppeteer Browser MCP for capturing screenshots of implementation results and testing web-based interactions.
