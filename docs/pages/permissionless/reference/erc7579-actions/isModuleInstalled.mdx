@@ -31,9 +31,9 @@ Use the `isModuleInstalled` method to check if a module is installed on the smar
 const ownableExecutorModule = "0x4Fd8d57b94966982B62e9588C27B4171B55E8354"
 const moduleData = encodePacked(["address"], ["0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"])
 const isInstalled = await smartAccountClient.isModuleInstalled({
-	type: "executor",
-	address: ownableExecutorModule,
-	context: moduleData,
+    type: "executor",
+    address: ownableExecutorModule,
+    context: moduleData,
 })
 ```
 

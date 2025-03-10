@@ -14,22 +14,22 @@ First we must create the public, bundler, and (optionally) paymaster clients tha
 
 ```ts
 export const publicClient = createPublicClient({
-	transport: http("https://rpc.ankr.com/eth_sepolia"),
-	entryPoint: ENTRYPOINT_ADDRESS_V07
+    transport: http("https://rpc.ankr.com/eth_sepolia"),
+    entryPoint: ENTRYPOINT_ADDRESS_V07
 });
 
 export const bundlerClient = createPimlicoBundlerClient({
-	transport: http(
-		"https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY",
-	),
-	entryPoint: ENTRYPOINT_ADDRESS_V07
+    transport: http(
+        "https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY",
+    ),
+    entryPoint: ENTRYPOINT_ADDRESS_V07
 });
 
 export const paymasterClient = createPimlicoPaymasterClient({
-	transport: http(
-		"https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY",
-	),
-	entryPoint: ENTRYPOINT_ADDRESS_V07
+    transport: http(
+        "https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY",
+    ),
+    entryPoint: ENTRYPOINT_ADDRESS_V07
 });
 ```
 
@@ -39,9 +39,9 @@ Now, create an account. This can any of the accounts supported by permissionless
 
 ```ts
 const simpleAccount = await privateKeyToSimpleSmartAccount(publicClient, {
-	privateKey: "0xPRIVATE_KEY",
-	factoryAddress: "0x91E60e0613810449d098b0b5Ec8b51A0FE8c8985",
-	entryPoint: ENTRYPOINT_ADDRESS_V07
+    privateKey: "0xPRIVATE_KEY",
+    factoryAddress: "0x91E60e0613810449d098b0b5Ec8b51A0FE8c8985",
+    entryPoint: ENTRYPOINT_ADDRESS_V07
 });
 ```
 
@@ -53,18 +53,18 @@ When creating the `smartAccountClient`, we can pass in a `sponsorUserOperation` 
 
 ```ts [Pimlico Paymaster]
 const smartAccountClient = createSmartAccountClient({
-	account: simpleAccount,
-	entryPoint: ENTRYPOINT_ADDRESS_V07,
-	chain: sepolia,
-	bundlerTransport: http(
-		"https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY",
-	),
-	middleware: {
-		gasPrice: async () => {
-			return (await bundlerClient.getUserOperationGasPrice()).fast // if using pimlico bundlers
-		},
-		sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
-	}
+    account: simpleAccount,
+    entryPoint: ENTRYPOINT_ADDRESS_V07,
+    chain: sepolia,
+    bundlerTransport: http(
+        "https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY",
+    ),
+    middleware: {
+        gasPrice: async () => {
+            return (await bundlerClient.getUserOperationGasPrice()).fast // if using pimlico bundlers
+        },
+        sponsorUserOperation: paymasterClient.sponsorUserOperation, // optional
+    }
 });
 ```
 
@@ -72,69 +72,69 @@ You can also set completely custom client-side logic to select the paymaster to 
 
 ```ts [ERC-20 Paymaster]
 const smartAccountClient = createSmartAccountClient({
-	account: simpleAccount,
-	entryPoint: ENTRYPOINT_ADDRESS_V06,
-	chain: sepolia,
-	bundlerTransport: http(
-		`https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY`,
-	),
-	middleware: {
-		gasPrice: async () => {
-			return (await bundlerClient.getUserOperationGasPrice()).fast // if using pimlico bundlers
-		},
-		sponsorUserOperation: async (args: { userOperation: UserOperation, entryPoint: Address }) => {
-			// WARNING: the erc-20 paymaster is currently only available for entrypoint v0.6
-			const paymaster = "0x0000000000325602a77416A16136FDafd04b299f" // usdc paymaster on sepolia
+    account: simpleAccount,
+    entryPoint: ENTRYPOINT_ADDRESS_V06,
+    chain: sepolia,
+    bundlerTransport: http(
+        `https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY`,
+    ),
+    middleware: {
+        gasPrice: async () => {
+            return (await bundlerClient.getUserOperationGasPrice()).fast // if using pimlico bundlers
+        },
+        sponsorUserOperation: async (args: { userOperation: UserOperation, entryPoint: Address }) => {
+            // WARNING: the erc-20 paymaster is currently only available for entrypoint v0.6
+            const paymaster = "0x0000000000325602a77416A16136FDafd04b299f" // usdc paymaster on sepolia
 
-			const gasEstimates = await bundlerClient.estimateUserOperationGas({
-				userOperation: { ...args.userOperation, paymasterAndData: paymaster },
-			})
+            const gasEstimates = await bundlerClient.estimateUserOperationGas({
+                userOperation: { ...args.userOperation, paymasterAndData: paymaster },
+            })
 
-			return {
-				...gasEstimates,
-				paymasterAndData: paymaster
-			}
-		},
-	}
+            return {
+                ...gasEstimates,
+                paymasterAndData: paymaster
+            }
+        },
+    }
 
 });
 ```
 
 ```ts [Dynamic Paymaster Logic]
 const smartAccountClient = createSmartAccountClient({
-	account: simpleAccount,
-	entryPoint: ENTRYPOINT_ADDRESS_V06,
-	chain: sepolia,
-	bundlerTransport: http(
-		`https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY`,
-	),
-	middleware: {
-		gasPrice: async () => {
-			return (await bundlerClient.getUserOperationGasPrice()).fast // if using pimlico bundlers
-		},
-		sponsorUserOperation: async (args: { userOperation: UserOperation, entryPoint: Address }) => {
-			// WARNING: the erc-20 paymaster is currently only available for entrypoint v0.6
-			const usdcBalance = usdcToken.read.getBalance([safeAccount.address]) // get the user's usdc token balance on sepolia
+    account: simpleAccount,
+    entryPoint: ENTRYPOINT_ADDRESS_V06,
+    chain: sepolia,
+    bundlerTransport: http(
+        `https://api.pimlico.io/v2/sepolia/rpc?apikey=API_KEY`,
+    ),
+    middleware: {
+        gasPrice: async () => {
+            return (await bundlerClient.getUserOperationGasPrice()).fast // if using pimlico bundlers
+        },
+        sponsorUserOperation: async (args: { userOperation: UserOperation, entryPoint: Address }) => {
+            // WARNING: the erc-20 paymaster is currently only available for entrypoint v0.6
+            const usdcBalance = usdcToken.read.getBalance([safeAccount.address]) // get the user's usdc token balance on sepolia
 
-			if (usdcBalance > parseEther("10")) {
-				const usdcPaymaster = "0x0000000000325602a77416A16136FDafd04b299f" // usdc paymaster on sepolia
-				// use USDC paymaster if the user has more than 10 USDC
+            if (usdcBalance > parseEther("10")) {
+                const usdcPaymaster = "0x0000000000325602a77416A16136FDafd04b299f" // usdc paymaster on sepolia
+                // use USDC paymaster if the user has more than 10 USDC
 
-				const gasEstimates = await bundlerClient.estimateUserOperationGas({
-					userOperation: { ...args.userOperation, paymasterAndData: paymaster },
-					entryPoint: args.entryPoint,
-				})
+                const gasEstimates = await bundlerClient.estimateUserOperationGas({
+                    userOperation: { ...args.userOperation, paymasterAndData: paymaster },
+                    entryPoint: args.entryPoint,
+                })
 
-				return {
-					...gasEstimates,
-					paymasterAndData: paymaster
-				}
-			} else {
-				// otherwise sponsor it for the user
-				return paymasterClient.sponsorUserOperation(args)
-			}
-		},
-	}
+                return {
+                    ...gasEstimates,
+                    paymasterAndData: paymaster
+                }
+            } else {
+                // otherwise sponsor it for the user
+                return paymasterClient.sponsorUserOperation(args)
+            }
+        },
+    }
 });
 ```
 
@@ -146,8 +146,8 @@ You can now send transactions as normal. The `sponsorUserOperation` function wil
 
 ```ts
 const txHash = await smartAccountClient.sendTransaction({
-	to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
-	value: parseEther("0.1")
+    to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
+    value: parseEther("0.1")
 });
 ```
 

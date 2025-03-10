@@ -14,15 +14,15 @@ Return the gas price that Pimlico's bundler will accept for the User Operation.
 import { pimlicoClient } from "./client"
 
 const smartAccountClient = createSmartAccountClient({
-	account,
-	chain: sepolia,
-	bundlerTransport: http(pimlicoUrl),
-	paymaster: pimlicoClient,
-	userOperation: {
-		estimateFeesPerGas: async () => {
-			return (await pimlicoClient.getUserOperationGasPrice()).fast
-		},
-	}
+    account,
+    chain: sepolia,
+    bundlerTransport: http(pimlicoUrl),
+    paymaster: pimlicoClient,
+    userOperation: {
+        estimateFeesPerGas: async () => {
+            return (await pimlicoClient.getUserOperationGasPrice()).fast
+        },
+    }
 })
 
 /* other gas alternatives */

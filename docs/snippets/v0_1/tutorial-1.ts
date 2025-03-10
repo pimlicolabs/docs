@@ -55,7 +55,7 @@ const smartAccountClient = createSmartAccountClient({
 	entryPoint: ENTRYPOINT_ADDRESS_V07,
 	chain: sepolia,
 	bundlerTransport: http(bundlerUrl, {
-		timeout: 30_000 // Wait 30 seconds for user operation to be included
+		timeout: 30_000, // Wait 30 seconds for user operation to be included
 	}),
 	middleware: {
 		gasPrice: async () => {

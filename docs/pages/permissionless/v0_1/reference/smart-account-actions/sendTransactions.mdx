@@ -16,18 +16,18 @@ import { pimlicoBundlerClient } from "./bundlerClient"
 import { parseAbiItem, encodeFunctionData } from "viem"
 
 const hash = await smartAccountClient.sendTransactions([
-	{
-		to: "0x0488bEE1Ec682db0F0E74AB52faFdDdEf10Af123",
-		data: encodeFunctionData({
-			abi: [parseAbiItem("function mint()")],
-		}),
-		value: 0n,
-	},
-	{
-		to: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
-		data: "0x68656c6c6f",
-		value: 0n,
-	},
+    {
+        to: "0x0488bEE1Ec682db0F0E74AB52faFdDdEf10Af123",
+        data: encodeFunctionData({
+            abi: [parseAbiItem("function mint()")],
+        }),
+        value: 0n,
+    },
+    {
+        to: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
+        data: "0x68656c6c6f",
+        value: 0n,
+    },
 ]);
 ```
 

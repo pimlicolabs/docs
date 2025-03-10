@@ -79,11 +79,11 @@ const publicClient = createPublicClient({
 const pimlicoUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=<PIMLICO_API_KEY>`
 
 const pimlicoClient = createPimlicoClient({
-	transport: http(pimlicoUrl),
-	entryPoint: {
-		address: entryPoint07Address,
-		version: "0.7",
-	}
+    transport: http(pimlicoUrl),
+    entryPoint: {
+        address: entryPoint07Address,
+        version: "0.7",
+    }
 })
 
 const owner = embeddedWallet.getEthereumProvider()
@@ -96,9 +96,9 @@ const simpleSmartAccount = await toSimpleSmartAccount({
   owner: owner,
   client: publicClient,
   entryPoint: {
-		address: entryPoint07Address,
-		version: "0.7"
-	}
+        address: entryPoint07Address,
+        version: "0.7"
+    }
 })
 
 const smartAccountClient = createSmartAccountClient({

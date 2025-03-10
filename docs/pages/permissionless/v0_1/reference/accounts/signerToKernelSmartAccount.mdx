@@ -16,10 +16,10 @@ import { publicClient } from "./publicClient"
 import { signer } from "./signer"
 
 const kernelAccount = await signerToEcdsaKernelSmartAccount(publicClient, {
-	signer,
-	entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789", // v0.6 entrypoint
-	index: 0n, // optional
-	address: "0x..." // optional, only if you are using an already created account
+    signer,
+    entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789", // v0.6 entrypoint
+    index: 0n, // optional
+    address: "0x..." // optional, only if you are using an already created account
 });
 ```
 

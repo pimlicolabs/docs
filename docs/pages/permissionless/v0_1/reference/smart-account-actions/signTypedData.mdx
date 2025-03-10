@@ -14,35 +14,35 @@ Signs typed data from a smart account and calculates an Ethereum-specific signat
 import { smartAccountClient } from "./smartAccountClient"
 
 const signedData = await smartAccountClient.signTypedData({
-	domain: {
-		name: "Ether Mail",
-		version: "1",
-		chainId: 1,
-		verifyingContract: getAddress("0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC"),
-	},
-	types: {
-		Person: [
-			{ name: "name", type: "string" },
-			{ name: "wallet", type: "address" },
-		],
-		Mail: [
-			{ name: "from", type: "Person" },
-			{ name: "to", type: "Person" },
-			{ name: "contents", type: "string" },
-		],
-	},
-	primaryType: "Mail" as const,
-	message: {
-		from: {
-			name: "Bob",
-			wallet: "0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB",
-		},
-		to: {
-			name: "Alice",
-			wallet: "0xaAaAaAaaAaAaAaaAaAAAAAAAAaaaAaAaAaaAaaAa",
-		},
-		contents: "Hello Alice!",
-	},
+    domain: {
+        name: "Ether Mail",
+        version: "1",
+        chainId: 1,
+        verifyingContract: getAddress("0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC"),
+    },
+    types: {
+        Person: [
+            { name: "name", type: "string" },
+            { name: "wallet", type: "address" },
+        ],
+        Mail: [
+            { name: "from", type: "Person" },
+            { name: "to", type: "Person" },
+            { name: "contents", type: "string" },
+        ],
+    },
+    primaryType: "Mail" as const,
+    message: {
+        from: {
+            name: "Bob",
+            wallet: "0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB",
+        },
+        to: {
+            name: "Alice",
+            wallet: "0xaAaAaAaaAaAaAaaAaAAAAAAAAaaaAaAaAaaAaaAa",
+        },
+        contents: "Hello Alice!",
+    },
 })
 ```
 

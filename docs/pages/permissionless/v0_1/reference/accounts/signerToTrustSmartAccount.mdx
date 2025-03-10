@@ -16,9 +16,9 @@ import { publicClient } from "./publicClient"
 import { signer } from "./signer"
 
 const account = await signerToTrustSmartAccount(client, {
-	signer,
+    signer,
     entryPoint: ENTRYPOINT_ADDRESS_V06,
-	address: "0x..." // optional, only if you are using an already created account
+    address: "0x..." // optional, only if you are using an already created account
 })
 ```
 

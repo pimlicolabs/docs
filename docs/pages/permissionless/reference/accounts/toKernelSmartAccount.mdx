@@ -17,13 +17,13 @@ import { publicClient } from "./publicClient"
 import { owner } from "./owner"
 
 const kernelAccount = await toKernelSmartAccount({
-	client: publicClient,
-	entryPoint: {
-		address: entryPoint07Address,
-		version: "0.7"
-	},
-	owners: [owner],
-	version: "0.3.1"
+    client: publicClient,
+    entryPoint: {
+        address: entryPoint07Address,
+        version: "0.7"
+    },
+    owners: [owner],
+    version: "0.3.1"
 });
 ```
 

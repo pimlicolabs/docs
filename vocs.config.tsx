@@ -374,12 +374,12 @@ export const paymasterSidebar = [
 ]
 
 /*
-					{ text: "deployContract", link: "/permissionless/reference/smart-account-actions/deployContract" },
-					{ text: "sendTransaction", link: "/permissionless/reference/smart-account-actions/sendTransaction" },
-					{ text: "sendTransactions", link: "/permissionless/reference/smart-account-actions/sendTransactions" },
-					{ text: "signMessage", link: "/permissionless/reference/smart-account-actions/signMessage" },
-					{ text: "signTypedData", link: "/permissionless/reference/smart-account-actions/signTypedData" },
-					{ text: "writeContract", link: "/permissionless/reference/smart-account-actions/writeContract" },
+                    { text: "deployContract", link: "/permissionless/reference/smart-account-actions/deployContract" },
+                    { text: "sendTransaction", link: "/permissionless/reference/smart-account-actions/sendTransaction" },
+                    { text: "sendTransactions", link: "/permissionless/reference/smart-account-actions/sendTransactions" },
+                    { text: "signMessage", link: "/permissionless/reference/smart-account-actions/signMessage" },
+                    { text: "signTypedData", link: "/permissionless/reference/smart-account-actions/signTypedData" },
+                    { text: "writeContract", link: "/permissionless/reference/smart-account-actions/writeContract" },
 
 */
 
@@ -450,8 +450,8 @@ export const permissionlessSidebar = [
 				link: "/permissionless/how-to/eip-7702-demo",
 			},
 			// {
-			// 	text: "Error Handling",
-			// 	link: "/permissionless/how-to/error-handling",
+			//     text: "Error Handling",
+			//     link: "/permissionless/how-to/error-handling",
 			// },
 			{
 				text: "Migration Guide",

@@ -50,19 +50,19 @@ import { entryPoint06Address } from "viem/account-abstraction"
 import { privateKeyToAccount, generatePrivateKey } from "viem/accounts"
 
 const biconomyAccount = await signerToBiconomySmartAccount(client { // [!code --]
-	signer: privateKeyToAccount(generatePrivateKey()), // [!code --]
-	entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code --]
-	...rest
+    signer: privateKeyToAccount(generatePrivateKey()), // [!code --]
+    entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code --]
+    ...rest
 }) // [!code --]
 const biconomyAccount = await toBiconomySmartAccount({ // [!code ++]
-	client: publicClient, // [!code ++]
-	owners: [privateKeyToAccount(generatePrivateKey())],// [!code ++]
-	entryPoint: { // [!code ++] 
-		address: entryPoint06Address, // [!code ++]
-		version: "0.6", // [!code ++]
-	} // [!code ++]
-	...rest
-})	
+    client: publicClient, // [!code ++]
+    owners: [privateKeyToAccount(generatePrivateKey())],// [!code ++]
+    entryPoint: { // [!code ++] 
+        address: entryPoint06Address, // [!code ++]
+        version: "0.6", // [!code ++]
+    } // [!code ++]
+    ...rest
+})    
 ```
 
 :::warning
@@ -78,19 +78,19 @@ import { entryPoint07Address } from "viem/account-abstraction"
 import { privateKeyToAccount, generatePrivateKey } from "viem/accounts"
 
 const kernelAccount = await signerToEcdsaKernelSmartAccount(client { // [!code --]
-	signer: privateKeyToAccount(generatePrivateKey()), // [!code --]
-	entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code --]
-	...rest
+    signer: privateKeyToAccount(generatePrivateKey()), // [!code --]
+    entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code --]
+    ...rest
 }) // [!code --]
 const kernelAccount = await toEcdsaKernelSmartAccount({ // [!code ++]
-	client: publicClient, // [!code ++]
-	owners: [privateKeyToAccount(generatePrivateKey())],// [!code ++]
-	entryPoint: { // optional, defaults to 0.7 // [!code ++]
-		address: entryPoint07Address, // [!code ++]
-		version: "0.7", // [!code ++]
-	}, // [!code ++]
-	...rest
-})	
+    client: publicClient, // [!code ++]
+    owners: [privateKeyToAccount(generatePrivateKey())],// [!code ++]
+    entryPoint: { // optional, defaults to 0.7 // [!code ++]
+        address: entryPoint07Address, // [!code ++]
+        version: "0.7", // [!code ++]
+    }, // [!code ++]
+    ...rest
+})    
 ```
 
 ### Changed `signerToLightSmartAccount` to `toLightSmartAccount`
@@ -102,21 +102,21 @@ import { entryPoint06Address } from "viem/account-abstraction"
 import { privateKeyToAccount, generatePrivateKey } from "viem/accounts"
 
 const kernelAccount = await signerToLightSmartAccount(client { // [!code --]
-	signer: privateKeyToAccount(generatePrivateKey()), // [!code --]
-	entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code --]
-	lightAccountVersion: "1.1.0" // [!code --]
-	...rest
+    signer: privateKeyToAccount(generatePrivateKey()), // [!code --]
+    entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code --]
+    lightAccountVersion: "1.1.0" // [!code --]
+    ...rest
 }) // [!code --]
 const kernelAccount = await toLightSmartAccount({ // [!code ++]
-	client: publicClient, // [!code ++]
-	owners: [privateKeyToAccount(generatePrivateKey())],// [!code ++]
-	entryPoint: { // optional, defaults to 0.7 // [!code ++] 
-		address: entryPoint06Address, // [!code ++]
-		version: "0.6", // [!code ++]
-	}, // [!code ++]
-	version: "1.1.0" // optional, defaults to "2.0.0" // [!code ++]
-	...rest
-})	
+    client: publicClient, // [!code ++]
+    owners: [privateKeyToAccount(generatePrivateKey())],// [!code ++]
+    entryPoint: { // optional, defaults to 0.7 // [!code ++] 
+        address: entryPoint06Address, // [!code ++]
+        version: "0.6", // [!code ++]
+    }, // [!code ++]
+    version: "1.1.0" // optional, defaults to "2.0.0" // [!code ++]
+    ...rest
+})    
 ```
 
 :::info
@@ -136,20 +136,20 @@ import { entryPoint07Address } from "viem/account-abstraction"
 import { privateKeyToAccount, generatePrivateKey } from "viem/accounts"
 
 const safeAccount = await signerToSafeSmartAccount(client { // [!code --]
-	signer: privateKeyToAccount(generatePrivateKey()), // [!code --]
-	entryPoint: ENTRYPOINT_ADDRESS_V07, // [!code --]
-	safeVersion: "1.4.1" // [!code --]
-	...rest
+    signer: privateKeyToAccount(generatePrivateKey()), // [!code --]
+    entryPoint: ENTRYPOINT_ADDRESS_V07, // [!code --]
+    safeVersion: "1.4.1" // [!code --]
+    ...rest
 }) // [!code --]
 const safeAccount = await toSafeSmartAccount({ // [!code ++]
-	client: publicClient, // [!code ++]
-	owners: [privateKeyToAccount(generatePrivateKey())],// [!code ++]
-	entryPoint: { // optional, defaults to 0.7 // [!code ++]
-		address: entryPoint07Address, // [!code ++]
-		version: "0.7", // [!code ++]
-	}, // [!code ++]
-	version: "1.4.1" // [!code ++]
-	...rest
+    client: publicClient, // [!code ++]
+    owners: [privateKeyToAccount(generatePrivateKey())],// [!code ++]
+    entryPoint: { // optional, defaults to 0.7 // [!code ++]
+        address: entryPoint07Address, // [!code ++]
+        version: "0.7", // [!code ++]
+    }, // [!code ++]
+    version: "1.4.1" // [!code ++]
+    ...rest
 })
 ```
 
@@ -162,18 +162,18 @@ import { entryPoint07Address } from "viem/account-abstraction"
 import { privateKeyToAccount, generatePrivateKey } from "viem/accounts"
 
 const simpleAccount = await signerToSimpleSmartAccount(client { // [!code --]
-	signer: privateKeyToAccount(generatePrivateKey()), // [!code --]
-	entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code --]
-	...rest
+    signer: privateKeyToAccount(generatePrivateKey()), // [!code --]
+    entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code --]
+    ...rest
 }) // [!code --]
 const simpleAccount = await toSimpleSmartAccount({ // [!code ++]
-	client: publicClient, // [!code ++]
-	owner: privateKeyToAccount(generatePrivateKey()),// [!code ++]
-	entryPoint: { // optional, defaults to 0.7 // [!code ++]
-		address: entryPoint07Address, // [!code ++]
-		version: "0.7", // [!code ++]
-	}, // [!code ++]
-	...rest
+    client: publicClient, // [!code ++]
+    owner: privateKeyToAccount(generatePrivateKey()),// [!code ++]
+    entryPoint: { // optional, defaults to 0.7 // [!code ++]
+        address: entryPoint07Address, // [!code ++]
+        version: "0.7", // [!code ++]
+    }, // [!code ++]
+    ...rest
 })
 ```
 
@@ -186,18 +186,18 @@ import { entryPoint06Address } from "viem/account-abstraction"
 import { privateKeyToAccount, generatePrivateKey } from "viem/accounts"
 
 const trustAccount = await signerToTrustSmartAccount(client { // [!code --]
-	signer: privateKeyToAccount(generatePrivateKey()), // [!code --]
-	entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code --]
-	...rest
+    signer: privateKeyToAccount(generatePrivateKey()), // [!code --]
+    entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code --]
+    ...rest
 }) // [!code --]
 const trustAccount = await toTrustSmartAccount({ // [!code ++]
-	client: publicClient, // [!code ++]
-	owner: privateKeyToAccount(generatePrivateKey()),// [!code ++]
-	entryPoint: { // [!code ++]
-		address: entryPoint06Address, // [!code ++]
-		version: "0.6", // [!code ++]
-	}, // [!code ++]
-	...rest
+    client: publicClient, // [!code ++]
+    owner: privateKeyToAccount(generatePrivateKey()),// [!code ++]
+    entryPoint: { // [!code ++]
+        address: entryPoint06Address, // [!code ++]
+        version: "0.6", // [!code ++]
+    }, // [!code ++]
+    ...rest
 })
 ```
 
@@ -218,13 +218,13 @@ import { entryPoint07Address } from "viem/account-abstraction"
 import { privateKeyToAccount } from "viem/accounts"
 
 const safeAccount = await toSafeSmartAccount({
-	client: publicClient,
-	owners: [privateKeyToAccount(privateKey)],
-	entryPoint: {
-		address: entryPoint07Address,
-		version: "0.7"
-	}, // global entrypoint
-	version: "1.4.1",
+    client: publicClient,
+    owners: [privateKeyToAccount(privateKey)],
+    entryPoint: {
+        address: entryPoint07Address,
+        version: "0.7"
+    }, // global entrypoint
+    version: "1.4.1",
 })
 ```
 
@@ -239,23 +239,23 @@ const pimlicoUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=<PIMLICO_API_KE
 
 
 const pimlicoPaymasterClient = createPimlicoPaymasterClient({ // [!code --]
-	chain: foundry, // [!code --]
-	transport: http(paymasterRpc), // [!code --]
-	entryPoint: ENTRYPOINT_ADDRESS_V07 // [!code --]
+    chain: foundry, // [!code --]
+    transport: http(paymasterRpc), // [!code --]
+    entryPoint: ENTRYPOINT_ADDRESS_V07 // [!code --]
 }) // [!code --]
 
 const pimlicoPaymasterClient = createPimlicoPaymasterClient({ // [!code --]
-	chain: foundry, // [!code --]
-	transport: http(paymasterRpc), // [!code --]
-	entryPoint: ENTRYPOINT_ADDRESS_V07 // [!code --]
+    chain: foundry, // [!code --]
+    transport: http(paymasterRpc), // [!code --]
+    entryPoint: ENTRYPOINT_ADDRESS_V07 // [!code --]
 }) // [!code --]
 
 const pimlicoClient = createPimlicoClient({ // [!code ++]
-	transport: http(pimlicoUrl), // [!code ++]
-	entryPoint: { // Optional, defaults to 0.7 // [!code ++]
-		address: entryPoint07Address, // [!code ++]
-		version: "0.7", // [!code ++]
-	} // [!code ++]
+    transport: http(pimlicoUrl), // [!code ++]
+    entryPoint: { // Optional, defaults to 0.7 // [!code ++]
+        address: entryPoint07Address, // [!code ++]
+        version: "0.7", // [!code ++]
+    } // [!code ++]
 }) // [!code ++]
 ```
 
@@ -271,21 +271,21 @@ Pimlico client also extends actions of Paymaster client by viem. It uses ERC-767
 import { smartAccountClient } from './config'
 
 const userOperation = await smartAccountClient.prepareUserOperationRequest({ // [!code --]
-	userOperation: { // [!code --]
-		callData: await smartAccountClient.account.encodeCallData({ // [!code --]
-			to: CONTRACT_ADDRESS, // [!code --]
-			data: "0x", // [!code --]
-			value: parseEther('1') // [!code --]
-		}), // [!code --]
-	} // [!code --]
+    userOperation: { // [!code --]
+        callData: await smartAccountClient.account.encodeCallData({ // [!code --]
+            to: CONTRACT_ADDRESS, // [!code --]
+            data: "0x", // [!code --]
+            value: parseEther('1') // [!code --]
+        }), // [!code --]
+    } // [!code --]
 }) // [!code --]
 
 const userOperation = await smartAccountClient.prepareUserOperation({ // [!code ++]
-	calls: [{ // [!code ++]
-		to: CONTRACT_ADDRESS, // [!code ++]
-		data: "0x", // [!code ++]
-		value: parseEther('1') // [!code ++]
-	}] // [!code ++]
+    calls: [{ // [!code ++]
+        to: CONTRACT_ADDRESS, // [!code ++]
+        data: "0x", // [!code ++]
+        value: parseEther('1') // [!code ++]
+    }] // [!code ++]
 }) // [!code ++]
 ```
 

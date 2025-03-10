@@ -5,7 +5,8 @@
 	"scripts": {
 		"dev": "vocs dev",
 		"build": "vocs build",
-		"preview": "vocs preview"
+		"preview": "vocs preview",
+		"search-index": "vocs search-index"
 	},
 	"dependencies": {
 		"@arcana/auth": "^1.0.10",
