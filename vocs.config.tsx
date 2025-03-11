@@ -552,10 +552,6 @@ export const permissionlessSidebar = [
 						link: "/permissionless/how-to/signers/magic",
 					},
 					{
-						text: "How to use a Passport signer",
-						link: "/permissionless/how-to/signers/passport",
-					},
-					{
 						text: "How to use a Lit Protocol signer",
 						link: "/permissionless/how-to/signers/lit-protocol",
 					},
@@ -942,10 +938,6 @@ export const permissionlessSidebar0Point1 = [
 					{
 						text: "How to use a Magic signer",
 						link: "/permissionless/v0_1/how-to/signers/magic",
-					},
-					{
-						text: "How to use a Passport signer",
-						link: "/permissionless/v0_1/how-to/signers/passport",
 					},
 					{
 						text: "How to use a Lit Protocol signer",
