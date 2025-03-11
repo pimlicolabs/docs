@@ -1,5 +1,5 @@
 diff --git a/_lib/vite/plugins/llms.js b/_lib/vite/plugins/llms.js
-index ce64c723e0165145405c8a382acc57ff553c51a6..3043327e9d14b36878b882e18da3528ab3e57d6d 100644
+index ce64c723e0165145405c8a382acc57ff553c51a6..a4ca3387880a2273a58d96fcb979cfef0a1c2a96 100644
 --- a/_lib/vite/plugins/llms.js
 +++ b/_lib/vite/plugins/llms.js
 @@ -13,6 +13,7 @@ import { unified } from 'unified';
@@ -10,7 +10,17 @@ index ce64c723e0165145405c8a382acc57ff553c51a6..3043327e9d14b36878b882e18da3528a
  const remarkPlugins = getRemarkPlugins();
  export async function llms() {
      let viteConfig;
-@@ -45,7 +46,7 @@ export async function llms() {
+@@ -36,6 +37,9 @@ export async function llms() {
+             const llmsTxtContent = [...content, '## Docs', ''];
+             const llmsCtxTxtContent = content;
+             for (const file of files) {
++                // Skip files that contain v0_1 in their path
++                if (file.includes('v0_1')) continue;
++                
+                 let path = file.replace(pagesPath, '').replace(/\.[^.]*$/, '');
+                 if (path.endsWith('index'))
+                     path = path.replace('index', '').replace(/\/$/, '');
+@@ -45,7 +49,7 @@ export async function llms() {
                  const parser = unified().use(remarkParse).use(remarkMdx).use(remarkStringify);
                  for (const plugin of remarkPlugins)
                      parser.use(plugin);
