@@ -473,40 +473,40 @@ export const permissionlessSidebar = [
 						link: "/permissionless/how-to/accounts/comparison",
 					},
 					{
-						text: "How to use a Safe account",
+						text: "Safe",
 						link: "/permissionless/how-to/accounts/use-safe-account",
 					},
 					{
-						text: "How to use a Safe account with multiple signers",
+						text: "Safe (multiple signers)",
 						link: "/permissionless/how-to/accounts/use-safe-account-with-multiple-signers",
 					},
 					{
-						text: "How to use a Kernel account",
+						text: "Kernel",
 						link: "/permissionless/how-to/accounts/use-kernel-account",
 					},
 					{
-						text: "How to use a Thirdweb account",
-						link: "/permissionless/how-to/accounts/use-thirdweb-account",
+						text: "Coinbase Wallet",
+						link: "/permissionless/how-to/accounts/use-coinbase-account",
 					},
 					{
-						text: "How to use a SimpleAccount",
+						text: "Simple Account",
 						link: "/permissionless/how-to/accounts/use-simple-account",
 					},
 					{
-						text: "How to use a Biconomy Nexus account",
-						link: "/permissionless/how-to/accounts/use-nexus-account",
+						text: "Thirdweb",
+						link: "/permissionless/how-to/accounts/use-thirdweb-account",
 					},
 					{
-						text: "How to use a LightAccount",
-						link: "/permissionless/how-to/accounts/use-light-account",
-					},
-					{
-						text: "How to use a Trust Wallet account",
+						text: "Trust Wallet",
 						link: "/permissionless/how-to/accounts/use-trustwallet-account",
 					},
 					{
-						text: "How to use a Coinbase Wallet account",
-						link: "/permissionless/how-to/accounts/use-coinbase-account",
+						text: "Biconomy Nexus",
+						link: "/permissionless/how-to/accounts/use-nexus-account",
+					},
+					{
+						text: "Alchemy Light Account",
+						link: "/permissionless/how-to/accounts/use-light-account",
 					},
 					{
 						text: "How to use an ERC-7579 compatible smart account",
@@ -532,55 +532,55 @@ export const permissionlessSidebar = [
 				link: "/permissionless/how-to/signers",
 				items: [
 					{
-						text: "How to use a Passkey (WebAuthn) signer",
+						text: "Passkey (WebAuthn) signer",
 						link: "/permissionless/how-to/signers/passkey",
 					},
 					{
-						text: "How to use a Passkey (WebAuthn) server",
+						text: "Passkey (WebAuthn) server",
 						link: "/permissionless/how-to/signers/passkey-server",
 					},
 					{
-						text: "How to use a Dynamic signer",
+						text: "Dynamic",
 						link: "/permissionless/how-to/signers/dynamic",
 					},
 					{
-						text: "How to use a Privy signer",
+						text: "Privy",
 						link: "/permissionless/how-to/signers/privy",
 					},
 					{
-						text: "How to use a Magic signer",
+						text: "Magic",
 						link: "/permissionless/how-to/signers/magic",
 					},
 					{
-						text: "How to use a Lit Protocol signer",
+						text: "Lit Protocol",
 						link: "/permissionless/how-to/signers/lit-protocol",
 					},
 					{
-						text: "How to use a Web3Auth signer",
+						text: "Web3Auth",
 						link: "/permissionless/how-to/signers/web3auth",
 					},
 					{
-						text: "How to use a Turnkey signer",
+						text: "Turnkey",
 						link: "/permissionless/how-to/signers/turnkey",
 					},
 					{
-						text: "How to use a Fireblocks signer",
+						text: "Fireblocks",
 						link: "/permissionless/how-to/signers/fireblocks",
 					},
 					{
-						text: "How to use a Para signer",
+						text: "Para",
 						link: "/permissionless/how-to/signers/para",
 					},
 					{
-						text: "How to use a DFNS signer",
+						text: "DFNS",
 						link: "/permissionless/how-to/signers/dfns",
 					},
 					{
-						text: "How to use an Arcana Auth signer",
+						text: "Arcana Auth",
 						link: "/permissionless/how-to/signers/arcana",
 					},
 					{
-						text: "How to use a Particle Network signer",
+						text: "Particle Network",
 						link: "/permissionless/how-to/signers/particle-network",
 					},
 				],
