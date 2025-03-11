@@ -1,7 +1,3 @@
-import VersionWarning from "../../VersionWarning"
-
-<VersionWarning version="0.2" />
-
 # uninstallModule
 
 Uninstalls a [ERC-7579](https://eips.ethereum.org/EIPS/eip-7579) module from the smart account. Check out [this guide](/permissionless/how-to/accounts/use-erc7579-account) for a complete tutorial.
@@ -31,9 +27,9 @@ Use the `uninstallModule` method to uninstall a module from the smart account.
 const ownableExecutorModule = "0x4Fd8d57b94966982B62e9588C27B4171B55E8354"
 const moduleData = encodePacked(["address"], ["0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"])
 const userOpHash = await smartAccountClient.uninstallModule({
-	type: "executor",
-	address: ownableExecutorModule,
-	context: moduleData,
+    type: "executor",
+    address: ownableExecutorModule,
+    context: moduleData,
 })
 const receipt = await smartAccountClient.waitForUserOperationReceipt({ hash: userOpHash })
 ```

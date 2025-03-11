@@ -14,7 +14,7 @@ This migration guide is assuming you migrating to ^0.1.0, but you are still look
 
 ```ts
 const smartAccountClient = createSmartAccountClient({
-	transport: http(bundlerUrl), // [!code --]
+    transport: http(bundlerUrl), // [!code --]
     bundlerTransport: http(bundlerUrl), // [!code ++]
     // ...
 })
@@ -27,12 +27,12 @@ Instead of accepting just a `sponsorUserOperation` middleware, `createSmartAccou
 ```ts
 const smartAccountClient = createSmartAccountClient({
     sponsorUserOperation: paymasterClient.sponsorUserOperation, // [!code --]
-	middleware: { // [!code ++]
-		gasPrice: async () => { // [!code ++]
-			return (await bundlerClient.getUserOperationGasPrice()).fast // [!code ++]
-		}, // [!code ++]
-		sponsorUserOperation: paymasterClient.sponsorUserOperation, // [!code ++]
-	}, // [!code ++]
+    middleware: { // [!code ++]
+        gasPrice: async () => { // [!code ++]
+            return (await bundlerClient.getUserOperationGasPrice()).fast // [!code ++]
+        }, // [!code ++]
+        sponsorUserOperation: paymasterClient.sponsorUserOperation, // [!code ++]
+    }, // [!code ++]
     // ...
 })
 ```
@@ -41,10 +41,10 @@ In addition, a function can also be passed to `middleware` directly.
 
 ```ts
 const smartAccountClient = createSmartAccountClient({
-	middleware: async ({ userOperation, entryPoint }) => {
-		// ...
-		return modifiedUserOperation
-	}
+    middleware: async ({ userOperation, entryPoint }) => {
+        // ...
+        return modifiedUserOperation
+    }
     // ...
 })
 ```
@@ -54,8 +54,8 @@ const smartAccountClient = createSmartAccountClient({
 
 ```ts
 const sponsorResult = await paymasterClient.sponsorUserOperation({ 
-	userOperation: userOperation, 
-	entryPoint: ENTRYPOINT_ADDRESS_V06 
+    userOperation: userOperation, 
+    entryPoint: ENTRYPOINT_ADDRESS_V06 
 })
 
 /**
@@ -84,35 +84,35 @@ const smartAccountSigner = await providerToSmartAccountSigner(provider, { signer
 
 ```ts
 const bundlerClient = createBundlerClient({
-	transport: http(bundlerUrl),
-	entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code ++]
+    transport: http(bundlerUrl),
+    entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code ++]
 })
 
 const smartAccountClient = createSmartAccountClient({
-	account,
-	entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code ++]
-	chain: sepolia,
-	bundlerTransport: http(bundlerUrl),
+    account,
+    entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code ++]
+    chain: sepolia,
+    bundlerTransport: http(bundlerUrl),
 })
 
 const bundlerClient = createPimlicoBundlerClient({
-	transport: http(bundlerUrl),
-	entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code ++]
+    transport: http(bundlerUrl),
+    entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code ++]
 })
 
 export const paymasterClient = createPimlicoPaymasterClient({
-	transport: http(paymasterUrl),
-	entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code ++]
+    transport: http(paymasterUrl),
+    entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code ++]
 })
 
 export const paymasterClient = createStackupPaymasterClient({
-	transport: http(paymasterUrl),
-	entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code ++]
+    transport: http(paymasterUrl),
+    entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code ++]
 })
 
 const bundlerClient = createClient({
-	transport: http(bundlerUrl),
-	chain: sepolia,
+    transport: http(bundlerUrl),
+    chain: sepolia,
 })
 .extend(bundlerActions) // [!code --]
 .extend(bundlerActions(ENTRYPOINT_ADDRESS_V06)) // [!code ++]
@@ -122,7 +122,7 @@ const bundlerClient = createClient({
 
 ```ts
 const userOperationHash = await bundlerClient.sendUserOperation({
-	userOperation: sponsoredUserOperation,
-	entryPoint: ENTRYPOINT_ADDRESS_V07, // [!code --]
+    userOperation: sponsoredUserOperation,
+    entryPoint: ENTRYPOINT_ADDRESS_V07, // [!code --]
 })
 ```

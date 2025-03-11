@@ -1,7 +1,3 @@
-import VersionWarning from "../../VersionWarning"
-
-<VersionWarning version="0.2" />
-
 # toSimpleSmartAccount
 
 Creates a SimpleAccount instance controlled by a `owner`.
@@ -19,9 +15,9 @@ const simpleSmartAccount = await toSimpleSmartAccount({
   owner,
   client: publicClient,
   entryPoint: {
-		address: entryPoint07Address,
-		version: "0.7"
-	}
+        address: entryPoint07Address,
+        version: "0.7"
+    }
 })
 ```
 

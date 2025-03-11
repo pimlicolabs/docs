@@ -1,7 +1,3 @@
-import VersionWarning from "../../VersionWarning"
-
-<VersionWarning version="0.2" />
-
 # toSafeSmartAccount
 
 Creates a Safe smart account instance controlled by a `owners`.
@@ -17,13 +13,13 @@ import { owner } from "./owner"
 import { entryPoint07Address } from "viem/account-abstraction"
 
 const safeAccount = await toSafeSmartAccount({
-	client: publicClient,
-	owner,
-	entryPoint: {
-		address: entryPoint07Address,
-		version: "0.7"
-	}, // global entrypoint
-	version: "1.4.1",
+    client: publicClient,
+    owner,
+    entryPoint: {
+        address: entryPoint07Address,
+        version: "0.7"
+    }, // global entrypoint
+    version: "1.4.1",
 })
 ```
 

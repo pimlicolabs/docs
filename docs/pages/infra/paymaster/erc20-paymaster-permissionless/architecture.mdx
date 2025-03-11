@@ -118,7 +118,7 @@ import { getContract, createPublicClient } from "viem"
 import { ERC20_PAYMASTER_ABI } from "./abi.ts"
 
 const publicClient = createPublicClient({
-	transport: http("https://rpc.ankr.com/eth_sepolia"),
+    transport: http("https://rpc.ankr.com/eth_sepolia"),
 })
 
 export const erc20Paymaster = getContract({

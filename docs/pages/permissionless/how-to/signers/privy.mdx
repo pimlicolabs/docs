@@ -1,7 +1,3 @@
-import VersionWarning from "../../VersionWarning"
-
-<VersionWarning version="0.2" />
-
 # How to use a Privy signer with permissionless.js
 
 permissionless.js allows you to plug in custom signers to control the accounts that you create. Privy is an embedded wallet provider that allows you to easily onboard users to your dapp. It is possible to use Privy as a signer with permissionless.js, allowing you to use Privy to create and control smart accounts and sign transactions.
@@ -79,11 +75,11 @@ const publicClient = createPublicClient({
 const pimlicoUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=<PIMLICO_API_KEY>`
 
 const pimlicoClient = createPimlicoClient({
-	transport: http(pimlicoUrl),
-	entryPoint: {
-		address: entryPoint07Address,
-		version: "0.7",
-	}
+    transport: http(pimlicoUrl),
+    entryPoint: {
+        address: entryPoint07Address,
+        version: "0.7",
+    }
 })
 
 const owner = embeddedWallet.getEthereumProvider()
@@ -96,9 +92,9 @@ const simpleSmartAccount = await toSimpleSmartAccount({
   owner: owner,
   client: publicClient,
   entryPoint: {
-		address: entryPoint07Address,
-		version: "0.7"
-	}
+        address: entryPoint07Address,
+        version: "0.7"
+    }
 })
 
 const smartAccountClient = createSmartAccountClient({

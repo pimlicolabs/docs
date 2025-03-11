@@ -1,21 +1,19 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.5.2/schema.json",
-	"organizeImports": {
-		"enabled": true
-	},
-	"linter": {
-		"enabled": true,
-		"rules": {
-			"recommended": true
+	"languages": {
+		"javascript": {
+			"extensions": [".js"],
+			"indentation": "spaces"
+		},
+		"typescript": {
+			"extensions": [".ts", ".tsx"],
+			"indentation": "spaces"
+		},
+		"markdown": {
+			"extensions": [".md", ".mdx"],
+			"indentation": "spaces"
 		}
 	},
-	"formatter": {
-		"enabled": true,
-		"lineWidth": 100
-	},
-	"javascript": {
-		"formatter": {
-			"semicolons": "asNeeded"
-		}
+	"formatting": {
+		"useTabs": false
 	}
 }

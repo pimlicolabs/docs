@@ -1,0 +1,326 @@
+diff --git a/_lib/vite/plugins/llms.js b/_lib/vite/plugins/llms.js
+index ce64c723e0165145405c8a382acc57ff553c51a6..a4ca3387880a2273a58d96fcb979cfef0a1c2a96 100644
+--- a/_lib/vite/plugins/llms.js
++++ b/_lib/vite/plugins/llms.js
+@@ -13,6 +13,7 @@ import { unified } from 'unified';
+ import { visit } from 'unist-util-visit';
+ import { resolveVocsConfig } from '../utils/resolveVocsConfig.js';
+ import { getRemarkPlugins } from './mdx.js';
++import { resolveVocsModules } from '../utils/search.js';
+ const remarkPlugins = getRemarkPlugins();
+ export async function llms() {
+     let viteConfig;
+@@ -36,6 +37,9 @@ export async function llms() {
+             const llmsTxtContent = [...content, '## Docs', ''];
+             const llmsCtxTxtContent = content;
+             for (const file of files) {
++                // Skip files that contain v0_1 in their path
++                if (file.includes('v0_1')) continue;
++                
+                 let path = file.replace(pagesPath, '').replace(/\.[^.]*$/, '');
+                 if (path.endsWith('index'))
+                     path = path.replace('index', '').replace(/\/$/, '');
+@@ -45,7 +49,7 @@ export async function llms() {
+                 const parser = unified().use(remarkParse).use(remarkMdx).use(remarkStringify);
+                 for (const plugin of remarkPlugins)
+                     parser.use(plugin);
+-                const ast = parser.parse(contents);
++                const ast = parser.parse(await resolveVocsModules(file, contents));
+                 // process llms.txt content
+                 visit(ast, { type: 'heading', depth: 1 }, (n, i) => {
+                     const node = n.children[0];
+diff --git a/_lib/vite/utils/search.js b/_lib/vite/utils/search.js
+index 0b4e150edb3b75952d56bb18c8648b3e50d6a4ca..0510ddbf10ecf7d9f2f2ab2a87c1e3313fed6043 100644
+--- a/_lib/vite/utils/search.js
++++ b/_lib/vite/utils/search.js
+@@ -1,135 +1,168 @@
+-import { readFileSync } from 'node:fs';
+-import { join, relative, resolve } from 'node:path';
+-import { pathToFileURL } from 'node:url';
+-import { compile, run } from '@mdx-js/mdx';
+-import debug_ from 'debug';
+-import { default as fs } from 'fs-extra';
+-import { globby } from 'globby';
+-import MiniSearch from 'minisearch';
+-import pLimit from 'p-limit';
+-import { Fragment } from 'react';
+-import { renderToStaticMarkup } from 'react-dom/server';
+-import * as runtime from 'react/jsx-runtime';
+-import { getRehypePlugins, getRemarkPlugins } from '../plugins/mdx.js';
+-import * as cache from './cache.js';
+-import { hash } from './hash.js';
+-import { slash } from './slash.js';
+-const limit = pLimit(30);
+-export const debug = debug_('vocs:search');
+-export async function buildIndex({ baseDir, }) {
+-    const pagesPaths = await globby(`${resolve(baseDir, 'pages')}/**/*.{md,mdx}`);
+-    const documents = await Promise.all(pagesPaths.map((pagePath) => limit(async (pagePath) => {
+-        const mdx = readFileSync(pagePath, 'utf-8');
+-        const key = `index.${hash(pagePath)}`;
+-        const pageCache = cache.search.get(key) ?? {};
+-        if (pageCache.mdx === mdx)
+-            return pageCache.document;
+-        const html = await processMdx(pagePath, mdx);
+-        const sections = splitPageIntoSections(html);
+-        if (sections.length === 0) {
+-            cache.search.set(key, { mdx, document: [] });
+-            return [];
+-        }
+-        const fileId = getDocId(baseDir, pagePath);
+-        const relFile = slash(relative(baseDir, fileId));
+-        const href = relFile
+-            .replace(relative(baseDir, resolve(baseDir, 'pages')), '')
+-            .replace(/\.(.*)/, '')
+-            .replace(/\/index$/, '');
+-        const document = sections.map((section) => ({
+-            href: `${href}#${section.anchor}`,
+-            html: section.html,
+-            id: `${fileId}#${section.anchor}`,
+-            isPage: section.isPage,
+-            text: section.text,
+-            title: section.titles.at(-1),
+-            titles: section.titles.slice(0, -1),
+-        }));
+-        cache.search.set(key, { mdx, document });
+-        return document;
+-    }, pagePath)));
+-    const index = new MiniSearch({
+-        fields: ['title', 'titles', 'text'],
+-        storeFields: ['href', 'html', 'isPage', 'text', 'title', 'titles'],
+-        // TODO
+-        // ...options.miniSearch?.options,
+-    });
+-    await index.addAllAsync(documents.flat());
+-    debug(`vocs:search > indexed ${pagesPaths.length} files`);
+-    return index;
++import { readFileSync } from "node:fs"
++import { join, relative, resolve, extname } from "node:path"
++import { pathToFileURL } from "node:url"
++import { compile, run } from "@mdx-js/mdx"
++import debug_ from "debug"
++import { default as fs } from "fs-extra"
++import { globby } from "globby"
++import MiniSearch from "minisearch"
++import pLimit from "p-limit"
++import { Fragment } from "react"
++import { renderToStaticMarkup } from "react-dom/server"
++import * as runtime from "react/jsx-runtime"
++import { getRehypePlugins, getRemarkPlugins } from "../plugins/mdx.js"
++import * as cache from "./cache.js"
++import { hash } from "./hash.js"
++import { slash } from "./slash.js"
++import { resolveVocsConfig } from "../utils/resolveVocsConfig.js"
++const limit = pLimit(30)
++export const debug = debug_("vocs:search")
++export async function buildIndex({ baseDir }) {
++	const pagesPaths = await globby(`${resolve(baseDir, "pages")}/**/*.{md,mdx}`)
++	const { config } = await resolveVocsConfig()
++	const { markdown, rootDir, twoslash } = config
++	const remarkPlugins = getRemarkPlugins({ markdown })
++	const rehypePlugins = getRehypePlugins({ markdown, rootDir, twoslash })
++	const documents = await Promise.all(
++		pagesPaths.map((pagePath) =>
++			limit(async (pagePath) => {
++				const mdx = readFileSync(pagePath, "utf-8")
++				const key = `index.${hash(pagePath)}`
++				const pageCache = cache.search.get(key) ?? {}
++				// if (pageCache.mdx === mdx) return pageCache.document
++				const html = await processMdx({
++					filePath: pagePath,
++					file: mdx,
++					rehypePlugins,
++					remarkPlugins,
++				})
++				const sections = splitPageIntoSections(html)
++				if (sections.length === 0) {
++					cache.search.set(key, { mdx, document: [] })
++					return []
++				}
++				const fileId = getDocId(baseDir, pagePath)
++				const relFile = slash(relative(baseDir, fileId))
++				const href = relFile
++					.replace(relative(baseDir, resolve(baseDir, "pages")), "")
++					.replace(/\.(.*)/, "")
++					.replace(/\/index$/, "")
++				const document = sections.map((section) => ({
++					href: `${href}#${section.anchor}`,
++					html: section.html,
++					id: `${fileId}#${section.anchor}`,
++					isPage: section.isPage,
++					text: section.text,
++					title: section.titles.at(-1),
++					titles: section.titles.slice(0, -1),
++				}))
++				cache.search.set(key, { mdx, document })
++				return document
++			}, pagePath),
++		),
++	)
++	const index = new MiniSearch({
++		fields: ["title", "titles", "text"],
++		storeFields: ["href", "html", "isPage", "text", "title", "titles"],
++		// TODO
++		// ...options.miniSearch?.options,
++	})
++	await index.addAllAsync(documents.flat())
++	debug(`vocs:search > indexed ${pagesPaths.length} files`)
++	return index
+ }
+ export function saveIndex(outDir, index) {
+-    const json = index.toJSON();
+-    const hash_ = cache.search.get('hash') || hash(JSON.stringify(json), 8);
+-    const dir = join(outDir, '.vocs');
+-    fs.ensureDirSync(dir);
+-    fs.writeJSONSync(join(dir, `search-index-${hash_}.json`), json);
+-    return hash_;
++	const json = index.toJSON()
++	const hash_ = cache.search.get("hash") || hash(JSON.stringify(json), 8)
++	const dir = join(outDir, ".vocs")
++	fs.ensureDirSync(dir)
++	fs.writeJSONSync(join(dir, `search-index-${hash_}.json`), json)
++	return hash_
+ }
+-const remarkPlugins = getRemarkPlugins();
+-const rehypePlugins = getRehypePlugins({ twoslash: false });
+-export async function processMdx(filePath, file) {
+-    try {
+-        const compiled = await compile(file, {
+-            baseUrl: pathToFileURL(filePath).href,
+-            outputFormat: 'function-body',
+-            remarkPlugins,
+-            rehypePlugins,
+-        });
+-        const { default: MDXContent } = await run(compiled, { ...runtime, Fragment });
+-        const html = renderToStaticMarkup(MDXContent({
+-        // TODO: Pass components - vanilla extract and virtual module errors
+-        // components,
+-        }));
+-        return html;
+-    }
+-    catch (error) {
+-        // TODO: Resolve imports (e.g. virtual modules)
+-        return '';
+-    }
++
++export async function resolveVocsModules(filePath, file) {
++	const { config } = await resolveVocsConfig()
++
++	// Transform imports in the file content similar to resolveVocsModules plugin
++	let transformedFile = file
++	if (filePath.startsWith(resolve(config.rootDir))) {
++		if ([".js", ".jsx", ".ts", ".tsx", ".md", ".mdx"].includes(extname(filePath))) {
++			transformedFile = file.replace(
++				/import (.*) from ("|')vocs("|')/g,
++				`import $1 from $2${resolve(import.meta.dirname, "../..")}.js$3`,
++			)
++			transformedFile = transformedFile.replace(
++				/import (.*) from ("|')vocs\/components("|')/g,
++				`import $1 from $2${resolve(import.meta.dirname, "../../components")}.js$3`,
++			)
++		}
++	}
++
++	return transformedFile
++}
++
++export async function processMdx({ filePath, file, rehypePlugins, remarkPlugins }) {
++	try {
++		const compiled = await compile(await resolveVocsModules(filePath, file), {
++			baseUrl: pathToFileURL(filePath).href,
++			outputFormat: "function-body",
++			remarkPlugins,
++			rehypePlugins,
++		})
++		const { default: MDXContent } = await run(compiled, { ...runtime, Fragment })
++		const html = renderToStaticMarkup(
++			MDXContent({
++				// TODO: Pass components - vanilla extract and virtual module errors
++				// components,
++			}),
++		)
++		return html
++	} catch (error) {
++		// console.error(error)
++		// console.log({ filePath, baseUrl: pathToFileURL(filePath).href })
++		// TODO: Resolve imports (e.g. virtual modules)
++		return ""
++	}
+ }
+ export function getDocId(baseDir, file) {
+-    const relFile = slash(relative(baseDir, file));
+-    let id = slash(join(baseDir, relFile));
+-    id = id.replace(/(^|\/)index\.(mdx|html)?$/, '$1');
+-    return id;
++	const relFile = slash(relative(baseDir, file))
++	let id = slash(join(baseDir, relFile))
++	id = id.replace(/(^|\/)index\.(mdx|html)?$/, "$1")
++	return id
+ }
+-const headingRegex = /<h(\d*).*?>(.*?<a.*? href=".*?".*?>.*?<\/a>)<\/h\1>/gi;
+-const headingContentRegex = /(.*?)<a.*? href=".*?#(.*?)".*?>.*?<\/a>/i;
++const headingRegex = /<h(\d*).*?>(.*?<a.*? href=".*?".*?>.*?<\/a>)<\/h\1>/gi
++const headingContentRegex = /(.*?)<a.*? href=".*?#(.*?)".*?>.*?<\/a>/i
+ export function splitPageIntoSections(html) {
+-    const result = html.split(headingRegex);
+-    result.shift();
+-    let parentTitles = [];
+-    const sections = [];
+-    for (let i = 0; i < result.length; i += 3) {
+-        const level = Number.parseInt(result[i]) - 1;
+-        const heading = result[i + 1];
+-        const headingResult = headingContentRegex.exec(heading);
+-        const title = clearHtmlTags(headingResult?.[1] ?? '').trim();
+-        const anchor = headingResult?.[2] ?? '';
+-        const content = result[i + 2];
+-        if (!title || !content)
+-            continue;
+-        const titles = parentTitles.slice(0, level);
+-        titles[level] = title;
+-        sections.push({
+-            anchor,
+-            html: content,
+-            isPage: i === 0,
+-            titles,
+-            text: getSearchableText(content),
+-        });
+-        if (level === 0)
+-            parentTitles = [title];
+-        else
+-            parentTitles[level] = title;
+-    }
+-    return sections;
++	const result = html.split(headingRegex)
++	result.shift()
++	let parentTitles = []
++	const sections = []
++	for (let i = 0; i < result.length; i += 3) {
++		const level = Number.parseInt(result[i]) - 1
++		const heading = result[i + 1]
++		const headingResult = headingContentRegex.exec(heading)
++		const title = clearHtmlTags(headingResult?.[1] ?? "").trim()
++		const anchor = headingResult?.[2] ?? ""
++		const content = result[i + 2]
++		if (!title || !content) continue
++		const titles = parentTitles.slice(0, level)
++		titles[level] = title
++		sections.push({
++			anchor,
++			html: content,
++			isPage: i === 0,
++			titles,
++			text: getSearchableText(content),
++		})
++		if (level === 0) parentTitles = [title]
++		else parentTitles[level] = title
++	}
++	return sections
+ }
+ function getSearchableText(content) {
+-    return clearHtmlTags(content);
++	return clearHtmlTags(content)
+ }
+ function clearHtmlTags(str) {
+-    return str.replace(/<[^>]*>/g, '');
++	return str.replace(/<[^>]*>/g, "")
+ }
+ //# sourceMappingURL=search.js.map

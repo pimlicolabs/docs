@@ -1,7 +1,3 @@
-import VersionWarning from "../../VersionWarning"
-
-<VersionWarning version="0.2" />
-
 # supportsExecutionMode
 
 Checks if a [ERC-7579](https://eips.ethereum.org/EIPS/eip-7579) execution mode is supported on the smart account. Check out [this guide](/permissionless/how-to/accounts/use-erc7579-account) for a complete tutorial.
@@ -33,10 +29,10 @@ Use the `supportsExecutionMode` method to check if an execution mode is supporte
 
 ```ts
 const isExecutionModeSupported = await smartAccountClient.supportsExecutionMode({
-	type: "delegatecall",
-	revertOnError: true,
-	selector: "0x",
-	context: "0x",
+    type: "delegatecall",
+    revertOnError: true,
+    selector: "0x",
+    context: "0x",
 })
 ```
 

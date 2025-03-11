@@ -1,7 +1,3 @@
-import VersionWarning from "../../VersionWarning"
-
-<VersionWarning version="0.2" />
-
 # toTrustSmartAccount
 
 Creates a Trust Wallet Smart Account instance controlled by a `owner`.  Check out [this guide](/permissionless/how-to/accounts/use-trustwallet-account) for a complete tutorial.
@@ -16,8 +12,8 @@ import { publicClient } from "./publicClient"
 import { owner } from "./owner"
 
 const account = await toTrustSmartAccount(client, {
-	client: publicClient,
-	owner
+    client: publicClient,
+    owner
 })
 ```
 
