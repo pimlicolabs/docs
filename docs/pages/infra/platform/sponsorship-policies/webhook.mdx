@@ -53,7 +53,7 @@ const body = {
 ```
 
 ### MagicSpend Withdrawal
-These webhooks are triggered when using the [pimlico_sponsorMagicSpendWithdrawal](/infra/magic-spend/endpoints/pimlico_sponsorMagicSpendWithdrawal) endpoint.
+These webhooks are triggered when using the [pimlico_sponsorMagicSpendWithdrawal](/infra/flash-fund/endpoints/pimlico_sponsorMagicSpendWithdrawal) endpoint.
 
 #### Request for Withdrawal
 Sent when a MagicSpend withdrawal sponsorship is requested:
@@ -83,7 +83,7 @@ The webhook must return a response with the following structure:
 ```
 
 #### Withdrawal Finalized
-Sent when a MagicSpend withdrawal is approved and finalized:
+Sent when a FlashFund withdrawal is approved and finalized:
 
 ```typescript
 const body = {

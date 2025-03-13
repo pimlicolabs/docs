@@ -202,33 +202,18 @@
 			"permanent": false
 		},
 		{
-			"source": "/infra/magic-spend/staking",
-			"destination": "/infra/magic-spend",
-			"permanent": false
-		},
-		{
-			"source": "/infra/magic-spend/endpoints/pimlico_getMagicSpendStakes",
-			"destination": "/infra/magic-spend",
-			"permanent": false
-		},
-		{
-			"source": "/infra/magic-spend/endpoints/pimlico_prepareMagicSpendAllowance",
-			"destination": "/infra/magic-spend",
-			"permanent": false
-		},
-		{
-			"source": "/infra/magic-spend/endpoints/pimlico_grantMagicSpendAllowance",
-			"destination": "/infra/magic-spend",
-			"permanent": false
-		},
-		{
-			"source": "/infra/magic-spend/endpoints/pimlico_getMagicSpendAllowancesByOperator",
-			"destination": "/infra/magic-spend",
-			"permanent": false
-		},
-		{
 			"source": "/permissionless/difference-between-multiple-account-types",
 			"destination": "/permissionless/how-to/accounts/comparison",
+			"permanent": false
+		},
+		{
+			"source": "/infra/magic-spend/",
+			"destination": "/infra/flash-fund/",
+			"permanent": false
+		},
+		{
+			"source": "/infra/magic-spend/endpoints/*",
+			"destination": "/infra/flash-fund/endpoints/*",
 			"permanent": false
 		}
 	],
