@@ -205,16 +205,6 @@
 			"source": "/permissionless/difference-between-multiple-account-types",
 			"destination": "/permissionless/how-to/accounts/comparison",
 			"permanent": false
-		},
-		{
-			"source": "/infra/magic-spend/",
-			"destination": "/infra/flash-fund/",
-			"permanent": false
-		},
-		{
-			"source": "/infra/magic-spend/endpoints/*",
-			"destination": "/infra/flash-fund/endpoints/*",
-			"permanent": false
 		}
 	],
 	"headers": [
