@@ -1226,21 +1226,21 @@ export const permissionlessSidebar0Point1 = [
 	},
 ]
 
-export const magicSpendSidebar = [
+export const flashFundSidebar = [
 	{
 		text: "Overview",
-		link: "/infra/magic-spend",
+		link: "/infra/flash-fund",
 	},
 	{
 		text: "Modes",
 		items: [
 			{
 				text: "Credit Mode",
-				link: "/infra/magic-spend/modes/credit",
+				link: "/infra/flash-fund/modes/credit",
 			},
 			{
 				text: "Resource Lock Mode",
-				link: "/infra/magic-spend/modes/resource-lock",
+				link: "/infra/flash-fund/modes/resource-lock",
 			},
 		],
 	},
@@ -1250,19 +1250,19 @@ export const magicSpendSidebar = [
 		items: [
 			{
 				text: "pimlico_getMagicSpendStakes",
-				link: "/infra/magic-spend/endpoints/pimlico_getMagicSpendStakes",
+				link: "/infra/flash-fund/endpoints/pimlico_getMagicSpendStakes",
 			},
 			{
 				text: "pimlico_prepareMagicSpendStake",
-				link: "/infra/magic-spend/endpoints/pimlico_prepareMagicSpendStake",
+				link: "/infra/flash-fund/endpoints/pimlico_prepareMagicSpendStake",
 			},
 			{
 				text: "pimlico_prepareMagicSpendAllowance",
-				link: "/infra/magic-spend/endpoints/pimlico_prepareMagicSpendAllowance",
+				link: "/infra/flash-fund/endpoints/pimlico_prepareMagicSpendAllowance",
 			},
 			{
 				text: "pimlico_sponsorMagicSpendWithdrawal",
-				link: "/infra/magic-spend/endpoints/pimlico_sponsorMagicSpendWithdrawal",
+				link: "/infra/flash-fund/endpoints/pimlico_sponsorMagicSpendWithdrawal",
 			},
 		],
 	},
@@ -1271,17 +1271,17 @@ export const magicSpendSidebar = [
 		items: [
 			{
 				text: "How to use Credit Mode",
-				link: "/infra/magic-spend/how-to/credit-mode",
+				link: "/infra/flash-fund/how-to/credit-mode",
 			},
 			{
 				text: "How to use Pimlico Lock",
-				link: "/infra/magic-spend/how-to/pimlico-lock",
+				link: "/infra/flash-fund/how-to/pimlico-lock",
 			},
 		],
 	},
 	{
 		text: "Supported chains and tokens",
-		link: "/infra/magic-spend/supported-chains-and-tokens",
+		link: "/infra/flash-fund/supported-chains-and-tokens",
 	},
 ]
 
@@ -1347,9 +1347,9 @@ export default defineConfig({
 				items: paymasterSidebar,
 			},
 			{
-				text: "MagicSpend++",
-				link: "/infra/magic-spend",
-				items: magicSpendSidebar,
+				text: "Flash Fund",
+				link: "/infra/flash-fund",
+				items: flashFundSidebar,
 			},
 		],
 		"/conceptual": conceptualSidebar,
