@@ -12,6 +12,11 @@
 	],
 	"redirects": [
 		{
+			"source": "/infra/magic-spend/:path*",
+			"destination": "/infra/flash-fund/:path*",
+			"permanent": true
+		},
+		{
 			"source": "/:match*.html",
 			"destination": "/:match",
 			"permanent": false
