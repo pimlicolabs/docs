@@ -1,4 +1,4 @@
-# pimlico_prepareMagicSpendAllowance
+# flashfund_prepareAllowance
 
 :::warning[Warning]
 The FlashFund protocol is in beta. API is subject to change with short notice.
@@ -11,7 +11,7 @@ This method prepares an allowance for FlashFund withdrawals.
 ```json
 {
     "jsonrpc": "2.0",
-    "method": "pimlico_prepareMagicSpendAllowance",
+    "method": "flashfund_prepareAllowance",
     "params": [
         {
             "type": "pimlico_lock",
@@ -57,7 +57,7 @@ For `onebalance` type, the response will be a Quote object.
 ## Types
 
 ```typescript
-type PimlicoMagicSpendPrepareAllowanceParams = {
+type PimlicoFlashFundPrepareAllowanceParams = {
     type: "pimlico_lock" | "onebalance";
     data: {
         account: Address;
@@ -67,9 +67,9 @@ type PimlicoMagicSpendPrepareAllowanceParams = {
     };
 };
 
-type MagicSpendAllowance = {
+type FlashFundAllowance = {
     account: Address;
-    assets: MagicSpendAssetAllowance[];
+    assets: FlashFundAssetAllowance[];
     validUntil: bigint;
     validAfter: bigint;
     salt: bigint;
@@ -77,9 +77,8 @@ type MagicSpendAllowance = {
     metadata: Hex;
 };
 
-type MagicSpendAssetAllowance = {
+type FlashFundAssetAllowance = {
     token: Address;
     amount: bigint;
     chainId: bigint;
 };
-``` 

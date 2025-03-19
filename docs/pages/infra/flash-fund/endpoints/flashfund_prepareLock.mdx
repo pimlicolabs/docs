@@ -1,17 +1,17 @@
-# pimlico_prepareMagicSpendStake
+# flashfund_prepareLock
 
 :::warning[Warning]
 The FlashFund protocol is in beta. API is subject to change with short notice.
 :::
 
-This method prepares a stake transaction for FlashFund.
+This method prepares a lock transaction for FlashFund.
 
 ## Request
 
 ```json
 {
     "jsonrpc": "2.0",
-    "method": "pimlico_prepareMagicSpendStake",
+    "method": "flashfund_prepareLock",
     "params": [
         {
             "type": "pimlico_lock",
@@ -28,7 +28,7 @@ This method prepares a stake transaction for FlashFund.
 
 ## Response
 
-Returns the components for the stake transaction - target address, calldata and value.
+Returns the components for the lock transaction - target address, calldata and value.
 
 ```json
 {
@@ -45,7 +45,7 @@ Returns the components for the stake transaction - target address, calldata and 
 ## Types
 
 ```typescript
-type PimlicoMagicSpendStakeParams =
+type PimlicoFlashFundStakeParams =
     | {
         type: "pimlico_lock";
         data: {
@@ -62,4 +62,3 @@ type PimlicoMagicSpendStakeParams =
             account: Address;
         };
     };
-``` 

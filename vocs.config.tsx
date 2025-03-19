@@ -1249,20 +1249,20 @@ export const flashFundSidebar = [
 		collapsed: false,
 		items: [
 			{
-				text: "pimlico_getMagicSpendStakes",
-				link: "/infra/flash-fund/endpoints/pimlico_getMagicSpendStakes",
+				text: "flashfund_getLocks",
+				link: "/infra/flash-fund/endpoints/flashfund_getLocks",
 			},
 			{
-				text: "pimlico_prepareMagicSpendStake",
-				link: "/infra/flash-fund/endpoints/pimlico_prepareMagicSpendStake",
+				text: "flashfund_prepareLock",
+				link: "/infra/flash-fund/endpoints/flashfund_prepareLock",
 			},
 			{
-				text: "pimlico_prepareMagicSpendAllowance",
-				link: "/infra/flash-fund/endpoints/pimlico_prepareMagicSpendAllowance",
+				text: "flashfund_prepareAllowance",
+				link: "/infra/flash-fund/endpoints/flashfund_prepareAllowance",
 			},
 			{
-				text: "pimlico_sponsorMagicSpendWithdrawal",
-				link: "/infra/flash-fund/endpoints/pimlico_sponsorMagicSpendWithdrawal",
+				text: "flashfund_sponsorWithdrawal",
+				link: "/infra/flash-fund/endpoints/flashfund_sponsorWithdrawal",
 			},
 		],
 	},

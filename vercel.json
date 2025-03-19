@@ -12,6 +12,26 @@
 	],
 	"redirects": [
 		{
+			"source": "/infra/magic-spend/endpoints/pimlico_getMagicSpendStakes",
+			"destination": "/infra/flash-fund/endpoints/flashfund_getLocks",
+			"permanent": true
+		},
+		{
+			"source": "/infra/magic-spend/endpoints/pimlico_prepareMagicSpendStake",
+			"destination": "/infra/flash-fund/endpoints/flashfund_prepareLock",
+			"permanent": true
+		},
+		{
+			"source": "/infra/magic-spend/endpoints/pimlico_prepareMagicSpendAllowance",
+			"destination": "/infra/flash-fund/endpoints/flashfund_prepareAllowance",
+			"permanent": true
+		},
+		{
+			"source": "/infra/magic-spend/endpoints/pimlico_sponsorMagicSpendWithdrawal",
+			"destination": "/infra/flash-fund/endpoints/flashfund_sponsorWithdrawal",
+			"permanent": true
+		},
+		{
 			"source": "/infra/magic-spend/:path*",
 			"destination": "/infra/flash-fund/:path*",
 			"permanent": true

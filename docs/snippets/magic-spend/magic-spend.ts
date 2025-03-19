@@ -32,33 +32,33 @@ export const getPimlicoUrl = (chainId: number) => {
 	return `${pimlicoUrl}v2/${chainId}/rpc?apikey=${process.env.PIMLICO_API_KEY}`
 }
 
-export type MagicSpendCall = {
+export type FlashFundCall = {
 	to: Address
 	data: Hex
 	value: bigint
 }
 
-export type MagicSpendWithdrawal = {
+export type FlashFundWithdrawal = {
 	token: Address
 	amount: bigint
 	chainId: bigint
 	recipient: Address
-	preCalls: MagicSpendCall[]
-	postCalls: MagicSpendCall[]
+	preCalls: FlashFundCall[]
+	postCalls: FlashFundCall[]
 	validUntil: bigint
 	validAfter: bigint
 	salt: bigint
 }
 
-export type MagicSpendAssetAllowance = {
+export type FlashFundAssetAllowance = {
 	token: Address
 	amount: bigint
 	chainId: bigint
 }
 
-export type MagicSpendAllowance = {
+export type FlashFundAllowance = {
 	account: Address
-	assets: MagicSpendAssetAllowance[]
+	assets: FlashFundAssetAllowance[]
 	validUntil: bigint
 	validAfter: bigint
 	salt: bigint
@@ -66,7 +66,7 @@ export type MagicSpendAllowance = {
 	metadata: Hex
 }
 
-export type PimlicoMagicSpendStake = {
+export type PimlicoFlashFundStake = {
 	type: "pimlico_lock" | "onebalance"
 	chainId: number
 	token: Address
@@ -90,7 +90,7 @@ export type SponsorWithdrawalCreditParams = {
 export type SponsorWithdrawalPimlicoLockParams = {
 	type: "pimlico_lock"
 	data: {
-		allowance: MagicSpendAllowance
+		allowance: FlashFundAllowance
 		signature: Hex
 	}
 }
@@ -110,7 +110,7 @@ export type GetStakesParams = {
 
 export const MAGIC_SPEND_ETH: Address = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
 
-export type PimlicoMagicSpendStakeParams =
+export type PimlicoFlashFundStakeParams =
 	| {
 			type: "pimlico_lock"
 			data: {
@@ -128,7 +128,7 @@ export type PimlicoMagicSpendStakeParams =
 			}
 	  }
 
-export type PimlicoMagicSpendSchema = [
+export type PimlicoFlashFundSchema = [
 	{
 		Parameters: [
 			{
@@ -137,21 +137,21 @@ export type PimlicoMagicSpendSchema = [
 		]
 		ReturnType: {
 			usdValue: bigint
-			stakes: PimlicoMagicSpendStake[]
+			stakes: PimlicoFlashFundStake[]
 		}
-		Method: "pimlico_getMagicSpendStakes"
+		Method: "flashfund_getLocks"
 	},
 	{
-		Parameters: [PimlicoMagicSpendStakeParams]
+		Parameters: [PimlicoFlashFundStakeParams]
 		ReturnType: [Address, Hex]
-		Method: "pimlico_prepareMagicSpendStake"
+		Method: "flashfund_prepareLock"
 	},
 	{
-		Parameters: [PimlicoMagicSpendPrepareAllowanceParams]
-		ReturnType: PimlicoMagicSpendPrepareAllowanceParams["type"] extends "pimlico_lock"
-			? MagicSpendAllowance
+		Parameters: [PimlicoFlashFundPrepareAllowanceParams]
+		ReturnType: PimlicoFlashFundPrepareAllowanceParams["type"] extends "pimlico_lock"
+			? FlashFundAllowance
 			: Quote
-		Method: "pimlico_prepareMagicSpendAllowance"
+		Method: "flashfund_prepareAllowance"
 	},
 	{
 		Parameters: [
@@ -163,11 +163,11 @@ export type PimlicoMagicSpendSchema = [
 			null,
 		]
 		ReturnType: [Address, Hex]
-		Method: "pimlico_sponsorMagicSpendWithdrawal"
+		Method: "flashfund_sponsorWithdrawal"
 	},
 ]
 
-export type PimlicoMagicSpendPrepareAllowanceParams = {
+export type PimlicoFlashFundPrepareAllowanceParams = {
 	type: "pimlico_lock" | "onebalance"
 	data: {
 		account: Address
@@ -177,19 +177,19 @@ export type PimlicoMagicSpendPrepareAllowanceParams = {
 	}
 }
 
-export type MagicSpendBalance = {
+export type FlashFundBalance = {
 	chain: Chain
 	balance: bigint
 }
 
-export type MagicSpendSponsorWithdrawalResponse = [Address, Hex]
+export type FlashFundSponsorWithdrawalResponse = [Address, Hex]
 
 export type LogHooks = {
 	onRequest?: (method: string, params: any) => void
 	onResponse?: (method: string, params: any, result: any) => void
 }
 
-function createMagicSpendTransport(
+function createFlashFundTransport(
 	url: string,
 	config: HttpTransportConfig & { logHooks?: LogHooks },
 ): HttpTransport {
@@ -248,7 +248,7 @@ function createMagicSpendTransport(
 	}
 }
 
-export class MagicSpend {
+export class FlashFund {
 	chainId: number
 	pimlicoApiUrl: string
 	logHooks?: LogHooks
@@ -273,9 +273,9 @@ export class MagicSpend {
 		Transport,
 		Chain | undefined,
 		Account | undefined,
-		PimlicoMagicSpendSchema
+		PimlicoFlashFundSchema
 	> {
-		const transport = createMagicSpendTransport(getPimlicoUrl(this.chainId), {
+		const transport = createFlashFundTransport(getPimlicoUrl(this.chainId), {
 			logHooks: this.logHooks,
 		})
 
@@ -286,7 +286,7 @@ export class MagicSpend {
 
 	async getStakes({ account }: GetStakesParams) {
 		const response = await this.getClient().request({
-			method: "pimlico_getMagicSpendStakes",
+			method: "flashfund_getLocks",
 			params: [
 				{
 					account,
@@ -310,11 +310,11 @@ export class MagicSpend {
 		}
 	}
 
-	async prepareAllowance<T extends PimlicoMagicSpendPrepareAllowanceParams>(
+	async prepareAllowance<T extends PimlicoFlashFundPrepareAllowanceParams>(
 		params: T,
-	): Promise<T["type"] extends "pimlico_lock" ? MagicSpendAllowance : Quote> {
+	): Promise<T["type"] extends "pimlico_lock" ? FlashFundAllowance : Quote> {
 		return this.getClient().request({
-			method: "pimlico_prepareMagicSpendAllowance",
+			method: "flashfund_prepareAllowance",
 			params: [params],
 		})
 	}
@@ -324,16 +324,16 @@ export class MagicSpend {
 			| SponsorWithdrawalCreditParams
 			| SponsorWithdrawalPimlicoLockParams
 			| SponsorWithdrawalOneBalanceParams,
-	): Promise<MagicSpendSponsorWithdrawalResponse> {
+	): Promise<FlashFundSponsorWithdrawalResponse> {
 		return this.getClient().request({
-			method: "pimlico_sponsorMagicSpendWithdrawal",
+			method: "flashfund_sponsorWithdrawal",
 			params: [params, null],
 		})
 	}
 
-	async prepareStake(params: PimlicoMagicSpendStakeParams): Promise<[Address, Hex, Hex]> {
+	async prepareStake(params: PimlicoFlashFundStakeParams): Promise<[Address, Hex, Hex]> {
 		return this.getClient().request({
-			method: "pimlico_prepareMagicSpendStake",
+			method: "flashfund_prepareLock",
 			params: [params],
 		})
 	}

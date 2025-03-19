@@ -1,4 +1,4 @@
-# pimlico_sponsorMagicSpendWithdrawal
+# flashfund_sponsorWithdrawal
 
 :::warning[Warning]
 The FlashFund protocol is in beta. API is subject to change with short notice.
@@ -12,7 +12,7 @@ For credits mode:
 ```json
 {
     "jsonrpc": "2.0",
-    "method": "pimlico_sponsorMagicSpendWithdrawal",
+    "method": "flashfund_sponsorWithdrawal",
     "params": [
         {
             "type": "credits",
@@ -33,7 +33,7 @@ For pimlico_lock mode:
 ```json
 {
     "jsonrpc": "2.0",
-    "method": "pimlico_sponsorMagicSpendWithdrawal",
+    "method": "flashfund_sponsorWithdrawal",
     "params": [
         {
             "type": "pimlico_lock",
@@ -66,13 +66,13 @@ For onebalance mode:
 ```json
 {
     "jsonrpc": "2.0",
-    "method": "pimlico_sponsorMagicSpendWithdrawal",
+    "method": "flashfund_sponsorWithdrawal",
     "params": [
         {
             "type": "onebalance",
             "data": {
                 "quote": {
-                    // Quote object from pimlico_prepareMagicSpendAllowance
+                    // Quote object from flashfund_prepareAllowance
                 },
                 "amount": "1000000000000000000",
                 "recipient": "0x1234567890123456789012345678901234567890"
@@ -113,7 +113,7 @@ type SponsorWithdrawalCreditParams = {
 type SponsorWithdrawalPimlicoLockParams = {
     type: "pimlico_lock";
     data: {
-        allowance: MagicSpendAllowance;
+        allowance: FlashFundAllowance;
         signature: Hex;
     };
 };
@@ -127,5 +127,4 @@ type SponsorWithdrawalOneBalanceParams = {
     };
 };
 
-type MagicSpendSponsorWithdrawalResponse = [Address, Hex];
-```
+type FlashFundSponsorWithdrawalResponse = [Address, Hex];

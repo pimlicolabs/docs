@@ -8,7 +8,7 @@ import { createPimlicoClient } from "permissionless/clients/pimlico"
 import { toSimpleSmartAccount } from "permissionless/accounts"
 
 import "dotenv/config"
-import { getPimlicoUrl, MagicSpend } from "./magic-spend"
+import { getPimlicoUrl, FlashFund } from "./magic-spend"
 
 const RPC_URL = "https://11155111.rpc.thirdweb.com"
 const ETH: Address = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
@@ -65,9 +65,9 @@ const smartAccountClient = createSmartAccountClient({
 
 // [!endregion clients]
 
-// [!region pimlico_sponsorMagicSpendWithdrawal]
+// [!region flashfund_sponsorWithdrawal]
 
-const magicSpend = new MagicSpend()
+const magicSpend = new FlashFund()
 
 const [contract, calldata] = await magicSpend.sponsorWithdrawal({
 	type: "credits",
@@ -78,7 +78,7 @@ const [contract, calldata] = await magicSpend.sponsorWithdrawal({
 		signature: "0x",
 	},
 })
-// [!endregion pimlico_sponsorMagicSpendWithdrawal]
+// [!endregion flashfund_sponsorWithdrawal]
 
 // [!region execute]
 // Send user operation and withdraw funds

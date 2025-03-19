@@ -1,17 +1,17 @@
-# pimlico_getMagicSpendStakes
+# flashfund_getLocks
 
 :::warning[Warning]
 The FlashFund protocol is in beta. API is subject to change with short notice.
 :::
 
-This method returns the stakes and total USD value for a given account.
+This method returns the locks and total USD value for a given account.
 
 ## Request
 
 ```json
 {
     "jsonrpc": "2.0",
-    "method": "pimlico_getMagicSpendStakes",
+    "method": "flashfund_getLocks",
     "params": [
         {
             "account": "0x1234567890123456789012345678901234567890"
@@ -46,7 +46,7 @@ This method returns the stakes and total USD value for a given account.
 ## Types
 
 ```typescript
-type PimlicoMagicSpendStake = {
+type PimlicoFlashFundStake = {
     type: "pimlico_lock" | "onebalance";
     chainId: number;
     token: Address;
@@ -54,4 +54,3 @@ type PimlicoMagicSpendStake = {
     usdValue: bigint;
     testnet: boolean;
 };
-``` 

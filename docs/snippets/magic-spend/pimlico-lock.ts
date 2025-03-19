@@ -8,7 +8,7 @@ import { createPimlicoClient } from "permissionless/clients/pimlico"
 import { toSimpleSmartAccount } from "permissionless/accounts"
 
 import "dotenv/config"
-import { getPimlicoUrl, MagicSpend } from "./magic-spend"
+import { getPimlicoUrl, FlashFund } from "./magic-spend"
 
 const RPC_URL = "https://11155111.rpc.thirdweb.com"
 const ETH: Address = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
@@ -63,12 +63,12 @@ const smartAccountClient = createSmartAccountClient({
 	paymaster: pimlicoClient,
 })
 
-const magicSpend = new MagicSpend()
+const magicSpend = new FlashFund()
 magicSpend.setChainId(sepolia.id)
 
 // [!endregion clients]
 
-// [!region pimlico_prepareMagicSpendStake]
+// [!region flashfund_prepareLock]
 const [stakeAddress, stakeCalldata, stakeValue] = await magicSpend.prepareStake({
 	type: "pimlico_lock",
 	data: {
@@ -89,16 +89,16 @@ await smartAccountClient.sendUserOperation({
 	],
 })
 
-// [!endregion pimlico_prepareMagicSpendStake]
+// [!endregion flashfund_prepareLock]
 
-// [!region pimlico_getMagicSpendStakes]
+// [!region flashfund_getLocks]
 const stakes = await magicSpend.getStakes({
 	account: simpleAccount.address,
 })
 console.log(`Stakes: ${JSON.stringify(stakes, null, 2)}`)
-// [!endregion pimlico_getMagicSpendStakes]
+// [!endregion flashfund_getLocks]
 
-// [!region pimlico_prepareMagicSpendAllowance]
+// [!region flashfund_prepareAllowance]
 const allowance = await magicSpend.prepareAllowance({
 	type: "pimlico_lock",
 	data: {
@@ -143,9 +143,9 @@ const signature = await signer.signTypedData({
 		metadata: allowance.metadata,
 	},
 })
-// [!endregion pimlico_prepareMagicSpendAllowance]
+// [!endregion flashfund_prepareAllowance]
 
-// [!region pimlico_sponsorMagicSpendWithdrawal]
+// [!region flashfund_sponsorWithdrawal]
 const [contract, calldata] = await magicSpend.sponsorWithdrawal({
 	type: "pimlico_lock",
 	data: {
@@ -153,7 +153,7 @@ const [contract, calldata] = await magicSpend.sponsorWithdrawal({
 		signature,
 	},
 })
-// [!endregion pimlico_sponsorMagicSpendWithdrawal]
+// [!endregion flashfund_sponsorWithdrawal]
 
 // [!region execute]
 // Send user operation and withdraw funds
