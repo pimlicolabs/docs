@@ -88,7 +88,7 @@ The method accepts an array with the following parameters:
     
     - **paymasterData** - `HexData (optional)`: The data to pass to the paymaster during the verification step, or null if no paymaster.
     
-    - **eip7702Auth** - `Object (optional)`: EIP-7702 authorization data, can be null. Contains the following fields:
+    - **eip7702Auth** - `Object (optional)`: EIP-7702 authorization data, can be null. This can be a dummy authorization. Contains the following fields:
       - **contractAddress** - `Address`: The contract address that signed the authorization.
       - **chainId** - `HexNumber`: The chain ID as a hex string.
       - **nonce** - `HexNumber`: The nonce as a hex string.
@@ -210,7 +210,7 @@ The method accepts an array with the following parameters:
     
     - **maxPriorityFeePerGas** - `HexNumber`: Maximum priority fee per gas (similar to EIP-1559 max_priority_fee_per_gas).
     
-    - **eip7702Auth** - `Object (optional)`: EIP-7702 authorization data, can be null. Contains the following fields:
+    - **eip7702Auth** - `Object (optional)`: EIP-7702 authorization data, can be null. This can be a dummy authorization. Contains the following fields:
       - **contractAddress** - `Address`: The contract address that signed the authorization.
       - **chainId** - `HexNumber`: The chain ID as a hex string.
       - **nonce** - `HexNumber`: The nonce as a hex string.
