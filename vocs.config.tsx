@@ -1401,6 +1401,7 @@ export default defineConfig({
 				{ text: "Platform", link: "/infra/platform" },
 				{ text: "Bundler", link: "/infra/bundler" },
 				{ text: "Paymaster", link: "/infra/paymaster" },
+				{ text: "FlashFund", link: "/infra/flash-fund" },
 			],
 			match: "/infra",
 		},
