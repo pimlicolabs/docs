@@ -1347,7 +1347,7 @@ export default defineConfig({
 				items: paymasterSidebar,
 			},
 			{
-				text: "Flash Fund",
+				text: "FlashFund",
 				link: "/infra/flash-fund",
 				items: flashFundSidebar,
 			},
