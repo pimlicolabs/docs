@@ -1,10 +1,17 @@
 # pm_sponsorUserOperation
 
-Returns all relevant fields needed sponsor a userOperation using a smart account's ERC-20 balance. Take note that when using in ERC-20 mode, the context expects an object with a `token` field.
+This method sponsors a user operation by providing all necessary paymaster-related fields and updated gas parameters. The context parameter can be an object with either a `token` field (for ERC-20 mode) or a `sponsorshipPolicyId` field (for sponsorship mode), or null.
 
 ## EntryPoint v0.7
 
-### Request:
+:::tip
+The context parameter can be one of the following:
+- An object with a `token` field containing the ERC-20 token address for token payments
+- An object with a `sponsorshipPolicyId` field for sponsored transactions
+- `null` for other cases
+:::
+
+### Usage
 
 ```json
 {
@@ -25,16 +32,83 @@ Returns all relevant fields needed sponsor a userOperation using a smart account
             "paymaster": null,
             "paymasterVerificationGasLimit": null,
             "paymasterPostOpGasLimit": null,
-            "paymasterData": null
+            "paymasterData": null,
+            "eip7702Auth": {
+                "contractAddress": "0x1234567890123456789012345678901234567890",
+                "chainId": "0x1",
+                "nonce": "0x1",
+                "r": "0x1234567890123456789012345678901234567890123456789012345678901234",
+                "s": "0x1234567890123456789012345678901234567890123456789012345678901234",
+                "v": "0x1b",
+                "yParity": "0x1"
+            }
         },
         "0x0000000071727De22E5E9d8BAf0edAc6f37da032",
-        { "token": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48" }
+        "0x1",
+        {
+            "token": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+            // Or alternatively: "sponsorshipPolicyId": "policy-123456"
+        }
     ],
     "id": 1
 }
 ```
 
-### Response:
+### Parameters
+
+The method accepts an array with the following parameters:
+
+1. **userOperation** - `Object`: The user operation object containing the following fields:
+
+    - **sender** - `Address`: The account making the operation.
+    
+    - **nonce** - `HexString`: Unique identifier for the request from this sender.
+    
+    - **factory** - `Address`: The factory contract address used to create the account if it doesn't exist yet.
+    
+    - **factoryData** - `HexData`: The initialization data for the factory contract.
+    
+    - **callData** - `HexData`: The data to pass to the sender during the main execution call.
+    
+    - **callGasLimit** - `HexNumber`: The amount of gas to allocate the main execution call.
+    
+    - **verificationGasLimit** - `HexNumber`: The amount of gas to allocate for the verification step.
+    
+    - **preVerificationGas** - `HexNumber`: The amount of gas to pay for to compensate the bundler for pre-verification execution and calldata.
+    
+    - **maxFeePerGas** - `HexNumber`: Maximum fee per gas (similar to EIP-1559 max_fee_per_gas).
+    
+    - **maxPriorityFeePerGas** - `HexNumber`: Maximum priority fee per gas (similar to EIP-1559 max_priority_fee_per_gas).
+    
+    - **paymaster** - `Address | null`: The paymaster contract address, or null if not using a paymaster.
+    
+    - **paymasterVerificationGasLimit** - `HexNumber | null`: The amount of gas to allocate for the verification step of the paymaster.
+    
+    - **paymasterPostOpGasLimit** - `HexNumber | null`: The amount of gas to allocate for the post-operation step of the paymaster.
+    
+    - **paymasterData** - `HexData | null`: The data to pass to the paymaster during verification.
+    
+    - **eip7702Auth** - `Object (optional)`: EIP-7702 authorization data, can be null. Contains the following fields:
+      - **contractAddress** - `Address`: The contract address that signed the authorization.
+      - **chainId** - `HexNumber`: The chain ID as a hex string.
+      - **nonce** - `HexNumber`: The nonce as a hex string.
+      - **r** - `HexData32`: The r component of the signature.
+      - **s** - `HexData32`: The s component of the signature.
+      - **v** - `HexNumber`: The v component of the signature.
+      - **yParity** - `HexNumber`: The y-parity of the signature.
+
+2. **entryPoint** - `Address`: The entry point contract address.
+
+3. **chainId** - `HexNumber`: The chain ID in hexadecimal format.
+
+4. **context** - `Object | null`: Additional context information. Can be one of:
+   - An object with **token** - `Address`: The ERC-20 token address to use for payment.
+   - An object with **sponsorshipPolicyId** - `String`: The ID of the sponsorship policy to use.
+   - `null`: No additional context.
+
+### Returns
+
+The method returns an object containing paymaster-related fields and updated gas parameters for EntryPoint v0.7.
 
 ```json
 {
@@ -52,9 +126,27 @@ Returns all relevant fields needed sponsor a userOperation using a smart account
 }
 ```
 
+### Return Fields
+
+The response includes the following fields:
+
+- **paymaster** - `Address`: The address of the paymaster contract.
+
+- **paymasterData** - `HexData`: The data to be used in the paymasterData field of the user operation.
+
+- **preVerificationGas** - `HexNumber`: The updated preVerificationGas value to use in the user operation.
+
+- **verificationGasLimit** - `HexNumber`: The updated verificationGasLimit value to use in the user operation.
+
+- **callGasLimit** - `HexNumber`: The updated callGasLimit value to use in the user operation.
+
+- **paymasterVerificationGasLimit** - `HexNumber`: The amount of gas to allocate for the verification step of the paymaster.
+
+- **paymasterPostOpGasLimit** - `HexNumber`: The amount of gas to allocate for the post-operation step of the paymaster.
+
 ## EntryPoint v0.6
 
-### Request:
+### Usage
 
 ```json
 {
@@ -72,16 +164,77 @@ Returns all relevant fields needed sponsor a userOperation using a smart account
             "maxPriorityFeePerGas":"0x3b9aca00",
             "maxFeePerGas":"0x7a5cf70d5",
             "paymasterAndData":"0x",
-            "signature":"0x00000000fffffffffffffffffffffffffffffff0000000000000000000000000000000007aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1c"
+            "signature":"0x00000000fffffffffffffffffffffffffffffff0000000000000000000000000000000007aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1c",
+            "eip7702Auth": {
+                "contractAddress": "0x1234567890123456789012345678901234567890",
+                "chainId": "0x1",
+                "nonce": "0x1",
+                "r": "0x1234567890123456789012345678901234567890123456789012345678901234",
+                "s": "0x1234567890123456789012345678901234567890123456789012345678901234",
+                "v": "0x1b",
+                "yParity": "0x1"
+            }
         },
         "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
-        { "token": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48" }
+        "0x1",
+        {
+            "token": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+            // Or alternatively: "sponsorshipPolicyId": "policy-123456"
+        }
     ],
     "id": 1
 }
 ```
 
-### Response:
+### Parameters
+
+The method accepts an array with the following parameters:
+
+1. **userOperation** - `Object`: The user operation object containing the following fields:
+
+    - **sender** - `Address`: The account making the operation.
+    
+    - **nonce** - `HexString`: Unique identifier for the request from this sender.
+    
+    - **initCode** - `HexData`: The initialization code for the smart account if it doesn't exist yet.
+    
+    - **callData** - `HexData`: The data to pass to the sender during the main execution call.
+    
+    - **callGasLimit** - `HexNumber`: The amount of gas to allocate the main execution call.
+    
+    - **verificationGasLimit** - `HexNumber`: The amount of gas to allocate for the verification step.
+    
+    - **preVerificationGas** - `HexNumber`: The amount of gas to pay for to compensate the bundler for pre-verification execution and calldata.
+    
+    - **maxFeePerGas** - `HexNumber`: Maximum fee per gas (similar to EIP-1559 max_fee_per_gas).
+    
+    - **maxPriorityFeePerGas** - `HexNumber`: Maximum priority fee per gas (similar to EIP-1559 max_priority_fee_per_gas).
+    
+    - **paymasterAndData** - `HexData`: The combined paymaster address and data to be used in the user operation.
+    
+    - **signature** - `HexData`: The signature of the user operation.
+    
+    - **eip7702Auth** - `Object (optional)`: EIP-7702 authorization data, can be null. Contains the following fields:
+      - **contractAddress** - `Address`: The contract address that signed the authorization.
+      - **chainId** - `HexNumber`: The chain ID as a hex string.
+      - **nonce** - `HexNumber`: The nonce as a hex string.
+      - **r** - `HexData32`: The r component of the signature.
+      - **s** - `HexData32`: The s component of the signature.
+      - **v** - `HexNumber`: The v component of the signature.
+      - **yParity** - `HexNumber`: The y-parity of the signature.
+
+2. **entryPoint** - `Address`: The entry point contract address.
+
+3. **chainId** - `HexNumber`: The chain ID in hexadecimal format.
+
+4. **context** - `Object | null`: Additional context information. Can be one of:
+   - An object with **token** - `Address`: The ERC-20 token address to use for payment.
+   - An object with **sponsorshipPolicyId** - `String`: The ID of the sponsorship policy to use.
+   - `null`: No additional context.
+
+### Returns
+
+The method returns an object containing paymaster-related fields and updated gas parameters for EntryPoint v0.6.
 
 ```json
 {
@@ -96,3 +249,17 @@ Returns all relevant fields needed sponsor a userOperation using a smart account
     "id": 1
 }
 ```
+
+### Return Fields
+
+The response includes the following fields:
+
+- **paymasterAndData** - `HexData`: The combined paymaster address and data to be used in the user operation.
+
+- **preVerificationGas** - `HexNumber`: The updated preVerificationGas value to use in the user operation.
+
+- **verificationGas** - `HexNumber`: The amount of gas to allocate for the verification step.
+
+- **verificationGasLimit** - `HexNumber`: The updated verificationGasLimit value to use in the user operation.
+
+- **callGasLimit** - `HexNumber`: The updated callGasLimit value to use in the user operation.

@@ -1,25 +1,21 @@
 # eth_sendUserOperation
 
-This method returns submits the user operation to be included on-chain, and returns the `userOpHash` if successful (or queued). If the operation is not successful, it will return an error.
+Submits a user operation to be included on-chain and returns the `userOpHash` if successful (or queued). If the operation is not successful, it will return an error.
 
 ## EntryPoint v0.7
 
-### Request
-
 :::warning[Warning]
-
 The EntryPoint v0.7 API expects an `UnpackedUserOperation` instead of a `PackedUserOperation`.
 According to the spec it is bundler's responsibility to pack the userOp before sending it to the EntryPoint.
 So make sure to send an `UnpackedUserOperation` to the bundler.
-
 :::
 
 :::warning[Warning]
-
 For entryPoint v0.7, we will not be reverting if the execution of the `callData` field in the user operation fails.
 We revert only when you are calling `eth_estimateUserOperationGas`.
-
 :::
+
+### Usage
 
 ```json
 {
@@ -30,8 +26,8 @@ We revert only when you are calling `eth_estimateUserOperationGas`.
             "sender": "0x5a6b47F4131bf1feAFA56A05573314BcF44C9149",
             "nonce": "0x845ADB2C711129D4F3966735ED98A9F09FC4CE5700000000000000000000",
             "factory": "0xd703aaE79538628d27099B8c4f621bE4CCd142d5",
-            "factoryData": "0xc5265d5d000000000000000000000000aac5d4240af87249b3f71bc8e4a2cae074a3e4190000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001243c3b752b01845ADb2C711129d4f3966735eD98a9F09fC4cE570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000000e000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000014375d883Cb4afb913aC35c4B394468C4bC73d77C40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-            "callData": "0xe9ae5c5300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000003400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "factoryData": "0xc5265d5d000000000000000000000000aac5d4240af87249b3f71bc8e4a2cae074a3e419...",
+            "callData": "0xe9ae5c5300000000000000000000000000000000000000000000000000000000000000000000000000...",
             "callGasLimit": "0x13880",
             "verificationGasLimit": "0x60B01",
             "preVerificationGas": "0xD3E3",
@@ -49,7 +45,11 @@ We revert only when you are calling `eth_estimateUserOperationGas`.
 }
 ```
 
-### Response
+### Returns
+
+- **Type:** `HexString32Bytes`
+
+The hash of the user operation (`userOpHash`). This hash uniquely identifies the user operation and can be used to track its status.
 
 ```json
 {
@@ -59,9 +59,62 @@ We revert only when you are calling `eth_estimateUserOperationGas`.
 }
 ```
 
+### Parameters
+
+The method accepts an array with the following parameters:
+
+1. **userOperation** - `Object`: The user operation object containing the following fields:
+
+    - **sender** - `Address`: The account making the operation.
+    
+    - **nonce** - `HexString`: Unique identifier for the request from this sender. For v0.7, this includes the key and sequence number.
+    
+    - **factory** - `Address (optional)`: The factory contract address that will deploy the smart account if it doesn't exist yet.
+    
+    - **factoryData** - `HexData (optional)`: The data that will be passed to the factory contract to deploy the smart account.
+    
+    - **callData** - `HexData`: The data to pass to the sender during the main execution call.
+    
+    - **callGasLimit** - `HexNumber`: The amount of gas to allocate the main execution call.
+    
+    - **verificationGasLimit** - `HexNumber`: The amount of gas to allocate for the verification step.
+    
+    - **preVerificationGas** - `HexNumber`: The amount of gas to pay for to compensate the bundler for pre-verification execution and calldata.
+    
+    - **maxFeePerGas** - `HexNumber`: Maximum fee per gas (similar to EIP-1559 max_fee_per_gas).
+    
+    - **maxPriorityFeePerGas** - `HexNumber`: Maximum priority fee per gas (similar to EIP-1559 max_priority_fee_per_gas).
+    
+    - **paymaster** - `Address (optional)`: Address of paymaster sponsoring the transaction, or null if none.
+    
+    - **paymasterVerificationGasLimit** - `HexNumber (optional)`: The amount of gas to allocate for the verification step of the paymaster, or null if no paymaster.
+    
+    - **paymasterPostOpGasLimit** - `HexNumber (optional)`: The amount of gas to allocate for the post-operation step of the paymaster, or null if no paymaster.
+    
+    - **paymasterData** - `HexData (optional)`: The data to pass to the paymaster during the verification step, or null if no paymaster.
+    
+    - **signature** - `HexData`: The signature data.
+    
+    - **eip7702Auth** - `SignedAuthorization (optional)`: The EIP-7702 authorization data. `SignedAuthorization Type`:
+
+        ```typescript
+        {
+            contractAddress: Address,      // addressSchema - The contract address for the authorization
+            chainId: Hex,                  // hexNumberSchema transformed to Hex - The chain ID
+            nonce: Hex,                    // hexNumberSchema transformed to Hex - The nonce
+            r: Hex,                        // hexData32Schema transformed to Hex - The r component of the signature
+            s: Hex,                        // hexData32Schema transformed to Hex - The s component of the signature
+            v: HexString,                  // hexNumberSchema - The v component of the signature
+            yParity: HexNumber             // hexNumberSchema transformed to Hex - The y-parity value
+        }
+        ```
+
+2. **entryPoint** - `Address`: The entry point contract address (`0x0000000071727De22E5E9d8BAf0edAc6f37da032`).
+
+
 ## EntryPoint v0.6
 
-### Request
+### Usage
 
 ```json
 {
@@ -71,8 +124,8 @@ We revert only when you are calling `eth_estimateUserOperationGas`.
         {
             "sender":"0xb341FEAFaF71b09089d03B7D114599f8F491EE45",
             "nonce":"0x0",
-            "initCode":"0x5de4839a76cf55d0c90e2061ef4386d962E15ae3296601cd0000000000000000000000000da6a956b9488ed4dd761e59f52fdc6c8068e6b5000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000084d1f57894000000000000000000000000d9ab5096a832b9ce79914329daee236f8eea039000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000014375cd3E53E18f65672E9d0Eb6AD174511b0BF98100000000000000000000000000000000000000000000000000000000000000000000000000000000",
-            "callData":"0x5194544700000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "initCode":"0x5de4839a76cf55d0c90e2061ef4386d962E15ae3296601cd0000000000000000000000000da6a956b9488ed4dd761e59f52fdc6c8068e6b5...",
+            "callData":"0x5194544700000000000000000000000000000000000000000000000000000000000000000000000000...",
             "callGasLimit":"0x115b5c0",
             "verificationGasLimit":"0x249f0",
             "preVerificationGas":"0xeb11",
@@ -87,7 +140,11 @@ We revert only when you are calling `eth_estimateUserOperationGas`.
 }
 ```
 
-### Response
+### Returns
+
+- **Type:** `HexString32Bytes`
+
+The hash of the user operation (`userOpHash`). This hash uniquely identifies the user operation and can be used to track its status.
 
 ```json
 {
@@ -96,3 +153,47 @@ We revert only when you are calling `eth_estimateUserOperationGas`.
     "result": "0x4c31ae84205a9c862dd8d0822f427fb516448451850ee6f65351951f6a2b2154"
 }
 ```
+
+### Parameters
+
+The method accepts an array with the following parameters:
+
+1. **userOperation** - `Object`: The user operation object containing the following fields:
+
+    - **sender** - `Address`: The account making the operation.
+    
+    - **nonce** - `HexString`: Unique identifier for the request from this sender.
+    
+    - **initCode** - `HexData`: The initialization code for the smart account if it doesn't exist yet.
+    
+    - **callData** - `HexData`: The data to pass to the sender during the main execution call.
+    
+    - **callGasLimit** - `HexNumber`: The amount of gas to allocate the main execution call.
+    
+    - **verificationGasLimit** - `HexNumber`: The amount of gas to allocate for the verification step.
+    
+    - **preVerificationGas** - `HexNumber`: The amount of gas to pay for to compensate the bundler for pre-verification execution and calldata.
+    
+    - **maxFeePerGas** - `HexNumber`: Maximum fee per gas (similar to EIP-1559 max_fee_per_gas).
+    
+    - **maxPriorityFeePerGas** - `HexNumber`: Maximum priority fee per gas (similar to EIP-1559 max_priority_fee_per_gas).
+    
+    - **paymasterAndData** - `HexData`: The address of the paymaster contract and the data that will be passed to it.
+    
+    - **signature** - `HexData`: The signature data.
+    
+    - **eip7702Auth** - `SignedAuthorization (optional)`: The EIP-7702 authorization data. `SignedAuthorization Type`:
+
+        ```typescript
+        {
+            contractAddress: Address,      // addressSchema - The contract address for the authorization
+            chainId: Hex,                  // hexNumberSchema transformed to Hex - The chain ID
+            nonce: Hex,                    // hexNumberSchema transformed to Hex - The nonce
+            r: Hex,                        // hexData32Schema transformed to Hex - The r component of the signature
+            s: Hex,                        // hexData32Schema transformed to Hex - The s component of the signature
+            v: HexString,                  // hexNumberSchema - The v component of the signature
+            yParity: HexNumber             // hexNumberSchema transformed to Hex - The y-parity value
+        }
+        ```
+
+2. **entryPoint** - `Address`: The entry point contract address (`0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789`).
