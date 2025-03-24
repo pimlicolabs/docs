@@ -1,0 +1,219 @@
+# pimlico_traceTokenEvents
+
+:::warning
+NOTICE: This page is still in draft and the API may change.
+:::
+
+:::note
+This endpoint does not support v0.6 user operations.
+:::
+
+This method traces token-related events that a user operation would produce if executed. It simulates the user operation and tracks all token transfer and approval events, including native currency, ERC-20, and ERC-721 tokens.
+
+## Request
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "pimlico_traceTokenEvents",
+    "id": 4337,
+    "params": [
+        {
+            "sender": "0x5a6b47F4131bf1feAFA56A05573314BcF44C9149",
+            "nonce": "0x1",
+            "callData": "0xe9ae5c53...",
+            "callGasLimit": "0x0",
+            "verificationGasLimit": "0x0",
+            "preVerificationGas": "0x0",
+            "maxFeePerGas": "0x7a5cf70d5",
+            "maxPriorityFeePerGas": "0x3b9aca00",
+            "paymasterVerificationGasLimit": "0x0",
+            "paymasterPostOpGasLimit": "0x0",
+            "signature": "0xfffffffffffffffffffffffffffffff0000000000000000000000000000000007aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1c"
+        },
+        "0x0000000071727De22E5E9d8BAf0edAc6f37da032"
+    ]
+}
+```
+
+### Parameters
+
+1. `userOperation`: Expects the same userOperation format as eth_estimateUserOperationGas
+    - Signature must be a valid dummy signature
+    - Gas fields (`callGasLimit`, `verificationGasLimit`, `preVerificationGas`, `paymasterPostOpGasLimit`, `paymasterVerificationGasLimit`) are optional
+    - Gas price fields (`maxFeePerGas`, `maxPriorityFeePerGas`) are optional
+2. `entryPoint`: EntryPoint Address
+3. `blockNumber` (optional): hex encoded block number to run the simulation at (defaults to latest)
+
+## Response
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "tokenEvents": [
+      {
+        "assetType": "NATIVE",
+        "event": "transfer",
+        "from": "0x18FB6D89236aba1f8BF3dB506ad036Bb10d235A8",
+        "to": "0x95222290DD7278Aa3Ddd389Cc1E1d165CC4BAfe5",
+        "value": "0x16345785d8a0000"
+      },
+      {
+        "assetType": "ERC-20",
+        "event": "approval",
+        "tokenAddress": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+        "owner": "0x18FB6D89236aba1f8BF3dB506ad036Bb10d235A8",
+        "spender": "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
+        "value": "0xf4240",
+        "name": "USD Coin",
+        "symbol": "USDC",
+        "decimals": 6
+      },
+      {
+        "assetType": "ERC-20",
+        "event": "transfer",
+        "tokenAddress": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+        "from": "0x18FB6D89236aba1f8BF3dB506ad036Bb10d235A8",
+        "to": "0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc",
+        "value": "0xf4240",
+        "name": "USD Coin",
+        "symbol": "USDC",
+        "decimals": 6
+      },
+      {
+        "assetType": "ERC-20",
+        "event": "transfer",
+        "tokenAddress": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+        "from": "0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc",
+        "to": "0xBb2b8038a1640196FbE3e38816F3e67Cba72D940",
+        "value": "0x1b26a035758c4",
+        "name": "Wrapped Ether",
+        "symbol": "WETH",
+        "decimals": 18
+      },
+      {
+        "assetType": "ERC-20",
+        "event": "transfer",
+        "tokenAddress": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+        "from": "0xBb2b8038a1640196FbE3e38816F3e67Cba72D940",
+        "to": "0x18FB6D89236aba1f8BF3dB506ad036Bb10d235A8",
+        "value": "0x469",
+        "name": "Wrapped BTC",
+        "symbol": "WBTC",
+        "decimals": 8
+      }
+    ]
+  }
+}
+```
+
+### Response Format
+
+The `tokenEvents` array contains objects with different structures based on asset type. Here are examples of each event type:
+
+### Native Currency Events
+
+```json
+{
+    "assetType": "NATIVE",
+    "event": "transfer",
+    "from": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+    "to": "0x123F681646d4A755815f9CB19e1aCc8565A0c2AC",
+    "value": "0x2386f26fc10000"
+}
+```
+
+### ERC-20 Token Events
+
+**ERC-20 Transfer:**
+```json
+{
+    "assetType": "ERC-20",
+    "event": "transfer",
+    "tokenAddress": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    "from": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+    "to": "0xaB7C8803962c0f2F5BBBe3FA8bF41cd82AA1923C",
+    "value": "0x989680",
+    "name": "USD Coin",
+    "symbol": "USDC",
+    "decimals": 6
+}
+```
+
+**ERC-20 Approval:**
+```json
+{
+    "assetType": "ERC-20",
+    "event": "approval",
+    "tokenAddress": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    "owner": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+    "spender": "0x4bBeEB066eD09B7AEd07bF39EEe0460DFa261520",
+    "value": "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "name": "USD Coin",
+    "symbol": "USDC",
+    "decimals": 6
+}
+```
+
+### ERC-721 Token Events
+
+**ERC-721 Transfer:**
+```json
+{
+    "assetType": "ERC-721",
+    "event": "transfer",
+    "tokenAddress": "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
+    "from": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+    "to": "0xaB7C8803962c0f2F5BBBe3FA8bF41cd82AA1923C",
+    "tokenId": "0x5c0",
+    "name": "Bored Ape Yacht Club",
+    "symbol": "BAYC"
+}
+```
+
+**ERC-721 Approval:**
+```json
+{
+    "assetType": "ERC-721",
+    "event": "approval",
+    "tokenAddress": "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
+    "owner": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+    "spender": "0x4bBeEB066eD09B7AEd07bF39EEe0460DFa261520",
+    "tokenId": "0x5c1",
+    "name": "Bored Ape Yacht Club",
+    "symbol": "BAYC"
+}
+```
+
+**ERC-721 Approval For All:**
+```json
+{
+    "assetType": "ERC-721",
+    "event": "approvalForAll",
+    "tokenAddress": "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
+    "owner": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+    "operator": "0x4bBeEB066eD09B7AEd07bF39EEe0460DFa261520",
+    "approved": true,
+    "name": "Bored Ape Yacht Club",
+    "symbol": "BAYC"
+}
+```
+
+## Token Metadata Fields
+
+All token events (except for native transfers) may include metadata fields:
+
+- For ERC-20 tokens: `name`, `symbol`, `decimals`
+- For ERC-721 tokens: `name`, `symbol`
+
+These fields will be included when they can be found, otherwise they'll be undefined. This is because metadata is optional in both the ERC-20 and ERC-721 specifications, though most tokens do support these fields.
+
+## Error Responses
+
+| Error Code | Description |
+| :--------- | :---------- |
+| AA23 | UserOperation reverted during simulation |
+| UserOperationReverted | User operation execution failed during simulation |
+| SimulateValidation | Validation failed for the user operation |

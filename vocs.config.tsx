@@ -150,6 +150,10 @@ export const bundlerSidebar = [
 				text: "pimlico_getUserOperationStatus",
 				link: "/infra/bundler/endpoints/pimlico_getUserOperationStatus",
 			},
+			{
+				text: "pimlico_traceTokenEvents",
+				link: "/infra/bundler/endpoints/pimlico_traceTokenEvents",
+			},
 		],
 	},
 	{
