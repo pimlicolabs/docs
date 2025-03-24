@@ -34,7 +34,7 @@ The context parameter can be one of the following:
             "paymasterPostOpGasLimit": null,
             "paymasterData": null,
             "eip7702Auth": {
-                "contractAddress": "0x1234567890123456789012345678901234567890",
+                "address": "0x1234567890123456789012345678901234567890",
                 "chainId": "0x1",
                 "nonce": "0x1",
                 "r": "0x1234567890123456789012345678901234567890123456789012345678901234",
@@ -89,7 +89,7 @@ The method accepts an array with the following parameters:
     - **paymasterData** - `HexData (optional)`: The data to pass to the paymaster during the verification step, or null if no paymaster.
     
     - **eip7702Auth** - `Object (optional)`: EIP-7702 authorization data, can be null. This can be a dummy authorization. Contains the following fields:
-      - **contractAddress** - `Address`: The contract address that signed the authorization.
+      - **address** - `Address`: The contract address that signed the authorization.
       - **chainId** - `HexNumber`: The chain ID as a hex string.
       - **nonce** - `HexNumber`: The nonce as a hex string.
       - **r** - `HexData32`: The r component of the signature.
@@ -155,7 +155,7 @@ The response includes the following fields:
             "paymasterAndData":"0x",
             "signature":"0xa6cc6589c8bd561cfd68d7b6b0757ef6f208e7438782939938498eee7d703260137856c840c491b3d415956265e81bf5c2184a725be2abfc365f7536b6af525e1c",
             "eip7702Auth": {
-                "contractAddress": "0x1234567890123456789012345678901234567890",
+                "address": "0x1234567890123456789012345678901234567890",
                 "chainId": "0x1",
                 "nonce": "0x1",
                 "r": "0x1234567890123456789012345678901234567890123456789012345678901234",
@@ -218,7 +218,7 @@ The method accepts an array with the following parameters:
     - **signature** - `HexData`: The signature of the user operation.
     
     - **eip7702Auth** - `Object (optional)`: EIP-7702 authorization data, can be null. This can be a dummy authorization. Contains the following fields:
-      - **contractAddress** - `Address`: The contract address that signed the authorization.
+      - **address** - `Address`: The contract address that signed the authorization.
       - **chainId** - `HexNumber`: The chain ID as a hex string.
       - **nonce** - `HexNumber`: The nonce as a hex string.
       - **r** - `HexData32`: The r component of the signature.
