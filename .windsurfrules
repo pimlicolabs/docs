@@ -1,0 +1,41 @@
+# Pimlico Documentation Rules
+
+## Documentation Style
+
+- Follow Pimlico's style guidelines for all documentation pages
+- Use consistent headings, formatting, and terminology
+- Ensure all documentation is clear and accessible
+
+## Code Examples
+
+- All code examples should be properly formatted and include necessary imports
+- Follow TypeScript/JavaScript best practices in all examples
+- Ensure code examples are up-to-date with the latest API versions
+
+## API Documentation
+
+- API endpoint documentation should include parameters, return values, and
+  examples
+- Use consistent formatting for all endpoint documentation
+- Include error handling information where applicable
+
+## Conceptual Documentation
+
+- Explain underlying principles clearly with appropriate examples
+- Include diagrams where helpful
+- Link related concepts appropriately
+
+## Formatting
+
+- Use Biome for consistent formatting
+- Follow project-specific formatting guidelines
+
+## Links and References
+
+- Ensure all internal links point to valid pages
+- Keep external references up-to-date
+
+## Deprecated Documentation
+
+- docs/pages/permissionless/v0_1 is a deprecated version of the Permissionless,
+  do not make any changes to this page
