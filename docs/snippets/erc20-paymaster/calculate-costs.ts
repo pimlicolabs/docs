@@ -94,10 +94,10 @@ const userOperationMaxCost = userOperationMaxGas * op.maxFeePerGas
 // [!endregion calculateMaxCost]
 
 // [!region calculateCostInToken]
-// represents the userOperation's max cost in demoniation of wei
+// represents the userOperation's max cost in denomination of wei
 const maxCostInWei = userOperationMaxCost + postOpGas * op.maxFeePerGas
 
-// represents the userOperation's max cost in token demoniation (wei)
+// represents the userOperation's max cost in token denomination (wei)
 const maxCostInTokenRaw = (maxCostInWei * exchangeRate) / BigInt(1e18)
 
 // represents the userOperation's max cost in token (human readable format)
