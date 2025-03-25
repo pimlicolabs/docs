@@ -34,7 +34,7 @@ When constructing your user operation, you'd use the [pimlico_getUserOperationGa
 
 [eth_estimateUserOperationGas](/infra/bundler/endpoints/eth_estimateUserOperationGas) estimates the gas limits for the user operation (i.e. how much total gas can be spent for the difference stages of the user operation). In contrast, [pimlico_getUserOperationGasPrice](/infra/bundler/endpoints/pimlico_getUserOperationGasPrice) responds with the gas prices (i.e. for each unit of gas, what is the amount of ETH you're willing to pay to the bundler).
 
-## Is there be a way of tracking gas fee payments?
+## Is there a way of tracking gas fee payments?
 
 Our dashboards provide a way for you to view data about how much you spent on sponsorship for user operations on different chains, however there is currently no specific information on the gas price overhead paid to the bundler. However, all this information is available and can be compiled onchain through block explorers like Etherscan.
 
