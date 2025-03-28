@@ -2,7 +2,6 @@
 import { createWalletClient, Hex, http, zeroAddress } from "viem";
 import { privateKeyToAccount, privateKeyToAddress } from "viem/accounts";
 import { odysseyTestnet } from "viem/chains";
-import { eip7702Actions } from "viem/experimental";
 import { safeAbiImplementation } from "./safeAbi";
 import { getSafeModuleSetupData } from "./setupData";
 import dotenv from "dotenv";
@@ -17,7 +16,7 @@ const walletClient = createWalletClient({
 	account,
 	chain: odysseyTestnet,
 	transport: http("https://odyssey.ithaca.xyz"),
-}).extend(eip7702Actions());
+})
 
 const SAFE_SINGLETON_ADDRESS = "0x41675C099F32341bf84BFc5382aF534df5C7461a";
 
