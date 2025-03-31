@@ -250,19 +250,11 @@ function createFlashFundTransport(
 
 export class FlashFund {
 	chainId: number
-	pimlicoApiUrl: string
 	logHooks?: LogHooks
 
 	constructor(logHooks?: LogHooks) {
 		this.chainId = sepolia.id
 		this.logHooks = logHooks
-		const pimlicoApiUrl = process.env.NEXT_PUBLIC_PIMLICO_API_URL
-
-		if (!pimlicoApiUrl) {
-			throw new Error("NEXT_PUBLIC_PIMLICO_API_URL is not set")
-		}
-
-		this.pimlicoApiUrl = pimlicoApiUrl
 	}
 
 	setChainId(chainId: number) {

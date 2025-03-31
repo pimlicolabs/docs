@@ -67,9 +67,9 @@ const smartAccountClient = createSmartAccountClient({
 
 // [!region flashfund_sponsorWithdrawal]
 
-const magicSpend = new FlashFund()
+const flashFund = new FlashFund()
 
-const [contract, calldata] = await magicSpend.sponsorWithdrawal({
+const [contract, calldata] = await flashFund.sponsorWithdrawal({
 	type: "credits",
 	data: {
 		token: ETH,

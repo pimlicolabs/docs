@@ -1,0 +1,102 @@
+# How to create a user operation which converts ETH to USDC on Uniswap V3
+
+This guide demonstrates how to create a user operation that swaps ETH for USDC using Uniswap V3. By leveraging Account Abstraction and Pimlico's infrastructure, you can create gasless swaps and provide a seamless experience for your users.
+
+## Prerequisites
+
+- A Pimlico API key (get one from the [Pimlico Dashboard](https://dashboard.pimlico.io))
+- Basic understanding of Account Abstraction and ERC-4337
+- Familiarity with TypeScript and Viem
+- Access to a network with Uniswap V3 deployed (we'll use Sepolia in this example)
+
+## Steps
+
+::::steps
+
+### Set up the clients
+
+First, we need to set up the necessary clients for interacting with the blockchain and Pimlico's services. We'll create a public client for reading from the blockchain and a Pimlico client for interacting with Pimlico's bundler and paymaster services.
+
+```ts
+// [!include ~/snippets/flash-fund/eth-to-usdc-uniswap.ts:clients]
+```
+
+### Create a smart account
+
+For this guide, we'll use a Safe smart account. This account is an ERC-4337 wallet controlled by a single EOA signer.
+
+```ts
+// [!include ~/snippets/flash-fund/eth-to-usdc-uniswap.ts:smartAccount]
+```
+
+### Create the smart account client
+
+Now that we have a `SmartAccount` instance, we need to create a `SmartAccountClient` instance to be able to transact from it. We'll also configure it to use Pimlico's bundler and paymaster services.
+
+```ts
+// [!include ~/snippets/flash-fund/eth-to-usdc-uniswap.ts:smartAccountClient]
+```
+
+### Define the Uniswap V3 interface
+
+To interact with Uniswap V3, we need to define the ABI for the functions we'll be using. We'll also define the addresses for the Uniswap V3 Router, WETH, and USDC tokens.
+
+```ts
+// [!include ~/snippets/flash-fund/eth-to-usdc-uniswap.ts:uniswapInterfaces]
+```
+
+:::info
+The addresses provided in this example are for the Sepolia testnet. Make sure to replace them with the correct addresses for the network you're using.
+:::
+
+### Create swap helper functions
+
+Now, let's create helper functions for getting a quote and creating the calldata for swapping ETH to USDC.
+
+```ts
+// [!include ~/snippets/flash-fund/eth-to-usdc-uniswap.ts:swapFunctions]
+```
+
+These functions handle:
+1. Getting a quote for the expected amount of USDC to receive
+2. Calculating the minimum amount out based on slippage
+3. Setting a deadline for the swap
+4. Encoding the function call to the Uniswap V3 Router
+
+### Execute the swap
+
+Finally, let's create a function to execute the swap and submit the user operation.
+
+```ts
+// [!include ~/snippets/flash-fund/eth-to-usdc-uniswap.ts:executeSwap]
+```
+
+This function:
+1. Gets the ETH from FlashFund
+2. Gets a quote for the expected amount of USDC
+3. Creates the swap calldata
+4. Submits the user operation to the bundler
+5. Returns the transaction hash
+
+### Run the swap
+
+Now, let's execute the swap with a small amount of ETH.
+
+```ts
+// [!include ~/snippets/flash-fund/eth-to-usdc-uniswap.ts:main]
+```
+
+When you run this code, you should see output similar to:
+
+```
+Smart account address: https://sepolia.etherscan.io/address/0x...
+Swapping 0.01 ETH for USDC...
+Expected to receive approximately 25.123456 USDC for 0.01 ETH
+Swap transaction submitted: https://sepolia.etherscan.io/tx/0x...
+```
+
+::::
+
+## Complete code example
+
+You can find the complete code example in the [snippets directory](https://github.com/pimlicolabs/docs/blob/main/docs/snippets/flash-fund/eth-to-usdc-uniswap.ts).
