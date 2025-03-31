@@ -63,13 +63,13 @@ const smartAccountClient = createSmartAccountClient({
 	paymaster: pimlicoClient,
 })
 
-const magicSpend = new FlashFund()
-magicSpend.setChainId(sepolia.id)
+const flashFund = new FlashFund()
+flashFund.setChainId(sepolia.id)
 
 // [!endregion clients]
 
 // [!region flashfund_prepareLock]
-const [stakeAddress, stakeCalldata, stakeValue] = await magicSpend.prepareStake({
+const [stakeAddress, stakeCalldata, stakeValue] = await flashFund.prepareStake({
 	type: "pimlico_lock",
 	data: {
 		token: ETH,
@@ -92,14 +92,14 @@ await smartAccountClient.sendUserOperation({
 // [!endregion flashfund_prepareLock]
 
 // [!region flashfund_getLocks]
-const stakes = await magicSpend.getStakes({
+const stakes = await flashFund.getStakes({
 	account: simpleAccount.address,
 })
 console.log(`Stakes: ${JSON.stringify(stakes, null, 2)}`)
 // [!endregion flashfund_getLocks]
 
 // [!region flashfund_prepareAllowance]
-const allowance = await magicSpend.prepareAllowance({
+const allowance = await flashFund.prepareAllowance({
 	type: "pimlico_lock",
 	data: {
 		account: simpleAccount.address,
@@ -146,7 +146,7 @@ const signature = await signer.signTypedData({
 // [!endregion flashfund_prepareAllowance]
 
 // [!region flashfund_sponsorWithdrawal]
-const [contract, calldata] = await magicSpend.sponsorWithdrawal({
+const [contract, calldata] = await flashFund.sponsorWithdrawal({
 	type: "pimlico_lock",
 	data: {
 		allowance,
