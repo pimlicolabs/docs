@@ -1281,6 +1281,10 @@ export const flashFundSidebar = [
 				text: "How to use Pimlico Lock",
 				link: "/infra/flash-fund/how-to/pimlico-lock",
 			},
+			{
+				text: "How to use FlashFund to swap ETH for USDC on Uniswap V3",
+				link: "/infra/flash-fund/how-to/eth-to-usdc-uniswap",
+			},
 		],
 	},
 	{

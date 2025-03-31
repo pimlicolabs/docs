@@ -72,7 +72,7 @@ Finally, let's create a function to execute the swap and submit the user operati
 ```
 
 This function:
-1. Converts the ETH amount to wei
+1. Gets the ETH from FlashFund
 2. Gets a quote for the expected amount of USDC
 3. Creates the swap calldata
 4. Submits the user operation to the bundler
@@ -97,22 +97,6 @@ Swap transaction submitted: https://sepolia.etherscan.io/tx/0x...
 
 ::::
 
-## How it works
-
-This example demonstrates several key concepts:
-
-1. **Account Abstraction**: We're using a smart account to execute the swap, which allows for more complex operations than a regular EOA.
-2. **Gasless Transactions**: By using Pimlico's paymaster, we can sponsor the gas fees for the user operation.
-3. **Uniswap V3 Integration**: We're interacting with Uniswap V3's `exactInputSingle` function to swap ETH for USDC.
-4. **Slippage Protection**: We calculate a minimum amount out based on the expected amount and a slippage percentage.
-
-## Next steps
-
-- Explore other Uniswap V3 functions like `exactOutput` or `exactOutputSingle`
-- Add support for swapping between other token pairs
-- Implement a UI for users to input the amount and token pair
-- Add error handling and retry logic for failed swaps
-
 ## Complete code example
 
-You can find the complete code example in the [snippets directory](https://github.com/pimlicolabs/pimlico-docs/blob/main/docs/snippets/infra/flash-fund/how-to/eth-to-usdc-uniswap.ts).
+You can find the complete code example in the [snippets directory](https://github.com/pimlicolabs/pimlico-docs/blob/main/docs/snippets/flash-fund/eth-to-usdc-uniswap.ts).
