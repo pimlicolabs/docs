@@ -7,7 +7,7 @@ import {
 import { ENTRYPOINT_ADDRESS_V07 } from "permissionless"
 
 const publicClient = createPublicClient({
-	transport: http("https://rpc.ankr.com/eth_sepolia"),
+	transport: http("https://sepolia.rpc.thirdweb.com"),
 })
 
 const bundlerClient = createPimlicoBundlerClient({

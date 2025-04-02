@@ -12,7 +12,7 @@ const para = new Para(env, apiKey)
 // Follow the Para docs for more instructions on creating the Viem client https://docs.getpara.com/integration-guide/signing-transactions
 const viemClient = createParaViemClient(para, {
 	chain: sepolia,
-	transport: http("https://rpc.ankr.com/eth_sepolia"),
+	transport: http("https://sepolia.rpc.thirdweb.com"),
 })
 
 const smartAccountSigner = walletClientToSmartAccountSigner(viemClient)

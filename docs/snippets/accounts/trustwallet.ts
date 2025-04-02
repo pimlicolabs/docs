@@ -7,7 +7,7 @@ import { sepolia } from "viem/chains"
 
 // [!region clients]
 export const publicClient = createPublicClient({
-	transport: http("https://rpc.ankr.com/eth_sepolia"),
+	transport: http("https://sepolia.rpc.thirdweb.com"),
 })
 
 export const pimlicoClient = createPimlicoClient({

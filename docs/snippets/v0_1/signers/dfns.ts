@@ -39,7 +39,7 @@ const sepoliaWallet = await initDfnsWallet(SEPOLIA_WALLET_ID)
 const account = toAccount(sepoliaWallet as AccountSource)
 const walletClient = createWalletClient({
 	account,
-	transport: http("https://rpc.ankr.com/eth_sepolia"),
+	transport: http("https://sepolia.rpc.thirdweb.com"),
 })
 
 const smartAccountSigner = walletClientToSmartAccountSigner(walletClient)

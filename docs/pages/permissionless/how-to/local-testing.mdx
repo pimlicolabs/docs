@@ -256,7 +256,7 @@ services:
   anvil:
     image: ghcr.io/foundry-rs/foundry:nightly-c4a984fbf2c48b793c8cd53af84f56009dd1070c
     ports: [ "8545:8545" ]
-    entrypoint: [ "anvil", "--fork-url", "https://rpc.ankr.com/eth_sepolia", "--chain-id", "11155111", "--host", "0.0.0.0", "--block-time", "0.1", "--silent"] // [!code ++]
+    entrypoint: [ "anvil", "--fork-url", "https://sepolia.rpc.thirdweb.com", "--chain-id", "11155111", "--host", "0.0.0.0", "--block-time", "0.1", "--silent"] // [!code ++]
     platform: linux/amd64/v8
     healthcheck:
       test: ["CMD-SHELL", "cast rpc web3_clientVersion | grep -c anvil > /dev/null "]

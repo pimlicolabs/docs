@@ -15,7 +15,7 @@ const apiKey = "YOUR_PIMLICO_API_KEY"
 const bundlerUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=${apiKey}`
 
 const publicClient = createPublicClient({
-	transport: http("https://rpc.ankr.com/eth_sepolia"),
+	transport: http("https://sepolia.rpc.thirdweb.com"),
 })
 
 const pimlicoBundlerClient = createPimlicoBundlerClient({

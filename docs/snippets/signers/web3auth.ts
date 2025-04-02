@@ -12,7 +12,7 @@ const web3auth = new Web3Auth({
 	chainConfig: {
 		chainNamespace: CHAIN_NAMESPACES.EIP155,
 		chainId: "0xaa36a7",
-		rpcTarget: "https://rpc.ankr.com/eth_sepolia",
+		rpcTarget: "https://sepolia.rpc.thirdweb.com",
 		displayName: "Sepolia Testnet",
 		blockExplorer: "https://sepolia.etherscan.io",
 		ticker: "ETH",

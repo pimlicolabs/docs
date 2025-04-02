@@ -4,7 +4,7 @@ import { Magic as MagicBase } from "magic-sdk"
 
 const magic = new MagicBase(process.env.MAGIC_API_KEY as string, {
 	network: {
-		rpcUrl: "https://rpc.ankr.com/eth_sepolia",
+		rpcUrl: "https://sepolia.rpc.thirdweb.com",
 		chainId: 11155111,
 	},
 	extensions: [new OAuthExtension()],

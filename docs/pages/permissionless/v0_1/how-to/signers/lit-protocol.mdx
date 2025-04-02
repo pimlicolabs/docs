@@ -178,7 +178,7 @@ We will now generate a wallet that can act a regular Ethers.js wallet, but will 
 ```ts
 const pkpWallet = new PKPEthersWallet({
     pkpPubKey: pkp[pkp.length - 1].publicKey,
-    rpc: "<standard RPC URL for the chain you are using>", // e.g. https://rpc.ankr.com/eth_sepolia
+    rpc: "<standard RPC URL for the chain you are using>", // e.g. https://sepolia.rpc.thirdweb.com
     controllerSessionSigs: sessionSigs
 });
 

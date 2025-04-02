@@ -6,7 +6,7 @@ import { createPublicClient, http } from "viem"
 import { sepolia } from "viem/chains"
 
 export const publicClient = createPublicClient({
-	transport: http("https://rpc.ankr.com/eth_sepolia"),
+	transport: http("https://sepolia.rpc.thirdweb.com"),
 })
 
 // if using a paymaster

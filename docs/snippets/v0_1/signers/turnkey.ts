@@ -16,7 +16,7 @@ const turnkeyAccount = await createAccount({
 // Create a SmartAccountSigner from the turnkeyAccount
 const walletClient = createWalletClient({
 	account: turnkeyAccount,
-	transport: http("https://rpc.ankr.com/eth_sepolia"),
+	transport: http("https://sepolia.rpc.thirdweb.com"),
 })
 
 const smartAccountSigner = walletClientToSmartAccountSigner(walletClient)

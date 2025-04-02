@@ -1,6 +1,6 @@
 const bundlerUrl = "https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_API_KEY"
 const paymasterUrl = "https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_API_KEY"
-const rpcUrl = "https://rpc.ankr.com/eth_sepolia"
+const rpcUrl = "https://sepolia.rpc.thirdweb.com"
 const factoryAddress = "0x9406Cc6185a346906296840746125a0E44976454"
 const entryPoint = "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
 // ---cut---

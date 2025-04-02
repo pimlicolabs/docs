@@ -2,7 +2,7 @@
 import { createPublicClient, http } from "viem"
 
 const publicClient = createPublicClient({
-	transport: http("https://rpc.ankr.com/eth_sepolia"),
+	transport: http("https://sepolia.rpc.thirdweb.com"),
 })
 
 const pimlicoClient = createPimlicoClient({

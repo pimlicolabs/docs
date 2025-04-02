@@ -6,7 +6,7 @@ import { entryPoint07Address } from "viem/account-abstraction"
 
 const publicClient = createPublicClient({
 	chain: sepolia,
-	transport: http("https://rpc.ankr.com/eth_sepolia"),
+	transport: http("https://sepolia.rpc.thirdweb.com"),
 })
 
 const pimlicoUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=${apiKey}`

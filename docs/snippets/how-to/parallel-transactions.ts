@@ -9,7 +9,7 @@ import { privateKeyToAccount } from "viem/accounts"
 
 export const publicClient = createPublicClient({
 	chain: sepolia,
-	transport: http("https://rpc.ankr.com/eth_sepolia"),
+	transport: http("https://sepolia.rpc.thirdweb.com"),
 })
 
 // if using a paymaster
