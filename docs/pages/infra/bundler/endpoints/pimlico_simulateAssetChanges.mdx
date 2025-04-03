@@ -1,0 +1,189 @@
+# pimlico_simulateAssetChanges
+
+:::warning
+NOTICE: This page is still in draft and the API may change.
+:::
+
+:::note
+This endpoint does not support v0.6 user operations.
+:::
+
+This method traces token-related events that a user operation would produce if executed. It simulates the user operation and tracks all token transfer and approval events, including native currency, ERC-20, and ERC-721 tokens.
+
+## Request
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "pimlico_simulateAssetChanges",
+    "id": 4337,
+    "params": [
+        {
+            "sender": "0x5a6b47F4131bf1feAFA56A05573314BcF44C9149",
+            "nonce": "0x1",
+            "callData": "0xe9ae5c53...",
+            "callGasLimit": "0x0",
+            "verificationGasLimit": "0x0",
+            "preVerificationGas": "0x0",
+            "maxFeePerGas": "0x7a5cf70d5",
+            "maxPriorityFeePerGas": "0x3b9aca00",
+            "paymasterVerificationGasLimit": "0x0",
+            "paymasterPostOpGasLimit": "0x0",
+            "signature": "0xfffffffffffffffffffffffffffffff0000000000000000000000000000000007aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1c"
+        },
+        "0x0000000071727De22E5E9d8BAf0edAc6f37da032"
+    ]
+}
+```
+
+### Parameters
+
+1. `userOperation`: Expects the same userOperation format as eth_estimateUserOperationGas
+    - Signature must be a valid dummy signature
+    - Gas fields (`callGasLimit`, `verificationGasLimit`, `preVerificationGas`, `paymasterPostOpGasLimit`, `paymasterVerificationGasLimit`) are optional
+    - Gas price fields (`maxFeePerGas`, `maxPriorityFeePerGas`) are optional
+2. `entryPoint`: EntryPoint Address
+3. `blockNumber` (optional): hex encoded block number to run the simulation at (defaults to latest)
+
+## Response
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "assetChanges": [
+      {
+        "token": {
+          "tokenType": "ERC-20",
+          "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+          "decimals": 6,
+          "name": "USD Coin",
+          "symbol": "USDC"
+        },
+        "value": {
+          "diff": "-1000000",
+          "pre": "100000000",
+          "post": "99000000"
+        }
+      },
+      {
+        "token": {
+          "tokenType": "ERC-20",
+          "address": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+          "decimals": 8,
+          "name": "Wrapped BTC",
+          "symbol": "WBTC"
+        },
+        "value": {
+          "diff": "1196",
+          "pre": "0",
+          "post": "1196"
+        }
+      },
+      {
+        "token": {
+          "tokenType": "NATIVE"
+        },
+        "value": {
+          "diff": "-1000000000000000000",
+          "pre": "5000000000000000000",
+          "post": "4000000000000000000"
+        }
+      }
+    ]
+  }
+}
+```
+
+## Response Format
+
+### Native Currency Example
+
+```typescript
+{
+  "token": {
+    "tokenType": "NATIVE"
+  },
+  "value": {
+    "diff": "String", // BigInt string
+    "pre": "String",  // BigInt string
+    "post": "String"  // BigInt string
+  }
+}
+```
+
+### ERC-20 Token Example
+
+```typescript
+{
+  "token": {
+    "tokenType": "ERC-20",
+    "address": "Address",
+    "decimals": "Number",
+    "name": "String", // (Optional)
+    "symbol": "String" // (Optional)
+  },
+  "value": {
+    "diff": "String", // BigInt string
+    "pre": "String",  // BigInt string
+    "post": "String"  // BigInt string
+  }
+}
+```
+
+### ERC-721 Token Example
+
+```typescript
+{
+  "token": {
+    "tokenType": "ERC-721",
+    "address": "Address",
+    "tokenId": "Number",
+    "name": "String", // (Optional)
+    "symbol": "String" // (Optional)
+  },
+  "value": {
+    "diff": "String", // BigInt string
+    "pre": "String",  // BigInt string
+    "post": "String"  // BigInt string
+  }
+}
+```
+
+### ERC-1155 Token Example
+
+```typescript
+{
+  "token": {
+    "tokenType": "ERC-1155",
+    "address": "Address",
+    "tokenId": "Number",
+    "name": "String", // (Optional)
+    "symbol": "String" // (Optional)
+  },
+  "value": {
+    "diff": "String", // BigInt string
+    "pre": "String",  // BigInt string
+    "post": "String"  // BigInt string
+  }
+}
+```
+
+## Token Metadata Fields
+
+Metadata fields are included when available based on token type:
+
+- For ERC-20 tokens: `name`, `symbol`, `decimals`
+- For ERC-721 tokens: `name`, `symbol`
+- For ERC-1155 tokens: `name`, `symbol`
+
+These fields will be included when they can be found, otherwise they'll be undefined. This is because metadata is optional in ERC-20, ERC-721, ERC-1155 standards, though most tokens do support these fields.
+
+## Error Responses
+
+| Error Code | Description |
+| :--------- | :---------- |
+| AA23 | UserOperation reverted during simulation |
+| UserOperationReverted | User operation execution failed during simulation |
+| SimulateValidation | Validation failed for the user operation |

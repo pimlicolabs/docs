@@ -151,8 +151,8 @@ export const bundlerSidebar = [
 				link: "/infra/bundler/endpoints/pimlico_getUserOperationStatus",
 			},
 			{
-				text: "pimlico_traceTokenEvents",
-				link: "/infra/bundler/endpoints/pimlico_traceTokenEvents",
+				text: "pimlico_simulateAssetChanges",
+				link: "/infra/bundler/endpoints/pimlico_simulateAssetChanges",
 			},
 		],
 	},
