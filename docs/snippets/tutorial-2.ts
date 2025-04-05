@@ -10,7 +10,6 @@ import { writeFileSync } from "node:fs"
 
 // [!region clients]
 const usdc = "0x036CbD53842c5426634e7929541eC2318f3dCF7e"
-const paymaster = "0x0000000000000039cd5e8ae05257ce51c473ddd1"
 
 const privateKey =
 	(process.env.PRIVATE_KEY as Hex) ??
@@ -80,6 +79,11 @@ console.log("Smart account USDC balance: ", Number(senderUsdcBalance) / 1_000_00
 // [!endregion checkBalance]
 
 // [!region submit]
+const quotes = await pimlicoClient.getTokenQuotes({
+    tokens: [usdc]
+})
+const paymaster = quotes[0].paymaster
+
 const txHash = await smartAccountClient.sendTransaction({
 	calls: [
 		{
