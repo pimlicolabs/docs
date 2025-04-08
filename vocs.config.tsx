@@ -462,8 +462,17 @@ export const permissionlessSidebar = [
 				link: "/permissionless/how-to/migration-guide",
 			},
 			{
-				text: "Local Testing",
-				link: "/permissionless/how-to/local-testing",
+				text: "Testing",
+        items: [
+          {
+            text: "Local Docker",
+				    link: "/permissionless/how-to/testing/docker",
+          },
+          {
+            text: "Build Bear",
+				    link: "/permissionless/how-to/testing/build-bear",
+          }
+        ]
 			},
 			{
 				text: "Accounts",
