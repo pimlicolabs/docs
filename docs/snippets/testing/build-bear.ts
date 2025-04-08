@@ -73,13 +73,13 @@ const smartAccountClient = createSmartAccountClient({
 // [!endregion smartAccountClient]
 
 // [!region verifyingPaymaster]
-import { parseAbi, parseEther } from "viem";
+import { parseAbi, parseEther, getAddress } from "viem";
 
 let txHash = await smartAccountClient.sendUserOperation({
     account,
     calls: [
       {
-        to: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063" as `0x${string}`, //Payment token for gas
+        to: getAddress("0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063"), //Payment token for gas
         abi: parseAbi(["function approve(address,uint)"]),
         functionName: "approve",
         args: ["0x0000000000000039cd5e8ae05257ce51c473ddd1", parseEther("1")], // approve spend of 1 DAI to Paymaster's address
@@ -105,7 +105,7 @@ txHash = await smartAccountClient.sendUserOperation({
     account,
     calls: [
       {
-        to: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063" as `0x${string}`, //Payment token for gas
+        to: getAddress("0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063"), //Payment token for gas
         abi: parseAbi(["function approve(address,uint)"]),
         functionName: "approve",
         args: ["0x0000000000000039cd5e8ae05257ce51c473ddd1", parseEther("1")], // approve spend of 1 DAI to Paymaster's address
