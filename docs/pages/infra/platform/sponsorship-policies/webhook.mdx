@@ -8,13 +8,10 @@ Webhooks allow you to receive real-time notifications when sponsorship-related e
 These webhooks are triggered when using the [pm_sponsorUserOperation](/infra/paymaster/erc20-paymaster/endpoints/pm_sponsorUserOperation) endpoint.
 
 #### Request for Sponsorship
-:::warning[Deprecation Notice]
-The webhook type "sponsorshipPolicy.webhook" will be replaced with "user_operation.sponsorship.requested" on March 3rd, 2024.
-:::
 
 ```typescript
 const body = {
-    type: "sponsorshipPolicy.webhook", // Will become "user_operation.sponsorship.requested"
+    type: "user_operation.sponsorship.requested",
     data: {
         object: {
             userOperation,
