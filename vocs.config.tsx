@@ -465,7 +465,7 @@ export const permissionlessSidebar = [
 				text: "Testing",
         items: [
           {
-            text: "Local Docker",
+            text: "Docker",
 				    link: "/permissionless/how-to/testing/docker",
           },
           {
