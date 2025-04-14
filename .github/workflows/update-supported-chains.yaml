@@ -70,6 +70,8 @@ jobs:
         working-directory: docs-data-updater
         run: |
           mkdir -p configs
+          # Login to GitHub Container Registry using the GH_PAT token
+          echo ${{ secrets.GH_PAT }} | oras login ghcr.io -u pimlicolabs --password-stdin
           cd configs && rm -f * && oras pull ghcr.io/pimlicolabs/configs:latest
 
       - name: Generate supported chains data
