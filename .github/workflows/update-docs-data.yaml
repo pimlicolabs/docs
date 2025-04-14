@@ -29,6 +29,7 @@ jobs:
       - name: Get current date and time
         id: datetime
         run: |
+          echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
           echo "datetime=$(date +'%Y-%m-%d-%H%M')" >> $GITHUB_OUTPUT
       
       - name: Clone docs-data-updater repository
@@ -101,7 +102,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "chore: update docs data [automated]"
-          title: "Update docs data - ${{ steps.datetime.outputs.datetime }}"
+          title: "Update docs data - ${{ steps.datetime.outputs.date }}"
           body: |
             This PR updates the docs data from the Pimlico database:
             
@@ -109,7 +110,7 @@ jobs:
             - Supported entrypoints
             - Supported accounts
             
-            - Updated on: ${{ steps.datetime.outputs.datetime }}
+            - Updated on: ${{ steps.datetime.outputs.date }}
             - Automated update via GitHub Actions
           branch: update-docs-data-${{ steps.datetime.outputs.datetime }}
           base: main
