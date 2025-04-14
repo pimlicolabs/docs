@@ -58,7 +58,9 @@ jobs:
       
       - name: Generate supported chains data
         working-directory: docs-data-updater
-        run: pnpm generate:supported-chains > ../data/supported-chains.json
+        run: |
+          # Run the script and filter out npm/pnpm output lines to get only valid JSON
+          pnpm generate:supported-chains | grep -v "^>" | grep -v "docs-data-updater@" > ../data/supported-chains.json
       
       - name: Check for changes
         id: check_changes
@@ -72,6 +74,9 @@ jobs:
             echo "changes_detected=true" >> $GITHUB_OUTPUT
           fi
       
+      - name: Remove docs-data-updater directory
+        run: rm -rf docs-data-updater
+
       - name: Create Pull Request
         if: steps.check_changes.outputs.changes_detected == 'true'
         uses: peter-evans/create-pull-request@v6
