@@ -1,0 +1,635 @@
+[
+  {
+    "name": "Ethereum",
+    "mainnet": {
+      "chain_id": 1,
+      "slug": "ethereum"
+    },
+    "testnet": {
+      "chain_id": 11155111,
+      "slug": "sepolia"
+    }
+  },
+  {
+    "name": "Arbitrum",
+    "mainnet": {
+      "chain_id": 42161,
+      "slug": "arbitrum"
+    },
+    "testnet": {
+      "chain_id": 421614,
+      "slug": "arbitrum-sepolia"
+    }
+  },
+  {
+    "name": "Polygon",
+    "mainnet": {
+      "chain_id": 137,
+      "slug": "polygon"
+    },
+    "testnet": {
+      "chain_id": 80002,
+      "slug": "polygon-amoy"
+    }
+  },
+  {
+    "name": "Optimism",
+    "mainnet": {
+      "chain_id": 10,
+      "slug": "optimism"
+    },
+    "testnet": {
+      "chain_id": 11155420,
+      "slug": "optimism-sepolia"
+    }
+  },
+  {
+    "name": "Zora",
+    "mainnet": {
+      "chain_id": 7777777,
+      "slug": "zora"
+    },
+    "testnet": {
+      "chain_id": 999999999,
+      "slug": "zora-sepolia"
+    }
+  },
+  {
+    "name": "Gnosis",
+    "mainnet": {
+      "chain_id": 100,
+      "slug": "gnosis"
+    },
+    "testnet": {
+      "chain_id": 10200,
+      "slug": "chiado-testnet"
+    }
+  },
+  {
+    "name": "Linea",
+    "mainnet": {
+      "chain_id": 59144,
+      "slug": "linea"
+    },
+    "testnet": {
+      "chain_id": 59141,
+      "slug": "linea-sepolia"
+    }
+  },
+  {
+    "name": "Base",
+    "mainnet": {
+      "chain_id": 8453,
+      "slug": "base"
+    },
+    "testnet": {
+      "chain_id": 84532,
+      "slug": "base-sepolia"
+    }
+  },
+  {
+    "name": "Redstone",
+    "mainnet": {
+      "chain_id": 690,
+      "slug": "redstone"
+    },
+    "testnet": {
+      "chain_id": 17069,
+      "slug": "garnet-holesky"
+    }
+  },
+  {
+    "name": "Avalanche C-Chain",
+    "mainnet": {
+      "chain_id": 43114,
+      "slug": "avalanche"
+    },
+    "testnet": {
+      "chain_id": 43113,
+      "slug": "avalanche-fuji"
+    }
+  },
+  {
+    "name": "B3",
+    "mainnet": {
+      "chain_id": 8333,
+      "slug": "b3"
+    },
+    "testnet": {
+      "chain_id": 1993,
+      "slug": "b3-sepolia"
+    }
+  },
+  {
+    "name": "Scroll",
+    "mainnet": {
+      "chain_id": 534352,
+      "slug": "scroll"
+    },
+    "testnet": {
+      "chain_id": 534351,
+      "slug": "scroll-sepolia-testnet"
+    }
+  },
+  {
+    "name": "Celo",
+    "mainnet": {
+      "chain_id": 42220,
+      "slug": "celo"
+    },
+    "testnet": {
+      "chain_id": 44787,
+      "slug": "celo-alfajores-testnet"
+    }
+  },
+  {
+    "name": "BSC",
+    "mainnet": {
+      "chain_id": 56,
+      "slug": "binance"
+    },
+    "testnet": {
+      "chain_id": 97,
+      "slug": "binance-testnet"
+    }
+  },
+  {
+    "name": "Cyber L2",
+    "mainnet": {
+      "chain_id": 7560,
+      "slug": "cyber-mainnet"
+    },
+    "testnet": {
+      "chain_id": 111557560,
+      "slug": "cyber-testnet"
+    }
+  },
+  {
+    "name": "DFK Chain",
+    "mainnet": {
+      "chain_id": 53935,
+      "slug": "dfk-chain"
+    },
+    "testnet": {
+      "chain_id": 335,
+      "slug": "dfk-chain-test"
+    }
+  },
+  {
+    "name": "Klaytn",
+    "mainnet": {
+      "chain_id": 8217,
+      "slug": "klaytn-cypress"
+    },
+    "testnet": {
+      "chain_id": 1001,
+      "slug": "klaytn-baobab"
+    }
+  },
+  {
+    "name": "Mode",
+    "mainnet": {
+      "chain_id": 34443,
+      "slug": "mode"
+    },
+    "testnet": {
+      "chain_id": 919,
+      "slug": "mode-sepolia"
+    }
+  },
+  {
+    "name": "Xai Orbit",
+    "mainnet": {
+      "chain_id": 660279,
+      "slug": "xai"
+    },
+    "testnet": {
+      "chain_id": 37714555429,
+      "slug": "xai-sepolia-orbit"
+    }
+  },
+  {
+    "name": "Blast",
+    "mainnet": {
+      "chain_id": 81457,
+      "slug": "blast"
+    },
+    "testnet": {
+      "chain_id": 168587773,
+      "slug": "blast-sepolia"
+    }
+  },
+  {
+    "name": "Ancient8",
+    "mainnet": {
+      "chain_id": 888888888,
+      "slug": "ancient8"
+    },
+    "testnet": {
+      "chain_id": 28122024,
+      "slug": "ancient8-testnet"
+    }
+  },
+  {
+    "name": "Lisk",
+    "mainnet": {
+      "chain_id": 1135,
+      "slug": "lisk"
+    },
+    "testnet": {
+      "chain_id": 4202,
+      "slug": "lisk-sepolia"
+    }
+  },
+  {
+    "name": "Berachain",
+    "mainnet": {
+      "chain_id": 80094,
+      "slug": "berachain"
+    },
+    "testnet": {
+      "chain_id": 80069,
+      "slug": "berachain-bepolia"
+    }
+  },
+  {
+    "name": "Aleph Zero",
+    "mainnet": {
+      "chain_id": 41455,
+      "slug": "alephzero"
+    },
+    "testnet": {
+      "chain_id": 2039,
+      "slug": "alephzero-testnet"
+    }
+  },
+  {
+    "name": "Fuse",
+    "mainnet": {
+      "chain_id": 122,
+      "slug": "fuse"
+    },
+    "testnet": {
+      "chain_id": 123,
+      "slug": "fuse-sparknet"
+    }
+  },
+  {
+    "name": "Build On Bitcoin",
+    "mainnet": {
+      "chain_id": 60808,
+      "slug": "bob"
+    },
+    "testnet": {
+      "chain_id": 808813,
+      "slug": "bob-sepolia"
+    }
+  },
+  {
+    "name": "Sei",
+    "mainnet": {
+      "chain_id": 1329,
+      "slug": "sei"
+    },
+    "testnet": {
+      "chain_id": 1328,
+      "slug": "sei-testnet"
+    }
+  },
+  {
+    "name": "Vanar",
+    "mainnet": {
+      "chain_id": 2040,
+      "slug": "vanar"
+    },
+    "testnet": {
+      "chain_id": 78600,
+      "slug": "vanguard-testnet"
+    }
+  },
+  {
+    "name": "Lumia",
+    "mainnet": {
+      "chain_id": 994873017,
+      "slug": "lumia-prism"
+    },
+    "testnet": {
+      "chain_id": 1952959480,
+      "slug": "lumia-testnet"
+    }
+  },
+  {
+    "name": "Dos",
+    "mainnet": {
+      "chain_id": 7979,
+      "slug": "dos-mainnet"
+    },
+    "testnet": {
+      "chain_id": 3939,
+      "slug": "dos-testnet"
+    }
+  },
+  {
+    "name": "Metis",
+    "mainnet": {
+      "chain_id": 1088,
+      "slug": "metis"
+    },
+    "testnet": {
+      "chain_id": 59902,
+      "slug": "metis-sepolia"
+    }
+  },
+  {
+    "name": "Hedera",
+    "mainnet": {
+      "chain_id": 295,
+      "slug": "hedera"
+    },
+    "testnet": {
+      "chain_id": 296,
+      "slug": "hedera-testnet"
+    }
+  },
+  {
+    "name": "Superposition",
+    "mainnet": {
+      "chain_id": 55244,
+      "slug": "superposition"
+    },
+    "testnet": {
+      "chain_id": 98985,
+      "slug": "superposition-testnet"
+    }
+  },
+  {
+    "name": "Unichain",
+    "mainnet": {
+      "chain_id": 130,
+      "slug": "unichain"
+    },
+    "testnet": {
+      "chain_id": 1301,
+      "slug": "unichain-testnet"
+    }
+  },
+  {
+    "name": "Etherlink",
+    "mainnet": {
+      "chain_id": 42793,
+      "slug": "etherlink-mainnet"
+    },
+    "testnet": null
+  },
+  {
+    "name": "XPLA",
+    "mainnet": {
+      "chain_id": 37,
+      "slug": "xpla"
+    },
+    "testnet": {
+      "chain_id": 47,
+      "slug": "xpla-testnet"
+    }
+  },
+  {
+    "name": "Apechain",
+    "mainnet": {
+      "chain_id": 33139,
+      "slug": "apechain"
+    },
+    "testnet": null
+  },
+  {
+    "name": "Sanko",
+    "mainnet": {
+      "chain_id": 1996,
+      "slug": "sanko-mainnet"
+    },
+    "testnet": null
+  },
+  {
+    "name": "Degen",
+    "mainnet": {
+      "chain_id": 666666666,
+      "slug": "degen"
+    },
+    "testnet": null
+  },
+  {
+    "name": "opBNB",
+    "mainnet": {
+      "chain_id": 204,
+      "slug": "opbnb"
+    },
+    "testnet": null
+  },
+  {
+    "name": "Arbitrum Nova",
+    "mainnet": {
+      "chain_id": 42170,
+      "slug": "arbitrum-nova"
+    },
+    "testnet": null
+  },
+  {
+    "name": "Treasure Ruby",
+    "mainnet": {
+      "chain_id": 978657,
+      "slug": "treasure-ruby"
+    },
+    "testnet": null
+  },
+  {
+    "name": "Nautilus",
+    "mainnet": {
+      "chain_id": 22222,
+      "slug": "nautilus"
+    },
+    "testnet": null
+  },
+  {
+    "name": "Kinto",
+    "mainnet": {
+      "chain_id": 7887,
+      "slug": "kinto"
+    },
+    "testnet": null
+  },
+  {
+    "name": "Lyra",
+    "mainnet": {
+      "chain_id": 957,
+      "slug": "lyra"
+    },
+    "testnet": null
+  },
+  {
+    "name": "Rootstock",
+    "mainnet": {
+      "chain_id": 30,
+      "slug": "rootstock"
+    },
+    "testnet": null
+  },
+  {
+    "name": "Form",
+    "mainnet": null,
+    "testnet": {
+      "chain_id": 132902,
+      "slug": "form-testnet"
+    }
+  },
+  {
+    "name": "Taiko",
+    "mainnet": null,
+    "testnet": {
+      "chain_id": 167008,
+      "slug": "taiko-katla-l2"
+    }
+  },
+  {
+    "name": "Story Protocol",
+    "mainnet": null,
+    "testnet": {
+      "chain_id": 1513,
+      "slug": "story-testnet"
+    }
+  },
+  {
+    "name": "Plume",
+    "mainnet": null,
+    "testnet": {
+      "chain_id": 161221135,
+      "slug": "plume-testnet"
+    }
+  },
+  {
+    "name": "Funki",
+    "mainnet": null,
+    "testnet": {
+      "chain_id": 3397901,
+      "slug": "funki-testnet"
+    }
+  },
+  {
+    "name": "Soneium",
+    "mainnet": null,
+    "testnet": {
+      "chain_id": 1946,
+      "slug": "soneium-minato"
+    }
+  },
+  {
+    "name": "Parallel L2",
+    "mainnet": null,
+    "testnet": {
+      "chain_id": 2982896226593698,
+      "slug": "parallel-l2-testnet"
+    }
+  },
+  {
+    "name": "Gemuchain",
+    "mainnet": null,
+    "testnet": {
+      "chain_id": 1903648807,
+      "slug": "gemuchain-testnet"
+    }
+  },
+  {
+    "name": "Taiko Hekla",
+    "mainnet": null,
+    "testnet": {
+      "chain_id": 167009,
+      "slug": "taiko-hekla-l2"
+    }
+  },
+  {
+    "name": "Kakarot",
+    "mainnet": null,
+    "testnet": {
+      "chain_id": 1802203764,
+      "slug": "kakarot-sepolia"
+    }
+  },
+  {
+    "name": "Scroll Alpha",
+    "mainnet": null,
+    "testnet": {
+      "chain_id": 534353,
+      "slug": "scroll-alpha-testnet"
+    }
+  },
+  {
+    "name": "0G Newton",
+    "mainnet": null,
+    "testnet": {
+      "chain_id": 16600,
+      "slug": "newton-testnet"
+    }
+  },
+  {
+    "name": "Arena-Z",
+    "mainnet": null,
+    "testnet": {
+      "chain_id": 9897,
+      "slug": "arena-z-testnet"
+    }
+  },
+  {
+    "name": "Onetest Network",
+    "mainnet": null,
+    "testnet": {
+      "chain_id": 10800,
+      "slug": "onetest-network"
+    }
+  },
+  {
+    "name": "Worldchain",
+    "mainnet": null,
+    "testnet": {
+      "chain_id": 4801,
+      "slug": "worldchain-sepolia"
+    }
+  },
+  {
+    "name": "Superseed",
+    "mainnet": null,
+    "testnet": {
+      "chain_id": 53302,
+      "slug": "superseed-sepolia"
+    }
+  },
+  {
+    "name": "Polter",
+    "mainnet": null,
+    "testnet": {
+      "chain_id": 631571,
+      "slug": "polter-testnet"
+    }
+  },
+  {
+    "name": "Ozean",
+    "mainnet": null,
+    "testnet": {
+      "chain_id": 7849306,
+      "slug": "ozean-testnet"
+    }
+  },
+  {
+    "name": "Holesky",
+    "mainnet": null,
+    "testnet": {
+      "chain_id": 17000,
+      "slug": "holesky"
+    }
+  },
+  {
+    "name": "MegaETH",
+    "mainnet": null,
+    "testnet": {
+      "chain_id": 6342,
+      "slug": "megaeth-testnet"
+    }
+  }
+]
