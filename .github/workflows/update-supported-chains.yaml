@@ -37,6 +37,12 @@ jobs:
           token: ${{ secrets.GH_PAT }}
           path: docs-data-updater
       
+      - name: Configure npm for private packages
+        working-directory: docs-data-updater
+        run: |
+          echo "@pimlicolabs:registry=https://npm.pkg.github.com/" > .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}" >> .npmrc
+      
       - name: Install dependencies in docs-data-updater
         working-directory: docs-data-updater
         run: pnpm install
