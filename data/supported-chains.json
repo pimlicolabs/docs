@@ -631,5 +631,16 @@
       "chain_id": 6342,
       "slug": "megaeth-testnet"
     }
+  },
+  {
+    "name": "Mantle",
+    "mainnet": {
+      "chain_id": 5000,
+      "slug": "mantle"
+    },
+    "testnet": {
+      "chain_id": 5003,
+      "slug": "mantle-sepolia"
+    }
   }
 ]
