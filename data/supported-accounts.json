@@ -1,0 +1,27 @@
+[
+    {
+        "chain_id": 999999999,
+        "name": "Zora Sepolia",
+        "accounts": {
+          "Simple V0.8": true,
+          "Light 1.1.0": true,
+          "Thirdweb 1.5.20 V0.6": true,
+          "Biconomy": false,
+          "Simple V0.7": true,
+          "Kernel 0.2.3": false,
+          "Kernel 0.2.1": false,
+          "Light 2.0.0": true,
+          "Simple V0.6": true,
+          "Thirdweb 1.5.20 V0.7": true,
+          "Etherspot": false,
+          "Kernel 0.3.0-beta": false,
+          "Trust": false,
+          "Safe 1.4.1 V0.6": true,
+          "Kernel 0.2.4": false,
+          "Safe 1.4.1 V0.7": true,
+          "Kernel 0.2.2": false,
+          "Kernel 0.3.1": false,
+          "Nexus": false
+        }
+    }
+]
