@@ -28,10 +28,6 @@ export const platformSidebar = [
 		link: "/infra/platform/supported-chains",
 	},
 	{
-		text: "Supported Accounts & Entrypoints",
-		link: "/infra/platform/supported-accounts",
-	},
-	{
 		text: "Sponsorship Policies",
 		items: [
 			{

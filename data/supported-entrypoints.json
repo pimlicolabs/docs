@@ -2,22 +2,28 @@
   {
     "chain_id": 1,
     "name": "Ethereum",
-    "V06": "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
-    "V07": "0x0000000071727De22E5E9d8BAf0edAc6f37da032",
-    "V08": null
+    "entrypoints": {
+      "V06": "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+      "V07": "0x0000000071727De22E5E9d8BAf0edAc6f37da032",
+      "V08": null  
+    }
   },
   {
     "chain_id": 11155111,
     "name": "Sepolia",
-    "V06": "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
-    "V07": "0x0000000071727De22E5E9d8BAf0edAc6f37da032",
-    "V08": "0x4337084d9e255ff0702461cf8895ce9e3b5ff108"
+    "entrypoints": {
+      "V06": "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+      "V07": "0x0000000071727De22E5E9d8BAf0edAc6f37da032",
+      "V08": "0x4337084d9e255ff0702461cf8895ce9e3b5ff108"  
+    }
   },
   {
     "chain_id": 8453,
     "name": "Base",
-    "V06": "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
-    "V07": "0x0000000071727De22E5E9d8BAf0edAc6f37da032",
-    "V08": null
+    "entrypoints": {
+      "V06": "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+      "V07": "0x0000000071727De22E5E9d8BAf0edAc6f37da032",
+      "V08": null  
+    }
   }
 ]

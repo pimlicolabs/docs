@@ -6,10 +6,23 @@ type AccountData = {
   accounts: Record<string, boolean>;
 };
 
-export default function SupportedAccountsSection() {
-  // Get all unique account names across all chains
+interface SupportedAccountsSectionProps {
+  chainId?: number;
+}
+
+export default function SupportedAccountsSection({ chainId }: SupportedAccountsSectionProps) {
+  // Filter chains by chainId if provided
+  const filteredChains = chainId
+    ? (supportedAccounts as AccountData[]).filter(chain => chain.chain_id === chainId)
+    : (supportedAccounts as AccountData[]);
+
+  if (filteredChains.length === 0) {
+    return <p>No account data available for this chain.</p>;
+  }
+
+  // Get all unique account names across all chains or the specific chain
   const allAccountNames = new Set<string>();
-  (supportedAccounts as AccountData[]).forEach((chainData) => {
+  filteredChains.forEach((chainData) => {
     Object.keys(chainData.accounts).forEach((accountName) => {
       allAccountNames.add(accountName);
     });
@@ -20,37 +33,33 @@ export default function SupportedAccountsSection() {
 
   return (
     <div>
-      {(supportedAccounts as AccountData[]).map((chainData, index) => (
-        <div key={index}>
-          <h2 id={`chain-${chainData.name.toLowerCase().replace(/\s+/g, '-')}`} className="vocs_H2 vocs_Heading">
-            {chainData.name}
-          </h2>
-          <h3 id={`chain-${chainData.name.toLowerCase().replace(/\s+/g, '-')}`} className="vocs_H3 vocs_Heading">
-            Accounts
-          </h3>
-          <table className="vocs_Table">
-            <thead>
-              <tr>
-                <th className="vocs_TableHeader" style={{textAlign: 'left'}}>Account</th>
-                <th className="vocs_TableHeader" style={{textAlign: 'center'}}>Supported</th>
-              </tr>
-            </thead>
-            <tbody>
+      <table className="vocs_Table">
+        <thead>
+          <tr>
+            {!chainId && <th className="vocs_TableHeader" style={{textAlign: 'left'}}>Chain</th>}
+            {accountNamesList.map((accountName) => (
+              <th key={accountName} className="vocs_TableHeader" style={{textAlign: 'center'}}>
+                {accountName}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {filteredChains.map((chainData, index) => (
+            <tr key={index} className="vocs_TableRow">
+              {!chainId && <td className="vocs_TableCell" style={{fontWeight: 'bold'}}>{chainData.name}</td>}
               {accountNamesList.map((accountName) => {
                 const isSupported = chainData.accounts[accountName] === true;
                 return (
-                  <tr key={accountName} className="vocs_TableRow">
-                    <td className="vocs_TableCell">{accountName}</td>
-                    <td className="vocs_TableCell" style={{textAlign: 'center'}}>
-                      {isSupported ? '✅' : '❌'}
-                    </td>
-                  </tr>
+                  <td key={accountName} className="vocs_TableCell" style={{textAlign: 'center'}}>
+                    {isSupported ? '✅' : '❌'}
+                  </td>
                 );
               })}
-            </tbody>
-          </table>
-        </div>
-      ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
