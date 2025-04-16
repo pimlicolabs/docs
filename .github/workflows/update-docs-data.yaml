@@ -58,9 +58,18 @@ jobs:
         run: |
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
       
+      - name: Install ORAS
+        run: |
+          curl -LO https://github.com/oras-project/oras/releases/download/v1.1.0/oras_1.1.0_linux_amd64.tar.gz
+          mkdir -p oras-install/
+          tar -zxf oras_1.1.0_linux_amd64.tar.gz -C oras-install/
+          sudo mv oras-install/oras /usr/local/bin/
+          rm -rf oras_1.1.0_linux_amd64.tar.gz oras-install/
+      
       - name: Pull Pimlico configs
         working-directory: docs-data-updater
         run: |
+          mkdir -p configs
           cd configs && rm -f * && oras pull ghcr.io/pimlicolabs/configs:latest
 
       - name: Generate supported chains data
