@@ -70,25 +70,14 @@ jobs:
         working-directory: docs-data-updater
         run: |
           mkdir -p configs
+          # Login to GitHub Container Registry using the GH_PAT token
+          echo ${{ secrets.GH_PAT }} | oras login ghcr.io -u pimlicolabs --password-stdin
           cd configs && rm -f * && oras pull ghcr.io/pimlicolabs/configs:latest
 
-      - name: Generate supported chains data
+      - name: Generate data
         working-directory: docs-data-updater
         run: |
-          # Run the script and filter out npm/pnpm output lines to get only valid JSON
-          pnpm generate:supported-chains | grep -v "^>" | grep -v "docs-data-updater@" > ../data/supported-chains.json
-          
-      - name: Generate supported entrypoints data
-        working-directory: docs-data-updater
-        run: |
-          # Run the script and filter out npm/pnpm output lines to get only valid JSON
-          pnpm generate:supported-entrypoints | grep -v "^>" | grep -v "docs-data-updater@" > ../data/supported-entrypoints.json
-          
-      - name: Generate supported accounts data
-        working-directory: docs-data-updater
-        run: |
-          # Run the script and filter out npm/pnpm output lines to get only valid JSON
-          pnpm generate:supported-accounts | grep -v "^>" | grep -v "docs-data-updater@" > ../data/supported-accounts.json
+          pnpm start
           
       - name: Copy markdown files from data-docs-updater to docs
         run: |
