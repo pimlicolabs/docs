@@ -1,44 +1,41 @@
-import supportedChains from '../../data/supported-chains.json';
-
-type Chain = {
-  chain_id: number;
-  slug: string;
-} | null;
+import chainsData from '../../data/chains.json';
 
 type ChainData = {
-  name: string;
-  mainnet: Chain;
-  testnet: Chain;
+  chain_id: number;
+  display_name: string;
+  slug: string;
+  priority: boolean;
+  entrypoints: Record<string, string>;
+  accounts: Record<string, {
+    supported: boolean;
+    entrypoints: string[];
+  }>;
 };
 
 export default function SupportedChainsTable() {
+  // Sort chains by priority first, then by display name
+  const sortedChains = [...(chainsData as ChainData[])].sort((a, b) => {
+    if (a.priority !== b.priority) {
+      return a.priority ? -1 : 1; // Priority chains first
+    }
+    return a.display_name.localeCompare(b.display_name);
+  });
+
   return (
     <table className="vocs_Table">
       <thead>
         <tr>
           <th className="vocs_TableHeader" style={{textAlign: 'left'}}>Chain</th>
-          <th className="vocs_TableHeader" style={{textAlign: 'left'}}>Mainnet</th>
-          <th className="vocs_TableHeader" style={{textAlign: 'left'}}>Testnet</th>
+          <th className="vocs_TableHeader" style={{textAlign: 'left'}}>Chain ID</th>
+          <th className="vocs_TableHeader" style={{textAlign: 'left'}}>Slug</th>
         </tr>
       </thead>
       <tbody>
-        {(supportedChains as ChainData[]).map((chain, index) => (
+        {sortedChains.map((chain, index) => (
           <tr key={index} className="vocs_TableRow">
-            <td className="vocs_TableCell">{chain.name}</td>
-            <td className="vocs_TableCell">
-              {chain.mainnet ? (
-                <>✅ {chain.mainnet.chain_id} ({chain.mainnet.slug})</>
-              ) : (
-                ''
-              )}
-            </td>
-            <td className="vocs_TableCell">
-              {chain.testnet ? (
-                <>✅ {chain.testnet.chain_id} ({chain.testnet.slug})</>
-              ) : (
-                ''
-              )}
-            </td>
+            <td className="vocs_TableCell">{chain.display_name}</td>
+            <td className="vocs_TableCell">{chain.chain_id}</td>
+            <td className="vocs_TableCell">{chain.slug}</td>
           </tr>
         ))}
       </tbody>

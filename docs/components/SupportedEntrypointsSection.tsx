@@ -1,14 +1,20 @@
-import supportedEntrypoints from '../../data/supported-entrypoints.json';
+import chainsData from '../../data/chains.json';
 
-type EntrypointData = {
+type ChainData = {
   chain_id: number;
-  name: string;
-  entrypoints: Record<string, string | null>;
+  display_name: string;
+  slug: string;
+  priority: boolean;
+  entrypoints: Record<string, string>;
+  accounts: Record<string, {
+    supported: boolean;
+    entrypoints: string[];
+  }>;
 };
 
 export default function SupportedEntrypointsSection({ chainId }: { chainId: number }) {
   // Find the chain data for the specified chainId
-  const chainData = (supportedEntrypoints as EntrypointData[]).find(
+  const chainData = (chainsData as ChainData[]).find(
     (chain) => chain.chain_id === chainId
   );
 
@@ -35,11 +41,7 @@ export default function SupportedEntrypointsSection({ chainId }: { chainId: numb
               <tr key={version} className="vocs_TableRow">
                 <td className="vocs_TableCell">{version}</td>
                 <td className="vocs_TableCell">
-                  {address ? (
-                    <code>{address}</code>
-                  ) : (
-                    <span style={{color: 'var(--vocs-colors-text-secondary)'}}>Not deployed</span>
-                  )}
+                  <code>{address}</code>
                 </td>
               </tr>
             );

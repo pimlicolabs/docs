@@ -1,9 +1,15 @@
-import supportedAccounts from '../../data/supported-accounts.json';
+import chainsData from '../../data/chains.json';
 
-type AccountData = {
+type ChainData = {
   chain_id: number;
-  name: string;
-  accounts: Record<string, boolean>;
+  display_name: string;
+  slug: string;
+  priority: boolean;
+  entrypoints: Record<string, string>;
+  accounts: Record<string, {
+    supported: boolean;
+    entrypoints: string[];
+  }>;
 };
 
 interface SupportedAccountsSectionProps {
@@ -13,31 +19,31 @@ interface SupportedAccountsSectionProps {
 export default function SupportedAccountsSection({ chainId }: SupportedAccountsSectionProps) {
   // Filter chains by chainId if provided
   const filteredChains = chainId
-    ? (supportedAccounts as AccountData[]).filter(chain => chain.chain_id === chainId)
-    : (supportedAccounts as AccountData[]);
+    ? (chainsData as ChainData[]).filter(chain => chain.chain_id === chainId)
+    : (chainsData as ChainData[]);
 
   if (filteredChains.length === 0) {
     return <p>No account data available for this chain.</p>;
   }
 
-  // Get all unique account names across all chains or the specific chain
-  const allAccountNames = new Set<string>();
-  filteredChains.forEach((chainData) => {
-    Object.keys(chainData.accounts).forEach((accountName) => {
-      allAccountNames.add(accountName);
-    });
-  });
+  // Get the chain data
+  const chainData = filteredChains[0];
   
-  // Convert to sorted array
-  const accountNamesList = Array.from(allAccountNames).sort();
+  // Get all entrypoint versions for this chain
+  const entrypointVersions = Object.keys(chainData.entrypoints).sort();
+  
+  // Get all account names for this chain
+  const accountNames = Object.keys(chainData.accounts)
+    .filter(accountName => chainData.accounts[accountName].supported)
+    .sort();
 
   return (
     <div>
       <table className="vocs_Table">
         <thead>
           <tr>
-            {!chainId && <th className="vocs_TableHeader" style={{textAlign: 'left'}}>Chain</th>}
-            {accountNamesList.map((accountName) => (
+            <th className="vocs_TableHeader" style={{textAlign: 'left'}}>Entrypoint / Account</th>
+            {accountNames.map((accountName) => (
               <th key={accountName} className="vocs_TableHeader" style={{textAlign: 'center'}}>
                 {accountName}
               </th>
@@ -45,14 +51,15 @@ export default function SupportedAccountsSection({ chainId }: SupportedAccountsS
           </tr>
         </thead>
         <tbody>
-          {filteredChains.map((chainData, index) => (
-            <tr key={index} className="vocs_TableRow">
-              {!chainId && <td className="vocs_TableCell" style={{fontWeight: 'bold'}}>{chainData.name}</td>}
-              {accountNamesList.map((accountName) => {
-                const isSupported = chainData.accounts[accountName] === true;
+          {entrypointVersions.map((entrypointVersion) => (
+            <tr key={entrypointVersion} className="vocs_TableRow">
+              <td className="vocs_TableCell" style={{fontWeight: 'bold'}}>{entrypointVersion}</td>
+              {accountNames.map((accountName) => {
+                const accountData = chainData.accounts[accountName];
+                const supportsEntrypoint = accountData.entrypoints.includes(entrypointVersion);
                 return (
                   <td key={accountName} className="vocs_TableCell" style={{textAlign: 'center'}}>
-                    {isSupported ? '✅' : '❌'}
+                    {supportsEntrypoint ? '✅' : '❌'}
                   </td>
                 );
               })}
