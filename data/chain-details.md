@@ -1,5 +1,3 @@
-# Chain Details
-
 ## Ethereum
 - Chain ID: 1
 - Slug: ethereum
@@ -8,16 +6,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
-| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ |
+| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ✅ | ✅ |
+| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -30,16 +28,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
+| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -52,17 +50,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ |
+| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ |
 | V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ✅ | ✅ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -74,16 +72,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ |
-| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ✅ | ✅ |
+| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
+| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -96,16 +94,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -118,16 +116,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
-| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -140,17 +138,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ |
-| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ✅ | ❌ | ✅ | ✅ |
+| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -162,17 +160,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ |
-| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ✅ | ✅ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ |
+| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -184,17 +182,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -206,188 +204,80 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
+| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ |
 
 ---
 
-## 0G Newton Testnet
-- Chain ID: 16600
-- Slug: newton-testnet
+## Base Sepolia
+- Chain ID: 84532
+- Slug: base-sepolia
 
 ### Supported Entrypoints
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-
----
-
-## Aleph Zero 
-- Chain ID: 41455
-- Slug: alephzero
-
-### Supported Entrypoints
-
-| Version | Address |
-| ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
-
-### Supported Accounts
-
-| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
-| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V06 | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
-## Aleph Zero Testnet
-- Chain ID: 2039
-- Slug: alephzero-testnet
+## Polygon Amoy
+- Chain ID: 80002
+- Slug: polygon-amoy
 
 ### Supported Entrypoints
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-
----
-
-## Ancient8
-- Chain ID: 888888888
-- Slug: ancient8
-
-### Supported Entrypoints
-
-| Version | Address |
-| ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
-
-### Supported Accounts
-
-| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
-| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-
----
-
-## Ancient8 Testnet
-- Chain ID: 28122024
-- Slug: ancient8-testnet
-
-### Supported Entrypoints
-
-| Version | Address |
-| ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
-
-### Supported Accounts
-
-| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
-| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-
----
-
-## ApeChain
-- Chain ID: 33139
-- Slug: apechain
-
-### Supported Entrypoints
-
-| Version | Address |
-| ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
-
-### Supported Accounts
-
-| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
-| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-
----
-
-## Appchain
-- Chain ID: 466
-- Slug: appchain
-
-### Supported Entrypoints
-
-| Version | Address |
-| ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
-
-### Supported Accounts
-
-| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
-| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ |
+| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
-## Appchain Testnet
-- Chain ID: 4661
-- Slug: appchain-testnet
+## OP Sepolia
+- Chain ID: 11155420
+- Slug: optimism-sepolia
 
 ### Supported Entrypoints
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| V06 | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+| V07 | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -400,16 +290,254 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ |
-| V07 | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
+| V07 | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+---
+
+## Zora Sepolia
+- Chain ID: 999999999
+- Slug: zora-sepolia
+
+### Supported Entrypoints
+
+| Version | Address |
+| ------- | ------- |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+
+### Supported Accounts
+
+| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
+| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+| V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+---
+
+## Binance Testnet
+- Chain ID: 97
+- Slug: binance-testnet
+
+### Supported Entrypoints
+
+| Version | Address |
+| ------- | ------- |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+
+### Supported Accounts
+
+| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
+| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
+| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+---
+
+## Mantle Sepolia
+- Chain ID: 5003
+- Slug: mantle-sepolia
+
+### Supported Entrypoints
+
+| Version | Address |
+| ------- | ------- |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+
+### Supported Accounts
+
+| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
+| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
+
+---
+
+## 0G Newton Testnet
+- Chain ID: 16600
+- Slug: newton-testnet
+
+### Supported Entrypoints
+
+| Version | Address |
+| ------- | ------- |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+
+### Supported Accounts
+
+| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
+| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+
+---
+
+## Aleph Zero 
+- Chain ID: 41455
+- Slug: alephzero
+
+### Supported Entrypoints
+
+| Version | Address |
+| ------- | ------- |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+
+### Supported Accounts
+
+| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
+| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+| V06 | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+---
+
+## Aleph Zero Testnet
+- Chain ID: 2039
+- Slug: alephzero-testnet
+
+### Supported Entrypoints
+
+| Version | Address |
+| ------- | ------- |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+
+### Supported Accounts
+
+| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
+| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+| V06 | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+---
+
+## Ancient8
+- Chain ID: 888888888
+- Slug: ancient8
+
+### Supported Entrypoints
+
+| Version | Address |
+| ------- | ------- |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+
+### Supported Accounts
+
+| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
+| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+| V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+---
+
+## Ancient8 Testnet
+- Chain ID: 28122024
+- Slug: ancient8-testnet
+
+### Supported Entrypoints
+
+| Version | Address |
+| ------- | ------- |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+
+### Supported Accounts
+
+| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
+| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
+| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+---
+
+## ApeChain
+- Chain ID: 33139
+- Slug: apechain
+
+### Supported Entrypoints
+
+| Version | Address |
+| ------- | ------- |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+
+### Supported Accounts
+
+| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
+| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+---
+
+## Appchain
+- Chain ID: 466
+- Slug: appchain
+
+### Supported Entrypoints
+
+| Version | Address |
+| ------- | ------- |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+
+### Supported Accounts
+
+| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
+| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+---
+
+## Appchain Testnet
+- Chain ID: 4661
+- Slug: appchain-testnet
+
+### Supported Entrypoints
+
+| Version | Address |
+| ------- | ------- |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+
+### Supported Accounts
+
+| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
+| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -422,9 +550,9 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
@@ -444,16 +572,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ |
+| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -466,17 +594,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -488,38 +616,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-
----
-
-## Base Sepolia
-- Chain ID: 84532
-- Slug: base-sepolia
-
-### Supported Entrypoints
-
-| Version | Address |
-| ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
-
-### Supported Accounts
-
-| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
-| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -532,17 +638,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -554,15 +660,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -574,15 +680,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
 
 ---
 
@@ -594,8 +700,8 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
@@ -603,28 +709,6 @@
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V07 | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-
----
-
-## Binance Testnet
-- Chain ID: 97
-- Slug: binance-testnet
-
-### Supported Entrypoints
-
-| Version | Address |
-| ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
-
-### Supported Accounts
-
-| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
-| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -636,17 +720,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ✅ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -658,9 +742,9 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
@@ -680,17 +764,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -702,17 +786,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -724,9 +808,9 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
@@ -746,15 +830,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 
 ---
 
@@ -766,16 +850,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V06 | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -788,17 +872,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -810,16 +894,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -832,16 +916,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -854,17 +938,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -876,16 +960,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -898,17 +982,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -920,16 +1004,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
+| V06 | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -942,17 +1026,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -964,17 +1048,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -986,9 +1070,9 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
@@ -1008,15 +1092,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -1028,16 +1112,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -1050,15 +1134,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
 
 ---
 
@@ -1070,15 +1154,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
 
 ---
 
@@ -1090,15 +1174,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -1110,15 +1194,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ |
+| V06 | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ |
+| V07 | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 
 ---
 
@@ -1130,16 +1214,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -1152,17 +1236,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -1174,15 +1258,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -1194,16 +1278,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -1216,17 +1300,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ❌ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ |
-| V07 | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -1238,16 +1322,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ |
+| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -1260,17 +1344,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -1282,16 +1366,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -1304,16 +1388,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -1326,8 +1410,8 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x027b465F1Cfc3B2A70611587d3eE06362AA14E3a |
-| V07 | 0xEB0a534440145D5A3aa512352FDDCf85453182b9 |
+| V06 | `0x027b465F1Cfc3B2A70611587d3eE06362AA14E3a` |
+| V07 | `0xEB0a534440145D5A3aa512352FDDCf85453182b9` |
 
 ### Supported Accounts
 
@@ -1346,17 +1430,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -1368,16 +1452,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ |
-| V07 | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ |
+| V07 | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -1390,15 +1474,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
 
 ---
 
@@ -1410,16 +1494,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -1432,15 +1516,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -1452,16 +1536,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -1474,14 +1558,14 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -1494,8 +1578,8 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
@@ -1514,8 +1598,8 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
@@ -1534,17 +1618,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -1556,9 +1640,9 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
@@ -1578,8 +1662,8 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x2843C269D2a64eCfA63548E8B3Fc0FD23B7F70cb |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x2843C269D2a64eCfA63548E8B3Fc0FD23B7F70cb` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
@@ -1598,15 +1682,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ |
-| V07 | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
+| V06 | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ |
 
 ---
 
@@ -1618,15 +1702,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -1638,16 +1722,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ |
-| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ |
+| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ✅ | ✅ |
+| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -1660,17 +1744,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ✅ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -1682,15 +1766,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -1702,14 +1786,14 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -1722,37 +1806,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-
----
-
-## Mantle Sepolia
-- Chain ID: 5003
-- Slug: mantle-sepolia
-
-### Supported Entrypoints
-
-| Version | Address |
-| ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-
-### Supported Accounts
-
-| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
-| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -1764,17 +1828,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -1786,15 +1850,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ✅ | ❌ |
 
 ---
 
@@ -1806,17 +1870,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -1828,16 +1892,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -1850,17 +1914,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -1872,15 +1936,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
 
 ---
 
@@ -1892,16 +1956,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ |
-| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ |
+| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ |
+| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -1914,16 +1978,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -1936,17 +2000,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -1958,39 +2022,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ |
-| V07 | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ |
+| V06 | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ |
+| V07 | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ | ✅ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-
----
-
-## OP Sepolia
-- Chain ID: 11155420
-- Slug: optimism-sepolia
-
-### Supported Entrypoints
-
-| Version | Address |
-| ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
-
-### Supported Accounts
-
-| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
-| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| V07 | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -2002,16 +2044,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -2024,9 +2066,9 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
@@ -2046,16 +2088,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -2068,39 +2110,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-
----
-
-## Polygon Amoy
-- Chain ID: 80002
-- Slug: polygon-amoy
-
-### Supported Entrypoints
-
-| Version | Address |
-| ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
-
-### Supported Accounts
-
-| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
-| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ |
-| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -2112,16 +2132,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -2134,9 +2154,9 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
@@ -2156,16 +2176,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -2178,15 +2198,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -2198,16 +2218,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -2220,16 +2240,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -2242,9 +2262,9 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
@@ -2264,17 +2284,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -2286,17 +2306,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -2308,16 +2328,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -2330,16 +2350,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ |
+| V06 | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -2352,16 +2372,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ |
+| V06 | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -2374,15 +2394,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -2394,16 +2414,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -2416,9 +2436,9 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
@@ -2438,15 +2458,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
 
 ---
 
@@ -2458,15 +2478,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
 
 ---
 
@@ -2478,15 +2498,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 
 ---
 
@@ -2498,8 +2518,8 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
@@ -2518,9 +2538,9 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
@@ -2540,9 +2560,9 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
@@ -2562,9 +2582,9 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
@@ -2584,17 +2604,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -2606,16 +2626,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -2628,9 +2648,9 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
@@ -2650,17 +2670,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
 | V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -2672,15 +2692,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -2692,15 +2712,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 
 ---
 
@@ -2712,17 +2732,17 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -2734,15 +2754,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ✅ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -2754,15 +2774,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ✅ | ❌ |
 
 ---
 
@@ -2774,9 +2794,9 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
@@ -2796,16 +2816,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -2818,9 +2838,9 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
@@ -2840,16 +2860,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -2862,15 +2882,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
 
 ---
 
@@ -2882,8 +2902,8 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
@@ -2902,15 +2922,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -2922,16 +2942,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -2944,15 +2964,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
 
 ---
 
@@ -2964,16 +2984,16 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -2986,9 +3006,9 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
 
 ### Supported Accounts
 
@@ -3008,15 +3028,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 
 ---
 
@@ -3028,15 +3048,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -3048,15 +3068,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ✅ | ❌ |
 
 ---
 
@@ -3068,37 +3088,15 @@
 
 | Version | Address |
 | ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
 
 ### Supported Accounts
 
 | Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ✅ | ❌ |
-
----
-
-## Zora Sepolia
-- Chain ID: 999999999
-- Slug: zora-sepolia
-
-### Supported Entrypoints
-
-| Version | Address |
-| ------- | ------- |
-| V06 | 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789 |
-| V07 | 0x0000000071727De22E5E9d8BAf0edAc6f37da032 |
-| V08 | 0x4337084d9e255ff0702461cf8895ce9e3b5ff108 |
-
-### Supported Accounts
-
-| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
-| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ✅ | ❌ |
 
 ---
 

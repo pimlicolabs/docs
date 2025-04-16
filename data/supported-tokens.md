@@ -455,6 +455,33 @@
 
 ---
 
+## Base Sepolia
+
+| Symbol | Address |
+| ------ | ------- |
+| USDC | 0x036CbD53842c5426634e7929541eC2318f3dCF7e |
+| USDC | 0x92D4Fe30AF7A3Aee208e43499520EC09B7228b0D |
+| LINK | 0xE4aB69C077896252FAFBD49EFD26B5D171A32410 |
+| PIM | 0xFC3e86566895Fb007c6A0d3809eb2827DF94F751 |
+
+---
+
+## Polygon Amoy
+
+| Symbol | Address |
+| ------ | ------- |
+| usdc | 0x41E94Eb019C0762f9Bfcf9Fb1E58725BfB0e7582 |
+
+---
+
+## OP Sepolia
+
+| Symbol | Address |
+| ------ | ------- |
+| usdc | 0x5fd84259d66Cd46123540766Be93DFE6D43130D7 |
+
+---
+
 ## Arbitrum Sepolia
 
 | Symbol | Address |
@@ -470,17 +497,6 @@
 | Symbol | Address |
 | ------ | ------- |
 | usdc | 0x5425890298aed601595a70AB815c96711a31Bc65 |
-
----
-
-## Base Sepolia
-
-| Symbol | Address |
-| ------ | ------- |
-| USDC | 0x036CbD53842c5426634e7929541eC2318f3dCF7e |
-| USDC | 0x92D4Fe30AF7A3Aee208e43499520EC09B7228b0D |
-| LINK | 0xE4aB69C077896252FAFBD49EFD26B5D171A32410 |
-| PIM | 0xFC3e86566895Fb007c6A0d3809eb2827DF94F751 |
 
 ---
 
@@ -589,22 +605,6 @@
 | WBTC | 0xcDd475325D6F564d27247D1DddBb0DAc6fA0a5CF |
 | ANKR | 0xDF474B7109b73b7D57926d43598D5934131136b2 |
 | ezETH | 0x2416092f143378750bb29b79eD961ab195CcEea5 |
-
----
-
-## OP Sepolia
-
-| Symbol | Address |
-| ------ | ------- |
-| usdc | 0x5fd84259d66Cd46123540766Be93DFE6D43130D7 |
-
----
-
-## Polygon Amoy
-
-| Symbol | Address |
-| ------ | ------- |
-| usdc | 0x41E94Eb019C0762f9Bfcf9Fb1E58725BfB0e7582 |
 
 ---
 
