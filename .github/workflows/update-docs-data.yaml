@@ -80,11 +80,21 @@ jobs:
         run: |
           # Run the script and filter out npm/pnpm output lines to get only valid JSON
           pnpm generate:supported-accounts | grep -v "^>" | grep -v "docs-data-updater@" > ../data/supported-accounts.json
+          
+      - name: Copy markdown files from data-docs-updater to docs
+        run: |
+          # Copy all markdown files from data-docs-updater/data/ to docs/data/
+          if [ -d "docs-data-updater/data" ] && [ "$(ls -A docs-data-updater/data/*.md 2>/dev/null)" ]; then
+            cp -f docs-data-updater/data/*.md data/
+            echo "Copied markdown files from docs-data-updater/data/ to data/"
+          else
+            echo "No markdown files found in docs-data-updater/data/"
+          fi
       
       - name: Check for changes
         id: check_changes
         run: |
-          git add data/supported-chains.json data/supported-entrypoints.json data/supported-accounts.json
+          git add data/*.md
           if git diff --staged --quiet; then
             echo "No changes detected in docs data files"
             echo "changes_detected=false" >> $GITHUB_OUTPUT
@@ -95,6 +105,17 @@ jobs:
       
       - name: Remove docs-data-updater directory
         run: rm -rf docs-data-updater
+
+      - name: Get current branch
+        id: get_branch
+        run: |
+          # Default to main if run from workflow_dispatch without a specific branch context
+          CURRENT_BRANCH=${GITHUB_REF#refs/heads/}
+          if [ "$CURRENT_BRANCH" = "$GITHUB_REF" ]; then
+            CURRENT_BRANCH="main"
+          fi
+          echo "branch=$CURRENT_BRANCH" >> $GITHUB_OUTPUT
+          echo "Current branch: $CURRENT_BRANCH"
 
       - name: Create Pull Request
         if: steps.check_changes.outputs.changes_detected == 'true'
@@ -109,11 +130,12 @@ jobs:
             - Supported chains
             - Supported entrypoints
             - Supported accounts
+            - Markdown files from data-docs-updater
             
             - Updated on: ${{ steps.datetime.outputs.date }}
             - Automated update via GitHub Actions
           branch: update-docs-data-${{ steps.datetime.outputs.datetime }}
-          base: main
+          base: ${{ steps.get_branch.outputs.branch }}
           delete-branch: true
           labels: |
             automated
