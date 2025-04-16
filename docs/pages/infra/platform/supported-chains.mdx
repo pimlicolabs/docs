@@ -3,10 +3,10 @@
 
 Pimlico supports the following chains:
 
-import SupportedChainsTable from '../../../components/SupportedChainsTable';
-import ChainDetailsSection from '../../../components/ChainDetailsSection';
+import SupportedChains from "../../../../data/supported-chains.md"
+import ChainDetails from "../../../../data/chain-details.md";
 
-<SupportedChainsTable />
+<SupportedChains />
 
 All calls are in JSON-RPC format and have to be made to the following URL: `https://api.pimlico.io/v2/{chain}/rpc?apikey=[YOUR_API_KEY_HERE]`
 
@@ -16,4 +16,4 @@ Where `{chain}` is the chain variable (such as `sepolia` or `polygon`) as found 
 
 Below you can find detailed information about supported entrypoints and account implementations for each chain. For each chain, the table shows which account implementations support which entrypoint versions.
 
-<ChainDetailsSection />
+<ChainDetails />
