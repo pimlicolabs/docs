@@ -5,18 +5,12 @@ type ChainData = {
   display_name: string;
   slug: string;
   priority: boolean;
-  mainnet: boolean;
   entrypoints: Record<string, string>;
   accounts: Record<string, {
     supported: boolean;
     entrypoints: string[];
   }>;
 };
-
-interface ChainPair {
-  mainnet?: ChainData;
-  testnet?: ChainData;
-}
 
 export default function SupportedChainsTable() {
   // Sort chains by priority first, then by display name
@@ -27,71 +21,23 @@ export default function SupportedChainsTable() {
     return a.display_name.localeCompare(b.display_name);
   });
 
-  // Group chains by display name to pair mainnet and testnet versions
-  const chainsByName: Record<string, ChainPair> = {};
-  
-  sortedChains.forEach(chain => {
-    const name = chain.display_name;
-    if (!chainsByName[name]) {
-      chainsByName[name] = {};
-    }
-    
-    if (chain.mainnet) {
-      chainsByName[name].mainnet = chain;
-    } else {
-      chainsByName[name].testnet = chain;
-    }
-  });
-
-  // Create a list of unique chains to display
-  const uniqueChains: Array<{name: string, pair: ChainPair}> = [];
-  Object.entries(chainsByName).forEach(([name, pair]) => {
-    uniqueChains.push({name, pair});
-  });
-
-  // Sort the unique chains by priority and name
-  uniqueChains.sort((a, b) => {
-    // Check if either the mainnet or testnet version of chain A has priority
-    const aHasPriority = (a.pair.mainnet?.priority || a.pair.testnet?.priority) === true;
-    // Check if either the mainnet or testnet version of chain B has priority
-    const bHasPriority = (b.pair.mainnet?.priority || b.pair.testnet?.priority) === true;
-    
-    // If one chain has priority and the other doesn't, prioritize the one with priority
-    if (aHasPriority !== bHasPriority) {
-      return aHasPriority ? -1 : 1; // Priority chains first
-    }
-    
-    // If both chains have the same priority status, sort alphabetically by name
-    return a.name.localeCompare(b.name);
-  });
-
   return (
     <table className="vocs_Table">
       <thead>
         <tr>
           <th className="vocs_TableHeader" style={{textAlign: 'left'}}>Chain</th>
-          <th className="vocs_TableHeader" style={{textAlign: 'left'}}>Mainnet</th>
-          <th className="vocs_TableHeader" style={{textAlign: 'left'}}>Testnet</th>
+          <th className="vocs_TableHeader" style={{textAlign: 'left'}}>Chain ID</th>
+          <th className="vocs_TableHeader" style={{textAlign: 'left'}}>Slug</th>
         </tr>
       </thead>
       <tbody>
-        {uniqueChains.map(({name, pair}, index) => {
-          return (
-            <tr key={index} className="vocs_TableRow">
-              <td className="vocs_TableCell">{name}</td>
-              <td className="vocs_TableCell">
-                {pair.mainnet && (
-                  <span>✅ {pair.mainnet.chain_id} ({pair.mainnet.slug})</span>
-                )}
-              </td>
-              <td className="vocs_TableCell">
-                {pair.testnet && (
-                  <span>✅ {pair.testnet.chain_id} ({pair.testnet.slug})</span>
-                )}
-              </td>
-            </tr>
-          );
-        })}
+        {sortedChains.map((chain, index) => (
+          <tr key={index} className="vocs_TableRow">
+            <td className="vocs_TableCell">{chain.display_name}</td>
+            <td className="vocs_TableCell">{chain.chain_id}</td>
+            <td className="vocs_TableCell">{chain.slug}</td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );

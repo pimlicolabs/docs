@@ -42,7 +42,7 @@ export default function SupportedAccountsSection({ chainId }: SupportedAccountsS
       <table className="vocs_Table">
         <thead>
           <tr>
-            <th className="vocs_TableHeader" style={{textAlign: 'left'}}></th>
+            <th className="vocs_TableHeader" style={{textAlign: 'left'}}>Entrypoint / Account</th>
             {accountNames.map((accountName) => (
               <th key={accountName} className="vocs_TableHeader" style={{textAlign: 'center'}}>
                 {accountName}
