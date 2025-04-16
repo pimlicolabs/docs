@@ -123,14 +123,14 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "chore: update docs data [automated]"
-          title: "Update docs data - ${{ steps.datetime.outputs.date }}"
+          title: "Update docs data - ${{ steps.datetime.outputs.datetime }}"
           body: |
             This PR updates the docs data from the Pimlico database:
             
             - Supported chains
             - Supported entrypoints
             - Supported accounts
-            - Markdown files from data-docs-updater
+            - Supported tokens
             
             - Updated on: ${{ steps.datetime.outputs.date }}
             - Automated update via GitHub Actions
