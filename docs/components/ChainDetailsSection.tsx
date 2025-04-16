@@ -17,9 +17,11 @@ type ChainData = {
 export default function ChainDetailsSection() {
   // Sort chains by priority first, then by display name
   const sortedChains = [...(chainsData as ChainData[])].sort((a, b) => {
+    // First sort by priority (true values come first)
     if (a.priority !== b.priority) {
       return a.priority ? -1 : 1; // Priority chains first
     }
+    // Then sort alphabetically by display name
     return a.display_name.localeCompare(b.display_name);
   });
 
@@ -40,7 +42,7 @@ export default function ChainDetailsSection() {
       {sortedChains.map((chain) => (
         <div key={chain.chain_id} className="vocs_Section">
           <h2 id={`chain-${chain.display_name.toLowerCase().replace(/\s+/g, '-')}`} className="vocs_H2 vocs_Heading">
-            {chain.display_name} ({chain.slug})
+            {chain.display_name}
           </h2>
           
           {hasEntrypointData(chain) && (

@@ -51,12 +51,17 @@ export default function SupportedChainsTable() {
 
   // Sort the unique chains by priority and name
   uniqueChains.sort((a, b) => {
+    // Check if either the mainnet or testnet version of chain A has priority
     const aHasPriority = (a.pair.mainnet?.priority || a.pair.testnet?.priority) === true;
+    // Check if either the mainnet or testnet version of chain B has priority
     const bHasPriority = (b.pair.mainnet?.priority || b.pair.testnet?.priority) === true;
     
+    // If one chain has priority and the other doesn't, prioritize the one with priority
     if (aHasPriority !== bHasPriority) {
-      return aHasPriority ? -1 : 1;
+      return aHasPriority ? -1 : 1; // Priority chains first
     }
+    
+    // If both chains have the same priority status, sort alphabetically by name
     return a.name.localeCompare(b.name);
   });
 
