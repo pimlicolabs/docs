@@ -1,5 +1,3 @@
-# Supported Chains
-
 | Chain | Chain ID | Mainnet |
 | ----- | -------- | ------- |
 | Ethereum | 1 | ✅ |
