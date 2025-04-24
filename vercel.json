@@ -13,27 +13,22 @@
 	"redirects": [
 		{
 			"source": "/infra/magic-spend/endpoints/pimlico_getMagicSpendStakes",
-			"destination": "/infra/flash-fund/endpoints/flashfund_getLocks",
+			"destination": "/references/flash-fund/endpoints/flashfund_getLocks",
 			"permanent": true
 		},
 		{
 			"source": "/infra/magic-spend/endpoints/pimlico_prepareMagicSpendStake",
-			"destination": "/infra/flash-fund/endpoints/flashfund_prepareLock",
+			"destination": "/references/flash-fund/endpoints/flashfund_prepareLock",
 			"permanent": true
 		},
 		{
 			"source": "/infra/magic-spend/endpoints/pimlico_prepareMagicSpendAllowance",
-			"destination": "/infra/flash-fund/endpoints/flashfund_prepareAllowance",
+			"destination": "/references/flash-fund/endpoints/flashfund_prepareAllowance",
 			"permanent": true
 		},
 		{
 			"source": "/infra/magic-spend/endpoints/pimlico_sponsorMagicSpendWithdrawal",
-			"destination": "/infra/flash-fund/endpoints/flashfund_sponsorWithdrawal",
-			"permanent": true
-		},
-		{
-			"source": "/infra/magic-spend/:path*",
-			"destination": "/infra/flash-fund/:path*",
+			"destination": "/references/flash-fund/endpoints/flashfund_sponsorWithdrawal",
 			"permanent": true
 		},
 		{
@@ -48,17 +43,17 @@
 		},
 		{
 			"source": "/bundler/reference/entrypoint-errors/:match*",
-			"destination": "/infra/bundler/entrypoint-errors/:match",
+			"destination": "/references/bundler/entrypoint-errors/:match",
 			"permanent": false
 		},
 		{
 			"source": "/pricing",
-			"destination": "/infra/platform/pricing",
+			"destination": "/references/platform/pricing",
 			"permanent": false
 		},
 		{
 			"source": "/paymaster/erc20-paymaster",
-			"destination": "/infra/paymaster/erc20-paymaster/",
+			"destination": "/references/paymaster/erc20-paymaster/",
 			"permanent": false
 		},
 		{
@@ -183,22 +178,22 @@
 		},
 		{
 			"source": "/overview/verifying-paymaster",
-			"destination": "/paymaster/verifying-paymaster",
+			"destination": "/references/paymaster/verifying-paymaster",
 			"permanent": false
 		},
 		{
 			"source": "/how-to/verifying-paymaster/how-to-sponsor-a-user-operation",
-			"destination": "/paymaster/verifying-paymaster/how-to/sponsor-a-user-operation",
+			"destination": "/references/paymaster/verifying-paymaster/how-to/sponsor-a-user-operation",
 			"permanent": false
 		},
 		{
 			"source": "/reference/verifying-paymaster/common-errors",
-			"destination": "/paymaster/verifying-paymaster",
+			"destination": "/references/paymaster/verifying-paymaster/common-errors",
 			"permanent": false
 		},
 		{
 			"source": "/reference/verifying-paymaster/endpoints",
-			"destination": "/paymaster/verifying-paymaster/",
+			"destination": "/references/paymaster/verifying-paymaster/endpoints",
 			"permanent": false
 		},
 		{
@@ -212,24 +207,73 @@
 			"permanent": false
 		},
 		{
+			"source": "/infra/platform/sponsorship-policies",
+			"destination": "/guides/how-to/sponsorship-policies",
+			"permanent": true
+		},
+		{
+			"source": "/infra/platform/supported-chains",
+			"destination": "/references/platform/supported-chains",
+			"permanent": true
+		},
+		{
 			"source": "/reference/erc20-paymaster/sdk",
 			"destination": "/paymaster/erc20-paymaster",
 			"permanent": false
 		},
 		{
 			"source": "/how-to/integrations/lit-protocol",
-			"destination": "/permissionless/how-to/signers/lit-protocol",
+			"destination": "/guides/how-to/signers/lit-protocol",
 			"permanent": false
 		},
 		{
 			"source": "/tutorial/integrations/lit-protocol",
-			"destination": "/permissionless/how-to/signers/lit-protocol",
+			"destination": "/guides/how-to/signers/lit-protocol",
 			"permanent": false
 		},
 		{
 			"source": "/permissionless/difference-between-multiple-account-types",
-			"destination": "/permissionless/how-to/accounts/comparison",
+			"destination": "/guides/how-to/accounts/comparison",
 			"permanent": false
+		},
+		{
+			"source": "/infra/magic-spend/:path*",
+			"destination": "/references/flash-fund/:path*",
+			"permanent": true
+		},
+		{
+			"source": "/infra/platform/sponsorship-policies/:path*",
+			"destination": "/guides/how-to/sponsorship-policies/:path*",
+			"permanent": true
+		},
+		{
+			"source": "/infra/platform/security/:path*",
+			"destination": "/guides/how-to/security/:path*",
+			"permanent": true
+		},
+		{
+			"source": "/infra/platform/debugging/:path*",
+			"destination": "/guides/how-to/debugging/:path*",
+			"permanent": true
+		},
+		{
+			"source": "/infra/paymaster/erc20-paymaster/how-to/:path*",
+			"destination": "/guides/how-to/erc20-paymaster/how-to/:path*",
+			"permanent": true
+		},
+		{
+			"source": "/permissionless/:path*",
+			"destination": "/references/permissionless/:path*",
+			"permanent": true
+		},
+		{
+			"source": "/permissionless/tutorial/:path*",
+			"destination": "/guides/tutorials/:path*"
+		},
+		{
+			"source": "/infra/:path*",
+			"destination": "/references/:path*",
+			"permanent": true
 		}
 	],
 	"headers": [
@@ -238,7 +282,10 @@
 			"headers": [
 				{ "key": "Access-Control-Allow-Credentials", "value": "true" },
 				{ "key": "Access-Control-Allow-Origin", "value": "*" },
-				{ "key": "Access-Control-Allow-Methods", "value": "GET,OPTIONS,PATCH,DELETE,POST,PUT" },
+				{
+					"key": "Access-Control-Allow-Methods",
+					"value": "GET,OPTIONS,PATCH,DELETE,POST,PUT"
+				},
 				{
 					"key": "Access-Control-Allow-Headers",
 					"value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
