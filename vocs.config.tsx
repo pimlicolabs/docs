@@ -28,41 +28,6 @@ export const platformSidebar = [
 		link: "/references/platform/supported-chains",
 	},
 	{
-		text: "Sponsorship Policies",
-		items: [
-			{
-				text: "How to use sponsorship policies",
-				link: "/references/platform/sponsorship-policies",
-			},
-			{
-				text: "Webhook docs",
-				link: "/references/platform/sponsorship-policies/webhook",
-			},
-			{
-				text: "How to create a gas program",
-				link: "/references/platform/sponsorship-policies/gas-program",
-			},
-		],
-	},
-	{
-		text: "Security",
-		items: [
-			{
-				text: "How to protect your API keys",
-				link: "/references/platform/security/protect-api-keys",
-			},
-		],
-	},
-	{
-		text: "Debugging",
-		items: [
-			{
-				text: "How to debug dropped user operations",
-				link: "/references/platform/debugging/dropped-user-operations",
-			},
-		],
-	},
-	{
 		text: "API",
 		items: [
 			{
@@ -325,23 +290,6 @@ export const paymasterSidebar = [
 				link: "/references/paymaster/erc20-paymaster/supported-tokens",
 			},
 			{
-				text: "Guides",
-				items: [
-					{
-						text: "How to use the ERC-20 Paymaster",
-						link: "/references/paymaster/erc20-paymaster/how-to/use-paymaster",
-					},
-					{
-						text: "How to use the ERC-20 Paymaster without unlimited token approvals",
-						link: "/references/paymaster/erc20-paymaster/how-to/use-paymaster-without-unlimited-approval",
-					},
-					{
-						text: "How to estimate token cost and cost in USD",
-						link: "/references/paymaster/erc20-paymaster/how-to/calculate-costs",
-					},
-				],
-			},
-			{
 				text: "Endpoints",
 				items: [
 					{
@@ -401,36 +349,247 @@ export const paymasterSidebar = [
 	},
 ];
 
-/*
-                    { text: "deployContract", link: "/references/permissionless/reference/smart-account-actions/deployContract" },
-                    { text: "sendTransaction", link: "/references/permissionless/reference/smart-account-actions/sendTransaction" },
-                    { text: "sendTransactions", link: "/references/permissionless/reference/smart-account-actions/sendTransactions" },
-                    { text: "signMessage", link: "/references/permissionless/reference/smart-account-actions/signMessage" },
-                    { text: "signTypedData", link: "/references/permissionless/reference/smart-account-actions/signTypedData" },
-                    { text: "writeContract", link: "/references/permissionless/reference/smart-account-actions/writeContract" },
+export const gettingStartedSidebar = [
+	{
+		text: "Overview",
+		link: "/guides/getting-started",
+	},
+];
 
-*/
+export const tutorialSidebar = [
+	{
+		text: "Send your first gasless transaction",
+		link: "/guides/tutorials/tutorial-1",
+	},
+	{
+		text: "Submit a user operation with an ERC-20 Paymaster",
+		link: "/guides/tutorials/tutorial-2",
+	},
+];
 
+export const howToSidebar = [
+	{
+		text: "Update your existing app to sponsor gas fees for smart account users",
+		link: "/guides/how-to/dapp-gas-sponsorship",
+	},
+	{
+		text: "How to send multiple user operations in parallel",
+		link: "/guides/how-to/parallel-transactions",
+	},
+	{
+		text: "ERC-20 Paymaster",
+		items: [
+			{
+				text: "How to send a userOperation from a EOA using EIP-7702",
+				link: "/guides/how-to/eip-7702-demo",
+			},
+			{
+				text: "How to use the ERC-20 Paymaster",
+				link: "/guides/how-to/erc20-paymaster/how-to/use-paymaster",
+			},
+			{
+				text: "How to use the ERC-20 Paymaster without unlimited token approvals",
+				link: "/guides/how-to/erc20-paymaster/how-to/use-paymaster-without-unlimited-approval",
+			},
+			{
+				text: "How to estimate token cost and cost in USD",
+				link: "/guides/how-to/erc20-paymaster/how-to/calculate-costs",
+			},
+		],
+	},
+	{
+		text: "Sponsorship Policies",
+		items: [
+			{
+				text: "How to use sponsorship policies",
+				link: "/guides/how-to/sponsorship-policies",
+			},
+			{
+				text: "Webhook docs",
+				link: "/guides/how-to/sponsorship-policies/webhook",
+			},
+			{
+				text: "How to create a gas program",
+				link: "/guides/how-to/sponsorship-policies/gas-program",
+			},
+		],
+	},
+	{
+		text: "Security",
+		items: [
+			{
+				text: "How to protect your API keys",
+				link: "/guides/how-to/security/protect-api-keys",
+			},
+		],
+	},
+	{
+		text: "Testing",
+		items: [
+			{
+				text: "Docker",
+				link: "/guides/how-to/testing/docker",
+			},
+			{
+				text: "Build Bear",
+				link: "/guides/how-to/testing/build-bear",
+			},
+		],
+	},
+	{
+		text: "Debugging",
+		items: [
+			{
+				text: "How to debug dropped user operations",
+				link: "/guides/how-to/debugging/dropped-user-operations",
+			},
+		],
+	},
+	{
+		text: "Accounts",
+		items: [
+			{
+				text: "EntryPoint support",
+				link: "/guides/how-to/accounts/support",
+			},
+			{
+				text: "Account types comparison",
+				link: "/guides/how-to/accounts/comparison",
+			},
+			{
+				text: "Safe",
+				link: "/guides/how-to/accounts/use-safe-account",
+			},
+			{
+				text: "Safe (multiple signers)",
+				link: "/guides/how-to/accounts/use-safe-account-with-multiple-signers",
+			},
+			{
+				text: "Kernel",
+				link: "/guides/how-to/accounts/use-kernel-account",
+			},
+			{
+				text: "Coinbase Wallet",
+				link: "/guides/how-to/accounts/use-coinbase-account",
+			},
+			{
+				text: "Simple Account",
+				link: "/guides/how-to/accounts/use-simple-account",
+			},
+			{
+				text: "Thirdweb",
+				link: "/guides/how-to/accounts/use-thirdweb-account",
+			},
+			{
+				text: "Trust Wallet",
+				link: "/guides/how-to/accounts/use-trustwallet-account",
+			},
+			{
+				text: "Biconomy Nexus",
+				link: "/guides/how-to/accounts/use-nexus-account",
+			},
+			{
+				text: "Alchemy Light Account",
+				link: "/guides/how-to/accounts/use-light-account",
+			},
+			{
+				text: "How to use an ERC-7579 compatible smart account",
+				link: "/guides/how-to/accounts/use-erc7579-account",
+			},
+		],
+	},
+	{
+		text: "Paymasters",
+		items: [
+			{
+				text: "How to use a custom Paymaster",
+				link: "/guides/how-to/paymasters/use-custom-paymaster",
+			},
+			{
+				text: "How to conditionally sponsor a user operation",
+				link: "/guides/how-to/paymasters/conditional-sponsoring",
+			},
+		],
+	},
+	{
+		text: "Signers",
+		link: "/guides/how-to/signers",
+		items: [
+			{
+				text: "Passkey (WebAuthn) signer",
+				link: "/guides/how-to/signers/passkey",
+			},
+			{
+				text: "Passkey (WebAuthn) server",
+				link: "/guides/how-to/signers/passkey-server",
+			},
+			{
+				text: "Dynamic",
+				link: "/guides/how-to/signers/dynamic",
+			},
+			{
+				text: "Privy",
+				link: "/guides/how-to/signers/privy",
+			},
+			{
+				text: "Magic",
+				link: "/guides/how-to/signers/magic",
+			},
+			{
+				text: "Lit Protocol",
+				link: "/guides/how-to/signers/lit-protocol",
+			},
+			{
+				text: "Web3Auth",
+				link: "/guides/how-to/signers/web3auth",
+			},
+			{
+				text: "Turnkey",
+				link: "/guides/how-to/signers/turnkey",
+			},
+			{
+				text: "Fireblocks",
+				link: "/guides/how-to/signers/fireblocks",
+			},
+			{
+				text: "Para",
+				link: "/guides/how-to/signers/para",
+			},
+			{
+				text: "DFNS",
+				link: "/guides/how-to/signers/dfns",
+			},
+			{
+				text: "Arcana Auth",
+				link: "/guides/how-to/signers/arcana",
+			},
+			{
+				text: "Particle Network",
+				link: "/guides/how-to/signers/particle-network",
+			},
+		],
+	},
+];
 export const conceptualSidebar = [
 	{
 		text: "Overview",
-		link: "/conceptual",
+		link: "/guides/conceptual",
 	},
 	{
 		text: "Account Abstraction",
-		link: "/conceptual/account-abstraction",
+		link: "/guides/conceptual/account-abstraction",
 	},
 	{
 		text: "ERC-4337",
-		link: "/conceptual/erc4337",
+		link: "/guides/conceptual/erc4337",
 	},
 	{
 		text: "ERC-7579",
-		link: "/conceptual/erc7579",
+		link: "/guides/conceptual/erc7579",
 	},
 	{
 		text: "EIP-7702",
-		link: "/conceptual/eip7702",
+		link: "/guides/conceptual/eip7702",
 	},
 ];
 
@@ -447,180 +606,12 @@ export const permissionlessSidebar = [
 		text: "FAQs",
 		link: "/references/permissionless/faqs",
 	},
-
-	{
-		text: "Tutorials",
-		link: "/references/permissionless/tutorial",
-		items: [
-			{
-				text: "1. Send your first gasless transaction",
-				link: "/references/permissionless/tutorial/tutorial-1",
-			},
-			{
-				text: "2. Submit a user operation with an ERC-20 Paymaster",
-				link: "/references/permissionless/tutorial/tutorial-2",
-			},
-		],
-	},
 	{
 		text: "How-to Guides",
 		items: [
 			{
-				text: "Update your existing app to sponsor gas fees for smart account users",
-				link: "/references/permissionless/how-to/dapp-gas-sponsorship",
-			},
-			{
-				text: "How to send multiple user operations in parallel",
-				link: "/references/permissionless/how-to/parallel-transactions",
-			},
-			{
-				text: "How to send a userOperation from a EOA using EIP-7702",
-				link: "/references/permissionless/how-to/eip-7702-demo",
-			},
-			// {
-			//     text: "Error Handling",
-			//     link: "/references/permissionless/how-to/error-handling",
-			// },
-			{
 				text: "Migration Guide",
 				link: "/references/permissionless/how-to/migration-guide",
-			},
-			{
-				text: "Testing",
-				items: [
-					{
-						text: "Docker",
-						link: "/references/permissionless/how-to/testing/docker",
-					},
-					{
-						text: "Build Bear",
-						link: "/references/permissionless/how-to/testing/build-bear",
-					},
-				],
-			},
-			{
-				text: "Accounts",
-				items: [
-					{
-						text: "EntryPoint support",
-						link: "/references/permissionless/how-to/accounts/support",
-					},
-					{
-						text: "Account types comparison",
-						link: "/references/permissionless/how-to/accounts/comparison",
-					},
-					{
-						text: "Safe",
-						link: "/references/permissionless/how-to/accounts/use-safe-account",
-					},
-					{
-						text: "Safe (multiple signers)",
-						link: "/references/permissionless/how-to/accounts/use-safe-account-with-multiple-signers",
-					},
-					{
-						text: "Kernel",
-						link: "/references/permissionless/how-to/accounts/use-kernel-account",
-					},
-					{
-						text: "Coinbase Wallet",
-						link: "/references/permissionless/how-to/accounts/use-coinbase-account",
-					},
-					{
-						text: "Simple Account",
-						link: "/references/permissionless/how-to/accounts/use-simple-account",
-					},
-					{
-						text: "Thirdweb",
-						link: "/references/permissionless/how-to/accounts/use-thirdweb-account",
-					},
-					{
-						text: "Trust Wallet",
-						link: "/references/permissionless/how-to/accounts/use-trustwallet-account",
-					},
-					{
-						text: "Biconomy Nexus",
-						link: "/references/permissionless/how-to/accounts/use-nexus-account",
-					},
-					{
-						text: "Alchemy Light Account",
-						link: "/references/permissionless/how-to/accounts/use-light-account",
-					},
-					{
-						text: "How to use an ERC-7579 compatible smart account",
-						link: "/references/permissionless/how-to/accounts/use-erc7579-account",
-					},
-				],
-			},
-			{
-				text: "Paymasters",
-				items: [
-					{
-						text: "How to use a custom Paymaster",
-						link: "/references/permissionless/how-to/paymasters/use-custom-paymaster",
-					},
-					{
-						text: "How to conditionally sponsor a user operation",
-						link: "/references/permissionless/how-to/paymasters/conditional-sponsoring",
-					},
-				],
-			},
-			{
-				text: "Signers",
-				link: "/references/permissionless/how-to/signers",
-				items: [
-					{
-						text: "Passkey (WebAuthn) signer",
-						link: "/references/permissionless/how-to/signers/passkey",
-					},
-					{
-						text: "Passkey (WebAuthn) server",
-						link: "/references/permissionless/how-to/signers/passkey-server",
-					},
-					{
-						text: "Dynamic",
-						link: "/references/permissionless/how-to/signers/dynamic",
-					},
-					{
-						text: "Privy",
-						link: "/references/permissionless/how-to/signers/privy",
-					},
-					{
-						text: "Magic",
-						link: "/references/permissionless/how-to/signers/magic",
-					},
-					{
-						text: "Lit Protocol",
-						link: "/references/permissionless/how-to/signers/lit-protocol",
-					},
-					{
-						text: "Web3Auth",
-						link: "/references/permissionless/how-to/signers/web3auth",
-					},
-					{
-						text: "Turnkey",
-						link: "/references/permissionless/how-to/signers/turnkey",
-					},
-					{
-						text: "Fireblocks",
-						link: "/references/permissionless/how-to/signers/fireblocks",
-					},
-					{
-						text: "Para",
-						link: "/references/permissionless/how-to/signers/para",
-					},
-					{
-						text: "DFNS",
-						link: "/references/permissionless/how-to/signers/dfns",
-					},
-					{
-						text: "Arcana Auth",
-						link: "/references/permissionless/how-to/signers/arcana",
-					},
-					{
-						text: "Particle Network",
-						link: "/references/permissionless/how-to/signers/particle-network",
-					},
-				],
 			},
 		],
 	},
@@ -1364,7 +1355,28 @@ export default defineConfig({
 	},
 	vite: viteConfig,
 	sidebar: {
-		"/guides": conceptualSidebar,
+		"/guides": [
+			{
+				text: "Getting started",
+				link: "/guides/getting-started",
+				items: gettingStartedSidebar,
+			},
+			{
+				text: "Tutorials",
+				link: "/guides/tutorials",
+				items: tutorialSidebar,
+			},
+			{
+				text: "How-to Guides",
+				link: "/guides/how-to",
+				items: howToSidebar,
+			},
+			{
+				text: "Conceptual",
+				link: "/guides/conceptual",
+				items: conceptualSidebar,
+			},
+		],
 		"/references": [
 			{
 				text: "Platform",
@@ -1429,7 +1441,8 @@ export default defineConfig({
 	topNav: [
 		{
 			text: "Guides",
-			link: "/guides",
+			link: "/guides/getting-started",
+			match: "/guides",
 		},
 		{
 			text: "References",
