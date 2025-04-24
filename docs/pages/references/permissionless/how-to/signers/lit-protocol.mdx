@@ -183,7 +183,7 @@ await pkpWallet.init();
 
 ### Use the PKP Wallet to sign user operations and send them through Pimlico
 
-You can now use the `pkpWallet` as a regular Ethers.js wallet to sign user operations. To submit a user operation to Pimlico, you can follow the steps to [sponsor a user operation with Pimlico's verifying paymaster](/infra/paymaster/verifying-paymaster/usage) and/or [submit a user operation through Pimlico's bundler](/infra/bundler/usage). If you would like to integrate Lit Protocol with the full flow of generating, signing, and submitting a user operation, you can follow the steps in [tutorial 1](/permissionless/tutorial/tutorial-1), replacing the signing step with the PKP wallet and using `pkpWallet.address` as the owner address of the smart account.
+You can now use the `pkpWallet` as a regular Ethers.js wallet to sign user operations. To submit a user operation to Pimlico, you can follow the steps to [sponsor a user operation with Pimlico's verifying paymaster](/references/paymaster/verifying-paymaster/usage) and/or [submit a user operation through Pimlico's bundler](/references/bundler/usage). If you would like to integrate Lit Protocol with the full flow of generating, signing, and submitting a user operation, you can follow the steps in [tutorial 1](/permissionless/tutorial/tutorial-1), replacing the signing step with the PKP wallet and using `pkpWallet.address` as the owner address of the smart account.
 
 Modified from [tutorial 1](/permissionless/tutorial/tutorial-1), an example of how to use the PKP wallet to sign a user operation is shown below:
 

@@ -6,7 +6,7 @@ Sponsorship Policies are hosted policies that allow you to define custom rules f
 
 You can put limits to the global amount of sponsorships, the amount of sponsorships per user, and per user operation.
 
-Start by going to the [sponsorship policies page](/infra/platform/sponsorship-policies) on the Pimlico dashboard and clicking on the "Create Policy" button.
+Start by going to the [sponsorship policies page](/references/platform/sponsorship-policies) on the Pimlico dashboard and clicking on the "Create Policy" button.
 
 ![](https://i.imgur.com/sJM7l7m.png)
 
@@ -21,7 +21,7 @@ If you are using [permissionless.js](/permissionless), you can use the `PimlicoP
 First we must create the public, (optionally) paymaster clients that will be used to interact with the SimpleAccount.
 
 ```ts
-// [!include ~/snippets/infra/platform/sponsorship-policies/index.ts:client]
+// [!include ~/snippets/references/platform/sponsorship-policies/index.ts:client]
 ```
 
 ### Create an account
@@ -29,7 +29,7 @@ First we must create the public, (optionally) paymaster clients that will be use
 Now, create an account. This can any of the accounts supported by permissionless.js or custom accounts conforming to the interface. For this example, we'll use a Simple account.
 
 ```ts
-// [!include ~/snippets/infra/platform/sponsorship-policies/index.ts:account]
+// [!include ~/snippets/references/platform/sponsorship-policies/index.ts:account]
 ```
 
 ### Create the smart account client with middleware
@@ -38,7 +38,7 @@ When creating the `smartAccountClient`, we can pass in a `middleware.sponsorUser
 This is where we can pass in the `sponsorshipPolicyId` that we want to use.
 
 ```ts
-// [!include ~/snippets/infra/platform/sponsorship-policies/index.ts:smart-account-client]
+// [!include ~/snippets/references/platform/sponsorship-policies/index.ts:smart-account-client]
 ```
 
 

@@ -43,13 +43,13 @@ The Pimlico dashboard offers a wide range of features to help streamline your sm
 Dashboard features include:
 - [Rich analytics and metrics](https://dashboard.pimlico.io/metrics)
 - [Logs and requests overview](https://dashboard.pimlico.io/logs)
-- [Debugging tools](/infra/platform/debugging/dropped-user-operations#how-to-debug-dropped-user-operations)
+- [Debugging tools](/references/platform/debugging/dropped-user-operations#how-to-debug-dropped-user-operations)
 - [Gas grants](https://dashboard.pimlico.io/sponsorship-policies)
-- [Sponsorship policies](/infra/platform/sponsorship-policies)
+- [Sponsorship policies](/references/platform/sponsorship-policies)
 
 ### API Credit system
 
-Pimlico uses a transparent API credit system, ensuring fair billing based on your actual usage. The 'worth' of each API credit is different than it is for Stackup. The API cost of each RPC call is detailed on our [pricing page](/infra/platform/pricing).
+Pimlico uses a transparent API credit system, ensuring fair billing based on your actual usage. The 'worth' of each API credit is different than it is for Stackup. The API cost of each RPC call is detailed on our [pricing page](/references/platform/pricing).
 
 ### API Endpoint changes
 
@@ -71,11 +71,11 @@ The Pimlico API supports seamless multichain access. This means that the same AP
 const endpoint = `https://api.pimlico.io/v2/${chainId}/rpc?apikey=${apiKey}`
 ```
 
-where `chainId` specifies the target chainId. The Pimlico bundler is currently live on 90+ chains, the full breakdown can be found on the [supported-chains page](/infra/platform/supported-chains).
+where `chainId` specifies the target chainId. The Pimlico bundler is currently live on 90+ chains, the full breakdown can be found on the [supported-chains page](/references/platform/supported-chains).
 
 ### ERC-20 Paymaster endpoint
 
-If you are using Stackup's `pm_getERC20TokenQuotes` endpoint, you can migrate to Pimlico's `pimlico_getTokenQuotes`. The Pimlico endpoint does not take in a user operation, however you can follow this [how-to guide](/infra/paymaster/erc20-paymaster/how-to/use-paymaster) to achieve the same functionality.
+If you are using Stackup's `pm_getERC20TokenQuotes` endpoint, you can migrate to Pimlico's `pimlico_getTokenQuotes`. The Pimlico endpoint does not take in a user operation, however you can follow this [how-to guide](/references/paymaster/erc20-paymaster/how-to/use-paymaster) to achieve the same functionality.
 
 ### Origin and user agent whitelist
 

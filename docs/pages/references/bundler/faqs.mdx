@@ -6,7 +6,7 @@ There can be many reasons for this. The most common are:
 - The bundle transaction bundling the user operation fails on-chain so no logs are emitted.
 - You submitted a user operation which has a nonce that is higher than the current account nonce, which means it is likely queued by the bundler until that nonce is reached.
 
-It is recommended to use the [`pimlico_getUserOperationStatus`](/infra/bundler/endpoints/pimlico_getUserOperationStatus) endpoint to check the status of your user operation.
+It is recommended to use the [`pimlico_getUserOperationStatus`](/references/bundler/endpoints/pimlico_getUserOperationStatus) endpoint to check the status of your user operation.
 
 ## What are fees to deploy to app-chains?
 Fees vary by network. Please reach out to [us](https://t.me/kristofgazso) for more information.
@@ -25,11 +25,11 @@ The bundler fees are paid for completely onchain, by setting a gas price for the
 
 ## How does the onchain bundler payment take place?
 
-When constructing your user operation, you'd use the [pimlico_getUserOperationGasPrice](/infra/bundler/endpoints/pimlico_getUserOperationGasPrice) method to select the gas prices for your user operation. When submitting to the bundler, the bundler would bundle the user operation into a transaction with a slightly lower gas price. The bundler makes as profit the small difference between the two gas prices.
+When constructing your user operation, you'd use the [pimlico_getUserOperationGasPrice](/references/bundler/endpoints/pimlico_getUserOperationGasPrice) method to select the gas prices for your user operation. When submitting to the bundler, the bundler would bundle the user operation into a transaction with a slightly lower gas price. The bundler makes as profit the small difference between the two gas prices.
 
 ## How is pimlico_getUserOperationGasPrice different from eth_estimateUserOperationGas?
 
-[eth_estimateUserOperationGas](/infra/bundler/endpoints/eth_estimateUserOperationGas) estimates the gas limits for the user operation (i.e. how much total gas can be spent for the difference stages of the user operation). In contrast, [pimlico_getUserOperationGasPrice](/infra/bundler/endpoints/pimlico_getUserOperationGasPrice) responds with the gas prices (i.e. for each unit of gas, what is the amount of ETH you're willing to pay to the bundler).
+[eth_estimateUserOperationGas](/references/bundler/endpoints/eth_estimateUserOperationGas) estimates the gas limits for the user operation (i.e. how much total gas can be spent for the difference stages of the user operation). In contrast, [pimlico_getUserOperationGasPrice](/references/bundler/endpoints/pimlico_getUserOperationGasPrice) responds with the gas prices (i.e. for each unit of gas, what is the amount of ETH you're willing to pay to the bundler).
 
 ## Is there be a way of tracking gas fee payments?
 

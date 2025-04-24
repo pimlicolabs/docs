@@ -2,13 +2,13 @@
 
 All calls are in JSON-RPC format and have to be made to the following URL: `https://api.pimlico.io/v2/{chain}/rpc?apikey=[YOUR_API_KEY_HERE]`
 
-Where `{chain}` is the chain variable (such as `sepolia` or `polygon`) as found in the [supported chains page](/infra/platform/supported-chains)
+Where `{chain}` is the chain variable (such as `sepolia` or `polygon`) as found in the [supported chains page](/references/platform/supported-chains)
 
 ## pm_sponsorUserOperation (v2)
 
 `pm_sponsorUserOperation` is the main endpoint for verifying paymasters. It takes in a User Operation, simulates it and estimates the gas limits, and then signs the User Operation with the verifying paymaster's key, sponsoring it when it is submitted on-chain. If successful, we deduct from your off-chain Pimlico balance.
 
-You can optionally pass in a third parameter, `sponsorshipPolicyId`, which is a string that you can use to identify the sponsorship policy you want to use. To learn more about sponsorship policies, see [Sponsorship Policies](/infra/platform/sponsorship-policies).
+You can optionally pass in a third parameter, `sponsorshipPolicyId`, which is a string that you can use to identify the sponsorship policy you want to use. To learn more about sponsorship policies, see [Sponsorship Policies](/references/platform/sponsorship-policies).
 
 To use this endpoint, you must have an API key with Pimlico. Use our [Quick Start](https://dashboard.pimlico.io/apikeys) guide to generate one.
 
