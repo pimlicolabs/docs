@@ -262,17 +262,17 @@
 			"permanent": true
 		},
 		{
-			"source": "/permissionless/:path*",
-			"destination": "/references/permissionless/:path*",
-			"permanent": true
-		},
-		{
 			"source": "/permissionless/tutorial/:path*",
 			"destination": "/guides/tutorials/:path*"
 		},
 		{
 			"source": "/permissionless/how-to/:path*",
 			"destination": "/guides/how-to/:path*"
+		},
+		{
+			"source": "/permissionless/:path*",
+			"destination": "/references/permissionless/:path*",
+			"permanent": true
 		},
 		{
 			"source": "/infra/:path*",
