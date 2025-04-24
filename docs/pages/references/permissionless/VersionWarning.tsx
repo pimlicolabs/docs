@@ -9,15 +9,15 @@ export default function VersionWarning({ version }: { version?: string }) {
 							style={{
 								color: "var(--vocs-color_textAccent)",
 							}}
-							href="/permissionless"
+							href="/references/permissionless"
 						>
 							Click here
 						</a>{" "}
 						to view the latest documentation.
 					</p>
 				</aside>
-			)
+			);
 		default:
-			return <></>
+			return <></>;
 	}
 }

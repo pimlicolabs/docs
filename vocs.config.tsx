@@ -402,12 +402,12 @@ export const paymasterSidebar = [
 ];
 
 /*
-                    { text: "deployContract", link: "/permissionless/reference/smart-account-actions/deployContract" },
-                    { text: "sendTransaction", link: "/permissionless/reference/smart-account-actions/sendTransaction" },
-                    { text: "sendTransactions", link: "/permissionless/reference/smart-account-actions/sendTransactions" },
-                    { text: "signMessage", link: "/permissionless/reference/smart-account-actions/signMessage" },
-                    { text: "signTypedData", link: "/permissionless/reference/smart-account-actions/signTypedData" },
-                    { text: "writeContract", link: "/permissionless/reference/smart-account-actions/writeContract" },
+                    { text: "deployContract", link: "/references/permissionless/reference/smart-account-actions/deployContract" },
+                    { text: "sendTransaction", link: "/references/permissionless/reference/smart-account-actions/sendTransaction" },
+                    { text: "sendTransactions", link: "/references/permissionless/reference/smart-account-actions/sendTransactions" },
+                    { text: "signMessage", link: "/references/permissionless/reference/smart-account-actions/signMessage" },
+                    { text: "signTypedData", link: "/references/permissionless/reference/smart-account-actions/signTypedData" },
+                    { text: "writeContract", link: "/references/permissionless/reference/smart-account-actions/writeContract" },
 
 */
 
@@ -437,28 +437,28 @@ export const conceptualSidebar = [
 export const permissionlessSidebar = [
 	{
 		text: "Overview",
-		link: "/permissionless",
+		link: "/references/permissionless",
 	},
 	{
 		text: "Why permissionless.js",
-		link: "/permissionless/why",
+		link: "/references/permissionless/why",
 	},
 	{
 		text: "FAQs",
-		link: "/permissionless/faqs",
+		link: "/references/permissionless/faqs",
 	},
 
 	{
 		text: "Tutorials",
-		link: "/permissionless/tutorial",
+		link: "/references/permissionless/tutorial",
 		items: [
 			{
 				text: "1. Send your first gasless transaction",
-				link: "/permissionless/tutorial/tutorial-1",
+				link: "/references/permissionless/tutorial/tutorial-1",
 			},
 			{
 				text: "2. Submit a user operation with an ERC-20 Paymaster",
-				link: "/permissionless/tutorial/tutorial-2",
+				link: "/references/permissionless/tutorial/tutorial-2",
 			},
 		],
 	},
@@ -467,34 +467,34 @@ export const permissionlessSidebar = [
 		items: [
 			{
 				text: "Update your existing app to sponsor gas fees for smart account users",
-				link: "/permissionless/how-to/dapp-gas-sponsorship",
+				link: "/references/permissionless/how-to/dapp-gas-sponsorship",
 			},
 			{
 				text: "How to send multiple user operations in parallel",
-				link: "/permissionless/how-to/parallel-transactions",
+				link: "/references/permissionless/how-to/parallel-transactions",
 			},
 			{
 				text: "How to send a userOperation from a EOA using EIP-7702",
-				link: "/permissionless/how-to/eip-7702-demo",
+				link: "/references/permissionless/how-to/eip-7702-demo",
 			},
 			// {
 			//     text: "Error Handling",
-			//     link: "/permissionless/how-to/error-handling",
+			//     link: "/references/permissionless/how-to/error-handling",
 			// },
 			{
 				text: "Migration Guide",
-				link: "/permissionless/how-to/migration-guide",
+				link: "/references/permissionless/how-to/migration-guide",
 			},
 			{
 				text: "Testing",
 				items: [
 					{
 						text: "Docker",
-						link: "/permissionless/how-to/testing/docker",
+						link: "/references/permissionless/how-to/testing/docker",
 					},
 					{
 						text: "Build Bear",
-						link: "/permissionless/how-to/testing/build-bear",
+						link: "/references/permissionless/how-to/testing/build-bear",
 					},
 				],
 			},
@@ -503,51 +503,51 @@ export const permissionlessSidebar = [
 				items: [
 					{
 						text: "EntryPoint support",
-						link: "/permissionless/how-to/accounts/support",
+						link: "/references/permissionless/how-to/accounts/support",
 					},
 					{
 						text: "Account types comparison",
-						link: "/permissionless/how-to/accounts/comparison",
+						link: "/references/permissionless/how-to/accounts/comparison",
 					},
 					{
 						text: "Safe",
-						link: "/permissionless/how-to/accounts/use-safe-account",
+						link: "/references/permissionless/how-to/accounts/use-safe-account",
 					},
 					{
 						text: "Safe (multiple signers)",
-						link: "/permissionless/how-to/accounts/use-safe-account-with-multiple-signers",
+						link: "/references/permissionless/how-to/accounts/use-safe-account-with-multiple-signers",
 					},
 					{
 						text: "Kernel",
-						link: "/permissionless/how-to/accounts/use-kernel-account",
+						link: "/references/permissionless/how-to/accounts/use-kernel-account",
 					},
 					{
 						text: "Coinbase Wallet",
-						link: "/permissionless/how-to/accounts/use-coinbase-account",
+						link: "/references/permissionless/how-to/accounts/use-coinbase-account",
 					},
 					{
 						text: "Simple Account",
-						link: "/permissionless/how-to/accounts/use-simple-account",
+						link: "/references/permissionless/how-to/accounts/use-simple-account",
 					},
 					{
 						text: "Thirdweb",
-						link: "/permissionless/how-to/accounts/use-thirdweb-account",
+						link: "/references/permissionless/how-to/accounts/use-thirdweb-account",
 					},
 					{
 						text: "Trust Wallet",
-						link: "/permissionless/how-to/accounts/use-trustwallet-account",
+						link: "/references/permissionless/how-to/accounts/use-trustwallet-account",
 					},
 					{
 						text: "Biconomy Nexus",
-						link: "/permissionless/how-to/accounts/use-nexus-account",
+						link: "/references/permissionless/how-to/accounts/use-nexus-account",
 					},
 					{
 						text: "Alchemy Light Account",
-						link: "/permissionless/how-to/accounts/use-light-account",
+						link: "/references/permissionless/how-to/accounts/use-light-account",
 					},
 					{
 						text: "How to use an ERC-7579 compatible smart account",
-						link: "/permissionless/how-to/accounts/use-erc7579-account",
+						link: "/references/permissionless/how-to/accounts/use-erc7579-account",
 					},
 				],
 			},
@@ -556,69 +556,69 @@ export const permissionlessSidebar = [
 				items: [
 					{
 						text: "How to use a custom Paymaster",
-						link: "/permissionless/how-to/paymasters/use-custom-paymaster",
+						link: "/references/permissionless/how-to/paymasters/use-custom-paymaster",
 					},
 					{
 						text: "How to conditionally sponsor a user operation",
-						link: "/permissionless/how-to/paymasters/conditional-sponsoring",
+						link: "/references/permissionless/how-to/paymasters/conditional-sponsoring",
 					},
 				],
 			},
 			{
 				text: "Signers",
-				link: "/permissionless/how-to/signers",
+				link: "/references/permissionless/how-to/signers",
 				items: [
 					{
 						text: "Passkey (WebAuthn) signer",
-						link: "/permissionless/how-to/signers/passkey",
+						link: "/references/permissionless/how-to/signers/passkey",
 					},
 					{
 						text: "Passkey (WebAuthn) server",
-						link: "/permissionless/how-to/signers/passkey-server",
+						link: "/references/permissionless/how-to/signers/passkey-server",
 					},
 					{
 						text: "Dynamic",
-						link: "/permissionless/how-to/signers/dynamic",
+						link: "/references/permissionless/how-to/signers/dynamic",
 					},
 					{
 						text: "Privy",
-						link: "/permissionless/how-to/signers/privy",
+						link: "/references/permissionless/how-to/signers/privy",
 					},
 					{
 						text: "Magic",
-						link: "/permissionless/how-to/signers/magic",
+						link: "/references/permissionless/how-to/signers/magic",
 					},
 					{
 						text: "Lit Protocol",
-						link: "/permissionless/how-to/signers/lit-protocol",
+						link: "/references/permissionless/how-to/signers/lit-protocol",
 					},
 					{
 						text: "Web3Auth",
-						link: "/permissionless/how-to/signers/web3auth",
+						link: "/references/permissionless/how-to/signers/web3auth",
 					},
 					{
 						text: "Turnkey",
-						link: "/permissionless/how-to/signers/turnkey",
+						link: "/references/permissionless/how-to/signers/turnkey",
 					},
 					{
 						text: "Fireblocks",
-						link: "/permissionless/how-to/signers/fireblocks",
+						link: "/references/permissionless/how-to/signers/fireblocks",
 					},
 					{
 						text: "Para",
-						link: "/permissionless/how-to/signers/para",
+						link: "/references/permissionless/how-to/signers/para",
 					},
 					{
 						text: "DFNS",
-						link: "/permissionless/how-to/signers/dfns",
+						link: "/references/permissionless/how-to/signers/dfns",
 					},
 					{
 						text: "Arcana Auth",
-						link: "/permissionless/how-to/signers/arcana",
+						link: "/references/permissionless/how-to/signers/arcana",
 					},
 					{
 						text: "Particle Network",
-						link: "/permissionless/how-to/signers/particle-network",
+						link: "/references/permissionless/how-to/signers/particle-network",
 					},
 				],
 			},
@@ -626,7 +626,7 @@ export const permissionlessSidebar = [
 	},
 	{
 		text: "Reference",
-		link: "/permissionless/reference",
+		link: "/references/permissionless/reference",
 		items: [
 			{
 				text: "Clients",
@@ -634,11 +634,11 @@ export const permissionlessSidebar = [
 				items: [
 					{
 						text: "Pimlico Client",
-						link: "/permissionless/reference/clients/pimlicoClient",
+						link: "/references/permissionless/reference/clients/pimlicoClient",
 					},
 					{
 						text: "Smart Account Client",
-						link: "/permissionless/reference/clients/smartAccountClient",
+						link: "/references/permissionless/reference/clients/smartAccountClient",
 					},
 				],
 			},
@@ -648,27 +648,27 @@ export const permissionlessSidebar = [
 				items: [
 					{
 						text: "toSimpleSmartAccount",
-						link: "/permissionless/reference/accounts/toSimpleSmartAccount",
+						link: "/references/permissionless/reference/accounts/toSimpleSmartAccount",
 					},
 					{
 						text: "toSafeSmartAccount",
-						link: "/permissionless/reference/accounts/toSafeSmartAccount",
+						link: "/references/permissionless/reference/accounts/toSafeSmartAccount",
 					},
 					{
 						text: "toKernelSmartAccount",
-						link: "/permissionless/reference/accounts/toKernelSmartAccount",
+						link: "/references/permissionless/reference/accounts/toKernelSmartAccount",
 					},
 					{
 						text: "toNexusSmartAccount",
-						link: "/permissionless/reference/accounts/toNexusSmartAccount",
+						link: "/references/permissionless/reference/accounts/toNexusSmartAccount",
 					},
 					{
 						text: "toLightSmartAccount",
-						link: "/permissionless/reference/accounts/toLightSmartAccount",
+						link: "/references/permissionless/reference/accounts/toLightSmartAccount",
 					},
 					{
 						text: "toTrustSmartAccount",
-						link: "/permissionless/reference/accounts/toTrustSmartAccount",
+						link: "/references/permissionless/reference/accounts/toTrustSmartAccount",
 					},
 				],
 			},
@@ -678,43 +678,43 @@ export const permissionlessSidebar = [
 				items: [
 					{
 						text: "sendTransaction",
-						link: "/permissionless/reference/smart-account-actions/sendTransaction",
+						link: "/references/permissionless/reference/smart-account-actions/sendTransaction",
 					},
 					{
 						text: "writeContract",
-						link: "/permissionless/reference/smart-account-actions/writeContract",
+						link: "/references/permissionless/reference/smart-account-actions/writeContract",
 					},
 					{
 						text: "estimateUserOperationGas",
-						link: "/permissionless/reference/smart-account-actions/estimateUserOperationGas",
+						link: "/references/permissionless/reference/smart-account-actions/estimateUserOperationGas",
 					},
 					{
 						text: "getChainId",
-						link: "/permissionless/reference/smart-account-actions/getChainId",
+						link: "/references/permissionless/reference/smart-account-actions/getChainId",
 					},
 					{
 						text: "getSupportedEntryPoints",
-						link: "/permissionless/reference/smart-account-actions/getSupportedEntryPoints",
+						link: "/references/permissionless/reference/smart-account-actions/getSupportedEntryPoints",
 					},
 					{
 						text: "getUserOperation",
-						link: "/permissionless/reference/smart-account-actions/getUserOperation",
+						link: "/references/permissionless/reference/smart-account-actions/getUserOperation",
 					},
 					{
 						text: "getUserOperationReceipt",
-						link: "/permissionless/reference/smart-account-actions/getUserOperationReceipt",
+						link: "/references/permissionless/reference/smart-account-actions/getUserOperationReceipt",
 					},
 					{
 						text: "prepareUserOperation",
-						link: "/permissionless/reference/smart-account-actions/prepareUserOperation",
+						link: "/references/permissionless/reference/smart-account-actions/prepareUserOperation",
 					},
 					{
 						text: "sendUserOperation",
-						link: "/permissionless/reference/smart-account-actions/sendUserOperation",
+						link: "/references/permissionless/reference/smart-account-actions/sendUserOperation",
 					},
 					{
 						text: "waitForUserOperationReceipt",
-						link: "/permissionless/reference/smart-account-actions/waitForUserOperationReceipt",
+						link: "/references/permissionless/reference/smart-account-actions/waitForUserOperationReceipt",
 					},
 				],
 			},
@@ -724,23 +724,23 @@ export const permissionlessSidebar = [
 				items: [
 					{
 						text: "getPaymasterData",
-						link: "/permissionless/reference/pimlico-actions/getPaymasterData",
+						link: "/references/permissionless/reference/pimlico-actions/getPaymasterData",
 					},
 					{
 						text: "getPaymasterStubData",
-						link: "/permissionless/reference/pimlico-actions/getPaymasterStubData",
+						link: "/references/permissionless/reference/pimlico-actions/getPaymasterStubData",
 					},
 					{
 						text: "getUserOperationGasPrice",
-						link: "/permissionless/reference/pimlico-actions/getUserOperationGasPrice",
+						link: "/references/permissionless/reference/pimlico-actions/getUserOperationGasPrice",
 					},
 					{
 						text: "getUserOperationStatus",
-						link: "/permissionless/reference/pimlico-actions/getUserOperationStatus",
+						link: "/references/permissionless/reference/pimlico-actions/getUserOperationStatus",
 					},
 					{
 						text: "validateSponsorshipPolicies",
-						link: "/permissionless/reference/pimlico-actions/validateSponsorshipPolicies",
+						link: "/references/permissionless/reference/pimlico-actions/validateSponsorshipPolicies",
 					},
 				],
 			},
@@ -750,11 +750,11 @@ export const permissionlessSidebar = [
 				items: [
 					{
 						text: "getSenderAddress",
-						link: "/permissionless/reference/public-actions/getSenderAddress",
+						link: "/references/permissionless/reference/public-actions/getSenderAddress",
 					},
 					{
 						text: "getAccountNonce",
-						link: "/permissionless/reference/public-actions/getAccountNonce",
+						link: "/references/permissionless/reference/public-actions/getAccountNonce",
 					},
 				],
 			},
@@ -764,27 +764,27 @@ export const permissionlessSidebar = [
 				items: [
 					{
 						text: "accountId",
-						link: "/permissionless/reference/erc7579-actions/accountId",
+						link: "/references/permissionless/reference/erc7579-actions/accountId",
 					},
 					{
 						text: "installModule",
-						link: "/permissionless/reference/erc7579-actions/installModule",
+						link: "/references/permissionless/reference/erc7579-actions/installModule",
 					},
 					{
 						text: "uninstallModule",
-						link: "/permissionless/reference/erc7579-actions/uninstallModule",
+						link: "/references/permissionless/reference/erc7579-actions/uninstallModule",
 					},
 					{
 						text: "isModuleInstalled",
-						link: "/permissionless/reference/erc7579-actions/isModuleInstalled",
+						link: "/references/permissionless/reference/erc7579-actions/isModuleInstalled",
 					},
 					{
 						text: "supportsExecutionMode",
-						link: "/permissionless/reference/erc7579-actions/supportsExecutionMode",
+						link: "/references/permissionless/reference/erc7579-actions/supportsExecutionMode",
 					},
 					{
 						text: "supportsModule",
-						link: "/permissionless/reference/erc7579-actions/supportsModule",
+						link: "/references/permissionless/reference/erc7579-actions/supportsModule",
 					},
 				],
 			},
@@ -794,7 +794,7 @@ export const permissionlessSidebar = [
 				items: [
 					{
 						text: "getRequiredPrefund",
-						link: "/permissionless/reference/utils/getRequiredPrefund",
+						link: "/references/permissionless/reference/utils/getRequiredPrefund",
 					},
 				],
 			},
@@ -802,22 +802,22 @@ export const permissionlessSidebar = [
 	},
 	{
 		text: "permissionless 0.1.x",
-		link: "/permissionless/v0_1",
+		link: "/references/permissionless/v0_1",
 	},
 ];
 
 export const permissionlessWagmiSidebar = [
 	{
 		text: "Overview",
-		link: "/permissionless/wagmi",
+		link: "/references/permissionless/wagmi",
 	},
 	{
 		text: "Tutorials",
-		link: "/permissionless/wagmi/tutorial",
+		link: "/references/permissionless/wagmi/tutorial",
 		items: [
 			{
 				text: "Send your first gasless transaction",
-				link: "/permissionless/wagmi/tutorial/tutorial-1",
+				link: "/references/permissionless/wagmi/tutorial/tutorial-1",
 			},
 		],
 	},
@@ -826,20 +826,20 @@ export const permissionlessWagmiSidebar = [
 		items: [
 			{
 				text: "Check if an external account supports paymasters",
-				link: "/permissionless/wagmi/how-to/check-paymaster-support",
+				link: "/references/permissionless/wagmi/how-to/check-paymaster-support",
 			},
 		],
 	},
 	{
 		text: "Reference",
-		link: "/permissionless/reference",
+		link: "/references/permissionless/reference",
 		items: [
 			{
 				text: "Configuration",
 				items: [
 					{
 						text: "PermissionlessProvider",
-						link: "/permissionless/wagmi/reference/configuration/PermissionlessProvider",
+						link: "/references/permissionless/wagmi/reference/configuration/PermissionlessProvider",
 					},
 				],
 			},
@@ -848,11 +848,11 @@ export const permissionlessWagmiSidebar = [
 				items: [
 					{
 						text: "useSendTransaction",
-						link: "/permissionless/wagmi/reference/hooks/useSendTransaction",
+						link: "/references/permissionless/wagmi/reference/hooks/useSendTransaction",
 					},
 					{
 						text: "useWaitForTransactionReceipt",
-						link: "/permissionless/wagmi/reference/hooks/useWaitForTransactionReceipt",
+						link: "/references/permissionless/wagmi/reference/hooks/useWaitForTransactionReceipt",
 					},
 				],
 			},
@@ -863,27 +863,27 @@ export const permissionlessWagmiSidebar = [
 export const permissionlessSidebar0Point1 = [
 	{
 		text: "Overview",
-		link: "/permissionless/v0_1",
+		link: "/references/permissionless/v0_1",
 	},
 	{
 		text: "Why permissionless.js",
-		link: "/permissionless/v0_1/why",
+		link: "/references/permissionless/v0_1/why",
 	},
 	{
 		text: "FAQs",
-		link: "/permissionless/v0_1/faqs",
+		link: "/references/permissionless/v0_1/faqs",
 	},
 	{
 		text: "Tutorials",
-		link: "/permissionless/v0_1/tutorial",
+		link: "/references/permissionless/v0_1/tutorial",
 		items: [
 			{
 				text: "1. Send your first gasless transaction",
-				link: "/permissionless/v0_1/tutorial/tutorial-1",
+				link: "/references/permissionless/v0_1/tutorial/tutorial-1",
 			},
 			{
 				text: "2. Submit a user operation with a Verifying Paymaster",
-				link: "/permissionless/v0_1/tutorial/tutorial-2",
+				link: "/references/permissionless/v0_1/tutorial/tutorial-2",
 			},
 		],
 	},
@@ -892,58 +892,58 @@ export const permissionlessSidebar0Point1 = [
 		items: [
 			{
 				text: "Update your existing app to sponsor gas fees for smart account users",
-				link: "/permissionless/v0_1/how-to/dapp-gas-sponsorship",
+				link: "/references/permissionless/v0_1/how-to/dapp-gas-sponsorship",
 			},
 			{
 				text: "How to send multiple user operations in parallel",
-				link: "/permissionless/v0_1/how-to/parallel-transactions",
+				link: "/references/permissionless/v0_1/how-to/parallel-transactions",
 			},
 			{
 				text: "Error Handling",
-				link: "/permissionless/v0_1/how-to/error-handling",
+				link: "/references/permissionless/v0_1/how-to/error-handling",
 			},
 			{
 				text: "Migration Guide",
-				link: "/permissionless/v0_1/how-to/migration-guide",
+				link: "/references/permissionless/v0_1/how-to/migration-guide",
 			},
 			{
 				text: "Local Testing",
-				link: "/permissionless/v0_1/how-to/local-testing",
+				link: "/references/permissionless/v0_1/how-to/local-testing",
 			},
 			{
 				text: "Accounts",
 				items: [
 					{
 						text: "EntryPoint support",
-						link: "/permissionless/v0_1/how-to/accounts/support",
+						link: "/references/permissionless/v0_1/how-to/accounts/support",
 					},
 					{
 						text: "How to use a Safe account",
-						link: "/permissionless/v0_1/how-to/accounts/use-safe-account",
+						link: "/references/permissionless/v0_1/how-to/accounts/use-safe-account",
 					},
 					{
 						text: "How to use a Kernel account",
-						link: "/permissionless/v0_1/how-to/accounts/use-kernel-account",
+						link: "/references/permissionless/v0_1/how-to/accounts/use-kernel-account",
 					},
 					{
 						text: "How to use a SimpleAccount",
-						link: "/permissionless/v0_1/how-to/accounts/use-simple-account",
+						link: "/references/permissionless/v0_1/how-to/accounts/use-simple-account",
 					},
 					{
 						text: "How to use a Biconomy account",
-						link: "/permissionless/v0_1/how-to/accounts/use-biconomy-account",
+						link: "/references/permissionless/v0_1/how-to/accounts/use-biconomy-account",
 					},
 					{
 						text: "How to use a LightAccount",
-						link: "/permissionless/v0_1/how-to/accounts/use-light-account",
+						link: "/references/permissionless/v0_1/how-to/accounts/use-light-account",
 					},
 					{
 						text: "How to use a Trust Wallet account",
-						link: "/permissionless/v0_1/how-to/accounts/use-trustwallet-account",
+						link: "/references/permissionless/v0_1/how-to/accounts/use-trustwallet-account",
 					},
 					{
 						text: "How to use an ERC-7579 compatible smart account",
-						link: "/permissionless/v0_1/how-to/accounts/use-erc7579-account",
+						link: "/references/permissionless/v0_1/how-to/accounts/use-erc7579-account",
 					},
 				],
 			},
@@ -952,61 +952,61 @@ export const permissionlessSidebar0Point1 = [
 				items: [
 					{
 						text: "How to use a custom Paymaster",
-						link: "/permissionless/v0_1/how-to/paymasters/use-custom-paymaster",
+						link: "/references/permissionless/v0_1/how-to/paymasters/use-custom-paymaster",
 					},
 					{
 						text: "How to conditionally sponsor a user operation",
-						link: "/permissionless/v0_1/how-to/paymasters/conditional-sponsoring",
+						link: "/references/permissionless/v0_1/how-to/paymasters/conditional-sponsoring",
 					},
 				],
 			},
 			{
 				text: "Signers",
-				link: "/permissionless/v0_1/how-to/signers",
+				link: "/references/permissionless/v0_1/how-to/signers",
 				items: [
 					{
 						text: "How to use a Dynamic signer",
-						link: "/permissionless/v0_1/how-to/signers/dynamic",
+						link: "/references/permissionless/v0_1/how-to/signers/dynamic",
 					},
 					{
 						text: "How to use a Privy signer",
-						link: "/permissionless/v0_1/how-to/signers/privy",
+						link: "/references/permissionless/v0_1/how-to/signers/privy",
 					},
 					{
 						text: "How to use a Magic signer",
-						link: "/permissionless/v0_1/how-to/signers/magic",
+						link: "/references/permissionless/v0_1/how-to/signers/magic",
 					},
 					{
 						text: "How to use a Lit Protocol signer",
-						link: "/permissionless/v0_1/how-to/signers/lit-protocol",
+						link: "/references/permissionless/v0_1/how-to/signers/lit-protocol",
 					},
 					{
 						text: "How to use a Web3Auth signer",
-						link: "/permissionless/v0_1/how-to/signers/web3auth",
+						link: "/references/permissionless/v0_1/how-to/signers/web3auth",
 					},
 					{
 						text: "How to use a Turnkey signer",
-						link: "/permissionless/v0_1/how-to/signers/turnkey",
+						link: "/references/permissionless/v0_1/how-to/signers/turnkey",
 					},
 					{
 						text: "How to use a Fireblocks signer",
-						link: "/permissionless/v0_1/how-to/signers/fireblocks",
+						link: "/references/permissionless/v0_1/how-to/signers/fireblocks",
 					},
 					{
 						text: "How to use a Para signer",
-						link: "/permissionless/v0_1/how-to/signers/para",
+						link: "/references/permissionless/v0_1/how-to/signers/para",
 					},
 					{
 						text: "How to use a DFNS signer",
-						link: "/permissionless/v0_1/how-to/signers/dfns",
+						link: "/references/permissionless/v0_1/how-to/signers/dfns",
 					},
 					{
 						text: "How to use an Arcana Auth signer",
-						link: "/permissionless/v0_1/how-to/signers/arcana",
+						link: "/references/permissionless/v0_1/how-to/signers/arcana",
 					},
 					{
 						text: "How to use a Particle Network signer",
-						link: "/permissionless/v0_1/how-to/signers/particle-network",
+						link: "/references/permissionless/v0_1/how-to/signers/particle-network",
 					},
 				],
 			},
@@ -1014,7 +1014,7 @@ export const permissionlessSidebar0Point1 = [
 	},
 	{
 		text: "Reference",
-		link: "/permissionless/v0_1/reference",
+		link: "/references/permissionless/v0_1/reference",
 		items: [
 			{
 				text: "Clients",
@@ -1022,19 +1022,19 @@ export const permissionlessSidebar0Point1 = [
 				items: [
 					{
 						text: "Bundler Client",
-						link: "/permissionless/v0_1/reference/clients/bundlerClient",
+						link: "/references/permissionless/v0_1/reference/clients/bundlerClient",
 					},
 					{
 						text: "Pimlico Bundler Client",
-						link: "/permissionless/v0_1/reference/clients/pimlicoBundlerClient",
+						link: "/references/permissionless/v0_1/reference/clients/pimlicoBundlerClient",
 					},
 					{
 						text: "Pimlico Paymaster Client",
-						link: "/permissionless/v0_1/reference/clients/pimlicoPaymasterClient",
+						link: "/references/permissionless/v0_1/reference/clients/pimlicoPaymasterClient",
 					},
 					{
 						text: "Smart Account Client",
-						link: "/permissionless/v0_1/reference/clients/smartAccountClient",
+						link: "/references/permissionless/v0_1/reference/clients/smartAccountClient",
 					},
 				],
 			},
@@ -1044,23 +1044,23 @@ export const permissionlessSidebar0Point1 = [
 				items: [
 					{
 						text: "signerToSimpleSmartAccount",
-						link: "/permissionless/v0_1/reference/accounts/signerToSimpleSmartAccount",
+						link: "/references/permissionless/v0_1/reference/accounts/signerToSimpleSmartAccount",
 					},
 					{
 						text: "signerToSafeSmartAccount",
-						link: "/permissionless/v0_1/reference/accounts/signerToSafeSmartAccount",
+						link: "/references/permissionless/v0_1/reference/accounts/signerToSafeSmartAccount",
 					},
 					{
 						text: "signerToKernelSmartAccount",
-						link: "/permissionless/v0_1/reference/accounts/signerToKernelSmartAccount",
+						link: "/references/permissionless/v0_1/reference/accounts/signerToKernelSmartAccount",
 					},
 					{
 						text: "signerToLightSmartAccount",
-						link: "/permissionless/v0_1/reference/accounts/signerToLightSmartAccount",
+						link: "/references/permissionless/v0_1/reference/accounts/signerToLightSmartAccount",
 					},
 					{
 						text: "signerToTrustSmartAccount",
-						link: "/permissionless/v0_1/reference/accounts/signerToTrustSmartAccount",
+						link: "/references/permissionless/v0_1/reference/accounts/signerToTrustSmartAccount",
 					},
 				],
 			},
@@ -1070,27 +1070,27 @@ export const permissionlessSidebar0Point1 = [
 				items: [
 					{
 						text: "sendUserOperation",
-						link: "/permissionless/v0_1/reference/bundler-actions/sendUserOperation",
+						link: "/references/permissionless/v0_1/reference/bundler-actions/sendUserOperation",
 					},
 					{
 						text: "estimateUserOperationGas",
-						link: "/permissionless/v0_1/reference/bundler-actions/estimateUserOperationGas",
+						link: "/references/permissionless/v0_1/reference/bundler-actions/estimateUserOperationGas",
 					},
 					{
 						text: "getUserOperationReceipt",
-						link: "/permissionless/v0_1/reference/bundler-actions/getUserOperationReceipt",
+						link: "/references/permissionless/v0_1/reference/bundler-actions/getUserOperationReceipt",
 					},
 					{
 						text: "waitForUserOperationReceipt",
-						link: "/permissionless/v0_1/reference/bundler-actions/waitForUserOperationReceipt",
+						link: "/references/permissionless/v0_1/reference/bundler-actions/waitForUserOperationReceipt",
 					},
 					{
 						text: "getUserOperationByHash",
-						link: "/permissionless/v0_1/reference/bundler-actions/getUserOperationByHash",
+						link: "/references/permissionless/v0_1/reference/bundler-actions/getUserOperationByHash",
 					},
 					{
 						text: "supportedEntryPoints",
-						link: "/permissionless/v0_1/reference/bundler-actions/supportedEntryPoints",
+						link: "/references/permissionless/v0_1/reference/bundler-actions/supportedEntryPoints",
 					},
 				],
 			},
@@ -1100,35 +1100,35 @@ export const permissionlessSidebar0Point1 = [
 				items: [
 					{
 						text: "prepareUserOperationRequest",
-						link: "/permissionless/v0_1/reference/smart-account-actions/prepareUserOperationRequest",
+						link: "/references/permissionless/v0_1/reference/smart-account-actions/prepareUserOperationRequest",
 					},
 					{
 						text: "sendTransaction",
-						link: "/permissionless/v0_1/reference/smart-account-actions/sendTransaction",
+						link: "/references/permissionless/v0_1/reference/smart-account-actions/sendTransaction",
 					},
 					{
 						text: "sendTransactions",
-						link: "/permissionless/v0_1/reference/smart-account-actions/sendTransactions",
+						link: "/references/permissionless/v0_1/reference/smart-account-actions/sendTransactions",
 					},
 					{
 						text: "sendUserOperation",
-						link: "/permissionless/v0_1/reference/smart-account-actions/sendUserOperation",
+						link: "/references/permissionless/v0_1/reference/smart-account-actions/sendUserOperation",
 					},
 					{
 						text: "deployContract",
-						link: "/permissionless/v0_1/reference/smart-account-actions/deployContract",
+						link: "/references/permissionless/v0_1/reference/smart-account-actions/deployContract",
 					},
 					{
 						text: "writeContract",
-						link: "/permissionless/v0_1/reference/smart-account-actions/writeContract",
+						link: "/references/permissionless/v0_1/reference/smart-account-actions/writeContract",
 					},
 					{
 						text: "signMessage",
-						link: "/permissionless/v0_1/reference/smart-account-actions/signMessage",
+						link: "/references/permissionless/v0_1/reference/smart-account-actions/signMessage",
 					},
 					{
 						text: "signTypedData",
-						link: "/permissionless/v0_1/reference/smart-account-actions/signTypedData",
+						link: "/references/permissionless/v0_1/reference/smart-account-actions/signTypedData",
 					},
 				],
 			},
@@ -1138,11 +1138,11 @@ export const permissionlessSidebar0Point1 = [
 				items: [
 					{
 						text: "getUserOperationGasPrice",
-						link: "/permissionless/v0_1/reference/pimlico-bundler-actions/getUserOperationGasPrice",
+						link: "/references/permissionless/v0_1/reference/pimlico-bundler-actions/getUserOperationGasPrice",
 					},
 					{
 						text: "getUserOperationStatus",
-						link: "/permissionless/v0_1/reference/pimlico-bundler-actions/getUserOperationStatus",
+						link: "/references/permissionless/v0_1/reference/pimlico-bundler-actions/getUserOperationStatus",
 					},
 				],
 			},
@@ -1152,11 +1152,11 @@ export const permissionlessSidebar0Point1 = [
 				items: [
 					{
 						text: "sponsorUserOperation",
-						link: "/permissionless/v0_1/reference/pimlico-paymaster-actions/sponsorUserOperation",
+						link: "/references/permissionless/v0_1/reference/pimlico-paymaster-actions/sponsorUserOperation",
 					},
 					{
 						text: "validateSponsorshipPolicies",
-						link: "/permissionless/v0_1/reference/pimlico-paymaster-actions/validateSponsorshipPolicies",
+						link: "/references/permissionless/v0_1/reference/pimlico-paymaster-actions/validateSponsorshipPolicies",
 					},
 				],
 			},
@@ -1166,11 +1166,11 @@ export const permissionlessSidebar0Point1 = [
 				items: [
 					{
 						text: "getSenderAddress",
-						link: "/permissionless/v0_1/reference/public-actions/getSenderAddress",
+						link: "/references/permissionless/v0_1/reference/public-actions/getSenderAddress",
 					},
 					{
 						text: "getAccountNonce",
-						link: "/permissionless/v0_1/reference/public-actions/getAccountNonce",
+						link: "/references/permissionless/v0_1/reference/public-actions/getAccountNonce",
 					},
 				],
 			},
@@ -1180,27 +1180,27 @@ export const permissionlessSidebar0Point1 = [
 				items: [
 					{
 						text: "accountId",
-						link: "/permissionless/v0_1/reference/erc7579-actions/accountId",
+						link: "/references/permissionless/v0_1/reference/erc7579-actions/accountId",
 					},
 					{
 						text: "installModule",
-						link: "/permissionless/v0_1/reference/erc7579-actions/installModule",
+						link: "/references/permissionless/v0_1/reference/erc7579-actions/installModule",
 					},
 					{
 						text: "uninstallModule",
-						link: "/permissionless/v0_1/reference/erc7579-actions/uninstallModule",
+						link: "/references/permissionless/v0_1/reference/erc7579-actions/uninstallModule",
 					},
 					{
 						text: "isModuleInstalled",
-						link: "/permissionless/v0_1/reference/erc7579-actions/isModuleInstalled",
+						link: "/references/permissionless/v0_1/reference/erc7579-actions/isModuleInstalled",
 					},
 					{
 						text: "supportsExecutionMode",
-						link: "/permissionless/v0_1/reference/erc7579-actions/supportsExecutionMode",
+						link: "/references/permissionless/v0_1/reference/erc7579-actions/supportsExecutionMode",
 					},
 					{
 						text: "supportsModule",
-						link: "/permissionless/v0_1/reference/erc7579-actions/supportsModule",
+						link: "/references/permissionless/v0_1/reference/erc7579-actions/supportsModule",
 					},
 				],
 			},
@@ -1210,23 +1210,23 @@ export const permissionlessSidebar0Point1 = [
 				items: [
 					{
 						text: "getUserOperationHash",
-						link: "/permissionless/v0_1/reference/utils/getUserOperationHash",
+						link: "/references/permissionless/v0_1/reference/utils/getUserOperationHash",
 					},
 					{
 						text: "signUserOperationHashWithECDSA",
-						link: "/permissionless/v0_1/reference/utils/signUserOperationHashWithECDSA",
+						link: "/references/permissionless/v0_1/reference/utils/signUserOperationHashWithECDSA",
 					},
 					{
 						text: "getRequiredPrefund",
-						link: "/permissionless/v0_1/reference/utils/getRequiredPrefund",
+						link: "/references/permissionless/v0_1/reference/utils/getRequiredPrefund",
 					},
 					{
 						text: "walletClientToSmartAccountSigner",
-						link: "/permissionless/v0_1/reference/utils/walletClientToSmartAccountSigner",
+						link: "/references/permissionless/v0_1/reference/utils/walletClientToSmartAccountSigner",
 					},
 					{
 						text: "providerToSmartAccountSigner",
-						link: "/permissionless/v0_1/reference/utils/providerToSmartAccountSigner",
+						link: "/references/permissionless/v0_1/reference/utils/providerToSmartAccountSigner",
 					},
 				],
 			},
@@ -1236,7 +1236,7 @@ export const permissionlessSidebar0Point1 = [
 				items: [
 					{
 						text: "Errors",
-						link: "/permissionless/v0_1/reference/glossary/errors",
+						link: "/references/permissionless/v0_1/reference/glossary/errors",
 					},
 				],
 			},
@@ -1252,11 +1252,11 @@ export const permissionlessSidebar0Point1 = [
 				items: [
 					{
 						text: "getPaymasterData",
-						link: "/permissionless/v0_1/experimental/eip7677/getPaymasterData",
+						link: "/references/permissionless/v0_1/experimental/eip7677/getPaymasterData",
 					},
 					{
 						text: "getPaymasterStubData",
-						link: "/permissionless/v0_1/experimental/eip7677/getPaymasterStubData",
+						link: "/references/permissionless/v0_1/experimental/eip7677/getPaymasterStubData",
 					},
 				],
 			},
@@ -1264,7 +1264,7 @@ export const permissionlessSidebar0Point1 = [
 	},
 	{
 		text: "permissionless 0.2.x",
-		link: "/permissionless",
+		link: "/references/permissionless",
 	},
 ];
 
@@ -1364,6 +1364,7 @@ export default defineConfig({
 	},
 	vite: viteConfig,
 	sidebar: {
+		"/guides": conceptualSidebar,
 		"/references": [
 			{
 				text: "Platform",
@@ -1388,18 +1389,17 @@ export default defineConfig({
 		],
 		"/references/permissionless": [
 			{
-				link: "/permissionless",
+				link: "/references/permissionless",
 				text: "permissionless.js Core",
 				items: permissionlessSidebar,
 			},
 			{
-				link: "/permissionless/wagmi",
+				link: "/references/permissionless/wagmi",
 				text: "permissionless.js Wagmi",
 				items: permissionlessWagmiSidebar,
 			},
 		],
 		"/references/permissionless/v0_1": permissionlessSidebar0Point1,
-		"/conceptual": conceptualSidebar,
 	},
 	ogImageUrl: {
 		"/": "https://docs-og-pimlico.vercel.app/api/og?logo=%logo&title=%title&description=%description",
