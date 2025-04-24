@@ -1,5 +1,5 @@
-import { defineConfig } from "vocs"
-import viteConfig from "./utils"
+import { defineConfig } from "vocs";
+import viteConfig from "./utils";
 
 export const platformSidebar = [
 	{
@@ -98,7 +98,7 @@ export const platformSidebar = [
 			},
 		],
 	},
-]
+];
 
 export const bundlerSidebar = [
 	{
@@ -283,7 +283,7 @@ export const bundlerSidebar = [
 			},
 		],
 	},
-]
+];
 
 export const paymasterSidebar = [
 	{
@@ -314,7 +314,10 @@ export const paymasterSidebar = [
 		link: "/infra/paymaster/erc20-paymaster",
 		items: [
 			{ text: "Overview", link: "/infra/paymaster/erc20-paymaster" },
-			{ text: "Supported Tokens", link: "/infra/paymaster/erc20-paymaster/supported-tokens" },
+			{
+				text: "Supported Tokens",
+				link: "/infra/paymaster/erc20-paymaster/supported-tokens",
+			},
 			{
 				text: "Guides",
 				items: [
@@ -353,8 +356,14 @@ export const paymasterSidebar = [
 					},
 				],
 			},
-			{ text: "Architecture", link: "/infra/paymaster/erc20-paymaster/architecture" },
-			{ text: "Contract Addresses", link: "/infra/paymaster/erc20-paymaster/contract-addresses" },
+			{
+				text: "Architecture",
+				link: "/infra/paymaster/erc20-paymaster/architecture",
+			},
+			{
+				text: "Contract Addresses",
+				link: "/infra/paymaster/erc20-paymaster/contract-addresses",
+			},
 		],
 	},
 	{
@@ -362,7 +371,10 @@ export const paymasterSidebar = [
 		collapsed: true,
 		link: "/infra/paymaster/erc20-paymaster-permissionless",
 		items: [
-			{ text: "Overview", link: "/infra/paymaster/erc20-paymaster-permissionless" },
+			{
+				text: "Overview",
+				link: "/infra/paymaster/erc20-paymaster-permissionless",
+			},
 			{
 				text: "Contract Addresses",
 				link: "/infra/paymaster/erc20-paymaster-permissionless/contract-addresses",
@@ -371,11 +383,17 @@ export const paymasterSidebar = [
 				text: "Architecture",
 				link: "/infra/paymaster/erc20-paymaster-permissionless/architecture",
 			},
-			{ text: "Guides", link: "/infra/paymaster/erc20-paymaster-permissionless/guides" },
-			{ text: "FAQs", link: "/infra/paymaster/erc20-paymaster-permissionless/faqs" },
+			{
+				text: "Guides",
+				link: "/infra/paymaster/erc20-paymaster-permissionless/guides",
+			},
+			{
+				text: "FAQs",
+				link: "/infra/paymaster/erc20-paymaster-permissionless/faqs",
+			},
 		],
 	},
-]
+];
 
 /*
                     { text: "deployContract", link: "/permissionless/reference/smart-account-actions/deployContract" },
@@ -408,7 +426,7 @@ export const conceptualSidebar = [
 		text: "EIP-7702",
 		link: "/conceptual/eip7702",
 	},
-]
+];
 
 export const permissionlessSidebar = [
 	{
@@ -463,16 +481,16 @@ export const permissionlessSidebar = [
 			},
 			{
 				text: "Testing",
-        items: [
-          {
-            text: "Docker",
-				    link: "/permissionless/how-to/testing/docker",
-          },
-          {
-            text: "Build Bear",
-				    link: "/permissionless/how-to/testing/build-bear",
-          }
-        ]
+				items: [
+					{
+						text: "Docker",
+						link: "/permissionless/how-to/testing/docker",
+					},
+					{
+						text: "Build Bear",
+						link: "/permissionless/how-to/testing/build-bear",
+					},
+				],
 			},
 			{
 				text: "Accounts",
@@ -780,7 +798,7 @@ export const permissionlessSidebar = [
 		text: "permissionless 0.1.x",
 		link: "/permissionless/v0_1",
 	},
-]
+];
 
 export const permissionlessWagmiSidebar = [
 	{
@@ -834,7 +852,7 @@ export const permissionlessWagmiSidebar = [
 			},
 		],
 	},
-]
+];
 
 export const permissionlessSidebar0Point1 = [
 	{
@@ -1209,7 +1227,12 @@ export const permissionlessSidebar0Point1 = [
 			{
 				text: "Glossary",
 				collapsed: false,
-				items: [{ text: "Errors", link: "/permissionless/v0_1/reference/glossary/errors" }],
+				items: [
+					{
+						text: "Errors",
+						link: "/permissionless/v0_1/reference/glossary/errors",
+					},
+				],
 			},
 		],
 	},
@@ -1237,7 +1260,7 @@ export const permissionlessSidebar0Point1 = [
 		text: "permissionless 0.2.x",
 		link: "/permissionless",
 	},
-]
+];
 
 export const flashFundSidebar = [
 	{
@@ -1300,7 +1323,7 @@ export const flashFundSidebar = [
 		text: "Supported chains and tokens",
 		link: "/infra/flash-fund/supported-chains-and-tokens",
 	},
-]
+];
 
 export default defineConfig({
 	title: "Pimlico",
@@ -1311,7 +1334,8 @@ export default defineConfig({
 		pattern: "https://github.com/pimlicolabs/docs/edit/main/docs/pages/:path",
 		text: "Edit on GitHub",
 	},
-	description: "Pimlico is the world's most popular account abstraction infrastructure platform",
+	description:
+		"Pimlico is the world's most popular account abstraction infrastructure platform",
 	head: () => (
 		<>
 			<script src="/posthog.js" />
@@ -1324,8 +1348,8 @@ export default defineConfig({
 				target="_blank"
 				rel="nofollow noreferrer"
 			>
-				🎉 We raised $4.2 million from a16z to power Ethereum's transition to smart accounts! Read
-				more →
+				🎉 We raised $4.2 million from a16z to power Ethereum's transition to
+				smart accounts! Read more →
 			</a>
 		),
 		dismissable: true,
@@ -1398,37 +1422,23 @@ export default defineConfig({
 	],
 	topNav: [
 		{
-			text: "permissionless.js",
-			match: "/permissionless",
-			items: [
-				{
-					text: "core",
-					link: "/permissionless",
-				},
-				{
-					text: "wagmi",
-					match: "/permissionless/wagmi",
-					link: "/permissionless/wagmi",
-				},
-			],
+			text: "Guides",
+			link: "/guides",
 		},
 		{
-			text: "Infrastructure",
+			text: "References",
 			items: [
-				{ text: "Platform", link: "/infra/platform" },
-				{ text: "Bundler", link: "/infra/bundler" },
-				{ text: "Paymaster", link: "/infra/paymaster" },
-				{ text: "FlashFund", link: "/infra/flash-fund" },
+				{ text: "permissionless.js", link: "/references/permissionless" },
+				{ text: "Platform", link: "/references/platform" },
+				{ text: "Bundler", link: "/references/bundler" },
+				{ text: "Paymaster", link: "/references/paymaster" },
+				{ text: "FlashFund", link: "/references/flash-fund" },
 			],
-			match: "/infra",
-		},
-		{
-			text: "Conceptual",
-			link: "/conceptual",
+			match: "/references",
 		},
 		{
 			text: "Dashboard",
 			link: "https://dashboard.pimlico.io",
 		},
 	],
-})
+});
