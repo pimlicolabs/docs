@@ -4,43 +4,43 @@ import viteConfig from "./utils";
 export const platformSidebar = [
 	{
 		text: "Overview",
-		link: "/infra/platform",
+		link: "/references/platform",
 	},
 	{
 		text: "Why Pimlico",
 		items: [
 			{
 				text: "For Startups",
-				link: "/infra/platform/why-pimlico/startups",
+				link: "/references/platform/why-pimlico/startups",
 			},
 			{
 				text: "For Enterprise",
-				link: "/infra/platform/why-pimlico/enterprise",
+				link: "/references/platform/why-pimlico/enterprise",
 			},
 		],
 	},
 	{
 		text: "Pricing",
-		link: "/infra/platform/pricing",
+		link: "/references/platform/pricing",
 	},
 	{
 		text: "Supported Chains",
-		link: "/infra/platform/supported-chains",
+		link: "/references/platform/supported-chains",
 	},
 	{
 		text: "Sponsorship Policies",
 		items: [
 			{
 				text: "How to use sponsorship policies",
-				link: "/infra/platform/sponsorship-policies",
+				link: "/references/platform/sponsorship-policies",
 			},
 			{
 				text: "Webhook docs",
-				link: "/infra/platform/sponsorship-policies/webhook",
+				link: "/references/platform/sponsorship-policies/webhook",
 			},
 			{
 				text: "How to create a gas program",
-				link: "/infra/platform/sponsorship-policies/gas-program",
+				link: "/references/platform/sponsorship-policies/gas-program",
 			},
 		],
 	},
@@ -49,7 +49,7 @@ export const platformSidebar = [
 		items: [
 			{
 				text: "How to protect your API keys",
-				link: "/infra/platform/security/protect-api-keys",
+				link: "/references/platform/security/protect-api-keys",
 			},
 		],
 	},
@@ -58,7 +58,7 @@ export const platformSidebar = [
 		items: [
 			{
 				text: "How to debug dropped user operations",
-				link: "/infra/platform/debugging/dropped-user-operations",
+				link: "/references/platform/debugging/dropped-user-operations",
 			},
 		],
 	},
@@ -67,32 +67,32 @@ export const platformSidebar = [
 		items: [
 			{
 				text: "Pagination",
-				link: "/infra/platform/api/pagination",
+				link: "/references/platform/api/pagination",
 			},
 			{
 				text: "Sponsorship Policies",
-				link: "/infra/platform/api/sponsorship-policies",
+				link: "/references/platform/api/sponsorship-policies",
 				collapsed: false,
 				items: [
 					{
 						text: "The Sponsorship Policy object",
-						link: "/infra/platform/api/sponsorship-policies/object",
+						link: "/references/platform/api/sponsorship-policies/object",
 					},
 					{
 						text: "Retrieve a sponsorship policy",
-						link: "/infra/platform/api/sponsorship-policies/retrieve",
+						link: "/references/platform/api/sponsorship-policies/retrieve",
 					},
 					{
 						text: "List all sponsorship policies",
-						link: "/infra/platform/api/sponsorship-policies/list",
+						link: "/references/platform/api/sponsorship-policies/list",
 					},
 					{
 						text: "Create a sponsorship policy",
-						link: "/infra/platform/api/sponsorship-policies/create",
+						link: "/references/platform/api/sponsorship-policies/create",
 					},
 					{
 						text: "Update a sponsorship policy",
-						link: "/infra/platform/api/sponsorship-policies/update",
+						link: "/references/platform/api/sponsorship-policies/update",
 					},
 				],
 			},
@@ -103,56 +103,56 @@ export const platformSidebar = [
 export const bundlerSidebar = [
 	{
 		text: "Overview",
-		link: "/infra/bundler",
+		link: "/references/bundler",
 	},
 	{
 		text: "How to use the bundler",
-		link: "/infra/bundler/usage",
+		link: "/references/bundler/usage",
 	},
 	{
 		text: "How to use Alto in CI/CD testing",
-		link: "/infra/bundler/testing",
+		link: "/references/bundler/testing",
 	},
 	{
 		text: "Self host guide",
-		link: "/infra/bundler/self-host",
+		link: "/references/bundler/self-host",
 	},
-	{ text: "FAQs", link: "/infra/bundler/faqs" },
+	{ text: "FAQs", link: "/references/bundler/faqs" },
 	{
 		text: "Endpoints",
 		collapsed: false,
 		items: [
 			{
 				text: "eth_sendUserOperation",
-				link: "/infra/bundler/endpoints/eth_sendUserOperation",
+				link: "/references/bundler/endpoints/eth_sendUserOperation",
 			},
 			{
 				text: "eth_estimateUserOperationGas",
-				link: "/infra/bundler/endpoints/eth_estimateUserOperationGas",
+				link: "/references/bundler/endpoints/eth_estimateUserOperationGas",
 			},
 			{
 				text: "eth_getUserOperationReceipt",
-				link: "/infra/bundler/endpoints/eth_getUserOperationReceipt",
+				link: "/references/bundler/endpoints/eth_getUserOperationReceipt",
 			},
 			{
 				text: "eth_getUserOperationByHash",
-				link: "/infra/bundler/endpoints/eth_getUserOperationByHash",
+				link: "/references/bundler/endpoints/eth_getUserOperationByHash",
 			},
 			{
 				text: "eth_supportedEntryPoints",
-				link: "/infra/bundler/endpoints/eth_supportedEntryPoints",
+				link: "/references/bundler/endpoints/eth_supportedEntryPoints",
 			},
 			{
 				text: "pimlico_getUserOperationGasPrice",
-				link: "/infra/bundler/endpoints/pimlico_getUserOperationGasPrice",
+				link: "/references/bundler/endpoints/pimlico_getUserOperationGasPrice",
 			},
 			{
 				text: "pimlico_getUserOperationStatus",
-				link: "/infra/bundler/endpoints/pimlico_getUserOperationStatus",
+				link: "/references/bundler/endpoints/pimlico_getUserOperationStatus",
 			},
 			{
 				text: "pimlico_simulateAssetChanges",
-				link: "/infra/bundler/endpoints/pimlico_simulateAssetChanges",
+				link: "/references/bundler/endpoints/pimlico_simulateAssetChanges",
 			},
 		],
 	},
@@ -162,124 +162,130 @@ export const bundlerSidebar = [
 		items: [
 			{
 				text: "Invalid 'apikey' query parameter",
-				link: "/infra/bundler/bundler-errors/invalid-api-key",
+				link: "/references/bundler/bundler-errors/invalid-api-key",
 			},
 			{
 				text: "Chain is not supported",
-				link: "/infra/bundler/bundler-errors/chain-not-supported",
+				link: "/references/bundler/bundler-errors/chain-not-supported",
 			},
 			{
 				text: "Validation Error: Invalid Discriminator Value",
-				link: "/infra/bundler/bundler-errors/invalid-discriminator-value",
+				link: "/references/bundler/bundler-errors/invalid-discriminator-value",
 			},
 			{
 				text: "Unknown error from alto bundler",
-				link: "/infra/bundler/bundler-errors/unknown-error",
+				link: "/references/bundler/bundler-errors/unknown-error",
 			},
 		],
 	},
 	{
 		text: "EntryPoint Errors",
-		link: "/infra/bundler/entrypoint-errors",
+		link: "/references/bundler/entrypoint-errors",
 		collapsed: true,
 		items: [
 			{
 				text: "AA10 sender already constructed",
-				link: "/infra/bundler/entrypoint-errors/aa10",
+				link: "/references/bundler/entrypoint-errors/aa10",
 			},
 			{
 				text: "AA13 initCode failed or OOG",
-				link: "/infra/bundler/entrypoint-errors/aa13",
+				link: "/references/bundler/entrypoint-errors/aa13",
 			},
 			{
 				text: "AA14 initCode must return sender",
-				link: "/infra/bundler/entrypoint-errors/aa14",
+				link: "/references/bundler/entrypoint-errors/aa14",
 			},
 			{
 				text: "AA15 initCode must create sender",
-				link: "/infra/bundler/entrypoint-errors/aa15",
+				link: "/references/bundler/entrypoint-errors/aa15",
 			},
 			{
 				text: "AA20 account not deployed",
-				link: "/infra/bundler/entrypoint-errors/aa20",
+				link: "/references/bundler/entrypoint-errors/aa20",
 			},
 			{
 				text: "AA21 didn't pay prefund",
-				link: "/infra/bundler/entrypoint-errors/aa21",
+				link: "/references/bundler/entrypoint-errors/aa21",
 			},
 			{
 				text: "AA22 expired or not due",
-				link: "/infra/bundler/entrypoint-errors/aa22",
+				link: "/references/bundler/entrypoint-errors/aa22",
 			},
-			{ text: "AA23 reverted", link: "/infra/bundler/entrypoint-errors/aa23" },
+			{
+				text: "AA23 reverted",
+				link: "/references/bundler/entrypoint-errors/aa23",
+			},
 			{
 				text: "AA24 signature error",
-				link: "/infra/bundler/entrypoint-errors/aa24",
+				link: "/references/bundler/entrypoint-errors/aa24",
 			},
 			{
 				text: "AA25 invalid account nonce",
-				link: "/infra/bundler/entrypoint-errors/aa25",
+				link: "/references/bundler/entrypoint-errors/aa25",
 			},
 			{
 				text: "AA30 paymaster not deployed",
-				link: "/infra/bundler/entrypoint-errors/aa30",
+				link: "/references/bundler/entrypoint-errors/aa30",
 			},
 			{
 				text: "AA31 paymaster deposit too low",
-				link: "/infra/bundler/entrypoint-errors/aa31",
+				link: "/references/bundler/entrypoint-errors/aa31",
 			},
 			{
 				text: "AA32 paymaster expired or not due",
-				link: "/infra/bundler/entrypoint-errors/aa32",
+				link: "/references/bundler/entrypoint-errors/aa32",
 			},
-			{ text: "AA33 reverted", link: "/infra/bundler/entrypoint-errors/aa33" },
+			{
+				text: "AA33 reverted",
+				link: "/references/bundler/entrypoint-errors/aa33",
+			},
 			{
 				text: "AA34 signature error",
-				link: "/infra/bundler/entrypoint-errors/aa34",
+				link: "/references/bundler/entrypoint-errors/aa34",
 			},
 			{
 				text: "AA40 over verificationGasLimit",
-				link: "/infra/bundler/entrypoint-errors/aa40",
+				link: "/references/bundler/entrypoint-errors/aa40",
 			},
 			{
 				text: "AA41 too little verificationGas",
-				link: "/infra/bundler/entrypoint-errors/aa41",
+				link: "/references/bundler/entrypoint-errors/aa41",
 			},
 			{
 				text: "AA50 postOp reverted",
-				link: "/infra/bundler/entrypoint-errors/aa50",
+				link: "/references/bundler/entrypoint-errors/aa50",
 			},
 			{
 				text: "AA51 prefund below actualGasCost",
-				link: "/infra/bundler/entrypoint-errors/aa51",
+				link: "/references/bundler/entrypoint-errors/aa51",
 			},
 			{
 				text: "AA90 invalid beneficiary",
-				link: "/infra/bundler/entrypoint-errors/aa90",
+				link: "/references/bundler/entrypoint-errors/aa90",
 			},
 			{
 				text: "AA91 failed send to beneficiary",
-				link: "/infra/bundler/entrypoint-errors/aa91",
+				link: "/references/bundler/entrypoint-errors/aa91",
 			},
 			{
 				text: "AA92 internal call only",
-				link: "/infra/bundler/entrypoint-errors/aa92",
+				link: "/references/bundler/entrypoint-errors/aa92",
 			},
 			{
 				text: "AA93 invalid paymasterAndData",
-				link: "/infra/bundler/entrypoint-errors/aa93",
+				link: "/references/bundler/entrypoint-errors/aa93",
 			},
 			{
 				text: "AA94 gas values overflow",
-				link: "/infra/bundler/entrypoint-errors/aa94",
+				link: "/references/bundler/entrypoint-errors/aa94",
 			},
 			{
 				text: "AA95 out of gas",
-				link: "/infra/bundler/entrypoint-errors/aa95",
+				link: "/references/bundler/entrypoint-errors/aa95",
 			},
 			{
 				text: "AA96 invalid aggregator",
-				link: "/infra/bundler/entrypoint-errors/aa96",
+				link: "/references/bundler/entrypoint-errors/aa96",
 			},
 		],
 	},
@@ -288,50 +294,50 @@ export const bundlerSidebar = [
 export const paymasterSidebar = [
 	{
 		text: "Overview",
-		link: "/infra/paymaster",
+		link: "/references/paymaster",
 	},
 	{
 		text: "Verifying Paymaster",
-		link: "/infra/paymaster/verifying-paymaster",
+		link: "/references/paymaster/verifying-paymaster",
 		items: [
 			{
 				text: "How to use the Verifying Paymaster",
-				link: "/infra/paymaster/verifying-paymaster/usage",
+				link: "/references/paymaster/verifying-paymaster/usage",
 			},
 			{
 				text: "Endpoints",
-				link: "/infra/paymaster/verifying-paymaster/endpoints",
+				link: "/references/paymaster/verifying-paymaster/endpoints",
 			},
-			{ text: "FAQs", link: "/infra/paymaster/verifying-paymaster/faqs" },
+			{ text: "FAQs", link: "/references/paymaster/verifying-paymaster/faqs" },
 			{
 				text: "Common Errors",
-				link: "/infra/paymaster/verifying-paymaster/common-errors",
+				link: "/references/paymaster/verifying-paymaster/common-errors",
 			},
 		],
 	},
 	{
 		text: "ERC-20 Paymaster",
-		link: "/infra/paymaster/erc20-paymaster",
+		link: "/references/paymaster/erc20-paymaster",
 		items: [
-			{ text: "Overview", link: "/infra/paymaster/erc20-paymaster" },
+			{ text: "Overview", link: "/references/paymaster/erc20-paymaster" },
 			{
 				text: "Supported Tokens",
-				link: "/infra/paymaster/erc20-paymaster/supported-tokens",
+				link: "/references/paymaster/erc20-paymaster/supported-tokens",
 			},
 			{
 				text: "Guides",
 				items: [
 					{
 						text: "How to use the ERC-20 Paymaster",
-						link: "/infra/paymaster/erc20-paymaster/how-to/use-paymaster",
+						link: "/references/paymaster/erc20-paymaster/how-to/use-paymaster",
 					},
 					{
 						text: "How to use the ERC-20 Paymaster without unlimited token approvals",
-						link: "/infra/paymaster/erc20-paymaster/how-to/use-paymaster-without-unlimited-approval",
+						link: "/references/paymaster/erc20-paymaster/how-to/use-paymaster-without-unlimited-approval",
 					},
 					{
 						text: "How to estimate token cost and cost in USD",
-						link: "/infra/paymaster/erc20-paymaster/how-to/calculate-costs",
+						link: "/references/paymaster/erc20-paymaster/how-to/calculate-costs",
 					},
 				],
 			},
@@ -340,56 +346,56 @@ export const paymasterSidebar = [
 				items: [
 					{
 						text: "pimlico_getTokenQuotes",
-						link: "/infra/paymaster/erc20-paymaster/endpoints/pimlico_getTokenQuotes",
+						link: "/references/paymaster/erc20-paymaster/endpoints/pimlico_getTokenQuotes",
 					},
 					{
 						text: "pm_getPaymasterData",
-						link: "/infra/paymaster/erc20-paymaster/endpoints/pm_getPaymasterData",
+						link: "/references/paymaster/erc20-paymaster/endpoints/pm_getPaymasterData",
 					},
 					{
 						text: "pm_getPaymasterStubData",
-						link: "/infra/paymaster/erc20-paymaster/endpoints/pm_getPaymasterStubData",
+						link: "/references/paymaster/erc20-paymaster/endpoints/pm_getPaymasterStubData",
 					},
 					{
 						text: "pm_sponsorUserOperation",
-						link: "/infra/paymaster/erc20-paymaster/endpoints/pm_sponsorUserOperation",
+						link: "/references/paymaster/erc20-paymaster/endpoints/pm_sponsorUserOperation",
 					},
 				],
 			},
 			{
 				text: "Architecture",
-				link: "/infra/paymaster/erc20-paymaster/architecture",
+				link: "/references/paymaster/erc20-paymaster/architecture",
 			},
 			{
 				text: "Contract Addresses",
-				link: "/infra/paymaster/erc20-paymaster/contract-addresses",
+				link: "/references/paymaster/erc20-paymaster/contract-addresses",
 			},
 		],
 	},
 	{
 		text: "ERC-20 Paymaster (permissionless)",
 		collapsed: true,
-		link: "/infra/paymaster/erc20-paymaster-permissionless",
+		link: "/references/paymaster/erc20-paymaster-permissionless",
 		items: [
 			{
 				text: "Overview",
-				link: "/infra/paymaster/erc20-paymaster-permissionless",
+				link: "/references/paymaster/erc20-paymaster-permissionless",
 			},
 			{
 				text: "Contract Addresses",
-				link: "/infra/paymaster/erc20-paymaster-permissionless/contract-addresses",
+				link: "/references/paymaster/erc20-paymaster-permissionless/contract-addresses",
 			},
 			{
 				text: "Architecture",
-				link: "/infra/paymaster/erc20-paymaster-permissionless/architecture",
+				link: "/references/paymaster/erc20-paymaster-permissionless/architecture",
 			},
 			{
 				text: "Guides",
-				link: "/infra/paymaster/erc20-paymaster-permissionless/guides",
+				link: "/references/paymaster/erc20-paymaster-permissionless/guides",
 			},
 			{
 				text: "FAQs",
-				link: "/infra/paymaster/erc20-paymaster-permissionless/faqs",
+				link: "/references/paymaster/erc20-paymaster-permissionless/faqs",
 			},
 		],
 	},
@@ -1265,18 +1271,18 @@ export const permissionlessSidebar0Point1 = [
 export const flashFundSidebar = [
 	{
 		text: "Overview",
-		link: "/infra/flash-fund",
+		link: "/references/flash-fund",
 	},
 	{
 		text: "Modes",
 		items: [
 			{
 				text: "Credit Mode",
-				link: "/infra/flash-fund/modes/credit",
+				link: "/references/flash-fund/modes/credit",
 			},
 			{
 				text: "Resource Lock Mode",
-				link: "/infra/flash-fund/modes/resource-lock",
+				link: "/references/flash-fund/modes/resource-lock",
 			},
 		],
 	},
@@ -1286,19 +1292,19 @@ export const flashFundSidebar = [
 		items: [
 			{
 				text: "flashfund_getLocks",
-				link: "/infra/flash-fund/endpoints/flashfund_getLocks",
+				link: "/references/flash-fund/endpoints/flashfund_getLocks",
 			},
 			{
 				text: "flashfund_prepareLock",
-				link: "/infra/flash-fund/endpoints/flashfund_prepareLock",
+				link: "/references/flash-fund/endpoints/flashfund_prepareLock",
 			},
 			{
 				text: "flashfund_prepareAllowance",
-				link: "/infra/flash-fund/endpoints/flashfund_prepareAllowance",
+				link: "/references/flash-fund/endpoints/flashfund_prepareAllowance",
 			},
 			{
 				text: "flashfund_sponsorWithdrawal",
-				link: "/infra/flash-fund/endpoints/flashfund_sponsorWithdrawal",
+				link: "/references/flash-fund/endpoints/flashfund_sponsorWithdrawal",
 			},
 		],
 	},
@@ -1307,21 +1313,21 @@ export const flashFundSidebar = [
 		items: [
 			{
 				text: "How to use Credit Mode",
-				link: "/infra/flash-fund/how-to/credit-mode",
+				link: "/references/flash-fund/how-to/credit-mode",
 			},
 			{
 				text: "How to use Pimlico Lock",
-				link: "/infra/flash-fund/how-to/pimlico-lock",
+				link: "/references/flash-fund/how-to/pimlico-lock",
 			},
 			{
 				text: "How to use FlashFund to swap ETH for USDC on Uniswap V3",
-				link: "/infra/flash-fund/how-to/eth-to-usdc-uniswap",
+				link: "/references/flash-fund/how-to/eth-to-usdc-uniswap",
 			},
 		],
 	},
 	{
 		text: "Supported chains and tokens",
-		link: "/infra/flash-fund/supported-chains-and-tokens",
+		link: "/references/flash-fund/supported-chains-and-tokens",
 	},
 ];
 
@@ -1358,7 +1364,29 @@ export default defineConfig({
 	},
 	vite: viteConfig,
 	sidebar: {
-		"/permissionless": [
+		"/references": [
+			{
+				text: "Platform",
+				link: "/references/platform",
+				items: platformSidebar,
+			},
+			{
+				text: "Bundler",
+				link: "/references/bundler",
+				items: bundlerSidebar,
+			},
+			{
+				text: "Paymaster",
+				link: "/references/paymaster",
+				items: paymasterSidebar,
+			},
+			{
+				text: "FlashFund",
+				link: "/references/flash-fund",
+				items: flashFundSidebar,
+			},
+		],
+		"/references/permissionless": [
 			{
 				link: "/permissionless",
 				text: "permissionless.js Core",
@@ -1370,29 +1398,7 @@ export default defineConfig({
 				items: permissionlessWagmiSidebar,
 			},
 		],
-		"/permissionless/v0_1": permissionlessSidebar0Point1,
-		"/infra": [
-			{
-				text: "Platform",
-				link: "/infra/platform",
-				items: platformSidebar,
-			},
-			{
-				text: "Bundler",
-				link: "/infra/bundler",
-				items: bundlerSidebar,
-			},
-			{
-				text: "Paymaster",
-				link: "/infra/paymaster",
-				items: paymasterSidebar,
-			},
-			{
-				text: "FlashFund",
-				link: "/infra/flash-fund",
-				items: flashFundSidebar,
-			},
-		],
+		"/references/permissionless/v0_1": permissionlessSidebar0Point1,
 		"/conceptual": conceptualSidebar,
 	},
 	ogImageUrl: {
