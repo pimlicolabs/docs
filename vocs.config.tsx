@@ -320,33 +320,6 @@ export const paymasterSidebar = [
 			},
 		],
 	},
-	{
-		text: "ERC-20 Paymaster (permissionless)",
-		collapsed: true,
-		link: "/references/paymaster/erc20-paymaster-permissionless",
-		items: [
-			{
-				text: "Overview",
-				link: "/references/paymaster/erc20-paymaster-permissionless",
-			},
-			{
-				text: "Contract Addresses",
-				link: "/references/paymaster/erc20-paymaster-permissionless/contract-addresses",
-			},
-			{
-				text: "Architecture",
-				link: "/references/paymaster/erc20-paymaster-permissionless/architecture",
-			},
-			{
-				text: "Guides",
-				link: "/references/paymaster/erc20-paymaster-permissionless/guides",
-			},
-			{
-				text: "FAQs",
-				link: "/references/paymaster/erc20-paymaster-permissionless/faqs",
-			},
-		],
-	},
 ];
 
 export const gettingStartedSidebar = [
