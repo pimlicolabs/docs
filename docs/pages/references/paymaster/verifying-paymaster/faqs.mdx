@@ -67,7 +67,7 @@ Examples include:
 ## Is it possible to partially sponsor transactions with the verifying paymaster?
 
 It is not natively possible to partially sponsor transactions with the verifying paymaster, however you can achieve a similar setup in a few different ways:
-- You could sponsor all the gas fees, but for a more limited set of user operations using our [sponsorship policies](/references/platform/sponsorship-policies), for instance setting per user sponsorship limits, global spending limits, and more.
+- You could sponsor all the gas fees, but for a more limited set of user operations using our [sponsorship policies](/guides/how-to/sponsorship-policies), for instance setting per user sponsorship limits, global spending limits, and more.
 - You could also consider requiring your users to transfer a certain amount of ETH or ERC-20 tokens to an account you own for every transaction they do, making it so they in effect partially pay for the transaction fees.
 - You could develop and maintain your own paymaster contract which allows the user to stake their tokens and make the sponsorship happen partially using the users' tokens.
 
@@ -85,4 +85,4 @@ If you run out of balance or you reach your overdraft limit, the sponsor RPC met
 
 There is currently no alerting for your balance running low, but if this is a feature you would like please [contact us](https://t.me/pimlicoHQ).
 
-If you would like to restrict how much you spend, consider taking a look at our [sponsorship policies](/references/platform/sponsorship-policies) that could allow you, for instance, to set a global spend limit of $100,000 no matter what.
+If you would like to restrict how much you spend, consider taking a look at our [sponsorship policies](/guides/how-to/sponsorship-policies) that could allow you, for instance, to set a global spend limit of $100,000 no matter what.
