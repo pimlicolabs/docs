@@ -1336,12 +1336,10 @@ export default defineConfig({
 			},
 			{
 				text: "Tutorials",
-				link: "/guides/tutorials",
 				items: tutorialSidebar,
 			},
 			{
 				text: "How-to Guides",
-				link: "/guides/how-to",
 				items: howToSidebar,
 			},
 			{
