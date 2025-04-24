@@ -1,0 +1,55 @@
+# How to calculate UserOperation's costs using the ERC-20 Paymaster
+
+This guide will show you how to estimate your user operation's cost in denomination of the ERC-20 token as well as USD.
+
+When using Pimlico's ERC-20 Paymaster, the `pimlico_getTokenQuotes` endpoint helps you calculate the cost of your userOperation. It returns values `exchangeRate` and `exchangeRateNativeToUsd`. These are useful for determining how much to approve upfront or for displaying the cost to your users.
+
+## Steps
+
+::::steps
+### Define imports and create the clients
+
+```ts
+// [!include ~/snippets/erc20-paymaster/calculate-costs.ts:clients]
+```
+
+### Fetch quote info for a certain token
+
+For this example, we will be fetching quote info for USDC on base.
+
+```ts
+// [!include ~/snippets/erc20-paymaster/calculate-costs.ts:fetchQuotes]
+```
+
+### Calculate your userOperation's max cost
+
+To find your userOperation's max cost, we will need to sum up all it's gas values. This includes:
+- `preVerificationGas`
+- `verificationGasLimit`
+- `callGasLimit`
+- `paymasterVerificationGasLimit` (v0.7 only)
+- `paymasterPostOpGasLimit` (v0.7 only)
+
+Once the gas values are summed up, we multiply it by the maxFeePerGas to get the max cost for the userOperation.
+
+```ts
+// [!include ~/snippets/erc20-paymaster/calculate-costs.ts:calculateMaxCost]
+```
+
+### Calculate your userOperation's maxCost in denomination of the ERC-20 token
+
+To find the cost of your userOperation in denomination of the ERC-20, you should use this formula. This is the same formula that the paymaster executes onchain, the source code can be found on the [singleton-paymaster repo.](https://github.com/pimlicolabs)
+
+```ts
+// [!include ~/snippets/erc20-paymaster/calculate-costs.ts:calculateCostInToken]
+```
+
+> Note: We divide by `BigInt(1e18)` (constant) due to the ether decimals being encoded into exchangeRate.
+
+### Calculate your userOperation's maxCost in denomination of USD
+
+The exchangeRateNativeToUsd represents the exchange rate of the chain's native gas token to USD. The value is returned with 6 digits of precision, to calculate the USD cost in a human readable format, you first need to find it's raw value and then divide it by 10^6.
+
+```ts
+// [!include ~/snippets/erc20-paymaster/calculate-costs.ts:calculateUsdCost]
+```

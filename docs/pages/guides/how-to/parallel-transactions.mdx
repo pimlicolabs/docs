@@ -1,0 +1,52 @@
+# How to send multiple user operations in parallel
+
+permissionless.js library lets you to send multiple transactions in parallel. This can be useful if you want to batch multiple calls in a single user operation or if you want to send user operations concurrently.
+
+## Batching Multiple Calls
+
+To batch multiple calls in a single user operation, you can use the `sendTransactions` method.
+
+```ts
+// [!include ~/snippets/how-to/parallel-transactions.ts:multiple-transactions]
+```
+
+## Sending Multiple User Operations in Parallel
+
+In an Externally Owned Account (EOA), the `nonce` is a simple incrementing number. However, in smart accounts, the `nonce` consists of two components: a `key` and a `sequence`:
+
+- 192-bit “key”
+- 64-bit “sequence”
+
+For each unique `key`, the sequence must be incremented by 1 for each transaction. This means that if you send multiple transactions in parallel, you can use different `keys` for the parallel transactions.
+
+### Parallel Transactions Ordering
+Important thing to note is that parallel transaction's ordering is not guaranteed. So execution of random `key` on chain could be:
+
+- [key-C][sequence-0]
+- [key-A][sequence-0]
+- [key-B][sequence-0]
+
+While execution of `sequence` for a specific `key` will always be in order. So the following is a valid order of execution:
+1. [key-C][sequence-0]
+2. [key-A][sequence-0]
+3. [key-C][sequence-1]
+4. [key-B][sequence-0]
+5. [key-A][sequence-1]
+6. [key-B][sequence-1]
+
+
+:::info
+Note: Pimlico bundler currently only support up to 10 parallel transactions. If you need to send more than 10 transactions in parallel feel free to contact us at [support@pimlico.io](mailto:support@pimlico.io).
+:::
+
+In the example below, we use the current timestamp as the `key` to send parallel transactions. You can use any other value as the `key`.
+
+```ts
+// [!include ~/snippets/how-to/parallel-transactions.ts:multiple-transactions-parallel]
+```
+
+:::info
+Note: The flow described in this section is only applicable to smart accounts that are already deployed, if your account is not deployed, you may run into AA10 errors as multiple userOperations will contain the factory/factoryData fields which will cause conflicts.
+:::
+
+This way, you can efficiently manage multiple transactions either sequentially or concurrently.

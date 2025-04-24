@@ -1,0 +1,5 @@
+# Signers for permissionless.js
+
+Smart accounts are able to define custom authentication and authorization schemes, but still require signatures to validate user operations coming from signers. permissionless.js which accepts `LocalAccount | EIP1193Provider | WalletClient`, that can be passed as an owner to `createSmartAccountClient`. While by default these owners have full control over the smart account, it's possible to define custom roles and permissions for owners, and mix-and-match them to create complex multi-signature schemes, as well as rotate signers and revoke their access.
+
+In addition to pure EOA owners, permissionless.js supports a variety of third-party wallet services as owners for smart accounts.  This allows you to leverage the UIs and infrastructure of these services, while still using smart accounts supported by permissionless.js.

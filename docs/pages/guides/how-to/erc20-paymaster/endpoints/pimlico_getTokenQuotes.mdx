@@ -1,0 +1,85 @@
+# pimlico_getTokenQuotes
+
+This method returns the tentative token exchange rates used by the ERC-20 Paymaster.
+
+## Usage
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "pimlico_getTokenQuotes",
+  "params": [
+    {
+      "tokens": [
+        "0x6b175474e89094c44da98b954eedeac495271d0f",
+        "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
+        "0x514910771af9ca656af840dff83e8264ecf986ca"
+      ]
+    },
+    "0x0000000071727De22E5E9d8BAf0edAc6f37da032",
+    "0x1"
+  ],
+  "id": 1
+}
+```
+
+## Parameters
+
+The method accepts an array with the following parameters:
+
+1. `Object`: An object containing:
+   - **tokens** - `Address[]`: An array of token addresses to get quotes for.
+
+2. **entryPoint** - `Address`: The entry point contract address.
+
+3. **chainId** - `HexNumber`: The chain ID in hexadecimal format.
+
+## Returns
+
+The method returns an object containing an array of token quotes. Each quote includes information about the token, exchange rates, and storage slots.
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "quotes": [
+      {
+        "paymaster": "0x0000000000000039cd5e8aE05257CE51C473ddd1",
+        "token": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+        "postOpGas": "0xa7f8",
+        "exchangeRate": "0xe9d61943a68eaf17e8",
+        "exchangeRateNativeToUsd": "0xe9e52828",
+        "balanceSlot": "0x2",
+        "allowanceSlot": "0x3"
+      }
+    ]
+  }
+}
+```
+
+:::warning
+If a token in the request input is not supported by the ERC-20 Paymaster, the request will still succeed but it will not be included in the `quotes` array in the response.
+:::
+
+:::info
+**exchangeRateNativeToUsd** represents the exchange rate between the chain's native gas token and USD with 6 decimals of precision.
+:::
+
+## Return Fields
+
+The response includes the following fields in each quote object:
+
+- **paymaster** - `Address`: The address of the paymaster contract.
+
+- **token** - `Address`: The address of the token.
+
+- **postOpGas** - `HexNumber`: The amount of gas required for post-operation processing.
+
+- **exchangeRate** - `HexNumber`: The exchange rate between the token and the native gas token.
+
+- **exchangeRateNativeToUsd** - `HexNumber`: The exchange rate between the native gas token and USD with 6 decimals of precision.
+
+- **balanceSlot** - `HexNumber`: The storage slot for the token balance.
+
+- **allowanceSlot** - `HexNumber`: The storage slot for the token allowance.

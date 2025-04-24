@@ -1,0 +1,86 @@
+# How to create and use a Safe account with multiple signers
+
+[Safe](https://safe.global) is the most battle-tested Ethereum smart account provider. With their recent release of their ERC-4337 module, it is now possible to plug in Safe accounts to ERC-4337 bundlers and paymasters. This guide will walk you through how to create and use a Safe account with permissionless.js.
+
+## Steps
+
+::::steps
+
+### Import the required packages
+
+```ts
+// [!include ~/snippets/accounts/safe-multi-sig.ts:imports]
+```
+
+### Create the clients
+
+First we must create the public, (optionally) pimlico paymaster clients that will be used to interact with the Safe account.
+
+```ts
+// [!include ~/snippets/accounts/safe-multi-sig.ts:clients]
+```
+
+### Get the owner addresses
+
+The Safe account will need to have a signer to sign user operations. In permissionless.js, the default Safe account validates ECDSA signatures. [Any permissionless.js-compatible signer](/references/permissionless/how-to/signers) can be used for the Safe account.
+
+For example, to create a signer based on a private key:
+
+```ts
+// [!include ~/snippets/accounts/safe-multi-sig.ts:signer]
+```
+
+### Create the Safe account
+
+:::info
+For a full list of options for creating a Safe account, take a look at the reference documentation page for [`toSafeSmartAccount`](/references/permissionless/reference/accounts/toSafeSmartAccount).
+:::
+
+With a signer, you can create a Safe account as such:
+
+```ts
+// [!include ~/snippets/accounts/safe-multi-sig.ts:smartAccount]
+```
+
+:::info
+You can also create a Safe account with 7579 module, read more about it [here](/references/permissionless/how-to/accounts/use-erc7579-account).
+:::
+
+### Create the smart account client
+
+The smart account client is a permissionless.js client that is meant to serve as an almost drop-in replacement for viem's [walletClient](https://viem.sh/docs/clients/wallet.html).
+
+```ts
+// [!include ~/snippets/accounts/safe-multi-sig.ts:smartAccountClient]
+```
+
+### Prepare a user operation
+
+Since we may not have access to all the signers at once, we should prepare a user operation and then submit it later after all the signers have signed.
+
+```ts
+// [!include ~/snippets/accounts/safe-multi-sig.ts:prepare]
+```
+
+### Collect signatures
+
+You can use the `SafeSmartAccount.signUserOperation` method to collect signatures from the signers.
+
+```ts
+// [!include ~/snippets/accounts/safe-multi-sig.ts:sign]
+```
+
+### Submit the user operation
+
+Once you have the  final signature, you can submit the user operation.
+
+```ts
+// [!include ~/snippets/accounts/safe-multi-sig.ts:submit]
+```
+
+### Understanding the errors
+
+If you're getting an error that starts with `GS`, it probably means that something went off with the Safe account. Checkout the Safe error codes [here](https://github.com/safe-global/safe-smart-account/blob/main/docs/error_codes.md).
+
+::::
+
