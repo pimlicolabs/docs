@@ -278,6 +278,16 @@
 			"source": "/infra/:path*",
 			"destination": "/references/:path*",
 			"permanent": true
+		},
+		{
+			"source": "/conceptual",
+			"destination": "/guides/conceptual",
+			"permanent": true
+		},
+		{
+			"source": "/conceptual/:path*",
+			"destination": "/guides/conceptual/:path*",
+			"permanent": true
 		}
 	],
 	"headers": [
