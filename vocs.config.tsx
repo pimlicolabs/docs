@@ -24,10 +24,6 @@ export const platformSidebar = [
 		link: "/references/platform/pricing",
 	},
 	{
-		text: "Supported Chains",
-		link: "/references/platform/supported-chains",
-	},
-	{
 		text: "API",
 		items: [
 			{
@@ -326,6 +322,10 @@ export const gettingStartedSidebar = [
 	{
 		text: "Overview",
 		link: "/guides/getting-started",
+	},
+	{
+		text: "Supported Chains",
+		link: "/guides/supported-chains",
 	},
 ];
 
