@@ -1,0 +1,43 @@
+# ERC-4337 vs EIP-7702
+
+This page outlines the key differences and design motivations behind ERC-4337 and EIP-7702 — two distinct approaches to improving smart accounts (also known as "account abstraction") on Ethereum.
+
+## TL;DR
+
+- **ERC-4337**: Defines a standard interface for smart accounts that allows them to plug into standard relayers (bundlers) and paymasters such as Pimlico. No protocol upgrades required.
+- **EIP-7702**: Allows EOAs to become smart accounts. Requires a protocol upgrade.
+
+Importantly, **ERC-4337 and EIP-7702 are not competing proposals**. You can use both together, allowing EOAs to become smart accounts while also plugging into standard relayers and paymasters.
+
+Given that ERC-4337 is already live and has a large ecosystem, it is the de-facto standard for smart account relaying and gas sponsoring today and is expected to be the main way that most smart accounts with EIP-7702 will also be used.
+
+## ERC-4337 Overview
+
+- **Timeline**: Proposal finalized in March 2023, latest EntryPoint contract deployed in April 2025.
+- **Requires a Protocol Upgrade**: No
+- **Mechanism**: Standardizes the bundler and paymaster interface, introduces an `EntryPoint` contract to handle smart account transaction flows.
+- **Key Concepts**: User Operations, bundlers, paymasters
+
+### Pros
+- No hard fork needed
+- Modular and extensible design (plug-in paymasters, validation logic, etc.)
+- Ecosystem already building on it (e.g., Pimlico, Safe, Stackup)
+
+### Cons
+- Complex architecture (bundlers, extra calldata)
+
+## EIP-7702 Overview
+
+- **Timeline**: Expected to be included in the Pectra hardfork, on May 7, 2025.
+- **Requires a Protocol Upgrade**: Yes
+- **Mechanism**: Turns an EOA into a contract account during via a new transaction type.
+- **Key Concepts**: `authorization_list`
+
+### Pros
+- Clean UX: complexity is in the protocol
+- Reuses existing transaction flow (no separate mempool or entry point)
+
+### Cons
+- Requires hard fork and client changes
+- Not all chains will have it live at the same time — backwards compatibility will be required.
+- Master EOA retains ability to control and change the code of the smart account, true multisig / social recovery is not possible

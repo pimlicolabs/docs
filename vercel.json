@@ -14,22 +14,22 @@
 		{
 			"source": "/infra/magic-spend/endpoints/pimlico_getMagicSpendStakes",
 			"destination": "/references/flash-fund/endpoints/flashfund_getLocks",
-			"permanent": true
+			"permanent": false
 		},
 		{
 			"source": "/infra/magic-spend/endpoints/pimlico_prepareMagicSpendStake",
 			"destination": "/references/flash-fund/endpoints/flashfund_prepareLock",
-			"permanent": true
+			"permanent": false
 		},
 		{
 			"source": "/infra/magic-spend/endpoints/pimlico_prepareMagicSpendAllowance",
 			"destination": "/references/flash-fund/endpoints/flashfund_prepareAllowance",
-			"permanent": true
+			"permanent": false
 		},
 		{
 			"source": "/infra/magic-spend/endpoints/pimlico_sponsorMagicSpendWithdrawal",
 			"destination": "/references/flash-fund/endpoints/flashfund_sponsorWithdrawal",
-			"permanent": true
+			"permanent": false
 		},
 		{
 			"source": "/:match*.html",
@@ -48,7 +48,12 @@
 		},
 		{
 			"source": "/pricing",
-			"destination": "/references/platform/pricing",
+			"destination": "/guides/pricing",
+			"permanent": false
+		},
+		{
+			"source": "/references/platform/pricing",
+			"destination": "/guides/pricing",
 			"permanent": false
 		},
 		{
@@ -209,12 +214,12 @@
 		{
 			"source": "/infra/platform/sponsorship-policies",
 			"destination": "/guides/how-to/sponsorship-policies",
-			"permanent": true
+			"permanent": false
 		},
 		{
 			"source": "/infra/platform/supported-chains",
 			"destination": "/guides/supported-chains",
-			"permanent": true
+			"permanent": false
 		},
 		{
 			"source": "/reference/erc20-paymaster/sdk",
@@ -239,27 +244,32 @@
 		{
 			"source": "/infra/magic-spend/:path*",
 			"destination": "/references/flash-fund/:path*",
-			"permanent": true
+			"permanent": false
 		},
 		{
 			"source": "/infra/platform/sponsorship-policies/:path*",
 			"destination": "/guides/how-to/sponsorship-policies/:path*",
-			"permanent": true
+			"permanent": false
 		},
 		{
 			"source": "/infra/platform/security/:path*",
 			"destination": "/guides/how-to/security/:path*",
-			"permanent": true
+			"permanent": false
 		},
 		{
 			"source": "/infra/platform/debugging/:path*",
 			"destination": "/guides/how-to/debugging/:path*",
-			"permanent": true
+			"permanent": false
 		},
 		{
 			"source": "/infra/paymaster/erc20-paymaster/how-to/:path*",
 			"destination": "/guides/how-to/erc20-paymaster/how-to/:path*",
-			"permanent": true
+			"permanent": false
+		},
+		{
+			"source": "/guides/how-to/eip-7702-demo",
+			"destination": "/guides/eip7702/demo",
+			"permanent": false
 		},
 		{
 			"source": "/permissionless/tutorial/:path*",
@@ -272,22 +282,32 @@
 		{
 			"source": "/permissionless/:path*",
 			"destination": "/references/permissionless/:path*",
-			"permanent": true
+			"permanent": false
 		},
 		{
 			"source": "/infra/:path*",
 			"destination": "/references/:path*",
-			"permanent": true
+			"permanent": false
 		},
 		{
 			"source": "/conceptual",
 			"destination": "/guides/conceptual",
-			"permanent": true
+			"permanent": false
 		},
 		{
 			"source": "/conceptual/:path*",
 			"destination": "/guides/conceptual/:path*",
-			"permanent": true
+			"permanent": false
+		},
+		{
+			"source": "/guides/conceptual/eip7702",
+			"destination": "/guides/eip7702",
+			"permanent": false
+		},
+		{
+			"source": "/references/platform/why-pimlico/:path*",
+			"destination": "/guides/why-pimlico/:path*",
+			"permanent": false
 		}
 	],
 	"headers": [
