@@ -1,7 +1,21 @@
 import { defineConfig } from "vocs";
 import viteConfig from "./utils";
-import { conceptualSidebar, eip7702Sidebar, gettingStartedSidebar, howToSidebar, tutorialSidebar } from "./sidebars/guides";
-import { platformSidebar, bundlerSidebar, paymasterSidebar, flashFundSidebar, permissionlessSidebar, permissionlessWagmiSidebar, permissionlessSidebar0Point1 } from "./sidebars/references";
+import {
+	conceptualSidebar,
+	eip7702Sidebar,
+	gettingStartedSidebar,
+	howToSidebar,
+	tutorialSidebar,
+} from "./sidebars/guides";
+import {
+	platformSidebar,
+	bundlerSidebar,
+	paymasterSidebar,
+	flashFundSidebar,
+	permissionlessSidebar,
+	permissionlessWagmiSidebar,
+	permissionlessSidebar0Point1,
+} from "./sidebars/references";
 
 export default defineConfig({
 	title: "Pimlico",
@@ -17,6 +31,10 @@ export default defineConfig({
 	head: () => (
 		<>
 			<script src="/posthog.js" />
+			<link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg" />
+			<link rel="icon" type="image/png" href="/favicons/favicon.png" />
+			<link rel="shortcut icon" href="/favicons/favicon.ico" />
+			<link rel="apple-touch-icon" href="/favicons/favicon.png" />
 		</>
 	),
 	banner: {
