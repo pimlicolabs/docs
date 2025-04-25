@@ -49,6 +49,7 @@ export default defineConfig({
 			},
 			{
 				text: "Tutorials",
+				link: "/guides/tutorials",
 				items: tutorialSidebar,
 			},
 			{
