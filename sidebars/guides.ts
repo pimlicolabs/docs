@@ -54,30 +54,30 @@ export const tutorialSidebar = [
 
 export const howToSidebar = [
 	{
-		text: "Update your existing app to sponsor gas fees for smart account users",
+		text: "Update your app to sponsor gas fees",
 		link: "/guides/how-to/dapp-gas-sponsorship",
 	},
 	{
-		text: "How to send multiple user operations in parallel",
+		text: "Send multiple user operations in parallel",
 		link: "/guides/how-to/parallel-transactions",
 	},
 	{
-		text: "ERC-20 Paymaster",
+		text: "ERC-20 Paymaster Guides",
 		items: [
 			{
-				text: "How to send a userOperation from a EOA using EIP-7702",
+				text: "Send a user operation from a EOA using EIP-7702",
 				link: "/guides/how-to/eip-7702-demo",
 			},
 			{
-				text: "How to use the ERC-20 Paymaster",
+				text: "Use the ERC-20 Paymaster",
 				link: "/guides/how-to/erc20-paymaster/how-to/use-paymaster",
 			},
 			{
-				text: "How to use the ERC-20 Paymaster without unlimited token approvals",
+				text: "Use the ERC-20 Paymaster without unlimited token approvals",
 				link: "/guides/how-to/erc20-paymaster/how-to/use-paymaster-without-unlimited-approval",
 			},
 			{
-				text: "How to estimate token cost and cost in USD",
+				text: "Estimate token cost and cost in USD",
 				link: "/guides/how-to/erc20-paymaster/how-to/calculate-costs",
 			},
 		],
@@ -86,15 +86,15 @@ export const howToSidebar = [
 		text: "Sponsorship Policies",
 		items: [
 			{
-				text: "How to use sponsorship policies",
+				text: "Use sponsorship policies",
 				link: "/guides/how-to/sponsorship-policies",
 			},
 			{
-				text: "Webhook docs",
+				text: "Webhooks",
 				link: "/guides/how-to/sponsorship-policies/webhook",
 			},
 			{
-				text: "How to create a gas program",
+				text: "Create a gas program",
 				link: "/guides/how-to/sponsorship-policies/gas-program",
 			},
 		],
@@ -103,7 +103,7 @@ export const howToSidebar = [
 		text: "Security",
 		items: [
 			{
-				text: "How to protect your API keys",
+				text: "Protect API keys",
 				link: "/guides/how-to/security/protect-api-keys",
 			},
 		],
@@ -125,7 +125,7 @@ export const howToSidebar = [
 		text: "Debugging",
 		items: [
 			{
-				text: "How to debug dropped user operations",
+				text: "Debugging dropped user operations",
 				link: "/guides/how-to/debugging/dropped-user-operations",
 			},
 		],
@@ -178,7 +178,7 @@ export const howToSidebar = [
 				link: "/guides/how-to/accounts/use-light-account",
 			},
 			{
-				text: "How to use an ERC-7579 compatible smart account",
+				text: "Use an ERC-7579 compatible smart account",
 				link: "/guides/how-to/accounts/use-erc7579-account",
 			},
 		],
@@ -187,11 +187,11 @@ export const howToSidebar = [
 		text: "Paymasters",
 		items: [
 			{
-				text: "How to use a custom Paymaster",
+				text: "Use a custom Paymaster",
 				link: "/guides/how-to/paymasters/use-custom-paymaster",
 			},
 			{
-				text: "How to conditionally sponsor a user operation",
+				text: "Conditionally sponsor a user operation",
 				link: "/guides/how-to/paymasters/conditional-sponsoring",
 			},
 		],
