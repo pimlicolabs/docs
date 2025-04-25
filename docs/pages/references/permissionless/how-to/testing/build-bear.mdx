@@ -1,0 +1,105 @@
+# Testing with BuildBear Sandboxes
+
+This guide introduces how to setup a BuildBear Sandbox with for testing the Alto bundler and a mock paymaster. We will be using viem and permissionless to interact with the sandbox enviornment.
+
+## Overview
+
+BuildBear provides on-demand, isolated test environments that clone existing blockchain networks. These environments are perfect for testing account abstraction implementations as they:
+
+- Provide a persistent, dedicated testnet environment
+- Support EIP-4337 and all necessary AA infrastructure
+- Allow you to fork from existing networks (Ethereum, Arbitrum, Optimism, etc.)
+- Unlocked faucets for testing
+- Offer an explorer interface for easy debugging
+
+## Steps
+
+::::steps
+
+### Creating and setting up a BuildBear Sandbox
+
+1. Go to [buildbear.io](https://www.buildbear.io) and sign up for an account if you don't have one already.
+
+2. Create a new Sandbox by clicking "Create a Sandbox" and selecting the network you want to fork (e.g., Ethereum Mainnet, Sepolia, etc.).
+
+3. Navigate to the Plugin tab on your sandbox dashboard and install the Pimlico Plugin. Ensure the plugin appears as installed in the marketplace or Installed tab.
+
+4. Go to your Buildbear sandbox dashboard and locate the RPC URL. Copy the RPC URL, which also serves as the Pimlico Client API endpoint. It should look something like the below.
+    - BuildBear Sandbox RPC URL: `https://rpc.buildbear.io/<YOUR-SANDBOX-ID>`
+    - Pimlico Client API: `https://rpc.buildbear.io/<YOUR-SANDBOX-ID>`
+
+5. Once your Sandbox is created, you'll get access to:
+   - RPC URL
+   - Chain ID
+   - Explorer URL
+   - Faucet to fund your test accounts
+
+### Setup the clients
+
+```ts [Setup Clients]
+// [!include ~/snippets/testing/build-bear.ts:clients]
+```
+
+### Setup the Smart Account Client
+
+```ts [Setup Clients]
+// [!include ~/snippets/testing/build-bear.ts:smartAccountClient]
+```
+
+### Funding your smart account (Optional)
+
+If you want to fund your smart account with native currency or ERC-20 tokens, you can use the following curl commands:
+
+
+Funding native currency:
+```
+curl -X POST https://rpc.buildbear.io/<YOUR-SANDBOX-ID>  \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "buildbear_nativeFaucet",
+    "params": [{
+      "address": "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
+      "balance": "100"
+    }]
+  }'
+```
+
+Funding ERC-20 tokens:
+```
+curl -X POST https://rpc.buildbear.io/<YOUR-SANDBOX-ID> \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "buildbear_ERC20Faucet",
+    "params": [{
+      "address": "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
+      "balance": "100",
+      "token": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+    }]
+  }'
+```
+
+### Sending a userOperation
+
+:::code-group
+
+```ts [Verifying Paymaster]
+// [!include ~/snippets/testing/build-bear.ts:verifyingPaymaster]
+```
+
+```ts [ERC-20 Paymaster]
+// [!include ~/snippets/testing/build-bear.ts:erc20Paymaster]
+```
+
+:::
+
+:::info
+paymaster top-ups are taken care of by the sandbox and you do need to worry about topping up the paymaster ever
+:::
+
+::::
+
+More detailed examples and instructions can be found on [BuildBear's docs](https://app.buildbear.io/plugins/pimlico-alto-5efcae784d7b)

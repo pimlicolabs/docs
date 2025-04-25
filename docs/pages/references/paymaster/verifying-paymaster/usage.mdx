@@ -1,0 +1,13 @@
+# How to use the Verifying Paymaster
+
+:::tip[Tip]
+We recommend using [permissionless.js](/references/permissionless/reference/smart-account-actions/sendUserOperation) as the SDK to interact with the Verifying Paymaster as it provides type-safe wrappers for paymaster methods. 
+:::
+
+Paymasters are entities that user operations can delegate the responsibilities for gas fee payments for. You can interact with paymasters using JSON-RPC requests.
+
+To get access to the paymaster, you need to sign up to the [Pimlico dashboard](https://dashboard.pimlico.io), create a [Pimlico API key](https://dashboard.pimlico.io/apikeys). Next, load up some balance to your Pimlico account in the [payment methods page](https://dashboard.pimlico.io/payment) or add your card. Then, using the API key, you can make the following JSON-RPC requests to the paymaster:
+
+- [pm_sponsorUserOperation](/references/paymaster/verifying-paymaster/endpoints/pm_sponsorUserOperation)
+
+If you would like an end-to-end example of how to use the Verifying Paymaster, please refer to [tutorial 1](/references/permissionless/tutorial/tutorial-1) of the permissionless.js documentation.

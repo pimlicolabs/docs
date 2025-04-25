@@ -1,0 +1,17 @@
+# ERC-20 Paymaster Architecture
+
+:::info
+You can view the whole ERC-20 Paymaster contract [in our repository](https://github.com/pimlicolabs).
+
+This paymaster is an onchain contract, we can not guarantee that using the paymaster is risk-free. Please use the paymaster at your own risk.
+:::
+
+## Design
+
+Pimlico's ERC-20 Paymaster is an ERC-4337 Paymaster that relies on an offchain API, powered by Pimlico, to supply the user with an up-to-date token price, alongside a signature from a valid signer address. The paymaster is able to pay for the gas fees of your users in exchange for ERC-20 tokens that are drawn from the user.
+
+## Estimating the amount of tokens required for a user operation
+
+After calling the `pimlico_getTokenQuotes` function, the Pimlico API will return two important values, `exchangeRate` and `postOpGas`. You can use these two values, alongside information about the user operation you're looking to sponsor, to get an estimate of the amount of tokens required for the user operation.
+
+You can do this by using [this onchain function](https://github.com/pimlicolabs) on the paymaster.

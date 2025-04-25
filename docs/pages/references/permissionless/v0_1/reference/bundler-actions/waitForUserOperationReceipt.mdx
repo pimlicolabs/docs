@@ -1,0 +1,86 @@
+import VersionWarning from "../../../VersionWarning"
+
+<VersionWarning version="0.1" />
+
+# waitForUserOperationReceipt
+
+Waits for the User Operation to be included on a block (one confirmation), and then returns the User Operation Receipt.
+
+:::warning
+If you are getting `WaitForUserOperationReceiptTimeoutError`. Use custom timeout in transport, please see the [FAQs](/references/permissionless/faqs#getting-waitforuseroperationreceipttimeouterror) for more information.
+:::
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+import { bundlerClient } from "./client"
+
+const receipt = await bundlerClient.waitForUserOperationReceipt({
+    hash: "0x3c037f957fde5d87e35d5b8582f6c274343bcf3bc0e010d72fc2de0e27f4a6aa"
+})
+/**
+ * {
+ *  "userOpHash": "0x3c037f957fde5d87e35d5b8582f6c274343bcf3bc0e010d72fc2de0e27f4a6aa",
+ *  "sender": "0x277F6C1D8d4faFA3d8DcC837489cd69d86c682BA",
+ *  "nonce": 3n,
+ *  "actualGasUsed": 437678n,
+ *  "actualGasCost": 1584749056877268n,
+ *  "success": true,
+ *  "logs": [
+ *    ...
+ *  ],
+ *  "receipt": {
+ *    ...
+ *  },
+ *  "logsBloom": "0x00000400000200000000000100000000400000000000000000000000020000000008000022000000000200110000000004108000000000000000020000000000000001000000000002000000000002800000000000000000000100000001000000000008180000000000000000000000000000000200804080800000000000000000000000000000000000000020001000001200000480000000000000000000200000000000000008400000000400000000800400000408000002000000004000000020000000000001001000040000000000000000800000108000000000000000000000020080000000000800000000000000002000004000000820120000",
+ *  "status": "0x1",
+ *  "effectiveGasPrice": 24163152145n
+ *  }
+ * }
+ */
+```
+
+```ts [client.ts]
+import { createClient, http } from 'viem'
+import { sepolia } from 'viem/chains'
+import { bundlerActions } from 'permissionless'
+
+export const bundlerClient = createClient({ 
+  chain: sepolia,
+  transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_API_KEY_HERE")
+}).extend(bundlerActions)
+```
+
+::::
+
+## Returns
+
+- **Type:** `UserOperationReceipt`
+
+The receipt of the User Operation.
+
+## Parameters
+
+### hash
+
+- **Type:** `Hash`
+
+The User Operation hash.
+
+### pollingInterval (optional)
+
+- **Type:** `number`
+
+Polling frequency (in ms). Defaults to the client's `pollingInterval` config
+
+### timeout (optional)
+
+- **Type:** `number`
+
+Optional timeout (in milliseconds) to wait before polling is stopped.
+
+## JSON-RPC Method
+
+[`eth_estimateUserOperationGas`](https://eips.ethereum.org/EIPS/eip-4337#rpc-methods-eth-namespace)

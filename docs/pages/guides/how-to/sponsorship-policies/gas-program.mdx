@@ -1,0 +1,51 @@
+# How to create a gas program on Pimlico
+
+:::info
+This guide is for chain operators who want to create a gas program on Pimlico. If you are a developer looking to use a gas program made by someone else or looking to sponsor your own user operations, you should instead look in the [sponsorship policies guide](/guides/how-to/sponsorship-policies).
+:::
+
+If you are a chain operator and you would like to be able to easily give out and track gas credits to developers building on your chain, you can create and manage a gas station program using Pimlico sponsorship policies.
+
+::::steps
+
+### Create a Pimlico account
+
+If you don't already have a Pimlico account, you can create one by visiting the [Pimlico dashboard website](https://dashboard.pimlico.io).
+
+### Create an switch to an organization (optional)
+
+If you are not already in an organization, you can create one by clicking on the "Create Organization" button on the dashboard.
+
+![A screenshot of the Pimlico dashboard with the organization viewer open](/policies/gasprogram1.png)
+
+### Create a sponsorship policy
+
+The gas program will be managed as a sponsorship policy. You can create a sponsorship policy by clicking on the "Create Policy" button on the [sponsorship policies page](https://dashboard.pimlico.io/sponsorship-policies).
+
+![A screenshot of the Pimlico dashboard with the sponsorship policy viewer open](/policies/gasprogram2.png)
+
+As part of creating the policy, we recommend you consider setting a couple of fields:
+- Name (to identify the policy publicly, e.g. "XYZChain Gas Program")
+- Enabled Chains (to specify that the policy should only apply to your chain)
+- Global Maximum (to hardcode the maximum dollars of gas that can be spent)
+
+You can also consider setting some other fields, like custom webhooks, start and end dates, and more.
+
+### Give authorizations to developers to use the policy
+
+To give authorizations to developers to use this policy, start by clicking on the newly created policy, which should take you to the policy's dashboard.
+
+In it, you should see a "Spending Authorizations" table where you can add new authorizations.
+
+![A screenshot of the spending authorizations table in the policy dashboard](/policies/gasprogram3.png)
+
+Now click the "Create Spending Authorization" button and fill in the details of the authorization, including the name of the authorization, how many dollars of gas you're letting the developer spending, and the reset period.
+
+![A screenshot of the spending authorization creation form](/policies/gasprogram4.png)
+
+After you have created the policy, you should see a page where you can copy a link that you can send to the grantee to claim the spending authorization.
+
+To use the policy, the grantee will need to have a Pimlico account and will need to click on the link to claim the authorization, and will then be able to use that authorization to pay for gas on your chain as if it was a policy that they owned. More information about using sponsorship policies can be found in the [relevant guide](/guides/how-to/sponsorship-policies).
+
+
+::::

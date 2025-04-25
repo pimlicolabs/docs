@@ -1,0 +1,340 @@
+# Migration Guide
+
+## 0.2.0
+
+:::warning
+This migration guide is assuming you have already migrated to ^0.1.0 and are now migrating to 0.2.0.
+:::
+
+### Using viem 2.20.0
+
+Viem released their own version of account abstraction primitives since version `2.18.0`.
+Since permissionless.js has viem as a peer dependency and are heavily inspired by viem, we will be updating to use the native account abstraction primitives provided by viem.
+For full documentation on viem's account abstraction primitives, please refer to the [viem documentation](https://viem.sh/account-abstraction).
+
+### Deprecated `createBundlerClient`
+
+Viem has default [createBundlerClient](https://viem.sh/account-abstraction/clients/bundler) so we have deprecated the permissionless.js bundler client.
+This means we have also deprecated the following bundler actions:
+
+1. `chainId`
+2. `estimateUserOperationGas`
+3. `getUserOperationByHash`
+4. `getUserOperationReceipt`
+5. `sendUserOperation`
+6. `supportedEntryPoints`
+7. `waitForUserOperationReceipt`
+
+### Deprecated `getEntryPointVersion`
+
+This is no more needed as all the permissionless versions now accepts entryPoint version explicitly.
+
+### Deprecated `getUserOperationHash`
+
+This is part of `viem/account-abstraction` and now can be directly imported from `viem`.
+
+### Deprecated `signUserOperationHashWithECDSA`
+
+### Deprecated `experimental 7677`
+
+### Changed `signerToBiconomySmartAccount` to `toBiconomySmartAccount`
+
+```ts
+import { toBiconomySmartAccount } from "permissionless/accounts"
+import { publicClient } from "./publicClient"
+import { entryPoint06Address } from "viem/account-abstraction"
+import { privateKeyToAccount, generatePrivateKey } from "viem/accounts"
+
+const biconomyAccount = await signerToBiconomySmartAccount(client { // [!code --]
+    signer: privateKeyToAccount(generatePrivateKey()), // [!code --]
+    entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code --]
+    ...rest
+}) // [!code --]
+const biconomyAccount = await toBiconomySmartAccount({ // [!code ++]
+    client: publicClient, // [!code ++]
+    owners: [privateKeyToAccount(generatePrivateKey())],// [!code ++]
+    entryPoint: { // [!code ++] 
+        address: entryPoint06Address, // [!code ++]
+        version: "0.6", // [!code ++]
+    } // [!code ++]
+    ...rest
+})    
+```
+
+:::warning
+Note, Biconomy's account doesn't work with entryPoint 0.7.
+:::
+
+### Changed `signerToEcdsaKernelSmartAccount` to `toEcdsaKernelSmartAccount`
+
+```ts
+import { toEcdsaKernelSmartAccount } from "permissionless/accounts"
+import { publicClient } from "./publicClient"
+import { entryPoint07Address } from "viem/account-abstraction"
+import { privateKeyToAccount, generatePrivateKey } from "viem/accounts"
+
+const kernelAccount = await signerToEcdsaKernelSmartAccount(client { // [!code --]
+    signer: privateKeyToAccount(generatePrivateKey()), // [!code --]
+    entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code --]
+    ...rest
+}) // [!code --]
+const kernelAccount = await toEcdsaKernelSmartAccount({ // [!code ++]
+    client: publicClient, // [!code ++]
+    owners: [privateKeyToAccount(generatePrivateKey())],// [!code ++]
+    entryPoint: { // optional, defaults to 0.7 // [!code ++]
+        address: entryPoint07Address, // [!code ++]
+        version: "0.7", // [!code ++]
+    }, // [!code ++]
+    ...rest
+})    
+```
+
+### Changed `signerToLightSmartAccount` to `toLightSmartAccount`
+
+```ts
+import { toLightSmartAccount } from "permissionless/accounts"
+import { publicClient } from "./publicClient"
+import { entryPoint06Address } from "viem/account-abstraction"
+import { privateKeyToAccount, generatePrivateKey } from "viem/accounts"
+
+const kernelAccount = await signerToLightSmartAccount(client { // [!code --]
+    signer: privateKeyToAccount(generatePrivateKey()), // [!code --]
+    entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code --]
+    lightAccountVersion: "1.1.0" // [!code --]
+    ...rest
+}) // [!code --]
+const kernelAccount = await toLightSmartAccount({ // [!code ++]
+    client: publicClient, // [!code ++]
+    owners: [privateKeyToAccount(generatePrivateKey())],// [!code ++]
+    entryPoint: { // optional, defaults to 0.7 // [!code ++] 
+        address: entryPoint06Address, // [!code ++]
+        version: "0.6", // [!code ++]
+    }, // [!code ++]
+    version: "1.1.0" // optional, defaults to "2.0.0" // [!code ++]
+    ...rest
+})    
+```
+
+:::info
+We have also added support for `2.0.0` Light Account.
+:::
+
+:::warning
+The Light Account version `1.1.0` works only with EntryPoint version `0.6` while `2.0.0` works only with EntryPoint version `0.7`.
+:::
+
+### Changed `signerToSafeSmartAccount` to `toSafeSmartAccount`
+
+```ts
+import { toSafeSmartAccount } from "permissionless/accounts"
+import { publicClient } from "./publicClient"
+import { entryPoint07Address } from "viem/account-abstraction"
+import { privateKeyToAccount, generatePrivateKey } from "viem/accounts"
+
+const safeAccount = await signerToSafeSmartAccount(client { // [!code --]
+    signer: privateKeyToAccount(generatePrivateKey()), // [!code --]
+    entryPoint: ENTRYPOINT_ADDRESS_V07, // [!code --]
+    safeVersion: "1.4.1" // [!code --]
+    ...rest
+}) // [!code --]
+const safeAccount = await toSafeSmartAccount({ // [!code ++]
+    client: publicClient, // [!code ++]
+    owners: [privateKeyToAccount(generatePrivateKey())],// [!code ++]
+    entryPoint: { // optional, defaults to 0.7 // [!code ++]
+        address: entryPoint07Address, // [!code ++]
+        version: "0.7", // [!code ++]
+    }, // [!code ++]
+    version: "1.4.1" // [!code ++]
+    ...rest
+})
+```
+
+### Changed `signerToSimpleSmartAccount` to `toSimpleSmartAccount`
+
+```ts
+import { toSimpleSmartAccount } from "permissionless/accounts"
+import { publicClient } from "./publicClient"
+import { entryPoint07Address } from "viem/account-abstraction"
+import { privateKeyToAccount, generatePrivateKey } from "viem/accounts"
+
+const simpleAccount = await signerToSimpleSmartAccount(client { // [!code --]
+    signer: privateKeyToAccount(generatePrivateKey()), // [!code --]
+    entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code --]
+    ...rest
+}) // [!code --]
+const simpleAccount = await toSimpleSmartAccount({ // [!code ++]
+    client: publicClient, // [!code ++]
+    owner: privateKeyToAccount(generatePrivateKey()),// [!code ++]
+    entryPoint: { // optional, defaults to 0.7 // [!code ++]
+        address: entryPoint07Address, // [!code ++]
+        version: "0.7", // [!code ++]
+    }, // [!code ++]
+    ...rest
+})
+```
+
+### Changed `signerToTrustSmartAccount` to `toTrustSmartAccount`
+
+```ts
+import { toTrustSmartAccount } from "permissionless/accounts"
+import { publicClient } from "./publicClient"
+import { entryPoint06Address } from "viem/account-abstraction"
+import { privateKeyToAccount, generatePrivateKey } from "viem/accounts"
+
+const trustAccount = await signerToTrustSmartAccount(client { // [!code --]
+    signer: privateKeyToAccount(generatePrivateKey()), // [!code --]
+    entryPoint: ENTRYPOINT_ADDRESS_V06, // [!code --]
+    ...rest
+}) // [!code --]
+const trustAccount = await toTrustSmartAccount({ // [!code ++]
+    client: publicClient, // [!code ++]
+    owner: privateKeyToAccount(generatePrivateKey()),// [!code ++]
+    entryPoint: { // [!code ++]
+        address: entryPoint06Address, // [!code ++]
+        version: "0.6", // [!code ++]
+    }, // [!code ++]
+    ...rest
+})
+```
+
+:::warning
+Note, trust wallet's account doesn't work with entryPoint 0.7.
+:::
+
+### Deprecated `privateKeyTo\<account-name\>SmartAccount
+
+All the private key to account conversion functions are now deprecated. You can use `to<account-name>SmartAccount` to create a smart account instead.
+
+Example: 
+
+```ts
+import { toSafeSmartAccount } from "permissionless/accounts"
+import { publicClient } from "./publicClient"
+import { entryPoint07Address } from "viem/account-abstraction"
+import { privateKeyToAccount } from "viem/accounts"
+
+const safeAccount = await toSafeSmartAccount({
+    client: publicClient,
+    owners: [privateKeyToAccount(privateKey)],
+    entryPoint: {
+        address: entryPoint07Address,
+        version: "0.7"
+    }, // global entrypoint
+    version: "1.4.1",
+})
+```
+
+### Merged `createPimlicoPaymasterClient` and `createPimlicoBundlerClient` to `createPimlicoClient`
+
+```ts
+import { http } from "viem";
+import { entryPoint07Address } from "viem/account-abstraction"
+import { createPimlicoClient } from "permissionless/clients/pimlico"
+
+const pimlicoUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=<PIMLICO_API_KEY>`
+
+
+const pimlicoPaymasterClient = createPimlicoPaymasterClient({ // [!code --]
+    chain: foundry, // [!code --]
+    transport: http(paymasterRpc), // [!code --]
+    entryPoint: ENTRYPOINT_ADDRESS_V07 // [!code --]
+}) // [!code --]
+
+const pimlicoPaymasterClient = createPimlicoPaymasterClient({ // [!code --]
+    chain: foundry, // [!code --]
+    transport: http(paymasterRpc), // [!code --]
+    entryPoint: ENTRYPOINT_ADDRESS_V07 // [!code --]
+}) // [!code --]
+
+const pimlicoClient = createPimlicoClient({ // [!code ++]
+    transport: http(pimlicoUrl), // [!code ++]
+    entryPoint: { // Optional, defaults to 0.7 // [!code ++]
+        address: entryPoint07Address, // [!code ++]
+        version: "0.7", // [!code ++]
+    } // [!code ++]
+}) // [!code ++]
+```
+
+All the previous actions that were part of `createPimlicoBundlerClient` and `createPimlicoPaymasterClient` are now part of `createPimlicoClient` and can also be accessed individually.
+
+Pimlico client also extends actions of Paymaster client by viem. It uses ERC-7677 as the default standard to communicate with Pimlico paymasters.
+
+### Deprecated `smartAccountClient.deployContract`
+
+### Changed `smartAccountClient.prepareUserOperationRequest` to `smartAccountClient.prepareUserOperation`
+
+```ts
+import { smartAccountClient } from './config'
+
+const userOperation = await smartAccountClient.prepareUserOperationRequest({ // [!code --]
+    userOperation: { // [!code --]
+        callData: await smartAccountClient.account.encodeCallData({ // [!code --]
+            to: CONTRACT_ADDRESS, // [!code --]
+            data: "0x", // [!code --]
+            value: parseEther('1') // [!code --]
+        }), // [!code --]
+    } // [!code --]
+}) // [!code --]
+
+const userOperation = await smartAccountClient.prepareUserOperation({ // [!code ++]
+    calls: [{ // [!code ++]
+        to: CONTRACT_ADDRESS, // [!code ++]
+        data: "0x", // [!code ++]
+        value: parseEther('1') // [!code ++]
+    }] // [!code ++]
+}) // [!code ++]
+```
+
+### Changed `smartAccountClient.sendUserOperation`
+
+```ts
+import { smartAccountClient } from './config'
+
+const userOperationHash = await smartAccountClient.sendUserOperation({
+    userOperation: { // [!code --]
+        sender: "0x6152348912fb1e78c9037D83f9d4524D4a2988Ed",
+        nonce: "0x8104e3ad430ea6d354d013a6789fdfc71e671c4300000000000000000000",
+        factory: "0xd703aaE79538628d27099B8c4f621bE4CCd142d5",
+        factoryData: "0xc5265d5d0000000000000000000000006723b44abeec4e71ebe3232bd5b455805badd22f0000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e412af322c018104e3ad430ea6d354d013a6789fdfc71e671c4300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000014ec787ae5c34157ce61e751e54dff3612d4117663000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        callData: "0xe9ae5c530100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000001e0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000020000000000000000000000000594bc666500faed35dc741f45a35c571399560d80000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000e4e688a440000000000000000000000000c67e4838d4e6682e3a5f9ec27f133e76cb3855f30000000000000000000000006152348912fb1e78c9037d83f9d4524d4a2988ed00000000000000000000000000000000000000000000000000000000000000600000000000000000000000000000000000000000000000000000000000000041aebdfb90adba067d9304980a300636506c3c9081b01f64b04f108407a890602377625ef9096946cc028743123646881c7e31a1c8d6698132c188cb4c33a3f9151b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        maxFeePerGas: 99985502n,
+        maxPriorityFeePerGas: 1221000n,
+        preVerificationGas: 66875n,
+        verificationGasLimit: 373705n,
+        callGasLimit: 170447n,
+        paymaster: "0x9d0021A869f1Ed3a661Ffe8C9B41Ec6244261d98",
+        paymasterData: "0x000000000000000000000000000000000000000000000000000000006638ab470000000000000000000000000000000000000000000000000000000000000000e9311d1945317dc6a1c750e8e6d0641a598beb59edc5652ed3807ca57338a7a107123e1a479386b2c91f242d2dff367c18e0ad9d1021acfe47afc890e252644e1c",
+        paymasterVerificationGasLimit: 20274n,
+        paymasterPostOpGasLimit: 1n,
+        signature: "0xa58d445f26b126fcd644975f0c66bd45f3e6e5b9c1acec2eeee490aa9341cfc312988231c228f84e12eac2d90ed9cd8825546d70d73b2e0fabdd6c8089ab29581b",
+    } // [!code --]
+})
+```
+
+It also allows you to submit user operations with using `calls` object like with `sendTransaction`. You can read more about it [here](https://viem.sh/account-abstraction/actions/bundler/sendUserOperation).
+
+### Deprecated `smartAccountClient.sendTransactions`
+
+Use `smartAccountClient.sendTransaction` instead. It now accepts an array of transactions. Read more about it [here](/references/permissionless/reference/smart-account-actions/sendTransaction#usage).
+
+Example:
+
+```ts
+import { account, smartAccountClient } from './config'
+import { parseEther } from 'viem'
+const hash = await smartAccountClient.sendTransaction({
+  account,
+  calls: [{ // [!code focus]
+    to: '0x70997970c51812dc3a010c7d01b50e0d17dc79c8', // [!code focus]
+    value: parseEther('1') // [!code focus]
+  }, { // [!code focus]
+    abi: wagmiAbi, // [!code focus]
+    functionName: 'mint', // [!code focus]
+    to: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2', // [!code focus]
+  }] // [!code focus]
+})
+```
+
+### Error handling
+
+We have deprecated permissionless.js error handling and now use viem's error handling.

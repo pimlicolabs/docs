@@ -1,0 +1,88 @@
+# Paymaster FAQs [Frequently Asked Questions about Pimlico's Verifying Paymaster]
+
+## What's the difference between `pm_getPaymasterData` and `pm_sponsorUserOperation`?
+`pm_getPaymasterData` is part of the [ERC-7677 spec](https://www.erc7677.xyz/introduction) which standardizes the way to request sponsorship for a given userOperation. `pm_getPaymasterData` doesn't do any gas estimations and only returns back the relevant userOperation fields for sponsorship.
+- For v0.6, the endpoint returns
+    - `paymasterAndData`
+- For v0.7, the endpoint returns
+    - `paymaster`
+    - `paymasterData`.
+
+`pm_sponsorUserOperation` is a Pimlico specific endpoint that also estimates gas as well as sponsoring the userOperation.
+- For v0.6, the endpoint returns
+    - `paymasterAndData`
+    - `preVerificationGas`
+    - `verificationGasLimit`
+    - `callGasLimit`
+- For v0.7, the endpoint returns
+    - `paymaster`
+    - `paymasterData`
+    - `paymasterVerificationGasLimit`
+    - `paymasterPostOpGasLimit`
+    - `preVerificationGas`
+    - `verificationGasLimit`
+    - `callGasLimit`
+
+## What should I do after setting up a policy in the dashboard?
+Decide whether to enable or disable the policy based on operational requirements and objectives. Enable it if you wish the policy to be active, or keep it disabled if not needed or under review.
+
+## Can I make a transfer to load up my balance in a different currency?
+Yes, you can make a transfer to load up your balance in a different currency, such as USDC. We also accept transfers in ETH. Please reach out to [us](https://t.me/kristofgazso) and provide the recipient address and specify the currency you wish to transfer.
+
+## Are there any API-related payments?
+
+No, there are not. The only payments relate to the onchain payments through the user operation gas price for the bundler fees, and the offchain balance deduction for the paymaster fees.
+
+## How is payment made for the verifying paymaster?
+
+:::info
+The moment you request sponsorship, we pre-charge your balance with the maximum amount of balance your user operation could possibly spend (gas limits * max gas price). After 15 minutes, we check onchain how much your user operation actually spent and refund the difference to your account.
+:::
+
+The verifying paymaster payments are charged offchain. We calculate how much gas in USD terms you spend and charge the percentage on top of that to your pre-loaded balance or attached card.
+
+## How do gas fees for the bundler and paymaster stack?
+
+If you use both the bundler and the paymaster together, the fee payments would stack.
+
+For instance, if you ended up paying a 5% overhead for the bundler and a 10% overhead for the verifying paymaster on a user operation that costs us $0.01 to include, you would end up paying a total of $0.01 * (1.05) * (1.1) = $0.01155 => a 15.5% overhead.
+
+Important to note however that the bundler and paymaster are completely independent and you can use one without the other.
+
+## What is the use case for smart accounts
+
+Smart accounts enable user experience improvements that were not previously possible with EOA accounts.
+
+Examples include:
+- Gasless transactions
+- Use of USDC and other ERC-20 tokens for gas fee payments
+- Trustless Passkey and FaceID signatures and login
+- Account recovery
+- Signer rotation
+- Multisig and social recovery schemes
+- Automated transactions (e.g. for limit orders, deadman switch, auto token revocations, automated DCA investing)
+- Transactions with session keys with limited account access
+- Batched transactions (e.g. being able to approve and swap in the same transaction)
+
+## Is it possible to partially sponsor transactions with the verifying paymaster?
+
+It is not natively possible to partially sponsor transactions with the verifying paymaster, however you can achieve a similar setup in a few different ways:
+- You could sponsor all the gas fees, but for a more limited set of user operations using our [sponsorship policies](/guides/how-to/sponsorship-policies), for instance setting per user sponsorship limits, global spending limits, and more.
+- You could also consider requiring your users to transfer a certain amount of ETH or ERC-20 tokens to an account you own for every transaction they do, making it so they in effect partially pay for the transaction fees.
+- You could develop and maintain your own paymaster contract which allows the user to stake their tokens and make the sponsorship happen partially using the users' tokens.
+
+## Does the verifying paymaster require upfront funding?
+
+You can add balance on your [Pimlico dashboard](https://dashboard.pimlico.io) which will be used to sponsor gas fees, however you are also able to add a credit card, which will enable a $1000 overdraft limit which will be charged based on how much you sent at the end of every month.
+
+:::info
+If you would like to add to your balance using crypto, or you would like an overdraft limit higher than $1000, please [contact us](https://t.me/pimlicoHQ).
+:::
+
+## Would I get alerted if my balance is running out?
+
+If you run out of balance or you reach your overdraft limit, the sponsor RPC methods will start erroring.
+
+There is currently no alerting for your balance running low, but if this is a feature you would like please [contact us](https://t.me/pimlicoHQ).
+
+If you would like to restrict how much you spend, consider taking a look at our [sponsorship policies](/guides/how-to/sponsorship-policies) that could allow you, for instance, to set a global spend limit of $100,000 no matter what.

@@ -1,0 +1,35 @@
+# AA23 reverted (or OOG)
+
+:::info
+OOG = Out Of Gas
+:::
+
+The `validateUserOp` function of the smart account either reverted or ran out of gas.
+
+## Possible solutions
+
+- Verify that the `verificationGasLimit` is high enough to cover the `validateUserOp` function's gas costs.
+- Verify that the `validateUserOp` function is implemented with the correct logic, and that the user operation is supposed to be valid.
+- If you are *not* using a paymaster, verify that the `sender` address has enough native tokens to cover the required prefund. Consider leveraging functions like [`getRequiredPrefund`](/references/permissionless/reference/utils/getRequiredPrefund).
+```ts
+const requiredPrefund = getRequiredPrefund({
+    userOperation
+})
+
+const senderBalance = await publicClient.getBalance({
+    address: userOperation.sender
+})
+
+if (senderBalance < requiredPrefund) {
+    throw new Error(`Sender address does not have enough native tokens`)
+}
+```
+- If you *are* looking to use a paymaster to cover the gas fees, verify that the `paymasterAndData` field is set.
+```ts
+const userOperationHash = await bundlerClient.sendUserOperation({
+    paymasterAndData: "0x3b912be0270b59143985cc5c6aab452d99e2b4bb0000000000000000000000000000000000000000000000000000000064c0957400000000000000000000000000000000000000000000000000000000000000007d99385d8ef0af67affbf9944df8c121e9d1f6aef8dd82a4aeb5db310c42d3dc5b51c9e0835d94c3b22564d3d94f0e1d14e37571e46651da8de567d128a361a01b", // [!code ++]
+    ..., // the rest of the user operation
+})
+```
+- Make sure the signature verification logic of the smart account is implemented correctly. Namely, correct implementations should **not** revert when the signature is invalid. If you are not looking to use neither time-based signatures nor a signature aggregator, you should simply return `uint(1)` for invalid signatures in the `validateUserOp` function.
+- If all else fails, investigate why the `validateUserOp` function reverted using tools like [Tenderly](https://tenderly.co/).

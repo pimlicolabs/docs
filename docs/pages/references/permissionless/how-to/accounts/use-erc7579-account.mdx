@@ -1,0 +1,72 @@
+# How to use an ERC-7579 compatible smart account with permissionless.js
+
+[ERC-7579](https://eips.ethereum.org/EIPS/eip-7579) defines a standard for modular smart account interfaces. It also defines behavior for interoperability with minimal restrictions for accounts and modules.
+
+Currently Safe and Kernel are the only smart accounts that implements ERC-7579.
+
+For this guide, we will use the Safe smart accounts as an example. If you would like to find out more about the Safe smart account, you can check out the [Safe-specific guide](/references/permissionless/how-to/accounts/use-safe-account).
+
+This guide will show you how to create and use a ERC-7579 compatible smart account with permissionless.js.
+
+## Steps
+
+::::steps
+
+### Import the required packages
+
+```ts
+// [!include ~/snippets/erc7579/erc7579.ts:imports]
+```
+
+### Create the clients
+
+First we must create the public, (optionally) pimlico paymaster clients that will be used to interact with the SafeAccount.
+
+```ts
+// [!include ~/snippets/erc7579/erc7579.ts:clients]
+```
+
+### Create the SafeAccount
+
+:::info
+For a full list of options for creating a SafeAccount, take a look at the reference documentation page for [`toSafeSmartAccount`](/references/permissionless/reference/accounts/toSafeSmartAccount).
+:::
+
+You can also pass an `address` to use an already created SafeAccount.
+
+```ts
+// [!include ~/snippets/erc7579/erc7579.ts:smartAccount]
+```
+
+:::warning
+The Safe account requires a new `safe4337ModuleAddress` & `erc7579LaunchpadAddress` for it to be 7579 compatible.
+:::
+:::warning
+The address `0x000000333034E9f539ce08819E12c1b8Cb29084d` belongs to Rhinestone. By designating them as attesters, you authorize that only modules explicitly approved by Rhinestone can be installed on your safe.
+:::
+
+### Create the smart account client and extend it with the ERC7579 actions
+
+The smart account client is a permissionless.js client that is meant to serve as an almost drop-in replacement for viem's [walletClient](https://viem.sh/docs/clients/wallet.html).
+
+```ts
+// [!include ~/snippets/erc7579/erc7579.ts:smartAccountClient]
+```
+
+### Interact with the 7579 actions
+
+You can install a module on the Safe account using the `installModule` action.
+
+```ts
+// [!include ~/snippets/erc7579/erc7579.ts:installModule]
+```
+
+:::warning
+InstallModule returns user operation hash, not transaction hash, you must use `waitForUserOperationReceipt` to wait for the user operation to be included on-chain.
+:::
+
+You can also call all other ERC7579 actions, example `supportsExecutionMode`.
+
+```ts
+// [!include ~/snippets/erc7579/erc7579.ts:supportsExecutionMode]
+```

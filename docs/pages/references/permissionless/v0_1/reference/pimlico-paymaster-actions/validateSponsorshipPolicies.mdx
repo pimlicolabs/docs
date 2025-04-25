@@ -1,0 +1,115 @@
+import VersionWarning from "../../../VersionWarning"
+
+<VersionWarning version="0.1" />
+
+# validateSponsorshipPolicies
+
+Validates a User Operation against an array of [sponsorship policies](https://dashboard.pimlico.io/sponsorship-policies), and returns an array of sponsorship policies (alongside additional data for each policy) that are willing to sponsor the user operation.
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+import { pimlicoPaymasterClient } from "./client"
+
+const sponsorResult = await pimlicoPaymasterClient.validateSponsorshipPolicies({
+    userOperation: {
+        sender: "0x0C123D90Da0a640fFE54a2359D159629065775C5",
+        nonce: 3n,
+        initCode: "0x",
+        callData: "0x18dfb3c7000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000002000000000000000000000000d2f598c826429eee7c071c02735549acd88f2c09000000000000000000000000d2f598c826429eee7c071c02735549acd88f2c090000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000044a9059cbb00000000000000000000000043a4eacb7839f202d9cab465dbdd77d4fabe0a1800000000000000000000000000000000000000000000000003782dace9d90000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000044a9059cbb000000000000000000000000982e148216e3aa6b38f9d901ef578b5c06dd750200000000000000000000000000000000000000000000000005d423c655aa000000000000000000000000000000000000000000000000000000000000",
+        maxFeePerGas: 113000000n,
+        maxPriorityFeePerGas: 113000100n,
+        signature: "0xf1513a8537a079a4d728bb87099b2c901e2c9034e60c95a4d41ac1ed75d6ee90270d52b48af30aa036e9a205ea008e1c62b317e7b3f88b3f302d45fb1ba76a191b"
+    },
+    sponsorshipPolicyIds: ["sp_crazy_kangaroo", "sp_malevolent_badger"]
+})
+/**
+ * [
+ *   {
+ *     "sponsorshipPolicyId": "sp_crazy_kangaroo",
+ *     "data": {
+ *       "name": "Linea Christmas Week",
+ *       "author": "Linea",
+ *       "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==",
+ *       "description": "Linea is sponsoring the first 10 transactions for existing users between Christmas and New Year's Eve.",
+ *     }
+ *   }
+ * ]
+ */
+```
+
+```ts [client.ts]
+import { createClient, http } from 'viem'
+import { mainnet } from 'viem/chains'
+import { ENTRYPOINT_ADDRESS_V07 } from 'permissionless'
+import { pimlicoPaymasterActions } from 'permissionless/actions/pimlico'
+
+export const pimlicoPaymasterClient = createClient({ 
+  chain: mainnet,
+  transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_API_KEY_HERE")
+}).extend(pimlicoPaymasterActions(ENTRYPOINT_ADDRESS_V07))
+```
+
+::::
+
+## Returns
+
+- **Type:** `ValidateSponsorshipPoliciesReturnType`
+
+An array of sponsorship policy IDs and (optionally) extra data to be used by front-ends for sponsorship policies that are willing to sponsor the user operation.
+
+```json
+{
+    sponsorshipPolicyId: string
+    data: {
+        name: string | null
+        author: string | null
+        icon: string | null
+        description: string | null
+    }
+}[]
+```
+
+### name (optional)
+
+- **Type:** `string | null`
+
+The name of the sponsorship policy.
+
+### author (optional)
+
+- **Type:** `string | null`
+
+The author of the sponsorship policy.
+
+### icon (optional)
+
+- **Type:** `string | null`
+
+The icon of the sponsorship policy. The icon must be a data URI as defined in RFC-2397.
+
+### description (optional)
+
+- **Type:** `string | null`
+
+The description of the sponsorship policy.
+
+## Parameters
+
+### userOperation
+
+- **Type:** `UserOperation`
+
+The User Operation object.
+
+### sponsorshipPolicyIds
+
+- **Type:** `string[]`
+
+An array of sponsorship policy IDs to validate against.
+
+## JSON-RPC Method
+
+[`pm_validateSponsorshipPolicies`](/references/paymaster/verifying-paymaster/endpoints)

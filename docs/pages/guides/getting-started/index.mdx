@@ -1,0 +1,123 @@
+---
+title: Getting Started with Pimlico
+---
+
+# Getting Started with Pimlico
+
+Welcome to Pimlico, the world's most advanced ERC-4337 account abstraction infrastructure platform. This guide will help you understand Pimlico's ecosystem and get you started with building applications using our tools and services.
+
+## What is Pimlico?
+
+Pimlico provides a suite of tools and services to help you build, deploy, and manage smart accounts on Ethereum and other EVM-compatible chains. Our infrastructure powers the next generation of web3 applications by making account abstraction accessible and easy to implement.
+
+## Core Products
+
+Pimlico offers several key products that work together to provide a complete account abstraction solution:
+
+### permissionless.js
+
+A TypeScript library built on viem for interacting with ERC-4337 bundlers, paymasters, and user operations. It provides:
+
+- High-level smart account support for popular implementations (Safe, Kernel, Biconomy, TrustWallet, etc.)
+- Bundler support for all ERC-4337 actions
+- Gas sponsorship capabilities
+- User Operation utility functions
+- Modular and extensible architecture
+
+[Learn more about permissionless.js →](/references/permissionless)
+
+### Bundler
+
+Our Alto Bundler is a performant, type-safe ERC-4337 bundler written in TypeScript that powers smart accounts by relaying user operations for fast and reliable on-chain inclusion. Key features include:
+
+- Full type safety
+- Transaction inclusion reliability
+- Fast transaction inclusion speed
+- Support for 100+ EVM chains
+
+[Learn more about our Bundler →](/references/bundler)
+
+### Paymasters
+
+Pimlico offers two types of paymasters to abstract away gas fees for your users:
+
+1. **Verifying Paymaster**: Load up your off-chain Pimlico balance through our dashboard and sponsor on-chain gas fees for your users across 100+ chains.
+
+2. **ERC-20 Paymaster**: A permissionless on-chain smart contract that lets your users pay for their own gas fees using ERC-20 tokens.
+
+[Learn more about our Paymasters →](/references/paymaster)
+
+### Batua
+
+A fully customizable smart account UI component built with shadcn/ui and secured with passkeys. Batua makes it easy to add account abstraction to your application with a beautiful, ready-to-use interface.
+
+[Learn more about Batua →](https://batua.sh/)
+
+## Quick Start
+
+The fastest way to get started with Pimlico is to follow our step-by-step tutorials:
+
+### Tutorial 1: Send Your First Gasless Transaction
+
+In this tutorial, you'll learn how to:
+- Set up the necessary permissionless.js clients
+- Create a user operation
+- Use Pimlico's verifying paymaster to sponsor gas fees
+- Submit the operation on-chain with Pimlico's bundler
+
+[Start Tutorial 1 →](/references/permissionless/tutorial/tutorial-1)
+
+### Tutorial 2: Pay for Gas with ERC-20 Tokens
+
+Learn how to use Pimlico's ERC-20 paymaster to allow users to pay for their transactions with tokens instead of ETH.
+
+[Start Tutorial 2 →](/references/permissionless/tutorial/tutorial-2)
+
+## Getting a Pimlico API Key
+
+To use Pimlico's services, you'll need an API key. Visit our [dashboard](https://dashboard.pimlico.io) to create an account and generate your API key.
+
+## Understanding Account Abstraction
+
+If you're new to account abstraction, we recommend starting with our conceptual guides:
+
+- [About Account Abstraction](/guides/conceptual/account-abstraction)
+- [ERC-4337 Explained](/guides/conceptual/erc4337)
+- [EIP-7702 Explained](/guides/conceptual/eip7702)
+- [ERC-7579 Explained](/guides/conceptual/erc7579)
+
+## Choosing a Smart Account
+
+Pimlico supports various smart account implementations. Check out our comparison guide to choose the right one for your needs:
+
+- [Smart Account Comparison](/guides/how-to/accounts/comparison)
+
+Or jump directly to implementation guides for specific accounts:
+
+- [Safe Account](/guides/how-to/accounts/use-safe-account)
+- [Kernel Account](/guides/how-to/accounts/use-kernel-account)
+- [Biconomy Account](/guides/how-to/accounts/use-biconomy-account)
+- [Simple Account](/guides/how-to/accounts/use-simple-account)
+- And more...
+
+## Advanced Topics
+
+Once you're familiar with the basics, explore these advanced topics:
+
+- [Dapp Gas Sponsorship](/guides/how-to/dapp-gas-sponsorship)
+- [Parallel Transactions](/guides/how-to/parallel-transactions)
+- [Conditional Sponsoring](/guides/how-to/paymasters/conditional-sponsoring)
+- [Using Custom Paymasters](/guides/how-to/paymasters/use-custom-paymaster)
+
+## Community and Support
+
+Join our community to get help, share your projects, and stay updated:
+
+- Follow [@pimlicoHQ](https://twitter.com/pimlicoHQ) on Twitter for project updates
+- Join the [discussions on 4337 Mafia](https://t.me/+emlONDb-lXI4ZTFh)
+- Star [permissionless.js](https://github.com/pimlicolabs/permissionless.js) and our [Alto Bundler](https://github.com/pimlicolabs/alto) on GitHub
+- Browse the [awesome-account-abstraction](https://github.com/4337Mafia/awesome-account-abstraction) list of resources
+
+## Next Steps
+
+Ready to dive deeper? Check out our How-To Guides for step-by-step instructions on implementing specific features, or explore our API References for detailed technical documentation.

@@ -1,0 +1,229 @@
+# Verifying Paymaster Endpoints
+
+All calls are in JSON-RPC format and have to be made to the following URL: `https://api.pimlico.io/v2/{chain}/rpc?apikey=[YOUR_API_KEY_HERE]`
+
+Where `{chain}` is the chain variable (such as `sepolia` or `polygon`) as found in the [supported chains page](/references/platform/supported-chains)
+
+## pm_sponsorUserOperation (v2)
+
+`pm_sponsorUserOperation` is the main endpoint for verifying paymasters. It takes in a User Operation, simulates it and estimates the gas limits, and then signs the User Operation with the verifying paymaster's key, sponsoring it when it is submitted on-chain. If successful, we deduct from your off-chain Pimlico balance.
+
+You can optionally pass in a third parameter, `sponsorshipPolicyId`, which is a string that you can use to identify the sponsorship policy you want to use. To learn more about sponsorship policies, see [Sponsorship Policies](/guides/how-to/sponsorship-policies).
+
+To use this endpoint, you must have an API key with Pimlico. Use our [Quick Start](https://dashboard.pimlico.io/apikeys) guide to generate one.
+
+User Operations sponsored using pm_sponsorUserOperation have a 10 minute time window during which they must be included. After this time window elapses, all unused gas will be refunded to your Pimlico balance.
+
+This time limit is necessary in order to avoid DoS attacks, as leaving an infinite time window would allow potential attackers to accumulate User Operations and drain Pimlico's paymaster all in one go, requiring us to maintain enough balance to cover all possible User Operations we ever signed up to sponsor in the entire history of the paymaster.
+
+If you require a longer time window for your User Operations, please get in touch!
+
+## EntryPoint v0.7
+
+:::warning[Warning]
+
+The EntryPoint v0.7 API expects an `UnpackedUserOperation` instead of a `PackedUserOperation`.
+According to the spec it is bundler's responsibility to pack the userOp before sending it to the EntryPoint.
+So make sure to send an `UnpackedUserOperation` to the bundler.
+
+:::
+
+:::tip[Tip]
+
+For entryPoint v0.7, we will revert if the execution of the `callData` in the user operation fails.
+However, this is not the case for entryPoint v0.6.
+
+:::
+
+### Request:
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "pm_sponsorUserOperation",
+    "params": [
+        {
+            "sender": "0x5a6b47F4131bf1feAFA56A05573314BcF44C9149",
+            "nonce": "0x845adb2c711129d4f3966735ed98a9f09fc4ce5700000000000000000000",
+            "factory": "0xd703aaE79538628d27099B8c4f621bE4CCd142d5",
+            "factoryData": "0xc5265d5d000000000000000000000000aac5d4240af87249b3f71bc8e4a2cae074a3e4190000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001243c3b752b01845ADb2C711129d4f3966735eD98a9F09fC4cE570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000000e000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000014375d883Cb4afb913aC35c4B394468C4bC73d77C40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "callData": "0xe9ae5c5300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000003400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "callGasLimit": "0x0",
+            "verificationGasLimit": "0x0",
+            "preVerificationGas": "0x0",
+            "maxFeePerGas": "0x7a5cf70d5",
+            "maxPriorityFeePerGas": "0x3b9aca00",
+            "paymaster": null,
+            "paymasterVerificationGasLimit": null,
+            "paymasterPostOpGasLimit": null,
+            "paymasterData": null,
+            "signature": "0xfffffffffffffffffffffffffffffff0000000000000000000000000000000007aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1c",
+        },
+        "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+        { "sponsorshipPolicyId": "sp_example_policy_id" } // optional
+    ],
+    "id": 1
+}
+```
+
+### Response:
+
+```json
+{
+    "jsonrpc": "2.0",
+    "result": {
+        "preVerificationGas": "0xd3e3",
+        "verificationGasLimit": "0x60b01",
+        "callGasLimit": "0x13880",
+        "paymasterPostOpGasLimit": "0x0"
+        "paymasterVerificationGasLimit": "0x0",
+        "paymaster": "0xDFF7FA1077Bce740a6a212b3995990682c0Ba66d"
+        "paymasterData": "0xbcd12340a2109876543210987654301098765432198765432a210987654321098765430a210987654321098765430",
+    },
+    "id": 1
+}
+```
+
+## EntryPoint v0.6
+
+### Request:
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "pm_sponsorUserOperation",
+    "params": [
+        {
+            "sender":"0xb341FEAFaF71b09089d03B7D114599f8F491EE45",
+            "nonce":"0x0",
+            "initCode":"0x5de4839a76cf55d0c90e2061ef4386d962E15ae3296601cd0000000000000000000000000da6a956b9488ed4dd761e59f52fdc6c8068e6b5000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000084d1f57894000000000000000000000000d9ab5096a832b9ce79914329daee236f8eea039000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000014375cd3E53E18f65672E9d0Eb6AD174511b0BF98100000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "callData":"0x5194544700000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "callGasLimit":"0x0",
+            "verificationGasLimit":"0x0",
+            "preVerificationGas":"0x0",
+            "maxPriorityFeePerGas":"0x3b9aca00",
+            "maxFeePerGas":"0x7a5cf70d5",
+            "paymasterAndData":"0x",
+            "signature":"0x00000000fffffffffffffffffffffffffffffff0000000000000000000000000000000007aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1c"
+        },
+        "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+        { "sponsorshipPolicyId": "sp_example_policy_id" } // optional
+    ],
+    "id": 1
+}
+```
+
+```typescript
+import { JsonRpcProvider } from "@ethersproject/providers";
+
+const chain = "sepolia"
+const apiKey = "YOUR_API_KEY_HERE"
+const entryPoint = "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
+
+const userOperation = ... // generate your User Operation here
+
+const provider = new JsonRpcProvider(`https://api.pimlico.io/v2/${chain}/rpc?apikey=${apiKey}`)
+
+const result = await provider.send("pm_sponsorUserOperation", [userOperation, {entryPoint: entryPoint}])
+
+```
+
+### Response:
+
+```json
+{
+    "jsonrpc": "2.0",
+    "result": {
+      "paymasterAndData": "0xbcd12340a2109876543210987654301098765432198765432a210987654321098765430a210987654321098765430",
+      "preVerificationGas": "0xdf55",
+      "verificationGas": "0x52503",
+      "verificationGasLimit": "0x52503",
+      "callGasLimit": "0x13880"
+    },
+    "id": 1
+}
+```
+
+## pm_validateSponsorshipPolicies
+
+This method validates a User Operation against an array of [sponsorship policies](https://dashboard.pimlico.io/sponsorship-policies),
+and returns an array of sponsorship policies (alongside additional data for each policy) that are willing to sponsor the user operation.
+This method is available for both EntryPoint v0.6 and v0.7.
+
+
+Request:
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "pm_validateSponsorshipPolicies",
+    "params": [
+        {
+            "sender": "0x1234567890123456789012345678901234567890",
+            "nonce": "0x1",
+            "initCode": "0x",
+            "callData": "0x",
+            "callGasLimit": "0x100000",
+            "verificationGasLimit": "0x20000",
+            "preVerificationGas": "0x10000",
+            "maxFeePerGas": "0x3b9aca00",
+            "maxPriorityFeePerGas": "0x3b9aca00",
+            "paymasterAndData": "0x",
+            "signature": "0x"
+        },
+        "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+        ["sp_crazy_kangaroo", "sp_talented_turtle"]
+    ],
+    "id": 1
+}
+```
+
+Response:
+
+```json
+{
+    "jsonrpc": "2.0",
+    "result": [
+        {
+            "sponsorshipPolicyId": "sp_crazy_kangaroo",
+            "data": {
+                "name": "Linea Christmas Week", // optional
+                "author": "Linea", // optional
+                "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==", // optional
+                "description": "Linea is sponsoring the first 10 transactions for existing users between Christmas and New Year's Eve.", // optional
+            }
+        }
+    ],
+    "id": 1
+}
+```
+
+## pm_supportedEntryPoints
+
+This function returns the list of EntryPoint contracts that are supported on that chain.
+
+Want to use an entryPoint that is not currently supported? Please contact us we can see if we can support it.
+
+Request:
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "pm_supportedEntryPoints",
+    "params": [],
+    "id": 1
+}
+```
+
+Response:
+
+```json
+{
+    "jsonrpc": "2.0",
+    "result": [
+        "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+        "0x0000000071727De22E5E9d8BAf0edAc6f37da032"
+    ],
+    "id": 1
+}
+```
