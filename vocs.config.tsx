@@ -17,6 +17,10 @@ export default defineConfig({
 	head: () => (
 		<>
 			<script src="/posthog.js" />
+			<link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg" />
+			<link rel="icon" type="image/png" href="/favicons/favicon.png" />
+			<link rel="shortcut icon" href="/favicons/favicon.ico" />
+			<link rel="apple-touch-icon" href="/favicons/favicon.png" />
 		</>
 	),
 	banner: {
