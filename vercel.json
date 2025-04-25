@@ -213,7 +213,7 @@
 		},
 		{
 			"source": "/infra/platform/supported-chains",
-			"destination": "/references/platform/supported-chains",
+			"destination": "/guides/supported-chains",
 			"permanent": true
 		},
 		{
