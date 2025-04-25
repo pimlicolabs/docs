@@ -1,6 +1,6 @@
 import { defineConfig } from "vocs";
 import viteConfig from "./utils";
-import { conceptualSidebar, eip7702Sidebar, gettingStartedSidebar, howToSidebar, tutorialSidebar } from "./sidebars/guides";
+import { guidesSidebar } from "./sidebars/guides";
 import { platformSidebar, bundlerSidebar, paymasterSidebar, flashFundSidebar, permissionlessSidebar, permissionlessWagmiSidebar, permissionlessSidebar0Point1 } from "./sidebars/references";
 
 export default defineConfig({
@@ -36,32 +36,7 @@ export default defineConfig({
 	},
 	vite: viteConfig,
 	sidebar: {
-		"/guides": [
-			{
-				text: "Getting started",
-				link: "/guides/getting-started",
-				items: gettingStartedSidebar,
-			},
-			{
-				text: "EIP-7702",
-				link: "/guides/eip7702",
-				items: eip7702Sidebar,
-			},
-			{
-				text: "Tutorials",
-				link: "/guides/tutorials",
-				items: tutorialSidebar,
-			},
-			{
-				text: "How-to Guides",
-				items: howToSidebar,
-			},
-			{
-				text: "Conceptual",
-				link: "/guides/conceptual",
-				items: conceptualSidebar,
-			},
-		],
+		"/guides": guidesSidebar,
 		"/references": [
 			{
 				text: "Platform",
