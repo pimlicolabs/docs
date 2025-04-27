@@ -218,10 +218,10 @@ export const securitySidebar = [
 ];
 
 export const erc20PaymasterSidebar = [
-	{
-		text: "Send from a EOA using EIP-7702",
-		link: "/guides/how-to/eip-7702-demo",
-	},
+    {
+        text: "Supported Tokens",
+        link: "/guides/how-to/erc20-paymaster/supported-tokens",
+    },
 	{
 		text: "Use the ERC-20 Paymaster",
 		link: "/guides/how-to/erc20-paymaster/how-to/use-paymaster",
