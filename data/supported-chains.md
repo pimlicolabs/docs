@@ -14,8 +14,6 @@
 | Mantle | 5000 | mantle |
 | Aleph Zero  | 41455 | alephzero |
 | Ancient8 | 888888888 | ancient8 |
-| ApeChain | 33139 | apechain |
-| Appchain | 466 | appchain |
 | B3 | 8333 | b3 |
 | Berachain | 80094 | berachain |
 | Blast | 81457 | blast |
@@ -30,7 +28,6 @@
 | Flare Mainnet | 14 | flare |
 | Flow Mainnet | 747 | flow |
 | Fuse | 122 | fuse |
-| Game7 Mainnet | 2187 | game7 |
 | Geist Mainnet | 63157 | geist-mainnet |
 | Geo | 80451 | geo |
 | Gnosis | 100 | gnosis |
@@ -49,7 +46,6 @@
 | Ouroboro | 1000080 | ouroboro |
 | Redstone | 690 | redstone |
 | Rivalz | 753 | rivalz |
-| Ronin Mainnet | 2020 | ronin |
 | Rootstock | 30 | rootstock |
 | Sanko Mainnet | 1996 | sanko-mainnet |
 | Scroll | 534352 | scroll |
@@ -58,13 +54,11 @@
 | Sonic Mainnet | 146 | sonic |
 | Story Mainnet | 1514 | story-mainnet |
 | Superposition | 55244 | superposition |
-| Superseed | 5330 | superseed |
 | Taiko Mainnet | 167000 | taiko-mainnet |
 | Taraxa | 841 | taraxa |
 | Unichain | 130 | unichain |
 | Vanar | 2040 | vanar |
 | World Chain | 480 | worldchain |
-| Xai | 660279 | xai |
 | XPLA | 37 | xpla |
 | Zetachain | 7000 | zetachain |
 
@@ -82,7 +76,6 @@
 | 0G Newton Testnet | 16600 | newton-testnet |
 | Aleph Zero Testnet | 2039 | alephzero-testnet |
 | Ancient8 Testnet | 28122024 | ancient8-testnet |
-| Appchain Testnet | 4661 | appchain-testnet |
 | Arena-Z Testnet | 9897 | arena-z-testnet |
 | Avalanche Fuji | 43113 | avalanche-fuji |
 | B3 Sepolia | 1993 | b3-sepolia |
@@ -129,7 +122,6 @@
 | Poseidon Testnet | 31911 | poseidon-testnet |
 | Pyrope Testnet | 695569 | pyrope-testnet |
 | Rivalz2 | 6966 | rivalz2 |
-| Ronin Saigon Testnet | 2021 | ronin-saigon-testnet |
 | Sanko Testnet | 1992 | sanko-testnet |
 | Scroll Sepolia Testnet | 534351 | scroll-sepolia-testnet |
 | Sei Testnet | 1328 | sei-testnet |
@@ -143,12 +135,10 @@
 | Sonic Blaze Testnet | 57054 | sonic-blaze-testnet |
 | Story Aeneid Testnet | 1315 | story-aeneid-testnet |
 | Superposition Testnet | 98985 | superposition-testnet |
-| Taiko Hekla L2 | 167009 | taiko-hekla-l2 |
 | Taraxa | 842 | taraxa-testnet |
 | Unichain Sepolia | 1301 | unichain-testnet |
 | Vanguard Testnet | 78600 | vanguard-testnet |
 | Wilderworld Zephyr Testnet | 1417429182 | wilderworld-zephyr-testnet |
 | World Chain Sepolia | 4801 | worldchain-sepolia |
-| Xai Sepolia | 37714555429 | xai-sepolia |
 | XPLA Testnet | 47 | xpla-testnet |
 | Zetachain Testnet | 7001 | zetachain-testnet |
