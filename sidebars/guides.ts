@@ -39,6 +39,10 @@ export const eip7702Sidebar = [
 		text: "How to send a user operation from an EOA using EIP-7702",
 		link: "/guides/eip7702/demo",
 	},
+	{
+		text: "FAQs",
+		link: "/guides/eip7702/faqs",
+	},
 ];
 
 export const tutorialSidebar = [
@@ -218,10 +222,10 @@ export const securitySidebar = [
 ];
 
 export const erc20PaymasterSidebar = [
-    {
-        text: "Supported Tokens",
-        link: "/guides/how-to/erc20-paymaster/supported-tokens",
-    },
+	{
+		text: "Supported Tokens",
+		link: "/guides/how-to/erc20-paymaster/supported-tokens",
+	},
 	{
 		text: "Use the ERC-20 Paymaster",
 		link: "/guides/how-to/erc20-paymaster/how-to/use-paymaster",

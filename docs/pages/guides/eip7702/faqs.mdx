@@ -1,0 +1,21 @@
+# FAQ
+
+## What is EIP-7702? 
+
+EIP-7702 is a proposal that allows EOAs to become smart accounts. It is going live in the Pectra hard fork on Ethereum Mainnet on May 7, but it is already live on some other chains like BSC Mainnet and Odyssey Testnet.
+
+## How does EIP-7702 differ from ERC-4337? 
+
+In short, EIP-7702 allows for a way for EOAs to become smart accounts, while ERC-4337 creates a standard for smart accounts to plug into a standardized set of relayers and gas sponsorship modules (paymasters). Refer to the [ERC-4337 vs EIP-7702 guide](/guides/eip7702/erc4337-vs-eip7702) for more details.
+
+## Is EIP-7702 compatible with ERC-4337?
+
+Yes, EIP-7702 is compatible with ERC-4337. They cover different responsibilities. ERC-4337 is a standard for smart accounts to plug into a standardized set of relayers and gas sponsorship modules (paymasters), while EIP-7702 allows EOAs to become smart accounts. Refer to the [ERC-4337 vs EIP-7702 guide](/guides/eip7702/erc4337-vs-eip7702) for more details.
+
+## Does Pimlico support EIP-7702?
+
+Yes, Pimlico supports EIP-7702 by allowing an `eip7702Auth` object to be included in `eth_sendUserOperation` and `eth_estimateUserOperationGas` requests. You can read more about how to use it on the relevant reference pages for [eth_sendUserOperation](/references/bundler/endpoints/eth_sendUserOperation) and [eth_estimateUserOperationGas](/references/bundler/endpoints/eth_estimateUserOperationGas).
+
+## How does an EOA transition to smart account under EIP-7702? 
+
+By submitting a set code transaction (transaction type 4) that includes an `authorization_list`.
