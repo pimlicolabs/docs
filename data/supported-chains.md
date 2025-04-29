@@ -28,7 +28,6 @@
 | Flare Mainnet | 14 | flare |
 | Flow Mainnet | 747 | flow |
 | Fuse | 122 | fuse |
-| Geist Mainnet | 63157 | geist-mainnet |
 | Geo | 80451 | geo |
 | Gnosis | 100 | gnosis |
 | Hedera | 295 | hedera |
@@ -80,7 +79,6 @@
 | Avalanche Fuji | 43113 | avalanche-fuji |
 | B3 Sepolia | 1993 | b3-sepolia |
 | Basecamp Testnet | 123420001114 | basecamp-testnet |
-| Beam Testnet | 13337 | beam-testnet |
 | Berachain Bepolia | 80069 | berachain-bepolia |
 | Blast Sepolia | 168587773 | blast-sepolia |
 | BOB Sepolia | 808813 | bob-sepolia |
@@ -92,10 +90,8 @@
 | Cyber Testnet | 111557560 | cyber-testnet |
 | DFK Subnet Testnet | 335 | dfk-chain-test |
 | DOS testnet | 3939 | dos-testnet |
-| Eclipse Testnet | 555666 | eclipse-testnet |
 | Etherlink Testnet | 128123 | etherlink-testnet |
 | Flare Coston2 Testnet | 114 | flare-coston2-testnet |
-| Flow Testnet | 545 | flow-testnet |
 | Form Testnet | 132902 | form-testnet |
 | Funki Testnet | 3397901 | funki-testnet |
 | Fuse Sparknet | 123 | fuse-sparknet |
@@ -115,10 +111,8 @@
 | Mode Sepolia | 919 | mode-sepolia |
 | Monad Testnet | 10143 | monad-testnet |
 | Odyssey Testnet | 911867 | odyssey-testnet |
-| Onetest Network | 10800 | onetest-network |
 | Pivotal Testnet | 9116 | pivotal-testnet |
 | Plume Testnet | 98867 | plume-testnet |
-| Polter Testnet | 631571 | polter-testnet |
 | Poseidon Testnet | 31911 | poseidon-testnet |
 | Pyrope Testnet | 695569 | pyrope-testnet |
 | Rivalz2 | 6966 | rivalz2 |
@@ -130,7 +124,6 @@
 | SKALE Europa Testnet | 1444673419 | europa-testnet |
 | SKALE Nebula Testnet | 37084624 | nebula-testnet |
 | SKALE Titan Testnet | 1020352220 | titan-testnet |
-| Somnia Shannon Testnet | 50312 | somnia-shannon-testnet |
 | Soneium Minato | 1946 | soneium-minato |
 | Sonic Blaze Testnet | 57054 | sonic-blaze-testnet |
 | Story Aeneid Testnet | 1315 | story-aeneid-testnet |
@@ -138,7 +131,6 @@
 | Taraxa | 842 | taraxa-testnet |
 | Unichain Sepolia | 1301 | unichain-testnet |
 | Vanguard Testnet | 78600 | vanguard-testnet |
-| Wilderworld Zephyr Testnet | 1417429182 | wilderworld-zephyr-testnet |
 | World Chain Sepolia | 4801 | worldchain-sepolia |
 | XPLA Testnet | 47 | xpla-testnet |
 | Zetachain Testnet | 7001 | zetachain-testnet |
