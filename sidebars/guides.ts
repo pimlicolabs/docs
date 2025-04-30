@@ -36,7 +36,7 @@ export const eip7702Sidebar = [
 		link: "/guides/eip7702/erc4337-vs-eip7702",
 	},
 	{
-		text: "How to send a user operation from an EOA using EIP-7702",
+		text: "Send a user operation from EOA",
 		link: "/guides/eip7702/demo",
 	},
 	{
