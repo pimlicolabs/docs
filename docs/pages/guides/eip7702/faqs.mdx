@@ -19,3 +19,9 @@ Yes, Pimlico supports EIP-7702 by allowing an `eip7702Auth` object to be include
 ## How does an EOA transition to smart account under EIP-7702? 
 
 By submitting a set code transaction (transaction type 4) that includes an `authorization_list`.
+
+## How does EntrPoint v0.8 prevent frontrunning for EIP-7702 user operations?
+
+The smart account factory is able to make the check `require(msg.sender == entryPoint.senderCreator());` to ensure only the EntryPoint's senderCreator is calling it. 
+
+In addition, the userOpHash now also depends on the delegate address so users also sign over the `7702Auth` object ([source](https://github.com/eth-infinitism/account-abstraction/blob/cc3893bcaf2272c163ce89d5eb9eadb8e6b52db7/contracts/core/EntryPoint.sol#L143))
