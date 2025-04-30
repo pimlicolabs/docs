@@ -100,6 +100,10 @@ export const accountsSidebar = [
 		link: "/guides/how-to/accounts/use-kernel-account",
 	},
 	{
+		text: "Metamask delegation toolkit",
+		link: "/guides/how-to/accounts/use-metamask-account",
+	},
+	{
 		text: "Coinbase Wallet",
 		link: "/guides/how-to/accounts/use-coinbase-account",
 	},
