@@ -1,0 +1,115 @@
+# Batch / sponsor transactions for an external wallets
+
+This guide showcases a simple demo that sends a batch of transactions that are sponsored to an external EIP-7702 enabled wallet.
+
+For a high level overview of EIP-7702, checkout our [EIP-7702 conceptual guide](/guides/eip7702) and for a more technical overview, please refer to the [EIP-7702 proposal](https://eips.ethereum.org/EIPS/eip-7702).
+
+## Steps
+
+::::steps
+
+### Check if external wallet can batch transactions
+
+```tsx
+import { useCapabilities, useChainId } from 'wagmi'
+import { useMemo } from 'react'
+
+export function useExternalWalletSupportedCapabilities() {
+    const chainId = useChainId()
+    const { data: capabilities } = useCapabilities()
+
+    const supportsBatchingTransaction = useMemo(() => {
+        return (
+            capabilities?.[chainId]?.atomic?.status === "ready" ||
+            capabilities?.[chainId]?.atomic?.status === "supported"
+        )
+    }, [capabilities, chainId])
+
+    const supportsPaymaster = useMemo(() => {
+        return capabilities?.[chainId]?.paymasterService?.supported === true
+    }, [capabilities, chainId])
+
+    return { supportsBatchingTransaction, supportsPaymaster }
+}
+```
+
+### Send a batch of sponsored transactions
+
+```tsx
+import { useSendCalls } from "wagmi/experimental"
+import { useAccount, useWaitForCallsStatus } from "wagmi"
+
+export function App() {
+  // Check if the external wallet supports batch transactions
+  const { supportsBatchingTransaction, supportsPaymaster } = useExternalWalletSupportedCapabilities()
+
+  // Get the current external connected account
+  const account = useAccount()
+
+  // we will use wagmi's sendCalls hook to send a batch of sponsored transactions
+  const { sendCalls, data: callStatus } = useSendCalls()
+
+  // we will use wagmi's waitForCallsStatus hook to wait for the batch of sponsored transactions to be mined
+  const { data: callReceipts } = useWaitForCallsStatus({
+    id: callStatus?.id
+  })
+
+  // Check if the batch of sponsored transactions was successful
+  if (callReceipts.status === "success") {
+    const transactionHash = callReceipts.receipts[0].transactionHash
+  }
+
+  // Send a batch of sponsored transactions callback
+  const sendTransaction = useCallback(async () => {
+    // Check if the external wallet is connected
+    if (!account.address) return
+
+    // Check if the external wallet supports batch transactions
+    if (!supportsBatchingTransaction) {
+      throw new Error("Batching transactions is not supported on this chain")
+    }
+
+    sendCalls({
+      // Array of calls to be sent
+      calls: [
+        {
+          to: TEST_ERC20_TOKEN_ADDRESS,
+          data: encodeFunctionData({
+            abi: erc20Abi,
+            functionName: "transfer",
+            args: [randomAddressOne, parseUnits("1", 6)]
+          })
+        },
+        {
+          to: TEST_ERC20_TOKEN_ADDRESS,
+          data: encodeFunctionData({
+            abi: erc20Abi,
+            functionName: "transfer",
+            args: [randomAddressTwo, parseUnits("1", 6)]
+          })
+        }
+      ],
+      // Optional paymaster service
+      capabilities: supportsPaymaster
+        ? {
+            paymasterService: {
+              url: `https://api.pimlico.io/v2/${chainId}/rpc?apikey=${pimlicoApiKey}`
+            }
+          }
+        : undefined
+    })
+  }, [
+    account.address,
+    sendCalls,
+    supportsBatchingTransaction,
+    supportsPaymaster
+  ])
+}
+```
+
+
+### Review
+
+Congratulations! You have successfully sent a batch of sponsored transactions from an external EOA that supports EIP-7702, if you review the transaction on the blockchain explorer, you will see that the transaction's sender address is equal to the external EOA's address.
+
+::::

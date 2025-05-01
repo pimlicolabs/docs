@@ -36,6 +36,10 @@ export const eip7702Sidebar = [
 		link: "/guides/eip7702/erc4337-vs-eip7702",
 	},
 	{
+		text: "Batch / sponsor transactions for an external wallets",
+		link: "/guides/eip7702/external",
+	},
+	{
 		text: "Send a user operation from an EOA",
 		link: "/guides/eip7702/demo",
 	},
