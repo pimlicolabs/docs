@@ -143,10 +143,6 @@ export const paymastersSidebar = [
 		link: "/guides/how-to/dapp-gas-sponsorship",
 	},
 	{
-		text: "Use a custom Paymaster",
-		link: "/guides/how-to/paymasters/use-custom-paymaster",
-	},
-	{
 		text: "Sponsor conditionally",
 		link: "/guides/how-to/paymasters/conditional-sponsoring",
 	},

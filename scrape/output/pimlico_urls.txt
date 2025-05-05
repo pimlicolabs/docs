@@ -111,7 +111,6 @@ https://docs.pimlico.io/permissionless/how-to/eip-7702-demo
 https://docs.pimlico.io/permissionless/how-to/migration-guide
 https://docs.pimlico.io/permissionless/how-to/parallel-transactions
 https://docs.pimlico.io/permissionless/how-to/paymasters/conditional-sponsoring
-https://docs.pimlico.io/permissionless/how-to/paymasters/use-custom-paymaster
 https://docs.pimlico.io/permissionless/how-to/signers
 https://docs.pimlico.io/permissionless/how-to/signers/arcana
 https://docs.pimlico.io/permissionless/how-to/signers/dfns
@@ -176,7 +175,6 @@ https://docs.pimlico.io/permissionless/v0_1/how-to/local-testing
 https://docs.pimlico.io/permissionless/v0_1/how-to/migration-guide
 https://docs.pimlico.io/permissionless/v0_1/how-to/parallel-transactions
 https://docs.pimlico.io/permissionless/v0_1/how-to/paymasters/conditional-sponsoring
-https://docs.pimlico.io/permissionless/v0_1/how-to/paymasters/use-custom-paymaster
 https://docs.pimlico.io/permissionless/v0_1/how-to/signers
 https://docs.pimlico.io/permissionless/v0_1/how-to/signers/arcana
 https://docs.pimlico.io/permissionless/v0_1/how-to/signers/dfns

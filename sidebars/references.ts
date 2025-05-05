@@ -644,19 +644,6 @@ export const permissionlessSidebar0Point1 = [
 				],
 			},
 			{
-				text: "Paymasters",
-				items: [
-					{
-						text: "How to use a custom Paymaster",
-						link: "/references/permissionless/v0_1/how-to/paymasters/use-custom-paymaster",
-					},
-					{
-						text: "How to conditionally sponsor a user operation",
-						link: "/references/permissionless/v0_1/how-to/paymasters/conditional-sponsoring",
-					},
-				],
-			},
-			{
 				text: "Signers",
 				link: "/references/permissionless/v0_1/how-to/signers",
 				items: [
