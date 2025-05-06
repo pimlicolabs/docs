@@ -32,16 +32,16 @@ export const eip7702Sidebar = [
 		link: "/guides/eip7702",
 	},
 	{
+		text: "Quickstart",
+		link: "/guides/eip7702/demo",
+	},
+	{
 		text: "ERC-4337 vs EIP-7702",
 		link: "/guides/eip7702/erc4337-vs-eip7702",
 	},
 	{
 		text: "External wallets",
 		link: "/guides/eip7702/external",
-	},
-	{
-		text: "Send a user operation from an EOA",
-		link: "/guides/eip7702/demo",
 	},
 	{
 		text: "FAQs",

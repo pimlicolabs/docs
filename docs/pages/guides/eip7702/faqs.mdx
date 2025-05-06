@@ -25,3 +25,7 @@ By submitting a set code transaction (transaction type 4) that includes an `auth
 The smart account factory is able to make the check `require(msg.sender == entryPoint.senderCreator());` to ensure only the EntryPoint's senderCreator is calling it. 
 
 In addition, the userOpHash now also depends on the delegate address so users also sign over the `7702Auth` object ([source](https://github.com/eth-infinitism/account-abstraction/blob/cc3893bcaf2272c163ce89d5eb9eadb8e6b52db7/contracts/core/EntryPoint.sol#L143))
+
+## Is it possible to turn an EOA into a smart account under EIP-7702 for all chains?
+
+Yes, as per the spec, by signing over a chain ID of 0, it is possible to make an authorization tuple that is valid for all chains and can be applied on all chains that support EIP-7702. With this, it is possible to for instance generate an ephemeral private key, sign over the `7702Auth` object with it, discard the private key and then use the same `7702Auth` object on all chains that support EIP-7702, even if the chain comes out many years later.
