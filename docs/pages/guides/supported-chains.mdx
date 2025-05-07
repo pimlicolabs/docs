@@ -1,16 +1,24 @@
 
 # Supported Chains
 
-Pimlico supports the following chains:
+All API calls must use the JSON-RPC format and be sent to the following URL:
+
+```
+https://api.pimlico.io/v2/target_chain/rpc?apikey=your_api_key_here
+```
+
+Where chain is either the chainId or chain name.
+
+For example to access Base, both of these endpoints will work:
+- https://api.pimlico.io/v2/8453/rpc?apikey=your_api_key_here
+- https://api.pimlico.io/v2/base/rpc?apikey=your_api_key_here
+
+# Pimlico supports the following chains:
 
 import SupportedChains from "../../../data/supported-chains.md"
 import ChainDetails from "../../../data/chain-details.md";
 
 <SupportedChains />
-
-All calls are in JSON-RPC format and have to be made to the following URL: `https://api.pimlico.io/v2/{chain}/rpc?apikey=[YOUR_API_KEY_HERE]`
-
-Where `{chain}` is the chain variable (such as `sepolia` or `polygon`) as found in the table above.
 
 ## Chain Details
 
