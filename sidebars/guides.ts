@@ -143,6 +143,10 @@ export const paymastersSidebar = [
 		link: "/guides/how-to/dapp-gas-sponsorship",
 	},
 	{
+		text: "Extending sponsorship duration",
+		link: "/guides/how-to/paymasters/extending-sponsorship-duration",
+	},
+	{
 		text: "Sponsor conditionally",
 		link: "/guides/how-to/paymasters/conditional-sponsoring",
 	},
@@ -280,14 +284,6 @@ export const guidesSidebar = [
 		items: tutorialSidebar,
 	},
 	{
-		text: "Sponsorship Policies",
-		items: sponsorshipPoliciesSidebar,
-	},
-	{
-		text: "Security",
-		items: securitySidebar,
-	},
-	{
 		text: "Verifying Paymaster",
 		items: paymastersSidebar,
 	},
@@ -295,6 +291,14 @@ export const guidesSidebar = [
 		text: "ERC-20 Paymaster",
 		link: "/guides/how-to/erc20-paymaster",
 		items: erc20PaymasterSidebar,
+	},
+	{
+		text: "Sponsorship Policies",
+		items: sponsorshipPoliciesSidebar,
+	},
+	{
+		text: "Security",
+		items: securitySidebar,
 	},
 	{
 		text: "Testing",

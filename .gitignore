@@ -57,3 +57,4 @@ venv.bak/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+**/.claude/settings.local.json

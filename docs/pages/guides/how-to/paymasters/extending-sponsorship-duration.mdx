@@ -1,0 +1,90 @@
+# Extending sponsorship duration
+
+By default, verifying paymaster sponsorships are valid for 10 minutes. It’s now possible to set a custom validity period of up to 24 hours.
+
+### Use Cases
+
+Extended sponsorship durations are helpful in several scenarios:
+
+1.	Multi-sigs – Useful when collecting multiple signatures with possible delays
+2.	Scheduled transactions – For userOperations that are submitted at a later time
+
+## Important Considerations
+
+Your offchain Pimlico balance is held as a prefund for the duration that the paymaster signature is valid for. It’s released either when your sponsored userOp is included on-chain or when the signature expires.
+
+- The maximum allowed duration is 24 hours (86,400 seconds).
+- ERC-20 sponsorships always have a validity period of 10 minutes.
+
+
+## Implementation
+
+You can set the sponsorship duration through the `validForSeconds` parameter in the `paymasterContext`
+
+::::code-group
+
+```typescript [main.ts]
+const userOpHash = await smartAccountClient.sendUserOperation({
+ calls: [
+  {
+   to: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
+   value: 0n,
+   data: "0x"
+  },
+ ],
+ // sponsorship will be valid for 1 hour
+ paymasterContext: { // [!code ++]
+  validForSeconds: 3600, // [!code ++]
+ }, // [!code ++]
+})
+```
+
+```typescript [clients.ts]
+import { sepolia } from "viem/chains"
+import { createPublicClient, http } from "viem"
+import { privateKeyToAccount } from "viem/accounts";
+import { createPimlicoClient } from "permissionless/clients/pimlico"
+import { toSafeSmartAccount } from "permissionless/accounts"
+import { createSmartAccountClient } from "permissionless"
+
+const privateKey = process.env.PRIVATE_KEY
+const apiKey = process.env.PIMLICO_API_KEY
+
+export const publicClient = createPublicClient({
+	chain: sepolia,
+	transport: http(),
+})
+
+const pimlicoUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=${apiKey}`
+const pimlicoClient = createPimlicoClient({
+	transport: http(pimlicoUrl),
+	entryPoint: {
+		address: entryPoint07Address,
+		version: "0.7",
+	},
+})
+
+const account = await toSafeSmartAccount({
+	client: publicClient,
+	owners: [privateKeyToAccount(privateKey)],
+	entryPoint: {
+		address: entryPoint07Address,
+		version: "0.7",
+	},
+	version: "1.4.1",
+})
+
+export const smartAccountClient = createSmartAccountClient({
+	account,
+	chain: sepolia,
+	bundlerTransport: http(pimlicoUrl),
+	paymaster: pimlicoClient,
+	userOperation: {
+		estimateFeesPerGas: async () => {
+			return (await pimlicoClient.getUserOperationGasPrice()).fast
+		},
+	},
+})
+```
+
+::::
