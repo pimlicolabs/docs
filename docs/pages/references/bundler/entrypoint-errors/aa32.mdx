@@ -12,6 +12,6 @@ This error occurs when the `block.timestamp` falls after the `validUntil` timest
 
 ## Possible solutions
 
+- If you are using Pimlico's paymaster, send the user operation within 10 minutes or [extend the validity period](/guides/how-to/paymasters/extending-sponsorship-duration) up to 24 hours.
 - If you are using your own paymaster contract and using time-based signatures, verify that the `validAfter` and `validUntil` fields are set correctly and that the user operation is sent within the specified range.
-- If you are using your own paymaster contract and *not* looking to use time-based signatures, verify that the `validAfter` and `validUntil` fields are set to `0`. 
-- If you are using Pimlico's verifying paymaster service to fetch the `paymasterAndData` field, make sure you are sending the user operation within 10 minutes of receiving the paymaster signature. If you would like a longer validity period, [please contact us](https://t.me/pimlicoHQ).
+- If you are using your own paymaster contract and *not* looking to use time-based signatures, verify that the `validAfter` and `validUntil` fields are set to `0`.
