@@ -22,12 +22,7 @@ And then to start Alto, run
 
 Alto manages multiple executor wallets. If any wallet's balance falls below a set minimum, its balance is automatically refilled using funds from the utility wallet. The utility wallet needs to be funded before starting Alto.
 
-EntryPoint V0.7 relies on a simulation contract to be deployed. Alto uses this contract during validation and gas estimations. The simulation contract can be deployed by enabling the `--deploy-simulations-contract` flag.
-
-##### Prerequisites:
-
-- Utility wallet is funded
-- Simulations contract is deployed
+By default, Alto will run in safe mode. This means that it will validate all userOps against the ERC-7562 validation rules. In safe mode, you will need a RPC that supports the debug_traceCall endpoint. It is reccomended to run Alto with this flag disabled by setting `--safe-mode false`.
 
 ## Running
 
@@ -36,7 +31,6 @@ Once all the prerequisite conditions are met, Alto can be started using
 ```bash
 ./alto run
     --entrypoints "0x0000000071727De22E5E9d8BAf0edAc6f37da032,0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
-    --entrypoint-simulation-contract "0x74cb5e4ee81b86e70f9045036a1c5477de69ee87"
     --executor-private-keys "0x34e9a7...,0xb08d34...,0x163cbb..."
     --utility-private-keys "0xe768f1..."
     --rpc-url "http://localhost:8545"
@@ -52,7 +46,6 @@ Create and setup `alto-config.json`
 ```
 {
     "entrypoints": "0x0000000071727De22E5E9d8BAf0edAc6f37da032,0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
-    "entrypoint-simulation-contract": "0x74cb5e4ee81b86e70f9045036a1c5477de69ee87",
     "executor-private-keys": "0x34e9a7...,0xb08d34...,0x163cbb...",
     "utility-private-keys": "0xe768f1...",
     "rpc-url": "http://localhost:8545",
