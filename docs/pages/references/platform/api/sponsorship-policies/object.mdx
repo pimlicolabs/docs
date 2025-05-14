@@ -2,38 +2,55 @@
 
 ## Attributes
 
+:::note
 - **id:** `string`
 
 The unique identifier for the sponsorship policy. Maximum 255 characters.
+:::
 
+:::note
 - **policy_name:** `string`
 
 The name of the sponsorship policy. Maximum 255 characters.
+:::
 
+:::note
 - **policy_status:** `enum`
 
 The status of the sponsorship policy. Possible values are `active`, `inactive`, and `deleted`.
+:::
 
+:::note
 - **created_at:** `string`
 
-The date and time the sponsorship policy was created formatted as an ISO 8601 string (e.g. `2024-05-23T15:23:38Z`).
+The date and time the sponsorship policy was created formatted as an ISO 8601 string (e.g. 2025-05-23T15:23:38Z).
+:::
 
+:::note
 - **start_time:** `string` or `null`
 
-The date and time the sponsorship policy will become active formatted as an ISO 8601 string (e.g. `2024-05-23T15:23:38Z`). If `null`, the policy is active immediately.
+The date and time the sponsorship policy will become active formatted as an ISO 8601 string (e.g. 2025-05-23T15:23:38Z). If `null`, the policy is active immediately.
+:::
 
+:::note
 - **end_time:** `string` or `null`
 
-The date and time the sponsorship policy will become inactive formatted as an ISO 8601 string (e.g. `2024-05-23T15:23:38Z`). If `null`, there is no end time after which the policy is inactive. Must be in the future.
+The date and time the sponsorship policy will become inactive formatted as an ISO 8601 string (e.g. 2025-05-23T15:23:38Z). If `null`, there is no end time after which the policy is inactive. Must be in the future.
+:::
 
+:::note
 - **webhook_endpoint:** `string` or `null`
 
 The URL of the webhook endpoint to call when a user operation is sponsored under this policy.
+:::
 
+:::note
 - **webhook_enabled:** `boolean` or `null`
 
 Whether the webhook is enabled for this policy.
+:::
 
+::::note
 - **chain_ids:** `object` or `null`
 
 An object containing the chain IDs that are allowed to use the sponsorship policy.
@@ -43,7 +60,9 @@ An object containing the chain IDs that are allowed to use the sponsorship polic
 
 An array of chain IDs that are allowed to use the sponsorship policy. Must contain between 1 and 1000 unique chain IDs, and all must be supported by Pimlico. If `null`, the policy is valid for all chains.
 :::
+::::
 
+::::::note
 - **limits:** `object` or `null`
 
 An object containing the spending limits for the sponsorship policy. The object has the following attributes:
@@ -57,8 +76,8 @@ An object containing the global spending limits across all users for the sponsor
   - **user_operation_spending:** `object` or `null`
 
 An object containing the spending limit for user operations.
-
 :::note
+
     - **amount:** `number`
 
 The spending limit amount. Must be greater than 0. The API expects amounts to be provided in a currency's smallest unit. For example, to set the limit to 10 USD, provide an amount value of 1000 (that is, 1000 cents).
@@ -67,16 +86,22 @@ The spending limit amount. Must be greater than 0. The API expects amounts to be
 
 The currency of the spending limit amount. Currently only `USD` is supported.
 :::
+::::
 
+::::note
   - **maximum_user_operation_count:** `number` or `null`
 
 The maximum number of user operations allowed. Must be greater than or equal to 0.
+::::
 
+::::note
   - **reset_interval:** `enum` or `null`
 
 The interval at which the limits reset. Possible values are `never`, `daily`, `weekly`, or `monthly`. Default is `never`.
 ::::
+:::::
 
+:::::note
 - **user:** `object` or `null`
 
 An object containing the per-user spending limits for the sponsorship policy.
@@ -95,16 +120,22 @@ The spending limit amount. Must be greater than 0.
 
 The currency of the spending limit amount. Currently only `USD` is supported.
 :::
+::::
 
+::::note
   - **maximum_user_operation_count:** `number` or `null`
 
 The maximum number of user operations allowed per user. Must be greater than or equal to 0.
+::::
 
+::::note
   - **reset_interval:** `enum` or `null`
 
 The interval at which the user limits reset. Possible values are `never`, `daily`, `weekly`, or `monthly`. Default is `never`.
 ::::
+:::::
 
+:::::note
 - **user_operation:** `object` or `null`
 
 An object containing the per-user-operation spending limits for the sponsorship policy.
@@ -124,8 +155,8 @@ The maximum amount allowed for a single user operation. Must be greater than 0.
 The currency of the spending limit amount. Currently only `USD` is supported.
 :::
 ::::
-
 :::::
+::::::
 
 ## Example
 
@@ -134,7 +165,7 @@ The currency of the spending limit amount. Currently only `USD` is supported.
   "id": "sp_tangible_knight",
   "policy_name": "Pimlico Example Gas Fund",
   "policy_status": "active",
-  "created_at": "2024-05-23T15:23:38Z",
+  "created_at": "2025-05-23T15:23:38Z",
   "start_time": null,
   "end_time": null,
   "webhook_endpoint": "https://example.com/webhook",
