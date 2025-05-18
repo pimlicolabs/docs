@@ -16,6 +16,10 @@ Yes, EIP-7702 is compatible with ERC-4337. They cover different responsibilities
 
 Yes, Pimlico supports EIP-7702 by allowing an `eip7702Auth` object to be included in `eth_sendUserOperation` and `eth_estimateUserOperationGas` requests. You can read more about how to use it on the relevant reference pages for [eth_sendUserOperation](/references/bundler/endpoints/eth_sendUserOperation) and [eth_estimateUserOperationGas](/references/bundler/endpoints/eth_estimateUserOperationGas).
 
+## Which chains are supported by Pimlico for EIP-7702?
+
+Pimlico supports EIP-7702 on Ethereum Mainnet (including Sepolia), BSC Mainnet, OP-Stack chains (Base, Optimism, Zora, and others), and Odyssey Testnet.
+
 ## How does an EOA transition to smart account under EIP-7702? 
 
 By submitting a set code transaction (transaction type 4) that includes an `authorization_list`.
