@@ -269,6 +269,10 @@ export const paymasterSidebar = [
 				text: "Endpoints",
 				items: [
 					{
+						text: "pimlico_getSupportedTokens",
+						link: "/references/paymaster/erc20-paymaster/endpoints/pimlico_getSupportedTokens",
+					},
+					{
 						text: "pimlico_getTokenQuotes",
 						link: "/references/paymaster/erc20-paymaster/endpoints/pimlico_getTokenQuotes",
 					},
