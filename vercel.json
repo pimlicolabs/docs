@@ -267,11 +267,6 @@
 			"permanent": false
 		},
 		{
-			"source": "/guides/how-to/eip-7702-demo",
-			"destination": "/guides/eip7702/demo",
-			"permanent": false
-		},
-		{
 			"source": "/permissionless/tutorial/:path*",
 			"destination": "/guides/tutorials/:path*"
 		},

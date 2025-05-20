@@ -107,7 +107,6 @@ https://docs.pimlico.io/permissionless/how-to/accounts/use-simple-account
 https://docs.pimlico.io/permissionless/how-to/accounts/use-thirdweb-account
 https://docs.pimlico.io/permissionless/how-to/accounts/use-trustwallet-account
 https://docs.pimlico.io/permissionless/how-to/dapp-gas-sponsorship
-https://docs.pimlico.io/permissionless/how-to/eip-7702-demo
 https://docs.pimlico.io/permissionless/how-to/migration-guide
 https://docs.pimlico.io/permissionless/how-to/parallel-transactions
 https://docs.pimlico.io/permissionless/how-to/paymasters/conditional-sponsoring
