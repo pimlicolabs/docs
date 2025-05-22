@@ -61,7 +61,7 @@ jobs:
       - name: Pull Pimlico configs
         working-directory: docs-data-updater
         run: |
-          cd configs && rm -f * && oras pull ghcr.io/pimlicolabs/configs:latest
+          mkdir -p configs && cd configs && rm -f * && oras pull ghcr.io/pimlicolabs/configs:latest
 
       - name: Generate supported chains data
         working-directory: docs-data-updater
