@@ -19,33 +19,25 @@
 | Blast | 81457 | blast |
 | Bob | 60808 | bob |
 | Celo | 42220 | celo |
-| COTI | 2632500 | coti |
 | Cyber Mainnet | 7560 | cyber-mainnet |
 | Degen | 666666666 | degen |
 | DFK | 53935 | dfk-chain |
 | DOS | 7979 | dos-mainnet |
 | Etherlink Mainnet | 42793 | etherlink-mainnet |
 | Flare Mainnet | 14 | flare |
-| Flow Mainnet | 747 | flow |
 | Fuse | 122 | fuse |
 | Geo | 80451 | geo |
 | Gnosis | 100 | gnosis |
 | Hedera | 295 | hedera |
-| Immutable zkEVM | 13371 | immutable-zkevm |
 | Kaia | 8217 | kaia |
 | Kinto Mainnet | 7887 | kinto-mainnet |
 | Linea | 59144 | linea |
 | Lisk | 1135 | lisk |
-| Lumia Prism | 994873017 | lumia-prism |
 | Lyra | 957 | lyra |
-| Metal L2 | 1750 | metal-l2 |
 | Mode | 34443 | mode |
 | Moonbeam | 1284 | moonbeam |
 | OP BNB | 204 | opbnb |
-| Ouroboro | 1000080 | ouroboro |
 | Redstone | 690 | redstone |
-| Rivalz | 753 | rivalz |
-| Rootstock | 30 | rootstock |
 | Sanko Mainnet | 1996 | sanko-mainnet |
 | Scroll | 534352 | scroll |
 | Sei | 1329 | sei |
@@ -54,11 +46,8 @@
 | Story Mainnet | 1514 | story-mainnet |
 | Superposition | 55244 | superposition |
 | Taiko Mainnet | 167000 | taiko-mainnet |
-| Taraxa | 841 | taraxa |
 | Unichain | 130 | unichain |
-| Vanar | 2040 | vanar |
 | World Chain | 480 | worldchain |
-| XPLA | 37 | xpla |
 | Zetachain | 7000 | zetachain |
 
 ## Testnets
@@ -72,21 +61,16 @@
 | Zora Sepolia | 999999999 | zora-sepolia |
 | Binance Testnet | 97 | binance-testnet |
 | Mantle Sepolia | 5003 | mantle-sepolia |
-| 0G Newton Testnet | 16600 | newton-testnet |
 | Aleph Zero Testnet | 2039 | alephzero-testnet |
 | Ancient8 Testnet | 28122024 | ancient8-testnet |
-| Arena-Z Testnet | 9897 | arena-z-testnet |
 | Avalanche Fuji | 43113 | avalanche-fuji |
 | B3 Sepolia | 1993 | b3-sepolia |
-| Basecamp Testnet | 123420001114 | basecamp-testnet |
 | Berachain Bepolia | 80069 | berachain-bepolia |
 | Blast Sepolia | 168587773 | blast-sepolia |
 | BOB Sepolia | 808813 | bob-sepolia |
 | Camp Testnet v2 | 325000 | camp-testnet-v2 |
 | Ceol Alfajores Testnet | 44787 | celo-alfajores-testnet |
 | Chiado Testnet | 10200 | chiado-testnet |
-| COTI Testnet | 7082400 | coti-testnet |
-| Curtis Testnet | 33111 | curtis-testnet |
 | Cyber Testnet | 111557560 | cyber-testnet |
 | DFK Subnet Testnet | 335 | dfk-chain-test |
 | DOS testnet | 3939 | dos-testnet |
@@ -100,22 +84,17 @@
 | Growth Protocol Testnet | 97433 | growth-protocol |
 | Hedera Testnet | 296 | hedera-testnet |
 | Holesky | 17000 | holesky |
-| Humanode Testnet | 14853 | humanode-testnet |
-| Immutable zkEVM Testnet | 13473 | immutable-zkevm-testnet |
+| Hychain Testnet | 29113 | hychain-testnet |
 | Kaia Kairos | 1001 | kaia-kairos |
 | Linea Sepolia | 59141 | linea-sepolia |
 | Lisk Sepolia | 4202 | lisk-sepolia |
-| Lumia Testnet | 1952959480 | lumia-testnet |
 | MegaETH Testnet | 6342 | megaeth-testnet |
-| Metal L2 Testnet | 1740 | metal-l2-testnet |
 | Mode Sepolia | 919 | mode-sepolia |
 | Monad Testnet | 10143 | monad-testnet |
 | Odyssey Testnet | 911867 | odyssey-testnet |
 | Pivotal Testnet | 9116 | pivotal-testnet |
 | Plume Testnet | 98867 | plume-testnet |
-| Poseidon Testnet | 31911 | poseidon-testnet |
 | Pyrope Testnet | 695569 | pyrope-testnet |
-| Rivalz2 | 6966 | rivalz2 |
 | Sanko Testnet | 1992 | sanko-testnet |
 | Scroll Sepolia Testnet | 534351 | scroll-sepolia-testnet |
 | Sei Testnet | 1328 | sei-testnet |
@@ -128,9 +107,5 @@
 | Sonic Blaze Testnet | 57054 | sonic-blaze-testnet |
 | Story Aeneid Testnet | 1315 | story-aeneid-testnet |
 | Superposition Testnet | 98985 | superposition-testnet |
-| Taraxa | 842 | taraxa-testnet |
 | Unichain Sepolia | 1301 | unichain-testnet |
-| Vanguard Testnet | 78600 | vanguard-testnet |
 | World Chain Sepolia | 4801 | worldchain-sepolia |
-| XPLA Testnet | 47 | xpla-testnet |
-| Zetachain Testnet | 7001 | zetachain-testnet |
