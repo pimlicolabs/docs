@@ -74,3 +74,7 @@ const billedAmount = actualGasCost * 1.1; // 10% surcharge
 ```
 
 Why don’t we charge 10% based on what the bundler pays? Because we might not be the bundler—you’re free to use any bundler available. Since the paymaster pays the `gasCost` to the bundler, and there’s no guarantee that we will be the bundler, we must charge the full `actualGasCost` plus the surcharge.
+
+### Where do I find a gas tank to top up my paymaster?
+
+You do not need to top up you paymaster with Pimlico. We manage the paymaster for you automatically. We track your usage and generate an invoice for you at the end of the month which you can pay with your preferred payment method.
