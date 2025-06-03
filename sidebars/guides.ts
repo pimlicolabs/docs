@@ -239,8 +239,8 @@ export const erc20PaymasterSidebar = [
 		link: "/guides/how-to/erc20-paymaster/how-to/use-paymaster",
 	},
 	{
-		text: "Use the ERC-20 Paymaster (with limited token approvals)",
-		link: "/guides/how-to/erc20-paymaster/how-to/use-paymaster-without-unlimited-approval",
+		text: "Use the ERC-20 Paymaster (with unlimited token approvals)",
+		link: "/guides/how-to/erc20-paymaster/how-to/use-paymaster-with-unlimited-approval",
 	},
 	{
 		text: "Estimate token cost and cost in USD",

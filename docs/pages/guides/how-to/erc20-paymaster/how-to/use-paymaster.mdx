@@ -1,8 +1,8 @@
-# How to use the ERC-20 Paymaster
+# How to use the ERC-20 Paymaster without unlimited token approvals
 
-When using Pimlico's ERC-20 Paymaster, the paymaster needs approval to spend funds on the payer's behalf. The amount to approve must be atleast equal to the userOperation's maxCost.
+This guide will show you how to use the `prepareUserOperationForErc20Paymaster` function in permissionless.
 
-You can use the helper function below to get the required approval amount.
+This function lets you approve only the required amount of tokens for your userOperation. The approval call will be injected into the userOperation's calldata before it is sent.
 
 ## Steps
 
@@ -10,31 +10,25 @@ You can use the helper function below to get the required approval amount.
 ### Define imports and create the clients
 
 ```ts
-// [!include ~/snippets/erc20-paymaster/how-to.ts:clients]
+// [!include ~/snippets/erc20-paymaster/use-paymaster-without-unlimited-approval.ts:clients]
 ```
 
-### Fetch your users' token holdings
+### Add the `prepareUserOperationForErc20Paymaster` override to `createSmartAccountClient`
 
-For this example, we will assume that our user only holds USDC on Base Sepolia.
+This override will replace viem's `prepareUserOperation` action.
 
 ```ts
-// [!include ~/snippets/erc20-paymaster/how-to.ts:getUserTokens]
+// [!include ~/snippets/erc20-paymaster/use-paymaster-without-unlimited-approval.ts:prepareUserOperation]
 ```
 
-### Call `pimlico_getTokenQuotes` and calculate the approval amount needed for your userOperation
+### Call `sendTransaction`
 
-After calling `pimlico_getTokenQuotes`, use the returned values to calculate the approval amount for a specific userOperation by calling using formula from the paymaster's `getCostInToken` function.
+Calling sendTransaction will now automatically approve the required amount of tokens for your userOperation.
+
+If the sender has a sufficient existing approval, then the additional approval call will not be added to the calldata.
 
 ```ts
-// [!include ~/snippets/erc20-paymaster/how-to.ts:getTokenQuotes]
+// [!include ~/snippets/erc20-paymaster/use-paymaster-without-unlimited-approval.ts:sendOp]
 ```
 
-### Reconstruct and send the userOperation
-After finding the amount that we need to approve, we reconstruct the userOperation to include the token approval before sending it.
-
-Ensure that the paymaster context includes a `token` field to inform the Pimlico endpoint to sponsor the userOperation using ERC-20 mode.
-
-```ts
-// [!include ~/snippets/erc20-paymaster/how-to.ts:sendUserOperation]
-```
 ::::
