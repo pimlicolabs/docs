@@ -368,50 +368,6 @@
 
 ---
 
-## Aleph Zero 
-- Chain ID: 41455
-- Slug: alephzero
-
-### Supported Entrypoints
-
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
-
-### Supported Accounts
-
-| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
-| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-
----
-
-## Aleph Zero Testnet
-- Chain ID: 2039
-- Slug: alephzero-testnet
-
-### Supported Entrypoints
-
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
-
-### Supported Accounts
-
-| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
-| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-
----
-
 ## Ancient8
 - Chain ID: 888888888
 - Slug: ancient8
@@ -474,50 +430,6 @@
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-
----
-
-## B3
-- Chain ID: 8333
-- Slug: b3
-
-### Supported Entrypoints
-
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
-
-### Supported Accounts
-
-| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
-| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-
----
-
-## B3 Sepolia
-- Chain ID: 1993
-- Slug: b3-sepolia
-
-### Supported Entrypoints
-
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
-
-### Supported Accounts
-
-| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
-| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -928,46 +840,6 @@
 
 ---
 
-## Flare Coston2 Testnet
-- Chain ID: 114
-- Slug: flare-coston2-testnet
-
-### Supported Entrypoints
-
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-
-### Supported Accounts
-
-| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
-| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
-
----
-
-## Flare Mainnet
-- Chain ID: 14
-- Slug: flare
-
-### Supported Entrypoints
-
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-
-### Supported Accounts
-
-| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
-| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
-| V07 | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
-
----
-
 ## Form Testnet
 - Chain ID: 132902
 - Slug: form-testnet
@@ -1137,26 +1009,6 @@
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-
----
-
-## Growth Protocol Testnet
-- Chain ID: 97433
-- Slug: growth-protocol
-
-### Supported Entrypoints
-
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-
-### Supported Accounts
-
-| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
-| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 
 ---
 
@@ -1434,6 +1286,28 @@
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+---
+
+## Moca Testnet
+- Chain ID: 5151
+- Slug: moca-testnet
+
+### Supported Entrypoints
+
+| Version | Address |
+| ------- | ------- |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+
+### Supported Accounts
+
+| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
+| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+| V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
@@ -2058,26 +1932,6 @@
 
 ---
 
-## Taiko Mainnet
-- Chain ID: 167000
-- Slug: taiko-mainnet
-
-### Supported Entrypoints
-
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-
-### Supported Accounts
-
-| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
-| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
-
----
-
 ## Unichain
 - Chain ID: 130
 - Slug: unichain
@@ -2161,26 +2015,6 @@
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-
----
-
-## Zetachain
-- Chain ID: 7000
-- Slug: zetachain
-
-### Supported Entrypoints
-
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-
-### Supported Accounts
-
-| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
-| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
 
 ---
 
