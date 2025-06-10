@@ -72,32 +72,28 @@ jobs:
           # Pull the configs
           mkdir -p configs && cd configs && rm -f * && oras pull ghcr.io/pimlicolabs/configs:latest
 
-      - name: Generate supported chains data
+      - name: Generate docs data
         working-directory: docs-data-updater
         run: |
-          # Run the script and filter out npm/pnpm output lines to get only valid JSON
-          pnpm generate:supported-chains | grep -v "^>" | grep -v "docs-data-updater@" > ../data/supported-chains.json
+          # Run the data generation script
+          pnpm start
           
-      - name: Generate supported entrypoints data
-        working-directory: docs-data-updater
+      - name: Copy generated markdown files to docs data directory
         run: |
-          # Run the script and filter out npm/pnpm output lines to get only valid JSON
-          pnpm generate:supported-entrypoints | grep -v "^>" | grep -v "docs-data-updater@" > ../data/supported-entrypoints.json
-          
-      - name: Generate supported accounts data
-        working-directory: docs-data-updater
-        run: |
-          # Run the script and filter out npm/pnpm output lines to get only valid JSON
-          pnpm generate:supported-accounts | grep -v "^>" | grep -v "docs-data-updater@" > ../data/supported-accounts.json
-          
-      - name: Copy markdown files from data-docs-updater to docs
-        run: |
-          # Copy all markdown files from data-docs-updater/data/ to docs/data/
-          if [ -d "docs-data-updater/data" ] && [ "$(ls -A docs-data-updater/data/*.md 2>/dev/null)" ]; then
-            cp -f docs-data-updater/data/*.md data/
-            echo "Copied markdown files from docs-data-updater/data/ to data/"
+          # Copy the three generated markdown files from docs-data-updater/data/ to data/
+          if [ -d "docs-data-updater/data" ]; then
+            # Copy the specific generated files
+            for file in chain-details.md supported-chains.md supported-tokens.md; do
+              if [ -f "docs-data-updater/data/$file" ]; then
+                cp -f "docs-data-updater/data/$file" "data/$file"
+                echo "Copied $file"
+              else
+                echo "Warning: $file not found in docs-data-updater/data/"
+              fi
+            done
           else
-            echo "No markdown files found in docs-data-updater/data/"
+            echo "Error: docs-data-updater/data/ directory not found"
+            exit 1
           fi
       
       - name: Check for changes
@@ -136,9 +132,8 @@ jobs:
           body: |
             This PR updates the docs data from the Pimlico database:
             
+            - Chain details
             - Supported chains
-            - Supported entrypoints
-            - Supported accounts
             - Supported tokens
             
             - Updated on: ${{ steps.datetime.outputs.date }}
