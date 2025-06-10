@@ -2,8 +2,6 @@ name: Update Docs Data
 
 on:
   workflow_dispatch:  # Allow manual triggering via GitHub UI
-  schedule:
-    - cron: '0 15 * * *'  # Run daily at 3:00 PM UTC (London afternoon)
 
 jobs:
   update-docs-data:
@@ -57,7 +55,15 @@ jobs:
         working-directory: docs-data-updater
         run: |
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
-      
+
+      - name: Install ORAS CLI
+        run: |
+          curl -LO "https://github.com/oras-project/oras/releases/download/v1.1.0/oras_1.1.0_linux_amd64.tar.gz"
+          mkdir -p oras-install/
+          tar -zxf oras_*.tar.gz -C oras-install/
+          sudo mv oras-install/oras /usr/local/bin/
+          rm -rf oras_* oras-install/
+
       - name: Pull Pimlico configs
         working-directory: docs-data-updater
         run: |
