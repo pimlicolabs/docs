@@ -67,6 +67,9 @@ jobs:
       - name: Pull Pimlico configs
         working-directory: docs-data-updater
         run: |
+          # Login to GitHub Container Registry
+          echo "${{ secrets.GH_PAT }}" | oras login ghcr.io --username ${{ github.actor }} --password-stdin
+          # Pull the configs
           mkdir -p configs && cd configs && rm -f * && oras pull ghcr.io/pimlicolabs/configs:latest
 
       - name: Generate supported chains data
