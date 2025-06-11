@@ -1,0 +1,88 @@
+# Boosted Paymaster
+
+The Boosted paymaster is a offchain paymaster that offers faster execution times and cheaper gas fees due to requiring less RPC calls and requiring no paymaster data.
+
+:::info
+The Boosted Paymaster is available upon request. To activate this feature, please contact us at support@pimlico.io
+:::
+
+### How to send a Boosted UserOperation
+
+To send a Boosted userOperation, you only need to:
+- Set maxFeePerGas and maxPriorityFeePerGas to zero
+- Remove paymaster and paymasterData fields
+
+You won't need to make any changes to your application logic as the boosted userOperation is sent using the standard eth_sendUserOperation endpoint.
+
+Under the hood, Pimlico will calculate the userOperation cost offchain based on the userOperations's gasUsed and the bundler's gasPrice.
+
+## Code Example
+
+```ts
+import { createSmartAccountClient } from "permissionless"
+import { toSimpleSmartAccount } from "permissionless/accounts"
+import { http, createPublicClient, zeroAddress } from "viem"
+import { generatePrivateKey, privateKeyToAccount } from "viem/accounts"
+import { sepolia } from "viem/chains"
+
+const apiKey = "YOUR_PIMLICO_API_KEY"
+const pimlicoUrl = `https://api.pimlico.io/v2/${chain.id}/rpc?apikey=${apiKey}`
+
+const publicClient = createPublicClient({
+    chain: sepolia,
+    transport: http()
+})
+
+const account = await toSimpleSmartAccount({
+    owner: privateKeyToAccount(generatePrivateKey()),
+    client: publicClient
+})
+
+const pimlicoClient = createPimlicoClient({ // [!code --]
+    chain: sepolia, // [!code --]
+    transport: http(pimlicoUrl), // [!code --]
+    entryPoint // [!code --]
+}) // [!code --]
+
+const smartAccount = createSmartAccountClient({
+    bundlerTransport: http(pimlicoUrl),
+    paymaster: pimlicoClient, // [!code --]
+    account,
+    chain: sepolia,
+    userOperation: { // [!code ++]
+        estimateFeesPerGas: async () => { // [!code ++]
+            return { // [!code ++]
+                maxFeePerGas: 0n, // [!code ++]
+                maxPriorityFeePerGas: 0n // [!code ++]
+            } // [!code ++]
+        } // [!code ++]
+    } // [!code ++]
+})
+
+// Send a mock transaction
+const tx = await smartAccount.sendTransaction({
+    to: zeroAddress,
+    value: 0n
+})
+
+console.log(`Transaction included: https://sepolia.etherscan.io/tx/${tx}`)
+```
+
+### Further optimizations
+
+For maximum performance, hardcode your gas limits if you know your operation's gas usage. This eliminates the gas estimation RPC call, reducing your entire transaction to a single `eth_sendUserOperation` request.
+
+```ts
+...
+
+// Send a mock transaction with hardcoded gasLimits
+const tx = await smartAccount.sendTransaction({
+    to: zeroAddress,
+    value: 0n,
+    callGasLimit: 250_000n,
+    verificationGasLimit: 250_000n,
+    preVerificationGas: 0n
+})
+```
+
+> Note: preVerificationGas should be set to zero as the bundler skips the preVerificationGas check when sending a boosted userOperation.

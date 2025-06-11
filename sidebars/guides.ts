@@ -248,6 +248,13 @@ export const erc20PaymasterSidebar = [
 	},
 ];
 
+export const boostedPaymasterSidebar = [
+	{
+		text: "Use the Boosted Paymaster",
+		link: "/guides/boosted-paymaster/use-boosted-paymaster",
+	},
+];
+
 export const conceptualSidebar = [
 	{
 		text: "Overview",
@@ -291,6 +298,10 @@ export const guidesSidebar = [
 		text: "ERC-20 Paymaster",
 		link: "/guides/how-to/erc20-paymaster",
 		items: erc20PaymasterSidebar,
+	},
+	{
+		text: "Boosted Paymaster",
+		items: boostedPaymasterSidebar,
 	},
 	{
 		text: "Sponsorship Policies",
