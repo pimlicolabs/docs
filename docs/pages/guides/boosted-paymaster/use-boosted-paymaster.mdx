@@ -70,7 +70,7 @@ console.log(`Transaction included: https://sepolia.etherscan.io/tx/${tx}`)
 
 ## Further optimizations
 
-For maximum performance, hardcode your gas limits if you know your operation's gas usage. This eliminates the gas estimation RPC call, reducing your entire transaction to a single `eth_sendUserOperation` request.
+For maximum performance, hardcode your gas limits if you know your userOperation's gas usage. This eliminates the gas estimation RPC call, reducing your entire transaction to a single `eth_sendUserOperation` request.
 
 ```ts
 ...
@@ -85,4 +85,7 @@ const tx = await smartAccount.sendTransaction({
 })
 ```
 
-> Note: preVerificationGas should be set to zero as the bundler skips the preVerificationGas check when sending a boosted userOperation.
+:::info
+- Set **preVerificationGas** to 0 as the bundler skips this check for boosted userOperations
+- Don't set gas limits too high - the bundler will reject operations that exceed the block gas limit
+:::
