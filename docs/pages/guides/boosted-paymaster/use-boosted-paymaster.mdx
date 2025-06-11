@@ -14,9 +14,9 @@ To send a Boosted userOperation, you only need to:
 
 You won't need to make any changes to your application logic as the boosted userOperation is sent using the standard eth_sendUserOperation endpoint.
 
-Under the hood, Pimlico will calculate the userOperation cost offchain based on the userOperations's gasUsed and the bundler's gasPrice.
+In the background, Pimlico will calculate the userOperation cost offchain based on the userOperations's gasUsed and the bundler's gasPrice.
 
-## Code Example
+### Code Example
 
 ```ts
 import { createSmartAccountClient } from "permissionless"
