@@ -6,7 +6,7 @@ The Boosted paymaster is a offchain paymaster that offers faster execution times
 The Boosted Paymaster is available upon request. To activate this feature, please contact us at support@pimlico.io
 :::
 
-### How to send a Boosted UserOperation
+## How to send a Boosted UserOperation
 
 To send a Boosted userOperation, you only need to:
 - Set maxFeePerGas and maxPriorityFeePerGas to zero
@@ -68,7 +68,7 @@ const tx = await smartAccount.sendTransaction({
 console.log(`Transaction included: https://sepolia.etherscan.io/tx/${tx}`)
 ```
 
-### Further optimizations
+## Further optimizations
 
 For maximum performance, hardcode your gas limits if you know your operation's gas usage. This eliminates the gas estimation RPC call, reducing your entire transaction to a single `eth_sendUserOperation` request.
 
