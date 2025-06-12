@@ -82,7 +82,7 @@ services:
   alto:
     image: ghcr.io/pimlicolabs/alto:latest
     ports: [ "4337:4337" ]
-    entrypoint: ["node", "src/lib/cli/alto.js", "run", "--config", "/app/alto-config.json"]
+    entrypoint: ["node", "src/esm/cli/alto.js", "run", "--config", "/app/alto-config.json"]
     depends_on:
       anvil:
         condition: service_healthy
@@ -289,7 +289,7 @@ services:
   alto:
     image: ghcr.io/pimlicolabs/alto:latest
     ports: [ "4337:4337" ]
-    entrypoint: ["node", "src/lib/cli/alto.js", "run", "--config", "/app/alto-config.json"]
+    entrypoint: ["node", "src/esm/cli/alto.js", "run", "--config", "/app/alto-config.json"]
     depends_on:
       anvil:
         condition: service_healthy
