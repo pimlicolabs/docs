@@ -29,8 +29,6 @@
 | Kaia | 8217 | kaia |
 | Kinto Mainnet | 7887 | kinto-mainnet |
 | Linea | 59144 | linea |
-| Lisk | 1135 | lisk |
-| Lyra | 957 | lyra |
 | Mode | 34443 | mode |
 | Moonbeam | 1284 | moonbeam |
 | OP BNB | 204 | opbnb |
@@ -61,18 +59,15 @@
 | Berachain Bepolia | 80069 | berachain-bepolia |
 | Blast Sepolia | 168587773 | blast-sepolia |
 | BOB Sepolia | 808813 | bob-sepolia |
-| Camp Testnet v2 | 325000 | camp-testnet-v2 |
 | Ceol Alfajores Testnet | 44787 | celo-alfajores-testnet |
 | Chiado Testnet | 10200 | chiado-testnet |
 | Cyber Testnet | 111557560 | cyber-testnet |
 | DFK Subnet Testnet | 335 | dfk-chain-test |
 | DOS testnet | 3939 | dos-testnet |
 | Etherlink Testnet | 128123 | etherlink-testnet |
-| Form Testnet | 132902 | form-testnet |
 | Funki Testnet | 3397901 | funki-testnet |
 | Fuse Sparknet | 123 | fuse-sparknet |
 | Geo Testnet | 19411 | geo-testnet |
-| GLHF Testnet | 10211403 | glhf-testnet |
 | Hedera Testnet | 296 | hedera-testnet |
 | Holesky | 17000 | holesky |
 | Hychain Testnet | 29113 | hychain-testnet |
@@ -81,10 +76,8 @@
 | Lisk Sepolia | 4202 | lisk-sepolia |
 | MegaETH Testnet | 6342 | megaeth-testnet |
 | Moca Testnet | 5151 | moca-testnet |
-| Mode Sepolia | 919 | mode-sepolia |
 | Monad Testnet | 10143 | monad-testnet |
 | Odyssey Testnet | 911867 | odyssey-testnet |
-| Pivotal Testnet | 9116 | pivotal-testnet |
 | Plume Testnet | 98867 | plume-testnet |
 | Pyrope Testnet | 695569 | pyrope-testnet |
 | Sanko Testnet | 1992 | sanko-testnet |
@@ -98,6 +91,5 @@
 | Soneium Minato | 1946 | soneium-minato |
 | Sonic Blaze Testnet | 57054 | sonic-blaze-testnet |
 | Story Aeneid Testnet | 1315 | story-aeneid-testnet |
-| Superposition Testnet | 98985 | superposition-testnet |
 | Unichain Sepolia | 1301 | unichain-testnet |
 | World Chain Sepolia | 4801 | worldchain-sepolia |
