@@ -1,20 +1,20 @@
 # Boosted Paymaster
 
-The Boosted paymaster is a offchain paymaster that offers faster execution times and cheaper gas fees due to requiring less RPC calls and requiring no paymaster data.
+The Boosted paymaster is an offchain paymaster that offers faster execution times and cheaper gas fees due to requiring fewer RPC calls and requiring no paymaster data.
 
 :::info
 The Boosted Paymaster is available upon request. To activate this feature, please contact us at support@pimlico.io
 :::
 
-## How to send a Boosted UserOperation
+## How to send a Boosted User Operation
 
-To send a Boosted userOperation, you only need to:
-- Set maxFeePerGas and maxPriorityFeePerGas to zero
-- Remove paymaster and paymasterData fields
+To send a Boosted User Operation, you only need to:
+- Set `maxFeePerGas` and `maxPriorityFeePerGas` to zero
+- Remove the `paymaster` and `paymasterData` fields
 
-You won't need to make any changes to your application logic as the boosted userOperation is sent using the standard eth_sendUserOperation endpoint.
+You won't need to make any changes to your application logic as the Boosted User Operation is sent using the standard eth_sendUserOperation endpoint.
 
-In the background, Pimlico will calculate the userOperation cost offchain based on the userOperations's gasUsed and the bundler's gasPrice.
+In the background, Pimlico will calculate the User Operation cost offchain based on the User Operation's `gasUsed` and the bundler's `gasPrice`.
 
 ### Code Example
 
@@ -70,7 +70,7 @@ console.log(`Transaction included: https://sepolia.etherscan.io/tx/${tx}`)
 
 ## Further optimizations
 
-For maximum performance, hardcode your gas limits if you know your userOperation's gas usage. This eliminates the gas estimation RPC call, reducing your entire transaction to a single `eth_sendUserOperation` request.
+For maximum performance, hardcode your gas limits if you know your User Operation's gas usage. This eliminates the gas estimation RPC call, reducing your entire transaction to a single `eth_sendUserOperation` request.
 
 ```ts
 ...
@@ -86,6 +86,6 @@ const tx = await smartAccount.sendTransaction({
 ```
 
 :::info
-- Set **preVerificationGas** to 0 as the bundler skips this check for boosted userOperations
+- Set `preVerificationGas` to 0 as the bundler skips this check for Boosted User Operations
 - Don't set gas limits too high - the bundler will reject operations that exceed the block gas limit
 :::
