@@ -6,6 +6,19 @@ The Boosted paymaster is an offchain paymaster that offers faster execution time
 The Boosted Paymaster is available upon request. To activate this feature, please contact us at support@pimlico.io
 :::
 
+## Benchmarks
+
+| Chain | % faster | Avg. ms saved | Standard latency (ms) | Boosted latency (ms) |
+|-------|---------:|--------------:|----------------------:|----------------------:|
+| OP Mainnet | 42.27% | 2,524.22 ms | 5,971.89 ms | 3,447.67 ms |
+| Base Sepolia | 43.15% | 3,216.54 ms | 7,454.20 ms | 4,237.65 ms |
+| Base | 39.23% | 2,662.73 ms | 6,786.65 ms | 4,123.93 ms |
+| Arbitrum One | 33.93% | 2,799.35 ms | 8,250.12 ms | 5,450.78 ms |
+| Arbitrum Sepolia | 41.88% | 3,881.81 ms | 9,267.81 ms | 5,386.01 ms |
+| Sepolia | 34.74% | 5,396.30 ms | 15,535.38 ms | 10,139.09 ms |
+
+_Benchmarks were collected by sending 100 simple ETH-transfer user operations per chain and comparing end-to-end latency between a standard sponsored flow and the Boosted flow. Real-world performance will vary depending on network conditions and callData complexity._
+
 ## How does Boosted user operations work?
 
 Boosted user operations are sponsored user operations without paymaster data. This allows you to save on extra RPC calls and optimize the latency.
