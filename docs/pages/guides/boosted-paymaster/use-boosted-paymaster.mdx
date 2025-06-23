@@ -6,6 +6,20 @@ The Boosted paymaster is an offchain paymaster that offers faster execution time
 The Boosted Paymaster is available upon request. To activate this feature, please contact us at support@pimlico.io
 :::
 
+## How does Boosted user operations work?
+
+Boosted user operations are sponsored user operations without paymaster data. This allows you to save on extra RPC calls and optimize the latency.
+
+These are the RPC calls that are skipped:
+- `pimlico_getUserOperationGasPrice` - we set the gas price to zero, read below for why.
+- `pm_getPaymasterStubData` - since we don't have paymaster data, we don't need to call this.
+- `pm_getPaymasterData` - since we don't have paymaster data, we don't need to call this.
+
+optional:
+- `eth_estimateUserOperationGas` - If your `callData` is predictable, you can hard code the gas limits and skip this call as well.
+
+When you set `maxFeePerGas` and `maxPriorityFeePerGas` to zero, no balance is deducted from user operation's sender on chain. While we charge you off-chain at the end of the month when your bill gets generated. The charge is based on how much fees the bundler has to pay to include the user operation plus the paymaster surcharge for that user operation.
+
 ## How to send a Boosted User Operation
 
 To send a Boosted User Operation, you only need to:
