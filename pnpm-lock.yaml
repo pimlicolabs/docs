@@ -50,8 +50,8 @@ importers:
         specifier: ^16.1.1
         version: 16.1.1
       '@metamask/delegation-toolkit':
-        specifier: ^0.10.2
-        version: 0.10.2(viem@2.28.0(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10))
+        specifier: ^0.12.0
+        version: 0.12.0(viem@2.28.0(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10))
       '@particle-network/auth':
         specifier: ^1.3.1
         version: 1.3.1
@@ -1987,24 +1987,17 @@ packages:
     resolution: {integrity: sha512-B/A1dY/w4F/t6cDHUscklO6ovb/ztFsrsTXFd8QlqSByk/vyy+QbPE3VVpmmyI/7RX+PA1AJcvBdzCIz+r9dVQ==}
     engines: {node: '>=16.0.0'}
 
-  '@metamask/auto-changelog@3.4.4':
-    resolution: {integrity: sha512-bA2U6JXIQpbTbiURZ4X+c0OmkzQUOAggmG7x+NL37ELL8zI5NuiRyuR1dvlmhhlOUOdj8cCuqYFOxR478kz4Lg==}
-    engines: {node: '>=14.0.0'}
-    hasBin: true
+  '@metamask/delegation-abis@0.11.0':
+    resolution: {integrity: sha512-tnNGFDLQ5jfgPhHJaT5JwvF759nja1iGAG00REbk1Ufir+TxjxTmF8L9MbJifZmUh4fnyqV4Ik6NAOYVNBPVBg==}
+    engines: {node: ^18.18 || >=20}
 
-  '@metamask/delegation-abis@0.9.0':
-    resolution: {integrity: sha512-Ay+qTXpjZLwRdGUQKRdpxGlQ90vq0SPjFTUJ3fJi/SIZE7+2R/84fkI5hPaOrdgugZhkw9Z93aSaoTVbWM3h0Q==}
+  '@metamask/delegation-deployments@0.12.0':
+    resolution: {integrity: sha512-9SB5DhLAnbpIWbFxP3UKPXLhCt8iiRjBBjZ7hqF5dMXy9buBEDpCRg+FJYRxYRecwporrTVrv+NfKUyCbL2ncw==}
+    engines: {node: ^18.18 || >=20}
 
-  '@metamask/delegation-deployments@0.9.0':
-    resolution: {integrity: sha512-8+xn4MqXKyDwdkH0+tXDesDHnpQ8gZPqN6leAWdKgWrWcAOLwu9py7vso8FHKT8pq3F+xD+BCkXrJsAEHvwVMw==}
-
-  '@metamask/delegation-toolkit@0.10.2':
-    resolution: {integrity: sha512-i+TY34Fbjz61OZqO5GtMrXfYb5aX0cu54wlBr/uDFmCEZz4giBMdM0kItySs7Z1R6Rg0ZargK94Z1F7aMofa8A==}
-    peerDependencies:
-      viem: '>=2.18.2 <3.0.0'
-
-  '@metamask/delegation-utils@0.10.0':
-    resolution: {integrity: sha512-Bj8GrYwMWbJ2/kOYksEg4cINk5MwEOgyD3T/B/2JM4dv09m8Q/GPdLSN8pkZbfHkoV/ig5BF+fucudBmsiS5LQ==}
+  '@metamask/delegation-toolkit@0.12.0':
+    resolution: {integrity: sha512-vk6X4iTARLpMdES6CYiABYSOpeXYPzCKV3xDOP/nRbnFp/CxeYQBa/fT28SDj318V92CQzCI6WrKlEnF/9Y/1Q==}
+    engines: {node: ^18.18 || >=20}
     peerDependencies:
       viem: '>=2.18.2 <3.0.0'
 
@@ -4885,10 +4878,6 @@ packages:
   did-resolver@4.1.0:
     resolution: {integrity: sha512-S6fWHvCXkZg2IhS4RcVHxwuyVejPR7c+a4Go0xbQ9ps5kILa8viiYQgrM4gfTyeTjJ0ekgJH9gk/BawTpmkbZA==}
 
-  diff@5.2.0:
-    resolution: {integrity: sha512-uIFDxqpRZGZ6ThOk84hEfqWoHx2devRFvpTZcTHur85vImfaxUbTW9Ryh4CpCuDnToOP1CEtXKIgytHBPVff5A==}
-    engines: {node: '>=0.3.1'}
-
   dijkstrajs@1.0.3:
     resolution: {integrity: sha512-qiSlmBq9+BCdCA/L46dw8Uy93mloxsPSbwnm5yrKn2vMPiy8KyAskTF6zuV/j5BMsmOGZDPs7KjU+mjb670kfA==}
 
@@ -7105,11 +7094,6 @@ packages:
   preact@10.19.3:
     resolution: {integrity: sha512-nHHTeFVBTHRGxJXKkKu5hT8C/YWBkPso4/Gad6xuj5dbptt9iF9NZr9pHbPhBrnT2klheu7mHTxTZ/LjwJiEiQ==}
 
-  prettier@2.8.8:
-    resolution: {integrity: sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==}
-    engines: {node: '>=10.13.0'}
-    hasBin: true
-
   pretty-format@26.6.2:
     resolution: {integrity: sha512-7AeGuCYNGmycyQbCqd/3PWH4eOoX/OiCa0uphp57NVTeAGdJGaAliecxwBDHYQCIvrW7aDBZCYeNTP/WX69mkg==}
     engines: {node: '>= 10'}
@@ -8518,9 +8502,6 @@ packages:
 
   webauthn-p256@0.0.10:
     resolution: {integrity: sha512-EeYD+gmIT80YkSIDb2iWq0lq2zbHo1CxHlQTeJ+KkCILWpVy3zASH3ByD4bopzfk0uCwXxLqKGLqp2W4O28VFA==}
-
-  webauthn-p256@0.0.5:
-    resolution: {integrity: sha512-drMGNWKdaixZNobeORVIqq7k5DsRC9FnG201K2QjeOoQLmtSDaSsVZdkg6n5jUALJKcAG++zBPJXmv6hy0nWFg==}
 
   webextension-polyfill-ts@0.25.0:
     resolution: {integrity: sha512-ikQhwwHYkpBu00pFaUzIKY26I6L87DeRI+Q6jBT1daZUNuu8dSrg5U9l/ZbqdaQ1M/TTSPKeAa3kolP5liuedw==}
@@ -10856,7 +10837,7 @@ snapshots:
       '@celo/utils': 8.0.0
       '@cosmjs/encoding': 0.32.4
       '@getpara/user-management-client': 1.0.0
-      '@noble/hashes': 1.7.1
+      '@noble/hashes': 1.7.2
       base64url: 3.0.1
       buffer: 6.0.3
       ethereumjs-util: 7.1.5
@@ -11620,34 +11601,17 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@metamask/auto-changelog@3.4.4':
-    dependencies:
-      diff: 5.2.0
-      execa: 5.1.1
-      prettier: 2.8.8
-      semver: 7.7.1
-      yargs: 17.7.2
+  '@metamask/delegation-abis@0.11.0': {}
 
-  '@metamask/delegation-abis@0.9.0':
-    dependencies:
-      '@metamask/auto-changelog': 3.4.4
+  '@metamask/delegation-deployments@0.12.0': {}
 
-  '@metamask/delegation-deployments@0.9.0':
+  '@metamask/delegation-toolkit@0.12.0(viem@2.28.0(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10))':
     dependencies:
-      '@metamask/auto-changelog': 3.4.4
-
-  '@metamask/delegation-toolkit@0.10.2(viem@2.28.0(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10))':
-    dependencies:
-      '@metamask/delegation-utils': 0.10.0(viem@2.28.0(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10))
-      viem: 2.28.0(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10)
-      webauthn-p256: 0.0.5
-
-  '@metamask/delegation-utils@0.10.0(viem@2.28.0(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10))':
-    dependencies:
-      '@metamask/delegation-abis': 0.9.0
-      '@metamask/delegation-deployments': 0.9.0
+      '@metamask/delegation-abis': 0.11.0
+      '@metamask/delegation-deployments': 0.12.0
       buffer: 6.0.3
       viem: 2.28.0(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10)
+      webauthn-p256: 0.0.10
 
   '@metamask/detect-provider@2.0.0': {}
 
@@ -14883,13 +14847,13 @@ snapshots:
 
   axios@0.21.4:
     dependencies:
-      follow-redirects: 1.15.5
+      follow-redirects: 1.15.5(debug@4.4.0)
     transitivePeerDependencies:
       - debug
 
   axios@1.6.7:
     dependencies:
-      follow-redirects: 1.15.5
+      follow-redirects: 1.15.5(debug@4.4.0)
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -15629,8 +15593,6 @@ snapshots:
 
   did-resolver@4.1.0: {}
 
-  diff@5.2.0: {}
-
   dijkstrajs@1.0.3: {}
 
   direction@2.0.1: {}
@@ -16214,8 +16176,6 @@ snapshots:
   flow-enums-runtime@0.0.6: {}
 
   flow-parser@0.206.0: {}
-
-  follow-redirects@1.15.5: {}
 
   follow-redirects@1.15.5(debug@4.3.4):
     optionalDependencies:
@@ -18587,8 +18547,6 @@ snapshots:
 
   preact@10.19.3: {}
 
-  prettier@2.8.8: {}
-
   pretty-format@26.6.2:
     dependencies:
       '@jest/types': 26.6.2
@@ -20297,11 +20255,6 @@ snapshots:
       utf8: 3.0.0
 
   webauthn-p256@0.0.10:
-    dependencies:
-      '@noble/curves': 1.8.2
-      '@noble/hashes': 1.7.2
-
-  webauthn-p256@0.0.5:
     dependencies:
       '@noble/curves': 1.8.2
       '@noble/hashes': 1.7.2
