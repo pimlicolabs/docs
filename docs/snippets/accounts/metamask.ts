@@ -4,7 +4,6 @@ import {
 	createPublicClient,
 	encodeFunctionData,
 	getContract,
-	Hex,
 	http,
 	parseEther,
 } from "viem";
@@ -168,27 +167,21 @@ const userOpHash_$3 = await smartAccountClient.sendUserOperation({
 // [!endregion submitBatch]
 
 // [!region sendTransactionWithDelegation]
-import {
-	DelegationFramework,
-	SINGLE_DEFAULT_MODE,
-} from "@metamask/delegation-toolkit";
+import { SINGLE_DEFAULT_MODE } from "@metamask/delegation-toolkit/utils";
+import { DelegationManager } from "@metamask/delegation-toolkit/contracts";
+import { createExecution } from "@metamask/delegation-toolkit";
 
 const delegations = [signedDelegation];
 
 // Actual execution to be performed by the delegate account
 const executions = [
-	{
-		target: "0xFC3e86566895Fb007c6A0d3809eb2827DF94F751" as Hex,
-		value: parseEther("0"),
-		callData: encodeFunctionData({
-			abi: tokenAbi,
-			functionName: "mint",
-			args: ["0x_MY_ADDRESS_TO_MINT_TOKENS", parseEther("1")],
-		}),
-	},
+	createExecution({
+		target: "0xFC3e86566895Fb007c6A0d3809eb2827DF94F751",
+		callData: encodeFunctionData({ abi: tokenAbi, functionName: "mint", args: ["0x_MY_ADDRESS_TO_MINT_TOKENS", parseEther("1")] }),
+	}),
 ];
 
-const redeemDelegationCalldata = DelegationFramework.encode.redeemDelegations({
+const redeemDelegationCalldata = DelegationManager.encode.redeemDelegations({
 	delegations: [delegations],
 	modes: [SINGLE_DEFAULT_MODE],
 	executions: [executions],
