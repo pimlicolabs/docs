@@ -104,7 +104,7 @@ export const accountsSidebar = [
 		link: "/guides/how-to/accounts/use-kernel-account",
 	},
 	{
-		text: "Metamask delegation toolkit",
+		text: "MetaMask Smart Accounts",
 		link: "/guides/how-to/accounts/use-metamask-account",
 	},
 	{

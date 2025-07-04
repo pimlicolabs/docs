@@ -168,17 +168,15 @@ const userOpHash_$3 = await smartAccountClient.sendUserOperation({
 // [!endregion submitBatch]
 
 // [!region sendTransactionWithDelegation]
-import {
-	DelegationFramework,
-	SINGLE_DEFAULT_MODE,
-} from "@metamask/delegation-toolkit";
+import { DelegationManager } from "@metamask/delegation-toolkit/contracts";
+import { SINGLE_DEFAULT_MODE } from "@metamask/delegation-toolkit/utils";
 
 const delegations = [signedDelegation];
 
 // Actual execution to be performed by the delegate account
 const executions = [
 	{
-		target: "0xFC3e86566895Fb007c6A0d3809eb2827DF94F751" as Hex,
+		target: "0xFC3e86566895Fb007c6A0d3809eb2827DF94F751",
 		value: parseEther("0"),
 		callData: encodeFunctionData({
 			abi: tokenAbi,
@@ -188,7 +186,7 @@ const executions = [
 	},
 ];
 
-const redeemDelegationCalldata = DelegationFramework.encode.redeemDelegations({
+const redeemDelegationCalldata = DelegationManager.encode.redeemDelegations({
 	delegations: [delegations],
 	modes: [SINGLE_DEFAULT_MODE],
 	executions: [executions],

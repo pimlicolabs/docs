@@ -1,21 +1,21 @@
-# How to use Metamask delegation toolkit with permissionless.js
+# How to use MetaMask Smart Accounts with permissionless.js
 
 :::info
-Metamask maintains their own in-house SDK built closely on top of permissionless.js that you can use for the account system while still plugging in all the other components from permissionless.js. Take a look at [their documentation](https://docs.metamask.io/delegation-toolkit/how-to/send-user-operation) for more information.
+MetaMask maintains their own in-house SDK built closely on top of permissionless.js that you can use for the account system while still plugging in all the other components from permissionless.js. Take a look at [their documentation](https://docs.metamask.io/delegation-toolkit/how-to/send-user-operation) for more information.
 :::
 
-[Metamask Delegation Toolkit](https://docs.metamask.io/delegation-toolkit/get-started/quickstart) is a **smart account** that supports delegation of the smart account to another signer with granular permission sharing. It is build over [ERC-7710](https://eip.tools/eip/7710) and [ERC-7715](https://eip.tools/eip/7715) to support a standardized minimal interface. Requesting ERC-7715 permissions and redeeming ERC-7710 delegations are experimental features.
+The [MetaMask Delegation Toolkit](https://docs.metamask.io/delegation-toolkit/get-started/quickstart) is a collection of tools for creating MetaMask Smart Accounts. A smart account can delegate to another signer with granular permission sharing. It is built over [ERC-7710](https://eip.tools/eip/7710) and [ERC-7715](https://eip.tools/eip/7715) to support a standardized minimal interface. Requesting ERC-7715 permissions and redeeming ERC-7710 delegations are experimental features.
 
-You can have two types of account in Metamask Delegation Toolkit:
+There are two types of accounts involved in delegation:
 
-1. **Delegator Account**: A smart account that support programmable account behavior and advanced features such as multi-signature approvals, automated transaction batching, and custom security policies.
-2. **Delegate Account**: An account (smart account or EOA) that receives the delegation from the delegator account to perform actions on behalf of the delegator account.
+1. **Delegator account**: A smart account that supports programmable account behavior and advanced features such as multi-signature approvals, automated transaction batching, and custom security policies.
+2. **Delegate account**: An account (smart account or EOA) that receives the delegation from the delegator account to perform actions on behalf of the delegator account.
 
 You can use both accounts with permissionless.js.
 
 ## Installation
 
-We will be using Metamask's official SDK to create a smart account.
+We will be using MetaMask's official SDK to create a smart account.
 
 :::code-group
 
@@ -43,7 +43,7 @@ bun install permissionless viem @metamask/delegation-toolkit
 
 ### Create the clients
 
-First we must create the public, (optionally) pimlico paymaster clients that will be used to interact with the Metamask account.
+First we must create the public, (optionally) pimlico paymaster clients that will be used to interact with the MetaMask smart account.
 
 ```ts
 // [!include ~/snippets/accounts/metamask.ts:clients]
@@ -51,7 +51,7 @@ First we must create the public, (optionally) pimlico paymaster clients that wil
 
 ### Create the signer
 
-Metamask accounts can work with a variety of signing algorithms such as ECDSA, passkeys, and multisig.
+MetaMask Smart Accounts can work with a variety of signing algorithms such as ECDSA, passkeys, and multisig.
 
 For example, to create a signer based on a private key:
 
@@ -59,13 +59,13 @@ For example, to create a signer based on a private key:
 // [!include ~/snippets/accounts/metamask.ts:signer]
 ```
 
-### Create the Metamask delegator account
+### Create the MetaMask delegator account
 
 :::info
-For a full list of options for creating a Metamask account, take a look at the Metamask's documentation page for [`toMetaMaskSmartAccount`](https://docs.metamask.io/delegation-toolkit/how-to/create-smart-account).
+For a full list of options for creating a MetaMask smart account, take a look at the MetaMask's documentation page for [`toMetaMaskSmartAccount`](https://docs.metamask.io/delegation-toolkit/how-to/create-smart-account).
 :::
 
-With a signer, you can create a Metamask account as such:
+With a signer, you can create a MetaMask smart account as such:
 
 ```ts
 // [!include ~/snippets/accounts/metamask.ts:smartAccount]
@@ -114,7 +114,7 @@ To create a delegate account, we will follow the following steps:
 
 ### Create the clients
 
-First we must create the public, (optionally) pimlico paymaster clients that will be used to interact with the Metamask account.
+First we must create the public, (optionally) pimlico paymaster clients that will be used to interact with the MetaMask smart account.
 
 ```ts
 // [!include ~/snippets/accounts/metamask.ts:clients]
@@ -122,7 +122,7 @@ First we must create the public, (optionally) pimlico paymaster clients that wil
 
 ### Create the signer
 
-Metamask accounts can work with a variety of signing algorithms such as ECDSA, passkeys, and multisig.
+MetaMask Smart Accounts can work with a variety of signing algorithms such as ECDSA, passkeys, and multisig.
 
 For example, to create a signer based on a private key:
 
@@ -130,13 +130,13 @@ For example, to create a signer based on a private key:
 // [!include ~/snippets/accounts/metamask.ts:delegateSigner]
 ```
 
-### Create the Metamask delegate account
+### Create the MetaMask delegate account
 
 :::info
-For a full list of options for creating a Metamask account, take a look at the Metamask's documentation page for [`toMetaMaskSmartAccount`](https://docs.metamask.io/delegation-toolkit/how-to/create-smart-account).
+For a full list of options for creating a MetaMask smart account, take a look at the MetaMask's documentation page for [`toMetaMaskSmartAccount`](https://docs.metamask.io/delegation-toolkit/how-to/create-smart-account).
 :::
 
-With a delegate signer, you can create a Metamask delegate account as such:
+With a delegate signer, you can create a MetaMask delegate account as such:
 
 ```ts
 // [!include ~/snippets/accounts/metamask.ts:delegateSmartAccount]
