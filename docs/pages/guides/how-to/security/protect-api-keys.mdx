@@ -106,7 +106,10 @@ app.use('/api/proxy',  createProxyMiddleware({
     },
     onProxyReq: (proxyReq, req) => {
       // Ensure JSON content type
+      const bodyData = JSON.stringify(req.body);
       proxyReq.setHeader('Content-Type', 'application/json');
+      proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
+      proxyReq.write(bodyData);
     },
   }));
 
