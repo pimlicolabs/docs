@@ -1,0 +1,63 @@
+# to7702SimpleSmartAccount
+
+Creates a SimpleAccount instance by delegating `owner` using EIP-7702.
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+import { to7702SimpleSmartAccount } from "permissionless/accounts"
+import { publicClient } from "./publicClient"
+import { owner } from "./owner"
+
+const simpleSmartAccount = await to7702SimpleSmartAccount({
+  client: publicClient,
+  owner
+})
+```
+
+```ts [publicClient.ts]
+// [!include ~/snippets/publicClient.ts:client]
+```
+
+```ts [owner.ts]
+// [!include ~/snippets/owner.ts]
+```
+
+::::
+
+## Returns
+
+-  **Type:** `SimpleSmartAccountImplementation<entryPointVersion, true>`
+
+This represents the smart account instance.
+
+## Parameters
+
+### client
+-  **Type:** `Client`
+
+A public client is required as the smart account needs access to the network to query information about its state (e.g., nonce, address, etc.).
+
+### owner
+
+-  **Type:** `LocalAccount | EIP1193Provider | WalletClient`
+
+The owner which will be delegated to simple smart account.
+
+### accountLogicAddress (optional)
+
+-  **Type:** `Address`
+
+Ownership will be delegated to this account logic address.
+
+:::info
+The accountLogicAddress for v0.8 of the EntryPoint is `0xe6Cae83BdE06E4c305530e199D7217f42808555B`.
+:::
+
+### entryPoint (optional)
+
+-  **Type:** `{ address: Address, version: "0.8" }`
+
+This specifies the address and version of the EntryPoint contract. If not provided, entryPoint 0.8 will be used.

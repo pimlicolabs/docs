@@ -351,12 +351,20 @@ export const permissionlessSidebar = [
 						link: "/references/permissionless/reference/accounts/toSimpleSmartAccount",
 					},
 					{
+						text: "to7702SimpleSmartAccount",
+						link: "/references/permissionless/reference/accounts/to7702SimpleSmartAccount",
+					},
+					{
 						text: "toSafeSmartAccount",
 						link: "/references/permissionless/reference/accounts/toSafeSmartAccount",
 					},
 					{
 						text: "toKernelSmartAccount",
 						link: "/references/permissionless/reference/accounts/toKernelSmartAccount",
+					},
+					{
+						text: "to7702KernelSmartAccount",
+						link: "/references/permissionless/reference/accounts/to7702KernelSmartAccount",
 					},
 					{
 						text: "toNexusSmartAccount",

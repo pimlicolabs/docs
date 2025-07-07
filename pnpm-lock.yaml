@@ -101,8 +101,8 @@ importers:
         specifier: ^22.1.1
         version: 22.1.1
       permissionless:
-        specifier: 0.2.24
-        version: 0.2.24(viem@2.28.0(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10))(webauthn-p256@0.0.10)
+        specifier: 0.2.49
+        version: 0.2.49(ox@0.6.9(typescript@5.3.3))(viem@2.28.0(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10))
       react:
         specifier: latest
         version: 18.2.0
@@ -7020,11 +7020,14 @@ packages:
   periscopic@3.1.0:
     resolution: {integrity: sha512-vKiQ8RRtkl9P+r/+oefh25C3fhybptkHKCZSPlcXiJux2tJF55GnEj3BVn4A5gKfq9NWWXXrxkHBwVPUfH0opw==}
 
-  permissionless@0.2.24:
-    resolution: {integrity: sha512-46B/2zuvuEifIMRMLRJEH60LvxduPhEGnX6jzei9f7AoJEL3TEWQorPxOLwx3XUASU2c+ssTNSFigNmVGRkGCw==}
+  permissionless@0.2.49:
+    resolution: {integrity: sha512-BiMnbCxUDRJ01ppDIrx0S5c7oN9XSz2SaG2F4AIIzqUhEE1tWBJW64Usb+q57cxHjGpGaUX6/3hzmx/H75l3Ww==}
     peerDependencies:
-      viem: ^2.21.54
-      webauthn-p256: 0.0.10
+      ox: ^0.6.7
+      viem: ^2.28.1
+    peerDependenciesMeta:
+      ox:
+        optional: true
 
   picocolors@1.0.1:
     resolution: {integrity: sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==}
@@ -10059,7 +10062,7 @@ snapshots:
 
   '@confio/ics23@0.6.8':
     dependencies:
-      '@noble/hashes': 1.7.2
+      '@noble/hashes': 1.7.1
       protobufjs: 6.11.4
 
   '@cosmjs/amino@0.30.1':
@@ -10074,7 +10077,7 @@ snapshots:
       '@cosmjs/encoding': 0.30.1
       '@cosmjs/math': 0.30.1
       '@cosmjs/utils': 0.30.1
-      '@noble/hashes': 1.7.2
+      '@noble/hashes': 1.7.1
       bn.js: 5.2.1
       elliptic: 6.5.4
       libsodium-wrappers: 0.7.13
@@ -11773,7 +11776,7 @@ snapshots:
   '@metamask/utils@8.3.0':
     dependencies:
       '@ethereumjs/tx': 4.2.0
-      '@noble/hashes': 1.7.2
+      '@noble/hashes': 1.7.1
       '@scure/base': 1.2.4
       '@types/debug': 4.1.12
       debug: 4.4.0
@@ -14966,7 +14969,7 @@ snapshots:
 
   bitcoinjs-lib@6.1.5:
     dependencies:
-      '@noble/hashes': 1.7.2
+      '@noble/hashes': 1.7.1
       bech32: 2.0.0
       bip174: 2.1.1
       bs58check: 3.0.1
@@ -15078,7 +15081,7 @@ snapshots:
 
   bs58check@3.0.1:
     dependencies:
-      '@noble/hashes': 1.7.2
+      '@noble/hashes': 1.7.1
       bs58: 5.0.0
 
   bser@2.1.1:
@@ -18475,10 +18478,11 @@ snapshots:
       estree-walker: 3.0.3
       is-reference: 3.0.2
 
-  permissionless@0.2.24(viem@2.28.0(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10))(webauthn-p256@0.0.10):
+  permissionless@0.2.49(ox@0.6.9(typescript@5.3.3))(viem@2.28.0(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10)):
     dependencies:
       viem: 2.28.0(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10)
-      webauthn-p256: 0.0.10
+    optionalDependencies:
+      ox: 0.6.9(typescript@5.3.3)
 
   picocolors@1.0.1: {}
 

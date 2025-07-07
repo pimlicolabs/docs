@@ -1,7 +1,7 @@
 // [!region createSmartAccount]
 import { createPublicClient, Hex, http } from "viem";
-import { toSimple7702SmartAccount } from "viem/account-abstraction";
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
+import { to7702KernelSmartAccount, to7702SimpleSmartAccount } from "permissionless/accounts";
 import { sepolia } from "viem/chains";
 
 // This is your EOA's private key
@@ -14,10 +14,18 @@ const client = createPublicClient({
 	transport: http("https://sepolia.drpc.org"),
 });
 
-const simple7702Account = await toSimple7702SmartAccount({
+// you can use either simple smart account
+const simple7702Account = await to7702SimpleSmartAccount({
 	client,
 	owner: eoa7702,
 });
+
+// or use a kernel smart account
+const kernel7702Account = await to7702KernelSmartAccount({
+	client,
+	owner: eoa7702,
+})
+
 
 // [!endregion createSmartAccount]
 
@@ -42,7 +50,7 @@ import { zeroAddress } from "viem";
 const smartAccountClient = createSmartAccountClient({
 	client,
 	chain: sepolia,
-	account: simple7702Account,
+	account: simple7702Account, // or kernel7702Account
 	paymaster: pimlicoClient,
 	bundlerTransport: http(
 		`https://api.pimlico.io/v2/11155111/rpc?apikey=${pimlicoAPIKey}`,
