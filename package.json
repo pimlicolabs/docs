@@ -38,7 +38,7 @@
 		"caniuse-lite": "^1.0.30001655",
 		"lucide-react": "^0.309.0",
 		"magic-sdk": "^22.1.1",
-		"permissionless": "0.2.49",
+		"permissionless": "0.2.50",
 		"react": "latest",
 		"react-dom": "latest",
 		"viem": "^2.28.0",
@@ -47,7 +47,7 @@
 		"wagmi": "^2.5.5"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^1.5.2",
+		"@biomejs/biome": "^2.1.1",
 		"@types/react": "^18.2.47",
 		"dotenv": "^16.4.5",
 		"tailwindcss": "^4.0.12",

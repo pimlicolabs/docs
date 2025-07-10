@@ -1,19 +1,19 @@
 {
-	"languages": {
-		"javascript": {
-			"extensions": [".js"],
-			"indentation": "spaces"
-		},
-		"typescript": {
-			"extensions": [".ts", ".tsx"],
-			"indentation": "spaces"
-		},
-		"markdown": {
-			"extensions": [".md", ".mdx"],
-			"indentation": "spaces"
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+	"linter": {
+		"rules": {
+			"style": {
+				"noParameterAssign": "error",
+				"useAsConstAssertion": "error",
+				"useDefaultParameterLast": "error",
+				"useEnumInitializers": "error",
+				"useSelfClosingElements": "error",
+				"useSingleVarDeclarator": "error",
+				"noUnusedTemplateLiteral": "error",
+				"useNumberNamespace": "error",
+				"noInferrableTypes": "error",
+				"noUselessElse": "error"
+			}
 		}
-	},
-	"formatting": {
-		"useTabs": false
 	}
 }
