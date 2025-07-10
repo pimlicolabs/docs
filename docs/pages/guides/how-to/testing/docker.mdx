@@ -47,7 +47,7 @@ Then, create a **docker-compose.yaml** file at the root of your test directory w
 ```yaml [docker-compose.yaml]
 services:
   anvil:
-    image: ghcr.io/foundry-rs/foundry:nightly-c4a984fbf2c48b793c8cd53af84f56009dd1070c
+    image: ghcr.io/foundry-rs/foundry
     ports: [ "8545:8545" ]
     entrypoint: [ "anvil", "--host", "0.0.0.0", "--block-time", "0.1", "--silent"]
     platform: linux/amd64/v8
