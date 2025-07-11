@@ -60,6 +60,10 @@ export const bundlerSidebar = [
 	},
 	{ text: "FAQs", link: "/references/bundler/faqs" },
 	{
+		text: "Public Endpoint",
+		link: "/references/bundler/public-endpoint",
+	},
+	{
 		text: "Endpoints",
 		collapsed: false,
 		items: [
