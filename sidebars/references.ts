@@ -102,6 +102,10 @@ export const bundlerSidebar = [
 		],
 	},
 	{
+		text: "Bundler Error Codes",
+		link: "/references/bundler/bundler-error-codes",
+	},
+	{
 		text: "Bundler Errors",
 		collapsed: true,
 		items: [
@@ -233,6 +237,10 @@ export const bundlerSidebar = [
 				link: "/references/bundler/entrypoint-errors/aa96",
 			},
 		],
+	},
+	{
+		text: "Bundler Error Codes",
+		link: "/references/bundler/bundler-error-codes",
 	},
 ];
 
