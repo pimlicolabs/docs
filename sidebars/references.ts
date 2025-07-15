@@ -102,10 +102,6 @@ export const bundlerSidebar = [
 		],
 	},
 	{
-		text: "Bundler Error Codes",
-		link: "/references/bundler/bundler-error-codes",
-	},
-	{
 		text: "Bundler Errors",
 		collapsed: true,
 		items: [

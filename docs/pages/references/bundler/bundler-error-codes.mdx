@@ -1,91 +1,24 @@
 # Bundler Error Codes
 
-This page lists all bundler error codes as defined in [EIP-7769](https://eips.ethereum.org/EIPS/eip-7769). These standardized error codes help developers identify and handle specific error conditions when interacting with ERC-4337 bundlers.
+The bundler implements the [EIP-7769](https://eips.ethereum.org/EIPS/eip-7769) spec which standardizes ERC-4337 bundler error codes across different bundler implementations.
 
-## Error Code Reference
+## EIP-7769 Error Codes
 
-### -32602: Invalid UserOperation
+| Error Code | Description |
+|------------|-------------|
+| -32602 | Invalid `UserOperation` struct/fields |
+| -32500 | Rejected by EntryPoint contract's `simulateValidation` |
+| -32501 | Rejected by paymaster contract's `validatePaymasterUserOp` |
+| -32502 | Violation of ERC-7562 opcode validation rules |
+| -32503 | UserOperation out of time-range |
+| -32504 | Paymaster throttled or banned by ERC-7562 reputation rules |
+| -32505 | Paymaster stake or unstake-delay too low |
+| -32507 | Wallet signature check failed |
+| -32508 | Paymaster balance insufficient for pending UserOperations |
+| -32521 | UserOperation execution reverted |
 
-**Description:** Invalid `UserOperation` struct/fields
+## Standard JSON-RPC Error Codes
 
-This error occurs when the UserOperation provided to the bundler contains invalid or malformed fields that don't meet the ERC-4337 specification requirements.
-
-### -32500: EntryPoint Validation Failure
-
-**Description:** Rejected by EntryPoint contract's `simulateValidation`
-
-This error occurs during wallet creation or validation when the EntryPoint contract rejects the UserOperation. The error message will contain the specific "`AAxx`" error code from the EntryPoint.
-
-### -32501: Paymaster Validation Failure
-
-**Description:** Rejected by paymaster contract's `validatePaymasterUserOp`
-
-This error occurs when the paymaster contract rejects the UserOperation during validation. The response will include:
-- The paymaster's revert message
-- A `paymaster` address in the data field
-
-### -32502: Opcode Validation Violation
-
-**Description:** Violation of ERC-7562 opcode validation rules
-
-This error indicates that the UserOperation violates the opcode validation rules specified in ERC-7562, which define restrictions on certain opcodes for security and DoS prevention.
-
-### -32503: UserOperation Out of Time Range
-
-**Description:** UserOperation out of time-range
-
-This error occurs when the wallet or paymaster validation time has expired. The response data includes:
-- `validUntil`: The timestamp until which the operation was valid
-- `validAfter`: The timestamp after which the operation becomes valid
-- `paymaster` (optional): The paymaster address if applicable
-
-### -32504: Paymaster Throttled or Banned
-
-**Description:** Paymaster throttled or banned by ERC-7562 reputation rules
-
-This error indicates that the paymaster has been throttled or banned according to the reputation rules defined in ERC-7562. The response must include the `paymaster` address.
-
-### -32505: Insufficient Paymaster Stake
-
-**Description:** Paymaster stake or unstake-delay too low
-
-This error occurs when the paymaster doesn't meet the minimum stake or unstake delay requirements. The response includes:
-- `paymaster`: The paymaster address
-- `minimumStake`: The required minimum stake amount
-- `minimumUnstakeDelay`: The required minimum unstake delay
-
-### -32507: Wallet Signature Check Failed
-
-**Description:** Wallet signature check failed
-
-This error indicates that the signature validation for the UserOperation failed at the wallet level.
-
-### -32508: Insufficient Paymaster Balance
-
-**Description:** Paymaster balance insufficient for pending UserOperations
-
-This error occurs when the paymaster doesn't have sufficient balance to cover the gas costs for all pending UserOperations that rely on it.
-
-## Error Response Format
-
-All error responses follow the JSON-RPC error format:
-
-```json
-{
-  "jsonrpc": "2.0",
-  "id": 1,
-  "error": {
-    "code": -32500,
-    "message": "AA21 didn't pay prefund",
-    "data": {
-      // Additional error-specific data
-    }
-  }
-}
-```
-
-## See Also
-
-- [EntryPoint Errors](/references/bundler/entrypoint-errors) - Detailed explanations of AAxx error codes
-- [Bundler Errors](/references/bundler/bundler-errors) - Pimlico-specific bundler error codes
-- [EIP-7769](https://eips.ethereum.org/EIPS/eip-7769) - The full specification for bundler error codes
+| Error Code | Description |
+|------------|-------------|
+| -32603 | Internal error - indicates an internal failure in the bundler |
