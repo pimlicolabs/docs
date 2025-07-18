@@ -1,45 +1,72 @@
 # Using Pimlico with Privy
 
-This guide shows you how to integrate Pimlico's infrastructure with Privy to enable smart wallets with gas sponsorship and enhanced functionality for your users.
+This guide shows you how to enable Smart accounts on your Privy account powered by Pimlico's infrastructure.
 
-### Overview
+## Why
 
-Privy provides a seamless way to onboard users with embedded wallets and social logins. By combining Privy with Pimlico's infrastructure, you can:
+Privy provides a seamless way to onboard users with embedded wallets and social logins. By enabling Smart accounts powered by Pimlico's infrastructure on Privy, you can:
 
-- Enable modular smart accounts for your users
 - Sponsor gas fees to improve user experience
-- Access advanced account abstraction features
-- Support multiple EVM chains with reliable infrastructure
+- Batch multiple transactions
+- Use session keys for automations and uninterrupted confirmation
+- Allow for additional recovery flows
 
 ## Prerequisites
 
 Before starting, ensure you have:
 
 - A Privy account with access to the dashboard
-- A Pimlico API key ([get one here](https://dashboard.pimlico.io))
 - Your app configured in Privy
 
 ## Configuration Steps
 
 :::::steps
-### Enable Smart Wallets in Privy Dashboard
+### Create an API key
+Generate a Pimlico API key to access our infrastructure. You have two options:
+
+#### Using the CLI
+
+```bash
+pnpm dlx @pimlico/cli@latest
+```
+
+#### Using the Dashboard
+
+1. Go to the [Pimlico Dashboard](https://dashboard.pimlico.io/)
+2. Click **API Keys** in the sidebar
+3. Click **Create API key**
+
+:::tip
+Save your API key as you will need this in the next steps. You can always retrieve it later from the [Dashboard](https://dashboard.pimlico.io/apikeys).
+:::
+
+### Enable Smart Wallets in the Privy Dashboard
 1. Navigate to your Privy Dashboard and locate the **Smart wallets** section in the left sidebar under **Wallet Infrastructure**.
 2. Toggle on **Enable smart wallets for your app**. This allows users to log in with email, socials, passkey, or wallet and create a smart wallet for them.
 3. Choose your preferred smart account implementation. Pimlico supports all types of smart accounts. For this guide, we'll use **Safe** as an example.
 
 ![Smart wallets section in Privy dashboard](/privy-integration.png)
 
-### Configure Chains
+### Quick setup
 You can either configure each chain manually or configure all chains in one go using **Quick setup**. We recommend using quick setup as it is easier and will enable Pimlico on all the chains.
 
-1. Select Pimlico as **Bundler and paymaster provider**.
+![Quick setup section](/privy-quick-setup.png)
+
+### Configure Chains
+1. Select Pimlico as the **Bundler and paymaster provider**.
 2. Enter your Pimlico API key. You can get your API key from our [Dashboard](https://dashboard.pimlico.io/apikeys).
-3. Select the chains you want to configure. Pimlico supports all the chains on Privy.
+3. Select the chains you want to configure. Pimlico supports all the chains on Privy (and more).
 
 ![Configure chains section](/privy-chain-configuration.png)
 
-We support many more chains. You can check the complete list [here](/guides/supported-chains) and reach out to us if you need help in supporting a chain that Privy doesn't support.
+You can check the complete list of chains we support [here](/guides/supported-chains) and can reach out to us if you need help in supporting a chain that Privy doesn't support.
 
 ### Save Configuration
 Click **Save and close** to apply your chain configuration, then click **Save changes** on the main Smart wallets page to persist all settings.
+
+![Save Configuration](/privy-save-and-close.png)
 :::::
+
+:::tip[Congratulations! 🎉]
+You have now successfully enabled smart accounts on your Privy account! Your users can now benefit from gas sponsorship, transaction batching, and other advanced features powered by Pimlico's infrastructure.
+:::
