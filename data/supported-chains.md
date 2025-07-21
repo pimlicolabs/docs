@@ -61,6 +61,7 @@
 | BOB Sepolia | 808813 | bob-sepolia |
 | Ceol Alfajores Testnet | 44787 | celo-alfajores-testnet |
 | Chiado Testnet | 10200 | chiado-testnet |
+| Citrea Testnet | 5115 | citrea-testnet |
 | Cyber Testnet | 111557560 | cyber-testnet |
 | DFK Subnet Testnet | 335 | dfk-chain-test |
 | DOS testnet | 3939 | dos-testnet |
