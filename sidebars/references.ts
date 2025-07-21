@@ -37,6 +37,10 @@ export const platformSidebar = [
 					},
 				],
 			},
+			{
+				text: "Upgrade",
+				link: "/references/platform/api/upgrade",
+			},
 		],
 	},
 ];
