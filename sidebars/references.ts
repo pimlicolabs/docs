@@ -7,6 +7,10 @@ export const platformSidebar = [
 		text: "API",
 		items: [
 			{
+				text: "Upgrade",
+				link: "/references/platform/api/upgrade",
+			},
+			{
 				text: "Pagination",
 				link: "/references/platform/api/pagination",
 			},
@@ -36,10 +40,6 @@ export const platformSidebar = [
 						link: "/references/platform/api/sponsorship-policies/update",
 					},
 				],
-			},
-			{
-				text: "Upgrade",
-				link: "/references/platform/api/upgrade",
 			},
 		],
 	},
