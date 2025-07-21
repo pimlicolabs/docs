@@ -1,0 +1,79 @@
+diff --git a/_lib/vite/plugins/llms.js b/_lib/vite/plugins/llms.js
+index ce64c723e0165145405c8a382acc57ff553c51a6..a4ca3387880a2273a58d96fcb979cfef0a1c2a96 100644
+--- a/_lib/vite/plugins/llms.js
++++ b/_lib/vite/plugins/llms.js
+@@ -13,6 +13,7 @@ import { unified } from 'unified';
+ import { visit } from 'unist-util-visit';
+ import { resolveVocsConfig } from '../utils/resolveVocsConfig.js';
+ import { getRemarkPlugins } from './mdx.js';
++import { resolveVocsModules } from '../utils/search.js';
+ const remarkPlugins = getRemarkPlugins();
+ export async function llms() {
+     let viteConfig;
+@@ -36,6 +37,9 @@ export async function llms() {
+             const llmsTxtContent = [...content, '## Docs', ''];
+             const llmsCtxTxtContent = content;
+             for (const file of files) {
++                // Skip files that contain v0_1 in their path
++                if (file.includes('v0_1')) continue;
++                
+                 let path = file.replace(pagesPath, '').replace(/\.[^.]*$/, '');
+                 if (path.endsWith('index'))
+                     path = path.replace('index', '').replace(/\/$/, '');
+@@ -45,7 +49,7 @@ export async function llms() {
+                 const parser = unified().use(remarkParse).use(remarkMdx).use(remarkStringify);
+                 for (const plugin of remarkPlugins)
+                     parser.use(plugin);
+-                const ast = parser.parse(contents);
++                const ast = parser.parse(await resolveVocsModules(file, contents));
+                 // process llms.txt content
+                 visit(ast, { type: 'heading', depth: 1 }, (n, i) => {
+                     const node = n.children[0];
+diff --git a/_lib/vite/utils/search.js b/_lib/vite/utils/search.js
+index b2c1d6548f7b263ceabf0a8d39c9973e14a01823..56d49360e530b75997edc2ba3a07675b5f37dc24 100644
+--- a/_lib/vite/utils/search.js
++++ b/_lib/vite/utils/search.js
+@@ -1,5 +1,5 @@
+ import { readFileSync } from 'node:fs';
+-import { join, relative, resolve } from 'node:path';
++import { join, relative, resolve, extname } from 'node:path';
+ import { pathToFileURL } from 'node:url';
+ import { compile, run } from '@mdx-js/mdx';
+ import debug_ from 'debug';
+@@ -14,6 +14,7 @@ import { getRehypePlugins, getRemarkPlugins } from '../plugins/mdx.js';
+ import * as cache_ from './cache.js';
+ import { hash } from './hash.js';
+ import { slash } from './slash.js';
++import { resolveVocsConfig } from '../utils/resolveVocsConfig.js';
+ const limit = pLimit(30);
+ export const debug = debug_('vocs:search');
+ export async function buildIndex({ baseDir, cacheDir, }) {
+@@ -70,6 +71,28 @@ export function saveIndex(outDir, index, { cacheDir } = {}) {
+     return hash_;
+ }
+ const remarkPlugins = getRemarkPlugins();
++
++export async function resolveVocsModules(filePath, file) {
++	const { config } = await resolveVocsConfig()
++
++	// Transform imports in the file content similar to resolveVocsModules plugin
++	let transformedFile = file
++	if (filePath.startsWith(resolve(config.rootDir))) {
++		if ([".js", ".jsx", ".ts", ".tsx", ".md", ".mdx"].includes(extname(filePath))) {
++			transformedFile = file.replace(
++				/import (.*) from ("|')vocs("|')/g,
++				`import $1 from $2${resolve(import.meta.dirname, "../..")}.js$3`,
++			)
++			transformedFile = transformedFile.replace(
++				/import (.*) from ("|')vocs\/components("|')/g,
++				`import $1 from $2${resolve(import.meta.dirname, "../../components")}.js$3`,
++			)
++		}
++	}
++
++	return transformedFile
++}
++
+ export async function processMdx(filePath, file, options) {
+     const { rehypePlugins } = options;
+     try {
