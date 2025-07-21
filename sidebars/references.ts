@@ -95,10 +95,6 @@ export const bundlerSidebar = [
 				text: "pimlico_getUserOperationStatus",
 				link: "/references/bundler/endpoints/pimlico_getUserOperationStatus",
 			},
-			{
-				text: "pimlico_simulateAssetChanges",
-				link: "/references/bundler/endpoints/pimlico_simulateAssetChanges",
-			},
 		],
 	},
 	{
