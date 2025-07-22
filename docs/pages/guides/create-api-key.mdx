@@ -1,0 +1,40 @@
+---
+title: Create API Key
+---
+
+# Create API Key
+
+To use Pimlico's services, you'll need an API key. We recommend using our CLI for the quickest setup, but you can also use the dashboard.
+
+## Using the CLI (Recommended)
+
+The fastest way to get started is with our CLI tool. Run the following command from your project's root directory:
+
+```bash
+pnpm dlx @pimlico/cli@latest
+```
+
+This command will:
+- Interactively guide you through the setup process
+- Create your API key automatically
+- Add it to your `.env` file for immediate use
+
+## Using the Dashboard
+
+Alternatively, you can create an API key through our web dashboard:
+
+1. Go to the [Pimlico Dashboard](https://dashboard.pimlico.io/)
+2. Sign up or log in to your account
+3. Click **API Keys** in the sidebar
+4. Click **Create API key**
+5. Copy your API key and add it to your project's `.env` file
+
+:::tip
+Save your API key securely as you'll need it for all API requests. You can always retrieve it later from the [Dashboard](https://dashboard.pimlico.io/apikeys).
+:::
+
+## Next Steps
+
+Once you have your API key:
+- Add it to your `.env` file as `PIMLICO_API_KEY=your_key_here`
+- Start building with our [tutorials](/guides/tutorials/)

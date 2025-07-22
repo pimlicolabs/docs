@@ -22,23 +22,8 @@ Before starting, ensure you have:
 
 :::::steps
 ### Create an API key
-Generate a Pimlico API key to access our infrastructure. You have two options:
 
-#### Using the CLI
-
-```bash
-pnpm dlx @pimlico/cli@latest
-```
-
-#### Using the Dashboard
-
-1. Go to the [Pimlico Dashboard](https://dashboard.pimlico.io/)
-2. Click **API Keys** in the sidebar
-3. Click **Create API key**
-
-:::tip
-Save your API key as you will need this in the next steps. You can always retrieve it later from the [Dashboard](https://dashboard.pimlico.io/apikeys).
-:::
+[Create your API key](/guides/create-api-key) to access our infrastructure.
 
 ### Enable Smart Wallets in the Privy Dashboard
 1. Navigate to your Privy Dashboard and locate the **Smart wallets** section in the left sidebar under **Wallet Infrastructure**.
@@ -54,7 +39,7 @@ You can either configure each chain manually or configure all chains in one go u
 
 ### Configure Chains
 1. Select Pimlico as the **Bundler and paymaster provider**.
-2. Enter your Pimlico API key. You can get your API key from our [Dashboard](https://dashboard.pimlico.io/apikeys).
+2. Enter your Pimlico API key. You can [create an API key here](/guides/create-api-key).
 3. Select the chains you want to configure. Pimlico supports all the chains on Privy (and more).
 
 ![Configure chains section](/privy-chain-configuration.png)
