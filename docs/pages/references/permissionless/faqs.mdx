@@ -1,5 +1,18 @@
 # permissionless.js FAQs
 
+## How to decrease inclusion rate on Base using flashblocks?
+
+Just decrease your bundler's polling interval like so:
+
+```typescript
+const smartAccountClient = createSmartAccountClient({
+  account: simpleSmartAccount,
+  chain: base,
+  pollingInterval: 100, // reduce the polling interval to fetch receipts down to 100ms
+  bundlerTransport: http("https://api.pimlico.io/v2/8453/rpc?apikey=<YOUR-API-KEY>")
+})
+```
+
 ## Getting `WaitForUserOperationReceiptTimeoutError`?
 
 This error is thrown when the bundler takes too long to bundle your user operation or the default timeout configured in permissionless.js is not enough.
@@ -11,7 +24,7 @@ The easiest way to fix this is to increase the timeout in permissionless.js. You
 const smartAccountClient = createSmartAccountClient({
   account: simpleSmartAccount,
   chain: sepolia, // or whatever chain you are using
-  bundlerTransport: http("<bundler_endpoint>", {
+  bundlerTransport: http("https://api.pimlico.io/v2/8453/rpc?apikey=<YOUR-API-KEY>", {
     timeout: 30_000 // Custom timeout
   })
 })
