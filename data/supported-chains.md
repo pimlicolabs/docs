@@ -16,6 +16,7 @@
 | Berachain | 80094 | berachain |
 | Blast | 81457 | blast |
 | Bob | 60808 | bob |
+| Botanix Mainnet | 3637 | botanix-mainnet |
 | Celo | 42220 | celo |
 | Cyber Mainnet | 7560 | cyber-mainnet |
 | Degen | 666666666 | degen |
@@ -25,7 +26,6 @@
 | Fuse | 122 | fuse |
 | Geo | 80451 | geo |
 | Gnosis | 100 | gnosis |
-| Hedera | 295 | hedera |
 | Kaia | 8217 | kaia |
 | Kinto Mainnet | 7887 | kinto-mainnet |
 | Linea | 59144 | linea |
@@ -69,7 +69,6 @@
 | Funki Testnet | 3397901 | funki-testnet |
 | Fuse Sparknet | 123 | fuse-sparknet |
 | Geo Testnet | 19411 | geo-testnet |
-| Hedera Testnet | 296 | hedera-testnet |
 | Holesky | 17000 | holesky |
 | Hychain Testnet | 29113 | hychain-testnet |
 | Kaia Kairos | 1001 | kaia-kairos |
