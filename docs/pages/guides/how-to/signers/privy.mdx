@@ -28,11 +28,10 @@ import { PrivyWagmiConnector } from '@privy-io/wagmi-connector';
     },
   }}
 >
-    <PrivyWagmiConnector wagmiChainsConfig={configureChainsConfig}>
-        {children}
-    </PrivyWagmiConnector>
+  <PrivyWagmiConnector wagmiChainsConfig={configureChainsConfig}>
+      {children}
+  </PrivyWagmiConnector>
 </PrivyProvider>;
-
 ```
 
 ### Set Privy as the active wallet
@@ -120,6 +119,52 @@ const txHash = await smartAccountClient.sendTransaction({
     data: "0x",
     value: BigInt(0)
 })
+```
+
+::::
+
+## Using ERC20 Paymaster with Privy Smart Wallets
+
+::::steps
+
+### Approve paymaster for gas fees
+
+In your existing user operations, make sure to approve the paymaster to spend tokens for gas fees.
+
+```ts
+import { encodeFunctionData, Address } from 'viem'
+
+const paymasterApproveData = encodeFunctionData({
+  abi: ERC20ABI,
+  functionName: 'approve',
+  args: [paymasterAddress as Address, BigInt(paymasterValue.toString())]
+});
+
+const calls = [
+  {
+    to: erc20Address as Address,
+    data: paymasterApproveData,
+    value: BigInt(0),
+  },
+  // ... the rest of your user operations
+];
+```
+
+### Send transaction with paymaster context
+
+Finally, add the paymaster context to your Privy smart wallet client:
+
+```ts
+import { useSmartWallets } from '@privy-io/react-auth/smart-wallets'
+
+const { client } = useSmartWallets();
+
+const txHash = await client.sendTransaction({
+  calls, 
+  paymasterContext: {
+    token: erc20Address,
+  },
+});
 ```
 
 ::::
