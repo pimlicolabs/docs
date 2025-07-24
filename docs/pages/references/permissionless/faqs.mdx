@@ -1,6 +1,6 @@
 # permissionless.js FAQs
 
-## How to decrease inclusion rate on Base using flashblocks?
+## How to decrease inclusion time on Base using flashblocks?
 
 Just decrease your bundler's polling interval like so:
 
@@ -8,7 +8,7 @@ Just decrease your bundler's polling interval like so:
 const smartAccountClient = createSmartAccountClient({
   account: simpleSmartAccount,
   chain: base,
-  pollingInterval: 100, // reduce the polling interval to fetch receipts down to 100ms // [!code ++]
+  pollingInterval: 200, // reduce the polling interval to fetch receipts down to 200ms // [!code ++]
   bundlerTransport: http("https://api.pimlico.io/v2/8453/rpc?apikey=<YOUR-API-KEY>")
 })
 ```
