@@ -1120,28 +1120,6 @@
 
 ---
 
-## Lisk Sepolia
-- Chain ID: 4202
-- Slug: lisk-sepolia
-
-### Supported Entrypoints
-
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
-
-### Supported Accounts
-
-| Entrypoint | Safe 1.4.1 | Kernel 0.2.1 | Kernel 0.2.2 | Kernel 0.2.3 | Kernel 0.2.4 | Kernel 0.3.0-beta | Kernel 0.3.1 | Light 1.1.0 | Light 2.0.0 | Simple Account | Biconomy | Etherspot | Nexus | Thirdweb 1.5.20 | Trust |
-| ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
-| V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
-| V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
-| V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-
----
-
 ## MegaETH Testnet
 - Chain ID: 6342
 - Slug: megaeth-testnet

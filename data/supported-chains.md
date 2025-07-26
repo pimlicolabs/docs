@@ -72,7 +72,6 @@
 | Hychain Testnet | 29113 | hychain-testnet |
 | Kaia Kairos | 1001 | kaia-kairos |
 | Linea Sepolia | 59141 | linea-sepolia |
-| Lisk Sepolia | 4202 | lisk-sepolia |
 | MegaETH Testnet | 6342 | megaeth-testnet |
 | Moca Testnet | 5151 | moca-testnet |
 | Monad Testnet | 10143 | monad-testnet |
