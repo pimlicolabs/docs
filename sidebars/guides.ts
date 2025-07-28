@@ -255,6 +255,13 @@ export const boostedPaymasterSidebar = [
 	},
 ];
 
+export const relayingSidebar = [
+	{
+		text: "How to relay any transaction",
+		link: "/guides/relaying/transactions",
+	},
+];
+
 export const conceptualSidebar = [
 	{
 		text: "Overview",
@@ -327,6 +334,11 @@ export const guidesSidebar = [
 		text: "Signers",
 		link: "/guides/how-to/signers",
 		items: signersSidebar,
+	},
+	{
+		text: "Relaying Transactions",
+		link: "/guides/how-to/relaying",
+		items: relayingSidebar,
 	},
 	{
 		text: "Conceptual",
