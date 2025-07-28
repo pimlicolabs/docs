@@ -18,11 +18,11 @@ This time limit is necessary in order to avoid DoS attacks, as leaving an infini
 
 If you require a longer time window for your User Operations, please get in touch!
 
-## EntryPoint v0.7
+## EntryPoint 0.7 & 0.8
 
 :::warning[Warning]
 
-The EntryPoint v0.7 API expects an `UnpackedUserOperation` instead of a `PackedUserOperation`.
+The EntryPoint 0.7 & 0.8 API expects an `UnpackedUserOperation` instead of a `PackedUserOperation`.
 According to the spec it is bundler's responsibility to pack the userOp before sending it to the EntryPoint.
 So make sure to send an `UnpackedUserOperation` to the bundler.
 
@@ -84,7 +84,7 @@ However, this is not the case for entryPoint v0.6.
 }
 ```
 
-## EntryPoint v0.6
+## EntryPoint 0.6
 
 ### Request:
 
@@ -148,7 +148,7 @@ const result = await provider.send("pm_sponsorUserOperation", [userOperation, {e
 
 This method validates a User Operation against an array of [sponsorship policies](https://dashboard.pimlico.io/sponsorship-policies),
 and returns an array of sponsorship policies (alongside additional data for each policy) that are willing to sponsor the user operation.
-This method is available for both EntryPoint v0.6 and v0.7.
+This method is available for both EntryPoint 0.6 and 0.7 & 0.8.
 
 
 Request:

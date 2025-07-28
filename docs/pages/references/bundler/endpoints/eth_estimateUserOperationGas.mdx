@@ -12,10 +12,10 @@ For SimpleAccount, you can use the following dummy signature to put in the `sign
 ```
 :::
 
-## EntryPoint v0.7
+## EntryPoint 0.7 & 0.8
 
 :::warning[Warning]
-The EntryPoint v0.7 API expects an `UnpackedUserOperation` instead of a `PackedUserOperation`.
+The EntryPoint 0.7 & 0.8 API expects an `UnpackedUserOperation` instead of a `PackedUserOperation`.
 According to the spec it is bundler's responsibility to pack the userOp before sending it to the EntryPoint.
 So make sure to send an `UnpackedUserOperation` to the bundler.
 :::
@@ -132,7 +132,7 @@ The method accepts an array with the following parameters:
 }
 ```
 
-## EntryPoint v0.6
+## EntryPoint 0.6
 
 ### Usage
 
@@ -227,7 +227,7 @@ The method accepts an array with the following parameters:
 
 ## Using state overrides
 
-You can use state overrides to simulate the user operation with a different state the same way you would with [`eth_call`](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-eth#eth-call) by including an optional third parameter. This is supported for both EntryPoint v0.6 and v0.7.
+You can use state overrides to simulate the user operation with a different state the same way you would with [`eth_call`](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-eth#eth-call) by including an optional third parameter. This is supported for both EntryPoint 0.6 and 0.7 & 0.8.
 
 ### Usage
 
@@ -269,7 +269,7 @@ You can use state overrides to simulate the user operation with a different stat
 
 The method accepts an array with the following parameters:
 
-1. **userOperation** - `Object`: The user operation object (see the structure in the EntryPoint v0.6 or v0.7 sections above).
+1. **userOperation** - `Object`: The user operation object (see the structure in the EntryPoint 0.6 or 0.7 & 0.8 sections above).
 
 2. **entryPoint** - `Address`: The entry point contract address.
 
