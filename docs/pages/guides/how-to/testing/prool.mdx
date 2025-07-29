@@ -34,11 +34,70 @@ In order to run tests, add the following section to your **package.json** file:
 }
 ```
 
-### Create mock environment
+### Create test helpers
 
-Let's create a helper that will spinup all node instances for our tests.
+Prool lets us run multiple test cases at once by creating separate isolated environments for each, with their own Bundler, Anvil, and Paymaster.
 
-```typescript [utils/getInstances.ts]
+To make this easier, we’ll use a helper called testWithRpc that finds free ports and spins up each isolated environment.
+
+:::code-group
+
+```typescript [testWithRpc.ts]
+import getPort from "get-port";
+import { test } from "vitest";
+import { getInstances } from "./getInstances";
+import { base } from "viem/chains";
+
+let ports: number[] = [];
+
+export const testWithRpc = test.extend<{
+	rpc: {
+		anvilRpc: string;
+		altoRpc: string;
+		paymasterRpc: string;
+	};
+}>({
+	rpc: async ({}, use) => {
+		const altoPort = await getPort({
+			exclude: ports,
+		});
+		ports.push(altoPort);
+		const paymasterPort = await getPort({
+			exclude: ports,
+		});
+		ports.push(paymasterPort);
+		const anvilPort = await getPort({
+			exclude: ports,
+		});
+		ports.push(anvilPort);
+
+		const anvilRpc = `http://localhost:${anvilPort}`;
+		const altoRpc = `http://localhost:${altoPort}`;
+		const paymasterRpc = `http://localhost:${paymasterPort}`;
+
+		const forkUrl = process.env.FORK_RPC_URL || base.rpcUrls.default.http[0];
+
+		const instances = await getInstances({
+			forkUrl,
+			anvilPort,
+			altoPort,
+			paymasterPort,
+		});
+
+		await use({
+			anvilRpc,
+			altoRpc,
+			paymasterRpc,
+		});
+
+		await Promise.all([...instances.map((instance) => instance.stop())]);
+		const usedPorts = [altoPort, anvilPort, paymasterPort];
+		ports = ports.filter((port) => !usedPorts.includes(port));
+	},
+});
+```
+
+```typescript [getInstances.ts]
 import { paymaster } from "@pimlico/mock-paymaster";
 import { anvil, alto } from "prool/instances";
 import {
@@ -99,66 +158,14 @@ export const getInstances = async ({
 };
 ```
 
-### Create test helpers
+:::
 
-Now lets create a helper that will setup our test environment and run our tests. In this way, each test case will have its own Bundler, Anvil, and Paymaster instances. Potentially speeding up time for test
+### Implementing test cases
 
-```typescript [utils/testWithRpc.ts]
-import getPort from "get-port";
-import { test } from "vitest";
-import { getInstances } from "./getInstances";
-import { base } from "viem/chains";
+```typescript [basic.test.ts]
 
-let ports: number[] = [];
-
-export const testWithRpc = test.extend<{
-	rpc: {
-		anvilRpc: string;
-		altoRpc: string;
-		paymasterRpc: string;
-	};
-}>({
-	rpc: async ({}, use) => {
-		const altoPort = await getPort({
-			exclude: ports,
-		});
-		ports.push(altoPort);
-		const paymasterPort = await getPort({
-			exclude: ports,
-		});
-		ports.push(paymasterPort);
-		const anvilPort = await getPort({
-			exclude: ports,
-		});
-		ports.push(anvilPort);
-
-		const anvilRpc = `http://localhost:${anvilPort}`;
-		const altoRpc = `http://localhost:${altoPort}`;
-		const paymasterRpc = `http://localhost:${paymasterPort}`;
-
-        const defaultBaseRpc =
-			process.env.FORK_RPC_URL || base.rpcUrls.default.http[0];
-
-		const instances = await getInstances({
-			forkUrl: defaultBaseRpc,
-			anvilPort,
-			altoPort,
-			paymasterPort,
-		});
-
-		await use({
-			anvilRpc,
-			altoRpc,
-			paymasterRpc,
-		});
-
-		await Promise.all([...instances.map((instance) => instance.stop())]);
-		ports = ports.filter(
-			(port) =>
-				port !== altoPort || port !== anvilPort || port !== paymasterPort,
-		);
-	},
-});
 ```
+
+
 
 ::::
