@@ -1,0 +1,164 @@
+# Prool
+
+This guide introduces how to setup and run tests in a mock environment using [Prool](https://github.com/wevm/prool).
+
+# Overview
+
+Prool is a library by [Wevm](https://github.com/wevm/viem) that lets you programmatically interact with Ethereum server instances like Nodes, Bundlers, and Paymasters.
+
+We will be using [Vitest](https://vitest.dev/) as our testing framework and we will be testing against a fork of Base Mainnet.
+
+## Steps
+
+::::steps
+
+### Setup
+
+Install the following dependencies:
+```bash
+npm install permissionless viem prool @pimlico/alto @pimlico/mock-paymaster get-port
+```
+
+Installing the following dev dependencies:
+```bash
+npm install --save-dev vitest
+```
+
+In order to run tests, add the following section to your **package.json** file:
+
+```json [package.json]
+{
+    "scripts": {
+        "test": "vitest"
+    }
+}
+```
+
+### Create mock environment
+
+Let's create a helper that will spinup all node instances for our tests.
+
+```typescript [utils/getInstances.ts]
+import { paymaster } from "@pimlico/mock-paymaster";
+import { anvil, alto } from "prool/instances";
+import {
+	entryPoint06Address,
+	entryPoint07Address,
+	entryPoint08Address,
+} from "viem/account-abstraction";
+import { foundry } from "viem/chains";
+
+// Private key for Anvil account 0.
+const pk = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
+
+export const getInstances = async ({
+	forkUrl,
+	anvilPort,
+	altoPort,
+	paymasterPort,
+}: {
+	forkUrl: string;
+	anvilPort: number;
+	altoPort: number;
+	paymasterPort: number;
+}) => {
+	const anvilRpc = `http://localhost:${anvilPort}`;
+	const altoRpc = `http://localhost:${altoPort}`;
+
+	const anvilInstance = anvil({
+		port: anvilPort,
+		chainId: foundry.id,
+		hardfork: "Prague",
+		forkUrl,
+	});
+
+	const altoInstance = alto({
+		port: altoPort,
+		entrypoints: [
+			entryPoint06Address,
+			entryPoint07Address,
+			entryPoint08Address,
+		],
+		rpcUrl: anvilRpc,
+		executorPrivateKeys: [pk],
+		utilityPrivateKey: pk,
+		safeMode: false,
+	});
+
+	const paymasterInstance = paymaster({
+		anvilRpc,
+		altoRpc,
+		port: paymasterPort,
+	});
+
+	await anvilInstance.start();
+	await altoInstance.start();
+	await paymasterInstance.start();
+
+	return [anvilInstance, altoInstance, paymasterInstance];
+};
+```
+
+### Create test helpers
+
+Now lets create a helper that will setup our test environment and run our tests. In this way, each test case will have its own Bundler, Anvil, and Paymaster instances. Potentially speeding up time for test
+
+```typescript [utils/testWithRpc.ts]
+import getPort from "get-port";
+import { test } from "vitest";
+import { getInstances } from "./getInstances";
+import { base } from "viem/chains";
+
+let ports: number[] = [];
+
+export const testWithRpc = test.extend<{
+	rpc: {
+		anvilRpc: string;
+		altoRpc: string;
+		paymasterRpc: string;
+	};
+}>({
+	rpc: async ({}, use) => {
+		const altoPort = await getPort({
+			exclude: ports,
+		});
+		ports.push(altoPort);
+		const paymasterPort = await getPort({
+			exclude: ports,
+		});
+		ports.push(paymasterPort);
+		const anvilPort = await getPort({
+			exclude: ports,
+		});
+		ports.push(anvilPort);
+
+		const anvilRpc = `http://localhost:${anvilPort}`;
+		const altoRpc = `http://localhost:${altoPort}`;
+		const paymasterRpc = `http://localhost:${paymasterPort}`;
+
+        const defaultBaseRpc =
+			process.env.FORK_RPC_URL || base.rpcUrls.default.http[0];
+
+		const instances = await getInstances({
+			forkUrl: defaultBaseRpc,
+			anvilPort,
+			altoPort,
+			paymasterPort,
+		});
+
+		await use({
+			anvilRpc,
+			altoRpc,
+			paymasterRpc,
+		});
+
+		await Promise.all([...instances.map((instance) => instance.stop())]);
+		ports = ports.filter(
+			(port) =>
+				port !== altoPort || port !== anvilPort || port !== paymasterPort,
+		);
+	},
+});
+```
+
+::::

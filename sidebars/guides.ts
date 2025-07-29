@@ -66,6 +66,10 @@ export const testingSidebar = [
 		link: "/guides/how-to/testing/docker",
 	},
 	{
+		text: "Prool",
+		link: "/guides/how-to/testing/prool",
+	},
+	{
 		text: "Build Bear",
 		link: "/guides/how-to/testing/build-bear",
 	},
