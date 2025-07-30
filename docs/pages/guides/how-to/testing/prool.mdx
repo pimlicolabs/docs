@@ -38,7 +38,7 @@ In order to run tests, add the following section to your **package.json** file:
 
 Prool lets us run multiple test cases at once by creating separate isolated environments for each, with their own Bundler, Anvil, and Paymaster.
 
-To make this easier, we’ll use a helper called testWithRpc that finds free ports and spins up each isolated environment.
+To make this easier, we’ll create a helper called testWithRpc that finds free ports and spins up the isolated test environment.
 
 :::code-group
 
@@ -160,12 +160,198 @@ export const getInstances = async ({
 
 :::
 
-### Implementing test cases
+:::note
+Note Make sure you set the `FORK_RPC_URL` evn var before running your tests.
+:::
+
+### Writing test cases
+
+In this example, we will mock a test by sending a simple sponsored userOperation.
+
+We use the `testWithRpc` helper to setup our test environment. The `testWithRpc` method returns the rpc endpoints that we should use when creating the Anvil, Alto, Paymaster clients.
 
 ```typescript [basic.test.ts]
+import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
+import {
+	createPublicClient,
+	createTestClient,
+	http,
+	parseEther,
+	zeroAddress,
+} from "viem";
+import { assert, describe } from "vitest";
+import { toSimpleSmartAccount } from "permissionless/accounts";
+import { createSmartAccountClient } from "permissionless";
+import { createPimlicoClient } from "permissionless/clients/pimlico";
+import { foundry } from "viem/chains";
+import { testWithRpc } from "./testWithRpc";
 
+describe("Basic test cases", () => {
+    testWithRpc("Can send a sponsored userOperation", async ({ rpc }) => {
+		const { anvilRpc, altoRpc, paymasterRpc } = rpc;
+
+		// Setup clients.
+		const publicClient = createPublicClient({
+			chain: foundry,
+			transport: http(anvilRpc),
+		});
+
+		const pimlicoClient = createPimlicoClient({
+			chain: foundry,
+			transport: http(paymasterRpc),
+		});
+
+		const account = await toSimpleSmartAccount({
+			client: publicClient,
+			owner: privateKeyToAccount(generatePrivateKey()),
+		});
+
+		const smartAccountClient = createSmartAccountClient({
+			account,
+			bundlerTransport: http(altoRpc),
+			paymaster: pimlicoClient,
+			userOperation: {
+				estimateFeesPerGas: async () =>
+					(await pimlicoClient.getUserOperationGasPrice()).fast,
+			},
+		});
+
+		// Send userOperation and wait for receipt.
+		const userOpHash = await smartAccountClient.sendUserOperation({
+			calls: [
+				{
+					to: zeroAddress,
+					value: 0n,
+					data: "0x",
+				},
+			],
+		});
+
+		const receipt = await smartAccountClient.waitForUserOperationReceipt({
+			hash: userOpHash,
+		});
+
+		// UserOperation should be included successfully.
+		expect(receipt.success).toBe(true);
+	});
+});
 ```
 
+### Testing with ERC-20 paymaster
 
+We can also test the ERC-20 paymaster flow. The `@pimlico/mock-paymaster` package exposes two helper functions/variables:
+- `sudoMintTokens`: Helper function to mint tokens to a given address.
+- `erc20Address`: Helper constant that returns the address of the supported ERC-20 token.
+
+```typescript [erc20.test.ts]
+import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
+import {
+	createPublicClient,
+	erc20Abi,
+	getContract,
+	http,
+	parseEther,
+	zeroAddress,
+} from "viem";
+import { expect, describe } from "vitest";
+import { toSimpleSmartAccount } from "permissionless/accounts";
+import { testWithRpc } from "../utils/testWithRpc";
+import { createSmartAccountClient } from "permissionless";
+import { createPimlicoClient } from "permissionless/clients/pimlico";
+import { prepareUserOperationForErc20Paymaster } from "permissionless/experimental/pimlico";
+import { foundry } from "viem/chains";
+import { erc20Address, sudoMintTokens } from "@pimlico/mock-paymaster";
+
+describe("Basic test cases", () => {
+	testWithRpc("Can send a sponsored ERC20 userOperation", async ({ rpc }) => {
+		const { anvilRpc, altoRpc, paymasterRpc } = rpc;
+
+		// Setup clients.
+		const publicClient = createPublicClient({
+			chain: foundry,
+			transport: http(anvilRpc),
+		});
+
+		const pimlicoClient = createPimlicoClient({
+			chain: foundry,
+			transport: http(paymasterRpc),
+		});
+
+		const account = await toSimpleSmartAccount({
+			client: publicClient,
+			owner: privateKeyToAccount(generatePrivateKey()),
+		});
+
+		// Creating smart account client based on this page
+		// http://docs.pimlico.io/guides/how-to/erc20-paymaster/how-to/use-paymaster
+		const smartAccountClient = createSmartAccountClient({
+			chain: foundry,
+			account,
+			bundlerTransport: http(altoRpc),
+			paymaster: pimlicoClient,
+			userOperation: {
+				estimateFeesPerGas: async () =>
+					(await pimlicoClient.getUserOperationGasPrice()).fast,
+				prepareUserOperation:
+					prepareUserOperationForErc20Paymaster(pimlicoClient),
+			},
+		});
+
+		// Fund the SmartAccount with ERC-20 tokens.
+		await sudoMintTokens({
+			amount: parseEther("1"),
+			to: account.address,
+			anvilRpc,
+		});
+
+		// Check smartAccount balance before and after sending transaction to confirm balance decreased.
+		const erc20 = getContract({
+			address: erc20Address,
+			abi: erc20Abi,
+			client: publicClient,
+		});
+
+		const balanceBefore = await erc20.read.balanceOf([account.address]);
+
+		// Send a transaction and wait for receipt.
+		const userOpHash = await smartAccountClient.sendUserOperation({
+			calls: [
+				{
+					to: zeroAddress,
+					value: 0n,
+					data: "0x",
+				},
+			],
+			paymasterContext: {
+				token: erc20Address,
+			},
+		});
+
+		const receipt = await smartAccountClient.waitForUserOperationReceipt({
+			hash: userOpHash,
+		});
+
+		const balanceAfter = await erc20.read.balanceOf([account.address]);
+
+		// UserOperation should be included successfully.
+		expect(receipt.success).toBe(true);
+		expect(balanceAfter).toBeLessThan(balanceBefore);
+	});
+});
+```
+
+:::note
+Note The ERC-20 token has a 18 decimal places.
+:::
 
 ::::
+
+## Combined code
+
+If you want to see the complete code that combines all of the previous steps, we uploaded it to a [separate repository](https://github.com/pimlicolabs/testing-with-prool). If you're looking to run it, remember to replace the API key with your own!
+
+## Tips and tricks
+
+- The `testWithRpc` helper creates isolated instances for a specific test case meaning vitest will run multiple tests at once.
+- The setup outlined in this guide is the same one used in permissionless.js's E2E tests. for more detailed examples, refer to the test cases in permissionless.js. For example this [test case](https://github.com/pimlicolabs/permissionless.js/blob/main/packages/permissionless/actions/pimlico/sponsorUserOperation.test.ts) for the pm_sponsorUserOperation endpoint.
+- To debug the Alto/Anvil/Paymaster instance, you can print logs to stdout by calling the `.on` function. For an example of this, please refere to [this snippet](https://github.com/pimlicolabs/testing-with-prool/blob/c0b3d448e2fff1ca4a3d2829dc8585e708728f41/utils/getInstances.ts#L53-L74).
