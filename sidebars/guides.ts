@@ -337,7 +337,6 @@ export const guidesSidebar = [
 	},
 	{
 		text: "Relaying Transactions",
-		link: "/guides/how-to/relaying",
 		items: relayingSidebar,
 	},
 	{
