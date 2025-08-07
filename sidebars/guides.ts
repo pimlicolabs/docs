@@ -220,9 +220,20 @@ export const sponsorshipPoliciesSidebar = [
 		text: "Webhooks",
 		link: "/guides/how-to/sponsorship-policies/webhook",
 	},
+];
+
+export const gasGrantPoliciesSidebar = [
 	{
 		text: "Create a gas program",
-		link: "/guides/how-to/sponsorship-policies/gas-program",
+		link: "/guides/how-to/gas-programs/gas-program",
+	},
+	{
+		text: "Claim a gas grant",
+		link: "/guides/how-to/gas-programs/claim",
+	},
+	{
+		text: "Use the claimed grant",
+		link: "/guides/how-to/gas-programs/use",
 	},
 ];
 
@@ -317,6 +328,10 @@ export const guidesSidebar = [
 	{
 		text: "Sponsorship Policies",
 		items: sponsorshipPoliciesSidebar,
+	},
+	{
+		text: "Gas Programs",
+		items: gasGrantPoliciesSidebar,
 	},
 	{
 		text: "Security",

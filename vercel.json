@@ -252,6 +252,11 @@
 			"permanent": false
 		},
 		{
+			"source": "/guides/how-to/sponsorship-policies/gas-program",
+			"destination": "/guides/how-to/gas-programs/gas-program",
+			"permanent": false
+		},
+		{
 			"source": "/infra/platform/security/:path*",
 			"destination": "/guides/how-to/security/:path*",
 			"permanent": false
