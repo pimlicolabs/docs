@@ -1,0 +1,86 @@
+# Debugging User Operations
+
+When debugging user operations, Pimlico provides powerful tools to help you identify and resolve issues quickly. This guide covers the essential debugging techniques using request logs and the debugging section.
+
+## Using Request Logs
+
+Request logs provide detailed insights into every API call made to Pimlico's infrastructure, helping you trace and troubleshoot user operations effectively.
+
+### Accessing Request Logs
+
+Navigate to the **Request Logs** section in the left sidebar of your Pimlico dashboard. This displays a comprehensive list of all recent requests made using your API keys.
+
+![Request logs interface](/request-logs.png)
+
+### Filtering Requests
+
+The request logs interface provides powerful filtering options to help you quickly find the specific requests you're looking for:
+
+- **Date Range**: Narrow down requests to a specific time period using preset ranges like "Last 7 days" or define a custom date range.
+
+- **API Key**: If you have multiple API keys, select a specific one to view only its associated requests.
+
+- **Chain**: Filter by blockchain network to view only requests made on that chain (e.g., Base Sepolia, Ethereum Mainnet).
+
+- **Sender**: Enter a sender address to view all requests originating from a specific account. Particularly useful when debugging issues for a specific user.
+
+- **Method**: Filter by RPC method to see specific operation types (e.g., `eth_sendUserOperation`, `eth_estimateUserOperationGas`).
+
+- **Response Type**: Choose between "Success" or "Error" to view only successful operations or failed ones.
+
+- **Trace ID**: Search by a specific trace ID from an error log or previous debugging session to jump directly to that request.
+
+### Common Debugging Scenarios
+
+**Failed User Operations**
+
+To investigate failed user operations:
+1. Set Response Type to "Error"
+2. Filter by Method: `eth_sendUserOperation`
+3. Select the relevant time period
+
+This shows all failed user operations with their error messages, helping identify patterns or specific issues.
+
+**Gas Estimation Issues**
+
+For gas estimation problems:
+1. Filter by Method: `eth_estimateUserOperationGas`
+2. Look for error responses
+3. Check request payloads to ensure correct parameters
+
+**Tracking Specific Operations**
+
+Use the trace ID to follow a user operation through its entire lifecycle, from estimation to execution.
+
+
+### Debugging Individual Requests
+
+Once you've located the request you want to investigate, click the **debug icon** (bug symbol) next to any request entry to access detailed debugging information.
+
+![Request logs debug icon](/debug-icon.png)
+
+The debugging page opens with all request details automatically populated, including user operation, entrypoint, chain, timestamp and type of request, e.g `eth_sendUserOperation`, `eth_estimateUserOperationGas`:
+
+![Debugging page](/debugging-page.png)
+
+Click on the "Debug using Tenderly" will then redirect you to Tenderly's simulation link.
+
+## Using the Debugging Section
+
+The debugging section can be accessed in two ways:
+
+1. **From Request Logs**: As shown above, clicking the debug icon next to any request automatically populates all details
+2. **Direct Access**: Navigate to **Debugging → Simulate** in the left sidebar to manually enter information for custom debugging
+
+When accessing the debugging section directly, you can manually input operation details for custom debugging scenarios:
+
+- **User Operation**: Paste the complete user operation object or hash
+- **Entry Point**: Specify the entry point contract address (defaults to standard ERC-4337 entry points)
+- **Chain**: Select the blockchain network where the operation was/will be executed
+- **Timestamp**: Optionally provide a specific block timestamp for historical debugging
+
+
+Once your operation details are loaded (either automatically or manually), you can 
+click on the "Debug using Tenderly" which will then redirect you to Tenderly's simulation link.
+
+![Debugging page](/debugging-page.png)

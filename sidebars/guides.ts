@@ -77,7 +77,11 @@ export const testingSidebar = [
 
 export const debuggingSidebar = [
 	{
-		text: "Debugging dropped user operations",
+		text: "User operations",
+		link: "/guides/how-to/debugging/user-operations",
+	},
+	{
+		text: "Dropped user operations",
 		link: "/guides/how-to/debugging/dropped-user-operations",
 	},
 ];
