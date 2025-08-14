@@ -5,7 +5,7 @@ import {
 	platformSidebar,
 	bundlerSidebar,
 	paymasterSidebar,
-	flashFundSidebar,
+	// flashFundSidebar,
 	permissionlessSidebar,
 	permissionlessWagmiSidebar,
 	permissionlessSidebar0Point1,
@@ -65,11 +65,11 @@ export default defineConfig({
 				link: "/references/paymaster",
 				items: paymasterSidebar,
 			},
-			{
-				text: "FlashFund",
-				link: "/references/flash-fund",
-				items: flashFundSidebar,
-			},
+			// {
+			// 	text: "FlashFund",
+			// 	link: "/references/flash-fund",
+			// 	items: flashFundSidebar,
+			// },
 		],
 		"/references/permissionless": [
 			{
@@ -123,7 +123,7 @@ export default defineConfig({
 				{ text: "Platform", link: "/references/platform" },
 				{ text: "Bundler", link: "/references/bundler" },
 				{ text: "Paymaster", link: "/references/paymaster" },
-				{ text: "FlashFund", link: "/references/flash-fund" },
+				// { text: "FlashFund", link: "/references/flash-fund" },
 			],
 			match: "/references",
 		},

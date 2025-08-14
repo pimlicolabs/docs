@@ -49,6 +49,7 @@ const body = {
 }
 ```
 
+{/*
 ### FlashFund Withdrawal
 These webhooks are triggered when using the [flashfund_sponsorWithdrawal](/references/flash-fund/endpoints/flashfund_sponsorWithdrawal) endpoint.
 
@@ -97,6 +98,7 @@ const body = {
     }
 }
 ```
+*/}
 
 ## How to verify the webhook
 
@@ -128,14 +130,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     switch(webhookEvent.type) {
         case "sponsorshipPolicy.webhook":
         case "user_operation.sponsorship.requested":
-        case "flash_fund.sponsorship.requested":
-            return res.status(200).json({
-                sponsor: true
-            })
         case "user_operation.sponsorship.finalized":
-        case "flash_fund.sponsorship.finalized":
-            // Handle notification - no response needed
-            return res.status(200).end()
         default:
             return res.status(400).json({ error: "Unknown webhook type" })
     }
