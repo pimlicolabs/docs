@@ -576,6 +576,69 @@ export const permissionlessWagmiSidebar = [
 	},
 ];
 
+// export const flashFundSidebar = [
+// 	{
+// 		text: "Overview",
+// 		link: "/references/flash-fund",
+// 	},
+// 	{
+// 		text: "Modes",
+// 		items: [
+// 			{
+// 				text: "Credit Mode",
+// 				link: "/references/flash-fund/modes/credit",
+// 			},
+// 			{
+// 				text: "Resource Lock Mode",
+// 				link: "/references/flash-fund/modes/resource-lock",
+// 			},
+// 		],
+// 	},
+// 	{
+// 		text: "Endpoints",
+// 		collapsed: false,
+// 		items: [
+// 			{
+// 				text: "flashfund_getLocks",
+// 				link: "/references/flash-fund/endpoints/flashfund_getLocks",
+// 			},
+// 			{
+// 				text: "flashfund_prepareLock",
+// 				link: "/references/flash-fund/endpoints/flashfund_prepareLock",
+// 			},
+// 			{
+// 				text: "flashfund_prepareAllowance",
+// 				link: "/references/flash-fund/endpoints/flashfund_prepareAllowance",
+// 			},
+// 			{
+// 				text: "flashfund_sponsorWithdrawal",
+// 				link: "/references/flash-fund/endpoints/flashfund_sponsorWithdrawal",
+// 			},
+// 		],
+// 	},
+// 	{
+// 		text: "Guides",
+// 		items: [
+// 			{
+// 				text: "How to use Credit Mode",
+// 				link: "/references/flash-fund/how-to/credit-mode",
+// 			},
+// 			{
+// 				text: "How to use Pimlico Lock",
+// 				link: "/references/flash-fund/how-to/pimlico-lock",
+// 			},
+// 			{
+// 				text: "How to use FlashFund to swap ETH for USDC on Uniswap V3",
+// 				link: "/references/flash-fund/how-to/eth-to-usdc-uniswap",
+// 			},
+// 		],
+// 	},
+// 	{
+// 		text: "Supported chains and tokens",
+// 		link: "/references/flash-fund/supported-chains-and-tokens",
+// 	},
+// ];
+
 export const permissionlessSidebar0Point1 = [
 	{
 		text: "Overview",
@@ -971,65 +1034,3 @@ export const permissionlessSidebar0Point1 = [
 	},
 ];
 
-export const flashFundSidebar = [
-	{
-		text: "Overview",
-		link: "/references/flash-fund",
-	},
-	{
-		text: "Modes",
-		items: [
-			{
-				text: "Credit Mode",
-				link: "/references/flash-fund/modes/credit",
-			},
-			{
-				text: "Resource Lock Mode",
-				link: "/references/flash-fund/modes/resource-lock",
-			},
-		],
-	},
-	{
-		text: "Endpoints",
-		collapsed: false,
-		items: [
-			{
-				text: "flashfund_getLocks",
-				link: "/references/flash-fund/endpoints/flashfund_getLocks",
-			},
-			{
-				text: "flashfund_prepareLock",
-				link: "/references/flash-fund/endpoints/flashfund_prepareLock",
-			},
-			{
-				text: "flashfund_prepareAllowance",
-				link: "/references/flash-fund/endpoints/flashfund_prepareAllowance",
-			},
-			{
-				text: "flashfund_sponsorWithdrawal",
-				link: "/references/flash-fund/endpoints/flashfund_sponsorWithdrawal",
-			},
-		],
-	},
-	{
-		text: "Guides",
-		items: [
-			{
-				text: "How to use Credit Mode",
-				link: "/references/flash-fund/how-to/credit-mode",
-			},
-			{
-				text: "How to use Pimlico Lock",
-				link: "/references/flash-fund/how-to/pimlico-lock",
-			},
-			{
-				text: "How to use FlashFund to swap ETH for USDC on Uniswap V3",
-				link: "/references/flash-fund/how-to/eth-to-usdc-uniswap",
-			},
-		],
-	},
-	{
-		text: "Supported chains and tokens",
-		link: "/references/flash-fund/supported-chains-and-tokens",
-	},
-];
