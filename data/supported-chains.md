@@ -25,12 +25,14 @@
 | Fuse | 122 | fuse |
 | Geo | 80451 | geo |
 | Gnosis | 100 | gnosis |
+| Hyper EVM | 999 | hyper-evm |
 | Kaia | 8217 | kaia |
 | Kinto Mainnet | 7887 | kinto-mainnet |
 | Linea | 59144 | linea |
 | Mode | 34443 | mode |
 | Moonbeam | 1284 | moonbeam |
 | OP BNB | 204 | opbnb |
+| Plume Mainnet | 98866 | plume |
 | Redstone | 690 | redstone |
 | Sanko Mainnet | 1996 | sanko-mainnet |
 | Scroll | 534352 | scroll |
@@ -73,7 +75,8 @@
 | Kaia Kairos | 1001 | kaia-kairos |
 | Linea Sepolia | 59141 | linea-sepolia |
 | MegaETH Testnet | 6342 | megaeth-testnet |
-| Moca Testnet | 5151 | moca-testnet |
+| Moca Devnet | 5151 | moca-devnet |
+| Moca Testnet | 222888 | moca-testnet |
 | Monad Testnet | 10143 | monad-testnet |
 | Odyssey Testnet | 911867 | odyssey-testnet |
 | Plume Testnet | 98867 | plume-testnet |
