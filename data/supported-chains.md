@@ -27,7 +27,6 @@
 | Gnosis | 100 | gnosis |
 | Hyper EVM | 999 | hyper-evm |
 | Kaia | 8217 | kaia |
-| Kinto Mainnet | 7887 | kinto-mainnet |
 | Linea | 59144 | linea |
 | Mode | 34443 | mode |
 | Moonbeam | 1284 | moonbeam |
