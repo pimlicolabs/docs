@@ -36,6 +36,7 @@
 | Sanko Mainnet | 1996 | sanko-mainnet |
 | Scroll | 534352 | scroll |
 | Sei | 1329 | sei |
+| Somnia Mainnet  | 5031 | somnia |
 | Soneium | 1868 | soneium |
 | Sonic Mainnet | 146 | sonic |
 | Story Mainnet | 1514 | story-mainnet |
@@ -66,7 +67,6 @@
 | DFK Subnet Testnet | 335 | dfk-chain-test |
 | DOS testnet | 3939 | dos-testnet |
 | Etherlink Testnet | 128123 | etherlink-testnet |
-| Funki Testnet | 3397901 | funki-testnet |
 | Fuse Sparknet | 123 | fuse-sparknet |
 | Geo Testnet | 19411 | geo-testnet |
 | Holesky | 17000 | holesky |
@@ -88,6 +88,7 @@
 | SKALE Europa Testnet | 1444673419 | europa-testnet |
 | SKALE Nebula Testnet | 37084624 | nebula-testnet |
 | SKALE Titan Testnet | 1020352220 | titan-testnet |
+| Somnia Testnet | 50312 | somnia-testnet |
 | Soneium Minato | 1946 | soneium-minato |
 | Sonic Blaze Testnet | 57054 | sonic-blaze-testnet |
 | Story Aeneid Testnet | 1315 | story-aeneid-testnet |
