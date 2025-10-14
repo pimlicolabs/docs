@@ -1594,7 +1594,7 @@
 
 ---
 
-## Somnia Mainnet 
+## Somnia Mainnet
 - Chain ID: 5031
 - Slug: somnia
 
