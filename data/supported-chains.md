@@ -66,10 +66,10 @@
 | Cyber Testnet | 111557560 | cyber-testnet |
 | DFK Subnet Testnet | 335 | dfk-chain-test |
 | DOS testnet | 3939 | dos-testnet |
+| Etherlink Shadow Testnet | 127823 | etherlink-shadow-testnet |
 | Etherlink Testnet | 128123 | etherlink-testnet |
 | Fuse Sparknet | 123 | fuse-sparknet |
 | Geo Testnet | 19411 | geo-testnet |
-| Holesky | 17000 | holesky |
 | Hychain Testnet | 29113 | hychain-testnet |
 | Kaia Kairos | 1001 | kaia-kairos |
 | Linea Sepolia | 59141 | linea-sepolia |
