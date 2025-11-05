@@ -1,17 +1,11 @@
-// [!region imports]
-import { createSmartAccountClient } from "permissionless";
-import {
-	createPublicClient,
-	encodeFunctionData,
-	getContract,
-	http,
-	parseEther,
-} from "viem";
-import { sepolia } from "viem/chains";
-// [!endregion imports]
-
 // [!region clients]
+import { createPublicClient, http } from "viem";
+import { sepolia } from "viem/chains";
+import { createPimlicoClient } from "permissionless/clients/pimlico";
+import { entryPoint07Address } from "viem/account-abstraction";
+
 export const publicClient = createPublicClient({
+	chain: sepolia,
 	transport: http("https://sepolia.rpc.thirdweb.com"),
 });
 
@@ -26,13 +20,13 @@ export const paymasterClient = createPimlicoClient({
 
 // [!region signer]
 import { privateKeyToAccount } from "viem/accounts";
-import { createPimlicoClient } from "permissionless/clients/pimlico";
-import { entryPoint07Address } from "viem/account-abstraction";
 
 const owner = privateKeyToAccount("0xPRIVATE_KEY");
 // [!endregion signer]
 
 // [!region delegateSigner]
+import { privateKeyToAccount } from "viem/accounts";
+
 const delegateSigner = privateKeyToAccount("0xPRIVATE_KEY");
 // [!endregion delegateSigner]
 
@@ -40,7 +34,7 @@ const delegateSigner = privateKeyToAccount("0xPRIVATE_KEY");
 import {
 	Implementation,
 	toMetaMaskSmartAccount,
-} from "@metamask/delegation-toolkit";
+} from "@metamask/smart-accounts-kit";
 
 const delegatorSmartAccount = await toMetaMaskSmartAccount({
 	client: publicClient,
@@ -49,10 +43,14 @@ const delegatorSmartAccount = await toMetaMaskSmartAccount({
 	deploySalt: "0x",
 	signatory: { account: owner },
 });
-
 // [!endregion smartAccount]
 
 // [!region delegateSmartAccount]
+import {
+	Implementation,
+	toMetaMaskSmartAccount,
+} from "@metamask/smart-accounts-kit";
+
 const delegateSmartAccount = await toMetaMaskSmartAccount({
 	client: publicClient,
 	implementation: Implementation.Hybrid,
@@ -63,12 +61,18 @@ const delegateSmartAccount = await toMetaMaskSmartAccount({
 // [!endregion delegateSmartAccount]
 
 // [!region createDelegation]
-import { createDelegation } from "@metamask/delegation-toolkit";
+import { createDelegation } from "@metamask/smart-accounts-kit";
+import { parseUnits } from "viem";
 
 const delegation = createDelegation({
 	to: delegateSmartAccount.address,
 	from: delegatorSmartAccount.address,
-	caveats: [],
+	environment: delegatorSmartAccount.environment
+	scope: {
+		type: "erc20TransferAmount",
+		tokenAddress,
+		maxAmount: parseUnits("10", 6),
+	},
 });
 // [!endregion createDelegation]
 
@@ -84,6 +88,8 @@ const signedDelegation = {
 // [!endregion signDelegation]
 
 // [!region smartAccountClient]
+import { createSmartAccountClient } from "permissionless";
+
 const smartAccountClient = createSmartAccountClient({
 	account: delegatorSmartAccount,
 	chain: sepolia,
@@ -99,6 +105,8 @@ const smartAccountClient = createSmartAccountClient({
 // [!endregion smartAccountClient]
 
 // [!region delegateSmartAccountClient]
+import { createSmartAccountClient } from "permissionless";
+
 const delegateSmartAccountClient = createSmartAccountClient({
 	account: delegateSmartAccount,
 	chain: sepolia,
@@ -114,6 +122,8 @@ const delegateSmartAccountClient = createSmartAccountClient({
 // [!endregion delegateSmartAccountClient]
 
 // [!region submit]
+import { parseEther } from "viem";
+
 const txHash_$1 = await smartAccountClient.sendTransaction({
 	to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
 	value: parseEther("0.1"),
@@ -134,6 +144,8 @@ const tokenAbi = [
 ] as const;
 
 // [!region submitNft]
+import { getContract } from "viem";
+
 const nftContract = getContract({
 	address: "0xFC3e86566895Fb007c6A0d3809eb2827DF94F751",
 	abi: tokenAbi,
@@ -167,9 +179,9 @@ const userOpHash_$3 = await smartAccountClient.sendUserOperation({
 // [!endregion submitBatch]
 
 // [!region sendTransactionWithDelegation]
-import { DelegationManager } from "@metamask/delegation-toolkit/contracts";
-import { SINGLE_DEFAULT_MODE } from "@metamask/delegation-toolkit/utils";
-import { createExecution } from "@metamask/delegation-toolkit";
+import { DelegationManager } from "@metamask/smart-accounts-kit/contracts";
+import { createExecution, ExecutionMode } from "@metamask/smart-accounts-kit";
+import { encodeFunctionData, parseEther } from "viem";
 
 const delegations = [signedDelegation];
 
@@ -187,7 +199,7 @@ const executions = [
 
 const redeemDelegationCalldata = DelegationManager.encode.redeemDelegations({
 	delegations: [delegations],
-	modes: [SINGLE_DEFAULT_MODE],
+	modes: [ExecutionMode.SingleDefault],
 	executions: [executions],
 });
 
