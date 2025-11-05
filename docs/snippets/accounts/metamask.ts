@@ -41,7 +41,7 @@ const delegatorSmartAccount = await toMetaMaskSmartAccount({
 	implementation: Implementation.Hybrid,
 	deployParams: [owner.address, [], [], []],
 	deploySalt: "0x",
-	signatory: { account: owner },
+	signer: { account: owner },
 });
 // [!endregion smartAccount]
 
@@ -56,7 +56,7 @@ const delegateSmartAccount = await toMetaMaskSmartAccount({
 	implementation: Implementation.Hybrid,
 	deployParams: [delegateSigner.address, [], [], []],
 	deploySalt: "0x",
-	signatory: { account: delegateSigner },
+	signer: { account: delegateSigner },
 });
 // [!endregion delegateSmartAccount]
 
