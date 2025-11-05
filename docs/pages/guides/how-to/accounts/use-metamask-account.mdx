@@ -4,12 +4,12 @@
 MetaMask maintains their own in-house SDK built on top of Viem that you can use for the account system while still plugging in all the other components from permissionless.js. See [their documentation](https://docs.metamask.io/smart-accounts-kit) for more information.
 :::
 
-The [MetaMask Smart Accounts Kit](https://docs.metamask.io/smart-accounts-kit) enables embedding MetaMask Smart Accounts into dapps. [Delegation](https://docs.metamask.io/smart-accounts-kit/guides/delegation/execute-on-smart-accounts-behalf) is a core feature of smart accounts, enabling secure, rule-based permission sharing.
+The [MetaMask Smart Accounts Kit](https://docs.metamask.io/smart-accounts-kit) enables embedding MetaMask Smart Accounts into dapps. Smart accounts support programmable account behavior and advanced features like delegated permissions, multi-signature approvals, and gas abstraction. [Delegation](https://docs.metamask.io/smart-accounts-kit/guides/delegation/execute-on-smart-accounts-behalf) is a core feature of smart accounts, enabling secure, rule-based permission sharing.
 
 There are two types of accounts involved in delegation:
 
-1. **Delegator account**: A smart account that supports programmable account behavior and advanced features such as multi-signature approvals, automated transaction batching, and custom security policies.
-2. **Delegate account**: An account (smart account or EOA) that receives the delegation from the delegator account to perform actions on behalf of the delegator account.
+1. **Delegator account**: An account that allows users to grant permissions to other accounts to perform executions on their behalf, under defined rules and restrictions. Delegator accounts must be MetaMask Smart Accounts.
+2. **Delegate account**: An account that receives permissions to perform executions on behalf of the delegator account. Delegate accounts can be smart accounts or externally owned accounts (EOAs).
 
 You can use both accounts with permissionless.js.
 

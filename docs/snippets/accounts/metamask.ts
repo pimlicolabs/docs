@@ -70,7 +70,7 @@ const delegation = createDelegation({
 	environment: delegatorSmartAccount.environment
 	scope: {
 		type: "erc20TransferAmount",
-		tokenAddress,
+		tokenAddress: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
 		maxAmount: parseUnits("10", 6),
 	},
 });
@@ -181,18 +181,18 @@ const userOpHash_$3 = await smartAccountClient.sendUserOperation({
 // [!region sendTransactionWithDelegation]
 import { DelegationManager } from "@metamask/smart-accounts-kit/contracts";
 import { createExecution, ExecutionMode } from "@metamask/smart-accounts-kit";
-import { encodeFunctionData, parseEther } from "viem";
+import { encodeFunctionData, erc20Abi } from "viem";
 
 const delegations = [signedDelegation];
 
 // Actual execution to be performed by the delegate account
 const executions = [
 	createExecution({
-		target: "0xFC3e86566895Fb007c6A0d3809eb2827DF94F751",
+		target: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
 		callData: encodeFunctionData({
-			abi: tokenAbi,
-			functionName: "mint",
-			args: ["0x_MY_ADDRESS_TO_MINT_TOKENS", parseEther("1")],
+			abi: erc20Abi,
+			functionName: "transfer",
+			args: [delegateSmartAccount.address, parseUnits("1", 6)],
 		}),
 	}),
 ];
