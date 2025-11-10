@@ -1,0 +1,253 @@
+# How to use an Openfort signer with permissionless.js
+
+permissionless.js allows you to plug in custom signers to control the accounts that you create. Openfort is an embedded wallet provider that allows you to easily onboard users to your dapp.
+
+::::steps
+
+### Install the dependencies
+
+```bash
+npm i @openfort/react @tanstack/react-query permissionless viem wagmi
+```
+
+### Create the Openfort provider
+
+Following Openfort's [quickstart guide](https://www.openfort.io/docs/products/embedded-wallet/react), set up the Openfort provider in your app. This will allow you to use Openfort as a signer with permissionless.js.
+
+```ts
+import { OpenfortProvider, AccountTypeEnum, AuthProvider } from "@openfort/react";
+import { WagmiProvider, createConfig, http } from "wagmi";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { sepolia } from "viem/chains";
+
+const wagmiConfig = createConfig({
+  chains: [sepolia],
+  transports: {
+    [sepolia.id]: http(),
+  },
+});
+
+const queryClient = new QueryClient();
+
+export const Providers = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        <OpenfortProvider
+          publishableKey={process.env.NEXT_PUBLIC_OPENFORT_PUBLISHABLE_KEY!}
+          walletConfig={{
+            shieldPublishableKey: process.env.NEXT_PUBLIC_SHIELD_PUBLISHABLE_KEY!,
+            accountType: AccountTypeEnum.EOA,
+          }}
+          uiConfig={{
+            authProviders: [
+              AuthProvider.EMAIL,
+              AuthProvider.GOOGLE,
+              AuthProvider.GUEST,
+            ],
+          }}
+        >
+          {children}
+        </OpenfortProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
+};
+```
+
+### Add authentication UI
+
+Add the OpenfortButton component to allow users to authenticate:
+
+```ts
+import { OpenfortButton, useUser } from "@openfort/react";
+
+// In your component
+const { user, isAuthenticated } = useUser();
+
+if (!isAuthenticated) {
+  return <OpenfortButton />;
+}
+
+// Show authenticated content
+return <div>Welcome, {user?.player?.name}!</div>;
+```
+
+The OpenfortButton must be placed inside the OpenfortProvider and will handle the authentication flow automatically.
+
+### Set up hooks and wallet configuration
+
+Set up the required hooks and configure the embedded wallet to ensure you're on the correct network:
+
+```ts
+import { useWallets, use7702Authorization, useUser, type UserWallet } from "@openfort/react";
+import { useEffect, useState } from "react";
+import { useWalletClient, useAccount, useSwitchChain } from "wagmi";
+import { createPublicClient, http, zeroAddress } from "viem";
+import { sepolia } from "viem/chains";
+import { createSmartAccountClient } from "permissionless";
+import { toSimpleSmartAccount } from "permissionless/accounts";
+import { createPimlicoClient } from "permissionless/clients/pimlico";
+import { entryPoint08Address } from "viem/account-abstraction";
+
+export function SmartAccountDemo() {
+  const { user } = useUser();
+  const { wallets, setActiveWallet } = useWallets();
+  const walletClient = useWalletClient();
+
+  const { isConnected, chainId } = useAccount();
+  const { switchChain } = useSwitchChain();
+  const { signAuthorization } = use7702Authorization();
+
+  const [embeddedWallet, setEmbeddedWallet] = useState<UserWallet | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(false);
+  const [txHash, setTxHash] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  // Set up the embedded wallet
+  useEffect(() => {
+    if (wallets.length > 0) {
+      setActiveWallet({
+        walletId: wallets[0].id,
+        address: wallets[0].address,
+      }).then((activeWallet) => {
+        setEmbeddedWallet(activeWallet.wallet);
+      });
+    }
+  }, [wallets.length]);
+
+  useEffect(() => {
+    if (isConnected && chainId !== sepolia.id) {
+      console.log('Switching to Sepolia network...');
+      switchChain(
+        { chainId: sepolia.id },
+        {
+          onError: (error) => {
+            console.error('Failed to switch chain:', error);
+            setError(`Please switch to Sepolia network manually. ${error.message}`);
+          },
+        }
+      );
+    }
+  }, [chainId, isConnected, switchChain]);
+```
+
+### Create and send transaction with EIP-7702
+
+Create and send a transaction with EIP-7702 authorization using the Openfort wallet and Pimlico paymaster.
+
+```ts
+  const sendUserOperation = async () => {
+    // Validate prerequisites
+    if (!user || !embeddedWallet) {
+      setError("No wallet connected");
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+    setTxHash(null);
+
+    try {
+      const pimlicoApiKey = process.env.NEXT_PUBLIC_PIMLICO_API_KEY;
+
+      if (!pimlicoApiKey) {
+        throw new Error("Please set a valid Pimlico API key in your .env file");
+      }
+
+      const pimlicoUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=${pimlicoApiKey}`;
+
+      const publicClient = createPublicClient({
+        chain: sepolia,
+        transport: http(),
+      });
+
+      const pimlicoClient = createPimlicoClient({
+        transport: http(pimlicoUrl),
+      });
+
+      // Validate wallet client exists before proceeding
+      if (!walletClient.data) {
+        throw new Error("No wallet found");
+      }
+
+      // Create simple smart account with EntryPoint v0.8
+      const simpleSmartAccount = await toSimpleSmartAccount({
+        owner: walletClient.data,
+        entryPoint: {
+          address: entryPoint08Address,
+          version: "0.8",
+        },
+        client: publicClient,
+        address: walletClient.data.account.address,
+      });
+
+      // Create the smart account client
+      const smartAccountClient = createSmartAccountClient({
+        account: simpleSmartAccount,
+        chain: sepolia,
+        bundlerTransport: http(pimlicoUrl),
+        paymaster: pimlicoClient,
+        userOperation: {
+          estimateFeesPerGas: async () => {
+            return (await pimlicoClient.getUserOperationGasPrice()).fast;
+          },
+        },
+      });
+
+      // Sign EIP-7702 authorization
+      const authorization = await signAuthorization({
+        contractAddress: "0xe6Cae83BdE06E4c305530e199D7217f42808555B",
+        chainId: sepolia.id,
+        nonce: await publicClient.getTransactionCount({
+          address: walletClient.data.account.address,
+        }),
+      });
+
+      // Send transaction with EIP-7702 authorization
+      const txnHash = await smartAccountClient.sendTransaction({
+        calls: [
+          {
+            to: zeroAddress,
+            data: "0x",
+            value: BigInt(0),
+          },
+        ],
+        factory: "0x7702",
+        factoryData: "0x",
+        paymasterContext: {
+          sponsorshipPolicyId: process.env.NEXT_PUBLIC_SPONSORSHIP_POLICY_ID,
+        },
+        authorization,
+      });
+
+      setTxHash(txnHash);
+    } catch (err) {
+      console.error("Error sending user operation:", err);
+      setError(err instanceof Error ? err.message : "Unknown error");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+```
+
+**Key points:**
+- The `contractAddress` is the EIP-7702 delegation contract
+- `factory: "0x7702"` identifies this as an EIP-7702 transaction
+- `paymasterContext` with `sponsorshipPolicyId` enables gasless transactions
+- The authorization must be signed before each transaction
+
+::::
+
+## Complete Working Example
+
+For a complete working example with full UI, see the implementation in this repository or the [Openfort + Pimlico EIP-7702 recipe](https://github.com/openfort-xyz/recipes-hub/tree/main/7702).
+
+## Environment Variables Required
+
+```sh
+NEXT_PUBLIC_OPENFORT_PUBLISHABLE_KEY=your_openfort_publishable_key
+NEXT_PUBLIC_SHIELD_PUBLISHABLE_KEY=your_shield_publishable_key
+NEXT_PUBLIC_SPONSORSHIP_POLICY_ID=your_pimlico_sponsorship_policy_id
+NEXT_PUBLIC_PIMLICO_API_KEY=your_pimlico_api_key
+```
