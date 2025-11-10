@@ -182,6 +182,10 @@ export const signersSidebar = [
 		link: "/guides/how-to/signers/magic",
 	},
 	{
+		text: "Openfort",
+		link: "/guides/how-to/signers/openfort",
+	},
+	{
 		text: "Lit Protocol",
 		link: "/guides/how-to/signers/lit-protocol",
 	},
