@@ -106,6 +106,8 @@ Once docker has started, the following services can be accessed locally through 
 
 You can now use permissionless like you normally would but instead of referencing the live endpoints, use the local endpoints mentioned above when creating the clients.
 
+The Mock Paymaster forwards all bundler methods to the bundler, so you can use it as a direct replacement for the bundler URL (just like in production where https://api.pimlico.io/v2/${CHAIN_ID}/rpc?apikey=${API_KEY} is used as both the paymaster and bundler urls).
+
 ```ts [clients.ts] twoslash
 import { createPimlicoClient } from "permissionless/clients/pimlico";
 import { http, createPublicClient } from "viem";
@@ -119,7 +121,7 @@ const publicClient = createPublicClient({
 
 const bundlerClient = createBundlerClient({
   chain: foundry,
-  transport: http("http://localhost:4337") // [!code ++]
+  transport: http("http://localhost:3000") // [!code ++]
 });
 
 const pimlicoClient = createPimlicoClient({
@@ -181,7 +183,7 @@ describe("Test basic bundler functions", () => {
   test("Can get chainId", async () => {
     const bundlerClient = createBundlerClient({
       chain: foundry,
-      transport: http("http://localhost:4337"),
+      transport: http("http://localhost:3000"),
     });
 
     const chainId = await bundlerClient.getChainId();
@@ -192,7 +194,7 @@ describe("Test basic bundler functions", () => {
   test("Can get supported entryPoints", async () => {
     const bundlerClient = createBundlerClient({
       chain: foundry,
-      transport: http("http://localhost:4337"),
+      transport: http("http://localhost:3000"),
     });
 
     const supportedEntryPoints = await bundlerClient.getSupportedEntryPoints();
@@ -213,7 +215,7 @@ import { foundry } from "viem/chains";
 export const ensureBundlerIsReady = async () => {
   const bundlerClient = createBundlerClient({
     chain: foundry,
-    transport: http("http://localhost:4337"),
+    transport: http("http://localhost:3000"),
   });
 
   while (true) {
