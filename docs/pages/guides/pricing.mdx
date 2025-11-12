@@ -56,8 +56,6 @@ The cost of individual API requests is measured in credits, with the breakdown o
 
 ### How do we calculate the paymaster surcharge?
 
-Here's a simplified and more fluent version of your text:
-
 When you request paymaster data using `pm_getPaymasterData`, you need to include the user operation with the gas fees value. We sign the gas fees you specify because it’s the bundler’s responsibility to reject user operations that underpay them. Once the transaction is included on-chain, we use the `actualGasCost` based on the details in the `UserOperationEvent`.
 
 Here’s how `entryPoint` determines the `actualGasCost` and calculates the gas price:
