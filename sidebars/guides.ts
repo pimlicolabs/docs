@@ -210,10 +210,6 @@ export const signersSidebar = [
 		link: "/guides/how-to/signers/dfns",
 	},
 	{
-		text: "Arcana Auth",
-		link: "/guides/how-to/signers/arcana",
-	},
-	{
 		text: "Particle Network",
 		link: "/guides/how-to/signers/particle-network",
 	},

@@ -9,7 +9,6 @@
 		"search-index": "vocs search-index"
 	},
 	"dependencies": {
-		"@arcana/auth": "^1.0.10",
 		"@dfns/lib-viem": "^0.3.1",
 		"@dfns/sdk": "^0.3.1",
 		"@dfns/sdk-keysigner": "^0.3.1",
