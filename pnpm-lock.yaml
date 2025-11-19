@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@arcana/auth':
-        specifier: ^1.0.10
-        version: 1.0.10(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
       '@dfns/lib-viem':
         specifier: ^0.3.1
         version: 0.3.1(bufferutil@4.0.8)(typescript@5.3.3)(utf-8-validate@5.0.10)
@@ -150,9 +147,6 @@ packages:
 
   '@antfu/utils@8.1.1':
     resolution: {integrity: sha512-Mex9nXf9vR6AhcXmMrlz/HVgYYZpVGJ6YlPgwl7UnaFpnshXs6EK/oa5Gpf3CzENMjkvEx2tQtntGnb7UtSTOQ==}
-
-  '@arcana/auth@1.0.10':
-    resolution: {integrity: sha512-8s7awiHTm5Rj3cd0dOnNoLggpVCImjE08lIFKSrQIvy9tqNY1SstTdnwYJIVoHxVL43l72EOWg7YgEZgy3dBaw==}
 
   '@assemblyscript/loader@0.9.4':
     resolution: {integrity: sha512-HazVq9zwTVwGmqdwYzu7WyQ6FQVZ7SwET0KKQuKm55jD0IfUpZgN0OPIiZG3zV1iSrVYcN0bdwLRXI/VNCYsUA==}
@@ -3467,9 +3461,6 @@ packages:
   '@scure/bip32@1.3.3':
     resolution: {integrity: sha512-LJaN3HwRbfQK0X1xFSi0Q9amqOgzQnnDngIt+ZlsBC3Bm7/nE7K0kwshZHyaru79yIVRv/e1mQAjZyuZG6jOFQ==}
 
-  '@scure/bip32@1.6.2':
-    resolution: {integrity: sha512-t96EPDMbtGgtb7onKKqxRLfE5g05k7uHnHRM2xdE6BP/ZmxaLtPek4J4KfVn/90IQNrU1IOAqMgiDtUdtbe3nw==}
-
   '@scure/bip32@1.7.0':
     resolution: {integrity: sha512-E4FFX/N3f4B80AKWp5dP6ow+flD1LQZo/w8UnLGYZO674jS6YnYeepycOOksv+vLPSpgN35wgKgy+ybfTb2SMw==}
 
@@ -3481,9 +3472,6 @@ packages:
 
   '@scure/bip39@1.2.2':
     resolution: {integrity: sha512-HYf9TUXG80beW+hGAt3TRM8wU6pQoYur9iNypTROm42dorCGmLnFe3eWjz3gOq6G62H2WRh0FCzAR1PI+29zIA==}
-
-  '@scure/bip39@1.5.4':
-    resolution: {integrity: sha512-TFM4ni0vKvCfBpohoh+/lY05i9gRbSwXWngAsF4CABQxoaOHijxuaZ2R6cStDQ5CHtHO9aGJTr4ksVJASRRyMA==}
 
   '@scure/bip39@1.6.0':
     resolution: {integrity: sha512-+lF0BbLiJNwVlev4eKelw1WWLaiKXw7sSl8T6FvBlWkdX+94aGJ4o8XjUdlyhTCjd8c+B3KT3JfS8P0bLRNU6A==}
@@ -7660,9 +7648,6 @@ packages:
     resolution: {integrity: sha512-iuh7L6jA7JEGu2WxDwtQP1ddOpaJNC4KlDEFfdQajSGgGPNi4OyDc2R7QnbY2bR9QjBVGwgvTdNJZoE7RaxUMA==}
     engines: {node: '>=0.12'}
 
-  penpal@6.2.2:
-    resolution: {integrity: sha512-RQD7hTx14/LY7QoS3tQYO3/fzVtwvZI+JeS5udgsu7FPaEDjlvfK9HBcme9/ipzSPKnrxSgacI9PI7154W62YQ==}
-
   periscopic@3.1.0:
     resolution: {integrity: sha512-vKiQ8RRtkl9P+r/+oefh25C3fhybptkHKCZSPlcXiJux2tJF55GnEj3BVn4A5gKfq9NWWXXrxkHBwVPUfH0opw==}
 
@@ -8963,10 +8948,6 @@ packages:
   valid-url@1.0.9:
     resolution: {integrity: sha512-QQDsV8OnSf5Uc30CKSwG9lnhMPe6exHtTXLRYX8uMwKENy640pU+2BgBL0LRbDh/eYRahNCS7aewCx0wf3NYVA==}
 
-  validator@13.11.0:
-    resolution: {integrity: sha512-Ii+sehpSfZy+At5nPdnyMhx78fEoPDkR2XW/zimHEL3MyGJQOCQ7WeP20jPYRz7ZCpcKLB21NxuXHF3bxjStBQ==}
-    engines: {node: '>= 0.10'}
-
   valtio@1.11.0:
     resolution: {integrity: sha512-65Yd0yU5qs86b5lN1eu/nzcTgQ9/6YnD6iO+DDaDbQLn1Zv2w12Gwk43WkPlUBxk5wL/6cD5YMFf7kj6HZ1Kpg==}
     engines: {node: '>=12.20.0'}
@@ -9503,19 +9484,6 @@ snapshots:
       tinyexec: 1.0.1
 
   '@antfu/utils@8.1.1': {}
-
-  '@arcana/auth@1.0.10(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)':
-    dependencies:
-      '@metamask/safe-event-emitter': 2.0.0
-      '@solana/web3.js': 1.90.0(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      bs58: 5.0.0
-      eth-rpc-errors: 4.0.3
-      penpal: 6.2.2
-      validator: 13.11.0
-    transitivePeerDependencies:
-      - bufferutil
-      - encoding
-      - utf-8-validate
 
   '@assemblyscript/loader@0.9.4': {}
 
@@ -13906,13 +13874,6 @@ snapshots:
       '@noble/hashes': 1.3.3
       '@scure/base': 1.1.7
 
-  '@scure/bip32@1.6.2':
-    dependencies:
-      '@noble/curves': 1.8.2
-      '@noble/hashes': 1.7.2
-      '@scure/base': 1.2.4
-    optional: true
-
   '@scure/bip32@1.7.0':
     dependencies:
       '@noble/curves': 1.9.2
@@ -13933,12 +13894,6 @@ snapshots:
     dependencies:
       '@noble/hashes': 1.3.3
       '@scure/base': 1.1.7
-
-  '@scure/bip39@1.5.4':
-    dependencies:
-      '@noble/hashes': 1.7.2
-      '@scure/base': 1.2.4
-    optional: true
 
   '@scure/bip39@1.6.0':
     dependencies:
@@ -19720,10 +19675,10 @@ snapshots:
   ox@0.6.9(typescript@5.3.3):
     dependencies:
       '@adraffy/ens-normalize': 1.11.0
-      '@noble/curves': 1.8.2
-      '@noble/hashes': 1.7.2
-      '@scure/bip32': 1.6.2
-      '@scure/bip39': 1.5.4
+      '@noble/curves': 1.9.2
+      '@noble/hashes': 1.8.0
+      '@scure/bip32': 1.7.0
+      '@scure/bip39': 1.6.0
       abitype: 1.0.8(typescript@5.3.3)
       eventemitter3: 5.0.1
     optionalDependencies:
@@ -19854,8 +19809,6 @@ snapshots:
       ripemd160: 2.0.2
       safe-buffer: 5.2.1
       sha.js: 2.4.11
-
-  penpal@6.2.2: {}
 
   periscopic@3.1.0:
     dependencies:
@@ -21353,8 +21306,6 @@ snapshots:
       uuid: 8.3.2
 
   valid-url@1.0.9: {}
-
-  validator@13.11.0: {}
 
   valtio@1.11.0(react@18.2.0):
     dependencies:

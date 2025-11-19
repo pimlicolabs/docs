@@ -767,10 +767,6 @@ export const permissionlessSidebar0Point1 = [
 						link: "/references/permissionless/v0_1/how-to/signers/dfns",
 					},
 					{
-						text: "How to use an Arcana Auth signer",
-						link: "/references/permissionless/v0_1/how-to/signers/arcana",
-					},
-					{
 						text: "How to use a Particle Network signer",
 						link: "/references/permissionless/v0_1/how-to/signers/particle-network",
 					},
@@ -1033,4 +1029,3 @@ export const permissionlessSidebar0Point1 = [
 		link: "/references/permissionless",
 	},
 ];
-
