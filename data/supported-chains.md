@@ -56,11 +56,11 @@
 | Binance Testnet | 97 | binance-testnet |
 | Mantle Sepolia | 5003 | mantle-sepolia |
 | Ancient8 Testnet | 28122024 | ancient8-testnet |
+| Arc Testnet | 5042002 | arc-testnet |
 | Avalanche Fuji | 43113 | avalanche-fuji |
 | Berachain Bepolia | 80069 | berachain-bepolia |
 | Blast Sepolia | 168587773 | blast-sepolia |
 | BOB Sepolia | 808813 | bob-sepolia |
-| Celo Alfajores Testnet | 44787 | celo-alfajores-testnet |
 | Chiado Testnet | 10200 | chiado-testnet |
 | Citrea Testnet | 5115 | citrea-testnet |
 | Cyber Testnet | 111557560 | cyber-testnet |
@@ -70,14 +70,12 @@
 | Etherlink Testnet | 128123 | etherlink-testnet |
 | Fuse Sparknet | 123 | fuse-sparknet |
 | Geo Testnet | 19411 | geo-testnet |
-| Hychain Testnet | 29113 | hychain-testnet |
 | Kaia Kairos | 1001 | kaia-kairos |
 | Linea Sepolia | 59141 | linea-sepolia |
-| MegaETH Testnet | 6342 | megaeth-testnet |
 | Moca Devnet | 5151 | moca-devnet |
 | Moca Testnet | 222888 | moca-testnet |
+| Monad | 143 | monad |
 | Monad Testnet | 10143 | monad-testnet |
-| Odyssey Testnet | 911867 | odyssey-testnet |
 | Plume Testnet | 98867 | plume-testnet |
 | Pyrope Testnet | 695569 | pyrope-testnet |
 | Sanko Testnet | 1992 | sanko-testnet |
