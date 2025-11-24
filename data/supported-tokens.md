@@ -540,14 +540,6 @@
 
 ---
 
-## Celo Alfajores Testnet
-
-| Symbol | Address |
-| ------ | ------- |
-| USDC | `0x2F25deB3848C207fc8E0c34035B3Ba7fC157602B` |
-
----
-
 ## Chiado Testnet
 
 | Symbol | Address |
