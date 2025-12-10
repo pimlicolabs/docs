@@ -77,7 +77,7 @@ export const testingSidebar = [
 
 export const debuggingSidebar = [
 	{
-		text: "User operations",
+		text: "Using Tenderly",
 		link: "/guides/how-to/debugging/user-operations",
 	},
 	{
