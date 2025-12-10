@@ -29,6 +29,7 @@
 | Kaia | 8217 | kaia |
 | Linea | 59144 | linea |
 | Mode | 34443 | mode |
+| Monad | 143 | monad |
 | Moonbeam | 1284 | moonbeam |
 | OP BNB | 204 | opbnb |
 | Plume Mainnet | 98866 | plume |
@@ -70,11 +71,11 @@
 | Etherlink Testnet | 128123 | etherlink-testnet |
 | Fuse Sparknet | 123 | fuse-sparknet |
 | Geo Testnet | 19411 | geo-testnet |
+| Hoodi Testnet | 560048 | hoodi-testnet |
 | Kaia Kairos | 1001 | kaia-kairos |
 | Linea Sepolia | 59141 | linea-sepolia |
 | Moca Devnet | 5151 | moca-devnet |
 | Moca Testnet | 222888 | moca-testnet |
-| Monad | 143 | monad |
 | Monad Testnet | 10143 | monad-testnet |
 | Plume Testnet | 98867 | plume-testnet |
 | Pyrope Testnet | 695569 | pyrope-testnet |
@@ -88,7 +89,7 @@
 | SKALE Titan Testnet | 1020352220 | titan-testnet |
 | Somnia Testnet | 50312 | somnia-testnet |
 | Soneium Minato | 1946 | soneium-minato |
-| Sonic Blaze Testnet | 57054 | sonic-blaze-testnet |
+| Sonic Testnet | 14601 | sonic-testnet |
 | Story Aeneid Testnet | 1315 | story-aeneid-testnet |
 | Unichain Sepolia | 1301 | unichain-testnet |
 | World Chain Sepolia | 4801 | worldchain-sepolia |

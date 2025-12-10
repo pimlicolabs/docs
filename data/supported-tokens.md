@@ -674,3 +674,12 @@
 
 ---
 
+## World Chain Sepolia
+
+| Symbol | Address |
+| ------ | ------- |
+| USDC | `0x66145f38cBAC35Ca6F1Dfb4914dF98F1614aeA88` |
+| PIM | `0xFC3e86566895Fb007c6A0d3809eb2827DF94F751` |
+
+---
+
