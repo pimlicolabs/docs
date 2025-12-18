@@ -1,7 +1,10 @@
 // [!region createSmartAccount]
 import { createPublicClient, Hex, http } from "viem";
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
-import { to7702KernelSmartAccount, to7702SimpleSmartAccount } from "permissionless/accounts";
+import {
+	to7702KernelSmartAccount,
+	to7702SimpleSmartAccount,
+} from "permissionless/accounts";
 import { sepolia } from "viem/chains";
 
 // This is your EOA's private key
@@ -24,8 +27,7 @@ const simple7702Account = await to7702SimpleSmartAccount({
 const kernel7702Account = await to7702KernelSmartAccount({
 	client,
 	owner: eoa7702,
-})
-
+});
 
 // [!endregion createSmartAccount]
 
@@ -55,6 +57,12 @@ const smartAccountClient = createSmartAccountClient({
 	bundlerTransport: http(
 		`https://api.pimlico.io/v2/11155111/rpc?apikey=${pimlicoAPIKey}`,
 	),
+	userOperation: {
+		// this is where we setup how on every send transaction/send user operation, gas price will be fetched.
+		estimateFeesPerGas: async () => {
+			return (await pimlicoClient.getUserOperationGasPrice()).fast;
+		},
+	},
 });
 // [!endregion createSmartAccountClient]
 
