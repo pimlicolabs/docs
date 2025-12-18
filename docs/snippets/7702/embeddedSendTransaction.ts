@@ -58,7 +58,6 @@ const smartAccountClient = createSmartAccountClient({
 		`https://api.pimlico.io/v2/11155111/rpc?apikey=${pimlicoAPIKey}`,
 	),
 	userOperation: {
-		// this is where we setup how on every send transaction/send user operation, gas price will be fetched.
 		estimateFeesPerGas: async () => {
 			return (await pimlicoClient.getUserOperationGasPrice()).fast;
 		},
