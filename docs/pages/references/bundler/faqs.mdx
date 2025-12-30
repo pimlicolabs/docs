@@ -45,6 +45,17 @@ For instance, if you ended up paying a 5% overhead for the bundler and a 10% ove
 
 Important to note however that the bundler and paymaster are completely independent and you can use one without the other.
 
+## callGasLimit OOG (Out of Gas)
+
+When a userOp fails onchain due to running out of gas, this indicates that the chain's state changed between when the gas estimation was made and when the userOp landed onchain.
+
+This can happen when:
+- There is significant duration from when the estimation was made to when the userOp landed onchain
+- Another transaction changed the chain's state between the estimation and the userOp landing onchain
+- The estimation was made with stateOverrides that are not present onchain
+
+The bundler finds the callGasLimit estimate by performing a onchain binary search to find the lowest callGasLimit that returns a successful response. If you are still unsure about this, please [reach out to us](https://t.me/pimlicoHQ).
+
 ## What is the use case for smart accounts
 
 Smart accounts enable user experience improvements that were not previously possible with EOA accounts.
