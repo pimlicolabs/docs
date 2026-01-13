@@ -248,6 +248,13 @@ export const securitySidebar = [
 	},
 ];
 
+export const integrationsSidebar = [
+	{
+		text: "Privy",
+		link: "/guides/how-to/integrations/privy",
+	},
+];
+
 export const erc20PaymasterSidebar = [
 	{
 		text: "Supported Tokens",
@@ -333,6 +340,10 @@ export const guidesSidebar = [
 	{
 		text: "Security",
 		items: securitySidebar,
+	},
+	{
+		text: "Integrations",
+		items: integrationsSidebar,
 	},
 	{
 		text: "Testing",
