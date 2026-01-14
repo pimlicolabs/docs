@@ -75,7 +75,26 @@ When accessing the debugging section directly, you can manually input operation 
 - **Timestamp**: Optionally provide a specific block timestamp for historical debugging
 
 
-Once your operation details are loaded (either automatically or manually), you can 
+Once your operation details are loaded (either automatically or manually), you can
 click on the "Debug using Tenderly" which will then redirect you to [Tenderly's](https://tenderly.co/) simulation link.
 
 ![Debugging page](/debugging-page.png)
+
+## Debugging with Foundry's cast
+
+Sometimes the Tenderly simulation is not enough to debug an issue. In these cases, you can use Foundry's `cast` tool to create a local trace.
+
+![Tenderly cast simulation](/tenderly_cast_simulation.png)
+
+Using the values from the Tenderly simulation, run the following command in your terminal:
+
+```bash
+cast call $TENDERLY_TO_ADDRESS $TENDERLY_RAW_INPUT \
+  --block $TENDERLY_BLOCK_NUMBER \
+  --rpc-url $YOUR_RPC_URL \
+  --trace
+```
+
+The trace output looks like:
+
+![Cast trace](/cast_trace.png)
