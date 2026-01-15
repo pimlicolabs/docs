@@ -301,4 +301,8 @@ services:
       - ./alto-config.json:/app/alto-config.json
 ```
 
+:::warning[Use non-compromised keys]
+When testing against forked state, ensure you are using non-compromised private keys. Anvil's default test keys are publicly known and have been delegated via EIP-7702 to sweeper contracts on many live chains. The bundler only supports non-delegated EOAs as signers, so using these compromised keys will cause transactions to fail. Generate fresh private keys for your testing environment instead.
+:::
+
 ::::
