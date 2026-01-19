@@ -301,4 +301,10 @@ services:
       - ./alto-config.json:/app/alto-config.json
 ```
 
+:::warning
+Do not use compromised or delegated private keys. Publicly known private keys have been delegated via EIP-7702 to sweeper contracts on many live chains. The bundler only supports non-delegated EOAs, so using delegated keys will cause transactions to fail.
+
+To simplify testing, when `SKIP_DEPLOYMENTS=true`, all 7702 delegations for all anvil accounts are removed and their balances are set to 10k ETH.
+:::
+
 ::::
