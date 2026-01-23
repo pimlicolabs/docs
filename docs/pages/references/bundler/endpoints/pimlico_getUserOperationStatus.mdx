@@ -17,6 +17,10 @@ This method takes in a user operation hash and returns the status of the operati
 Note: the transaction hash returned when the result is `submitted` can change if the bundler resubmits the user operation inside a different transaction. For this reason, when showing the pending transaction hash to the user, it is recommended to keep calling this method in case the transaction hash changes.
 :::
 
+:::warning
+Status is only stored for **one hour**. After this period, queries will return `not_found`.
+:::
+
 ## Request
 
 ```json
