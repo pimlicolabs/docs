@@ -38,6 +38,7 @@
 | Scroll | 534352 | scroll |
 | Sei | 1329 | sei |
 | Somnia Mainnet | 5031 | somnia |
+| Citrea | 4114 | citrea |
 | Soneium | 1868 | soneium |
 | Sonic Mainnet | 146 | sonic |
 | Story Mainnet | 1514 | story-mainnet |
