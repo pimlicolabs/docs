@@ -17,6 +17,7 @@
 | Blast | 81457 | blast |
 | Bob | 60808 | bob |
 | Celo | 42220 | celo |
+| Citrea | 4114 | citrea |
 | Cyber Mainnet | 7560 | cyber-mainnet |
 | Degen | 666666666 | degen |
 | DFK | 53935 | dfk-chain |
@@ -28,6 +29,7 @@
 | Hyper EVM | 999 | hyper-evm |
 | Kaia | 8217 | kaia |
 | Linea | 59144 | linea |
+| MegaETH | 4326 | megaeth |
 | Mode | 34443 | mode |
 | Monad | 143 | monad |
 | Moonbeam | 1284 | moonbeam |
@@ -38,7 +40,6 @@
 | Scroll | 534352 | scroll |
 | Sei | 1329 | sei |
 | Somnia Mainnet | 5031 | somnia |
-| Citrea | 4114 | citrea |
 | Sonic Mainnet | 146 | sonic |
 | Story Mainnet | 1514 | story-mainnet |
 | Superposition | 55244 | superposition |
@@ -66,9 +67,7 @@
 | Citrea Testnet | 5115 | citrea-testnet |
 | Cyber Testnet | 111557560 | cyber-testnet |
 | DFK Subnet Testnet | 335 | dfk-chain-test |
-| DOS testnet | 3939 | dos-testnet |
 | Etherlink Shadow Testnet | 127823 | etherlink-shadow-testnet |
-| Etherlink Testnet | 128123 | etherlink-testnet |
 | Fuse Sparknet | 123 | fuse-sparknet |
 | Geo Testnet | 19411 | geo-testnet |
 | Hoodi Testnet | 560048 | hoodi-testnet |
@@ -79,7 +78,6 @@
 | Monad Testnet | 10143 | monad-testnet |
 | Plume Testnet | 98867 | plume-testnet |
 | Pyrope Testnet | 695569 | pyrope-testnet |
-| Sanko Testnet | 1992 | sanko-testnet |
 | Scroll Sepolia Testnet | 534351 | scroll-sepolia-testnet |
 | Sei Testnet | 1328 | sei-testnet |
 | Sepolia | 11155111 | sepolia |
@@ -91,5 +89,6 @@
 | Soneium Minato | 1946 | soneium-minato |
 | Sonic Testnet | 14601 | sonic-testnet |
 | Story Aeneid Testnet | 1315 | story-aeneid-testnet |
+| Tempo Testnet | 42431 | tempo-testnet |
 | Unichain Sepolia | 1301 | unichain-testnet |
 | World Chain Sepolia | 4801 | worldchain-sepolia |

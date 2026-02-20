@@ -617,6 +617,15 @@
 
 ---
 
+## MegaETH
+
+| Symbol | Address |
+| ------ | ------- |
+| USDm | `0xFAfDdbb3FC7688494971a79cc65DCa3EF82079E7` |
+| USDT0 | `0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb` |
+
+---
+
 ## Mode
 
 | Symbol | Address |
@@ -626,6 +635,15 @@
 | WBTC | `0xcDd475325D6F564d27247D1DddBb0DAc6fA0a5CF` |
 | ANKR | `0xDF474B7109b73b7D57926d43598D5934131136b2` |
 | ezETH | `0x2416092f143378750bb29b79eD961ab195CcEea5` |
+
+---
+
+## Monad
+
+| Symbol | Address |
+| ------ | ------- |
+| USDC | `0x754704Bc059F8C67012fEd69BC8A327a5aafb603` |
+| WMON | `0x3bd359C1119dA7Da1D913D1C4D2B7c461115433A` |
 
 ---
 
