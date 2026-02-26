@@ -1,0 +1,17 @@
+# MagicSpend++
+
+:::warning[Warning]
+
+This protocol is still in development and enabled only on testnets. Use it at your own responsibility. API is subject to change.
+
+:::
+
+The MagicSpend++ protocol solves the problem of having a fragmented balances across multiple chains. It allows users to spend their assets on any chain without having to worry about bridging.
+
+## Abstract
+
+MagicSpend++ allows users to request funds on any chain they need, by sending a single withdraw request to a MagicSpend++ contract. This call contains all the details about recipient, amount, asset, etc as long as the valid signature, made by Pimlico.
+
+Pimlico authorizes these signatures in exchange for a portion of the user's stake, under a 'pay now, debit later' mechanism. As a security measure, all balances taken from the user by Pimlico must be explicitly authorized via a signature from the user.
+
+Read more about the architecture of the MagicSpend++ protocol in the [Architecture](/infra/magic-spend/architecture) section.
