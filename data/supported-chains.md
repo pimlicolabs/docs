@@ -36,7 +36,6 @@
 | OP BNB | 204 | opbnb |
 | Plume Mainnet | 98866 | plume |
 | Redstone | 690 | redstone |
-| Sanko Mainnet | 1996 | sanko-mainnet |
 | Scroll | 534352 | scroll |
 | Sei | 1329 | sei |
 | Somnia Mainnet | 5031 | somnia |
