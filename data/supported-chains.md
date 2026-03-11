@@ -62,6 +62,7 @@
 | Berachain Bepolia | 80069 | berachain-bepolia |
 | Blast Sepolia | 168587773 | blast-sepolia |
 | BOB Sepolia | 808813 | bob-sepolia |
+| Celo Sepolia | 11142220 | celo-sepolia |
 | Chiado Testnet | 10200 | chiado-testnet |
 | Citrea Testnet | 5115 | citrea-testnet |
 | Cyber Testnet | 111557560 | cyber-testnet |
