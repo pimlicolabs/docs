@@ -69,10 +69,6 @@ export const testingSidebar = [
 		text: "Prool",
 		link: "/guides/how-to/testing/prool",
 	},
-	{
-		text: "Build Bear",
-		link: "/guides/how-to/testing/build-bear",
-	},
 ];
 
 export const debuggingSidebar = [
