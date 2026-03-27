@@ -89,6 +89,7 @@
 | Soneium Minato | 1946 | soneium-minato |
 | Sonic Testnet | 14601 | sonic-testnet |
 | Story Aeneid Testnet | 1315 | story-aeneid-testnet |
+| Tempo | 4217 | tempo |
 | Tempo Testnet | 42431 | tempo-testnet |
 | Unichain Sepolia | 1301 | unichain-testnet |
 | World Chain Sepolia | 4801 | worldchain-sepolia |
