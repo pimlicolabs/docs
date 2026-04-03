@@ -78,6 +78,7 @@
 | Monad Testnet | 10143 | monad-testnet |
 | Plume Testnet | 98867 | plume-testnet |
 | Pyrope Testnet | 695569 | pyrope-testnet |
+| Robinhood Testnet | 46630 | robinhood-testnet |
 | Scroll Sepolia Testnet | 534351 | scroll-sepolia-testnet |
 | Sei Testnet | 1328 | sei-testnet |
 | Sepolia | 11155111 | sepolia |
