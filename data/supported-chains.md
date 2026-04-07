@@ -65,7 +65,6 @@
 | Celo Sepolia | 11142220 | celo-sepolia |
 | Chiado Testnet | 10200 | chiado-testnet |
 | Citrea Testnet | 5115 | citrea-testnet |
-| Cyber Testnet | 111557560 | cyber-testnet |
 | DFK Subnet Testnet | 335 | dfk-chain-test |
 | Etherlink Shadow Testnet | 127823 | etherlink-shadow-testnet |
 | Fuse Sparknet | 123 | fuse-sparknet |
