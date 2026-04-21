@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+/* Keep fixed side gutters within the viewport when the banner is visible. */
+@media screen and (min-width: 1081px) {
+    .vocs_DocsLayout_gutterLeft,
+    .vocs_DocsLayout_gutterRight {
+        bottom: 0;
+        height: auto !important;
+    }
+}
