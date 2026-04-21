@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+/*
+ * Vocs still sizes the desktop right gutter as 100vh while also offsetting it by
+ * the fixed banner height, which pushes the bottom of the outline off-screen.
+ * Limit this override to desktop because the gutter layout changes below 1081px.
+ */
+@media screen and (min-width: 1081px) {
+    .vocs_DocsLayout_gutterRight {
+        bottom: 0;
+        height: auto !important;
+    }
+}
