@@ -51,7 +51,7 @@ export const eip7702Sidebar = [
 
 export const tutorialSidebar = [
 	{
-		text: "Send your first transaction from a smart account",
+		text: "Batch multiple transactions from a smart account",
 		link: "/guides/tutorials/send-transaction",
 	},
 	{
@@ -320,20 +320,8 @@ export const sendingTransactionsSidebar = [
 
 export const conceptualSidebar = [
 	{
-		text: "Overview",
-		link: "/guides/conceptual",
-	},
-	{
-		text: "Account Abstraction",
+		text: "Account Abstraction (ERC-4337)",
 		link: "/guides/conceptual/account-abstraction",
-	},
-	{
-		text: "ERC-4337",
-		link: "/guides/conceptual/erc4337",
-	},
-	{
-		text: "ERC-7579",
-		link: "/guides/conceptual/erc7579",
 	},
 	{
 		text: "EIP-7702",
@@ -350,7 +338,6 @@ export const guidesSidebar = [
 	},
 	{
 		text: "Concepts",
-		link: "/guides/conceptual",
 		items: conceptualSidebar,
 	},
 	{

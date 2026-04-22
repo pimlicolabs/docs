@@ -66,9 +66,18 @@ const smartAccountClient = createSmartAccountClient({
 
 // [!region submit]
 const txHash = await smartAccountClient.sendTransaction({
-	to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
-	value: 0n,
-	data: "0x1234",
+	calls: [
+		{
+			to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
+			value: 0n,
+			data: "0x1234",
+		},
+		{
+			to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
+			value: 0n,
+			data: "0x5678",
+		},
+	],
 })
 
 console.log(`User operation included: https://sepolia.etherscan.io/tx/${txHash}`)

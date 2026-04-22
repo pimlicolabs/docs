@@ -1,8 +1,10 @@
-# Tutorial — Send your first transaction from a smart account
+# Tutorial — Batch multiple transactions from a smart account
 
-In this tutorial, you will deploy an ERC-4337 smart account and submit your first transaction from it.
+In this tutorial, you will deploy an ERC-4337 smart account and submit your first user operation — one that batches **multiple calls** into a single on-chain transaction.
 
-You will set up the necessary permissionless.js clients, create a user operation, fund the smart account with Sepolia ETH so it can pay its own gas, and then submit it on-chain with Pimlico's bundler.
+Batching is one of the core superpowers of smart accounts. Instead of asking the user to sign two transactions (e.g. an ERC-20 `approve` followed by a `swap`), you can bundle them into a single user operation that executes atomically: either everything succeeds, or nothing does.
+
+You will set up the necessary permissionless.js clients, build a batched user operation, fund the smart account with Sepolia ETH so it can pay its own gas, and then submit it on-chain with Pimlico's bundler.
 
 :::tip[Want gasless transactions instead?]
 If you'd rather have a paymaster sponsor the gas for your user, jump to [Tutorial 1 — Send your first gasless transaction](/guides/tutorials/tutorial-1).
@@ -99,9 +101,11 @@ Add the following to the bottom of `index.ts`:
 // [!include ~/snippets/send-transaction.ts:smartAccountClient]
 ```
 
-### Submit a transaction from the smart account
+### Batch multiple calls in one user operation
 
-Finally, let's submit a transaction from the smart account. We will send a transaction to the `0xd8da6bf26964af9d7eed9e03e53415d37aa96045` (vitalik.eth) address with `0x1234` as example `callData`.
+Finally, let's submit a batched user operation from the smart account. We will send **two calls** to `0xd8da6bf26964af9d7eed9e03e53415d37aa96045` (vitalik.eth) with different `callData`, packed into a single user operation.
+
+Instead of passing a single `to`/`data` pair, we pass an array of `calls` — the smart account will execute them atomically.
 
 Underneath the hood, the `SmartAccountClient` will build a user operation, sign it with the smart account's private key, and then submit it to the bundler. The bundler will then query for receipts until it sees the user operation included on-chain.
 
@@ -110,6 +114,10 @@ Add the following to the bottom of `index.ts`:
 ```typescript
 // [!include ~/snippets/send-transaction.ts:submit]
 ```
+
+:::tip[Real-world batching]
+In production, batching is how you deliver "one-click" UX for multi-step flows — for example, combining an ERC-20 `approve` and a DEX `swap` into a single signature, or minting an NFT and listing it for sale in one go.
+:::
 
 Let's run this code again with `npm start`. You should see the transaction hash bundling the user operation on-chain printed to the console.
 
@@ -121,7 +129,7 @@ You can now view the transaction on the Sepolia testnet explorer. By sending thi
 - Deployed the counterfactual smart account contract
 - Had this newly-deployed smart account verify the private key's signature
 - Paid for the user operation's gas fees from the smart account's own ETH balance
-- Executed a simple transaction to `vitalik.eth`'s address
+- Executed **two calls atomically** in a single on-chain transaction
 
 All in a couple lines of code.
 

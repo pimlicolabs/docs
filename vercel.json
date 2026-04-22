@@ -305,6 +305,21 @@
 			"permanent": false
 		},
 		{
+			"source": "/guides/conceptual",
+			"destination": "/guides/conceptual/account-abstraction",
+			"permanent": false
+		},
+		{
+			"source": "/guides/conceptual/erc4337",
+			"destination": "/guides/conceptual/account-abstraction",
+			"permanent": false
+		},
+		{
+			"source": "/guides/conceptual/erc7579",
+			"destination": "/guides/conceptual/account-abstraction",
+			"permanent": false
+		},
+		{
 			"source": "/references/platform/why-pimlico/:path*",
 			"destination": "/guides/why-pimlico/:path*",
 			"permanent": false
