@@ -51,6 +51,10 @@ export const eip7702Sidebar = [
 
 export const tutorialSidebar = [
 	{
+		text: "Send your first transaction from a smart account",
+		link: "/guides/tutorials/send-transaction",
+	},
+	{
 		text: "Send your first gasless transaction",
 		link: "/guides/tutorials/tutorial-1",
 	},
@@ -156,15 +160,7 @@ export const paymastersSidebar = [
 	},
 ];
 
-export const signersSidebar = [
-	{
-		text: "Passkey (WebAuthn) signer",
-		link: "/guides/how-to/signers/passkey",
-	},
-	{
-		text: "Passkey (WebAuthn) server",
-		link: "/guides/how-to/signers/passkey-server",
-	},
+export const socialLoginSignersSidebar = [
 	{
 		text: "Dynamic",
 		link: "/guides/how-to/signers/dynamic",
@@ -178,16 +174,35 @@ export const signersSidebar = [
 		link: "/guides/how-to/signers/magic",
 	},
 	{
+		text: "Web3Auth",
+		link: "/guides/how-to/signers/web3auth",
+	},
+	{
 		text: "Openfort",
 		link: "/guides/how-to/signers/openfort",
+	},
+	{
+		text: "Para",
+		link: "/guides/how-to/signers/para",
+	},
+	{
+		text: "Particle Network",
+		link: "/guides/how-to/signers/particle-network",
 	},
 	{
 		text: "Lit Protocol",
 		link: "/guides/how-to/signers/lit-protocol",
 	},
+];
+
+export const keyManagementSignersSidebar = [
 	{
-		text: "Web3Auth",
-		link: "/guides/how-to/signers/web3auth",
+		text: "Passkey (WebAuthn) signer",
+		link: "/guides/how-to/signers/passkey",
+	},
+	{
+		text: "Passkey (WebAuthn) server",
+		link: "/guides/how-to/signers/passkey-server",
 	},
 	{
 		text: "Turnkey",
@@ -198,16 +213,20 @@ export const signersSidebar = [
 		link: "/guides/how-to/signers/fireblocks",
 	},
 	{
-		text: "Para",
-		link: "/guides/how-to/signers/para",
-	},
-	{
 		text: "DFNS",
 		link: "/guides/how-to/signers/dfns",
 	},
+];
+
+export const signersSidebar = [
 	{
-		text: "Particle Network",
-		link: "/guides/how-to/signers/particle-network",
+		text: "Social login signers",
+		link: "/guides/how-to/signers/social-logins",
+		items: socialLoginSignersSidebar,
+	},
+	{
+		text: "Key management signers",
+		items: keyManagementSignersSidebar,
 	},
 ];
 
