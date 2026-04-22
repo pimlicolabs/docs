@@ -4,10 +4,10 @@ This document serves as a comprehensive guide for working with the Pimlico docum
 
 ## Repository Overview
 
-The Pimlico documentation is built using **Vocs v1.0.5**, a React-based documentation framework. The site is deployed on Vercel and uses MDX format for content, allowing React components within markdown files.
+The Pimlico documentation is built using **Vocs v1.4.x**, a React-based documentation framework. The site is deployed on Vercel and uses MDX format for content, allowing React components within markdown files.
 
 ### Technology Stack
-- **Framework**: Vocs (v1.0.5)
+- **Framework**: Vocs (v1.4.x)
 - **Package Manager**: pnpm (v9.6.0)
 - **Language**: TypeScript/MDX
 - **Styling**: Tailwind CSS
