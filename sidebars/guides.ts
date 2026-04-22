@@ -96,10 +96,6 @@ export const accountsSidebar = [
 		link: "/guides/how-to/accounts/comparison",
 	},
 	{
-		text: "Send multiple user operations in parallel",
-		link: "/guides/how-to/parallel-transactions",
-	},
-	{
 		text: "Safe",
 		link: "/guides/how-to/accounts/use-safe-account",
 	},
@@ -145,7 +141,7 @@ export const accountsSidebar = [
 	},
 ];
 
-export const paymastersSidebar = [
+export const verifyingPaymasterSidebar = [
 	{
 		text: "Update your app to sponsor gas fees",
 		link: "/guides/how-to/dapp-gas-sponsorship",
@@ -157,6 +153,84 @@ export const paymastersSidebar = [
 	{
 		text: "Sponsor conditionally",
 		link: "/guides/how-to/paymasters/conditional-sponsoring",
+	},
+	{
+		text: "Use sponsorship policies",
+		link: "/guides/how-to/sponsorship-policies",
+	},
+	{
+		text: "Sponsorship policy webhooks",
+		link: "/guides/how-to/sponsorship-policies/webhook",
+	},
+];
+
+export const gasSponsorshipSidebar = [
+	{
+		text: "Verifying Paymaster",
+		items: verifyingPaymasterSidebar,
+	},
+	{
+		text: "ERC-20 Paymaster",
+		link: "/guides/how-to/erc20-paymaster",
+		items: [
+			{
+				text: "Supported Tokens",
+				link: "/guides/how-to/erc20-paymaster/supported-tokens",
+			},
+			{
+				text: "Use the ERC-20 Paymaster",
+				link: "/guides/how-to/erc20-paymaster/how-to/use-paymaster",
+			},
+			{
+				text: "Use the ERC-20 Paymaster (with unlimited token approvals)",
+				link: "/guides/how-to/erc20-paymaster/how-to/use-paymaster-with-unlimited-approval",
+			},
+			{
+				text: "Estimate token cost and cost in USD",
+				link: "/guides/how-to/erc20-paymaster/how-to/calculate-costs",
+			},
+		],
+	},
+	{
+		text: "Boosted Paymaster",
+		items: [
+			{
+				text: "Use the Boosted Paymaster",
+				link: "/guides/boosted-paymaster/use-boosted-paymaster",
+			},
+		],
+	},
+	{
+		text: "Gas Programs",
+		items: [
+			{
+				text: "Create a gas program",
+				link: "/guides/how-to/gas-programs/gas-program",
+			},
+			{
+				text: "Claim a gas grant",
+				link: "/guides/how-to/gas-programs/claim",
+			},
+			{
+				text: "Use the claimed grant",
+				link: "/guides/how-to/gas-programs/use",
+			},
+		],
+	},
+];
+
+export const productionSidebar = [
+	{
+		text: "Protect API keys",
+		link: "/guides/how-to/security/protect-api-keys",
+	},
+	{
+		text: "Testing",
+		items: testingSidebar,
+	},
+	{
+		text: "Debugging",
+		items: debuggingSidebar,
 	},
 ];
 
@@ -197,14 +271,6 @@ export const socialLoginSignersSidebar = [
 
 export const keyManagementSignersSidebar = [
 	{
-		text: "Passkey (WebAuthn) signer",
-		link: "/guides/how-to/signers/passkey",
-	},
-	{
-		text: "Passkey (WebAuthn) server",
-		link: "/guides/how-to/signers/passkey-server",
-	},
-	{
 		text: "Turnkey",
 		link: "/guides/how-to/signers/turnkey",
 	},
@@ -218,74 +284,37 @@ export const keyManagementSignersSidebar = [
 	},
 ];
 
+export const passkeySignersSidebar = [
+	{
+		text: "Passkey (WebAuthn) signer",
+		link: "/guides/how-to/signers/passkey",
+	},
+	{
+		text: "Passkey (WebAuthn) server",
+		link: "/guides/how-to/signers/passkey-server",
+	},
+];
+
 export const signersSidebar = [
 	{
-		text: "Social login signers",
+		text: "Social login",
 		link: "/guides/how-to/signers/social-logins",
 		items: socialLoginSignersSidebar,
 	},
 	{
-		text: "Key management signers",
+		text: "Passkey",
+		items: passkeySignersSidebar,
+	},
+	{
+		text: "Key management",
 		items: keyManagementSignersSidebar,
 	},
 ];
 
-export const sponsorshipPoliciesSidebar = [
+export const sendingTransactionsSidebar = [
 	{
-		text: "Use sponsorship policies",
-		link: "/guides/how-to/sponsorship-policies",
-	},
-	{
-		text: "Webhooks",
-		link: "/guides/how-to/sponsorship-policies/webhook",
-	},
-];
-
-export const gasGrantPoliciesSidebar = [
-	{
-		text: "Create a gas program",
-		link: "/guides/how-to/gas-programs/gas-program",
-	},
-	{
-		text: "Claim a gas grant",
-		link: "/guides/how-to/gas-programs/claim",
-	},
-	{
-		text: "Use the claimed grant",
-		link: "/guides/how-to/gas-programs/use",
-	},
-];
-
-export const securitySidebar = [
-	{
-		text: "Protect API keys",
-		link: "/guides/how-to/security/protect-api-keys",
-	},
-];
-
-export const erc20PaymasterSidebar = [
-	{
-		text: "Supported Tokens",
-		link: "/guides/how-to/erc20-paymaster/supported-tokens",
-	},
-	{
-		text: "Use the ERC-20 Paymaster",
-		link: "/guides/how-to/erc20-paymaster/how-to/use-paymaster",
-	},
-	{
-		text: "Use the ERC-20 Paymaster (with unlimited token approvals)",
-		link: "/guides/how-to/erc20-paymaster/how-to/use-paymaster-with-unlimited-approval",
-	},
-	{
-		text: "Estimate token cost and cost in USD",
-		link: "/guides/how-to/erc20-paymaster/how-to/calculate-costs",
-	},
-];
-
-export const boostedPaymasterSidebar = [
-	{
-		text: "Use the Boosted Paymaster",
-		link: "/guides/boosted-paymaster/use-boosted-paymaster",
+		text: "Send user operations in parallel",
+		link: "/guides/how-to/parallel-transactions",
 	},
 ];
 
@@ -306,6 +335,11 @@ export const conceptualSidebar = [
 		text: "ERC-7579",
 		link: "/guides/conceptual/erc7579",
 	},
+	{
+		text: "EIP-7702",
+		link: "/guides/eip7702",
+		items: eip7702Sidebar,
+	},
 ];
 
 export const guidesSidebar = [
@@ -315,9 +349,9 @@ export const guidesSidebar = [
 		items: gettingStartedSidebar,
 	},
 	{
-		text: "EIP-7702",
-		link: "/guides/eip7702",
-		items: eip7702Sidebar,
+		text: "Concepts",
+		link: "/guides/conceptual",
+		items: conceptualSidebar,
 	},
 	{
 		text: "Tutorials",
@@ -325,41 +359,12 @@ export const guidesSidebar = [
 		items: tutorialSidebar,
 	},
 	{
-		text: "Verifying Paymaster",
-		items: paymastersSidebar,
+		text: "Sending transactions",
+		items: sendingTransactionsSidebar,
 	},
 	{
-		text: "ERC-20 Paymaster",
-		link: "/guides/how-to/erc20-paymaster",
-		items: erc20PaymasterSidebar,
-	},
-	{
-		text: "Boosted Paymaster",
-		items: boostedPaymasterSidebar,
-	},
-	{
-		text: "Sponsorship Policies",
-		items: sponsorshipPoliciesSidebar,
-	},
-	{
-		text: "Gas Programs",
-		items: gasGrantPoliciesSidebar,
-	},
-	{
-		text: "Security",
-		items: securitySidebar,
-	},
-	{
-		text: "Testing",
-		items: testingSidebar,
-	},
-	{
-		text: "Debugging",
-		items: debuggingSidebar,
-	},
-	{
-		text: "Accounts",
-		items: accountsSidebar,
+		text: "Gas Sponsorship",
+		items: gasSponsorshipSidebar,
 	},
 	{
 		text: "Signers",
@@ -367,8 +372,11 @@ export const guidesSidebar = [
 		items: signersSidebar,
 	},
 	{
-		text: "Conceptual",
-		link: "/guides/conceptual",
-		items: conceptualSidebar,
+		text: "Smart Accounts",
+		items: accountsSidebar,
+	},
+	{
+		text: "Production",
+		items: productionSidebar,
 	},
 ];
