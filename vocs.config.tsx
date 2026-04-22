@@ -13,6 +13,7 @@ import {
 
 export default defineConfig({
 	title: "Pimlico",
+	llms: { generateMarkdown: true },
 	logoUrl: { light: "/pimlico-purple.svg", dark: "/pimlico-white.svg" },
 	iconUrl: "/favicons/favicon.svg",
 	titleTemplate: "%s | Pimlico Docs",
