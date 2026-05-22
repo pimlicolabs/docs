@@ -4,12 +4,7 @@ import VersionWarning from "../../../VersionWarning"
 
 # How to conditionally sponsor a user operation
 
-The permissionless.js library allows you to conditionally sponsor a user operation. This can be useful in situations like:
-
-- Sponsor only first 10 transactions
-- Sponsor if they have a specific NFT
-
-The use cases can be many, but the general idea is to use the `middleware.sponsorUserOperation` parameter to conditionally sponsor a user operation.
+_You are viewing permissionless.js v0.1 documentation. [View the latest documentation →](/references/permissionless)._ permissionless.js lets you conditionally sponsor a user operation — useful when you want to cap free sponsorship to the first N transactions per user, gate it behind ownership of a specific NFT, or apply any other custom rule. The general approach is to use the `middleware.sponsorUserOperation` parameter to decide per-operation whether to attach the paymaster.
 
 Let's take an example where you want to sponsor only the first 10 transactions.
 

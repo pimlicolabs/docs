@@ -1,10 +1,10 @@
 # AA32 expired or not due
 
+The paymaster's signature used in the `paymasterAndData` field of the user operation is not valid, because it is outside of the time range it specified.
+
 :::info
 By default, signatures from Pimlico's verifying paymaster are only valid for 10 minutes. 
 :::
-
-The paymaster's signature used in the `paymasterAndData` field of the user operation is not valid, because it is outside of the time range it specified.
 
 The paymaster's `validatePaymasterUserOp` function returns `validationData`, a `bytes32` field. This field is a concatenation of the `validAfter`, `validUntil`, and `aggregator` fields. 
 
