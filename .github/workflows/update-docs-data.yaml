@@ -95,16 +95,19 @@ jobs:
             echo "Error: docs-data-updater/data/ directory not found"
             exit 1
           fi
-      
+
+      - name: Render data into pages
+        run: pnpm dlx tsx scripts/render-data.ts
+
       - name: Check for changes
         id: check_changes
         run: |
-          git add data/*.md
+          git add docs/pages
           if git diff --staged --quiet; then
-            echo "No changes detected in docs data files"
+            echo "No changes detected in rendered pages"
             echo "changes_detected=false" >> $GITHUB_OUTPUT
           else
-            echo "Changes detected in docs data files"
+            echo "Changes detected in rendered pages"
             echo "changes_detected=true" >> $GITHUB_OUTPUT
           fi
       

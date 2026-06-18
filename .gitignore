@@ -61,3 +61,6 @@ venv.bak/
 
 # temp
 temp.ts
+
+# generated data artifacts (injected into pages by `pnpm render-data`)
+/data
