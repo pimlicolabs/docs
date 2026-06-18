@@ -6,7 +6,8 @@
 		"dev": "vocs dev",
 		"build": "vocs build",
 		"preview": "vocs preview",
-		"search-index": "vocs search-index"
+		"search-index": "vocs search-index",
+		"render-data": "tsx scripts/render-data.ts"
 	},
 	"dependencies": {
 		"@dfns/lib-viem": "^0.3.1",
