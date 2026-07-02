@@ -51,11 +51,6 @@ jobs:
         working-directory: docs-data-updater
         run: pnpm build
       
-      - name: Create .env file with database credentials
-        working-directory: docs-data-updater
-        run: |
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
-
       - name: Install ORAS CLI
         run: |
           curl -LO "https://github.com/oras-project/oras/releases/download/v1.1.0/oras_1.1.0_linux_amd64.tar.gz"
@@ -74,13 +69,17 @@ jobs:
 
       - name: Generate docs data
         working-directory: docs-data-updater
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
-          # Run the data generation script
-          pnpm start
+          # The script logs verbose per-chain progress; keep the run output quiet
+          pnpm start > /dev/null 2>&1
           
       - name: Copy generated markdown files to docs data directory
         run: |
           # Copy the three generated markdown files from docs-data-updater/data/ to data/
+          # (data/ is gitignored since #156, so it doesn't exist in a fresh checkout)
+          mkdir -p data
           if [ -d "docs-data-updater/data" ]; then
             # Copy the specific generated files
             for file in chain-details.md supported-chains.md supported-tokens.md; do
