@@ -51,11 +51,6 @@ jobs:
         working-directory: docs-data-updater
         run: pnpm build
       
-      - name: Create .env file with database credentials
-        working-directory: docs-data-updater
-        run: |
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
-
       - name: Install ORAS CLI
         run: |
           curl -LO "https://github.com/oras-project/oras/releases/download/v1.1.0/oras_1.1.0_linux_amd64.tar.gz"
@@ -74,6 +69,8 @@ jobs:
 
       - name: Generate docs data
         working-directory: docs-data-updater
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
           # The script logs verbose per-chain progress; keep the run output quiet
           pnpm start > /dev/null 2>&1
