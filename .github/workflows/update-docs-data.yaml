@@ -21,7 +21,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
         with:
-          version: 8
+          version: 10
           run_install: false
       
       - name: Get current date and time
@@ -45,7 +45,7 @@ jobs:
       
       - name: Install dependencies in docs-data-updater
         working-directory: docs-data-updater
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
       
       - name: Build docs-data-updater
         working-directory: docs-data-updater
