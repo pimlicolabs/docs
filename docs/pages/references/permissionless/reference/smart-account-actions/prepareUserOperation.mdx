@@ -1,5 +1,3 @@
 # prepareUserOperation
 
-`SmartAccountClient` extends viem's `BundlerClient` and so extends the `prepareUserOperation` method.
-
-You can view the full list of options for `prepareUserOperation` [in viem's documentation](https://viem.sh/account-abstraction/actions/bundler/prepareUserOperation).
+Builds an unsigned user operation by filling in fees, nonce, gas limits, paymaster data, and any other missing fields — ready to be signed and submitted. `SmartAccountClient` wraps viem's `BundlerClient.prepareUserOperation` and applies the smart account's defaults; the [full list of options is documented in viem](https://viem.sh/account-abstraction/actions/bundler/prepareUserOperation).

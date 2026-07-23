@@ -1,5 +1,7 @@
 # Bundler FAQs
 
+Answers to common questions about Pimlico's bundler, including troubleshooting dropped or stuck user operations, how bundler transaction fees are paid on-chain, and how the bundler interacts with paymasters and smart accounts.
+
 ## I successfully submitted a user operation to the bundler, but it never got included in a block. What happened?
 There can be many reasons for this. The most common are:
 - The user operation succeeds as it is being validated, but fails during the second round of simulations when it is being bundled by the bundler into a transaction to be submitted on-chain and is therefore dropped.
