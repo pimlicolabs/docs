@@ -13,6 +13,7 @@ import viteConfig from "./utils";
 
 export default defineConfig({
 	title: "Pimlico",
+	aiCta: false,
 	llms: { generateMarkdown: true },
 	logoUrl: { light: "/pimlico-purple.svg", dark: "/pimlico-white.svg" },
 	iconUrl: "/favicons/favicon.svg",
