@@ -36,6 +36,16 @@ jobs:
           repository: pimlicolabs/docs-data-updater
           token: ${{ secrets.GH_PAT }}
           path: docs-data-updater
+
+      - name: Clone gitops repository
+        uses: actions/checkout@v4
+        with:
+          repository: pimlicolabs/gitops
+          token: ${{ secrets.GH_PAT }}
+          path: gitops
+          sparse-checkout: |
+            apps/do-nyc1-production/alto/values.yaml
+          sparse-checkout-cone-mode: false
       
       - name: Configure npm for private packages
         working-directory: docs-data-updater
@@ -71,18 +81,19 @@ jobs:
         working-directory: docs-data-updater
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          ALTO_VALUES_PATH: ${{ github.workspace }}/gitops/apps/do-nyc1-production/alto/values.yaml
         run: |
           # The script logs verbose per-chain progress; keep the run output quiet
           pnpm start > /dev/null 2>&1
           
       - name: Copy generated markdown files to docs data directory
         run: |
-          # Copy the three generated markdown files from docs-data-updater/data/ to data/
+          # Copy the generated markdown files from docs-data-updater/data/ to data/
           # (data/ is gitignored since #156, so it doesn't exist in a fresh checkout)
           mkdir -p data
           if [ -d "docs-data-updater/data" ]; then
             # Copy the specific generated files
-            for file in chain-details.md supported-chains.md supported-tokens.md; do
+            for file in chain-details.md supported-chains.md supported-tokens.md eip7702-chains.md; do
               if [ -f "docs-data-updater/data/$file" ]; then
                 cp -f "docs-data-updater/data/$file" "data/$file"
                 echo "Copied $file"
@@ -110,8 +121,8 @@ jobs:
             echo "changes_detected=true" >> $GITHUB_OUTPUT
           fi
       
-      - name: Remove docs-data-updater directory
-        run: rm -rf docs-data-updater
+      - name: Remove cloned repositories
+        run: rm -rf docs-data-updater gitops
 
       - name: Get current branch
         id: get_branch
@@ -132,11 +143,12 @@ jobs:
           commit-message: "chore: update docs data [automated]"
           title: "Update docs data - ${{ steps.datetime.outputs.datetime }}"
           body: |
-            This PR updates the docs data from the Pimlico database:
+            This PR updates docs data from the Pimlico database and deployment configuration:
             
             - Chain details
             - Supported chains
             - Supported tokens
+            - EIP-7702 supported chains
             
             - Updated on: ${{ steps.datetime.outputs.date }}
             - Automated update via GitHub Actions
