@@ -37,16 +37,6 @@ jobs:
           token: ${{ secrets.GH_PAT }}
           path: docs-data-updater
 
-      - name: Clone gitops repository
-        uses: actions/checkout@v4
-        with:
-          repository: pimlicolabs/gitops
-          token: ${{ secrets.GH_PAT }}
-          path: gitops
-          sparse-checkout: |
-            apps/do-nyc1-production/alto/values.yaml
-          sparse-checkout-cone-mode: false
-      
       - name: Configure npm for private packages
         working-directory: docs-data-updater
         run: |
@@ -81,7 +71,6 @@ jobs:
         working-directory: docs-data-updater
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          ALTO_VALUES_PATH: ${{ github.workspace }}/gitops/apps/do-nyc1-production/alto/values.yaml
         run: |
           # The script logs verbose per-chain progress; keep the run output quiet
           pnpm start > /dev/null 2>&1
@@ -122,7 +111,7 @@ jobs:
           fi
       
       - name: Remove cloned repositories
-        run: rm -rf docs-data-updater gitops
+        run: rm -rf docs-data-updater
 
       - name: Get current branch
         id: get_branch
