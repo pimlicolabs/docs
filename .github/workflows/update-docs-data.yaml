@@ -71,6 +71,7 @@ jobs:
         working-directory: docs-data-updater
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DOCS_DATA_GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           # The script logs verbose per-chain progress; keep the run output quiet
           pnpm start > /dev/null 2>&1
