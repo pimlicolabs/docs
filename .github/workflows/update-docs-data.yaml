@@ -93,7 +93,7 @@ jobs:
           mkdir -p data
           if [ -d "docs-data-updater/data" ]; then
             # Copy the specific generated files
-            for file in chain-details.md supported-chains.md supported-tokens.md eip7702-chains.md; do
+            for file in chain-details.md supported-chains.md supported-tokens.md; do
               if [ -f "docs-data-updater/data/$file" ]; then
                 cp -f "docs-data-updater/data/$file" "data/$file"
                 echo "Copied $file"
@@ -148,7 +148,6 @@ jobs:
             - Chain details
             - Supported chains
             - Supported tokens
-            - EIP-7702 supported chains
             
             - Updated on: ${{ steps.datetime.outputs.date }}
             - Automated update via GitHub Actions
