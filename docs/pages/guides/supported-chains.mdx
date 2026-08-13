@@ -113,21 +113,23 @@ You can also access the public endpoint without an API key ([more info](/referen
 
 ## Chain Details
 
-Below you can find detailed information about supported entrypoints and account implementations for each chain. For each chain, the table shows which account implementations support which entrypoint versions.
+Below you can find detailed information about supported entrypoints and account implementations for each chain. The Supported Entrypoints table shows whether Pimlico's bundler and paymaster support each version. The Supported Accounts table shows which account implementations are compatible with each version.
 
 {/* @data-start: chain-details */}
 
 ## Ethereum
 - Chain ID: 1
 - Slug: ethereum
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -136,20 +138,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Base
 - Chain ID: 8453
 - Slug: base
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -158,20 +163,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Polygon
 - Chain ID: 137
 - Slug: polygon
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -180,20 +188,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Arbitrum
 - Chain ID: 42161
 - Slug: arbitrum
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -202,20 +213,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Arbitrum Nova
 - Chain ID: 42170
 - Slug: arbitrum-nova
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -224,20 +238,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Optimism
 - Chain ID: 10
 - Slug: optimism
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -246,20 +263,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Avalanche
 - Chain ID: 43114
 - Slug: avalanche
+- EIP-7702 support: ❌
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -268,20 +288,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## BNB
 - Chain ID: 56
 - Slug: binance
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -290,20 +313,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Zora
 - Chain ID: 7777777
 - Slug: zora
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -312,20 +338,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Mantle
 - Chain ID: 5000
 - Slug: mantle
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -334,20 +363,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Base Sepolia
 - Chain ID: 84532
 - Slug: base-sepolia
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -356,20 +388,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
 | V07 | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Polygon Amoy
 - Chain ID: 80002
 - Slug: polygon-amoy
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -378,20 +413,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## OP Sepolia
 - Chain ID: 11155420
 - Slug: optimism-sepolia
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -400,20 +438,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
 | V07 | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Arbitrum Sepolia
 - Chain ID: 421614
 - Slug: arbitrum-sepolia
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -422,20 +463,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Zora Sepolia
 - Chain ID: 999999999
 - Slug: zora-sepolia
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -444,20 +488,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Binance Testnet
 - Chain ID: 97
 - Slug: binance-testnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -466,19 +513,22 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Mantle Sepolia
 - Chain ID: 5003
 - Slug: mantle-sepolia
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -486,20 +536,23 @@ Below you can find detailed information about supported entrypoints and account 
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Alpen Testnet III
 - Chain ID: 20310
 - Slug: alpen-testnet-3
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -508,20 +561,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Arc Testnet
 - Chain ID: 5042002
 - Slug: arc-testnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -530,20 +586,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Avalanche Fuji
 - Chain ID: 43113
 - Slug: avalanche-fuji
+- EIP-7702 support: ❌
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -552,19 +611,22 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Berachain
 - Chain ID: 80094
 - Slug: berachain
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -572,19 +634,22 @@ Below you can find detailed information about supported entrypoints and account 
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Berachain Bepolia
 - Chain ID: 80069
 - Slug: berachain-bepolia
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -592,20 +657,23 @@ Below you can find detailed information about supported entrypoints and account 
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Blast
 - Chain ID: 81457
 - Slug: blast
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -614,20 +682,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Blast Sepolia
 - Chain ID: 168587773
 - Slug: blast-sepolia
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -636,20 +707,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Bob
 - Chain ID: 60808
 - Slug: bob
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -658,20 +732,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## BOB Sepolia
 - Chain ID: 808813
 - Slug: bob-sepolia
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -680,19 +757,22 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Celo
 - Chain ID: 42220
 - Slug: celo
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -700,20 +780,23 @@ Below you can find detailed information about supported entrypoints and account 
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Celo Sepolia
 - Chain ID: 11142220
 - Slug: celo-sepolia
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -722,20 +805,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Chiado Testnet
 - Chain ID: 10200
 - Slug: chiado-testnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -744,20 +830,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ❌ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ❌ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Citrea
 - Chain ID: 4114
 - Slug: citrea
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -766,20 +855,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Citrea Testnet
 - Chain ID: 5115
 - Slug: citrea-testnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -788,20 +880,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Cyber Mainnet
 - Chain ID: 7560
 - Slug: cyber-mainnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -810,20 +905,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Degen
 - Chain ID: 666666666
 - Slug: degen
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -832,20 +930,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## DFK
 - Chain ID: 53935
 - Slug: dfk-chain
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -854,20 +955,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## DFK Subnet Testnet
 - Chain ID: 335
 - Slug: dfk-chain-test
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -876,19 +980,22 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Etherlink Mainnet
 - Chain ID: 42793
 - Slug: etherlink-mainnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -896,20 +1003,23 @@ Below you can find detailed information about supported entrypoints and account 
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Etherlink Shadow Testnet
 - Chain ID: 127823
 - Slug: etherlink-shadow-testnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -918,20 +1028,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Fuse
 - Chain ID: 122
 - Slug: fuse
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -940,20 +1053,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ✅ |
 | V07 | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Fuse Sparknet
 - Chain ID: 123
 - Slug: fuse-sparknet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -962,20 +1078,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ | ✅ |
 | V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Gnosis
 - Chain ID: 100
 - Slug: gnosis
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -984,20 +1103,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Hoodi Testnet
 - Chain ID: 560048
 - Slug: hoodi-testnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1006,20 +1128,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Hyper EVM
 - Chain ID: 999
 - Slug: hyper-evm
+- EIP-7702 support: ❌
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1028,20 +1153,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Kaia
 - Chain ID: 8217
 - Slug: kaia
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1050,20 +1178,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Kaia Kairos
 - Chain ID: 1001
 - Slug: kaia-kairos
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1072,20 +1203,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Linea
 - Chain ID: 59144
 - Slug: linea
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1094,19 +1228,22 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Linea Sepolia
 - Chain ID: 59141
 - Slug: linea-sepolia
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1114,20 +1251,23 @@ Below you can find detailed information about supported entrypoints and account 
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## MegaETH
 - Chain ID: 4326
 - Slug: megaeth
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1136,20 +1276,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Moca Testnet
 - Chain ID: 222888
 - Slug: moca-testnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1158,20 +1301,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V07 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Mode
 - Chain ID: 34443
 - Slug: mode
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1180,20 +1326,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Monad
 - Chain ID: 143
 - Slug: monad
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1202,20 +1351,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Monad Testnet
 - Chain ID: 10143
 - Slug: monad-testnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1224,20 +1376,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Moonbeam
 - Chain ID: 1284
 - Slug: moonbeam
+- EIP-7702 support: ❌
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1246,20 +1401,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## OP BNB
 - Chain ID: 204
 - Slug: opbnb
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1268,20 +1426,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ |
 | V07 | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Plume Mainnet
 - Chain ID: 98866
 - Slug: plume
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1290,20 +1451,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Plume Testnet
 - Chain ID: 98867
 - Slug: plume-testnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1312,20 +1476,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Robinhood
 - Chain ID: 4663
 - Slug: robinhood
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1334,20 +1501,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Robinhood Testnet
 - Chain ID: 46630
 - Slug: robinhood-testnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1356,20 +1526,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Scroll
 - Chain ID: 534352
 - Slug: scroll
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1378,20 +1551,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Scroll Sepolia Testnet
 - Chain ID: 534351
 - Slug: scroll-sepolia-testnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1400,20 +1576,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Sei
 - Chain ID: 1329
 - Slug: sei
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1422,20 +1601,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Sei Testnet
 - Chain ID: 1328
 - Slug: sei-testnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1444,20 +1626,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Sepolia
 - Chain ID: 11155111
 - Slug: sepolia
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1466,19 +1651,22 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## SKALE Calypso Testnet
 - Chain ID: 974399131
 - Slug: calypso-testnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1486,19 +1674,22 @@ Below you can find detailed information about supported entrypoints and account 
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## SKALE Europa Testnet
 - Chain ID: 1444673419
 - Slug: europa-testnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1506,19 +1697,22 @@ Below you can find detailed information about supported entrypoints and account 
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## SKALE Nebula Testnet
 - Chain ID: 37084624
 - Slug: nebula-testnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1526,19 +1720,22 @@ Below you can find detailed information about supported entrypoints and account 
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## SKALE Titan Testnet
 - Chain ID: 1020352220
 - Slug: titan-testnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1546,20 +1743,23 @@ Below you can find detailed information about supported entrypoints and account 
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V07 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Somnia Mainnet
 - Chain ID: 5031
 - Slug: somnia
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1568,20 +1768,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Somnia Testnet
 - Chain ID: 50312
 - Slug: somnia-testnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1590,20 +1793,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Soneium Minato
 - Chain ID: 1946
 - Slug: soneium-minato
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1612,20 +1818,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Sonic Mainnet
 - Chain ID: 146
 - Slug: sonic
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1634,20 +1843,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ✅ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Sonic Testnet
 - Chain ID: 14601
 - Slug: sonic-testnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1656,20 +1868,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Story Aeneid Testnet
 - Chain ID: 1315
 - Slug: story-aeneid-testnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1678,20 +1893,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Story Mainnet
 - Chain ID: 1514
 - Slug: story-mainnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1700,19 +1918,22 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Superposition
 - Chain ID: 55244
 - Slug: superposition
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1720,20 +1941,23 @@ Below you can find detailed information about supported entrypoints and account 
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Tempo
 - Chain ID: 4217
 - Slug: tempo
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1742,19 +1966,22 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V07 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Tempo Testnet
 - Chain ID: 42431
 - Slug: tempo-testnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1762,20 +1989,23 @@ Below you can find detailed information about supported entrypoints and account 
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Unichain
 - Chain ID: 130
 - Slug: unichain
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1784,20 +2014,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Unichain Sepolia
 - Chain ID: 1301
 - Slug: unichain-testnet
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1806,20 +2039,23 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## World Chain
 - Chain ID: 480
 - Slug: worldchain
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
-| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V08 | `0x4337084d9e255ff0702461cf8895ce9e3b5ff108` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1828,19 +2064,22 @@ Below you can find detailed information about supported entrypoints and account 
 | V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V08 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## World Chain Sepolia
 - Chain ID: 4801
 - Slug: worldchain-sepolia
+- EIP-7702 support: ✅
 
 ### Supported Entrypoints
 
-| Version | Address |
-| ------- | ------- |
-| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
-| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| Version | Address | Bundler | Paymaster |
+| ------- | ------- | :-----: | :-------: |
+| V06 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` | ✅ | ✅ |
+| V07 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` | ✅ | ✅ |
+| V09 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` | ✅ | ❌ |
 
 ### Supported Accounts
 
@@ -1848,6 +2087,7 @@ Below you can find detailed information about supported entrypoints and account 
 | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | V06 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
 | V07 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| V09 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 

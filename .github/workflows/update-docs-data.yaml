@@ -36,7 +36,7 @@ jobs:
           repository: pimlicolabs/docs-data-updater
           token: ${{ secrets.GH_PAT }}
           path: docs-data-updater
-      
+
       - name: Configure npm for private packages
         working-directory: docs-data-updater
         run: |
@@ -71,13 +71,14 @@ jobs:
         working-directory: docs-data-updater
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DOCS_DATA_GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           # The script logs verbose per-chain progress; keep the run output quiet
           pnpm start > /dev/null 2>&1
           
       - name: Copy generated markdown files to docs data directory
         run: |
-          # Copy the three generated markdown files from docs-data-updater/data/ to data/
+          # Copy the generated markdown files from docs-data-updater/data/ to data/
           # (data/ is gitignored since #156, so it doesn't exist in a fresh checkout)
           mkdir -p data
           if [ -d "docs-data-updater/data" ]; then
@@ -110,7 +111,7 @@ jobs:
             echo "changes_detected=true" >> $GITHUB_OUTPUT
           fi
       
-      - name: Remove docs-data-updater directory
+      - name: Remove cloned repositories
         run: rm -rf docs-data-updater
 
       - name: Get current branch
@@ -132,7 +133,7 @@ jobs:
           commit-message: "chore: update docs data [automated]"
           title: "Update docs data - ${{ steps.datetime.outputs.datetime }}"
           body: |
-            This PR updates the docs data from the Pimlico database:
+            This PR updates docs data from the Pimlico database and deployment configuration:
             
             - Chain details
             - Supported chains
