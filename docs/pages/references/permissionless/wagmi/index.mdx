@@ -22,7 +22,9 @@ import { HomePage } from 'vocs/components'
 
 <article className="vocs_Content max-w-4xl mt-[-80px] mx-auto">
 
-# Overview
+@permissionless/wagmi is a TypeScript library built on top of permissionless.js and wagmi that enables EIP-5792 features — gas sponsorship via ERC-7677 paymasters and transaction batching — in your wagmi app with just a couple lines of code.
+
+## Overview
 
 ```tsx [main.tsx]
 import { PermissionlessProvider } from "@permissionless/wagmi" // [!code ++]
@@ -75,14 +77,14 @@ function App() {
 
 And that's it!
 
-# Features
+## Features
 
 - **ERC-7677 Paymaster service**: Makes it easier to interact with an external smart account that offers support.
 - **Sending multiple transactions**: Makes it easier to send multiple transactions from an external smart account.
 - **Built on & for wagmi**: `@permissionless/wagmi` is designed to be a thin wrapper around wagmi, maintaining the same style and overall feel wagmi provides.
 - and a lot more coming soon...
 
-# Source Code
+## Source Code
 
 The source code for `@permissionless/wagmi` is available on [GitHub](https://github.com/pimlicolabs/permissionless.js)
 

@@ -5,7 +5,7 @@ description: Hook that waits for the transaction to be included on a block, and 
 
 # useWaitForTransactionReceipt
 
-Hook that waits for the transaction to be included on a block, and then returns the transaction receipt. If the transaction reverts, then the action will throw an error. Replacement detection (e.g. sped up transactions) is also supported.
+Drop-in replacement for wagmi's `useWaitForTransactionReceipt` that resolves the receipt for a smart account transaction submitted via this package's `useSendTransaction`, using the transaction reference returned by that hook instead of an EOA hash.
 
 ## Import
 
