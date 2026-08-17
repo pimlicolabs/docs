@@ -1,0 +1,23 @@
+# Single-package repo. `packages` is required here because pnpm 9 (still used by
+# Vercel unless corepack is enabled) rejects a pnpm-workspace.yaml without it.
+packages:
+  - .
+
+# pnpm 10+ no longer runs dependency build scripts unless they are allow-listed.
+# Only esbuild needs its postinstall (vocs/vite bundling); the rest are native
+# addons pulled in by wallet-SDK snippets that the docs build never executes.
+allowBuilds:
+  bigint-buffer: false
+  bufferutil: false
+  es5-ext: false
+  esbuild: true
+  keccak: false
+  protobufjs: false
+  secp256k1: false
+  utf-8-validate: false
+
+# pnpm 10's spelling of the same thing, kept so the allow-list still applies if
+# an install runs on 10 (e.g. Vercel, which ignores `packageManager` unless
+# corepack is enabled). pnpm 9 and 11 each ignore the key they don't own.
+onlyBuiltDependencies:
+  - esbuild

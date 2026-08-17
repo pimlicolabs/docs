@@ -8,7 +8,7 @@ The Pimlico documentation is built using **Vocs v1.4.x**, a React-based document
 
 ### Technology Stack
 - **Framework**: Vocs (v1.4.x)
-- **Package Manager**: pnpm (v9.6.0)
+- **Package Manager**: pnpm (v11.22.0)
 - **Language**: TypeScript/MDX
 - **Styling**: Tailwind CSS
 - **Code Quality**: Biome for linting
