@@ -1,5 +1,3 @@
 # getUserOperation
 
-`SmartAccountClient` extends viem's `BundlerClient` and so extends the `getUserOperation` method.
-
-You can view the full list of options for `getUserOperation` [in viem's documentation](https://viem.sh/account-abstraction/actions/bundler/getUserOperation).
+Returns the user operation and its bundler-side state for a given user operation hash — including the EntryPoint it was submitted to and the transaction hash if it has already been included on-chain. `SmartAccountClient` wraps viem's `BundlerClient.getUserOperation`, so the [full list of options is documented in viem](https://viem.sh/account-abstraction/actions/bundler/getUserOperation).

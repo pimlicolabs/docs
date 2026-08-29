@@ -5,7 +5,7 @@ description: Hook for creating, signing, and sending transactions to networks.
 
 # useSendTransaction
 
-Hook for creating, signing, and sending transactions to networks.
+Drop-in replacement for wagmi's `useSendTransaction` that routes the transaction through the configured smart account and ERC-7677 paymaster — returning a transaction *reference* (not an EOA hash) that pairs with `useWaitForTransactionReceipt` from this package.
 
 ## Import
 

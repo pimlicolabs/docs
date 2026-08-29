@@ -1,5 +1,3 @@
 # estimateUserOperationGas
 
-`SmartAccountClient` extends viem's `BundlerClient` and so extends the `estimateUserOperationGas` method.
-
-You can view the full list of options for `estimateUserOperationGas` [in viem's documentation](https://viem.sh/account-abstraction/actions/bundler/estimateUserOperationGas).
+Estimates the `preVerificationGas`, `verificationGasLimit`, and `callGasLimit` needed to validate and execute a user operation against the current chain state. `SmartAccountClient` wraps viem's `BundlerClient.estimateUserOperationGas`, so the [full list of options is documented in viem](https://viem.sh/account-abstraction/actions/bundler/estimateUserOperationGas).

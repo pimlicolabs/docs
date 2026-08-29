@@ -4,13 +4,13 @@ import VersionWarning from "../../../VersionWarning"
 
 # Pimlico Paymaster Client
 
+_You are viewing permissionless.js v0.1 documentation. [View the latest documentation →](/references/permissionless)._ A Pimlico Paymaster Client is an interface to the [Pimlico-specific paymaster methods](/references/paymaster/verifying-paymaster/endpoints).
+
 :::warning
 The Pimlico paymaster actions in permissionless.js only work with the v2 Pimlico API. The v1 API for paymasters is deprecated and will be removed in the future.
 
 This version, instead of simply signing over the passed-in User Operation, estimates the gas values for the User Operation and then signs over the estimated gas values, returning not only the `paymasterAndData` but also the `preVerificationGas`, `verificationGasLimit`, and `callGasLimit`.
 :::
-
-A Pimlico Paymaster Client is an interface to the [Pimlico-specific paymaster methods](/references/paymaster/verifying-paymaster/endpoints).
 
 To create a Pimlico Paymaster Client, create a basic client and extend it with the Pimlico Paymaster Actions.
 
