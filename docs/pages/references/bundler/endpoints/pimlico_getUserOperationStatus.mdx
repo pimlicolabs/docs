@@ -1,6 +1,6 @@
 # pimlico_getUserOperationStatus
 
-This method takes in a user operation hash and returns the status of the operation and, optionally, the transaction hash the bundler is using to bundle the user operation on-chain. The status can be one of the following:
+This method takes a user operation hash and returns the current status of the operation along with, when relevant, the transaction hash the bundler is using to bundle it on-chain — covering states like not found, not yet submitted, submitted, included, rejected, failed, and queued.
 
 
 | result   | response includes transaction hash | description |
