@@ -1,0 +1,59 @@
+---
+title: Pimlico CLI
+---
+
+# Pimlico CLI
+
+The Pimlico CLI (`@pimlico/cli`, binary `pimlico`) is a terminal interface to everything the [dashboard](https://dashboard.pimlico.io/) does: credit balance, invoices, usage, supported chains, user operation debugging, sponsorship policies and API keys.
+
+It is built for three kinds of users:
+
+- **Humans in a terminal**, who want to check a balance or debug a failed user operation without opening the dashboard
+- **CI and scripts**, using `--json` output and meaningful exit codes (for example, failing a job when the balance drops below a threshold)
+- **Coding agents** such as Claude Code, Cursor, Codex and Copilot, either through `--json` output or through the built-in [MCP server](/references/platform/cli/mcp)
+
+## Installation
+
+The CLI requires Node.js 20 or later.
+
+```bash
+npm install -g @pimlico/cli
+```
+
+```bash
+pnpm add -g @pimlico/cli
+```
+
+You can also run any command without installing it:
+
+```bash
+npx @pimlico/cli <command>
+```
+
+## Quick start
+
+Log in with the same account you use for the dashboard, then query your account:
+
+```bash
+pimlico login
+pimlico balance
+pimlico usage --last 7d
+```
+
+`pimlico login` opens your browser to complete authentication. See [Authentication](/references/platform/cli/authentication) for headless environments and CI.
+
+## Updates
+
+The CLI checks for new versions and updates itself in the background. To opt out, set `PIMLICO_NO_AUTO_UPDATE=1` in your environment and update manually when you choose to:
+
+```bash
+pimlico upgrade
+```
+
+## Next steps
+
+- [Authentication](/references/platform/cli/authentication): logging in, headless login, CI tokens
+- [Commands](/references/platform/cli/commands): the full command reference
+- [MCP server](/references/platform/cli/mcp): connect coding agents to your Pimlico account
+- [Telemetry](/references/platform/cli/telemetry): what the CLI collects and how to turn it off
+- [API keys](/references/platform/cli/api-keys): keys, handles and what to do when a key is lost

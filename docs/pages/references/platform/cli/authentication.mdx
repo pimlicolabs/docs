@@ -1,0 +1,65 @@
+---
+title: CLI Authentication
+---
+
+# Authentication
+
+The CLI authenticates with the same account you use for the [dashboard](https://dashboard.pimlico.io/). Login goes through Clerk OAuth, so there is no separate CLI password or key to manage.
+
+## Logging in
+
+```bash
+pimlico login
+```
+
+This opens your browser, where you sign in and approve the CLI. The browser redirects back to a loopback address on your machine using PKCE, and the CLI stores the resulting token.
+
+### Without a browser
+
+Over SSH, inside a container, or wherever a browser cannot be opened, the CLI falls back to a device flow. You can also request it explicitly:
+
+```bash
+pimlico login --device
+```
+
+The CLI prints a one-time code and the dashboard URL to enter it at. Open that page on any device, enter the code, and the CLI completes the login on its own.
+
+## Where tokens are stored
+
+Tokens are stored in `~/.config/pimlico/credentials.json` with file mode `0600` (readable only by your user). OS keychain storage is planned. Tokens are never written to `.env`.
+
+The CLI never writes tokens to `.env` or any file in your project.
+
+## Checking and ending a session
+
+```bash
+pimlico whoami
+```
+
+Shows the account and organization the CLI is currently acting as.
+
+```bash
+pimlico logout
+```
+
+Revokes the token on the server and removes it locally. Deleting the credentials file by hand removes the local copy but does not revoke the token; use `pimlico logout` instead.
+
+To revoke CLI sessions from another machine, go to your account page in the dashboard.
+
+## Organizations
+
+The token carries the active organization, and every command acts on that organization's account. Personal accounts have no organization; commands then act on the personal account.
+
+## CI and non-interactive use
+
+Set `PIMLICO_TOKEN` to an access token, and the CLI uses it instead of the stored login:
+
+```bash
+PIMLICO_TOKEN=<access token> pimlico balance --below 50 --json
+```
+
+:::warning
+Access tokens expire after 24 hours. Long-lived service tokens for CI are a planned follow-up; until then, a token stored as a CI secret must be refreshed daily.
+:::
+
+When authentication is required and no valid token is available, commands exit with code `3`. See [exit codes](/references/platform/cli/commands#exit-codes).

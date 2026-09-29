@@ -1,0 +1,61 @@
+---
+title: CLI Telemetry
+---
+
+# Telemetry
+
+The CLI sends anonymous usage telemetry to help us understand which commands are used and where they fail. This page describes how to turn it off, what is collected, what is not, and where it goes.
+
+## Turning it off
+
+Any one of the following disables telemetry:
+
+- Set `PIMLICO_TELEMETRY_DISABLED=1` in your environment.
+- Set `DO_NOT_TRACK=1`. The CLI honours this convention.
+- Run `pimlico telemetry disable`. This persists the choice in `~/.config/pimlico/config.json`.
+
+To check the current state:
+
+```bash
+pimlico telemetry status
+```
+
+The first time you run the CLI it prints a one-time notice that telemetry is on and how to disable it.
+
+## What is collected
+
+| Field | Description |
+| :---- | :---------- |
+| `device_id` | A random UUID generated once and stored in `~/.config/pimlico/id`. |
+| `user_id`, `org_id` | Only when logged in. Not sent when `CI=true`. |
+| `architecture` | CPU architecture. |
+| `os` | Operating system. |
+| `is_tty` | Whether the command ran in an interactive terminal. |
+| `version` | CLI version. |
+| `ci` | CI vendor, if detected (for example `github_actions`). |
+| `github_agents` | Whether a GitHub-hosted coding agent is running the command. |
+| `agent` | Which coding agent is driving the CLI, detected from the MCP client name or environment (for example `claude_code`, `cursor`, `codex`). |
+| `command` | The command run (for example `policies.create`). |
+| `flags` | Boolean switches used. |
+| `options` | Names of options used. |
+| `values` | Values only for options declared safe: closed enums such as chain or interval, and bucketed numbers such as budgets. Never free text, identifiers, hashes, addresses, paths or URLs. |
+| `duration_ms` | How long the command took. |
+| `exit_code` | The command's exit code. |
+
+## What is not collected
+
+- API keys or key handles
+- Policy ids
+- User operation hashes
+- Addresses
+- Names of keys, policies or anything else
+- File paths
+- URLs
+- Command output
+- Environment variables
+
+## Where it goes
+
+Events are batched in a small local spool and sent in the background to `dashboard.pimlico.io/api/cli/telemetry`, an endpoint operated by Pimlico that forwards them to our analytics provider (PostHog). The CLI never contacts PostHog directly and contains no analytics keys.
+
+Sending never delays or blocks a command.

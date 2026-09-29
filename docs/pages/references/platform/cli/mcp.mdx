@@ -1,0 +1,81 @@
+---
+title: CLI MCP Server
+---
+
+# MCP server
+
+`pimlico mcp` runs a [Model Context Protocol](https://modelcontextprotocol.io/) server over stdio. It exposes the CLI's read commands, plus sponsorship policy creation, as tools that a coding agent can call.
+
+The server uses the same login as the CLI. Run `pimlico login` once, and every agent on the machine that starts the server is authorized as you. In CI, set `PIMLICO_TOKEN` as described in [Authentication](/references/platform/cli/authentication#ci-and-non-interactive-use).
+
+## Configuration
+
+### Claude Code
+
+```bash
+claude mcp add pimlico -- npx -y @pimlico/cli mcp
+```
+
+Or add it to the project's `.mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "pimlico": {
+      "command": "npx",
+      "args": ["-y", "@pimlico/cli", "mcp"]
+    }
+  }
+}
+```
+
+### Cursor
+
+Add the server to `~/.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "pimlico": {
+      "command": "npx",
+      "args": ["-y", "@pimlico/cli", "mcp"]
+    }
+  }
+}
+```
+
+### Other clients
+
+Any client that supports stdio MCP servers can use the same definition:
+
+```json
+{
+  "mcpServers": {
+    "pimlico": {
+      "command": "npx",
+      "args": ["-y", "@pimlico/cli", "mcp"]
+    }
+  }
+}
+```
+
+If the CLI is installed globally, `"command": "pimlico"` with `"args": ["mcp"]` works too and skips the `npx` startup.
+
+## Tools
+
+| Tool | Equivalent command |
+| :--- | :----------------- |
+| `pimlico_balance` | [`pimlico balance`](/references/platform/cli/commands#pimlico-balance) |
+| `pimlico_invoices` | [`pimlico invoices`](/references/platform/cli/commands#pimlico-invoices) |
+| `pimlico_usage` | [`pimlico usage`](/references/platform/cli/commands#pimlico-usage) |
+| `pimlico_chains` | [`pimlico chains`](/references/platform/cli/commands#pimlico-chains) |
+| `pimlico_op` | [`pimlico op`](/references/platform/cli/commands#pimlico-op) |
+| `pimlico_policies_list` | [`pimlico policies list`](/references/platform/cli/commands#pimlico-policies-list) |
+| `pimlico_policy_get` | [`pimlico policies get`](/references/platform/cli/commands#pimlico-policies-get) |
+| `pimlico_policy_create` | [`pimlico policies create`](/references/platform/cli/commands#pimlico-policies-create) |
+| `pimlico_keys_list` | [`pimlico keys list`](/references/platform/cli/commands#pimlico-keys-list) |
+| `pimlico_key_get` | [`pimlico keys get`](/references/platform/cli/commands#pimlico-keys-get) |
+
+Destructive operations, such as disabling keys or policies, are not exposed as tools. They are available from the CLI only.
+
+Tool results carry the same top-level `warnings` array as `--json` output, so an agent sees the [open invoices warning](/references/platform/cli/commands#warnings) too.

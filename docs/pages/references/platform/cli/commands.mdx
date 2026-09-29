@@ -1,0 +1,292 @@
+---
+title: CLI Commands
+---
+
+# Commands
+
+Reference for every `pimlico` command. Run `pimlico <command> --help` for the same information in the terminal.
+
+## Global options
+
+These options are accepted by every command.
+
+| Option | Description |
+| :----- | :---------- |
+| `--json` | Machine-readable JSON on stdout. Warnings and progress go to stderr, so stdout can be piped straight into `jq` or a script. |
+| `--quiet` | Suppress non-essential output, including the [open invoices warning](#warnings). |
+| `--no-color` | Disable ANSI colors. |
+| `--help` | Show help for the command. |
+| `--version` | Print the CLI version. |
+
+## Exit codes
+
+| Code | Meaning |
+| :--- | :------ |
+| `0` | Success |
+| `1` | Error |
+| `2` | Threshold breached (`balance --below`) |
+| `3` | Authentication required |
+| `75` | Temporarily unavailable or rate limited; retry later |
+
+## Warnings
+
+When the account has open or overdue invoices, every authenticated command prints a one-line warning on stderr. With `--json`, the output carries a top-level `warnings` array instead:
+
+```json
+{
+  "warnings": [
+    {
+      "code": "OPEN_INVOICES",
+      "count": 2,
+      "totalUsd": "4120.00",
+      "overdue": true,
+      "oldestDueDate": "2026-09-14",
+      "url": "https://dashboard.pimlico.io/billing/invoices"
+    }
+  ],
+  "...": "..."
+}
+```
+
+Warnings do not change the exit code. `--quiet` suppresses the stderr line.
+
+## Authentication
+
+### `pimlico login`
+
+```bash
+pimlico login [--device] [--no-open]
+```
+
+Logs in through the browser. `--device` forces the device-code flow for environments without a browser; `--no-open` prints the login URL instead of opening it.
+
+### `pimlico logout`
+
+```bash
+pimlico logout
+```
+
+Revokes the current token and removes it from local storage.
+
+### `pimlico whoami`
+
+```bash
+pimlico whoami
+```
+
+Prints the account and active organization the CLI is acting as.
+
+See [Authentication](/references/platform/cli/authentication) for token storage and CI use.
+
+## Project setup
+
+### `pimlico init`
+
+```bash
+pimlico init [--name <name>] [--env-path <path>] [--key-var <NAME>]
+```
+
+Creates a new API key and writes it to `.env` in the current directory (or the file given by `--env-path`) as `PIMLICO_API_KEY`, or the variable named by `--key-var`. `--name` sets the key's display name in the dashboard.
+
+The key is printed redacted. The only place the full key appears is the file.
+
+```bash
+pimlico init --name "my-app local" --env-path ./apps/web/.env
+```
+
+This is the replacement for the interactive setup that `@pimlico/cli` 0.0.x ran by default.
+
+## Account
+
+### `pimlico balance`
+
+```bash
+pimlico balance [--below <usd>] [--watch [seconds]]
+```
+
+Shows the current credit balance, pending charges, overdraft limit and remaining allowance.
+
+- `--below <usd>` exits with code `2` when the remaining allowance is under the threshold, so the command can drive a cron job or alert.
+- `--watch [seconds]` re-polls at the given interval (minimum 10 seconds).
+
+```bash
+# Fail a scheduled job when less than $100 of allowance remains
+pimlico balance --below 100 --quiet
+```
+
+### `pimlico invoices`
+
+```bash
+pimlico invoices [--open]
+```
+
+Lists invoices from the billing account. `--open` shows only open and uncollectible invoices, with due dates and payment links.
+
+```bash
+pimlico invoices --open --json
+```
+
+### `pimlico usage`
+
+```bash
+pimlico usage [--last 24h|7d|30d] [--group chain|key|day] [--key <handle>] [--csv]
+```
+
+Shows requests, API credits and sponsored USD for the selected window.
+
+- `--last` selects the window: `24h`, `7d` or `30d`.
+- `--group` breaks the totals down by `chain`, `key` or `day`.
+- `--key <handle>` restricts the report to one API key, identified by its [handle](/references/platform/cli/api-keys).
+- `--csv` writes CSV to stdout.
+
+```bash
+pimlico usage --last 30d --group chain --csv > usage.csv
+```
+
+### `pimlico chains`
+
+```bash
+pimlico chains [--mainnet] [--testnet] [--all]
+```
+
+Lists supported chains with their chain id and capabilities. Works without logging in.
+
+```bash
+pimlico chains --mainnet --json
+```
+
+## User operations
+
+### `pimlico op`
+
+```bash
+pimlico op <userOpHash> [--chain <chainId>]
+```
+
+Shows the status timeline of a user operation. For failed operations it also shows the decoded revert reason and the sponsorship policy involved, if any.
+
+```bash
+pimlico op 0x8a2f... --chain 8453
+```
+
+## Sponsorship policies
+
+### `pimlico policies list`
+
+```bash
+pimlico policies list
+```
+
+### `pimlico policies get`
+
+```bash
+pimlico policies get <id>
+```
+
+Shows the policy together with its effective caps: the policy's own limits combined with the account overdraft.
+
+### `pimlico policies create`
+
+```bash
+pimlico policies create --name <name> --chains <ids> [--budget-usd <n>] [--per-user-usd <n>] [--per-op-usd <n>] [--start <iso>] [--end <iso>]
+```
+
+- `--name` is the policy name shown in the dashboard.
+- `--chains` is a comma-separated list of chain ids the policy applies to.
+- `--budget-usd`, `--per-user-usd` and `--per-op-usd` set the global, per-user and per-operation USD limits.
+- `--start` and `--end` are ISO 8601 timestamps bounding when the policy is active.
+
+```bash
+pimlico policies create --name "Launch week" --chains 8453,10 --budget-usd 500 --per-op-usd 0.50 --end 2026-10-07T00:00:00Z
+```
+
+### `pimlico policies update`
+
+```bash
+pimlico policies update <id> [same options as create]
+```
+
+### `pimlico policies enable` and `disable`
+
+```bash
+pimlico policies enable <id>
+pimlico policies disable <id>
+```
+
+## API keys
+
+Keys are identified by a handle such as `akey_7Kd2Qn4vT1`, never by the key itself. `keys create` is the only command that prints a key, and it prints it once. See [API keys](/references/platform/cli/api-keys).
+
+### `pimlico keys list`
+
+```bash
+pimlico keys list [--all]
+```
+
+Lists active keys. `--all` includes disabled keys.
+
+### `pimlico keys get`
+
+```bash
+pimlico keys get <handle>
+```
+
+### `pimlico keys create`
+
+```bash
+pimlico keys create --name <name>
+```
+
+Creates a key and prints it. Copy it now; it cannot be shown again.
+
+### `pimlico keys rename`
+
+```bash
+pimlico keys rename <handle> --name <name>
+```
+
+### `pimlico keys disable`
+
+```bash
+pimlico keys disable <handle>
+```
+
+Disables the key. Requests made with it are rejected from then on.
+
+## ERC-20 paymaster
+
+### `pimlico erc20 tokens`
+
+```bash
+pimlico erc20 tokens [--chain <chainId>]
+```
+
+Lists the tokens accepted by the ERC-20 paymaster, optionally for a single chain.
+
+## Maintenance
+
+### `pimlico telemetry`
+
+```bash
+pimlico telemetry status
+pimlico telemetry enable
+pimlico telemetry disable
+```
+
+Shows or changes whether anonymous usage telemetry is sent. See [Telemetry](/references/platform/cli/telemetry).
+
+### `pimlico upgrade`
+
+```bash
+pimlico upgrade
+```
+
+Updates the CLI to the latest version. The CLI also updates itself in the background unless `PIMLICO_NO_AUTO_UPDATE=1` is set.
+
+### `pimlico mcp`
+
+```bash
+pimlico mcp
+```
+
+Runs the MCP server over stdio for coding agents. See [MCP server](/references/platform/cli/mcp).
