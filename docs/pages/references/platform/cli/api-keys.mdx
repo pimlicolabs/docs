@@ -1,0 +1,35 @@
+---
+title: API Keys and Handles
+---
+
+# API keys and handles
+
+## A key is shown once
+
+An API key is shown exactly once, when it is created: in the dashboard's creation modal, or in the output of `pimlico keys create` or `pimlico init`. After that it cannot be retrieved from the dashboard, the API or the CLI.
+
+Store it where your application will read it, typically an `.env` file or your deployment's secret store, at the moment you create it.
+
+## Handles
+
+Everywhere else, a key is referred to by its handle, a short identifier such as `akey_7Kd2Qn4vT1`. Handles appear in `pimlico keys list`, in usage reports and in the dashboard. A handle does not grant access, so it is safe to paste in support tickets, logs and scripts.
+
+CLI commands that take a key, such as `pimlico keys get`, `pimlico keys disable` and `pimlico usage --key`, take the handle.
+
+## Lost a key
+
+If you no longer have a key, create a new one, update your application, then disable the old one:
+
+```bash
+pimlico keys create --name "my-app production"
+# update your app's configuration with the new key
+pimlico keys disable akey_7Kd2Qn4vT1
+```
+
+Disabling a key takes effect immediately; requests made with it are rejected from then on. Disable the old key only after the new one is deployed.
+
+## Related
+
+- [`pimlico keys`](/references/platform/cli/commands#api-keys) command reference
+- [Create API key](/guides/create-api-key)
+- [How to protect your API keys](/guides/how-to/security/protect-api-keys)
