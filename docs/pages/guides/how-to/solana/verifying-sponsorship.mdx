@@ -1,0 +1,161 @@
+# Verifying Paymaster
+
+This guide shows you how to sponsor the transaction fees for your users on Solana.
+
+You build your instructions as usual and hand them to the `@pimlico/solana` SDK. It sets the paymaster as the fee payer, signs with your user's key, and submits the transaction. The fee is charged to your Pimlico balance.
+
+## Steps
+
+::::steps
+### Install the SDK
+
+```sh
+npm install @pimlico/solana @solana/kit
+```
+
+### Create the paymaster client
+
+```ts
+import { createSolanaPaymaster } from "@pimlico/solana";
+import { createSolanaRpc } from "@solana/kit";
+
+const solanaRpc = createSolanaRpc("https://api.mainnet-beta.solana.com");
+
+const paymaster = createSolanaPaymaster({
+    paymasterUrl: "https://solana.pimlico.io/v1/rpc?apikey=YOUR_API_KEY",
+    solanaRpc,
+});
+```
+
+### Build your instructions
+
+This example sends 0.001 SOL to another wallet.
+
+```ts
+import {
+    address,
+    createKeyPairSignerFromBytes,
+    lamports
+} from "@solana/kit";
+import { getTransferSolInstruction } from "@solana-program/system";
+
+const user = await createKeyPairSignerFromBytes(USER_SECRET_KEY);
+
+const instructions = [
+    getTransferSolInstruction({
+        source: user,
+        destination: address("RecipientPubkey11111111111111111111111111111"),
+        amount: lamports(1_000_000n),
+    }),
+];
+```
+
+### Send the sponsored transaction
+
+Pass the instructions, your user's signer, and `sponsorship.type` set to `"verifying"`. The SDK builds the transaction, signs it, and submits it to the paymaster. The paymaster checks it, signs it as fee payer, broadcasts it, and returns the transaction signature.
+
+```ts
+const signature = await paymaster.sendTransaction({
+    instructions,
+    signers: [user],
+    sponsorship: { type: "verifying" },
+});
+
+console.log(`https://solscan.io/tx/${signature}`);
+```
+
+### Wait for the transaction to land
+
+```ts
+const status = await paymaster.waitForTransaction(signature);
+
+if (status.status === "finalized") {
+    console.log(`Finalized in slot ${status.slot}`);
+} else {
+    console.error(status.status, status.failureReason);
+}
+```
+
+`waitForTransaction` resolves once the status is `finalized`, `failed`, or `expired`. `expired` means the blockhash expired before the transaction landed, so build and send it again.
+
+::::
+
+## Using an external wallet
+
+If your users sign with a wallet like Phantom, you can't hand the SDK a signer. Use `prepareTransaction` to build the unsigned transaction, let the wallet sign it, then submit it with `sponsorTransaction`.
+
+```ts
+import { getBase64EncodedWireTransaction } from "@solana/kit";
+
+const transaction = await paymaster.prepareTransaction({
+    instructions,
+    payer: walletAddress,
+    sponsorship: { type: "verifying" },
+});
+
+// Have the wallet sign. Pass a kit Transaction, or serialize it for wallets that take bytes.
+const signed = await wallet.signTransaction(transaction);
+
+const { signature } = await paymaster.sponsorTransaction(signed, { type: "verifying" });
+```
+
+The wallet signs as your user, and the paymaster's signature slot stays empty for the paymaster to fill in. Phantom will show the fee as paid by another account.
+
+## Errors
+
+Errors from the paymaster are thrown as `SolanaPaymasterError` with a `code` and `data`.
+
+```ts
+import { SolanaPaymasterError } from "@pimlico/solana";
+
+try {
+    await paymaster.sendTransaction({ /* ... */ });
+} catch (error) {
+    if (error instanceof SolanaPaymasterError) {
+        console.error(error.code, error.message, error.data);
+    }
+}
+```
+
+The most common is `-32001`, which means validation failed: the transaction would fail on chain, the blockhash has expired, a signature is missing, or an instruction references the paymaster. The paymaster may only be the fee payer, never an account in an instruction. See the [errors reference](/references/paymaster/solana/errors) for the full list.
+
+## Retrying safely
+
+If `sendTransaction` throws a transport error, call it again with the same transaction. The paymaster recognises it by its signature and won't broadcast it twice. The SDK already retries transport errors twice for you.
+
+Don't rebuild the transaction with a new blockhash until the first one is `finalized`, `failed`, or `expired`. Otherwise both may land.
+
+## Full example
+
+```ts
+import { createSolanaPaymaster } from "@pimlico/solana";
+import {
+    address,
+    createKeyPairSignerFromBytes,
+    createSolanaRpc,
+    lamports
+} from "@solana/kit";
+import { getTransferSolInstruction } from "@solana-program/system";
+
+const paymaster = createSolanaPaymaster({
+    paymasterUrl: "https://solana.pimlico.io/v1/rpc?apikey=YOUR_API_KEY",
+    solanaRpc: createSolanaRpc("https://api.mainnet-beta.solana.com"),
+});
+
+const user = await createKeyPairSignerFromBytes(USER_SECRET_KEY);
+
+const signature = await paymaster.sendTransaction({
+    instructions: [
+        getTransferSolInstruction({
+            source: user,
+            destination: address("RecipientPubkey11111111111111111111111111111"),
+            amount: lamports(1_000_000n),
+        }),
+    ],
+    signers: [user],
+    sponsorship: { type: "verifying" },
+});
+
+const status = await paymaster.waitForTransaction(signature);
+console.log(signature, status.status);
+```

@@ -1,6 +1,6 @@
 # Pimlico Paymasters
 
-Pimlico providers two different types of paymasters to allow you to abstract away the gas fees for your users.
+Pimlico provides two different types of paymasters to allow you to abstract away the gas fees for your users on EVM chains, and Solana Sponsorships to do the same on Solana.
 
 ## Verifying Paymaster
 
@@ -9,3 +9,7 @@ Our Verifying Paymaster allows you to load up your off-chain Pimlico balance thr
 ## ERC-20 Paymaster
 
 Our ERC-20 Paymaster is a permissionless on-chain smart contract that lets your users pay for their own gas fees using their ERC-20 tokens.
+
+## Solana Sponsorships
+
+Solana Sponsorships lets you sponsor the transaction fees of your users on Solana, either in full (Verifying Paymaster) or with the user paying in USDC or another SPL token inside the same transaction. See the [Solana sponsorship guides](/guides/how-to/solana) and the [endpoint reference](/references/paymaster/solana/endpoints).

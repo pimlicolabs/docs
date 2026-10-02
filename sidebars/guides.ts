@@ -213,6 +213,20 @@ export const gasSponsorshipSidebar = [
 			},
 		],
 	},
+	{
+		text: "Solana",
+		link: "/guides/how-to/solana",
+		items: [
+			{
+				text: "Verifying Paymaster",
+				link: "/guides/how-to/solana/verifying-sponsorship",
+			},
+			{
+				text: "Sponsor with USDC or other SPL tokens",
+				link: "/guides/how-to/solana/token-sponsorship",
+			},
+		],
+	},
 ];
 
 export const productionSidebar = [

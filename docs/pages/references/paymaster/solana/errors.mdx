@@ -1,0 +1,79 @@
+# Solana Sponsorships Errors
+
+All errors follow the JSON-RPC 2.0 error shape. The `message` describes the specific failure, and `data`, when present, carries structured details for the client to act on.
+
+```json
+{
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32004,
+    "message": "payment of 1500 is below the required 1545",
+    "data": {
+      "required": "1545",
+      "provided": "1500",
+      "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+    }
+  },
+  "id": 1
+}
+```
+
+## Error codes
+
+| Code | Meaning | `data` |
+|---|---|---|
+| `-32600` | Invalid JSON-RPC request envelope | |
+| `-32601` | Method not found | |
+| `-32602` | Malformed params, including a transaction that is not a base64 `VersionedTransaction` | |
+| `-32001` | Transaction failed validation; the reason is in `message` | |
+| `-32002` | Account index 0 is not the sponsor fee payer | `{ expected, found }` |
+| `-32003` | No token transfer to the vault found | `{ mint, vault }` |
+| `-32004` | Payment below the required amount | `{ required, provided, mint }` |
+| `-32006` | Unsupported mint | `{ mint }` |
+| `-32008` | Price unavailable or stale | `{ mint }` |
+| `-32009` | Unknown signature | `{ signature }` |
+| `-32010` | Broadcast definitively rejected by the RPC node; transaction not accepted | `{ rpcError }` |
+| `-32603` | Internal error | |
+
+Codes `-32005` and `-32007` are reserved and not emitted.
+
+## What to do
+
+### `-32001` Transaction failed validation
+
+The transaction was decoded and has the right fee payer, but one of the following is true:
+
+- Simulation or preflight failed. The `message` carries the node's error. Fix the transaction as you would for any failed Solana simulation.
+- A user signature is invalid or missing. Every required signer other than the sponsor must have signed.
+- An instruction references the sponsor. The sponsor may only be the fee payer, never an account in an instruction.
+- The blockhash has lapsed. Fetch a fresh blockhash, rebuild, and resubmit.
+- The transaction is a durable-nonce transaction. These are not supported; use a recent blockhash instead.
+- The transaction invokes a blocked program. The `message` names it.
+
+### `-32002` Account index 0 is not the sponsor
+
+Set the fee payer to the public key returned by `solana_getFeePayer`. The `data` field shows the `expected` sponsor and the `found` account.
+
+### `-32003` No token transfer to the vault found
+
+Only returned for `sponsorship.type = "token"`. The transaction contains no SPL `Transfer` or `TransferChecked` whose destination is the vault token account for the mint. Append the instruction returned by `solana_getPaymentInstruction`, or check that your own transfer's destination matches the `vault` in `data`.
+
+### `-32004` Payment below the required amount
+
+Only returned for `sponsorship.type = "token"`. Solana Sponsorships re-priced the transaction at current prices and the transfer to the vault is too small, usually because prices moved since you estimated. Call `solana_getPaymentInstruction` again, rebuild the transaction with the new instruction, and resubmit. `data.required` and `data.provided` are raw token units.
+
+### `-32006` Unsupported mint
+
+The mint is not in the list returned by `solana_getSupportedTokens`.
+
+### `-32008` Price unavailable or stale
+
+Solana Sponsorships has no fresh USD price for the mint in `data`. When SOL's own price is stale, the wrapped SOL mint `So11111111111111111111111111111111111111112` is reported. Prices refresh every five minutes; retry shortly.
+
+### `-32009` Unknown signature
+
+Solana Sponsorships has no record of the signature. Either it was never submitted, or it settled more than an hour ago and has been evicted. Query the signature directly on a Solana RPC node for its on-chain status.
+
+### `-32010` Broadcast rejected
+
+The RPC node definitively rejected the transaction at broadcast, so it was not accepted by the cluster. The node's error is in `data.rpcError`. The sponsored transaction is recorded as `failed`. In token mode nothing was charged, because the payment only settles if the transaction lands.
