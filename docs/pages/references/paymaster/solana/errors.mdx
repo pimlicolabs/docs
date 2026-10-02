@@ -43,9 +43,9 @@ Codes `-32005` and `-32007` are reserved and not emitted.
 
 The transaction was decoded and has the right fee payer, but one of the following is true:
 
-- Simulation or preflight failed. The `message` carries the node's error. Fix the transaction as you would for any failed Solana simulation.
+- Simulation failed. The `message` carries the node's error and the last program log lines. Fix the transaction as you would for any failed Solana simulation.
 - A user signature is invalid or missing. Every required signer other than the sponsor must have signed.
-- An instruction references the sponsor. The sponsor may only be the fee payer, never an account in an instruction.
+- An instruction references the sponsor. The sponsor may only be the fee payer, or the rent payer of an Associated Token Account `Create` or `CreateIdempotent`.
 - The blockhash has lapsed. Fetch a fresh blockhash, rebuild, and resubmit.
 - The transaction is a durable-nonce transaction. These are not supported; use a recent blockhash instead.
 - The transaction invokes a blocked program. The `message` names it.

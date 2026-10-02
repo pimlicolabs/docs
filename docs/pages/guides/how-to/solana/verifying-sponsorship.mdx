@@ -52,7 +52,7 @@ const instructions = [
 
 ### Send the sponsored transaction
 
-Pass the instructions, your user's signer, and `sponsorship.type` set to `"verifying"`. The SDK builds the transaction, signs it, and submits it to the paymaster. The paymaster checks it, signs it as fee payer, broadcasts it, and returns the transaction signature.
+Pass the instructions, your user's signer, and `sponsorship.type` set to `"verifying"`. The SDK builds the transaction, signs it, and submits it to the paymaster. The paymaster simulates it, signs it as fee payer, broadcasts it, and returns the transaction signature.
 
 ```ts
 const signature = await paymaster.sendTransaction({
@@ -117,7 +117,27 @@ try {
 }
 ```
 
-The most common is `-32001`, which means validation failed: the transaction would fail on chain, the blockhash has expired, a signature is missing, or an instruction references the paymaster. The paymaster may only be the fee payer, never an account in an instruction. See the [errors reference](/references/paymaster/solana/errors) for the full list.
+The most common is `-32001`, which means validation failed: the transaction would fail on chain, the blockhash has expired, a signature is missing, or an instruction references the paymaster. The message names the reason and includes the program logs. The paymaster may only be the fee payer, with one exception: it may pay the rent for a token account your transaction creates. See the [errors reference](/references/paymaster/solana/errors) for the full list.
+
+## Creating token accounts
+
+If your transaction creates a token account, set the paymaster as its rent payer so a user with no SOL can still receive the token. The rent is sponsored along with the fee.
+
+```ts
+import { createNoopSigner } from "@solana/kit";
+import { getCreateAssociatedTokenIdempotentInstruction } from "@solana-program/token";
+
+const { feePayer } = await paymaster.rpc.getFeePayer();
+
+const createAccount = getCreateAssociatedTokenIdempotentInstruction({
+    payer: createNoopSigner(feePayer),
+    ata: recipientTokenAccount,
+    owner: recipient,
+    mint: usdc.mint,
+});
+```
+
+The paymaster may appear in your instructions only as this rent payer. Anywhere else, including as the destination of a transfer, is rejected.
 
 ## Retrying safely
 

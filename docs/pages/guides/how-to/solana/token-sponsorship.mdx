@@ -84,7 +84,6 @@ Call `estimateFee` to show your user what the fee will cost before they confirm.
 ```ts
 const estimate = await paymaster.estimateFee({
     instructions,
-    signers: [user],
     mint: usdc.mint,
 });
 
@@ -175,6 +174,7 @@ If the transaction fails on chain, the user's token payment fails with it, but t
 ## Good to know
 
 - **Overpaying is accepted but not refunded.** The paymaster only checks the payment covers the fee.
+- **Token account rent is covered too.** If your transaction creates a token account, set the paymaster as its rent payer. The rent is added to the fee the user pays.
 - **The estimate is advisory.** Prices are re-checked when the transaction arrives. If they moved, you'll get `-32004` and should send again.
 - **Retrying is safe.** Sending the same transaction twice won't broadcast it twice. See [retrying safely](/guides/how-to/solana/verifying-sponsorship#retrying-safely).
 

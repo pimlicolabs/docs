@@ -44,7 +44,7 @@ await paymaster.waitForTransaction(signature);
 
 1. The SDK sets the paymaster as the fee payer of your transaction and signs it with your user's key.
 2. In token mode it also appends a token transfer to the paymaster's vault for the fee.
-3. The paymaster validates the transaction, signs it as fee payer, broadcasts it, and returns the signature.
+3. The paymaster simulates the transaction, signs it as fee payer, broadcasts it, and returns the signature.
 4. `waitForTransaction` polls until the transaction is `finalized`, `failed`, or `expired`.
 
 The signature is a normal Solana transaction signature, so you can look it up on any explorer.
@@ -57,9 +57,9 @@ The SDK wraps a JSON-RPC API. If you'd rather call it directly, see the [endpoin
 
 ## Requirements
 
-- Legacy and v0 transactions are supported, including lookup tables.
+- Legacy, v0, and v1 transactions are supported, including lookup tables. The SDK builds legacy and v0 transactions. To sponsor a v1 transaction, build it yourself with explicit compute and loaded-data budgets and submit it with `sponsorTransaction`.
 - Durable nonce transactions are not supported.
-- The paymaster may only be the fee payer. An instruction that references it is rejected.
+- The paymaster may only be the fee payer, with one exception: it may pay the rent for a token account your transaction creates, as the payer of an Associated Token Account `Create` or `CreateIdempotent`. Any other instruction that references it is rejected.
 - A short list of programs can't be sponsored.
 - One transaction per request.
 

@@ -91,7 +91,7 @@ Each entry in `tokens` has:
 
 ## solana_estimateTransactionFee
 
-Validates a transaction exactly as `solana_sponsorTransaction` would, measures the sponsor's total outflow in lamports by simulation, and prices it in the requested token. The result is advisory: nothing is stored, and the sponsor call re-prices the transaction when it arrives.
+Validates a transaction as `solana_sponsorTransaction` would, except that signatures are not verified so an unsigned draft is accepted, measures the sponsor's total outflow in lamports by simulation, and prices it in the requested token. The result is advisory: nothing is stored, and the sponsor call re-prices the transaction when it arrives.
 
 ### Request
 
@@ -200,7 +200,7 @@ Returns a ready-made SPL Token `TransferChecked` instruction that pays the estim
 
 ## solana_sponsorTransaction
 
-Validates, co-signs, and broadcasts a transaction with the sponsor as fee payer. The sponsor may appear only as the fee payer; any instruction that references it is rejected. The call is synchronous through broadcast and returns the transaction signature. Pass `sponsorship.type` as `"verifying"` to have the sponsor pay outright, or `"token"` with a `mint` to pay with an SPL token transfer included in the transaction.
+Validates, co-signs, and broadcasts a transaction with the sponsor as fee payer. The sponsor may appear only as the fee payer, or as the rent payer of an Associated Token Account `Create` or `CreateIdempotent`; any other instruction that references it is rejected. The call is synchronous through broadcast and returns the transaction signature. Pass `sponsorship.type` as `"verifying"` to have the sponsor pay outright, or `"token"` with a `mint` to pay with an SPL token transfer included in the transaction.
 
 ### Request (verifying)
 
@@ -262,9 +262,8 @@ Validates, co-signs, and broadcasts a transaction with the sponsor as fee payer.
 
 ### Behaviour
 
-- **Validation order**: decode, check account index 0 is the sponsor, sign slot 0 in memory, check for a duplicate submission, reject durable-nonce transactions, reject any instruction that references the sponsor, reject blocked programs.
-- **Verifying mode**: no further checks before sending. The fee is computed from the message (base fee per signature plus any priority fee) and the transaction is sent with the RPC node's preflight on. A preflight refusal marks it `failed` and returns `-32001` with the node's reason.
-- **Token mode**: the transaction is simulated with signature verification to measure the sponsor's outflow, which is re-priced at current prices. The transfer to the vault is located and its amount must be at least the re-priced amount. The transaction is sent with preflight skipped. The payment may be a plain SPL `Transfer` or a `TransferChecked`; the mint is inferred from the destination account.
+- **Validation order**: decode, check account index 0 is the sponsor, sign slot 0 in memory, check for a duplicate submission, reject durable-nonce transactions, reject any instruction that references the sponsor other than as the rent payer of a token account creation, reject blocked programs, then simulate with signature verification and measure the sponsor's outflow (fee plus any rent it funds).
+- **Token mode**: the measured outflow is re-priced at current prices, the transfer to the vault is located, and its amount must be at least the re-priced amount. The payment may be a plain SPL `Transfer` or a `TransferChecked`; the mint is inferred from the destination account.
 - **Duplicate submission**: signing is deterministic, so the same bytes always yield the same signature. If the signature is already known, the relayer returns its current status and does nothing else.
 - **Broadcast**: a definitive rejection by the RPC node returns `-32010` and marks the transaction `failed`. A transport error or timeout still returns `submitted`, and the relayer rebroadcasts until the transaction lands or expires.
 
@@ -322,7 +321,7 @@ Returns the current status of a sponsored transaction by signature.
 - **signature** - `string`: The transaction signature.
 - **status** - `string`: One of `submitted`, `confirmed`, `finalized`, `failed`, or `expired`. See the lifecycle below.
 - **slot** - `number | null`: The slot the transaction landed in. `null` until `confirmed`.
-- **feeLamports** - `number | null`: The sponsor's cost as determined at acceptance: the computed fee in verifying mode, the simulated outflow in token mode. `null` until `confirmed`.
+- **feeLamports** - `number | null`: The sponsor outflow measured by simulation when the transaction was accepted, including the fee and any token account rent. `null` until `confirmed`.
 - **sponsorship** - `object`: `{ "type": "verifying" }` for verifying sponsorship, or `{ "type": "token", "mint", "amount", "usdValue" }` for token-paid sponsorship, where `amount` is the raw token amount the user paid.
 - **failureReason** - `string | null`: Why the transaction failed, when `status` is `failed`.
 
