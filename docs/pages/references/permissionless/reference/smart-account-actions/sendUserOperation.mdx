@@ -1,5 +1,3 @@
 # sendUserOperation
 
-`SmartAccountClient` extends viem's `BundlerClient` and so extends the `sendUserOperation` method.
-
-You can view the full list of options for `sendUserOperation` [in viem's documentation](https://viem.sh/account-abstraction/actions/bundler/sendUserOperation).
+Signs a user operation with the connected smart account and submits it to the bundler, returning the user operation hash you can use to track inclusion. `SmartAccountClient` wraps viem's `BundlerClient.sendUserOperation`, so the [full list of options is documented in viem](https://viem.sh/account-abstraction/actions/bundler/sendUserOperation).
