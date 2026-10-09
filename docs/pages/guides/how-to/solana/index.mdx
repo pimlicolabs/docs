@@ -25,11 +25,12 @@ npm install @solana/kora @solana/kit @solana-program/token
 Add a helper that builds a transaction message with the paymaster as the fee payer:
 
 ```ts [sponsored-transaction.ts]
+import type { KoraClient } from "@solana/kora";
 import {
-    type Address,
-    type Blockhash,
     type Instruction,
+    address,
     appendTransactionMessageInstructions,
+    blockhash,
     createNoopSigner,
     createTransactionMessage,
     pipe,
@@ -37,24 +38,24 @@ import {
     setTransactionMessageLifetimeUsingBlockhash,
 } from "@solana/kit";
 
-type SponsoredTransactionParams = {
-    /** The paymaster's fee payer address. The paymaster signs for it later, so we use a noop signer here. */
-    feePayer: Address;
-    /** Transaction lifetime, from a recent blockhash. */
-    lifetime: { blockhash: Blockhash; lastValidBlockHeight: bigint };
-    /** Your app's instructions (transfers, swaps, etc.). */
-    instructions: Instruction[];
-};
+export async function createSponsoredTransactionMessage(
+    kora: KoraClient,
+    instructions: Instruction[],
+) {
+    const { signer_address } = await kora.getPayerSigner();
+    const { blockhash: latestBlockhash } = await kora.getBlockhash();
 
-export function createSponsoredTransactionMessage({
-    feePayer,
-    lifetime,
-    instructions,
-}: SponsoredTransactionParams) {
     return pipe(
         createTransactionMessage({ version: 0 }),
-        (m) => setTransactionMessageFeePayerSigner(createNoopSigner(feePayer), m),
-        (m) => setTransactionMessageLifetimeUsingBlockhash(lifetime, m),
+        // The paymaster pays the fee. It signs later, so a noop signer leaves its signature slot empty.
+        (m) => setTransactionMessageFeePayerSigner(createNoopSigner(address(signer_address)), m),
+        // The blockhash keeps the transaction valid for about a minute. lastValidBlockHeight is only
+        // read by @solana/kit's own send-and-confirm, and the paymaster sends the transaction for you.
+        (m) =>
+            setTransactionMessageLifetimeUsingBlockhash(
+                { blockhash: blockhash(latestBlockhash), lastValidBlockHeight: 0n },
+                m,
+            ),
         (m) => appendTransactionMessageInstructions(instructions, m),
     );
 }
@@ -65,8 +66,6 @@ Then build your transaction with it and send it to the paymaster:
 ```ts
 import { KoraClient } from "@solana/kora";
 import {
-    address,
-    blockhash,
     getBase64EncodedWireTransaction,
     partiallySignTransactionMessageWithSigners,
 } from "@solana/kit";
@@ -76,22 +75,14 @@ const kora = new KoraClient({
     rpcUrl: "https://solana.pimlico.io/v1/mainnet/rpc?apikey=YOUR_API_KEY",
 });
 
-// The paymaster's fee payer
-const { signer_address } = await kora.getPayerSigner();
-const { blockhash: recentBlockhash } = await kora.getBlockhash();
-
-const message = createSponsoredTransactionMessage({
-    feePayer: address(signer_address),
-    lifetime: { blockhash: blockhash(recentBlockhash), lastValidBlockHeight: 0n },
-    instructions,
-});
+const message = await createSponsoredTransactionMessage(kora, instructions);
 
 // Your user signs here, the paymaster signs as fee payer and broadcasts
-const transaction = await partiallySignTransactionMessageWithSigners(message);
+const transaction = getBase64EncodedWireTransaction(
+    await partiallySignTransactionMessageWithSigners(message),
+);
 
-const { signature } = await kora.signAndSendTransaction({
-    transaction: getBase64EncodedWireTransaction(transaction),
-});
+const { signature } = await kora.signAndSendTransaction({ transaction });
 ```
 
 ## How it works
