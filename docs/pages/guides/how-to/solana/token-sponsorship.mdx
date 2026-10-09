@@ -63,7 +63,9 @@ export async function createSponsoredTransactionMessage(
     const { signer_address } = await kora.getPayerSigner();
     const { blockhash: latestBlockhash } = await kora.getBlockhash();
 
+    // pipe passes the message through each step below, in order
     return pipe(
+        // Start an empty version 0 transaction message
         createTransactionMessage({ version: 0 }),
         // The paymaster pays the fee. It signs later, so a noop signer leaves its signature slot empty.
         (m) => setTransactionMessageFeePayerSigner(createNoopSigner(address(signer_address)), m),
@@ -74,6 +76,7 @@ export async function createSponsoredTransactionMessage(
                 { blockhash: blockhash(latestBlockhash), lastValidBlockHeight: 0n },
                 m,
             ),
+        // Add your app's instructions (transfers, swaps, etc.)
         (m) => appendTransactionMessageInstructions(instructions, m),
     );
 }
@@ -227,7 +230,9 @@ async function createSponsoredTransactionMessage(
     const { signer_address } = await kora.getPayerSigner();
     const { blockhash: latestBlockhash } = await kora.getBlockhash();
 
+    // pipe passes the message through each step below, in order
     return pipe(
+        // Start an empty version 0 transaction message
         createTransactionMessage({ version: 0 }),
         // The paymaster pays the fee. It signs later, so a noop signer leaves its signature slot empty.
         (m) => setTransactionMessageFeePayerSigner(createNoopSigner(address(signer_address)), m),
@@ -238,6 +243,7 @@ async function createSponsoredTransactionMessage(
                 { blockhash: blockhash(latestBlockhash), lastValidBlockHeight: 0n },
                 m,
             ),
+        // Add your app's instructions (transfers, swaps, etc.)
         (m) => appendTransactionMessageInstructions(instructions, m),
     );
 }
