@@ -2,65 +2,96 @@
 
 Solana Sponsorships lets you sponsor the transaction fees for your users on Solana, so they can transact without holding SOL.
 
+The paymaster speaks the [Kora](https://github.com/solana-foundation/kora) JSON-RPC API, so you use the `@solana/kora` SDK's `KoraClient` and build transactions with `@solana/kit`.
+
 ## Verifying Paymaster
 
-You pay the fee for your users. The only requirement is that the transaction simulates successfully and does not call a blocked program.
+You pay the fee for your users. It is charged to your Pimlico balance.
 
 [Use the Verifying Paymaster →](/guides/how-to/solana/verifying-sponsorship)
 
 ## Sponsor with USDC or other SPL tokens
 
-Your users pay the fee in USDC or another SPL token. The paymaster pays the SOL fee and is repaid with a token transfer in the same transaction.
+Your users pay the fee in USDC or USDT ([supported tokens](/references/paymaster/solana/supported-tokens)). The paymaster pays the SOL fee and is repaid with a token transfer in the same transaction.
 
 [Sponsor with USDC or other SPL tokens →](/guides/how-to/solana/token-sponsorship)
 
 ## Quick start
 
 ```sh
-npm install @pimlico/solana @solana/kit
+npm install @solana/kora@beta @solana/kit @solana-program/token
 ```
 
 ```ts
-import { createSolanaPaymaster } from "@pimlico/solana";
-import { createSolanaRpc } from "@solana/kit";
+import { KoraClient } from "@solana/kora";
+import {
+    address,
+    appendTransactionMessageInstructions,
+    blockhash,
+    createNoopSigner,
+    createTransactionMessage,
+    getBase64EncodedWireTransaction,
+    partiallySignTransactionMessageWithSigners,
+    pipe,
+    setTransactionMessageFeePayerSigner,
+    setTransactionMessageLifetimeUsingBlockhash,
+} from "@solana/kit";
 
-const solanaRpc = createSolanaRpc("https://api.mainnet-beta.solana.com");
-
-const paymaster = createSolanaPaymaster({
-    paymasterUrl: "https://solana.pimlico.io/v1/rpc?apikey=YOUR_API_KEY",
-    solanaRpc,
+const kora = new KoraClient({
+    rpcUrl: "https://solana.pimlico.io/v1/mainnet/rpc?apikey=YOUR_API_KEY",
 });
 
-const signature = await paymaster.sendTransaction({
-    instructions,
-    signers: [user],
-    sponsorship: { type: "verifying" }, // or { type: "token", mint: usdcMint }
-});
+// The paymaster's fee payer
+const { signer_address } = await kora.getPayerSigner();
+const { blockhash: recentBlockhash } = await kora.getBlockhash();
 
-await paymaster.waitForTransaction(signature);
+const message = pipe(
+    createTransactionMessage({ version: 0 }),
+    // A noop signer leaves the fee payer's signature slot empty for the paymaster to fill
+    (m) => setTransactionMessageFeePayerSigner(createNoopSigner(address(signer_address)), m),
+    (m) =>
+        setTransactionMessageLifetimeUsingBlockhash(
+            { blockhash: blockhash(recentBlockhash), lastValidBlockHeight: 0n },
+            m,
+        ),
+    (m) => appendTransactionMessageInstructions(instructions, m),
+);
+
+// Your user signs here, the paymaster signs as fee payer and broadcasts
+const transaction = await partiallySignTransactionMessageWithSigners(message);
+
+const { signature } = await kora.signAndSendTransaction({
+    transaction: getBase64EncodedWireTransaction(transaction),
+});
 ```
 
 ## How it works
 
-1. The SDK sets the paymaster as the fee payer of your transaction and signs it with your user's key.
-2. In token mode it also appends a token transfer to the paymaster's vault for the fee.
-3. The paymaster simulates the transaction, signs it as fee payer, broadcasts it, and returns the signature.
-4. `waitForTransaction` polls until the transaction is `finalized`, `failed`, or `expired`.
+1. You build your transaction with the paymaster's address, from `getPayerSigner`, as the fee payer, and your user signs it.
+2. To have your user pay in a token, you append a transfer of the quoted fee to the paymaster before signing.
+3. `signAndSendTransaction` sends it to the paymaster. If the transaction pays the paymaster in a supported token, the fee is covered by that payment. Otherwise it is charged to your Pimlico balance.
+4. The paymaster validates and simulates the transaction, signs it as fee payer, broadcasts it, and by default responds once it is `confirmed`.
 
 The signature is a normal Solana transaction signature, so you can look it up on any explorer.
 
-For wallets like Phantom that sign for you, use `prepareTransaction` and `sponsorTransaction` instead of `sendTransaction`. Both guides show how.
-
 :::info
-The SDK wraps a JSON-RPC API. If you'd rather call it directly, see the [endpoint reference](/references/paymaster/solana/endpoints).
+`KoraClient` wraps a JSON-RPC API. If you'd rather call it directly, see the [endpoint reference](/references/paymaster/solana/endpoints).
 :::
+
+## Endpoints
+
+| Cluster | URL |
+|---|---|
+| Mainnet | `https://solana.pimlico.io/v1/mainnet/rpc?apikey=YOUR_API_KEY` |
+| Devnet | `https://solana.pimlico.io/v1/devnet/rpc?apikey=YOUR_API_KEY` |
+
+Pass your API key in the `apikey` query parameter, as above. `KoraClient`'s own `apiKey` option sends an `x-api-key` header, which Pimlico does not read. Sponsorship on devnet is free.
 
 ## Requirements
 
-- Legacy, v0, and v1 transactions are supported, including lookup tables. The SDK builds legacy and v0 transactions. To sponsor a v1 transaction, build it yourself with explicit compute and loaded-data budgets and submit it with `sponsorTransaction`.
-- Durable nonce transactions are not supported.
-- The paymaster may only be the fee payer, with one exception: it may pay the rent for a token account your transaction creates, as the payer of an Associated Token Account `Create` or `CreateIdempotent`. Any other instruction that references it is rejected.
-- A short list of programs can't be sponsored.
+- The paymaster may only be the fee payer, with one exception: it may pay the rent for an account your transaction creates, such as a token account. Any other use of it is rejected.
+- The paymaster spends at most 0.1 SOL on one transaction, including the fee, priority fee, and rent.
+- Every signer other than the paymaster must sign before you submit.
 - One transaction per request.
 
 ## Next steps
@@ -69,3 +100,4 @@ The SDK wraps a JSON-RPC API. If you'd rather call it directly, see the [endpoin
 - [Sponsor with USDC or other SPL tokens](/guides/how-to/solana/token-sponsorship)
 - [Solana Sponsorships endpoints](/references/paymaster/solana/endpoints)
 - [Solana Sponsorships errors](/references/paymaster/solana/errors)
+- [Solana supported tokens](/references/paymaster/solana/supported-tokens)

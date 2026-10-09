@@ -1,18 +1,14 @@
 # Solana Sponsorships Errors
 
-All errors follow the JSON-RPC 2.0 error shape. The `message` describes the specific failure, and `data`, when present, carries structured details for the client to act on.
+All errors follow the JSON-RPC 2.0 error shape. The `message` describes the specific failure. `KoraClient` throws them as a `KoraError` with the same `code`, `message`, and `data`.
 
 ```json
 {
   "jsonrpc": "2.0",
   "error": {
-    "code": -32004,
-    "message": "payment of 1500 is below the required 1545",
-    "data": {
-      "required": "1545",
-      "provided": "1500",
-      "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
-    }
+    "code": -32000,
+    "message": "Insufficient token payment. Required 10000 lamports",
+    "data": { "error_type": "InvalidTransaction" }
   },
   "id": 1
 }
@@ -20,60 +16,41 @@ All errors follow the JSON-RPC 2.0 error shape. The `message` describes the spec
 
 ## Error codes
 
-| Code | Meaning | `data` |
-|---|---|---|
-| `-32600` | Invalid JSON-RPC request envelope | |
-| `-32601` | Method not found | |
-| `-32602` | Malformed params, including a transaction that is not a base64 `VersionedTransaction` | |
-| `-32001` | Transaction failed validation; the reason is in `message` | |
-| `-32002` | Account index 0 is not the sponsor fee payer | `{ expected, found }` |
-| `-32003` | No token transfer to the vault found | `{ mint, vault }` |
-| `-32004` | Payment below the required amount | `{ required, provided, mint }` |
-| `-32006` | Unsupported mint | `{ mint }` |
-| `-32008` | Price unavailable or stale | `{ mint }` |
-| `-32009` | Unknown signature | `{ signature }` |
-| `-32010` | Broadcast definitively rejected by the RPC node; transaction not accepted | `{ rpcError }` |
-| `-32603` | Internal error | |
-
-Codes `-32005` and `-32007` are reserved and not emitted.
+| Code | Meaning |
+|---|---|
+| `-32600` | Invalid JSON-RPC request, including batch requests |
+| `-32601` | Method not supported |
+| `-32602` | Invalid params |
+| `-32603` | Insufficient Pimlico balance, or the paymaster is unavailable |
+| `-32000` | Invalid transaction: decoding or validation failed, including a token payment that is too small |
+| `-32001` | Validation error |
+| `-32003` | Insufficient funds |
+| `-32004` | Invalid request |
+| `-32005` | Fee estimation failed |
+| `-32006` | Transaction execution failed |
+| `-32020` | Signing failed |
+| `-32050` | Account not found |
+| `-32093` | Solana RPC error |
 
 ## What to do
 
-### `-32001` Transaction failed validation
+### `-32603` Insufficient Pimlico balance
 
-The transaction was decoded and has the right fee payer, but one of the following is true:
+A transaction without a token payment is charged to your Pimlico balance, and your balance is used up. Top up your balance in the [dashboard](https://dashboard.pimlico.io). `data.walletBalance` holds your current balance.
 
-- Simulation failed. The `message` carries the node's error and the last program log lines. Fix the transaction as you would for any failed Solana simulation.
-- A user signature is invalid or missing. Every required signer other than the sponsor must have signed.
-- An instruction references the sponsor. The sponsor may only be the fee payer, or the rent payer of an Associated Token Account `Create` or `CreateIdempotent`.
-- The blockhash has lapsed. Fetch a fresh blockhash, rebuild, and resubmit.
-- The transaction is a durable-nonce transaction. These are not supported; use a recent blockhash instead.
-- The transaction invokes a blocked program. The `message` names it.
+The same code with the message `Solana paymaster unavailable` means the paymaster could not be reached. Retry shortly.
 
-### `-32002` Account index 0 is not the sponsor
+### `-32000` Invalid transaction
 
-Set the fee payer to the public key returned by `solana_getFeePayer`. The `data` field shows the `expected` sponsor and the `found` account.
+The transaction could not be decoded or was rejected by validation. The `message` names the reason. Common causes:
 
-### `-32003` No token transfer to the vault found
+- `Insufficient token payment`: the token payment no longer covers the fee, usually because prices moved since the quote. Get a new payment instruction, rebuild the transaction, and send again.
+- A signature is missing. Every signer other than the paymaster must sign.
+- The fee payer is not the address from `getPayerSigner`.
+- An instruction uses the paymaster for something other than paying the fee or the rent of an account the transaction creates.
+- The paymaster would spend more than 0.1 SOL on the transaction.
+- Simulation failed. Fix the transaction as you would for any failed Solana simulation.
 
-Only returned for `sponsorship.type = "token"`. The transaction contains no SPL `Transfer` or `TransferChecked` whose destination is the vault token account for the mint. Append the instruction returned by `solana_getPaymentInstruction`, or check that your own transfer's destination matches the `vault` in `data`.
+### `-32050` Account not found
 
-### `-32004` Payment below the required amount
-
-Only returned for `sponsorship.type = "token"`. Solana Sponsorships re-priced the transaction at current prices and the transfer to the vault is too small, usually because prices moved since you estimated. Call `solana_getPaymentInstruction` again, rebuild the transaction with the new instruction, and resubmit. `data.required` and `data.provided` are raw token units.
-
-### `-32006` Unsupported mint
-
-The mint is not in the list returned by `solana_getSupportedTokens`.
-
-### `-32008` Price unavailable or stale
-
-Solana Sponsorships has no fresh USD price for the mint in `data`. When SOL's own price is stale, the wrapped SOL mint `So11111111111111111111111111111111111111112` is reported. Prices refresh every five minutes; retry shortly.
-
-### `-32009` Unknown signature
-
-Solana Sponsorships has no record of the signature. Either it was never submitted, or it settled more than an hour ago and has been evicted. Query the signature directly on a Solana RPC node for its on-chain status.
-
-### `-32010` Broadcast rejected
-
-The RPC node definitively rejected the transaction at broadcast, so it was not accepted by the cluster. The node's error is in `data.rpcError`. The sponsored transaction is recorded as `failed`. In token mode nothing was charged, because the payment only settles if the transaction lands.
+An account the transaction needs does not exist, such as your user's token account for the fee token.

@@ -1,31 +1,38 @@
 # Solana Sponsorships Endpoints
 
-Solana Sponsorships is a JSON-RPC 2.0 service over HTTP POST. All methods are namespaced `solana_`, and every method that takes parameters takes a single object as the first (and only) element of the positional `params` array.
+Solana Sponsorships is a JSON-RPC 2.0 service over HTTP POST that implements the [Kora](https://github.com/solana-foundation/kora) API. Parameters are passed as a single object in `params`, and fields are snake_case.
 
-Most apps should use the [`@pimlico/solana` SDK](/guides/how-to/solana), which wraps these methods. For step-by-step usage see [Verifying Paymaster](/guides/how-to/solana/verifying-sponsorship) and [Sponsor with USDC or other SPL tokens](/guides/how-to/solana/token-sponsorship).
+Most apps should use the `@solana/kora` SDK's `KoraClient`, which wraps these methods. For step-by-step usage see [Verifying Paymaster](/guides/how-to/solana/verifying-sponsorship) and [Sponsor with USDC or other SPL tokens](/guides/how-to/solana/token-sponsorship).
+
+## URL and authentication
+
+```
+https://solana.pimlico.io/v1/{cluster}/rpc?apikey=YOUR_API_KEY
+```
+
+- **cluster**: `mainnet` or `devnet`.
+- **apikey**: your Pimlico API key. You can send it as an `Authorization: Bearer YOUR_API_KEY` header instead. The `x-api-key` header that `KoraClient`'s `apiKey` option sends is not read.
+
+Batch requests are not supported.
 
 ## Wire conventions
 
 | Field kind | Format |
 |---|---|
-| Transaction | base64 of the serialized `VersionedTransaction` (legacy, v0, or v1) with signature slot 0 empty |
+| Transaction | base64 of the serialized transaction, with the paymaster as fee payer and its signature slot empty |
 | Public keys, mints, signatures | base58 strings |
-| Lamports | JSON number |
-| Token amounts | string of raw units (no decimals applied) |
-| USD values and prices | JSON number |
-| Keys | camelCase |
+| Lamports and token amounts | JSON number, in raw units (no decimals applied) |
 
-## solana_getFeePayer
+## getPayerSigner
 
-Returns the public key of the sponsor account. Your transaction must use this account as account index 0, the fee payer.
+Returns the paymaster's fee payer address, which your transaction must use as its fee payer.
 
 ### Request
 
 ```json
 {
   "jsonrpc": "2.0",
-  "method": "solana_getFeePayer",
-  "params": [],
+  "method": "getPayerSigner",
   "id": 1
 }
 ```
@@ -36,7 +43,8 @@ Returns the public key of the sponsor account. Your transaction must use this ac
 {
   "jsonrpc": "2.0",
   "result": {
-    "feePayer": "9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin"
+    "signer_address": "9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin",
+    "payment_address": "7UX2i7SucgLMQcfZ75s3VXmZZY4YRUyJN9X1RgfMoDUi"
   },
   "id": 1
 }
@@ -44,19 +52,49 @@ Returns the public key of the sponsor account. Your transaction must use this ac
 
 ### Return Fields
 
-- **feePayer** - `string`: The sponsor's base58 public key.
+- **signer_address** - `string`: The fee payer's address.
+- **payment_address** - `string`: The wallet that receives token payments. Payments go to its associated token account for the token.
 
-## solana_getSupportedTokens
+## getBlockhash
 
-Returns the SPL tokens accepted for token-paid sponsorship, in the relayer's priority order (first preferred).
+Returns a recent blockhash to build your transaction with.
 
 ### Request
 
 ```json
 {
   "jsonrpc": "2.0",
-  "method": "solana_getSupportedTokens",
-  "params": [],
+  "method": "getBlockhash",
+  "id": 1
+}
+```
+
+### Response
+
+```json
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "blockhash": "EkSnNWid2cvwEVnVx9aBqawnmiCNiDgp3gUdkDPTKN1N"
+  },
+  "id": 1
+}
+```
+
+### Return Fields
+
+- **blockhash** - `string`: A recent blockhash.
+
+## getSupportedTokens
+
+Returns the mints users can pay fees in.
+
+### Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "getSupportedTokens",
   "id": 1
 }
 ```
@@ -68,12 +106,8 @@ Returns the SPL tokens accepted for token-paid sponsorship, in the relayer's pri
   "jsonrpc": "2.0",
   "result": {
     "tokens": [
-      {
-        "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-        "symbol": "USDC",
-        "decimals": 6,
-        "vault": "7UX2i7SucgLMQcfZ75s3VXmZZY4YRUyJN9X1RgfMoDUi"
-      }
+      "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+      "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB"
     ]
   },
   "id": 1
@@ -82,37 +116,30 @@ Returns the SPL tokens accepted for token-paid sponsorship, in the relayer's pri
 
 ### Return Fields
 
-Each entry in `tokens` has:
+- **tokens** - `string[]`: The supported mints. See [supported tokens](/references/paymaster/solana/supported-tokens).
 
-- **mint** - `string`: The token's mint address.
-- **symbol** - `string`: The token's symbol.
-- **decimals** - `number`: The number of decimals the token uses.
-- **vault** - `string`: The vault token account that payments for this mint must be sent to. This is the vault wallet's associated token account for the mint.
+## estimateTransactionFee
 
-## solana_estimateTransactionFee
-
-Validates a transaction as `solana_sponsorTransaction` would, except that signatures are not verified so an unsigned draft is accepted, measures the sponsor's total outflow in lamports by simulation, and prices it in the requested token. The result is advisory: nothing is stored, and the sponsor call re-prices the transaction when it arrives.
+Simulates a transaction and returns what it would cost the paymaster, in lamports and in the requested token. The estimate is advisory: prices are checked again when the transaction is sent. `KoraClient.getPaymentInstruction` calls this method and builds the payment transfer from the result.
 
 ### Request
 
 ```json
 {
   "jsonrpc": "2.0",
-  "method": "solana_estimateTransactionFee",
-  "params": [
-    {
-      "transaction": "AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...",
-      "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
-    }
-  ],
+  "method": "estimateTransactionFee",
+  "params": {
+    "transaction": "AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...",
+    "fee_token": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+  },
   "id": 1
 }
 ```
 
 ### Parameters
 
-- **transaction** - `string`: The base64 serialized transaction with the sponsor as fee payer and signature slot 0 empty.
-- **mint** - `string`: The mint of a supported token to price the fee in.
+- **transaction** - `string`: The base64 serialized transaction, without the payment.
+- **fee_token** - `string`: The mint of a supported token to price the fee in.
 
 ### Response
 
@@ -120,12 +147,10 @@ Validates a transaction as `solana_sponsorTransaction` would, except that signat
 {
   "jsonrpc": "2.0",
   "result": {
-    "feeLamports": 10000,
-    "feeInToken": "1545",
-    "paymentAddress": "7UX2i7SucgLMQcfZ75s3VXmZZY4YRUyJN9X1RgfMoDUi",
-    "usdValue": 0.001545,
-    "tokenPriceUsd": 1,
-    "solPriceUsd": 150
+    "fee_in_lamports": 10000,
+    "fee_in_token": 1545,
+    "payment_address": "7UX2i7SucgLMQcfZ75s3VXmZZY4YRUyJN9X1RgfMoDUi",
+    "signer_pubkey": "9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin"
   },
   "id": 1
 }
@@ -133,114 +158,38 @@ Validates a transaction as `solana_sponsorTransaction` would, except that signat
 
 ### Return Fields
 
-- **feeLamports** - `number`: The total sponsor outflow measured by simulation, including the transaction fee and any rent the sponsor funds.
-- **feeInToken** - `string`: The token amount the user must pay, in raw units, rounded up, with the relayer's premium applied.
-- **paymentAddress** - `string`: The vault token account the payment must be sent to.
-- **usdValue** - `number`: The USD value of `feeInToken`.
-- **tokenPriceUsd** - `number`: The token price used for the conversion.
-- **solPriceUsd** - `number`: The SOL price used for the conversion.
+- **fee_in_lamports** - `number`: The paymaster's total outflow measured by simulation, including the fee, priority fee, and any rent it pays.
+- **fee_in_token** - `number`: The amount the user must pay, in raw token units.
+- **payment_address** - `string`: The wallet the payment goes to. Send it to this wallet's associated token account for the token.
+- **signer_pubkey** - `string`: The fee payer's address.
 
-### Errors
+## signAndSendTransaction
 
-- `-32006` if the mint is not a supported token.
-- `-32008` if the price for the mint or for SOL is stale or not yet fetched.
-- Any validation error the sponsor call would return.
+Validates and simulates a transaction, signs it as fee payer, and broadcasts it.
 
-## solana_getPaymentInstruction
-
-Returns a ready-made SPL Token `TransferChecked` instruction that pays the estimated fee from the payer's associated token account to the vault. Append it to your transaction before signing. Performs the same validation and estimation as `solana_estimateTransactionFee`, with the same errors.
+If the transaction contains an SPL `Transfer` or `TransferChecked` of a supported token to the payment address's token account, it must cover the fee, and nothing is charged to your Pimlico balance. Otherwise the fee is charged to your Pimlico balance. On mainnet, sponsorship from your balance is refused once your balance is used up. Devnet is free.
 
 ### Request
 
 ```json
 {
   "jsonrpc": "2.0",
-  "method": "solana_getPaymentInstruction",
-  "params": [
-    {
-      "transaction": "AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...",
-      "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-      "payer": "5N2zj9EVtq2Jk3Gy7hAa4yxTnT7Uy2sJjjWvg8Ye4Gj1"
-    }
-  ],
-  "id": 1
-}
-```
-
-### Parameters
-
-- **transaction** - `string`: The base64 serialized draft transaction, without the payment instruction.
-- **mint** - `string`: The mint of a supported token to pay in.
-- **payer** - `string`: The wallet whose associated token account pays. This wallet must sign the final transaction.
-
-### Response
-
-```json
-{
-  "jsonrpc": "2.0",
-  "result": {
-    "programId": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
-    "keys": [
-      { "pubkey": "3h1zGmCwsRJnVk5BuRNMLsPaQu1y2aqXqXDWYCgrp5UG", "isSigner": false, "isWritable": true },
-      { "pubkey": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", "isSigner": false, "isWritable": false },
-      { "pubkey": "7UX2i7SucgLMQcfZ75s3VXmZZY4YRUyJN9X1RgfMoDUi", "isSigner": false, "isWritable": true },
-      { "pubkey": "5N2zj9EVtq2Jk3Gy7hAa4yxTnT7Uy2sJjjWvg8Ye4Gj1", "isSigner": true, "isWritable": false }
-    ],
-    "data": "DAkGAAAAAAAABg=="
+  "method": "signAndSendTransaction",
+  "params": {
+    "transaction": "AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...",
+    "respond_after": "confirmed"
   },
   "id": 1
 }
 ```
 
-### Return Fields
-
-- **programId** - `string`: The SPL Token program.
-- **keys** - `object[]`: The instruction accounts in order: the payer's token account, the mint, the vault token account, and the payer wallet as signer.
-- **data** - `string`: Base64 instruction data: the `TransferChecked` discriminator, the amount as a little-endian u64, and the decimals.
-
-## solana_sponsorTransaction
-
-Validates, co-signs, and broadcasts a transaction with the sponsor as fee payer. The sponsor may appear only as the fee payer, or as the rent payer of an Associated Token Account `Create` or `CreateIdempotent`; any other instruction that references it is rejected. The call is synchronous through broadcast and returns the transaction signature. Pass `sponsorship.type` as `"verifying"` to have the sponsor pay outright, or `"token"` with a `mint` to pay with an SPL token transfer included in the transaction.
-
-### Request (verifying)
-
-```json
-{
-  "jsonrpc": "2.0",
-  "method": "solana_sponsorTransaction",
-  "params": [
-    {
-      "transaction": "AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...",
-      "sponsorship": { "type": "verifying" }
-    }
-  ],
-  "id": 1
-}
-```
-
-### Request (token)
-
-```json
-{
-  "jsonrpc": "2.0",
-  "method": "solana_sponsorTransaction",
-  "params": [
-    {
-      "transaction": "AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...",
-      "sponsorship": {
-        "type": "token",
-        "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
-      }
-    }
-  ],
-  "id": 1
-}
-```
-
 ### Parameters
 
-- **transaction** - `string`: The base64 serialized transaction, fully signed by the user with signature slot 0 empty.
-- **sponsorship** - `object`: Either `{ "type": "verifying" }` or `{ "type": "token", "mint": "<mint>" }`.
+- **transaction** - `string`: The base64 serialized transaction, signed by every signer other than the paymaster.
+- **respond_after** - `string` (optional): When to respond. Defaults to `confirmed`.
+  - `confirmed`: once the transaction is confirmed on chain.
+  - `sent`: once the RPC node accepts the transaction.
+  - `signed`: as soon as the paymaster signs. The transaction is broadcast in the background; if it never lands, rebroadcast `signed_transaction`.
 
 ### Response
 
@@ -249,7 +198,8 @@ Validates, co-signs, and broadcasts a transaction with the sponsor as fee payer.
   "jsonrpc": "2.0",
   "result": {
     "signature": "5VERv8NMvzbJMEkV8xnrLkEaWRtSz9CosKDYjCJjBRnbJLgp8uirBgmQpjKhoR4tjF3ZpRzrFmBV6UjKdiSZkQUW",
-    "status": "submitted"
+    "signed_transaction": "AXd1o0mTnK8...",
+    "signer_pubkey": "9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin"
   },
   "id": 1
 }
@@ -257,90 +207,10 @@ Validates, co-signs, and broadcasts a transaction with the sponsor as fee payer.
 
 ### Return Fields
 
-- **signature** - `string`: The transaction's base58 signature. This is the sponsor's signature in slot 0 and is Solana's transaction id.
-- **status** - `string`: The sponsored transaction's current status. A fresh submission returns `submitted`. A duplicate submission of a transaction the relayer already holds returns that transaction's current status instead.
-
-### Behaviour
-
-- **Validation order**: decode, check account index 0 is the sponsor, sign slot 0 in memory, check for a duplicate submission, reject durable-nonce transactions, reject any instruction that references the sponsor other than as the rent payer of a token account creation, reject blocked programs, then simulate with signature verification and measure the sponsor's outflow (fee plus any rent it funds).
-- **Token mode**: the measured outflow is re-priced at current prices, the transfer to the vault is located, and its amount must be at least the re-priced amount. The payment may be a plain SPL `Transfer` or a `TransferChecked`; the mint is inferred from the destination account.
-- **Duplicate submission**: signing is deterministic, so the same bytes always yield the same signature. If the signature is already known, the relayer returns its current status and does nothing else.
-- **Broadcast**: a definitive rejection by the RPC node returns `-32010` and marks the transaction `failed`. A transport error or timeout still returns `submitted`, and the relayer rebroadcasts until the transaction lands or expires.
+- **signature** - `string`: The transaction's signature, which is its Solana transaction id.
+- **signed_transaction** - `string`: The base64 transaction with the paymaster's signature added.
+- **signer_pubkey** - `string`: The fee payer's address.
 
 ### Errors
 
 See [Solana Sponsorships errors](/references/paymaster/solana/errors).
-
-## solana_getSponsorshipStatus
-
-Returns the current status of a sponsored transaction by signature.
-
-### Request
-
-```json
-{
-  "jsonrpc": "2.0",
-  "method": "solana_getSponsorshipStatus",
-  "params": [
-    {
-      "signature": "5VERv8NMvzbJMEkV8xnrLkEaWRtSz9CosKDYjCJjBRnbJLgp8uirBgmQpjKhoR4tjF3ZpRzrFmBV6UjKdiSZkQUW"
-    }
-  ],
-  "id": 1
-}
-```
-
-### Parameters
-
-- **signature** - `string`: The base58 signature returned by `solana_sponsorTransaction`.
-
-### Response
-
-```json
-{
-  "jsonrpc": "2.0",
-  "result": {
-    "signature": "5VERv8NMvzbJMEkV8xnrLkEaWRtSz9CosKDYjCJjBRnbJLgp8uirBgmQpjKhoR4tjF3ZpRzrFmBV6UjKdiSZkQUW",
-    "status": "confirmed",
-    "slot": 295000123,
-    "feeLamports": 10005,
-    "sponsorship": {
-      "type": "token",
-      "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-      "amount": "1545",
-      "usdValue": 0.001545
-    },
-    "failureReason": null
-  },
-  "id": 1
-}
-```
-
-### Return Fields
-
-- **signature** - `string`: The transaction signature.
-- **status** - `string`: One of `submitted`, `confirmed`, `finalized`, `failed`, or `expired`. See the lifecycle below.
-- **slot** - `number | null`: The slot the transaction landed in. `null` until `confirmed`.
-- **feeLamports** - `number | null`: The sponsor outflow measured by simulation when the transaction was accepted, including the fee and any token account rent. `null` until `confirmed`.
-- **sponsorship** - `object`: `{ "type": "verifying" }` for verifying sponsorship, or `{ "type": "token", "mint", "amount", "usdValue" }` for token-paid sponsorship, where `amount` is the raw token amount the user paid.
-- **failureReason** - `string | null`: Why the transaction failed, when `status` is `failed`.
-
-### Errors
-
-- `-32009` if the signature is unknown: never submitted, or no longer retained.
-
-## Status lifecycle
-
-```
-submitted → confirmed → finalized
-     ├──→ failed
-     └──→ expired
-```
-
-- **submitted**: accepted and broadcast. The relayer rebroadcasts it every two seconds until it is seen on chain or expires.
-- **confirmed**: seen at Solana's `confirmed` commitment.
-- **finalized**: seen at Solana's `finalized` commitment. Settled.
-- **failed**: landed with an error, or the RPC node definitively rejected it at broadcast. Settled.
-- **expired**: the blockhash lapsed and the transaction never landed. Settled. Rebuild with a fresh blockhash and resubmit.
-
-A settled transaction stays queryable for one hour, after which `solana_getSponsorshipStatus` returns `-32009`.

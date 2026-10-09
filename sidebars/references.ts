@@ -319,6 +319,10 @@ export const paymasterSidebar = [
 				text: "Errors",
 				link: "/references/paymaster/solana/errors",
 			},
+			{
+				text: "Supported Tokens",
+				link: "/references/paymaster/solana/supported-tokens",
+			},
 		],
 	},
 ];

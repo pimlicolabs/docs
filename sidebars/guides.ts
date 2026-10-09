@@ -218,6 +218,10 @@ export const gasSponsorshipSidebar = [
 		link: "/guides/how-to/solana",
 		items: [
 			{
+				text: "Supported Tokens",
+				link: "/references/paymaster/solana/supported-tokens",
+			},
+			{
 				text: "Verifying Paymaster",
 				link: "/guides/how-to/solana/verifying-sponsorship",
 			},

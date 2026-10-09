@@ -1,8 +1,8 @@
 # Sponsor with USDC or other SPL tokens
 
-This guide shows you how to let your users pay their Solana transaction fees in USDC or another SPL token instead of SOL.
+This guide shows you how to let your users pay their Solana transaction fees in USDC or USDT instead of SOL.
 
-The paymaster pays the SOL fee, and your user repays it with a token transfer in the same transaction. The `@pimlico/solana` SDK adds the token payment for you.
+The paymaster pays the SOL fee, and your user repays it with a token transfer in the same transaction. The `@solana/kora` SDK quotes the fee and builds the transfer for you.
 
 ## Steps
 
@@ -10,30 +10,32 @@ The paymaster pays the SOL fee, and your user repays it with a token transfer in
 ### Install the SDK
 
 ```sh
-npm install @pimlico/solana @solana/kit
+npm install @solana/kora@beta @solana/kit @solana-program/token
 ```
 
-### Create the paymaster client
+### Create the client
+
+Pass your API key in the URL's `apikey` query parameter.
 
 ```ts
-import { createSolanaPaymaster } from "@pimlico/solana";
-import { createSolanaRpc } from "@solana/kit";
+import { KoraClient } from "@solana/kora";
 
-const solanaRpc = createSolanaRpc("https://api.mainnet-beta.solana.com");
-
-const paymaster = createSolanaPaymaster({
-    paymasterUrl: "https://solana.pimlico.io/v1/rpc?apikey=YOUR_API_KEY",
-    solanaRpc,
+const kora = new KoraClient({
+    rpcUrl: "https://solana.pimlico.io/v1/mainnet/rpc?apikey=YOUR_API_KEY",
 });
 ```
 
 ### Pick a token
 
-`getSupportedTokens` returns the tokens users can pay with. This guide uses USDC.
+`getSupportedTokens` returns the mints users can pay with. See [supported tokens](/references/paymaster/solana/supported-tokens) for the full list. This guide uses USDC.
 
 ```ts
-const { tokens } = await paymaster.rpc.getSupportedTokens();
-const usdc = tokens.find((token) => token.symbol === "USDC")!;
+import { address } from "@solana/kit";
+
+const { tokens } = await kora.getSupportedTokens();
+// ["EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB"]
+
+const USDC = address("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v");
 ```
 
 ### Build your instructions
@@ -41,13 +43,10 @@ const usdc = tokens.find((token) => token.symbol === "USDC")!;
 This example sends 5 USDC to another wallet.
 
 ```ts
-import {
-    address,
-    createKeyPairSignerFromBytes
-} from "@solana/kit";
+import { createKeyPairSignerFromBytes } from "@solana/kit";
 import {
     findAssociatedTokenPda,
-    getTransferCheckedInstruction,
+    getTransferInstruction,
     TOKEN_PROGRAM_ADDRESS,
 } from "@solana-program/token";
 
@@ -56,111 +55,110 @@ const recipient = address("RecipientPubkey11111111111111111111111111111");
 
 const [source] = await findAssociatedTokenPda({
     owner: user.address,
-    mint: usdc.mint,
+    mint: USDC,
     tokenProgram: TOKEN_PROGRAM_ADDRESS,
 });
 const [destination] = await findAssociatedTokenPda({
     owner: recipient,
-    mint: usdc.mint,
+    mint: USDC,
     tokenProgram: TOKEN_PROGRAM_ADDRESS,
 });
 
 const instructions = [
-    getTransferCheckedInstruction({
+    getTransferInstruction({
         source,
-        mint: usdc.mint,
         destination,
         authority: user,
         amount: 5_000_000n, // 5 USDC
-        decimals: usdc.decimals,
     }),
 ];
 ```
 
-### Show the fee (optional)
+### Add a helper to build the transaction
 
-Call `estimateFee` to show your user what the fee will cost before they confirm.
+You build the transaction twice: once without the payment to get a quote, and once with it. This helper sets the paymaster as the fee payer with a noop signer, which leaves its signature slot empty for the paymaster to fill, and has your user sign.
 
 ```ts
-const estimate = await paymaster.estimateFee({
-    instructions,
-    mint: usdc.mint,
+import {
+    type Instruction,
+    appendTransactionMessageInstructions,
+    blockhash,
+    createNoopSigner,
+    createTransactionMessage,
+    getBase64EncodedWireTransaction,
+    partiallySignTransactionMessageWithSigners,
+    pipe,
+    setTransactionMessageFeePayerSigner,
+    setTransactionMessageLifetimeUsingBlockhash,
+} from "@solana/kit";
+
+const { signer_address } = await kora.getPayerSigner();
+const feePayer = address(signer_address);
+
+const buildTransaction = async (instructions: Instruction[]) => {
+    const { blockhash: recentBlockhash } = await kora.getBlockhash();
+    const message = pipe(
+        createTransactionMessage({ version: 0 }),
+        (m) => setTransactionMessageFeePayerSigner(createNoopSigner(feePayer), m),
+        (m) =>
+            setTransactionMessageLifetimeUsingBlockhash(
+                { blockhash: blockhash(recentBlockhash), lastValidBlockHeight: 0n },
+                m,
+            ),
+        (m) => appendTransactionMessageInstructions(instructions, m),
+    );
+    return getBase64EncodedWireTransaction(
+        await partiallySignTransactionMessageWithSigners(message),
+    );
+};
+```
+
+### Get the payment instruction
+
+`getPaymentInstruction` asks the paymaster what your transaction will cost in USDC, and returns a USDC transfer of that amount from your user to the paymaster. Show `payment_amount` to your user before they confirm.
+
+```ts
+const { payment_instruction, payment_amount } = await kora.getPaymentInstruction({
+    transaction: await buildTransaction(instructions),
+    fee_token: USDC,
+    source_wallet: user,
 });
 
-const fee = Number(estimate.feeInToken) / 10 ** usdc.decimals;
-console.log(`Fee: ${fee} USDC (~$${estimate.usdValue.toFixed(4)})`);
+console.log(`Fee: ${Number(payment_amount) / 1e6} USDC`);
 ```
+
+Your user's USDC account must exist and hold enough to cover the fee.
 
 ### Send the sponsored transaction
 
-Pass the instructions, your user's signer, and `sponsorship.type` set to `"token"` with the mint. The SDK gets the fee estimate, appends a USDC transfer to the paymaster's vault, signs, submits, and returns the transaction signature.
+Rebuild the transaction with the payment appended and submit it. The paymaster sees the payment, checks it covers the fee, signs as fee payer, broadcasts, and responds with the signature once the transaction is `confirmed`.
 
 ```ts
-const signature = await paymaster.sendTransaction({
-    instructions,
-    signers: [user],
-    sponsorship: { type: "token", mint: usdc.mint },
-});
+const transaction = await buildTransaction([...instructions, payment_instruction]);
+
+const { signature } = await kora.signAndSendTransaction({ transaction });
 
 console.log(`https://solscan.io/tx/${signature}`);
-```
-
-The first signer pays. Their USDC account must exist and hold enough to cover the fee.
-
-### Wait for the transaction to land
-
-```ts
-const status = await paymaster.waitForTransaction(signature);
-
-if (status.status === "finalized" && status.sponsorship.type === "token") {
-    console.log(`Paid ${status.sponsorship.amount} raw USDC ($${status.sponsorship.usdValue})`);
-} else {
-    console.error(status.status, status.failureReason);
-}
 ```
 
 ::::
 
 ## Using an external wallet
 
-If your users sign with a wallet like Phantom, use `prepareTransaction` to build the unsigned transaction with the payment already added, let the wallet sign it, then submit it with `sponsorTransaction`.
-
-```ts
-const transaction = await paymaster.prepareTransaction({
-    instructions,
-    payer: walletAddress,
-    sponsorship: { type: "token", mint: usdc.mint },
-});
-
-const signed = await wallet.signTransaction(transaction);
-
-const { signature } = await paymaster.sponsorTransaction(signed, {
-    type: "token",
-    mint: usdc.mint,
-});
-```
-
-The wallet will show both the user's instructions and the USDC payment to the vault.
+If your users sign with a wallet like Phantom, pass the wallet's address as `source_wallet` instead of a signer, build the final message with the payment appended, and have the wallet sign it. The wallet will show both the user's instructions and the USDC payment to the paymaster.
 
 ## Errors
 
-Errors specific to token payment:
-
-- `-32004` `PAYMENT_INSUFFICIENT`: the payment is too small, usually because prices moved since the estimate. Send the transaction again.
-- `-32006` `UNSUPPORTED_TOKEN`: the mint is not in `getSupportedTokens`.
-- `-32008` `PRICE_UNAVAILABLE`: the price for the token is stale. Try again shortly.
+Errors are thrown as `KoraError` with a `code`, `message`, and `data`. If the payment is too small, usually because prices moved since the quote, `signAndSendTransaction` fails with `-32000` and the message `Insufficient token payment`. Get a new payment instruction and send again.
 
 ```ts
-import { SolanaPaymasterError } from "@pimlico/solana";
+import { KoraError } from "@solana/kora";
 
 try {
-    await paymaster.sendTransaction({ /* ... */ });
+    await kora.signAndSendTransaction({ transaction });
 } catch (error) {
-    if (
-        error instanceof SolanaPaymasterError &&
-        error.code === SolanaPaymasterError.codes.PAYMENT_INSUFFICIENT
-    ) {
-        // error.data has { required, provided, mint }
+    if (error instanceof KoraError && error.message.includes("Insufficient token payment")) {
+        // Quote again and resend
     }
 }
 ```
@@ -168,68 +166,93 @@ try {
 See the [errors reference](/references/paymaster/solana/errors) for the full list.
 
 :::warning
-If the transaction fails on chain, the user's token payment fails with it, but the SOL fee is still paid. That fee is charged to your Pimlico balance. The paymaster simulates every transaction before sponsoring it, so this only happens when something changes between simulation and execution, such as a swap exceeding its slippage limit.
+If the transaction fails on chain, the user's token payment fails with it, but the SOL fee is still paid, and it is charged to your Pimlico balance. The paymaster simulates every transaction before signing it, so this only happens when something changes between simulation and execution, such as a swap exceeding its slippage limit.
 :::
 
 ## Good to know
 
-- **Overpaying is accepted but not refunded.** The paymaster only checks the payment covers the fee.
+- **The quote is the exact SOL cost.** The paymaster simulates the transaction and prices the SOL it would spend in the token at the current price.
+- **No payment means you pay.** If the transaction doesn't include the payment instruction, it is sponsored from your Pimlico balance instead, as with the [Verifying Paymaster](/guides/how-to/solana/verifying-sponsorship).
 - **Token account rent is covered too.** If your transaction creates a token account, set the paymaster as its rent payer. The rent is added to the fee the user pays.
-- **The estimate is advisory.** Prices are re-checked when the transaction arrives. If they moved, you'll get `-32004` and should send again.
-- **Retrying is safe.** Sending the same transaction twice won't broadcast it twice. See [retrying safely](/guides/how-to/solana/verifying-sponsorship#retrying-safely).
 
 ## Full example
 
 ```ts
-import { createSolanaPaymaster } from "@pimlico/solana";
+import { KoraClient } from "@solana/kora";
 import {
+    type Instruction,
     address,
+    appendTransactionMessageInstructions,
+    blockhash,
     createKeyPairSignerFromBytes,
-    createSolanaRpc
+    createNoopSigner,
+    createTransactionMessage,
+    getBase64EncodedWireTransaction,
+    partiallySignTransactionMessageWithSigners,
+    pipe,
+    setTransactionMessageFeePayerSigner,
+    setTransactionMessageLifetimeUsingBlockhash,
 } from "@solana/kit";
 import {
     findAssociatedTokenPda,
-    getTransferCheckedInstruction,
+    getTransferInstruction,
     TOKEN_PROGRAM_ADDRESS,
 } from "@solana-program/token";
 
-const paymaster = createSolanaPaymaster({
-    paymasterUrl: "https://solana.pimlico.io/v1/rpc?apikey=YOUR_API_KEY",
-    solanaRpc: createSolanaRpc("https://api.mainnet-beta.solana.com"),
+const USDC = address("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v");
+
+const kora = new KoraClient({
+    rpcUrl: "https://solana.pimlico.io/v1/mainnet/rpc?apikey=YOUR_API_KEY",
 });
 
 const user = await createKeyPairSignerFromBytes(USER_SECRET_KEY);
 const recipient = address("RecipientPubkey11111111111111111111111111111");
 
-const { tokens } = await paymaster.rpc.getSupportedTokens();
-const usdc = tokens.find((token) => token.symbol === "USDC")!;
-
 const [source] = await findAssociatedTokenPda({
     owner: user.address,
-    mint: usdc.mint,
+    mint: USDC,
     tokenProgram: TOKEN_PROGRAM_ADDRESS,
 });
 const [destination] = await findAssociatedTokenPda({
     owner: recipient,
-    mint: usdc.mint,
+    mint: USDC,
     tokenProgram: TOKEN_PROGRAM_ADDRESS,
 });
 
-const signature = await paymaster.sendTransaction({
-    instructions: [
-        getTransferCheckedInstruction({
-            source,
-            mint: usdc.mint,
-            destination,
-            authority: user,
-            amount: 5_000_000n,
-            decimals: usdc.decimals,
-        }),
-    ],
-    signers: [user],
-    sponsorship: { type: "token", mint: usdc.mint },
-});
+const instructions = [
+    getTransferInstruction({ source, destination, authority: user, amount: 5_000_000n }),
+];
 
-const status = await paymaster.waitForTransaction(signature);
-console.log(signature, status.status, status.sponsorship);
+const { signer_address } = await kora.getPayerSigner();
+const feePayer = address(signer_address);
+
+const buildTransaction = async (instructions: Instruction[]) => {
+    const { blockhash: recentBlockhash } = await kora.getBlockhash();
+    const message = pipe(
+        createTransactionMessage({ version: 0 }),
+        (m) => setTransactionMessageFeePayerSigner(createNoopSigner(feePayer), m),
+        (m) =>
+            setTransactionMessageLifetimeUsingBlockhash(
+                { blockhash: blockhash(recentBlockhash), lastValidBlockHeight: 0n },
+                m,
+            ),
+        (m) => appendTransactionMessageInstructions(instructions, m),
+    );
+    return getBase64EncodedWireTransaction(
+        await partiallySignTransactionMessageWithSigners(message),
+    );
+};
+
+// 1. Quote the fee and get the USDC payment to the paymaster
+const { payment_instruction, payment_amount } = await kora.getPaymentInstruction({
+    transaction: await buildTransaction(instructions),
+    fee_token: USDC,
+    source_wallet: user,
+});
+console.log(`Fee: ${Number(payment_amount) / 1e6} USDC`);
+
+// 2. Append the payment and send
+const transaction = await buildTransaction([...instructions, payment_instruction]);
+const { signature } = await kora.signAndSendTransaction({ transaction });
+console.log(`https://solscan.io/tx/${signature}`);
 ```
