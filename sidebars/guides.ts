@@ -229,6 +229,10 @@ export const gasSponsorshipSidebar = [
 				text: "SPL Token Sponsorships",
 				link: "/guides/how-to/solana/token-sponsorship",
 			},
+			{
+				text: "Phantom and Other Wallets",
+				link: "/guides/how-to/solana/external-wallets",
+			},
 		],
 	},
 ];

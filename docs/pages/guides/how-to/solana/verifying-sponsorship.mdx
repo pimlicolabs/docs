@@ -158,7 +158,7 @@ const { signature, signed_transaction } = await kora.signAndSendTransaction({
 
 ## Using an external wallet
 
-If your users sign with a wallet like Phantom, build the same message with `createSponsoredTransactionMessage` and have the wallet sign it instead of `partiallySignTransactionMessageWithSigners`. Use `compileTransaction` from `@solana/kit` to turn the message into a transaction the wallet can sign. The paymaster's signature slot stays empty for the paymaster to fill in, and the wallet will show the fee as paid by another account.
+If your users sign with a wallet like Phantom, use the wallet as the signer instead of a keypair. See [Phantom and Other Wallets](/guides/how-to/solana/external-wallets).
 
 ## Errors
 

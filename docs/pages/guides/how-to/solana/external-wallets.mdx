@@ -1,0 +1,351 @@
+# Phantom and Other Wallets
+
+This guide shows you how to sponsor transactions that your users sign in their own wallet, such as Phantom, in a React app.
+
+In the [Gas Sponsorships](/guides/how-to/solana/verifying-sponsorship) and [SPL Token Sponsorships](/guides/how-to/solana/token-sponsorship) guides, your user's key is a keypair in your code. In a browser app it lives in their wallet instead. `@solana/react` turns the connected wallet into a signer, and you use that signer anywhere the other guides use the keypair. When your user signs, the wallet opens and asks them to approve. The paymaster still pays the fee and adds its own signature.
+
+This works with any wallet that supports the [Wallet Standard](https://github.com/wallet-standard/wallet-standard), including Phantom, Solflare, and Backpack.
+
+## Steps
+
+::::steps
+### Install the SDK
+
+```sh
+npm install @solana/kora @solana/kit@6 @solana-program/token@0.12 @solana/react@6 @wallet-standard/react
+```
+
+`@solana/kora` 0.2 is built on `@solana/kit` 6, so install the matching versions of `@solana/kit`, `@solana-program/token`, and `@solana/react`.
+
+### Create the client and add the helper
+
+Create the client, and add the `createSponsoredTransactionMessage` helper from [Gas Sponsorships](/guides/how-to/solana/verifying-sponsorship) to your app as `sponsored-transaction.ts`.
+
+```ts
+import { KoraClient } from "@solana/kora";
+
+const kora = new KoraClient({
+    rpcUrl: "https://solana.pimlico.io/v1/mainnet/rpc?apikey=YOUR_API_KEY",
+});
+```
+
+### Connect the wallet
+
+`useWallets` lists the wallets installed in the browser. `useConnect` asks a wallet to connect, and returns the accounts your user approved.
+
+```tsx
+import {
+    type UiWallet,
+    type UiWalletAccount,
+    useConnect,
+    useWallets,
+} from "@wallet-standard/react";
+
+function ConnectPhantom({ onConnect }: { onConnect: (account: UiWalletAccount) => void }) {
+    const phantom = useWallets().find((wallet) => wallet.name === "Phantom");
+
+    if (!phantom) {
+        return <a href="https://phantom.com/download">Install Phantom</a>;
+    }
+    return <ConnectButton wallet={phantom} onConnect={onConnect} />;
+}
+
+function ConnectButton({
+    wallet,
+    onConnect,
+}: {
+    wallet: UiWallet;
+    onConnect: (account: UiWalletAccount) => void;
+}) {
+    const [isConnecting, connect] = useConnect(wallet);
+
+    return (
+        <button
+            type="button"
+            disabled={isConnecting}
+            onClick={async () => {
+                const [account] = await connect();
+                onConnect(account);
+            }}
+        >
+            Connect {wallet.name}
+        </button>
+    );
+}
+```
+
+To support more than Phantom, render a `ConnectButton` for each wallet in `useWallets()`.
+
+### Get a signer for the wallet
+
+`useWalletAccountTransactionSigner` turns the connected account into a signer. Its `address` is your user's wallet address. Use `"solana:devnet"` instead if you are on devnet.
+
+```tsx
+import { useWalletAccountTransactionSigner } from "@solana/react";
+
+const user = useWalletAccountTransactionSigner(account, "solana:mainnet");
+```
+
+### Build and send the transaction
+
+This is the same as [Gas Sponsorships](/guides/how-to/solana/verifying-sponsorship), with the wallet signer as the token authority. `partiallySignTransactionMessageWithSigners` opens the wallet, so your user approves the transfer there.
+
+```ts
+import {
+    type Address,
+    type TransactionSigner,
+    address,
+    getBase64EncodedWireTransaction,
+    partiallySignTransactionMessageWithSigners,
+} from "@solana/kit";
+import {
+    findAssociatedTokenPda,
+    getTransferInstruction,
+    TOKEN_PROGRAM_ADDRESS,
+} from "@solana-program/token";
+import { createSponsoredTransactionMessage } from "./sponsored-transaction";
+
+const USDC = address("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v");
+
+async function sendUsdc(user: TransactionSigner, recipient: Address, amount: bigint) {
+    const [source] = await findAssociatedTokenPda({
+        owner: user.address,
+        mint: USDC,
+        tokenProgram: TOKEN_PROGRAM_ADDRESS,
+    });
+    const [destination] = await findAssociatedTokenPda({
+        owner: recipient,
+        mint: USDC,
+        tokenProgram: TOKEN_PROGRAM_ADDRESS,
+    });
+
+    const message = await createSponsoredTransactionMessage(kora, [
+        getTransferInstruction({ source, destination, authority: user, amount }),
+    ]);
+
+    // Opens the wallet for your user to approve. The paymaster adds the fee payer signature.
+    const transaction = getBase64EncodedWireTransaction(
+        await partiallySignTransactionMessageWithSigners(message),
+    );
+
+    const { signature } = await kora.signAndSendTransaction({ transaction });
+    return signature;
+}
+```
+
+### Add a send button
+
+Get the signer in a component, and call `sendUsdc` when your user clicks.
+
+```tsx
+function SendUsdcButton({ account }: { account: UiWalletAccount }) {
+    const user = useWalletAccountTransactionSigner(account, "solana:mainnet");
+
+    return (
+        <button
+            type="button"
+            onClick={async () => {
+                const signature = await sendUsdc(user, RECIPIENT, 1_000_000n); // 1 USDC
+                console.log(`https://solscan.io/tx/${signature}`);
+            }}
+        >
+            Send 1 USDC
+        </button>
+    );
+}
+```
+
+::::
+
+The wallet shows the fee as paid by another account, so your user needs no SOL.
+
+## Paying the fee in USDC
+
+To have your user pay the fee in a token, as in [SPL Token Sponsorships](/guides/how-to/solana/token-sponsorship), pass the wallet signer as `source_wallet`.
+
+The quote doesn't need your user's signature, so build the quote transaction with `compileTransaction` instead of signing it. The wallet then opens only once, for the final transaction, and shows both the transfer and the USDC payment to the paymaster.
+
+```ts
+import { compileTransaction } from "@solana/kit";
+
+async function sendUsdcPayingFeeInUsdc(user: TransactionSigner, recipient: Address, amount: bigint) {
+    const [source] = await findAssociatedTokenPda({
+        owner: user.address,
+        mint: USDC,
+        tokenProgram: TOKEN_PROGRAM_ADDRESS,
+    });
+    const [destination] = await findAssociatedTokenPda({
+        owner: recipient,
+        mint: USDC,
+        tokenProgram: TOKEN_PROGRAM_ADDRESS,
+    });
+    const instructions = [getTransferInstruction({ source, destination, authority: user, amount })];
+
+    // 1. Quote the fee. This doesn't open the wallet.
+    const quoteMessage = await createSponsoredTransactionMessage(kora, instructions);
+    const { payment_instruction, payment_amount } = await kora.getPaymentInstruction({
+        transaction: getBase64EncodedWireTransaction(compileTransaction(quoteMessage)),
+        fee_token: USDC,
+        source_wallet: user,
+    });
+    console.log(`Fee: ${Number(payment_amount) / 1e6} USDC`);
+
+    // 2. Append the payment. The wallet opens once, for both transfers.
+    const message = await createSponsoredTransactionMessage(kora, [
+        ...instructions,
+        payment_instruction,
+    ]);
+    const transaction = getBase64EncodedWireTransaction(
+        await partiallySignTransactionMessageWithSigners(message),
+    );
+
+    const { signature } = await kora.signAndSendTransaction({ transaction });
+    return signature;
+}
+```
+
+## Wallets that change the transaction
+
+Some wallets change a transaction before signing it, for example to add a priority fee or safety-check instructions. The paymaster checks the transaction exactly as the wallet returns it. When your user pays in a token, a change that raises the fee after you quoted it can mean the payment no longer covers it, and `signAndSendTransaction` fails with `Insufficient token payment`. Get a new quote and send again.
+
+## Other wallet libraries
+
+If you don't use `@solana/react`, have your wallet library sign the transaction bytes. Use your user's address as the authority, since there is no signer.
+
+```ts
+import {
+    compileTransaction,
+    getBase64Decoder,
+    getTransactionEncoder,
+} from "@solana/kit";
+
+const message = await createSponsoredTransactionMessage(kora, [
+    getTransferInstruction({ source, destination, authority: userAddress, amount: 1_000_000n }),
+]);
+const unsignedBytes = getTransactionEncoder().encode(compileTransaction(message));
+
+// Ask the wallet to sign the bytes, using your wallet library
+const signedBytes = await signTransactionInWallet(unsignedBytes);
+
+const { signature } = await kora.signAndSendTransaction({
+    transaction: getBase64Decoder().decode(signedBytes),
+});
+```
+
+If your wallet library works with `@solana/web3.js` transactions, convert the bytes with `VersionedTransaction.deserialize(unsignedBytes)`, and convert the signed transaction back with `.serialize()`.
+
+## Full example
+
+```tsx
+import { KoraClient } from "@solana/kora";
+import {
+    type Address,
+    type TransactionSigner,
+    address,
+    getBase64EncodedWireTransaction,
+    partiallySignTransactionMessageWithSigners,
+} from "@solana/kit";
+import { useWalletAccountTransactionSigner } from "@solana/react";
+import {
+    findAssociatedTokenPda,
+    getTransferInstruction,
+    TOKEN_PROGRAM_ADDRESS,
+} from "@solana-program/token";
+import {
+    type UiWallet,
+    type UiWalletAccount,
+    useConnect,
+    useWallets,
+} from "@wallet-standard/react";
+import { useState } from "react";
+import { createSponsoredTransactionMessage } from "./sponsored-transaction";
+
+const USDC = address("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v");
+const RECIPIENT = address("RecipientPubkey11111111111111111111111111111");
+
+const kora = new KoraClient({
+    rpcUrl: "https://solana.pimlico.io/v1/mainnet/rpc?apikey=YOUR_API_KEY",
+});
+
+async function sendUsdc(user: TransactionSigner, recipient: Address, amount: bigint) {
+    const [source] = await findAssociatedTokenPda({
+        owner: user.address,
+        mint: USDC,
+        tokenProgram: TOKEN_PROGRAM_ADDRESS,
+    });
+    const [destination] = await findAssociatedTokenPda({
+        owner: recipient,
+        mint: USDC,
+        tokenProgram: TOKEN_PROGRAM_ADDRESS,
+    });
+
+    const message = await createSponsoredTransactionMessage(kora, [
+        getTransferInstruction({ source, destination, authority: user, amount }),
+    ]);
+
+    // Opens the wallet for your user to approve. The paymaster adds the fee payer signature.
+    const transaction = getBase64EncodedWireTransaction(
+        await partiallySignTransactionMessageWithSigners(message),
+    );
+
+    const { signature } = await kora.signAndSendTransaction({ transaction });
+    return signature;
+}
+
+export function App() {
+    const [account, setAccount] = useState<UiWalletAccount>();
+
+    if (!account) {
+        return <ConnectPhantom onConnect={setAccount} />;
+    }
+    return <SendUsdcButton account={account} />;
+}
+
+function ConnectPhantom({ onConnect }: { onConnect: (account: UiWalletAccount) => void }) {
+    const phantom = useWallets().find((wallet) => wallet.name === "Phantom");
+
+    if (!phantom) {
+        return <a href="https://phantom.com/download">Install Phantom</a>;
+    }
+    return <ConnectButton wallet={phantom} onConnect={onConnect} />;
+}
+
+function ConnectButton({
+    wallet,
+    onConnect,
+}: {
+    wallet: UiWallet;
+    onConnect: (account: UiWalletAccount) => void;
+}) {
+    const [isConnecting, connect] = useConnect(wallet);
+
+    return (
+        <button
+            type="button"
+            disabled={isConnecting}
+            onClick={async () => {
+                const [account] = await connect();
+                onConnect(account);
+            }}
+        >
+            Connect {wallet.name}
+        </button>
+    );
+}
+
+function SendUsdcButton({ account }: { account: UiWalletAccount }) {
+    const user = useWalletAccountTransactionSigner(account, "solana:mainnet");
+
+    return (
+        <button
+            type="button"
+            onClick={async () => {
+                const signature = await sendUsdc(user, RECIPIENT, 1_000_000n); // 1 USDC
+                console.log(`https://solscan.io/tx/${signature}`);
+            }}
+        >
+            Send 1 USDC
+        </button>
+    );
+}
+```

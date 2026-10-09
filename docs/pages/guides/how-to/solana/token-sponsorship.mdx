@@ -168,7 +168,7 @@ console.log(`https://solscan.io/tx/${signature}`);
 
 ## Using an external wallet
 
-If your users sign with a wallet like Phantom, pass the wallet's address as `source_wallet` instead of a signer, build the final message with the payment appended, and have the wallet sign it. The wallet will show both the user's instructions and the USDC payment to the paymaster.
+If your users sign with a wallet like Phantom, use the wallet as the signer instead of a keypair. The wallet shows both the transfer and the USDC payment to the paymaster. See [Paying the fee in USDC](/guides/how-to/solana/external-wallets#paying-the-fee-in-usdc) in the wallet guide.
 
 ## Errors
 
