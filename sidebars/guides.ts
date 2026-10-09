@@ -233,6 +233,10 @@ export const gasSponsorshipSidebar = [
 				text: "Phantom and Other Wallets",
 				link: "/guides/how-to/solana/external-wallets",
 			},
+			{
+				text: "Privy",
+				link: "/guides/how-to/solana/privy",
+			},
 		],
 	},
 ];

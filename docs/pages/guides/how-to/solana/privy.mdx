@@ -1,0 +1,414 @@
+# Privy
+
+This guide shows you how to sponsor transactions for users who sign with a [Privy](https://privy.io) wallet.
+
+Privy gives each of your users a Solana wallet when they log in, with no extension to install. You build the transaction with the paymaster as the fee payer, Privy signs it with your user's wallet, and the paymaster pays the fee, adds its own signature, and broadcasts it. Your user needs no SOL.
+
+## Steps
+
+::::steps
+### Install the SDKs
+
+```sh
+npm install @privy-io/react-auth @solana/kora @solana/kit@6 @solana-program/token@0.12
+```
+
+`@solana/kora` 0.2 is built on `@solana/kit` 6, so install the matching versions of `@solana/kit` and `@solana-program/token`.
+
+### Set up Privy
+
+Wrap your app in `PrivyProvider` with your app ID from the [Privy Dashboard](https://dashboard.privy.io). `createOnLogin` gives every user without a wallet a Solana wallet when they log in. Privy's Solana hooks also need an RPC for each cluster you use.
+
+```tsx
+import { PrivyProvider } from "@privy-io/react-auth";
+import { createSolanaRpc, createSolanaRpcSubscriptions } from "@solana/kit";
+
+export function Providers({ children }: { children: React.ReactNode }) {
+    return (
+        <PrivyProvider
+            appId="YOUR_PRIVY_APP_ID"
+            config={{
+                embeddedWallets: {
+                    solana: { createOnLogin: "users-without-wallets" },
+                },
+                solana: {
+                    rpcs: {
+                        "solana:mainnet": {
+                            rpc: createSolanaRpc("https://api.mainnet-beta.solana.com"),
+                            rpcSubscriptions: createSolanaRpcSubscriptions(
+                                "wss://api.mainnet-beta.solana.com",
+                            ),
+                        },
+                    },
+                },
+            }}
+        >
+            {children}
+        </PrivyProvider>
+    );
+}
+```
+
+### Create the client
+
+Pass your Pimlico API key in the URL's `apikey` query parameter.
+
+```ts
+import { KoraClient } from "@solana/kora";
+
+const kora = new KoraClient({
+    rpcUrl: "https://solana.pimlico.io/v1/mainnet/rpc?apikey=YOUR_API_KEY",
+});
+```
+
+### Add a helper to build the transaction
+
+Add this helper to your app. Pass it your instructions, and it returns a transaction message with the paymaster as the fee payer.
+
+```ts [sponsored-transaction.ts]
+import type { KoraClient } from "@solana/kora";
+import {
+    type Instruction,
+    address,
+    appendTransactionMessageInstructions,
+    blockhash,
+    createNoopSigner,
+    createTransactionMessage,
+    pipe,
+    setTransactionMessageFeePayerSigner,
+    setTransactionMessageLifetimeUsingBlockhash,
+} from "@solana/kit";
+
+export async function createSponsoredTransactionMessage(
+    kora: KoraClient,
+    instructions: Instruction[],
+) {
+    const { signer_address } = await kora.getPayerSigner();
+    const { blockhash: latestBlockhash } = await kora.getBlockhash();
+
+    // pipe passes the message through each step below, in order
+    return pipe(
+        // Start an empty version 0 transaction message
+        createTransactionMessage({ version: 0 }),
+        // The paymaster pays the fee. It signs later, so a noop signer leaves its signature slot empty.
+        (m) => setTransactionMessageFeePayerSigner(createNoopSigner(address(signer_address)), m),
+        // The blockhash keeps the transaction valid for about a minute. lastValidBlockHeight is only
+        // read by @solana/kit's own send-and-confirm, and the paymaster sends the transaction for you.
+        (m) =>
+            setTransactionMessageLifetimeUsingBlockhash(
+                { blockhash: blockhash(latestBlockhash), lastValidBlockHeight: 0n },
+                m,
+            ),
+        // Add your app's instructions (transfers, swaps, etc.)
+        (m) => appendTransactionMessageInstructions(instructions, m),
+    );
+}
+```
+
+### Log your user in
+
+`login` opens Privy's login screen. Once your user is logged in, `useWallets` from `@privy-io/react-auth/solana` returns their Solana wallets.
+
+```tsx
+import { usePrivy } from "@privy-io/react-auth";
+import { useWallets } from "@privy-io/react-auth/solana";
+
+export function App() {
+    const { ready, authenticated, login } = usePrivy();
+    const { wallets } = useWallets();
+
+    if (!ready) {
+        return null;
+    }
+    if (!authenticated) {
+        return (
+            <button type="button" onClick={() => login()}>
+                Log in
+            </button>
+        );
+    }
+    if (!wallets[0]) {
+        return <p>Creating your wallet...</p>;
+    }
+    return <SendUsdcButton wallet={wallets[0]} />;
+}
+```
+
+### Build, sign, and send the transaction
+
+This example sends 1 USDC from your user's Privy wallet.
+
+Build the transaction with the helper, using your user's address as the token authority. Privy's `signTransaction` takes the transaction as bytes and returns it signed by your user. The paymaster's signature slot stays empty, and the paymaster fills it in when you send.
+
+```tsx
+import {
+    type ConnectedStandardSolanaWallet,
+    useSignTransaction,
+} from "@privy-io/react-auth/solana";
+import {
+    address,
+    compileTransaction,
+    getBase64Decoder,
+    getTransactionEncoder,
+} from "@solana/kit";
+import {
+    findAssociatedTokenPda,
+    getTransferInstruction,
+    TOKEN_PROGRAM_ADDRESS,
+} from "@solana-program/token";
+import { createSponsoredTransactionMessage } from "./sponsored-transaction";
+
+const USDC = address("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v");
+const RECIPIENT = address("RecipientPubkey11111111111111111111111111111");
+
+function SendUsdcButton({ wallet }: { wallet: ConnectedStandardSolanaWallet }) {
+    const { signTransaction } = useSignTransaction();
+
+    const sendUsdc = async () => {
+        const user = address(wallet.address);
+
+        const [source] = await findAssociatedTokenPda({
+            owner: user,
+            mint: USDC,
+            tokenProgram: TOKEN_PROGRAM_ADDRESS,
+        });
+        const [destination] = await findAssociatedTokenPda({
+            owner: RECIPIENT,
+            mint: USDC,
+            tokenProgram: TOKEN_PROGRAM_ADDRESS,
+        });
+
+        const message = await createSponsoredTransactionMessage(kora, [
+            getTransferInstruction({ source, destination, authority: user, amount: 1_000_000n }),
+        ]);
+
+        // Your user signs with their Privy wallet
+        const { signedTransaction } = await signTransaction({
+            transaction: new Uint8Array(getTransactionEncoder().encode(compileTransaction(message))),
+            wallet,
+            chain: "solana:mainnet",
+        });
+
+        // The paymaster adds the fee payer signature and broadcasts
+        const { signature } = await kora.signAndSendTransaction({
+            transaction: getBase64Decoder().decode(signedTransaction),
+        });
+
+        console.log(`https://solscan.io/tx/${signature}`);
+    };
+
+    return (
+        <button type="button" onClick={sendUsdc}>
+            Send 1 USDC
+        </button>
+    );
+}
+```
+
+::::
+
+## Paying the fee in USDC
+
+Instead of paying the fee from your Pimlico balance, you can have your user pay it in USDC or USDT. `getPaymentInstruction` asks the paymaster what the transaction will cost, and returns a token transfer of that amount from your user to the paymaster. Append it to your instructions, and pass your user's address as `source_wallet`.
+
+The quote doesn't need your user's signature, so Privy only signs once, for the final transaction.
+
+```ts
+const instructions = [
+    getTransferInstruction({ source, destination, authority: user, amount: 1_000_000n }),
+];
+
+// 1. Quote the fee. Your user doesn't sign this.
+const quoteMessage = await createSponsoredTransactionMessage(kora, instructions);
+const { payment_instruction, payment_amount } = await kora.getPaymentInstruction({
+    transaction: getBase64Decoder().decode(
+        getTransactionEncoder().encode(compileTransaction(quoteMessage)),
+    ),
+    fee_token: USDC,
+    source_wallet: user,
+});
+console.log(`Fee: ${Number(payment_amount) / 1e6} USDC`);
+
+// 2. Append the payment, have your user sign once, and send
+const message = await createSponsoredTransactionMessage(kora, [
+    ...instructions,
+    payment_instruction,
+]);
+const { signedTransaction } = await signTransaction({
+    transaction: new Uint8Array(getTransactionEncoder().encode(compileTransaction(message))),
+    wallet,
+    chain: "solana:mainnet",
+});
+const { signature } = await kora.signAndSendTransaction({
+    transaction: getBase64Decoder().decode(signedTransaction),
+});
+```
+
+## Using devnet
+
+Use the devnet paymaster URL, `https://solana.pimlico.io/v1/devnet/rpc?apikey=YOUR_API_KEY`, configure a `"solana:devnet"` RPC in `PrivyProvider`, and pass `chain: "solana:devnet"` to `signTransaction`. Sponsorship on devnet is free.
+
+## Full example
+
+::::code-group
+
+```tsx [App.tsx]
+import { PrivyProvider, usePrivy } from "@privy-io/react-auth";
+import {
+    type ConnectedStandardSolanaWallet,
+    useSignTransaction,
+    useWallets,
+} from "@privy-io/react-auth/solana";
+import { KoraClient } from "@solana/kora";
+import {
+    address,
+    compileTransaction,
+    createSolanaRpc,
+    createSolanaRpcSubscriptions,
+    getBase64Decoder,
+    getTransactionEncoder,
+} from "@solana/kit";
+import {
+    findAssociatedTokenPda,
+    getTransferInstruction,
+    TOKEN_PROGRAM_ADDRESS,
+} from "@solana-program/token";
+import { createSponsoredTransactionMessage } from "./sponsored-transaction";
+
+const USDC = address("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v");
+const RECIPIENT = address("RecipientPubkey11111111111111111111111111111");
+
+const kora = new KoraClient({
+    rpcUrl: "https://solana.pimlico.io/v1/mainnet/rpc?apikey=YOUR_API_KEY",
+});
+
+export function Root() {
+    return (
+        <PrivyProvider
+            appId="YOUR_PRIVY_APP_ID"
+            config={{
+                embeddedWallets: {
+                    solana: { createOnLogin: "users-without-wallets" },
+                },
+                solana: {
+                    rpcs: {
+                        "solana:mainnet": {
+                            rpc: createSolanaRpc("https://api.mainnet-beta.solana.com"),
+                            rpcSubscriptions: createSolanaRpcSubscriptions(
+                                "wss://api.mainnet-beta.solana.com",
+                            ),
+                        },
+                    },
+                },
+            }}
+        >
+            <App />
+        </PrivyProvider>
+    );
+}
+
+function App() {
+    const { ready, authenticated, login } = usePrivy();
+    const { wallets } = useWallets();
+
+    if (!ready) {
+        return null;
+    }
+    if (!authenticated) {
+        return (
+            <button type="button" onClick={() => login()}>
+                Log in
+            </button>
+        );
+    }
+    if (!wallets[0]) {
+        return <p>Creating your wallet...</p>;
+    }
+    return <SendUsdcButton wallet={wallets[0]} />;
+}
+
+function SendUsdcButton({ wallet }: { wallet: ConnectedStandardSolanaWallet }) {
+    const { signTransaction } = useSignTransaction();
+
+    const sendUsdc = async () => {
+        const user = address(wallet.address);
+
+        const [source] = await findAssociatedTokenPda({
+            owner: user,
+            mint: USDC,
+            tokenProgram: TOKEN_PROGRAM_ADDRESS,
+        });
+        const [destination] = await findAssociatedTokenPda({
+            owner: RECIPIENT,
+            mint: USDC,
+            tokenProgram: TOKEN_PROGRAM_ADDRESS,
+        });
+
+        const message = await createSponsoredTransactionMessage(kora, [
+            getTransferInstruction({ source, destination, authority: user, amount: 1_000_000n }),
+        ]);
+
+        // Your user signs with their Privy wallet
+        const { signedTransaction } = await signTransaction({
+            transaction: new Uint8Array(getTransactionEncoder().encode(compileTransaction(message))),
+            wallet,
+            chain: "solana:mainnet",
+        });
+
+        // The paymaster adds the fee payer signature and broadcasts
+        const { signature } = await kora.signAndSendTransaction({
+            transaction: getBase64Decoder().decode(signedTransaction),
+        });
+
+        console.log(`https://solscan.io/tx/${signature}`);
+    };
+
+    return (
+        <button type="button" onClick={sendUsdc}>
+            Send 1 USDC
+        </button>
+    );
+}
+```
+
+```ts [sponsored-transaction.ts]
+import type { KoraClient } from "@solana/kora";
+import {
+    type Instruction,
+    address,
+    appendTransactionMessageInstructions,
+    blockhash,
+    createNoopSigner,
+    createTransactionMessage,
+    pipe,
+    setTransactionMessageFeePayerSigner,
+    setTransactionMessageLifetimeUsingBlockhash,
+} from "@solana/kit";
+
+export async function createSponsoredTransactionMessage(
+    kora: KoraClient,
+    instructions: Instruction[],
+) {
+    const { signer_address } = await kora.getPayerSigner();
+    const { blockhash: latestBlockhash } = await kora.getBlockhash();
+
+    // pipe passes the message through each step below, in order
+    return pipe(
+        // Start an empty version 0 transaction message
+        createTransactionMessage({ version: 0 }),
+        // The paymaster pays the fee. It signs later, so a noop signer leaves its signature slot empty.
+        (m) => setTransactionMessageFeePayerSigner(createNoopSigner(address(signer_address)), m),
+        // The blockhash keeps the transaction valid for about a minute. lastValidBlockHeight is only
+        // read by @solana/kit's own send-and-confirm, and the paymaster sends the transaction for you.
+        (m) =>
+            setTransactionMessageLifetimeUsingBlockhash(
+                { blockhash: blockhash(latestBlockhash), lastValidBlockHeight: 0n },
+                m,
+            ),
+        // Add your app's instructions (transfers, swaps, etc.)
+        (m) => appendTransactionMessageInstructions(instructions, m),
+    );
+}
+```
+
+::::
