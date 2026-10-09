@@ -38,6 +38,55 @@ const { tokens } = await kora.getSupportedTokens();
 const USDC = address("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v");
 ```
 
+### Get the fee payer
+
+`getPayerSigner` returns the paymaster's address. Your transaction must use it as the fee payer.
+
+```ts
+const { signer_address } = await kora.getPayerSigner();
+const feePayer = address(signer_address);
+```
+
+### Add a helper to build the transaction
+
+You build the transaction twice: once without the payment to get a quote, and once with it. Add this helper to your app for both. It builds a transaction message with the paymaster as the fee payer. It uses a noop signer for the paymaster, which leaves the paymaster's signature slot empty for the paymaster to fill.
+
+```ts [sponsored-transaction.ts]
+import {
+    type Address,
+    type Blockhash,
+    type Instruction,
+    appendTransactionMessageInstructions,
+    createNoopSigner,
+    createTransactionMessage,
+    pipe,
+    setTransactionMessageFeePayerSigner,
+    setTransactionMessageLifetimeUsingBlockhash,
+} from "@solana/kit";
+
+type SponsoredTransactionParams = {
+    /** The paymaster's fee payer address. The paymaster signs for it later, so we use a noop signer here. */
+    feePayer: Address;
+    /** Transaction lifetime, from a recent blockhash. */
+    lifetime: { blockhash: Blockhash; lastValidBlockHeight: bigint };
+    /** Your app's instructions (transfers, swaps, etc.). */
+    instructions: Instruction[];
+};
+
+export function createSponsoredTransactionMessage({
+    feePayer,
+    lifetime,
+    instructions,
+}: SponsoredTransactionParams) {
+    return pipe(
+        createTransactionMessage({ version: 0 }),
+        (m) => setTransactionMessageFeePayerSigner(createNoopSigner(feePayer), m),
+        (m) => setTransactionMessageLifetimeUsingBlockhash(lifetime, m),
+        (m) => appendTransactionMessageInstructions(instructions, m),
+    );
+}
+```
+
 ### Build your instructions
 
 This example sends 5 USDC to another wallet.
@@ -74,52 +123,30 @@ const instructions = [
 ];
 ```
 
-### Add a helper to build the transaction
+### Get the payment instruction
 
-You build the transaction twice: once without the payment to get a quote, and once with it. This helper sets the paymaster as the fee payer with a noop signer, which leaves its signature slot empty for the paymaster to fill, and has your user sign.
+Build and sign the transaction without the payment first. `getPaymentInstruction` asks the paymaster what it will cost in USDC, and returns a USDC transfer of that amount from your user to the paymaster. Show `payment_amount` to your user before they confirm.
 
 ```ts
 import {
-    type Instruction,
-    appendTransactionMessageInstructions,
     blockhash,
-    createNoopSigner,
-    createTransactionMessage,
     getBase64EncodedWireTransaction,
     partiallySignTransactionMessageWithSigners,
-    pipe,
-    setTransactionMessageFeePayerSigner,
-    setTransactionMessageLifetimeUsingBlockhash,
 } from "@solana/kit";
+import { createSponsoredTransactionMessage } from "./sponsored-transaction";
 
-const { signer_address } = await kora.getPayerSigner();
-const feePayer = address(signer_address);
+const { blockhash: quoteBlockhash } = await kora.getBlockhash();
 
-const buildTransaction = async (instructions: Instruction[]) => {
-    const { blockhash: recentBlockhash } = await kora.getBlockhash();
-    const message = pipe(
-        createTransactionMessage({ version: 0 }),
-        (m) => setTransactionMessageFeePayerSigner(createNoopSigner(feePayer), m),
-        (m) =>
-            setTransactionMessageLifetimeUsingBlockhash(
-                { blockhash: blockhash(recentBlockhash), lastValidBlockHeight: 0n },
-                m,
-            ),
-        (m) => appendTransactionMessageInstructions(instructions, m),
-    );
-    return getBase64EncodedWireTransaction(
-        await partiallySignTransactionMessageWithSigners(message),
-    );
-};
-```
+const quoteMessage = createSponsoredTransactionMessage({
+    feePayer,
+    lifetime: { blockhash: blockhash(quoteBlockhash), lastValidBlockHeight: 0n },
+    instructions,
+});
 
-### Get the payment instruction
-
-`getPaymentInstruction` asks the paymaster what your transaction will cost in USDC, and returns a USDC transfer of that amount from your user to the paymaster. Show `payment_amount` to your user before they confirm.
-
-```ts
 const { payment_instruction, payment_amount } = await kora.getPaymentInstruction({
-    transaction: await buildTransaction(instructions),
+    transaction: getBase64EncodedWireTransaction(
+        await partiallySignTransactionMessageWithSigners(quoteMessage),
+    ),
     fee_token: USDC,
     source_wallet: user,
 });
@@ -131,10 +158,21 @@ Your user's USDC account must exist and hold enough to cover the fee.
 
 ### Send the sponsored transaction
 
-Rebuild the transaction with the payment appended and submit it. The paymaster sees the payment, checks it covers the fee, signs as fee payer, broadcasts, and responds with the signature once the transaction is `confirmed`.
+Build the transaction again with the payment appended, and submit it. The paymaster sees the payment, checks it covers the fee, signs as fee payer, broadcasts, and responds with the signature once the transaction is `confirmed`.
 
 ```ts
-const transaction = await buildTransaction([...instructions, payment_instruction]);
+const { blockhash: recentBlockhash } = await kora.getBlockhash();
+
+const message = createSponsoredTransactionMessage({
+    feePayer,
+    lifetime: { blockhash: blockhash(recentBlockhash), lastValidBlockHeight: 0n },
+    instructions: [...instructions, payment_instruction],
+});
+
+// Your user signs the transfer and the payment. The paymaster adds the fee payer signature.
+const transaction = getBase64EncodedWireTransaction(
+    await partiallySignTransactionMessageWithSigners(message),
+);
 
 const { signature } = await kora.signAndSendTransaction({ transaction });
 
@@ -180,6 +218,8 @@ If the transaction fails on chain, the user's token payment fails with it, but t
 ```ts
 import { KoraClient } from "@solana/kora";
 import {
+    type Address,
+    type Blockhash,
     type Instruction,
     address,
     appendTransactionMessageInstructions,
@@ -198,6 +238,28 @@ import {
     getTransferInstruction,
     TOKEN_PROGRAM_ADDRESS,
 } from "@solana-program/token";
+
+type SponsoredTransactionParams = {
+    /** The paymaster's fee payer address. The paymaster signs for it later, so we use a noop signer here. */
+    feePayer: Address;
+    /** Transaction lifetime, from a recent blockhash. */
+    lifetime: { blockhash: Blockhash; lastValidBlockHeight: bigint };
+    /** Your app's instructions (transfers, swaps, etc.). */
+    instructions: Instruction[];
+};
+
+function createSponsoredTransactionMessage({
+    feePayer,
+    lifetime,
+    instructions,
+}: SponsoredTransactionParams) {
+    return pipe(
+        createTransactionMessage({ version: 0 }),
+        (m) => setTransactionMessageFeePayerSigner(createNoopSigner(feePayer), m),
+        (m) => setTransactionMessageLifetimeUsingBlockhash(lifetime, m),
+        (m) => appendTransactionMessageInstructions(instructions, m),
+    );
+}
 
 const USDC = address("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v");
 
@@ -226,33 +288,34 @@ const instructions = [
 const { signer_address } = await kora.getPayerSigner();
 const feePayer = address(signer_address);
 
-const buildTransaction = async (instructions: Instruction[]) => {
-    const { blockhash: recentBlockhash } = await kora.getBlockhash();
-    const message = pipe(
-        createTransactionMessage({ version: 0 }),
-        (m) => setTransactionMessageFeePayerSigner(createNoopSigner(feePayer), m),
-        (m) =>
-            setTransactionMessageLifetimeUsingBlockhash(
-                { blockhash: blockhash(recentBlockhash), lastValidBlockHeight: 0n },
-                m,
-            ),
-        (m) => appendTransactionMessageInstructions(instructions, m),
-    );
-    return getBase64EncodedWireTransaction(
-        await partiallySignTransactionMessageWithSigners(message),
-    );
-};
-
 // 1. Quote the fee and get the USDC payment to the paymaster
+const { blockhash: quoteBlockhash } = await kora.getBlockhash();
+const quoteMessage = createSponsoredTransactionMessage({
+    feePayer,
+    lifetime: { blockhash: blockhash(quoteBlockhash), lastValidBlockHeight: 0n },
+    instructions,
+});
+
 const { payment_instruction, payment_amount } = await kora.getPaymentInstruction({
-    transaction: await buildTransaction(instructions),
+    transaction: getBase64EncodedWireTransaction(
+        await partiallySignTransactionMessageWithSigners(quoteMessage),
+    ),
     fee_token: USDC,
     source_wallet: user,
 });
 console.log(`Fee: ${Number(payment_amount) / 1e6} USDC`);
 
 // 2. Append the payment and send
-const transaction = await buildTransaction([...instructions, payment_instruction]);
+const { blockhash: recentBlockhash } = await kora.getBlockhash();
+const message = createSponsoredTransactionMessage({
+    feePayer,
+    lifetime: { blockhash: blockhash(recentBlockhash), lastValidBlockHeight: 0n },
+    instructions: [...instructions, payment_instruction],
+});
+
+const transaction = getBase64EncodedWireTransaction(
+    await partiallySignTransactionMessageWithSigners(message),
+);
 const { signature } = await kora.signAndSendTransaction({ transaction });
 console.log(`https://solscan.io/tx/${signature}`);
 ```

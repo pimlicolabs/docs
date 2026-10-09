@@ -22,20 +22,55 @@ Your users pay the fee in USDC or USDT ([supported tokens](/guides/how-to/solana
 npm install @solana/kora @solana/kit @solana-program/token
 ```
 
-```ts
-import { KoraClient } from "@solana/kora";
+Add a helper that builds a transaction message with the paymaster as the fee payer:
+
+```ts [sponsored-transaction.ts]
 import {
-    address,
+    type Address,
+    type Blockhash,
+    type Instruction,
     appendTransactionMessageInstructions,
-    blockhash,
     createNoopSigner,
     createTransactionMessage,
-    getBase64EncodedWireTransaction,
-    partiallySignTransactionMessageWithSigners,
     pipe,
     setTransactionMessageFeePayerSigner,
     setTransactionMessageLifetimeUsingBlockhash,
 } from "@solana/kit";
+
+type SponsoredTransactionParams = {
+    /** The paymaster's fee payer address. The paymaster signs for it later, so we use a noop signer here. */
+    feePayer: Address;
+    /** Transaction lifetime, from a recent blockhash. */
+    lifetime: { blockhash: Blockhash; lastValidBlockHeight: bigint };
+    /** Your app's instructions (transfers, swaps, etc.). */
+    instructions: Instruction[];
+};
+
+export function createSponsoredTransactionMessage({
+    feePayer,
+    lifetime,
+    instructions,
+}: SponsoredTransactionParams) {
+    return pipe(
+        createTransactionMessage({ version: 0 }),
+        (m) => setTransactionMessageFeePayerSigner(createNoopSigner(feePayer), m),
+        (m) => setTransactionMessageLifetimeUsingBlockhash(lifetime, m),
+        (m) => appendTransactionMessageInstructions(instructions, m),
+    );
+}
+```
+
+Then build your transaction with it and send it to the paymaster:
+
+```ts
+import { KoraClient } from "@solana/kora";
+import {
+    address,
+    blockhash,
+    getBase64EncodedWireTransaction,
+    partiallySignTransactionMessageWithSigners,
+} from "@solana/kit";
+import { createSponsoredTransactionMessage } from "./sponsored-transaction";
 
 const kora = new KoraClient({
     rpcUrl: "https://solana.pimlico.io/v1/mainnet/rpc?apikey=YOUR_API_KEY",
@@ -45,17 +80,11 @@ const kora = new KoraClient({
 const { signer_address } = await kora.getPayerSigner();
 const { blockhash: recentBlockhash } = await kora.getBlockhash();
 
-const message = pipe(
-    createTransactionMessage({ version: 0 }),
-    // A noop signer leaves the fee payer's signature slot empty for the paymaster to fill
-    (m) => setTransactionMessageFeePayerSigner(createNoopSigner(address(signer_address)), m),
-    (m) =>
-        setTransactionMessageLifetimeUsingBlockhash(
-            { blockhash: blockhash(recentBlockhash), lastValidBlockHeight: 0n },
-            m,
-        ),
-    (m) => appendTransactionMessageInstructions(instructions, m),
-);
+const message = createSponsoredTransactionMessage({
+    feePayer: address(signer_address),
+    lifetime: { blockhash: blockhash(recentBlockhash), lastValidBlockHeight: 0n },
+    instructions,
+});
 
 // Your user signs here, the paymaster signs as fee payer and broadcasts
 const transaction = await partiallySignTransactionMessageWithSigners(message);

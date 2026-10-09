@@ -36,6 +36,46 @@ const { signer_address } = await kora.getPayerSigner();
 const feePayer = address(signer_address);
 ```
 
+### Add a helper to build the transaction
+
+Add this helper to your app. It builds a transaction message with the paymaster as the fee payer. It uses a noop signer for the paymaster, which leaves the paymaster's signature slot empty for the paymaster to fill.
+
+```ts [sponsored-transaction.ts]
+import {
+    type Address,
+    type Blockhash,
+    type Instruction,
+    appendTransactionMessageInstructions,
+    createNoopSigner,
+    createTransactionMessage,
+    pipe,
+    setTransactionMessageFeePayerSigner,
+    setTransactionMessageLifetimeUsingBlockhash,
+} from "@solana/kit";
+
+type SponsoredTransactionParams = {
+    /** The paymaster's fee payer address. The paymaster signs for it later, so we use a noop signer here. */
+    feePayer: Address;
+    /** Transaction lifetime, from a recent blockhash. */
+    lifetime: { blockhash: Blockhash; lastValidBlockHeight: bigint };
+    /** Your app's instructions (transfers, swaps, etc.). */
+    instructions: Instruction[];
+};
+
+export function createSponsoredTransactionMessage({
+    feePayer,
+    lifetime,
+    instructions,
+}: SponsoredTransactionParams) {
+    return pipe(
+        createTransactionMessage({ version: 0 }),
+        (m) => setTransactionMessageFeePayerSigner(createNoopSigner(feePayer), m),
+        (m) => setTransactionMessageLifetimeUsingBlockhash(lifetime, m),
+        (m) => appendTransactionMessageInstructions(instructions, m),
+    );
+}
+```
+
 ### Build your instructions
 
 This example sends 1 USDC to another wallet. Your user needs no SOL.
@@ -76,34 +116,25 @@ const instructions = [
 
 ### Build and sign the transaction
 
-Set the paymaster as the fee payer with a noop signer, which leaves its signature slot empty for the paymaster to fill. Take the blockhash from `getBlockhash`. Your user signs here.
+Build the message with the helper, taking the blockhash from `getBlockhash`. Your user signs here.
 
 ```ts
 import {
-    appendTransactionMessageInstructions,
     blockhash,
-    createNoopSigner,
-    createTransactionMessage,
     getBase64EncodedWireTransaction,
     partiallySignTransactionMessageWithSigners,
-    pipe,
-    setTransactionMessageFeePayerSigner,
-    setTransactionMessageLifetimeUsingBlockhash,
 } from "@solana/kit";
+import { createSponsoredTransactionMessage } from "./sponsored-transaction";
 
 const { blockhash: recentBlockhash } = await kora.getBlockhash();
 
-const message = pipe(
-    createTransactionMessage({ version: 0 }),
-    (m) => setTransactionMessageFeePayerSigner(createNoopSigner(feePayer), m),
-    (m) =>
-        setTransactionMessageLifetimeUsingBlockhash(
-            { blockhash: blockhash(recentBlockhash), lastValidBlockHeight: 0n },
-            m,
-        ),
-    (m) => appendTransactionMessageInstructions(instructions, m),
-);
+const message = createSponsoredTransactionMessage({
+    feePayer,
+    lifetime: { blockhash: blockhash(recentBlockhash), lastValidBlockHeight: 0n },
+    instructions,
+});
 
+// Your user signs as the token authority. The paymaster adds the fee payer signature.
 const transaction = getBase64EncodedWireTransaction(
     await partiallySignTransactionMessageWithSigners(message),
 );
@@ -141,7 +172,7 @@ const { signature, signed_transaction } = await kora.signAndSendTransaction({
 
 ## Using an external wallet
 
-If your users sign with a wallet like Phantom, build the same message and have the wallet sign it instead of `partiallySignTransactionMessageWithSigners`. Use `compileTransaction` from `@solana/kit` to turn the message into a transaction the wallet can sign. The paymaster's signature slot stays empty for the paymaster to fill in, and the wallet will show the fee as paid by another account.
+If your users sign with a wallet like Phantom, build the same message with `createSponsoredTransactionMessage` and have the wallet sign it instead of `partiallySignTransactionMessageWithSigners`. Use `compileTransaction` from `@solana/kit` to turn the message into a transaction the wallet can sign. The paymaster's signature slot stays empty for the paymaster to fill in, and the wallet will show the fee as paid by another account.
 
 ## Errors
 
@@ -183,6 +214,9 @@ The paymaster may appear in your instructions only as this rent payer. Anywhere 
 ```ts
 import { KoraClient } from "@solana/kora";
 import {
+    type Address,
+    type Blockhash,
+    type Instruction,
     address,
     appendTransactionMessageInstructions,
     blockhash,
@@ -200,6 +234,28 @@ import {
     getTransferInstruction,
     TOKEN_PROGRAM_ADDRESS,
 } from "@solana-program/token";
+
+type SponsoredTransactionParams = {
+    /** The paymaster's fee payer address. The paymaster signs for it later, so we use a noop signer here. */
+    feePayer: Address;
+    /** Transaction lifetime, from a recent blockhash. */
+    lifetime: { blockhash: Blockhash; lastValidBlockHeight: bigint };
+    /** Your app's instructions (transfers, swaps, etc.). */
+    instructions: Instruction[];
+};
+
+function createSponsoredTransactionMessage({
+    feePayer,
+    lifetime,
+    instructions,
+}: SponsoredTransactionParams) {
+    return pipe(
+        createTransactionMessage({ version: 0 }),
+        (m) => setTransactionMessageFeePayerSigner(createNoopSigner(feePayer), m),
+        (m) => setTransactionMessageLifetimeUsingBlockhash(lifetime, m),
+        (m) => appendTransactionMessageInstructions(instructions, m),
+    );
+}
 
 const USDC = address("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v");
 
@@ -224,21 +280,15 @@ const [destination] = await findAssociatedTokenPda({
 const { signer_address } = await kora.getPayerSigner();
 const { blockhash: recentBlockhash } = await kora.getBlockhash();
 
-const message = pipe(
-    createTransactionMessage({ version: 0 }),
-    (m) => setTransactionMessageFeePayerSigner(createNoopSigner(address(signer_address)), m),
-    (m) =>
-        setTransactionMessageLifetimeUsingBlockhash(
-            { blockhash: blockhash(recentBlockhash), lastValidBlockHeight: 0n },
-            m,
-        ),
-    (m) =>
-        appendTransactionMessageInstructions(
-            [getTransferInstruction({ source, destination, authority: user, amount: 1_000_000n })],
-            m,
-        ),
-);
+const message = createSponsoredTransactionMessage({
+    feePayer: address(signer_address),
+    lifetime: { blockhash: blockhash(recentBlockhash), lastValidBlockHeight: 0n },
+    instructions: [
+        getTransferInstruction({ source, destination, authority: user, amount: 1_000_000n }),
+    ],
+});
 
+// Your user signs as the token authority. The paymaster adds the fee payer signature.
 const transaction = getBase64EncodedWireTransaction(
     await partiallySignTransactionMessageWithSigners(message),
 );
