@@ -248,10 +248,6 @@ async function sendUsdcPayingFeeInUsdc(user: TransactionSigner, recipient: Addre
 }
 ```
 
-## Wallets that change the transaction
-
-Some wallets change a transaction before signing it, for example to add a priority fee or safety-check instructions. The paymaster checks the transaction exactly as the wallet returns it. When your user pays in a token, a change that raises the fee after you quoted it can mean the payment no longer covers it, and `signAndSendTransaction` fails with `Insufficient token payment`. Get a new quote and send again.
-
 ## Other wallet libraries
 
 If you don't use `@solana/react`, have your wallet library sign the transaction bytes. Use your user's address as the authority, since there is no signer.

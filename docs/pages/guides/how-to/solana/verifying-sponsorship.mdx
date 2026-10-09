@@ -10,8 +10,10 @@ You build your transaction with the paymaster as the fee payer, your user signs 
 ### Install the SDK
 
 ```sh
-npm install @solana/kora @solana/kit @solana-program/token
+npm install @solana/kora @solana/kit@6 @solana-program/token@0.12
 ```
+
+`@solana/kora` 0.2 is built on `@solana/kit` 6, so install the matching versions of `@solana/kit` and `@solana-program/token`.
 
 ### Create the client
 
@@ -153,7 +155,7 @@ const { signature, signed_transaction } = await kora.signAndSendTransaction({
 ```
 
 :::note
-`respond_after` requires `@solana/kora` 0.3 or later, which is currently in beta (`npm install @solana/kora@beta`).
+`respond_after` requires `@solana/kora` 0.3 or later, which is currently in beta. The beta is built on `@solana/kit` 7, so install it with `npm install @solana/kora@beta @solana/kit@7 @solana-program/token@0.15`.
 :::
 
 ## Using an external wallet
