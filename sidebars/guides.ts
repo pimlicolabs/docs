@@ -219,14 +219,14 @@ export const gasSponsorshipSidebar = [
 		items: [
 			{
 				text: "Supported Tokens",
-				link: "/references/paymaster/solana/supported-tokens",
+				link: "/guides/how-to/solana/supported-tokens",
 			},
 			{
-				text: "Verifying Paymaster",
+				text: "Sponsorships",
 				link: "/guides/how-to/solana/verifying-sponsorship",
 			},
 			{
-				text: "Sponsor with USDC or other SPL tokens",
+				text: "SPL Token Sponsorships",
 				link: "/guides/how-to/solana/token-sponsorship",
 			},
 		],

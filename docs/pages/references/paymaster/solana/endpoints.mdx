@@ -2,7 +2,7 @@
 
 Solana Sponsorships is a JSON-RPC 2.0 service over HTTP POST that implements the [Kora](https://github.com/solana-foundation/kora) API. Parameters are passed as a single object in `params`, and fields are snake_case.
 
-Most apps should use the `@solana/kora` SDK's `KoraClient`, which wraps these methods. For step-by-step usage see [Verifying Paymaster](/guides/how-to/solana/verifying-sponsorship) and [Sponsor with USDC or other SPL tokens](/guides/how-to/solana/token-sponsorship).
+Most apps should use the `@solana/kora` SDK's `KoraClient`, which wraps these methods. For step-by-step usage see [Sponsorships](/guides/how-to/solana/verifying-sponsorship) and [SPL Token Sponsorships](/guides/how-to/solana/token-sponsorship).
 
 ## URL and authentication
 
@@ -116,7 +116,7 @@ Returns the mints users can pay fees in.
 
 ### Return Fields
 
-- **tokens** - `string[]`: The supported mints. See [supported tokens](/references/paymaster/solana/supported-tokens).
+- **tokens** - `string[]`: The supported mints. See [supported tokens](/guides/how-to/solana/supported-tokens).
 
 ## estimateTransactionFee
 

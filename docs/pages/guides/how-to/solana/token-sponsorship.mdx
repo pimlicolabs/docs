@@ -1,4 +1,4 @@
-# Sponsor with USDC or other SPL tokens
+# SPL Token Sponsorships
 
 This guide shows you how to let your users pay their Solana transaction fees in USDC or USDT instead of SOL.
 
@@ -10,7 +10,7 @@ The paymaster pays the SOL fee, and your user repays it with a token transfer in
 ### Install the SDK
 
 ```sh
-npm install @solana/kora@beta @solana/kit @solana-program/token
+npm install @solana/kora @solana/kit @solana-program/token
 ```
 
 ### Create the client
@@ -27,7 +27,7 @@ const kora = new KoraClient({
 
 ### Pick a token
 
-`getSupportedTokens` returns the mints users can pay with. See [supported tokens](/references/paymaster/solana/supported-tokens) for the full list. This guide uses USDC.
+`getSupportedTokens` returns the mints users can pay with. See [supported tokens](/guides/how-to/solana/supported-tokens) for the full list. This guide uses USDC.
 
 ```ts
 import { address } from "@solana/kit";
@@ -172,7 +172,7 @@ If the transaction fails on chain, the user's token payment fails with it, but t
 ## Good to know
 
 - **The quote is the exact SOL cost.** The paymaster simulates the transaction and prices the SOL it would spend in the token at the current price.
-- **No payment means you pay.** If the transaction doesn't include the payment instruction, it is sponsored from your Pimlico balance instead, as with the [Verifying Paymaster](/guides/how-to/solana/verifying-sponsorship).
+- **No payment means you pay.** If the transaction doesn't include the payment instruction, it is sponsored from your Pimlico balance instead, as with [Sponsorships](/guides/how-to/solana/verifying-sponsorship).
 - **Token account rent is covered too.** If your transaction creates a token account, set the paymaster as its rent payer. The rent is added to the fee the user pays.
 
 ## Full example

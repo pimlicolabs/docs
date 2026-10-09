@@ -1,4 +1,4 @@
-# Verifying Paymaster
+# Sponsorships
 
 This guide shows you how to sponsor the transaction fees for your users on Solana.
 
@@ -10,7 +10,7 @@ You build your transaction with the paymaster as the fee payer, your user signs 
 ### Install the SDK
 
 ```sh
-npm install @solana/kora@beta @solana/kit @solana-program/token
+npm install @solana/kora @solana/kit @solana-program/token
 ```
 
 ### Create the client
@@ -134,6 +134,10 @@ const { signature, signed_transaction } = await kora.signAndSendTransaction({
     respond_after: "sent",
 });
 ```
+
+:::note
+`respond_after` requires `@solana/kora` 0.3 or later, which is currently in beta (`npm install @solana/kora@beta`).
+:::
 
 ## Using an external wallet
 
