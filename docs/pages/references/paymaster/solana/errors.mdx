@@ -1,0 +1,56 @@
+# Solana Sponsorships Errors
+
+All errors follow the JSON-RPC 2.0 error shape. The `message` describes the specific failure. `KoraClient` throws them as a `KoraError` with the same `code`, `message`, and `data`.
+
+```json
+{
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32000,
+    "message": "Insufficient token payment. Required 10000 lamports",
+    "data": { "error_type": "InvalidTransaction" }
+  },
+  "id": 1
+}
+```
+
+## Error codes
+
+| Code | Meaning |
+|---|---|
+| `-32600` | Invalid JSON-RPC request, including batch requests |
+| `-32601` | Method not supported |
+| `-32602` | Invalid params |
+| `-32603` | Insufficient Pimlico balance, or the paymaster is unavailable |
+| `-32000` | Invalid transaction: decoding or validation failed, including a token payment that is too small |
+| `-32001` | Validation error |
+| `-32003` | Insufficient funds |
+| `-32004` | Invalid request |
+| `-32005` | Fee estimation failed |
+| `-32006` | Transaction execution failed |
+| `-32020` | Signing failed |
+| `-32050` | Account not found |
+| `-32093` | Solana RPC error |
+
+## What to do
+
+### `-32603` Insufficient Pimlico balance
+
+A transaction without a token payment is charged to your Pimlico balance, and your balance is used up. Top up your balance in the [dashboard](https://dashboard.pimlico.io). `data.walletBalance` holds your current balance.
+
+The same code with the message `Solana paymaster unavailable` means the paymaster could not be reached. Retry shortly.
+
+### `-32000` Invalid transaction
+
+The transaction could not be decoded or was rejected by validation. The `message` names the reason. Common causes:
+
+- `Insufficient token payment`: the token payment no longer covers the fee, usually because prices moved since the quote. Get a new payment instruction, rebuild the transaction, and send again.
+- A signature is missing. Every signer other than the paymaster must sign.
+- The fee payer is not the address from `getPayerSigner`.
+- An instruction uses the paymaster for something other than paying the fee or the rent of an account the transaction creates.
+- The paymaster would spend more than 0.1 SOL on the transaction.
+- Simulation failed. Fix the transaction as you would for any failed Solana simulation.
+
+### `-32050` Account not found
+
+An account the transaction needs does not exist, such as your user's token account for the fee token.

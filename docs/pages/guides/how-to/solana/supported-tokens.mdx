@@ -1,0 +1,24 @@
+# Supported Tokens
+
+Your users can pay their Solana transaction fees in the following tokens. See [SPL Token Sponsorships](/guides/how-to/solana/token-sponsorship) for how to use them.
+
+## Mainnet
+
+| Token | Mint | Decimals |
+|---|---|---|
+| USDC | `EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v` | 6 |
+| USDT | `Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB` | 6 |
+
+## Devnet
+
+| Token | Mint | Decimals |
+|---|---|---|
+| USDC | `4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU` | 6 |
+
+You can also fetch the list with `getSupportedTokens`:
+
+```ts
+const { tokens } = await kora.getSupportedTokens();
+```
+
+If you have a token that you would like to see added, please [reach out to us](mailto:support@pimlico.io).

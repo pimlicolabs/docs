@@ -1,0 +1,283 @@
+# Gas Sponsorships
+
+This guide shows you how to sponsor the transaction fees for your users on Solana.
+
+You build your transaction with the paymaster as the fee payer, your user signs it, and the `@solana/kora` SDK submits it to the paymaster. The paymaster signs as fee payer and broadcasts it. The fee is charged to your Pimlico balance.
+
+## Steps
+
+::::steps
+### Install the SDK
+
+```sh
+npm install @solana/kora @solana/kit@6 @solana-program/token@0.12
+```
+
+`@solana/kora` 0.2 is built on `@solana/kit` 6, so install the matching versions of `@solana/kit` and `@solana-program/token`.
+
+### Create the client
+
+Pass your API key in the URL's `apikey` query parameter.
+
+```ts
+import { KoraClient } from "@solana/kora";
+
+const kora = new KoraClient({
+    rpcUrl: "https://solana.pimlico.io/v1/mainnet/rpc?apikey=YOUR_API_KEY",
+});
+```
+
+### Add a helper to build the transaction
+
+Add this helper to your app. Pass it your instructions, and it returns a transaction message with the paymaster as the fee payer.
+
+```ts [sponsored-transaction.ts]
+import type { KoraClient } from "@solana/kora";
+import {
+    type Instruction,
+    address,
+    appendTransactionMessageInstructions,
+    blockhash,
+    createNoopSigner,
+    createTransactionMessage,
+    pipe,
+    setTransactionMessageFeePayerSigner,
+    setTransactionMessageLifetimeUsingBlockhash,
+} from "@solana/kit";
+
+export async function createSponsoredTransactionMessage(
+    kora: KoraClient,
+    instructions: Instruction[],
+) {
+    const { signer_address } = await kora.getPayerSigner();
+    const { blockhash: latestBlockhash } = await kora.getBlockhash();
+
+    // pipe passes the message through each step below, in order
+    return pipe(
+        // Start an empty version 0 transaction message
+        createTransactionMessage({ version: 0 }),
+        // The paymaster pays the fee. It signs later, so a noop signer leaves its signature slot empty.
+        (m) => setTransactionMessageFeePayerSigner(createNoopSigner(address(signer_address)), m),
+        // The blockhash keeps the transaction valid for about a minute. lastValidBlockHeight is only
+        // read by @solana/kit's own send-and-confirm, and the paymaster sends the transaction for you.
+        (m) =>
+            setTransactionMessageLifetimeUsingBlockhash(
+                { blockhash: blockhash(latestBlockhash), lastValidBlockHeight: 0n },
+                m,
+            ),
+        // Add your app's instructions (transfers, swaps, etc.)
+        (m) => appendTransactionMessageInstructions(instructions, m),
+    );
+}
+```
+
+### Build your instructions
+
+This example sends 1 USDC to another wallet. Your user needs no SOL.
+
+```ts
+import { address, createKeyPairSignerFromBytes } from "@solana/kit";
+import {
+    findAssociatedTokenPda,
+    getTransferInstruction,
+    TOKEN_PROGRAM_ADDRESS,
+} from "@solana-program/token";
+
+const USDC = address("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v");
+
+const user = await createKeyPairSignerFromBytes(USER_SECRET_KEY);
+const recipient = address("RecipientPubkey11111111111111111111111111111");
+
+const [source] = await findAssociatedTokenPda({
+    owner: user.address,
+    mint: USDC,
+    tokenProgram: TOKEN_PROGRAM_ADDRESS,
+});
+const [destination] = await findAssociatedTokenPda({
+    owner: recipient,
+    mint: USDC,
+    tokenProgram: TOKEN_PROGRAM_ADDRESS,
+});
+
+const instructions = [
+    getTransferInstruction({
+        source,
+        destination,
+        authority: user,
+        amount: 1_000_000n, // 1 USDC
+    }),
+];
+```
+
+### Build and sign the transaction
+
+Build the message with the helper. Your user signs here. Send the transaction within about a minute, or it expires.
+
+```ts
+import {
+    getBase64EncodedWireTransaction,
+    partiallySignTransactionMessageWithSigners,
+} from "@solana/kit";
+import { createSponsoredTransactionMessage } from "./sponsored-transaction";
+
+const message = await createSponsoredTransactionMessage(kora, instructions);
+
+// Your user signs as the token authority. The paymaster adds the fee payer signature.
+const transaction = getBase64EncodedWireTransaction(
+    await partiallySignTransactionMessageWithSigners(message),
+);
+```
+
+### Send the sponsored transaction
+
+`signAndSendTransaction` submits the transaction. The paymaster validates and simulates it, signs it as fee payer, broadcasts it, and responds with the signature once the transaction is `confirmed`.
+
+```ts
+const { signature } = await kora.signAndSendTransaction({ transaction });
+
+console.log(`https://solscan.io/tx/${signature}`);
+```
+
+::::
+
+## Responding sooner
+
+By default `signAndSendTransaction` waits for the transaction to be confirmed. Set `respond_after` to get the signature sooner and confirm it yourself:
+
+- `"sent"`: respond once the RPC node accepts the transaction.
+- `"signed"`: respond as soon as the paymaster signs, and broadcast in the background. If the transaction never lands, rebroadcast the returned `signed_transaction`.
+
+```ts
+const { signature, signed_transaction } = await kora.signAndSendTransaction({
+    transaction,
+    respond_after: "sent",
+});
+```
+
+:::note
+`respond_after` requires `@solana/kora` 0.3 or later, which is currently in beta. The beta is built on `@solana/kit` 7, so install it with `npm install @solana/kora@beta @solana/kit@7 @solana-program/token@0.15`.
+:::
+
+## Using an external wallet
+
+If your users sign with a wallet like Phantom, use the wallet as the signer instead of a keypair. See [Phantom and Other Wallets](/guides/how-to/solana/external-wallets).
+
+## Errors
+
+Errors from the paymaster are thrown as `KoraError` with a `code`, `message`, and `data`.
+
+```ts
+import { KoraError } from "@solana/kora";
+
+try {
+    await kora.signAndSendTransaction({ transaction });
+} catch (error) {
+    if (error instanceof KoraError) {
+        console.error(error.code, error.message, error.data);
+    }
+}
+```
+
+If your Pimlico balance is used up, sponsorship is refused with `-32603` and a message asking you to top up. See the [errors reference](/references/paymaster/solana/errors) for the full list.
+
+## Creating token accounts
+
+If your transaction creates a token account, set the paymaster as its rent payer so a user with no SOL can still receive the token. The rent is sponsored along with the fee.
+
+```ts
+import { address, createNoopSigner } from "@solana/kit";
+import { getCreateAssociatedTokenIdempotentInstruction } from "@solana-program/token";
+
+const { signer_address } = await kora.getPayerSigner();
+
+const createAccount = getCreateAssociatedTokenIdempotentInstruction({
+    payer: createNoopSigner(address(signer_address)),
+    ata: destination,
+    owner: recipient,
+    mint: USDC,
+});
+```
+
+The paymaster may appear in your instructions only as this rent payer. Anywhere else, including as the destination of a transfer, is rejected.
+
+## Full example
+
+```ts
+import { KoraClient } from "@solana/kora";
+import {
+    type Instruction,
+    address,
+    appendTransactionMessageInstructions,
+    blockhash,
+    createKeyPairSignerFromBytes,
+    createNoopSigner,
+    createTransactionMessage,
+    getBase64EncodedWireTransaction,
+    partiallySignTransactionMessageWithSigners,
+    pipe,
+    setTransactionMessageFeePayerSigner,
+    setTransactionMessageLifetimeUsingBlockhash,
+} from "@solana/kit";
+import {
+    findAssociatedTokenPda,
+    getTransferInstruction,
+    TOKEN_PROGRAM_ADDRESS,
+} from "@solana-program/token";
+
+async function createSponsoredTransactionMessage(
+    kora: KoraClient,
+    instructions: Instruction[],
+) {
+    const { signer_address } = await kora.getPayerSigner();
+    const { blockhash: latestBlockhash } = await kora.getBlockhash();
+
+    // pipe passes the message through each step below, in order
+    return pipe(
+        // Start an empty version 0 transaction message
+        createTransactionMessage({ version: 0 }),
+        // The paymaster pays the fee. It signs later, so a noop signer leaves its signature slot empty.
+        (m) => setTransactionMessageFeePayerSigner(createNoopSigner(address(signer_address)), m),
+        // The blockhash keeps the transaction valid for about a minute. lastValidBlockHeight is only
+        // read by @solana/kit's own send-and-confirm, and the paymaster sends the transaction for you.
+        (m) =>
+            setTransactionMessageLifetimeUsingBlockhash(
+                { blockhash: blockhash(latestBlockhash), lastValidBlockHeight: 0n },
+                m,
+            ),
+        // Add your app's instructions (transfers, swaps, etc.)
+        (m) => appendTransactionMessageInstructions(instructions, m),
+    );
+}
+
+const USDC = address("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v");
+
+const kora = new KoraClient({
+    rpcUrl: "https://solana.pimlico.io/v1/mainnet/rpc?apikey=YOUR_API_KEY",
+});
+
+const user = await createKeyPairSignerFromBytes(USER_SECRET_KEY);
+const recipient = address("RecipientPubkey11111111111111111111111111111");
+
+const [source] = await findAssociatedTokenPda({
+    owner: user.address,
+    mint: USDC,
+    tokenProgram: TOKEN_PROGRAM_ADDRESS,
+});
+const [destination] = await findAssociatedTokenPda({
+    owner: recipient,
+    mint: USDC,
+    tokenProgram: TOKEN_PROGRAM_ADDRESS,
+});
+
+const message = await createSponsoredTransactionMessage(kora, [
+    getTransferInstruction({ source, destination, authority: user, amount: 1_000_000n }),
+]);
+
+// Your user signs as the token authority. The paymaster adds the fee payer signature.
+const transaction = getBase64EncodedWireTransaction(
+    await partiallySignTransactionMessageWithSigners(message),
+);
+
+const { signature } = await kora.signAndSendTransaction({ transaction });
+console.log(`https://solscan.io/tx/${signature}`);
+```

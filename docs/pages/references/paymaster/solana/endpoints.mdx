@@ -1,0 +1,216 @@
+# Solana Sponsorships Endpoints
+
+Solana Sponsorships is a JSON-RPC 2.0 service over HTTP POST that implements the [Kora](https://github.com/solana-foundation/kora) API. Parameters are passed as a single object in `params`, and fields are snake_case.
+
+Most apps should use the `@solana/kora` SDK's `KoraClient`, which wraps these methods. For step-by-step usage see [Gas Sponsorships](/guides/how-to/solana/verifying-sponsorship) and [SPL Token Sponsorships](/guides/how-to/solana/token-sponsorship).
+
+## URL and authentication
+
+```
+https://solana.pimlico.io/v1/{cluster}/rpc?apikey=YOUR_API_KEY
+```
+
+- **cluster**: `mainnet` or `devnet`.
+- **apikey**: your Pimlico API key. You can send it as an `Authorization: Bearer YOUR_API_KEY` header instead. The `x-api-key` header that `KoraClient`'s `apiKey` option sends is not read.
+
+Batch requests are not supported.
+
+## Wire conventions
+
+| Field kind | Format |
+|---|---|
+| Transaction | base64 of the serialized transaction, with the paymaster as fee payer and its signature slot empty |
+| Public keys, mints, signatures | base58 strings |
+| Lamports and token amounts | JSON number, in raw units (no decimals applied) |
+
+## getPayerSigner
+
+Returns the paymaster's fee payer address, which your transaction must use as its fee payer.
+
+### Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "getPayerSigner",
+  "id": 1
+}
+```
+
+### Response
+
+```json
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "signer_address": "9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin",
+    "payment_address": "7UX2i7SucgLMQcfZ75s3VXmZZY4YRUyJN9X1RgfMoDUi"
+  },
+  "id": 1
+}
+```
+
+### Return Fields
+
+- **signer_address** - `string`: The fee payer's address.
+- **payment_address** - `string`: The wallet that receives token payments. Payments go to its associated token account for the token.
+
+## getBlockhash
+
+Returns a recent blockhash to build your transaction with.
+
+### Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "getBlockhash",
+  "id": 1
+}
+```
+
+### Response
+
+```json
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "blockhash": "EkSnNWid2cvwEVnVx9aBqawnmiCNiDgp3gUdkDPTKN1N"
+  },
+  "id": 1
+}
+```
+
+### Return Fields
+
+- **blockhash** - `string`: A recent blockhash.
+
+## getSupportedTokens
+
+Returns the mints users can pay fees in.
+
+### Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "getSupportedTokens",
+  "id": 1
+}
+```
+
+### Response
+
+```json
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "tokens": [
+      "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+      "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB"
+    ]
+  },
+  "id": 1
+}
+```
+
+### Return Fields
+
+- **tokens** - `string[]`: The supported mints. See [supported tokens](/guides/how-to/solana/supported-tokens).
+
+## estimateTransactionFee
+
+Simulates a transaction and returns what it would cost the paymaster, in lamports and in the requested token. The estimate is advisory: prices are checked again when the transaction is sent. `KoraClient.getPaymentInstruction` calls this method and builds the payment transfer from the result.
+
+### Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "estimateTransactionFee",
+  "params": {
+    "transaction": "AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...",
+    "fee_token": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+  },
+  "id": 1
+}
+```
+
+### Parameters
+
+- **transaction** - `string`: The base64 serialized transaction, without the payment.
+- **fee_token** - `string`: The mint of a supported token to price the fee in.
+
+### Response
+
+```json
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "fee_in_lamports": 10000,
+    "fee_in_token": 1545,
+    "payment_address": "7UX2i7SucgLMQcfZ75s3VXmZZY4YRUyJN9X1RgfMoDUi",
+    "signer_pubkey": "9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin"
+  },
+  "id": 1
+}
+```
+
+### Return Fields
+
+- **fee_in_lamports** - `number`: The paymaster's total outflow measured by simulation, including the fee, priority fee, and any rent it pays.
+- **fee_in_token** - `number`: The amount the user must pay, in raw token units.
+- **payment_address** - `string`: The wallet the payment goes to. Send it to this wallet's associated token account for the token.
+- **signer_pubkey** - `string`: The fee payer's address.
+
+## signAndSendTransaction
+
+Validates and simulates a transaction, signs it as fee payer, and broadcasts it.
+
+If the transaction contains an SPL `Transfer` or `TransferChecked` of a supported token to the payment address's token account, it must cover the fee, and nothing is charged to your Pimlico balance. Otherwise the fee is charged to your Pimlico balance. On mainnet, sponsorship from your balance is refused once your balance is used up. Devnet is free.
+
+### Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "signAndSendTransaction",
+  "params": {
+    "transaction": "AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...",
+    "respond_after": "confirmed"
+  },
+  "id": 1
+}
+```
+
+### Parameters
+
+- **transaction** - `string`: The base64 serialized transaction, signed by every signer other than the paymaster.
+- **respond_after** - `string` (optional): When to respond. Defaults to `confirmed`.
+  - `confirmed`: once the transaction is confirmed on chain.
+  - `sent`: once the RPC node accepts the transaction.
+  - `signed`: as soon as the paymaster signs. The transaction is broadcast in the background; if it never lands, rebroadcast `signed_transaction`.
+
+### Response
+
+```json
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "signature": "5VERv8NMvzbJMEkV8xnrLkEaWRtSz9CosKDYjCJjBRnbJLgp8uirBgmQpjKhoR4tjF3ZpRzrFmBV6UjKdiSZkQUW",
+    "signed_transaction": "AXd1o0mTnK8...",
+    "signer_pubkey": "9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin"
+  },
+  "id": 1
+}
+```
+
+### Return Fields
+
+- **signature** - `string`: The transaction's signature, which is its Solana transaction id.
+- **signed_transaction** - `string`: The base64 transaction with the paymaster's signature added.
+- **signer_pubkey** - `string`: The fee payer's address.
+
+### Errors
+
+See [Solana Sponsorships errors](/references/paymaster/solana/errors).

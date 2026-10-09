@@ -1,0 +1,130 @@
+# Solana Sponsorships
+
+Solana Sponsorships lets you sponsor the transaction fees for your users on Solana, so they can transact without holding SOL.
+
+The paymaster speaks the [Kora](https://github.com/solana-foundation/kora) JSON-RPC API, so you use the `@solana/kora` SDK's `KoraClient` and build transactions with `@solana/kit`.
+
+## Gas Sponsorships
+
+You pay the fee for your users. It is charged to your Pimlico balance.
+
+[Use Gas Sponsorships →](/guides/how-to/solana/verifying-sponsorship)
+
+## SPL Token Sponsorships
+
+Your users pay the fee in USDC or USDT ([supported tokens](/guides/how-to/solana/supported-tokens)). The paymaster pays the SOL fee and is repaid with a token transfer in the same transaction.
+
+[Use SPL Token Sponsorships →](/guides/how-to/solana/token-sponsorship)
+
+## Quick start
+
+```sh
+npm install @solana/kora @solana/kit@6 @solana-program/token@0.12
+```
+
+`@solana/kora` 0.2 is built on `@solana/kit` 6, so install the matching versions of `@solana/kit` and `@solana-program/token`.
+
+Add a helper that builds a transaction message with the paymaster as the fee payer:
+
+```ts [sponsored-transaction.ts]
+import type { KoraClient } from "@solana/kora";
+import {
+    type Instruction,
+    address,
+    appendTransactionMessageInstructions,
+    blockhash,
+    createNoopSigner,
+    createTransactionMessage,
+    pipe,
+    setTransactionMessageFeePayerSigner,
+    setTransactionMessageLifetimeUsingBlockhash,
+} from "@solana/kit";
+
+export async function createSponsoredTransactionMessage(
+    kora: KoraClient,
+    instructions: Instruction[],
+) {
+    const { signer_address } = await kora.getPayerSigner();
+    const { blockhash: latestBlockhash } = await kora.getBlockhash();
+
+    // pipe passes the message through each step below, in order
+    return pipe(
+        // Start an empty version 0 transaction message
+        createTransactionMessage({ version: 0 }),
+        // The paymaster pays the fee. It signs later, so a noop signer leaves its signature slot empty.
+        (m) => setTransactionMessageFeePayerSigner(createNoopSigner(address(signer_address)), m),
+        // The blockhash keeps the transaction valid for about a minute. lastValidBlockHeight is only
+        // read by @solana/kit's own send-and-confirm, and the paymaster sends the transaction for you.
+        (m) =>
+            setTransactionMessageLifetimeUsingBlockhash(
+                { blockhash: blockhash(latestBlockhash), lastValidBlockHeight: 0n },
+                m,
+            ),
+        // Add your app's instructions (transfers, swaps, etc.)
+        (m) => appendTransactionMessageInstructions(instructions, m),
+    );
+}
+```
+
+Then build your transaction with it and send it to the paymaster:
+
+```ts
+import { KoraClient } from "@solana/kora";
+import {
+    getBase64EncodedWireTransaction,
+    partiallySignTransactionMessageWithSigners,
+} from "@solana/kit";
+import { createSponsoredTransactionMessage } from "./sponsored-transaction";
+
+const kora = new KoraClient({
+    rpcUrl: "https://solana.pimlico.io/v1/mainnet/rpc?apikey=YOUR_API_KEY",
+});
+
+const message = await createSponsoredTransactionMessage(kora, instructions);
+
+// Your user signs here, the paymaster signs as fee payer and broadcasts
+const transaction = getBase64EncodedWireTransaction(
+    await partiallySignTransactionMessageWithSigners(message),
+);
+
+const { signature } = await kora.signAndSendTransaction({ transaction });
+```
+
+## How it works
+
+1. You build your transaction with the paymaster's address, from `getPayerSigner`, as the fee payer, and your user signs it.
+2. To have your user pay in a token, you append a transfer of the quoted fee to the paymaster before signing.
+3. `signAndSendTransaction` sends it to the paymaster. If the transaction pays the paymaster in a supported token, the fee is covered by that payment. Otherwise it is charged to your Pimlico balance.
+4. The paymaster validates and simulates the transaction, signs it as fee payer, broadcasts it, and by default responds once it is `confirmed`.
+
+The signature is a normal Solana transaction signature, so you can look it up on any explorer.
+
+:::info
+`KoraClient` wraps a JSON-RPC API. If you'd rather call it directly, see the [endpoint reference](/references/paymaster/solana/endpoints).
+:::
+
+## Endpoints
+
+| Cluster | URL |
+|---|---|
+| Mainnet | `https://solana.pimlico.io/v1/mainnet/rpc?apikey=YOUR_API_KEY` |
+| Devnet | `https://solana.pimlico.io/v1/devnet/rpc?apikey=YOUR_API_KEY` |
+
+Pass your API key in the `apikey` query parameter, as above. `KoraClient`'s own `apiKey` option sends an `x-api-key` header, which Pimlico does not read. Sponsorship on devnet is free.
+
+## Requirements
+
+- The paymaster may only be the fee payer, with one exception: it may pay the rent for an account your transaction creates, such as a token account. Any other use of it is rejected.
+- The paymaster spends at most 0.1 SOL on one transaction, including the fee, priority fee, and rent.
+- Every signer other than the paymaster must sign before you submit.
+- One transaction per request.
+
+## Next steps
+
+- [Gas Sponsorships](/guides/how-to/solana/verifying-sponsorship)
+- [SPL Token Sponsorships](/guides/how-to/solana/token-sponsorship)
+- [Phantom and Other Wallets](/guides/how-to/solana/external-wallets)
+- [Privy](/guides/how-to/solana/privy)
+- [Solana Sponsorships endpoints](/references/paymaster/solana/endpoints)
+- [Solana Sponsorships errors](/references/paymaster/solana/errors)
+- [Solana supported tokens](/guides/how-to/solana/supported-tokens)

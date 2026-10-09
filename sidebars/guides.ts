@@ -213,6 +213,32 @@ export const gasSponsorshipSidebar = [
 			},
 		],
 	},
+	{
+		text: "Solana",
+		link: "/guides/how-to/solana",
+		items: [
+			{
+				text: "Supported Tokens",
+				link: "/guides/how-to/solana/supported-tokens",
+			},
+			{
+				text: "Gas Sponsorships",
+				link: "/guides/how-to/solana/verifying-sponsorship",
+			},
+			{
+				text: "SPL Token Sponsorships",
+				link: "/guides/how-to/solana/token-sponsorship",
+			},
+			{
+				text: "Phantom and Other Wallets",
+				link: "/guides/how-to/solana/external-wallets",
+			},
+			{
+				text: "Privy",
+				link: "/guides/how-to/solana/privy",
+			},
+		],
+	},
 ];
 
 export const productionSidebar = [

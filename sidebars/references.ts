@@ -308,6 +308,19 @@ export const paymasterSidebar = [
 			},
 		],
 	},
+	{
+		text: "Solana",
+		items: [
+			{
+				text: "Endpoints",
+				link: "/references/paymaster/solana/endpoints",
+			},
+			{
+				text: "Errors",
+				link: "/references/paymaster/solana/errors",
+			},
+		],
+	},
 ];
 
 export const permissionlessSidebar = [
