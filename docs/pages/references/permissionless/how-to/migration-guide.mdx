@@ -1,5 +1,402 @@
 # Migration Guide
 
+## 1.0.0
+
+permissionless 1.0.0 is the viem-v3-native release. The public API adopts viem v3's namespace grammar — accounts are created with `<Vendor>SmartAccount.from(...)`, clients with `<X>Client.create(...)` — and every public symbol is importable from one of five entrypoints. The package is ESM-only, requires `viem@^3.0.0` as its peer dependency, and drops the optional `ox` peer entirely.
+
+:::info
+**Not ready to migrate?** permissionless 0.x keeps receiving critical bug fixes and security patches for as long as viem 2.x is maintained, and the 0.x documentation remains available.
+{/* TODO(docs-versioning): link the frozen 0.x docs URL here once versioned docs are set up at GA (v0_2 pattern, like /references/permissionless/v0_1). */}
+:::
+
+{/* TODO(GA): while 1.0.0 is in prerelease, install `permissionless@next`, which declares `viem: ^3.0.0-next.M`. Remove this note and pin examples to stable ranges once viem v3 stable ships — the guide must be live at GA. */}
+
+### Migrate incrementally
+
+You don't have to migrate your whole app at once. permissionless 1.0 and 0.x can coexist through npm aliases, so you can move flow by flow.
+
+Keep `viem@2` and `permissionless@0.x` installed under their real names: npm will not use a differently-named alias to satisfy a peer dependency, so any library in your tree that peer-depends on `viem@2` — including permissionless 0.x itself — needs the real `viem` name to stay on v2. Alias the new pair, and point the alias's viem peer at the v3 copy with an override:
+
+```json
+{
+  "dependencies": {
+    "permissionless": "^0.3.0",
+    "viem": "^2.55.0",
+    "permissionless-v1": "npm:permissionless@^1.0.0",
+    "viem-v3": "npm:viem@^3.0.0"
+  },
+  "overrides": {
+    "permissionless-v1": {
+      "viem": "$viem-v3"
+    }
+  }
+}
+```
+
+If you use pnpm, replace the `overrides` block with:
+
+```json
+{
+  "pnpm": {
+    "overrides": {
+      "permissionless-v1>viem": "npm:viem@^3.0.0"
+    }
+  }
+}
+```
+
+Existing code keeps importing from `permissionless` and `viem`. Migrated code imports from the aliases:
+
+```ts
+import { SafeSmartAccount, SmartAccountClient } from "permissionless-v1"
+import { http } from "viem-v3"
+```
+
+Migrate one flow at a time, but each flow wholesale: an account, the client it's attached to, and the actions used with it must all come from the same pair. A viem v2 client cannot be passed to permissionless 1.0 APIs (or the other way around) — viem v3's `Client.toV2`/`Client.fromV2` adapters reuse transports, but they do not translate accounts.
+
+Once everything imports from the aliases, do the flip: remove the 0.x pair and the overrides, rename `permissionless-v1`/`viem-v3` back to `permissionless`/`viem`, and rewrite the alias imports.
+
+### Notable changes
+
+#### viem 3, and no more ox
+
+- The peer dependency is `viem@^3.0.0`. Every permissionless release states the exact viem version it was validated against in its changelog.
+- The optional `ox` peer is gone. Passkey and WebAuthn flows no longer require installing anything extra — everything permissionless needed from ox now comes through viem. If you had installed `ox` only for permissionless, remove it.
+- TypeScript is an optional peer at `>=5.9.0` (mirroring viem v3). Node 20+ is assumed.
+
+#### ESM-only
+
+The CJS build is dropped and the package declares `"type": "module"`. Bundlers (Vite, Next.js, esbuild, webpack 5) are unaffected. On Node 20+, `require("permissionless")` continues to work through Node's `require(esm)` support.
+
+#### Five entrypoints
+
+The 23 subpath exports of 0.x collapse into five:
+
+| Entrypoint | Contents |
+|---|---|
+| `permissionless` | the 8 account namespaces, `SmartAccountClient`, `Erc7579` + `erc7579Actions()`, the smart-account actions (`sendTransaction`, `signMessage`, `signTypedData`, `writeContract`, `getSenderAddress`, `getAccountNonce`), `smartAccountActions()`, `Nonce`, `Owner`, and all error classes |
+| `permissionless/pimlico` | `PimlicoClient`, `Pimlico` (actions) + `pimlicoActions()`, `PasskeyServerClient`, `PasskeyServer`, `Erc20Paymaster` |
+| `permissionless/etherspot` | `Etherspot` (Skandha's `getUserOperationGasPrice`) |
+| `permissionless/experimental` | empty at 1.0.0 — reserved; everything under it is exempt from semver |
+| `permissionless/package.json` | tooling |
+
+All the deep 0.x paths (`permissionless/accounts`, `permissionless/accounts/safe`, `permissionless/actions/pimlico`, `permissionless/clients/pimlico`, …) are gone:
+
+```ts
+import { toSafeSmartAccount } from "permissionless/accounts" // [!code --]
+import { createPimlicoClient } from "permissionless/clients/pimlico" // [!code --]
+import { SafeSmartAccount } from "permissionless" // [!code ++]
+import { PimlicoClient } from "permissionless/pimlico" // [!code ++]
+```
+
+#### Everything is a namespace
+
+Accounts get `.from`, clients get `.create`, action groups and utilities are noun namespaces. These are real ES module namespaces, so tree-shaking keeps working — importing `SafeSmartAccount` does not pull in the other accounts. There are no `to*`/`create*` aliases left: one canonical path per symbol (the full rename table is in the [quick reference](#quick-reference-renamed-exports) below). permissionless namespaces never reuse a name that `viem/erc4337` exports, so mixed imports stay unambiguous.
+
+```ts
+import { toSafeSmartAccount, createSmartAccountClient } from "permissionless" // [!code --]
+import { SafeSmartAccount, SmartAccountClient } from "permissionless" // [!code ++]
+
+const account = await toSafeSmartAccount({ // [!code --]
+const account = await SafeSmartAccount.from({ // [!code ++]
+    client: publicClient,
+    owners: [owner],
+})
+
+const smartAccountClient = createSmartAccountClient({ // [!code --]
+const smartAccountClient = SmartAccountClient.create({ // [!code ++]
+    account,
+    chain: sepolia,
+    bundlerTransport: http(pimlicoUrl),
+})
+```
+
+The Pimlico client follows the same pattern:
+
+```ts
+import { createPimlicoClient } from "permissionless/clients/pimlico" // [!code --]
+import { PimlicoClient } from "permissionless/pimlico" // [!code ++]
+
+const pimlicoClient = createPimlicoClient({ ... }) // [!code --]
+const pimlicoClient = PimlicoClient.create({ ... }) // [!code ++]
+```
+
+Vendor-specific helpers ride their account's namespace (`SafeSmartAccount.signUserOperation`, `KernelSmartAccount.wrapMessageHash`, …).
+
+#### One constructor convention
+
+All eight accounts now follow the same convention:
+
+- **`owner` is singular everywhere** — except Safe, which keeps `owners` because it is genuinely multi-owner. The `[owner]` tuple ceremony is gone from kernel, nexus, and etherspot, and kernel no longer switches parameter shape in 7702 mode.
+- **`entryPoint` is optional**, accepting either a shorthand version string or a full `{ address, version }` object.
+- **`version` is optional**, with frozen defaults.
+
+```ts
+const account = await toKernelSmartAccount({ // [!code --]
+    client: publicClient, // [!code --]
+    owners: [owner], // [!code --]
+    entryPoint: { address: entryPoint07Address, version: "0.7" }, // [!code --]
+}) // [!code --]
+const account = await KernelSmartAccount.from({ // [!code ++]
+    client: publicClient, // [!code ++]
+    owner, // [!code ++]
+    entryPoint: "0.7", // optional — or { address, version } // [!code ++]
+}) // [!code ++]
+```
+
+The defaults applied when you omit `entryPoint` or `version`:
+
+| Account | Owner parameter | EntryPoint versions | EntryPoint default | `version` default |
+|---|---|---|---|---|
+| Simple | `owner` | 0.6 / 0.7 / 0.8 / 0.9 | **0.8** (changed — see warning) | — |
+| Safe | `owners` | 0.6 / 0.7 | 0.7 | `"1.4.1"` |
+| Kernel | `owner` | 0.6 / 0.7 | 0.7 | derived (unchanged from 0.x) |
+| Light | `owner` | 0.6 / 0.7 | 0.7 | `"2.0.0"` |
+| Thirdweb | `owner` | 0.6 / 0.7 | 0.7 | `"1.5.20"` |
+| Nexus | `owner` | 0.7 | 0.7 | `"1.0.0"` |
+| Etherspot | `owner` | 0.7 | 0.7 | — |
+| Trust | `owner` | 0.6 | 0.6 | — |
+
+These defaults are frozen for the whole 1.x line: omitting a parameter is contractually as stable as pinning it, because changing a default changes counterfactual addresses and is a breaking change under our address-stability policy.
+
+:::warning
+**Simple accounts: the default EntryPoint moves from 0.7 to 0.8.** If you create Simple accounts without an explicit `entryPoint`, 1.0 derives a **different counterfactual address** than 0.x did. To keep addressing existing accounts, pass `entryPoint: "0.7"` explicitly.
+:::
+
+#### Per-call nonce keys win everywhere
+
+All eight accounts resolve the nonce key the same way: the per-call key first, the constructor `nonceKey` second, `0n` last. In 0.x this was inconsistent — kernel and etherspot silently ignored per-call keys, simple preferred the constructor value over the per-call one, and nexus had no `nonceKey` parameter at all. If you relied on simple's old precedence, pass the key per call instead. Kernel still packs the key into the 2-byte user-key field of its nonce layout and rejects keys above `maxUint16`.
+
+#### EIP-7702 is a flag, not a wrapper
+
+`to7702SimpleSmartAccount` and `to7702KernelSmartAccount` are removed. 7702 mode is a plain flag on the vendor constructors:
+
+```ts
+const account = await to7702SimpleSmartAccount({ // [!code --]
+const account = await SimpleSmartAccount.from({ // [!code ++]
+    client: publicClient,
+    owner,
+    eip7702: true, // [!code ++]
+})
+```
+
+As in 0.x, you own the authorization lifecycle: permissionless never auto-detects delegation or auto-signs authorizations, and 7702 is never the default execution mode. If you want viem's reference `Simple7702Account` contract, use viem directly; use permissionless with `eip7702: true` when a vendor account is your 7702 delegate.
+
+#### ERC-20 paymaster utilities leave experimental
+
+The `permissionless/experimental/pimlico` entrypoint is gone. Its contents graduate to the stable `Erc20Paymaster` namespace under `permissionless/pimlico`, together with the ERC-20 paymaster helpers that previously lived elsewhere:
+
+| 0.x | 1.0 (`permissionless/pimlico`) |
+|---|---|
+| `prepareUserOperationForErc20Paymaster` (`permissionless/experimental/pimlico`) | `Erc20Paymaster.prepareUserOperation` |
+| `estimateErc20PaymasterCost` (0.x: client method only — the standalone action was never exported) | `Erc20Paymaster.estimateCost` |
+| `getTokenQuotes` (`permissionless/actions/pimlico`) | `Erc20Paymaster.getTokenQuotes` |
+| `erc20BalanceOverride` (root) | `Erc20Paymaster.balanceOverride` |
+| `erc20AllowanceOverride` (root) | `Erc20Paymaster.allowanceOverride` |
+
+#### Named error classes
+
+Every documented failure now throws a named error class extending viem's `BaseError`, exported flat from the root entrypoint. For 0.x code:
+
+- `AccountNotFoundError` — unchanged, still exported from the root.
+- `InvalidEntryPointError` — same class, but its import moves from `permissionless/actions` to the root.
+- Failures that 0.x threw as generic `BaseError`/`Error` now throw named classes; each is documented on the page of the API that throws it. If you matched on error message strings, switch to `instanceof` checks.
+
+#### New in 1.0
+
+- `KernelSmartAccount.getVersion(client, { address })` — reads the deployed Kernel version on-chain, returning `null` when there is no code at the address.
+- EntryPoint 0.9 support for Simple accounts (never a default).
+- `Erc20Paymaster.estimateCost` as a standalone action (previously reachable only as a Pimlico client method).
+- The `Erc7579` module-install parameter types for the plural actions (`installModules` / `uninstallModules`), which 0.x forgot to export.
+- Client RPC-schema types are public, riding their client namespaces.
+
+### Removed APIs
+
+| Removed in 1.0 | What to do instead |
+|---|---|
+| `toBiconomySmartAccount` (+ its types and the `permissionless/accounts/biconomy` subpath) | Not ported. Stay on permissionless 0.x for Biconomy accounts. |
+| `toEcdsaKernelSmartAccount` (+ `ecdsaValidatorAddress`, its types) | `KernelSmartAccount.from` — the ECDSA validator is the default. |
+| `to7702SimpleSmartAccount` / `to7702KernelSmartAccount` | `SimpleSmartAccount.from` / `KernelSmartAccount.from` with `eip7702: true`. |
+| `sendCompressedUserOperation` (action, client method, and RPC-schema entry) | Removed from the Pimlico API — send uncompressed user operations. |
+| Safe `setupTransactions` parameter | Put setup calls in the deployment user operation's calldata. {/* TODO(gated, spec §10): verify the calldata-based replacement reproduces 0.x counterfactual addresses before GA; if it does not, this row must instead direct existing setupTransactions accounts to stay on 0.x. */} |
+| Safe `addModuleLibAddress` parameter | Use its canonical name, `safeModuleSetupAddress`. |
+| Kernel's automatic vulnerable-validator migration inside `encodeCalls` | Migrate affected accounts on 0.x first, then upgrade. |
+| `getCallsStatus` legacy `"CONFIRMED"`/`"PENDING"` status codes | Use the standard ERC-5792 status codes. |
+| `getPackedUserOperation` | viem's `UserOperation.toPacked` (EntryPoint 0.7/0.8). |
+| `isSmartAccountDeployed` | viem's `account.isDeployed()`. |
+| `getOxExports` / `hasOxModule` | The ox dependency is gone; these have no purpose. |
+| `deepHexlify`, `transactionReceiptStatus`, `sortAddresses`, `getAddressFromInitCodeOrPaymasterAndData` | Internal utilities that leaked into the public API; no replacement. |
+
+### Quick reference: renamed exports
+
+Alphabetized by 0.x name — search this table for any 0.x export. In the **1.0** column, unmarked symbols come from `permissionless`; ᴾ = `permissionless/pimlico`; ᴱ = `permissionless/etherspot`.
+
+| 0.x export (import path) | 1.0 |
+|---|---|
+| `AccountNotFoundError` (root) | unchanged |
+| `accountId` (`actions/erc7579`) | `Erc7579.accountId` |
+| `createPasskeyServerClient` (`clients/passkeyServer`) | `PasskeyServerClient.create` ᴾ |
+| `createPimlicoClient` (`clients/pimlico`) | `PimlicoClient.create` ᴾ |
+| `createSmartAccountClient` (root) | `SmartAccountClient.create` |
+| `decode7579Calls` (root) | `Erc7579.decodeCalls` |
+| `decodeNonce` (root) | `Nonce.decode` |
+| `deepHexlify` (root) | **removed** |
+| `encode7579Calls` (root) | `Erc7579.encodeCalls` |
+| `encodeInstallModule` (root) | `Erc7579.encodeInstallModule` |
+| `encodeNonce` (root) | `Nonce.encode` |
+| `encodeUninstallModule` (root) | `Erc7579.encodeUninstallModule` |
+| `erc20AllowanceOverride` (root) | `Erc20Paymaster.allowanceOverride` ᴾ |
+| `erc20BalanceOverride` (root) | `Erc20Paymaster.balanceOverride` ᴾ |
+| `erc7579Actions` (`actions/erc7579`) | `erc7579Actions` (unchanged, root) |
+| `estimateErc20PaymasterCost` (0.x: Pimlico client method only) | `Erc20Paymaster.estimateCost` ᴾ |
+| `getAccountNonce` (`actions`) | unchanged (root) |
+| `getAddressFromInitCodeOrPaymasterAndData` (root) | **removed** |
+| `getCredentials` (`actions/passkeyServer`) | `PasskeyServer.getCredentials` ᴾ |
+| `getOxExports` (root) | **removed** |
+| `getPackedUserOperation` (root) | **removed** — viem `UserOperation.toPacked` |
+| `getRequiredPrefund` (root) | unchanged |
+| `getSenderAddress` (`actions`) | unchanged (root) |
+| `getTokenQuotes` (`actions/pimlico`) | `Erc20Paymaster.getTokenQuotes` ᴾ |
+| `getUserOperationGasPrice` (`actions/pimlico`) | `Pimlico.getUserOperationGasPrice` ᴾ |
+| `getUserOperationGasPrice` (`actions/etherspot`) | `Etherspot.getUserOperationGasPrice` ᴱ |
+| `getUserOperationStatus` (`actions/pimlico`) | `Pimlico.getUserOperationStatus` ᴾ |
+| `hasOxModule` (root) | **removed** |
+| `installModule` (`actions/erc7579`) | `Erc7579.installModule` |
+| `installModules` (`actions/erc7579`) | `Erc7579.installModules` |
+| `InvalidEntryPointError` (`actions`) | `InvalidEntryPointError` (moves to root) |
+| `isModuleInstalled` (`actions/erc7579`) | `Erc7579.isModuleInstalled` |
+| `isSmartAccountDeployed` (root) | **removed** — viem `account.isDeployed()` |
+| `pimlicoActions` (`actions/pimlico`) | `pimlicoActions` (unchanged) ᴾ |
+| `prepareUserOperationForErc20Paymaster` (`experimental/pimlico`) | `Erc20Paymaster.prepareUserOperation` ᴾ |
+| `sendCompressedUserOperation` (`actions/pimlico`) | **removed** |
+| `sendTransaction` (`actions/smartAccount`) | unchanged (root) |
+| `signMessage` (`actions/smartAccount`) | unchanged (root) |
+| `signTypedData` (`actions/smartAccount`) | unchanged (root) |
+| `smartAccountActions` (root) | unchanged |
+| `sortAddresses` (root) | **removed** |
+| `sponsorUserOperation` (`actions/pimlico`) | `Pimlico.sponsorUserOperation` ᴾ |
+| `startRegistration` (`actions/passkeyServer`) | `PasskeyServer.startRegistration` ᴾ |
+| `supportsExecutionMode` (`actions/erc7579`) | `Erc7579.supportsExecutionMode` |
+| `supportsModule` (`actions/erc7579`) | `Erc7579.supportsModule` |
+| `to7702KernelSmartAccount` (`accounts`) | **removed** — `KernelSmartAccount.from({ ..., eip7702: true })` |
+| `to7702SimpleSmartAccount` (`accounts`) | **removed** — `SimpleSmartAccount.from({ ..., eip7702: true })` |
+| `toBiconomySmartAccount` (`accounts`) | **removed** — stay on 0.x |
+| `toEcdsaKernelSmartAccount` (`accounts`) | **removed** — `KernelSmartAccount.from` |
+| `toEtherspotSmartAccount` (`accounts`) | `EtherspotSmartAccount.from` |
+| `toKernelSmartAccount` (`accounts`) | `KernelSmartAccount.from` |
+| `toLightSmartAccount` (`accounts`) | `LightSmartAccount.from` |
+| `toNexusSmartAccount` (`accounts`) | `NexusSmartAccount.from` |
+| `toOwner` (root) | `Owner.from` |
+| `toSafeSmartAccount` (`accounts`) | `SafeSmartAccount.from` |
+| `toSimpleSmartAccount` (`accounts`) | `SimpleSmartAccount.from` |
+| `toThirdwebSmartAccount` (`accounts`) | `ThirdwebSmartAccount.from` |
+| `toTrustSmartAccount` (`accounts`) | `TrustSmartAccount.from` |
+| `transactionReceiptStatus` (root) | **removed** |
+| `uninstallModule` (`actions/erc7579`) | `Erc7579.uninstallModule` |
+| `uninstallModules` (`actions/erc7579`) | `Erc7579.uninstallModules` |
+| `validateSponsorshipPolicies` (`actions/pimlico`) | `Pimlico.validateSponsorshipPolicies` ᴾ |
+| `verifyRegistration` (`actions/passkeyServer`) | `PasskeyServer.verifyRegistration` ᴾ |
+| `writeContract` (`actions/smartAccount`) | unchanged (root) |
+
+### Quick reference: renamed types
+
+Type renames are mechanical:
+
+- `To<X>SmartAccountParameters` / `To<X>SmartAccountReturnType` / `<X>SmartAccountImplementation` → `<X>SmartAccount.Parameters` / `.ReturnType` / `.Implementation`
+- Version unions (`KernelVersion`, `SafeVersion`, `LightAccountVersion`) → `<X>SmartAccount.Version`
+- Client types → `<X>Client.Client` / `<X>Client.Config`
+- Action parameter/return types follow their action into its namespace
+- Types of removed values are removed with them
+
+The full table, alphabetized by 0.x name (ᴾ = `permissionless/pimlico`; ᴱ = `permissionless/etherspot`):
+
+| 0.x type | 1.0 |
+|---|---|
+| `BiconomySmartAccountImplementation` | **removed** — stay on 0.x |
+| `CallType` | `Erc7579.CallType` |
+| `DecodeCallDataReturnType` | `Erc7579.DecodeCallsReturnType` |
+| `EcdsaKernelSmartAccountImplementation` | **removed** — `KernelSmartAccount.Implementation` |
+| `EncodeCallDataParams` | `Erc7579.EncodeCallsParameters` |
+| `EncodeInstallModuleParameters` | `Erc7579.EncodeInstallModuleParameters` |
+| `EncodeUninstallModuleParameters` | `Erc7579.EncodeUninstallModuleParameters` |
+| `Erc20AllowanceOverrideParameters` | `Erc20Paymaster.AllowanceOverrideParameters` ᴾ |
+| `Erc20BalanceOverrideParameters` | `Erc20Paymaster.BalanceOverrideParameters` ᴾ |
+| `Erc7579Actions` | `Erc7579.Actions` |
+| `EtherspotSmartAccountImplementation` | `EtherspotSmartAccount.Implementation` |
+| `GetAccountNonceParams` | unchanged (root) |
+| `GetCredentialsParameters` | `PasskeyServer.GetCredentialsParameters` ᴾ |
+| `GetCredentialsReturnType` | `PasskeyServer.GetCredentialsReturnType` ᴾ |
+| `GetGasPriceResponseReturnType` | `Etherspot.GetUserOperationGasPriceReturnType` ᴱ |
+| `GetRequiredPrefundReturnType` | unchanged (root) |
+| `GetSenderAddressParams` | unchanged (root) |
+| `GetTokenQuotesParameters` | `Erc20Paymaster.GetTokenQuotesParameters` ᴾ |
+| `GetTokenQuotesReturnType` | `Erc20Paymaster.GetTokenQuotesReturnType` ᴾ |
+| `GetUserOperationGasPriceReturnType` | `Pimlico.GetUserOperationGasPriceReturnType` ᴾ |
+| `GetUserOperationStatusParameters` | `Pimlico.GetUserOperationStatusParameters` ᴾ |
+| `GetUserOperationStatusReturnType` | `Pimlico.GetUserOperationStatusReturnType` ᴾ |
+| `InstallModuleParameters` | `Erc7579.InstallModuleParameters` |
+| `IsModuleInstalledParameters` | `Erc7579.IsModuleInstalledParameters` |
+| `KernelSmartAccountImplementation` | `KernelSmartAccount.Implementation` |
+| `KernelVersion` | `KernelSmartAccount.Version` |
+| `LightAccountVersion` | `LightSmartAccount.Version` |
+| `LightSmartAccountImplementation` | `LightSmartAccount.Implementation` |
+| `ModuleType` | `Erc7579.ModuleType` |
+| `NexusSmartAccountImplementation` | `NexusSmartAccount.Implementation` |
+| `PasskeyServerActions` | `PasskeyServer.Actions` ᴾ |
+| `PasskeyServerClient` | `PasskeyServerClient.Client` ᴾ |
+| `PasskeyServerClientConfig` | `PasskeyServerClient.Config` ᴾ |
+| `PimlicoActions` | `Pimlico.Actions` ᴾ |
+| `PimlicoClient` | `PimlicoClient.Client` ᴾ |
+| `PimlicoClientConfig` | `PimlicoClient.Config` ᴾ |
+| `PimlicoSponsorUserOperationParameters` | `Pimlico.SponsorUserOperationParameters` ᴾ |
+| `SafeSmartAccountImplementation` | `SafeSmartAccount.Implementation` |
+| `SafeVersion` | `SafeSmartAccount.Version` |
+| `SendCompressedUserOperationParameters` | **removed** |
+| `SimpleSmartAccountImplementation` | `SimpleSmartAccount.Implementation` |
+| `SmartAccountActions` | `SmartAccountClient.Actions` |
+| `SmartAccountClient` | `SmartAccountClient.Client` |
+| `SmartAccountClientConfig` | `SmartAccountClient.Config` |
+| `SponsorUserOperationReturnType` | `Pimlico.SponsorUserOperationReturnType` ᴾ |
+| `StartRegistrationParameters` | `PasskeyServer.StartRegistrationParameters` ᴾ |
+| `StartRegistrationReturnType` | `PasskeyServer.StartRegistrationReturnType` ᴾ |
+| `SupportsExecutionModeParameters` | `Erc7579.SupportsExecutionModeParameters` |
+| `SupportsModuleParameters` | `Erc7579.SupportsModuleParameters` |
+| `ThirdwebSmartAccountImplementation` | `ThirdwebSmartAccount.Implementation` |
+| `To7702KernelSmartAccountImplementation` | **removed** — `KernelSmartAccount.Implementation` |
+| `To7702KernelSmartAccountParameters` | **removed** — `KernelSmartAccount.Parameters` |
+| `To7702KernelSmartAccountReturnType` | **removed** — `KernelSmartAccount.ReturnType` |
+| `To7702SimpleSmartAccountImplementation` | **removed** — `SimpleSmartAccount.Implementation` |
+| `To7702SimpleSmartAccountParameters` | **removed** — `SimpleSmartAccount.Parameters` |
+| `To7702SimpleSmartAccountReturnType` | **removed** — `SimpleSmartAccount.ReturnType` |
+| `ToBiconomySmartAccountParameters` | **removed** — stay on 0.x |
+| `ToBiconomySmartAccountReturnType` | **removed** — stay on 0.x |
+| `ToEcdsaKernelSmartAccountParameters` | **removed** — `KernelSmartAccount.Parameters` |
+| `ToEcdsaKernelSmartAccountReturnType` | **removed** — `KernelSmartAccount.ReturnType` |
+| `ToEtherspotSmartAccountParameters` | `EtherspotSmartAccount.Parameters` |
+| `ToEtherspotSmartAccountReturnType` | `EtherspotSmartAccount.ReturnType` |
+| `ToKernelSmartAccountParameters` | `KernelSmartAccount.Parameters` |
+| `ToKernelSmartAccountReturnType` | `KernelSmartAccount.ReturnType` |
+| `ToLightSmartAccountParameters` | `LightSmartAccount.Parameters` |
+| `ToLightSmartAccountReturnType` | `LightSmartAccount.ReturnType` |
+| `ToNexusSmartAccountParameters` | `NexusSmartAccount.Parameters` |
+| `ToNexusSmartAccountReturnType` | `NexusSmartAccount.ReturnType` |
+| `ToSafeSmartAccountParameters` | `SafeSmartAccount.Parameters` |
+| `ToSafeSmartAccountReturnType` | `SafeSmartAccount.ReturnType` |
+| `ToSimpleSmartAccountParameters` | `SimpleSmartAccount.Parameters` |
+| `ToSimpleSmartAccountReturnType` | `SimpleSmartAccount.ReturnType` |
+| `ToThirdwebSmartAccountParameters` | `ThirdwebSmartAccount.Parameters` |
+| `ToThirdwebSmartAccountReturnType` | `ThirdwebSmartAccount.ReturnType` |
+| `ToTrustSmartAccountParameters` | `TrustSmartAccount.Parameters` |
+| `ToTrustSmartAccountReturnType` | `TrustSmartAccount.ReturnType` |
+| `TrustSmartAccountImplementation` | `TrustSmartAccount.Implementation` |
+| `UninstallModuleParameters` | `Erc7579.UninstallModuleParameters` |
+| `ValidateSponsorshipPolicies` | `Pimlico.ValidateSponsorshipPolicies` ᴾ |
+| `ValidateSponsorshipPoliciesParameters` | `Pimlico.ValidateSponsorshipPoliciesParameters` ᴾ |
+
+:::info
+`@permissionless/wagmi` is not part of this release — it continues to target permissionless 0.x for now.
+:::
+
 ## 0.2.0
 
 :::warning
