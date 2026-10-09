@@ -2,7 +2,7 @@
 
 This guide shows you how to sponsor transactions that your users sign in their own wallet, such as Phantom, in a React app.
 
-In the [Gas Sponsorships](/guides/how-to/solana/verifying-sponsorship) and [SPL Token Sponsorships](/guides/how-to/solana/token-sponsorship) guides, your user's key is a keypair in your code. In a browser app it lives in their wallet instead. `@solana/react` turns the connected wallet into a signer, and you use that signer anywhere the other guides use the keypair. When your user signs, the wallet opens and asks them to approve. The paymaster still pays the fee and adds its own signature.
+In a browser app, your user's key lives in their wallet, not in your code. `@solana/react` turns the connected wallet into a signer that you build your transaction with. When your user signs, the wallet opens and asks them to approve. The paymaster pays the fee, adds its own signature, and broadcasts the transaction.
 
 This works with any wallet that supports the [Wallet Standard](https://github.com/wallet-standard/wallet-standard), including Phantom, Solflare, and Backpack.
 
@@ -17,9 +17,9 @@ npm install @solana/kora @solana/kit@6 @solana-program/token@0.12 @solana/react@
 
 `@solana/kora` 0.2 is built on `@solana/kit` 6, so install the matching versions of `@solana/kit`, `@solana-program/token`, and `@solana/react`.
 
-### Create the client and add the helper
+### Create the client
 
-Create the client, and add the `createSponsoredTransactionMessage` helper from [Gas Sponsorships](/guides/how-to/solana/verifying-sponsorship) to your app as `sponsored-transaction.ts`.
+Pass your API key in the URL's `apikey` query parameter.
 
 ```ts
 import { KoraClient } from "@solana/kora";
@@ -27,6 +27,50 @@ import { KoraClient } from "@solana/kora";
 const kora = new KoraClient({
     rpcUrl: "https://solana.pimlico.io/v1/mainnet/rpc?apikey=YOUR_API_KEY",
 });
+```
+
+### Add a helper to build the transaction
+
+Add this helper to your app. Pass it your instructions, and it returns a transaction message with the paymaster as the fee payer.
+
+```ts [sponsored-transaction.ts]
+import type { KoraClient } from "@solana/kora";
+import {
+    type Instruction,
+    address,
+    appendTransactionMessageInstructions,
+    blockhash,
+    createNoopSigner,
+    createTransactionMessage,
+    pipe,
+    setTransactionMessageFeePayerSigner,
+    setTransactionMessageLifetimeUsingBlockhash,
+} from "@solana/kit";
+
+export async function createSponsoredTransactionMessage(
+    kora: KoraClient,
+    instructions: Instruction[],
+) {
+    const { signer_address } = await kora.getPayerSigner();
+    const { blockhash: latestBlockhash } = await kora.getBlockhash();
+
+    // pipe passes the message through each step below, in order
+    return pipe(
+        // Start an empty version 0 transaction message
+        createTransactionMessage({ version: 0 }),
+        // The paymaster pays the fee. It signs later, so a noop signer leaves its signature slot empty.
+        (m) => setTransactionMessageFeePayerSigner(createNoopSigner(address(signer_address)), m),
+        // The blockhash keeps the transaction valid for about a minute. lastValidBlockHeight is only
+        // read by @solana/kit's own send-and-confirm, and the paymaster sends the transaction for you.
+        (m) =>
+            setTransactionMessageLifetimeUsingBlockhash(
+                { blockhash: blockhash(latestBlockhash), lastValidBlockHeight: 0n },
+                m,
+            ),
+        // Add your app's instructions (transfers, swaps, etc.)
+        (m) => appendTransactionMessageInstructions(instructions, m),
+    );
+}
 ```
 
 ### Connect the wallet
@@ -88,7 +132,7 @@ const user = useWalletAccountTransactionSigner(account, "solana:mainnet");
 
 ### Build and send the transaction
 
-This is the same as [Gas Sponsorships](/guides/how-to/solana/verifying-sponsorship), with the wallet signer as the token authority. `partiallySignTransactionMessageWithSigners` opens the wallet, so your user approves the transfer there.
+This example sends USDC from your user's wallet. Build the transaction with the helper, using the wallet signer as the token authority. `partiallySignTransactionMessageWithSigners` opens the wallet, so your user approves the transfer there.
 
 ```ts
 import {
@@ -161,7 +205,7 @@ The wallet shows the fee as paid by another account, so your user needs no SOL.
 
 ## Paying the fee in USDC
 
-To have your user pay the fee in a token, as in [SPL Token Sponsorships](/guides/how-to/solana/token-sponsorship), pass the wallet signer as `source_wallet`.
+Instead of paying the fee from your Pimlico balance, you can have your user pay it in USDC or USDT. `getPaymentInstruction` asks the paymaster what the transaction will cost, and returns a token transfer of that amount from your user to the paymaster. Append it to your instructions, and pass the wallet signer as `source_wallet`.
 
 The quote doesn't need your user's signature, so build the quote transaction with `compileTransaction` instead of signing it. The wallet then opens only once, for the final transaction, and shows both the transfer and the USDC payment to the paymaster.
 
@@ -236,7 +280,9 @@ If your wallet library works with `@solana/web3.js` transactions, convert the by
 
 ## Full example
 
-```tsx
+::::code-group
+
+```tsx [App.tsx]
 import { KoraClient } from "@solana/kora";
 import {
     type Address,
@@ -349,3 +395,45 @@ function SendUsdcButton({ account }: { account: UiWalletAccount }) {
     );
 }
 ```
+
+```ts [sponsored-transaction.ts]
+import type { KoraClient } from "@solana/kora";
+import {
+    type Instruction,
+    address,
+    appendTransactionMessageInstructions,
+    blockhash,
+    createNoopSigner,
+    createTransactionMessage,
+    pipe,
+    setTransactionMessageFeePayerSigner,
+    setTransactionMessageLifetimeUsingBlockhash,
+} from "@solana/kit";
+
+export async function createSponsoredTransactionMessage(
+    kora: KoraClient,
+    instructions: Instruction[],
+) {
+    const { signer_address } = await kora.getPayerSigner();
+    const { blockhash: latestBlockhash } = await kora.getBlockhash();
+
+    // pipe passes the message through each step below, in order
+    return pipe(
+        // Start an empty version 0 transaction message
+        createTransactionMessage({ version: 0 }),
+        // The paymaster pays the fee. It signs later, so a noop signer leaves its signature slot empty.
+        (m) => setTransactionMessageFeePayerSigner(createNoopSigner(address(signer_address)), m),
+        // The blockhash keeps the transaction valid for about a minute. lastValidBlockHeight is only
+        // read by @solana/kit's own send-and-confirm, and the paymaster sends the transaction for you.
+        (m) =>
+            setTransactionMessageLifetimeUsingBlockhash(
+                { blockhash: blockhash(latestBlockhash), lastValidBlockHeight: 0n },
+                m,
+            ),
+        // Add your app's instructions (transfers, swaps, etc.)
+        (m) => appendTransactionMessageInstructions(instructions, m),
+    );
+}
+```
+
+::::
