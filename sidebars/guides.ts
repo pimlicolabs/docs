@@ -222,7 +222,7 @@ export const gasSponsorshipSidebar = [
 				link: "/guides/how-to/solana/supported-tokens",
 			},
 			{
-				text: "Sponsorships",
+				text: "Gas Sponsorships",
 				link: "/guides/how-to/solana/verifying-sponsorship",
 			},
 			{

@@ -172,7 +172,7 @@ If the transaction fails on chain, the user's token payment fails with it, but t
 ## Good to know
 
 - **The quote is the exact SOL cost.** The paymaster simulates the transaction and prices the SOL it would spend in the token at the current price.
-- **No payment means you pay.** If the transaction doesn't include the payment instruction, it is sponsored from your Pimlico balance instead, as with [Sponsorships](/guides/how-to/solana/verifying-sponsorship).
+- **No payment means you pay.** If the transaction doesn't include the payment instruction, it is sponsored from your Pimlico balance instead, as with [Gas Sponsorships](/guides/how-to/solana/verifying-sponsorship).
 - **Token account rent is covered too.** If your transaction creates a token account, set the paymaster as its rent payer. The rent is added to the fee the user pays.
 
 ## Full example
