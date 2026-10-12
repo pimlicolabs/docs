@@ -32,80 +32,6 @@ The CLI first asks two things in the terminal: whether to act on your personal a
 
 Over SSH, inside a container, or wherever a browser cannot be opened, the CLI falls back to a device flow, or you can request it explicitly with `pimlico login --device`. It prints a one-time code and a URL; open the URL on any device, enter the code, and the CLI completes the login by itself.
 
-Tokens are stored in `~/.config/pimlico/credentials.json`, readable only by your user. The CLI never writes tokens to `.env` or any file in your project. Every command acts on the account you chose at login; run `pimlico login` again to switch.
-
-`pimlico whoami` shows the account the CLI is acting as. `pimlico logout` revokes the token on the server and removes it locally.
-
-## Commands
-
-Run `pimlico --help` or `pimlico <command> --help` for every option.
-
-| Command | What it does |
-| :------ | :----------- |
-| `pimlico init` | Create an API key and write it to `.env` as `PIMLICO_API_KEY` (see [Create API key](/guides/create-api-key)) |
-| `pimlico balance` | Balance, unbilled usage and remaining headroom in USD. `--below <usd>` exits with code `2` when headroom is under the threshold |
-| `pimlico invoices` | Stripe invoices; `--open` for the ones that still need paying |
-| `pimlico usage` | Requests, API credits and sponsored USD over `--last 24h\|7d\|30d`, grouped `--group chain\|key\|day`; `--csv` writes CSV |
-| `pimlico chains` | Supported chains with bundler, paymaster and ERC-20 paymaster capability. Works without login |
-| `pimlico op <hash>` | Status, transaction hash and event timeline of a user operation |
-| `pimlico ops` | User operations for one key, newest first; filter by `--chain`, `--status`, `--last` |
-| `pimlico requests` | Request log for one key; filter by `--chain`, `--method`, `--status`; `--bodies` includes request and response |
-| `pimlico solana txs` | Solana transactions for one key; filter by `--cluster`, `--type sponsored\|spl`, `--status` |
-| `pimlico policies list\|get\|create\|update\|enable\|disable` | Sponsorship policies and their USD caps |
-| `pimlico keys list\|get\|create\|rename\|disable` | API keys, identified by their `akey_…` handle |
-| `pimlico erc20 tokens` | Tokens the ERC-20 paymaster accepts per chain |
-| `pimlico telemetry status\|enable\|disable` | Usage telemetry switch |
-| `pimlico upgrade` | Update the CLI now |
-| `pimlico mcp` | Start the MCP server (see below) |
-
-An API key is shown exactly once, when it is created. Everywhere else a key is referred to by its handle, such as `akey_7Kd2Qn4vT1`, which grants no access and is safe to paste into tickets, logs and scripts.
-
-## Scripts
-
-Every command accepts `--json` for machine-readable output on stdout; warnings and progress go to stderr, so stdout can be piped straight into `jq`. `--quiet` suppresses the stderr output and `--no-color` disables ANSI colors.
-
-Exit codes:
-
-| Code | Meaning |
-| :--- | :------ |
-| `0` | Success |
-| `1` | Error |
-| `2` | Threshold breached (`balance --below`) |
-| `3` | Authentication required |
-| `75` | Temporarily unavailable or rate limited; retry later |
-
-When the account has open or overdue invoices, every authenticated command prints a one-line warning on stderr. With `--json`, the output carries a top-level `warnings` array instead:
-
-```json
-{
-  "warnings": [
-    {
-      "code": "OPEN_INVOICES",
-      "count": 2,
-      "totalUsd": "4120.00",
-      "overdue": true,
-      "oldestDueDate": "2026-09-14",
-      "url": "https://dashboard.pimlico.io/billing/invoices"
-    }
-  ],
-  "...": "..."
-}
-```
-
-Warnings do not change the exit code.
-
-### Iterating over records
-
-The three log commands (`ops`, `requests`, `solana txs`) take `--key <handle>` and return one page at a time, newest first, with `--limit` up to 100 and an opaque `--cursor` for the next page. With `--json`, a page is `{ "items": [...], "nextCursor": "..." }`. To walk every record, add `--all`: the CLI follows the cursor until the log is exhausted or `--max` records (default 1000) are printed, and with `--json` it streams one record per line so it pipes straight into `jq -c`:
-
-```bash
-pimlico requests --key akey_7Kd2Qn4vT1 --last 24h --status error --all --max 5000 --json | jq -c '.method'
-```
-
-The MCP tools expose the same `cursor` and `limit` fields, so an agent iterates page by page.
-
-The CLI uses your interactive login only. Running it in CI with a stored credential is not supported yet.
-
 ## Coding agents (MCP)
 
 `pimlico mcp` runs a [Model Context Protocol](https://modelcontextprotocol.io/) server over stdio using the same login as the CLI. Run `pimlico login` once, and every agent on the machine is authorized as you.
@@ -129,7 +55,7 @@ Cursor and any other client that supports stdio servers:
 }
 ```
 
-Every CLI command is available as a tool named `pimlico_<command>` with underscores between words, for example `pimlico_balance` or `pimlico_policies_create`; only `login`, `logout`, `init`, `telemetry`, `upgrade` and `mcp` are left out. Tools that disable something carry the MCP destructive annotation, so your client asks before running them. Tool results carry the same `warnings` array as `--json` output.
+Every CLI command is available as a tool named `pimlico_<command>` with underscores between words, for example `pimlico_balance` or `pimlico_policies_create`; only `login`, `logout`, `init`, `telemetry`, `upgrade` and `mcp` are left out. Tools that disable something carry the MCP destructive annotation, so your client asks before running them. Tool results include a warning when the account has open invoices.
 
 ## Telemetry
 
