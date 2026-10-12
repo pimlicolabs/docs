@@ -5,32 +5,7 @@ export const platformSidebar = [
 	},
 	{
 		text: "CLI",
-		items: [
-			{
-				text: "Overview",
-				link: "/references/platform/cli",
-			},
-			{
-				text: "Authentication",
-				link: "/references/platform/cli/authentication",
-			},
-			{
-				text: "Commands",
-				link: "/references/platform/cli/commands",
-			},
-			{
-				text: "MCP server",
-				link: "/references/platform/cli/mcp",
-			},
-			{
-				text: "Telemetry",
-				link: "/references/platform/cli/telemetry",
-			},
-			{
-				text: "API keys",
-				link: "/references/platform/cli/api-keys",
-			},
-		],
+		link: "/references/platform/cli",
 	},
 	{
 		text: "API",
