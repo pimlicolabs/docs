@@ -48,6 +48,9 @@ Run `pimlico --help` or `pimlico <command> --help` for every option.
 | `pimlico usage` | Requests, API credits and sponsored USD over `--last 24h\|7d\|30d`, grouped `--group chain\|key\|day`; `--csv` writes CSV |
 | `pimlico chains` | Supported chains with bundler, paymaster and ERC-20 paymaster capability. Works without login |
 | `pimlico op <hash>` | Status, transaction hash and event timeline of a user operation |
+| `pimlico ops` | User operations for one key, newest first; filter by `--chain`, `--status`, `--last` |
+| `pimlico requests` | Request log for one key; filter by `--chain`, `--method`, `--status`; `--bodies` includes request and response |
+| `pimlico solana txs` | Solana transactions for one key; filter by `--cluster`, `--type sponsored\|spl`, `--status` |
 | `pimlico policies list\|get\|create\|update\|enable\|disable` | Sponsorship policies and their USD caps |
 | `pimlico keys list\|get\|create\|rename\|disable` | API keys, identified by their `akey_…` handle |
 | `pimlico erc20 tokens` | Tokens the ERC-20 paymaster accepts per chain |
@@ -90,6 +93,16 @@ When the account has open or overdue invoices, every authenticated command print
 ```
 
 Warnings do not change the exit code.
+
+### Iterating over records
+
+The three log commands (`ops`, `requests`, `solana txs`) take `--key <handle>` and return one page at a time, newest first, with `--limit` up to 100 and an opaque `--cursor` for the next page. With `--json`, a page is `{ "items": [...], "nextCursor": "..." }`. To walk every record, add `--all`: the CLI follows the cursor until the log is exhausted or `--max` records (default 1000) are printed, and with `--json` it streams one record per line so it pipes straight into `jq -c`:
+
+```bash
+pimlico requests --key akey_7Kd2Qn4vT1 --last 24h --status error --all --max 5000 --json | jq -c '.method'
+```
+
+The MCP tools expose the same `cursor` and `limit` fields, so an agent iterates page by page.
 
 The CLI uses your interactive login only. Running it in CI with a stored credential is not supported yet.
 
