@@ -28,7 +28,7 @@ The CLI checks for new versions and updates itself in the background. Set `PIMLI
 pimlico login
 ```
 
-The CLI first asks whether to act on your personal account or on an organization, then opens your browser, where you sign in with your dashboard account, pick the organization if you chose one, and approve the CLI. `pimlico login --personal` or `pimlico login --org` skips the question. Once you are logged in, the CLI keeps the session alive on its own; you do not log in again.
+The CLI first asks two things in the terminal: whether to act on your personal account or on an organization, and which write permissions to grant (managing API keys, managing sponsorship policies; both on by default, Space toggles, Enter accepts). It then opens your browser, where you sign in with your dashboard account, pick the organization if you chose one, and approve the CLI. `--personal` or `--org` skips the first question and `--read-only` skips the second, requesting no write access. Once you are logged in, the CLI keeps the session alive on its own; you do not log in again.
 
 Over SSH, inside a container, or wherever a browser cannot be opened, the CLI falls back to a device flow, or you can request it explicitly with `pimlico login --device`. It prints a one-time code and a URL; open the URL on any device, enter the code, and the CLI completes the login by itself.
 
