@@ -7,7 +7,7 @@ import VersionWarning from "../VersionWarning"
 ## Getting `WaitForUserOperationReceiptTimeoutError`?
 
 This error is thrown when the bundler takes too long to bundle your user operation or the default timeout configured in permissionless.js is not enough.
-This could be due to the block time of the chain you are using is more than the default timeout.
+This could be due to the block time of the chain you are using being more than the default timeout.
 
 The easiest way to fix this is to increase the timeout in permissionless.js. You can do this by changing timeout value in `bundlerTransport` like so:
 
