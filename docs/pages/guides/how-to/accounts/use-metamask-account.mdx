@@ -1,49 +1,49 @@
 # How to use MetaMask Smart Accounts with permissionless.js
 
 :::info
-MetaMask maintains their own in-house SDK built closely on top of viem that you can use for the account system while still plugging in all the other components from permissionless.js. Take a look at [their documentation](https://docs.metamask.io/delegation-toolkit/how-to/send-user-operation) for more information.
+MetaMask maintains their own in-house SDK built on top of Viem that you can use for the account system while still plugging in all the other components from permissionless.js. See [their documentation](https://docs.metamask.io/smart-accounts-kit) for more information.
 :::
 
-The [MetaMask Delegation Toolkit](https://docs.metamask.io/delegation-toolkit/get-started/quickstart) is a collection of tools for creating MetaMask Smart Accounts. A smart account can delegate to another signer with granular permission sharing. It is built over [ERC-7710](https://eip.tools/eip/7710) and [ERC-7715](https://eip.tools/eip/7715) to support a standardized minimal interface. Requesting ERC-7715 permissions and redeeming ERC-7710 delegations are experimental features.
+The [MetaMask Smart Accounts Kit](https://docs.metamask.io/smart-accounts-kit) enables embedding MetaMask Smart Accounts into dapps. Smart accounts support programmable account behavior and advanced features like delegated permissions, multi-signature approvals, and gas abstraction. [Delegation](https://docs.metamask.io/smart-accounts-kit/guides/delegation/execute-on-smart-accounts-behalf) is a core feature of smart accounts, enabling secure, rule-based permission sharing.
 
 There are two types of accounts involved in delegation:
 
-1. **Delegator account**: A smart account that supports programmable account behavior and advanced features such as multi-signature approvals, automated transaction batching, and custom security policies.
-2. **Delegate account**: An account (smart account or EOA) that receives the delegation from the delegator account to perform actions on behalf of the delegator account.
+1. **Delegator account**: An account that allows users to grant permissions to other accounts to perform executions on their behalf, under defined rules and restrictions. Delegator accounts must be MetaMask Smart Accounts.
+2. **Delegate account**: An account that receives permissions to perform executions on behalf of the delegator account. Delegate accounts can be smart accounts or externally owned accounts (EOAs).
 
 You can use both accounts with permissionless.js.
 
 ## Installation
 
-We will be using MetaMask's official SDK to create a smart account.
+Use MetaMask's official SDK to create a smart account.
 
 :::code-group
 
 ```bash [npm]
-npm install permissionless viem @metamask/delegation-toolkit
+npm install permissionless viem @metamask/smart-accounts-kit
 ```
 
 ```bash [yarn]
-yarn add permissionless viem @metamask/delegation-toolkit
+yarn add permissionless viem @metamask/smart-accounts-kit
 ```
 
 ```bash [pnpm]
-pnpm install permissionless viem @metamask/delegation-toolkit
+pnpm install permissionless viem @metamask/smart-accounts-kit
 ```
 
 ```bash [bun]
-bun install permissionless viem @metamask/delegation-toolkit
+bun install permissionless viem @metamask/smart-accounts-kit
 ```
 
 :::
 
-## Delegator Account
+## Delegator account
 
 ::::steps
 
 ### Create the clients
 
-First we must create the public, (optionally) pimlico paymaster clients that will be used to interact with the MetaMask smart account.
+First, create the public client and (optional) pimlico paymaster client that will be used to interact with the MetaMask smart account.
 
 ```ts
 // [!include ~/snippets/accounts/metamask.ts:clients]
@@ -51,7 +51,7 @@ First we must create the public, (optionally) pimlico paymaster clients that wil
 
 ### Create the signer
 
-MetaMask Smart Accounts can work with a variety of signing algorithms such as ECDSA, passkeys, and multisig.
+MetaMask Smart Accounts can work with a variety of signing algorithms, such as ECDSA, passkeys, and multisig.
 
 For example, to create a signer based on a private key:
 
@@ -62,7 +62,7 @@ For example, to create a signer based on a private key:
 ### Create the delegator smart account
 
 :::info
-For a full list of options for creating a MetaMask smart account, take a look at the MetaMask's documentation page for [`toMetaMaskSmartAccount`](https://docs.metamask.io/delegation-toolkit/how-to/create-smart-account).
+For a full list of options for creating a MetaMask smart account, see [the MetaMask documentation](https://docs.metamask.io/smart-accounts-kit/guides/smart-accounts/create-smart-account).
 :::
 
 With a signer, you can create a MetaMask smart account as such:
@@ -79,13 +79,13 @@ With a signer, you can create a MetaMask smart account as such:
 
 ### Send a transaction
 
-Transactions using permissionless.js simply wrap around user operations. This means you can switch to permissionless.js from your existing viem EOA codebase with minimal-to-no changes.
+Transactions using permissionless.js wrap around user operations. This means you can switch to permissionless.js from your existing Viem EOA codebase with minimal-to-no changes.
 
 ```ts
 // [!include ~/snippets/accounts/metamask.ts:submit]
 ```
 
-This also means you can also use viem Contract instances to transact without any modifications.
+This also means you can also use Viem Contract instances to transact without any modifications.
 
 ```ts
 // [!include ~/snippets/accounts/metamask.ts:submitNft]
@@ -99,22 +99,17 @@ You can also send an array of transactions in a single batch.
 
 ::::
 
-## Delegate Account
+## Delegate account
 
 A delegate account is an account that receives the delegation from the delegator account to perform actions on behalf of the delegator account.
-To create a delegate account, we will follow the following steps:
-
-1. Create a delegate signer
-2. Create the delegate smart account
-3. Create a delegation using delegator smart account
-4. Sign the delegation
-5. Send transactions using delegate smart account with signed delegation
+The delegate account can be a MetaMask smart account or an EOA.
+The following example uses a smart account.
 
 ::::steps
 
 ### Create the clients
 
-First we must create the public, (optionally) pimlico paymaster clients that will be used to interact with the MetaMask smart account.
+First, create the public client and (optional) pimlico paymaster client that will be used to interact with the MetaMask smart account.
 
 ```ts
 // [!include ~/snippets/accounts/metamask.ts:clients]
@@ -122,7 +117,7 @@ First we must create the public, (optionally) pimlico paymaster clients that wil
 
 ### Create the signer
 
-MetaMask Smart Accounts can work with a variety of signing algorithms such as ECDSA, passkeys, and multisig.
+MetaMask Smart Accounts can work with a variety of signing algorithms, such as ECDSA, passkeys, and multisig.
 
 For example, to create a signer based on a private key:
 
@@ -133,7 +128,7 @@ For example, to create a signer based on a private key:
 ### Create the delegate smart account
 
 :::info
-For a full list of options for creating a MetaMask smart account, take a look at the MetaMask's documentation page for [`toMetaMaskSmartAccount`](https://docs.metamask.io/delegation-toolkit/how-to/create-smart-account).
+For a full list of options for creating a MetaMask smart account, see [the MetaMask documentation](https://docs.metamask.io/smart-accounts-kit/guides/smart-accounts/create-smart-account).
 :::
 
 With a delegate signer, you can create a MetaMask delegate account as such:
@@ -144,7 +139,8 @@ With a delegate signer, you can create a MetaMask delegate account as such:
 
 ### Create a delegation
 
-This example passes an empty caveats array, which means the delegate can perform any action on the delegator's behalf. We recommend restricting the delegation by adding caveat enforcers.
+This example uses the ERC-20 transfer scope, which ensures that ERC-20 token transfers made by the delegate account are limited to a specified amount.
+You can read more about the Smart Accounts Kit's [delegation scopes](https://docs.metamask.io/smart-accounts-kit/guides/delegation/use-delegation-scopes).
 
 ```ts
 // [!include ~/snippets/accounts/metamask.ts:createDelegation]
