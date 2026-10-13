@@ -37,21 +37,9 @@ Alternatively, you can create an API key through our web dashboard:
 4. Click **Create API key**
 5. Copy your API key and add it to your project's `.env` file
 
-:::warning
-API keys are shown once, at creation. They cannot be retrieved later from the dashboard, the API or the CLI.
+:::tip
+Save your API key securely as you'll need it for all API requests. You can always retrieve it later from the [Dashboard](https://dashboard.pimlico.io/apikeys).
 :::
-
-## If you lose a key
-
-Create a new one, update your application, then disable the old one. Keys are referred to by their `akey_…` handle, which `pimlico keys list` shows:
-
-```bash
-pimlico keys create --name "my-app production"
-# update your app's configuration with the new key
-pimlico keys disable akey_7Kd2Qn4vT1
-```
-
-Disabling a key takes effect immediately, so disable the old one only after the new one is deployed.
 
 ## Next Steps
 
