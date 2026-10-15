@@ -43,6 +43,10 @@ export const platformSidebar = [
 			},
 		],
 	},
+	{
+		text: "CLI",
+		link: "/references/platform/cli",
+	},
 ];
 
 export const bundlerSidebar = [

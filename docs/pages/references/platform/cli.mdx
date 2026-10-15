@@ -1,0 +1,77 @@
+---
+title: Pimlico CLI
+description: Manage your Pimlico account from the terminal and from AI agents
+---
+
+# Pimlico CLI
+
+`pimlico` lets you manage your Pimlico account from the terminal: balance, usage, invoices, request and user operation logs, sponsorship policies and API keys. It also works as an MCP server, so AI agents like Claude Code and Cursor can do the same for you.
+
+## Install
+
+:::code-group
+
+```bash [curl]
+curl -fsSL https://dashboard.pimlico.io/install.sh | sh
+```
+
+```bash [Homebrew]
+brew install pimlicolabs/tap/pimlico
+```
+
+```bash [npm]
+npm install -g @pimlico/cli
+```
+
+```bash [pnpm]
+pnpm add -g @pimlico/cli
+```
+
+```bash [bun]
+bun add -g @pimlico/cli
+```
+
+```powershell [PowerShell]
+irm https://dashboard.pimlico.io/install.ps1 | iex
+```
+
+:::
+
+## Log in
+
+```bash
+pimlico login
+```
+
+Your browser opens on a Pimlico sign-in page. Choose whether the CLI acts on your personal account or on an organization, approve, and come back to the terminal. To skip that question, pass `--personal` or `--org`.
+
+On a server or over SSH, use `pimlico login --device`. The CLI prints a link and a short code. Open the link on any device and enter the code.
+
+:::tip
+If your coding agent runs `pimlico login`, it will show you a link and a code. Open the link and approve, and the agent carries on from there.
+:::
+
+## Permissions
+
+Any logged-in CLI can read your balance, usage, invoices, logs, policies and API key names. Changes need a permission you grant when you log in:
+
+| Permission | Allows |
+| --- | --- |
+| `write:keys` | Create, rename and disable API keys |
+| `write:policies` | Create, update, enable and disable sponsorship policies |
+
+At login you tick the permissions you want. To skip the checklist, use `--read-only` or `--scopes keys,policies`. To change permissions later, run `pimlico login` again.
+
+The CLI never shows an existing API key. `pimlico keys create` shows the new key once, so store it right away.
+
+## Use it with AI agents
+
+Agents with a shell can run `pimlico` directly. Every command takes `--json`, and `pimlico --help` explains the rest to them. For MCP clients, add the server:
+
+```bash
+claude mcp add pimlico -- pimlico mcp
+```
+
+## Telemetry
+
+The CLI sends usage telemetry to Pimlico, so we can see which commands people rely on and where they fail. To turn it off, run `pimlico telemetry disable`.
