@@ -78,13 +78,6 @@ claude mcp add pimlico -- pimlico mcp
 
 The MCP server uses the CLI's login.
 
-In Claude.ai or Claude Desktop, use the remote MCP server instead, which needs no install. Go to **Settings → Connectors → Add custom connector** and enter:
-
-- **Server URL**: `https://dashboard.pimlico.io/api/cli/mcp`
-- **OAuth Client ID**, under **Advanced settings**: ask the Pimlico team for it. Pimlico does not support automatic client registration yet.
-
-Claude then opens a Pimlico sign-in page where you sign in with your dashboard account and approve, as with `pimlico login`. The connector offers the CLI commands as tools, like `pimlico mcp`.
-
 ## Telemetry
 
 The CLI sends usage telemetry to Pimlico, so we can see which commands people rely on and where they fail. To turn it off, run `pimlico telemetry disable` or set `PIMLICO_TELEMETRY_DISABLED=1` (`DO_NOT_TRACK=1` also works).
