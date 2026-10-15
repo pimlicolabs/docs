@@ -15,10 +15,6 @@ description: Manage your Pimlico account from the terminal and from AI agents
 curl -fsSL https://dashboard.pimlico.io/install.sh | sh
 ```
 
-```powershell [PowerShell]
-irm https://dashboard.pimlico.io/install.ps1 | iex
-```
-
 ```bash [Homebrew]
 brew install pimlicolabs/tap/pimlico
 ```
@@ -35,9 +31,13 @@ pnpm add -g @pimlico/cli
 bun add -g @pimlico/cli
 ```
 
+```powershell [PowerShell]
+irm https://dashboard.pimlico.io/install.ps1 | iex
+```
+
 :::
 
-curl, PowerShell and Homebrew install a standalone binary, with nothing else to set up. npm, pnpm and bun need Node.js 20 or newer. The CLI updates itself once a day; set `PIMLICO_NO_AUTO_UPDATE=1` to turn that off.
+curl, Homebrew and PowerShell install a standalone binary, with nothing else to set up. npm, pnpm and bun need Node.js 20 or newer. The CLI updates itself once a day; set `PIMLICO_NO_AUTO_UPDATE=1` to turn that off.
 
 ## Log in
 
