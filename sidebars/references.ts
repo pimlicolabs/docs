@@ -4,10 +4,6 @@ export const platformSidebar = [
 		link: "/references/platform",
 	},
 	{
-		text: "CLI",
-		link: "/references/platform/cli",
-	},
-	{
 		text: "API",
 		items: [
 			{
@@ -46,6 +42,10 @@ export const platformSidebar = [
 				],
 			},
 		],
+	},
+	{
+		text: "CLI",
+		link: "/references/platform/cli",
 	},
 ];
 

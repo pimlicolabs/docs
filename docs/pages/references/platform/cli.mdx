@@ -37,8 +37,6 @@ irm https://dashboard.pimlico.io/install.ps1 | iex
 
 :::
 
-curl, Homebrew and PowerShell install a standalone binary, with nothing else to set up. npm, pnpm and bun need Node.js 20 or newer. The CLI updates itself once a day; set `PIMLICO_NO_AUTO_UPDATE=1` to turn that off.
-
 ## Log in
 
 ```bash
@@ -48,8 +46,6 @@ pimlico login
 Your browser opens on a Pimlico sign-in page. Choose whether the CLI acts on your personal account or on an organization, approve, and come back to the terminal. To skip that question, pass `--personal` or `--org`.
 
 On a server or over SSH, use `pimlico login --device`. The CLI prints a link and a short code. Open the link on any device and enter the code.
-
-You stay logged in until you run `pimlico logout`, which also revokes the session. Run `pimlico whoami` to see which account and permissions you're using. Credentials are stored in `~/.config/pimlico` and only your user can read them.
 
 :::tip
 If your coding agent runs `pimlico login`, it will show you a link and a code. Open the link and approve, and the agent carries on from there.
@@ -76,8 +72,6 @@ Agents with a shell can run `pimlico` directly. Every command takes `--json`, an
 claude mcp add pimlico -- pimlico mcp
 ```
 
-The MCP server uses the CLI's login.
-
 ## Telemetry
 
-The CLI sends usage telemetry to Pimlico, so we can see which commands people rely on and where they fail. To turn it off, run `pimlico telemetry disable` or set `PIMLICO_TELEMETRY_DISABLED=1` (`DO_NOT_TRACK=1` also works).
+The CLI sends usage telemetry to Pimlico, so we can see which commands people rely on and where they fail. To turn it off, run `pimlico telemetry disable`.
