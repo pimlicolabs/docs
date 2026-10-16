@@ -6,6 +6,14 @@ You can visit our [ERC-20 Paymaster overview page](/references/paymaster/erc20-p
 
 In this tutorial, you will deploy an ERC-4337 smart contract wallet on Base Sepolia, and submit a user operation that pays for its gas fees with USDC using an ERC-20 Paymaster.
 
+:::tip[Let your coding agent do it]
+Install the [Pimlico CLI](/references/platform/cli) and ask your coding agent (Claude Code, Cursor, Codex):
+
+> Follow docs.pimlico.io/references/permissionless/tutorial/tutorial-2: create a Pimlico API key with the pimlico CLI and send a user operation on Base Sepolia that pays its gas in USDC.
+
+It logs you in with `pimlico login`, creates the key with `pimlico keys create` and writes the code.
+:::
+
 ## Steps
 
 ::::steps
@@ -13,6 +21,8 @@ In this tutorial, you will deploy an ERC-4337 smart contract wallet on Base Sepo
 ### Get a Pimlico API key
 
 [Create your API key](/guides/create-api-key)
+
+Or from your terminal: `pimlico keys create --name pimlico-tutorial-2`
 
 ### Clone the Pimlico tutorial template repository
 
