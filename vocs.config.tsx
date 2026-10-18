@@ -1,4 +1,5 @@
 import { defineConfig } from "vocs";
+import { canonicalUrl } from "./seo";
 import { guidesSidebar } from "./sidebars/guides";
 import {
 	bundlerSidebar,
@@ -23,8 +24,9 @@ export default defineConfig({
 	},
 	description:
 		"Pimlico is the world's most popular account abstraction infrastructure platform",
-	head: () => (
+	head: ({ path }) => (
 		<>
+			<link rel="canonical" href={canonicalUrl(path)} />
 			<script src="/posthog.js" />
 			<link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg" />
 			<link rel="icon" type="image/png" href="/favicons/favicon.png" />
