@@ -10,7 +10,13 @@ import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join, relative, sep } from "node:path";
 import { normalizePath, pageExists, siteUrl } from "../seo";
 
-const outDir = join(process.cwd(), "docs", "dist");
+/**
+ * Same output directory as `vocs build`: on Vercel it writes the Build Output
+ * API layout (`.vercel/output/static`), elsewhere `docs/dist`.
+ */
+const outDir = process.env.VERCEL
+	? join(process.cwd(), ".vercel", "output", "static")
+	: join(process.cwd(), "docs", "dist");
 
 /**
  * Hidden pages: a folder starting with "." is kept out of the navigation, and
