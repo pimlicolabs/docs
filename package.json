@@ -4,7 +4,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vocs dev",
-		"build": "vocs build",
+		"build": "vocs build && tsx scripts/sitemap.ts",
 		"preview": "vocs preview",
 		"search-index": "vocs search-index",
 		"render-data": "tsx scripts/render-data.ts"
