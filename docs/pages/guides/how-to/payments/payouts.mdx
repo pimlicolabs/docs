@@ -31,7 +31,7 @@ bun install permissionless viem
 
 ### Create the treasury client
 
-This example uses a Safe as the treasury on Base, with EntryPoint 0.7. For a treasury that needs several approvers, see [Safe with multiple signers](/guides/how-to/accounts/use-safe-account-with-multiple-signers).
+This example uses a Safe as the treasury on Base, with EntryPoint 0.7. Keep the treasury key in a signer service such as [Turnkey](/guides/how-to/signers/turnkey), [Fireblocks](/guides/how-to/signers/fireblocks) or [Dfns](/guides/how-to/signers/dfns), not in an environment variable. For a treasury that needs several approvers, see [Safe with multiple signers](/guides/how-to/accounts/use-safe-account-with-multiple-signers).
 
 By default the verifying paymaster sponsors the gas from your Pimlico balance. To pay it from the treasury's USDC through the ERC-20 Paymaster instead, set `paymasterContext: { token: USDC }` on the client; the `prepareUserOperationForErc20Paymaster` override only acts in that case.
 

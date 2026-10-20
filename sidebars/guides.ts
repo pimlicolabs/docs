@@ -350,10 +350,6 @@ export const paymentsSidebar = [
 		link: "/guides/how-to/payments/remittances",
 	},
 	{
-		text: "Accept USDC at checkout",
-		link: "/guides/how-to/payments/accept-usdc-at-checkout",
-	},
-	{
 		text: "Send payouts at scale",
 		link: "/guides/how-to/payments/payouts",
 	},

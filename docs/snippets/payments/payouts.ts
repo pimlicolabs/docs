@@ -3,9 +3,8 @@ import { createSmartAccountClient } from "permissionless"
 import { toSafeSmartAccount } from "permissionless/accounts"
 import { createPimlicoClient } from "permissionless/clients/pimlico"
 import { prepareUserOperationForErc20Paymaster } from "permissionless/experimental/pimlico"
-import { createPublicClient, type Hex, http } from "viem"
+import { createPublicClient, type Hex, http, type LocalAccount } from "viem"
 import { entryPoint07Address } from "viem/account-abstraction"
-import { privateKeyToAccount } from "viem/accounts"
 import { base } from "viem/chains"
 
 const USDC = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" // USDC on Base
@@ -26,8 +25,8 @@ const pimlicoClient = createPimlicoClient({
 	},
 })
 
-// The treasury signer. In production, use a KMS / MPC signer instead of a raw key.
-const treasurySigner = privateKeyToAccount(process.env.TREASURY_SIGNER_KEY as Hex)
+// Your treasury signer: a Turnkey, Fireblocks, Dfns or KMS-backed account
+declare const treasurySigner: LocalAccount
 
 const treasury = await toSafeSmartAccount({
 	client: publicClient,
