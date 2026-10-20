@@ -116,10 +116,3 @@ console.log(`Sent 25 USDC: https://basescan.org/tx/${receipt.receipt.transaction
 console.log(`Fee paid in USDC, actual gas cost: ${receipt.actualGasCost} wei`)
 // [!endregion send]
 
-// [!region sponsored]
-const sponsoredHash = await smartAccountClient.sendTransaction({
-	calls: [transferCall],
-	paymasterContext: { sponsorshipPolicyId: "sp_your_policy_id" },
-})
-// [!endregion sponsored]
-console.log(sponsoredHash)

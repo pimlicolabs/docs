@@ -35,96 +35,7 @@ You also need a Pimlico API key. [Create one here](/guides/create-api-key).
 
 ### Create a sponsorship policy
 
-Create a policy that sets:
-
-- a **global** spending limit (for example per month), so a traffic spike can't drain your balance,
-- a **per-user** limit on spend or on the number of user operations (for example a few free transfers per day),
-- a **per-user-operation** spending cap,
-- a **chain allowlist** with the chains you operate on.
-
-You can create the policy in the [dashboard](https://dashboard.pimlico.io/sponsorship-policies), with the [Pimlico CLI](/references/platform/cli), or with the [Sponsorship Policies API](/references/platform/api/sponsorship-policies/create). Amounts are in US cents, so `50` is $0.50. The values below are examples; pick limits that match your unit economics.
-
-```bash
-curl -X POST "https://api.pimlico.io/v2/account/sponsorship_policies?apikey=YOUR_PIMLICO_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "policy_name": "Remittances on Base",
-    "chain_ids": { "allowlist": [8453] },
-    "limits": {
-      "global": {
-        "user_operation_spending": { "amount": 500000, "currency": "USD" },
-        "reset_interval": "monthly"
-      },
-      "user": {
-        "maximum_user_operation_count": 5,
-        "reset_interval": "daily"
-      },
-      "user_operation": {
-        "user_operation_spending": { "amount": 50, "currency": "USD" }
-      }
-    }
-  }'
-```
-
-The response contains the policy `id` (for example `sp_mighty_chameleon`). You'll pass it as `sponsorshipPolicyId` when you request sponsorship. See [the Sponsorship Policy object](/references/platform/api/sponsorship-policies/object) for every field.
-
-### Only sponsor USDC transfers (optional)
-
-Spending limits don't restrict *what* a user operation does. If you only want to pay for USDC transfers made by your own customers, enable a [sponsorship policy webhook](/guides/how-to/sponsorship-policies/webhook). Pimlico sends the user operation to your endpoint and only sponsors it if you answer `{ "sponsor": true }`.
-
-The handler below verifies the webhook signature with `@pimlico/webhook`, decodes the account's call data with its `parseCallData` helper, and approves the request only if every contract call is a USDC `transfer` from an account you recognize.
-
-```ts [app/api/pimlico-webhook/route.ts]
-import { parseCallData, pimlicoWebhookVerifier } from "@pimlico/webhook"
-import { type Address, isAddressEqual, slice, toFunctionSelector } from "viem"
-
-const USDC = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" // USDC on Base
-const TRANSFER_SELECTOR = toFunctionSelector("transfer(address,uint256)")
-
-const verifyWebhook = pimlicoWebhookVerifier(process.env.PIMLICO_WEBHOOK_SECRET as string)
-
-// Your own lookup, e.g. "is this smart account a KYC'd user of my app?"
-declare function isActiveCustomer(sender: Address): Promise<boolean>
-
-export async function POST(request: Request): Promise<Response> {
-	const body = await request.text()
-
-	let event: ReturnType<typeof verifyWebhook>
-	try {
-		event = verifyWebhook(Object.fromEntries(request.headers), body)
-	} catch {
-		return new Response("invalid signature", { status: 401 })
-	}
-
-	if (event.type !== "user_operation.sponsorship.requested") {
-		// e.g. "user_operation.sponsorship.finalized": record it and acknowledge
-		return Response.json({ received: true })
-	}
-
-	const { userOperation } = event.data.object
-
-	// parseCallData decodes the account's execute / executeBatch call data
-	const contractCalls = parseCallData(userOperation.callData).filter(
-		(call) => call.data !== "0x",
-	)
-
-	const onlyUsdcTransfers =
-		contractCalls.length > 0 &&
-		contractCalls.every(
-			(call) =>
-				isAddressEqual(call.to, USDC) &&
-				slice(call.data, 0, 4).toLowerCase() === TRANSFER_SELECTOR,
-		)
-
-	const sponsor = onlyUsdcTransfers && (await isActiveCustomer(userOperation.sender))
-
-	return Response.json({ sponsor })
-}
-```
-
-:::note
-Keep the `call.data !== "0x"` filter: `parseCallData` also returns each decoded `transfer` as an extra entry with empty call data. If you use Safe, batches go through a MultiSend contract, so adjust the rule to match.
-:::
+In the [dashboard](https://dashboard.pimlico.io/sponsorship-policies), create a policy for Base with a per-user daily limit, for example 5 user operations, and copy its ID (`sp_…`). Once a user reaches the limit, sponsorship fails and the transfer falls back to USDC. For more controls, such as sponsoring only your own customers, see [sponsorship policies](/guides/how-to/sponsorship-policies).
 
 ### Create the clients
 
@@ -142,7 +53,7 @@ If this code runs in your users' browsers or apps, don't ship your API key in it
 
 ### Send the transfer: sponsored first, USDC as fallback
 
-Request sponsorship under your policy. If the policy declines (for example because the user has used up today's free transfers, or your webhook answered `false`), the request fails and you can fall back to the ERC-20 Paymaster, which takes the fee from the user's USDC.
+Request sponsorship under your policy. If the policy declines (for example because the user has used up today's free transfers), the request fails and you can fall back to the ERC-20 Paymaster, which takes the fee from the user's USDC.
 
 ```ts
 // [!include ~/snippets/payments/remittances.ts:send]
@@ -180,7 +91,7 @@ The signer must be able to sign EIP-7702 authorizations: viem local accounts can
 
 - **Funding sponsorship**: keep your Pimlico balance (or attached card) able to cover the maximum cost of every sponsored user operation in flight. Pimlico holds each one's maximum possible cost and refunds the difference after it lands ([verifying paymaster FAQ](/references/paymaster/verifying-paymaster/faqs)).
 - **Sponsorship validity**: a sponsorship signature is valid for 10 minutes by default. If users may sign and submit later, extend it with `validForSeconds` ([guide](/guides/how-to/paymasters/extending-sponsorship-duration)). ERC-20 Paymaster sponsorships are always valid for 10 minutes.
-- **Several chains**: the API, the clients and the code are the same on every chain Pimlico supports. Create one policy per chain, or one policy whose `chain_ids.allowlist` lists all of them.
+- **Several chains**: the clients and the code are the same on every chain Pimlico supports. Allow each chain in your policy.
 
 ## Related
 

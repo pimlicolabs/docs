@@ -1,13 +1,18 @@
 ---
 title: How to send USDC without ETH for gas
-description: Let users send USDC and pay the network fee in USDC with Pimlico's ERC-20 Paymaster, or have your app sponsor it, from a smart account or an EIP-7702 EOA.
+description: Let users send USDC without ETH, either charging them the network fee in USDC with Pimlico's ERC-20 Paymaster or paying it from your app with the verifying paymaster, from a smart account or an EIP-7702 EOA.
+showOutline: 1
 ---
+
+import { FeePayerSelector, WhenFeePayer } from "../../../../components/FeePayer"
 
 # How to send USDC without ETH for gas
 
-This guide shows you how to let users send USDC without holding ETH, by paying the network fee in USDC with Pimlico's **ERC-20 Paymaster** or by having your app [sponsor it](#sponsor-the-transfer-instead). If the user's USDC is in an EOA, also follow [Send from an existing EOA with EIP-7702](#send-from-an-existing-eoa-with-eip-7702).
+This guide shows you how to let users send USDC from an account that holds no ETH, with either the user or your app paying the network fee. If the user's USDC is in an EOA, also follow [Send from an existing EOA with EIP-7702](#send-from-an-existing-eoa-with-eip-7702).
 
 This guide uses Base. For other chains, check the [supported tokens](/references/paymaster/erc20-paymaster/supported-tokens). To try it on Base Sepolia first, follow [Tutorial 2](/guides/tutorials/tutorial-2), which uses testnet USDC from the Circle faucet.
+
+<FeePayerSelector />
 
 ## Installation
 
@@ -30,6 +35,8 @@ bun install permissionless viem
 You need a Pimlico API key. [Create one here](/guides/create-api-key).
 
 ## Steps
+
+<WhenFeePayer is="user">
 
 ::::steps
 
@@ -71,42 +78,111 @@ Check `receipt.success` before you show the transfer as sent. If the account's a
 
 ::::
 
+</WhenFeePayer>
+
+<WhenFeePayer is="app">
+
+::::steps
+
+### Create the clients
+
+The Pimlico client is both the bundler and the paymaster.
+
+```ts
+// [!include ~/snippets/payments/send-usdc-without-eth-sponsored.ts:clients]
+```
+
+The account address is counterfactual: it's known before the account is deployed, and the account is deployed by its first user operation. Send the user's USDC to `account.address`.
+
+### Send the transfer and wait for the receipt
+
+Send the transfer without a `paymasterContext`. The verifying paymaster sponsors it and charges your Pimlico balance, so the user only needs the USDC they're sending. To cap your spend per user or in total, pass a `sponsorshipPolicyId` ([sponsorship policies](/guides/how-to/sponsorship-policies)).
+
+```ts
+// [!include ~/snippets/payments/send-usdc-without-eth-sponsored.ts:send]
+```
+
+Check `receipt.success` before you show the transfer as sent.
+
+::::
+
+To sponsor only a few transfers per user per day and charge the user in USDC after that, follow [How to send USDC remittances without ETH for gas](/guides/how-to/payments/remittances).
+
+</WhenFeePayer>
+
 ## Send from an existing EOA with EIP-7702
 
 If the user's USDC is in an EOA, delegate the EOA to a Simple account implementation with EIP-7702 instead of moving funds to a new address. The address stays the same; the account uses EntryPoint 0.8, so the Pimlico client is configured for 0.8 too.
+
+<WhenFeePayer is="user">
 
 ```ts
 // [!include ~/snippets/payments/send-usdc-without-eth-7702.ts:clients7702]
 ```
 
+</WhenFeePayer>
+
+<WhenFeePayer is="app">
+
+```ts
+// [!include ~/snippets/payments/send-usdc-without-eth-sponsored-7702.ts:clients7702]
+```
+
+</WhenFeePayer>
+
 The first user operation must carry a signed authorization. After it lands, the EOA's code is the delegation designator `0xef0100` followed by the implementation address, which you can check to decide whether to sign another one.
+
+<WhenFeePayer is="user">
 
 ```ts
 // [!include ~/snippets/payments/send-usdc-without-eth-7702.ts:send7702]
 ```
 
-The signer has to support signing EIP-7702 authorizations. viem local accounts can; for an embedded wallet, check its provider's documentation. For browser extension wallets, see [external wallets](/guides/eip7702/external). The [EIP-7702 quickstart](/guides/eip7702/demo) walks through the same flow on Sepolia.
+</WhenFeePayer>
 
-## Sponsor the transfer instead
-
-To make the transfer free for the user, request sponsorship from the verifying paymaster under one of your [sponsorship policies](/guides/how-to/sponsorship-policies). With a `sponsorshipPolicyId` in the context, the ERC-20 override does nothing and no approval is added; the gas is charged to your Pimlico balance.
+<WhenFeePayer is="app">
 
 ```ts
-// [!include ~/snippets/payments/send-usdc-without-eth.ts:sponsored]
+// [!include ~/snippets/payments/send-usdc-without-eth-sponsored-7702.ts:send7702]
 ```
 
-To sponsor a few transfers per user per day and fall back to the ERC-20 Paymaster when the policy declines, follow [How to send USDC remittances without ETH for gas](/guides/how-to/payments/remittances).
+</WhenFeePayer>
+
+The signer has to support signing EIP-7702 authorizations. viem local accounts can; for an embedded wallet, check its provider's documentation. For browser extension wallets, see [external wallets](/guides/eip7702/external). The [EIP-7702 quickstart](/guides/eip7702/demo) walks through the same flow on Sepolia.
 
 ## Notes
+
+<WhenFeePayer is="user">
 
 - **Approval strategy**: `prepareUserOperationForErc20Paymaster` approves only the maximum fee of each user operation. If you prefer a one-time unlimited approval, see [using the ERC-20 Paymaster with unlimited approvals](/guides/how-to/erc20-paymaster/how-to/use-paymaster-with-unlimited-approval).
 - **Sponsorship window**: an ERC-20 Paymaster sponsorship is valid for 10 minutes, so prepare and send the user operation in the same session.
 - **API keys**: in a client app, route Pimlico requests through your backend instead of embedding the key ([guide](/guides/how-to/security/protect-api-keys)).
 
+</WhenFeePayer>
+
+<WhenFeePayer is="app">
+
+- **API keys**: in a client app, route Pimlico requests through your backend instead of embedding the key ([guide](/guides/how-to/security/protect-api-keys)).
+
+</WhenFeePayer>
+
 ## Related
+
+<WhenFeePayer is="user">
 
 - [Tutorial 2: submit a user operation with an ERC-20 Paymaster](/guides/tutorials/tutorial-2)
 - [How to use the ERC-20 Paymaster](/guides/how-to/erc20-paymaster/how-to/use-paymaster)
 - [Estimate token cost and cost in USD](/guides/how-to/erc20-paymaster/how-to/calculate-costs)
 - [ERC-20 Paymaster contract addresses](/references/paymaster/erc20-paymaster/contract-addresses)
 - [`to7702SimpleSmartAccount` reference](/references/permissionless/reference/accounts/to7702SimpleSmartAccount)
+
+</WhenFeePayer>
+
+<WhenFeePayer is="app">
+
+- [Sponsorship policies](/guides/how-to/sponsorship-policies)
+- [How to send USDC remittances without ETH for gas](/guides/how-to/payments/remittances)
+- [How to accept USDC at checkout without customers paying gas](/guides/how-to/payments/accept-usdc-at-checkout)
+- [`to7702SimpleSmartAccount` reference](/references/permissionless/reference/accounts/to7702SimpleSmartAccount)
+
+</WhenFeePayer>

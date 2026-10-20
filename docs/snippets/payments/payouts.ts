@@ -44,9 +44,8 @@ const treasuryClient = createSmartAccountClient({
 	chain: base,
 	bundlerTransport: http(pimlicoUrl),
 	paymaster: pimlicoClient,
-	// Sponsor every payout user operation under this policy...
-	paymasterContext: { sponsorshipPolicyId: "sp_payouts_policy" },
-	// ...or use `paymasterContext: { token: USDC }` to pay gas from the treasury's USDC
+	// Gas is sponsored from your Pimlico balance. To pay it from the treasury's USDC instead,
+	// set `paymasterContext: { token: USDC }`
 	userOperation: {
 		estimateFeesPerGas: async () => {
 			return (await pimlicoClient.getUserOperationGasPrice()).fast

@@ -172,9 +172,9 @@ console.log(`Swap included: https://basescan.org/tx/${receipt.receipt.transactio
 // [!endregion send]
 
 // [!region sponsored]
+// No token in paymasterContext: the verifying paymaster sponsors it
 const sponsoredHash = await smartAccountClient.sendUserOperation({
 	calls: await buildSwapCalls(requestedSell),
-	paymasterContext: { sponsorshipPolicyId: "sp_your_policy_id" },
 })
 // [!endregion sponsored]
 console.log(sponsoredHash)

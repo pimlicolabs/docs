@@ -81,13 +81,13 @@ Check `receipt.success`. If the price moves past the slippage limit encoded in t
 
 ## Sponsor the swap instead
 
-To make swaps free for users, sponsor them with the verifying paymaster. Pass a `sponsorshipPolicyId` instead of a `token`; the ERC-20 Paymaster override then does nothing, and no paymaster approval is added.
+To make swaps free for users, leave the `token` out of `paymasterContext`. The verifying paymaster then sponsors the swap from your Pimlico balance, and no paymaster approval is added.
 
 ```ts
 // [!include ~/snippets/payments/swap-without-eth.ts:sponsored]
 ```
 
-Give the policy a per-user operation count or spending limit, a per-user-operation cap, and `chain_ids.allowlist: [8453]` so it only sponsors on Base. See [How to use sponsorship policies](/guides/how-to/sponsorship-policies), and use a [webhook](/guides/how-to/sponsorship-policies/webhook) if you only want to sponsor calls to your router.
+To cap spend per user or sponsor only calls to your router, pass a `sponsorshipPolicyId` ([sponsorship policies](/guides/how-to/sponsorship-policies)).
 
 ## Notes
 

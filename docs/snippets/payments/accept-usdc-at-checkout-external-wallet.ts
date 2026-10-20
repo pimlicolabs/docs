@@ -30,7 +30,6 @@ export async function payOrderWithExternalWallet(order: Order) {
 			? {
 					paymasterService: {
 						url: "https://shop.example.com/api/pimlico/8453", // your proxy
-						context: { sponsorshipPolicyId: "sp_checkout_policy" },
 					},
 				}
 			: undefined,

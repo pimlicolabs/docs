@@ -34,7 +34,6 @@ const smartAccountClient = createSmartAccountClient({
 	chain: base,
 	bundlerTransport: http(pimlicoProxyUrl),
 	paymaster: pimlicoClient,
-	paymasterContext: { sponsorshipPolicyId: "sp_checkout_policy" },
 	userOperation: {
 		estimateFeesPerGas: async () => (await pimlicoClient.getUserOperationGasPrice()).fast,
 	},

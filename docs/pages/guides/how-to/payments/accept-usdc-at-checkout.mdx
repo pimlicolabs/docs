@@ -1,6 +1,6 @@
 ---
 title: How to accept USDC at checkout without customers paying gas
-description: Accept USDC payments where the customer needs no ETH, by sponsoring the customer's transfer with a Pimlico sponsorship policy and verifying the payment on your backend from the user operation receipt.
+description: Accept USDC payments where the customer needs no ETH, by sponsoring the customer's transfer with Pimlico's verifying paymaster and verifying the payment on your backend from the user operation receipt.
 ---
 
 # How to accept USDC at checkout without customers paying gas
@@ -10,17 +10,6 @@ This guide shows you how to accept USDC at checkout without customers holding ET
 ## Steps
 
 ::::steps
-
-### Create a checkout sponsorship policy
-
-Create a policy in the [dashboard](https://dashboard.pimlico.io/sponsorship-policies) or with the [API](/references/platform/api/sponsorship-policies/create). For checkout, set:
-
-- a **per-user** limit, for example a small daily `maximum_user_operation_count`, so a single account can't burn your balance,
-- a **per-user-operation** spending cap that comfortably covers one USDC transfer on your chain,
-- a **global** spending limit with a `reset_interval`,
-- `chain_ids.allowlist` with the chains you accept payments on, for example `[8453]` for Base.
-
-To sponsor only payments to your own address, add a [policy webhook](/guides/how-to/sponsorship-policies/webhook) that decodes the user operation's call data and answers `{ "sponsor": true }` only for a USDC `transfer` whose recipient is your merchant address. The `@pimlico/webhook` package provides both signature verification and a `parseCallData` helper for this. For a complete handler to adapt, see [How to send USDC remittances without ETH for gas](/guides/how-to/payments/remittances).
 
 ### Put your API key behind a proxy
 
@@ -36,7 +25,7 @@ Hash the order ID into the nonce key, so the user operation that pays an order c
 
 ### Create the customer's clients
 
-Both the bundler transport and the Pimlico client point at your proxy. The `paymasterContext` on the smart account client requests sponsorship under your checkout policy for every user operation it sends.
+Both the bundler transport and the Pimlico client point at your proxy. The verifying paymaster sponsors every user operation the client sends and charges your Pimlico balance. To cap spend per customer or sponsor only payments to your address, pass a `sponsorshipPolicyId` in `paymasterContext` ([sponsorship policies](/guides/how-to/sponsorship-policies)).
 
 ```ts [checkout.ts]
 // [!include ~/snippets/payments/accept-usdc-at-checkout.ts:clients]
@@ -70,7 +59,7 @@ Store the `userOpHash` with the order and make it unique, so the same payment ca
 
 ## Accept payment from an external wallet
 
-Customers using a browser extension wallet usually can't sign an EIP-7702 authorization for your app. If their wallet supports EIP-5792 `wallet_sendCalls` with the `paymasterService` capability (ERC-7677), you can still sponsor the payment: pass your proxy URL as the paymaster service and your policy ID in its `context`.
+Customers using a browser extension wallet usually can't sign an EIP-7702 authorization for your app. If their wallet supports EIP-5792 `wallet_sendCalls` with the `paymasterService` capability (ERC-7677), you can still sponsor the payment: pass your proxy URL as the paymaster service.
 
 ```ts
 // [!include ~/snippets/payments/accept-usdc-at-checkout-external-wallet.ts:external]
@@ -88,6 +77,5 @@ Here you receive a transaction hash rather than a user operation hash, and the n
 ## Related
 
 - [How to use sponsorship policies](/guides/how-to/sponsorship-policies)
-- [Sponsorship policy webhooks](/guides/how-to/sponsorship-policies/webhook)
 - [`eth_getUserOperationReceipt`](/references/bundler/endpoints/eth_getUserOperationReceipt)
 - [Send user operations in parallel](/guides/how-to/parallel-transactions) (nonce keys)

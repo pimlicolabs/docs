@@ -33,13 +33,13 @@ bun install permissionless viem
 
 This example uses a Safe as the treasury on Base, with EntryPoint 0.7. For a treasury that needs several approvers, see [Safe with multiple signers](/guides/how-to/accounts/use-safe-account-with-multiple-signers).
 
-Set the default `paymasterContext` on the client. To sponsor the gas from your Pimlico balance, pass a `sponsorshipPolicyId`. To pay it from the treasury's USDC through the ERC-20 Paymaster, pass a `token`; the `prepareUserOperationForErc20Paymaster` override only acts in that case.
+By default the verifying paymaster sponsors the gas from your Pimlico balance. To pay it from the treasury's USDC through the ERC-20 Paymaster instead, set `paymasterContext: { token: USDC }` on the client; the `prepareUserOperationForErc20Paymaster` override only acts in that case.
 
 ```ts
 // [!include ~/snippets/payments/payouts.ts:clients]
 ```
 
-If you sponsor, create a dedicated policy for payouts with a global spending limit and `chain_ids.allowlist`, so a bug in your payout job can't spend more than you intended ([sponsorship policies](/guides/how-to/sponsorship-policies)). Keep your Pimlico balance above the maximum cost of all chunks in flight: Pimlico holds each sponsored user operation's maximum possible cost until it lands, then refunds the difference ([FAQ](/references/paymaster/verifying-paymaster/faqs)).
+To cap what a bug in your payout job can spend, pass a `sponsorshipPolicyId` with a global limit ([sponsorship policies](/guides/how-to/sponsorship-policies)). If you sponsor, keep your Pimlico balance above the maximum cost of all chunks in flight: Pimlico holds each sponsored user operation's maximum possible cost until it lands, then refunds the difference ([FAQ](/references/paymaster/verifying-paymaster/faqs)).
 
 ### Deploy the treasury before sending in parallel
 
