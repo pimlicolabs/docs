@@ -70,8 +70,6 @@ Check the customer's USDC balance, then send a user operation from the merchant 
 // [!include ~/snippets/payments/accept-usdc-at-checkout.ts:settle]
 ```
 
-To limit what your API key can sponsor, create a [sponsorship policy](/guides/how-to/sponsorship-policies) that only allows calls to the USDC contract and pass its ID as `paymasterContext: { sponsorshipPolicyId }`.
-
 ### Confirm the payment
 
 Wait for the receipt, then check `authorizationState` for the customer and nonce before you mark the order as paid. If a settlement attempt fails, retry with the same signature: USDC rejects a nonce that has already been used, so the customer can't be charged twice.
@@ -113,9 +111,12 @@ Change the chain, the RPC URL and the USDC address. Then read `name()` and `vers
 - If the customer pays from a smart contract wallet, keep the `bytes signature` overload of `receiveWithAuthorization` used here. USDC checks it with ERC-1271, which only works once the customer's wallet is deployed.
 - If you want the merchant account to pay its own gas in USDC instead of sponsoring it, follow [How to use the ERC-20 Paymaster](/guides/how-to/erc20-paymaster/how-to/use-paymaster).
 
+## Limit what you sponsor (optional)
+
+To cap what your API key can sponsor, for example only calls to the USDC contract, create a policy in the [sponsorship policies dashboard](https://dashboard.pimlico.io/sponsorship-policies) and pass its ID as `paymasterContext: { sponsorshipPolicyId }` when you settle. See [How to use sponsorship policies](/guides/how-to/sponsorship-policies).
+
 ## Related
 
-- [How to use sponsorship policies](/guides/how-to/sponsorship-policies)
 - [How to send USDC payouts to thousands of recipients](/guides/how-to/payments/payouts)
 - [How to use a Safe account](/guides/how-to/accounts/use-safe-account)
 - [Verifying paymaster reference](/references/paymaster/verifying-paymaster)

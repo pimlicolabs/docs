@@ -54,54 +54,53 @@ const agentClient = createSmartAccountClient({
 })
 // [!endregion clients]
 
-// [!region send]
+// [!region tool]
 import type { Address, Hex } from "viem"
-
-const AGENT_POLICY_ID = "sp_your_agent_policy"
 
 type AgentCall = { to: Address; value: bigint; data: Hex }
 
-async function submit(calls: AgentCall[]) {
-	try {
-		// Sponsored by your Pimlico balance, within the policy's limits
-		const hash = await agentClient.sendUserOperation({
-			calls,
-			paymasterContext: { sponsorshipPolicyId: AGENT_POLICY_ID },
-		})
-		return { hash, feePaidBy: "app" as const }
-	} catch (error) {
-		// The policy declined (limit reached or call not allowed): the agent pays in USDC
-		console.warn("Sponsorship declined, paying gas in USDC", error)
-		const hash = await agentClient.sendUserOperation({
-			calls,
-			paymasterContext: { token: USDC },
-		})
-		return { hash, feePaidBy: "agent" as const }
-	}
-}
-// [!endregion send]
-
-// [!region tool]
 // Register this as a tool in your agent framework. The model only sees the result.
 export async function sendAgentTransaction(calls: AgentCall[]) {
-	const { hash, feePaidBy } = await submit(calls)
+	// No paymasterContext: Pimlico sponsors the gas from your balance
+	const hash = await agentClient.sendUserOperation({ calls })
 
 	const receipt = await agentClient.waitForUserOperationReceipt({ hash })
 
 	return {
 		success: receipt.success,
 		transactionHash: receipt.receipt.transactionHash,
-		feePaidBy,
 		error: receipt.success ? undefined : (receipt.reason ?? "reverted"),
 	}
 }
 // [!endregion tool]
 
 // [!region usdc-only]
-// The agent always pays its own gas from its USDC balance
+// The agent pays its own gas from its USDC balance
 const hash = await agentClient.sendUserOperation({
 	calls: [{ to: "0x1111111111111111111111111111111111111111", value: 0n, data: "0x" }],
 	paymasterContext: { token: USDC },
 })
 // [!endregion usdc-only]
 console.log(hash)
+
+// [!region policy]
+const AGENT_POLICY_ID = "sp_your_agent_policy"
+
+// In sendAgentTransaction, call this instead of agentClient.sendUserOperation
+async function sendWithinLimits(calls: AgentCall[]) {
+	try {
+		// Sponsored only within the policy's limits
+		return await agentClient.sendUserOperation({
+			calls,
+			paymasterContext: { sponsorshipPolicyId: AGENT_POLICY_ID },
+		})
+	} catch {
+		// Limit reached: the agent pays gas from its own USDC
+		return agentClient.sendUserOperation({
+			calls,
+			paymasterContext: { token: USDC },
+		})
+	}
+}
+// [!endregion policy]
+console.log(sendWithinLimits)

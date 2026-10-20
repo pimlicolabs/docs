@@ -51,7 +51,6 @@ const smartAccountClient = createSmartAccountClient({
 // [!region send]
 import { encodeFunctionData, erc20Abi, parseUnits } from "viem"
 
-const SPONSORSHIP_POLICY_ID = "sp_your_ethereum_policy"
 const USDC = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48" // USDC on Ethereum
 
 // Batch everything the user is doing into one user operation to pay the overhead once
@@ -67,7 +66,6 @@ const userOpHash = await smartAccountClient.sendUserOperation({
 			}),
 		},
 	],
-	paymasterContext: { sponsorshipPolicyId: SPONSORSHIP_POLICY_ID },
 })
 // [!endregion send]
 
@@ -83,3 +81,13 @@ if (!receipt.success) {
 console.log(`Included: https://etherscan.io/tx/${receipt.receipt.transactionHash}`)
 console.log(`Gas you sponsored: ${formatEther(receipt.actualGasCost)} ETH`)
 // [!endregion receipt]
+
+// [!region policy]
+const SPONSORSHIP_POLICY_ID = "sp_your_ethereum_policy"
+
+const limitedHash = await smartAccountClient.sendUserOperation({
+	calls: [{ to: "0x1111111111111111111111111111111111111111", value: 0n, data: "0x" }],
+	paymasterContext: { sponsorshipPolicyId: SPONSORSHIP_POLICY_ID },
+})
+// [!endregion policy]
+console.log(limitedHash)

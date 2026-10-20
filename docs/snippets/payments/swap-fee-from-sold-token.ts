@@ -45,18 +45,12 @@ const smartAccountClient = createSmartAccountClient({
 })
 // [!endregion clients]
 
-// [!region supported]
-const sellToken: Address = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" // USDC on Base
-const buyToken: Address = "0x4200000000000000000000000000000000000006" // WETH on Base
-
-const quotes = await pimlicoClient.getTokenQuotes({ tokens: [sellToken] })
-
-// If the sell token isn't supported, sponsor the swap instead
-const canPayGasInSellToken = quotes.length > 0
-// [!endregion supported]
 
 // [!region calls]
 import { encodeFunctionData, erc20Abi } from "viem"
+
+const sellToken: Address = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" // USDC on Base
+const buyToken: Address = "0x4200000000000000000000000000000000000006" // WETH on Base
 
 // Map your aggregator's "exact input" quote onto this shape
 type SwapQuote = {
@@ -168,4 +162,11 @@ if (!receipt.success) {
 	throw new Error(`Swap reverted: ${receipt.reason ?? "unknown reason"}`)
 }
 // [!endregion send]
+
+// [!region supported]
+const quotes = await pimlicoClient.getTokenQuotes({ tokens: [sellToken] })
+
+// If the sell token isn't supported, sponsor the swap instead
+const canPayGasInSellToken = quotes.length > 0
+// [!endregion supported]
 console.log(canPayGasInSellToken)

@@ -1,16 +1,15 @@
 ---
 title: How to sponsor transaction fees for users on Ethereum
-description: Pay your users' gas on Ethereum mainnet with Pimlico's verifying paymaster, capping spend with a sponsorship policy, from an ERC-4337 smart account or an existing EOA with EIP-7702.
+description: Pay your users' gas on Ethereum mainnet with Pimlico's verifying paymaster, from an ERC-4337 smart account or an existing EOA with EIP-7702.
 ---
 
 # How to sponsor transaction fees for users on Ethereum
 
-This guide shows you how to pay your users' transaction fees on Ethereum mainnet, so they can transact without holding ETH. You send each user's transactions as an ERC-4337 user operation, and Pimlico's **verifying paymaster** pays the gas from your Pimlico balance, within limits you set in a **sponsorship policy**. If you're new to sponsored transactions, start with [Tutorial 1: send your first gasless transaction](/guides/tutorials/tutorial-1) on a testnet.
+This guide shows you how to pay your users' transaction fees on Ethereum mainnet, so they can transact without holding ETH. You send each user's transactions as an ERC-4337 user operation, and Pimlico's **verifying paymaster** pays the gas from your Pimlico balance.
 
 ## Prerequisites
 
 - A Pimlico API key on a plan that includes mainnets, with a balance or card attached to cover sponsored gas. [Create one](/guides/create-api-key).
-- A signer for each user, such as an embedded wallet or a passkey. See [signers](/guides/how-to/signers).
 
 ::::code-group
 
@@ -32,33 +31,27 @@ bun install permissionless viem
 
 ::::steps
 
-### Create a sponsorship policy with spend limits
-
-In the [Pimlico dashboard](https://dashboard.pimlico.io/sponsorship-policies), create a policy for Ethereum. Set a global limit, a per-user limit, and a per-user-operation limit. A single user operation on mainnet can cost several dollars when gas spikes. Copy the policy ID (`sp_…`).
-
 ### Create the clients
 
-Create a public client, a Pimlico client for chain ID `1` (used as both bundler and paymaster), the user's smart account, and a smart account client.
+Create a public client, a Pimlico client for chain ID `1` (used as both bundler and paymaster), the user's smart account, and a smart account client. Replace the `owner` with the user's signer, such as an embedded wallet or a passkey.
 
 ```ts
 // [!include ~/snippets/paymasters/sponsor-gas-on-ethereum.ts:clients]
 ```
 
-If your users already have an EOA with funds in it, use EIP-7702 instead of a new smart account address: see [Sponsor an existing EOA with EIP-7702](#sponsor-an-existing-eoa-with-eip-7702).
+If your users already have an EOA with funds in it, see [Sponsor an existing EOA with EIP-7702](#sponsor-an-existing-eoa-with-eip-7702) instead.
 
 ### Send a sponsored user operation
 
-Pass your policy ID in the `paymasterContext`. Put everything the user is doing in this action into one `calls` array, so the fixed cost of the user operation is paid once rather than per call.
+Send the user's calls with `sendUserOperation`. Pimlico sponsors the gas because the client's `paymaster` is the Pimlico client. Put everything the user is doing in one `calls` array, so the fixed cost of a user operation is paid once rather than per call.
 
 ```ts
 // [!include ~/snippets/paymasters/sponsor-gas-on-ethereum.ts:send]
 ```
 
-If the user operation breaks a policy limit, `sendUserOperation` throws. Catch it and tell the user, or [let them pay gas in USDC](#let-users-pay-gas-in-usdc-instead).
-
 ### Check the receipt
 
-Wait for the receipt, check `success`, and read `actualGasCost` to see what you paid for this user operation.
+Wait for the receipt, check `success`, and read `actualGasCost` to see what you paid.
 
 ```ts
 // [!include ~/snippets/paymasters/sponsor-gas-on-ethereum.ts:receipt]
@@ -66,25 +59,35 @@ Wait for the receipt, check `success`, and read `actualGasCost` to see what you 
 
 ::::
 
-## Test on Sepolia first
-
-To test without spending real ETH, replace `mainnet` with `sepolia` from `viem/chains` and use chain ID `11155111` in the Pimlico URL. Sponsorship on testnets is free. Create a separate policy for Sepolia.
-
 ## Sponsor an existing EOA with EIP-7702
 
 Ethereum supports EIP-7702. To sponsor gas for a user's existing EOA without moving their funds, replace `toSimpleSmartAccount` with `to7702SimpleSmartAccount`, use EntryPoint 0.8, and attach a signed authorization to the user's first user operation. Follow the [EIP-7702 quickstart](/guides/eip7702/demo) and set the chain to `mainnet`.
 
+## Test on Sepolia first
+
+To test without spending real ETH, replace `mainnet` with `sepolia` from `viem/chains` and use chain ID `11155111` in the Pimlico URL. Sponsorship on testnets is free.
+
 ## Let users pay gas in USDC instead
 
-To charge users instead of sponsoring them, pay gas in USDC (`0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48`) with the ERC-20 Paymaster. Follow [How to send USDC without ETH for gas](/guides/how-to/payments/send-usdc-without-eth) and change the chain to `mainnet`. To sponsor first and fall back to USDC when a policy limit is reached, see [How to send USDC remittances without ETH for gas](/guides/how-to/payments/remittances).
+To charge users instead of sponsoring them, pay gas in USDC (`0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48`) with the ERC-20 Paymaster. Follow [How to send USDC without ETH for gas](/guides/how-to/payments/send-usdc-without-eth) and change the chain to `mainnet`.
 
 ## Sponsor on other chains
 
-The same code works on every [supported chain](/guides/supported-chains). Change the viem chain, the chain ID in the Pimlico URL and the RPC URL, and allow the chain in your sponsorship policy.
+The same code works on every [supported chain](/guides/supported-chains). Change the viem chain, the chain ID in the Pimlico URL and the RPC URL.
+
+## Limit what you sponsor (optional)
+
+To cap your spend, for example per user or per user operation, create a policy in the [sponsorship policies dashboard](https://dashboard.pimlico.io/sponsorship-policies) and pass its ID in the `paymasterContext`. User operations outside the policy's limits are declined, and `sendUserOperation` throws.
+
+```ts
+// [!include ~/snippets/paymasters/sponsor-gas-on-ethereum.ts:policy]
+```
+
+To sponsor first and charge USDC once a user hits a limit, see [How to send USDC remittances without ETH for gas](/guides/how-to/payments/remittances). For all policy options, see [How to use sponsorship policies](/guides/how-to/sponsorship-policies).
 
 ## Related
 
-- [How to use sponsorship policies](/guides/how-to/sponsorship-policies)
+- [Tutorial 1: send your first gasless transaction](/guides/tutorials/tutorial-1)
 - [How to conditionally sponsor a user operation](/guides/how-to/paymasters/conditional-sponsoring)
 - [Pricing](/guides/pricing)
 - [Verifying paymaster reference](/references/paymaster/verifying-paymaster)

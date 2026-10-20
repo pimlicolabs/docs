@@ -40,17 +40,9 @@ If your users have an EOA, use `to7702SimpleSmartAccount` (EntryPoint 0.8), as t
 // [!include ~/snippets/payments/swap-fee-from-sold-token.ts:clients]
 ```
 
-### Check the sell token can pay gas
-
-Call `getTokenQuotes` with the token the user is selling. If it returns no quote, the ERC-20 Paymaster doesn't accept that token on this chain: [sponsor the swap](#if-the-sell-token-cant-pay-gas) instead.
-
-```ts
-// [!include ~/snippets/payments/swap-fee-from-sold-token.ts:supported]
-```
-
 ### Build the approve and swap calls
 
-Request an exact-input quote with the account address as the taker, and approve exactly the sell amount for the aggregator's allowance target.
+Request an exact-input quote with the account address as the taker, and approve exactly the sell amount for the aggregator's allowance target. This example sells USDC; to sell another token, see [Sell a token other than USDC](#sell-a-token-other-than-usdc).
 
 ```ts
 // [!include ~/snippets/payments/swap-fee-from-sold-token.ts:calls]
@@ -84,9 +76,15 @@ Check `receipt.success`. If the price moves past your slippage limit, the whole 
 
 ::::
 
-## If the sell token can't pay gas
+## Sell a token other than USDC
 
-If `getTokenQuotes` returns no quote for the token, leave the `token` out of the `paymasterContext` and sponsor the swap from your Pimlico balance, as in [Sponsor the swap instead](/guides/how-to/payments/swap-without-eth#sponsor-the-swap-instead). To recover the cost, take your own fee in the swap itself if your aggregator supports an integrator fee.
+The ERC-20 Paymaster only accepts some tokens on each chain. To check the token the user is selling, call `getTokenQuotes`:
+
+```ts
+// [!include ~/snippets/payments/swap-fee-from-sold-token.ts:supported]
+```
+
+If it returns a quote, set `sellToken` to that token and follow the steps as written. If it returns no quote, leave the `token` out of the `paymasterContext` and sponsor the swap from your Pimlico balance, as in [Sponsor the swap instead](/guides/how-to/payments/swap-without-eth#sponsor-the-swap-instead). To recover the cost, take your own fee in the swap itself if your aggregator supports an integrator fee.
 
 ## Let the user sell their whole balance
 

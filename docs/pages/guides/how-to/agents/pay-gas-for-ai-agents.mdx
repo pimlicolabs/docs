@@ -1,11 +1,11 @@
 ---
 title: How to pay gas fees for an AI agent's wallet
-description: Let an AI agent with its own wallet send onchain transactions without holding ETH, by sponsoring its gas with a capped Pimlico sponsorship policy and falling back to paying gas in USDC with the ERC-20 Paymaster.
+description: Let an AI agent with its own wallet send onchain transactions without holding ETH, by sponsoring its gas with Pimlico's verifying paymaster or paying it in USDC with the ERC-20 Paymaster.
 ---
 
 # How to pay gas fees for an AI agent's wallet
 
-This guide shows you how to pay gas for an AI agent that sends transactions from its own wallet, without funding the agent with ETH. Your app sponsors the agent's gas through a **sponsorship policy** with hard spending limits, and once a limit is reached the agent pays gas from its own USDC through the **ERC-20 Paymaster**. If the agent acts on behalf of a user's existing wallet instead of its own, see [How to send USDC without ETH for gas](/guides/how-to/payments/send-usdc-without-eth).
+This guide shows you how to pay gas for an AI agent that sends transactions from its own wallet, without funding the agent with ETH. The agent gets a smart account, and Pimlico's **verifying paymaster** sponsors its gas from your Pimlico balance. If you'd rather the agent pay its own gas, see [Let the agent pay its own gas in USDC](#let-the-agent-pay-its-own-gas-in-usdc).
 
 This guide uses Base. The same code works on any [supported chain](/guides/supported-chains) once you change the chain, the RPC URL and the USDC address.
 
@@ -13,7 +13,6 @@ This guide uses Base. The same code works on any [supported chain](/guides/suppo
 
 - A Pimlico API key on a plan that includes mainnets. [Create one](/guides/create-api-key).
 - A signer for the agent from a key management service or server wallet (Turnkey, Privy, Fireblocks, a cloud KMS) that you can load as a viem `LocalAccount`. See [signers](/guides/how-to/signers).
-- An agent framework that lets you register your own tools.
 
 ::::code-group
 
@@ -35,16 +34,6 @@ bun install permissionless viem
 
 ::::steps
 
-### Create a sponsorship policy for your agents
-
-In the [Pimlico dashboard](https://dashboard.pimlico.io/sponsorship-policies), create a policy for Base and set:
-
-- a **global limit**, the most you will spend on agent gas in total,
-- a **per-user limit**, which applies to each agent's account address, and
-- a **per-user-operation limit**, so one runaway call can't use the whole budget.
-
-Copy the policy ID (`sp_…`). To decide sponsorship based on what the agent is calling, add a [sponsorship policy webhook](/guides/how-to/sponsorship-policies/webhook) as well.
-
 ### Create the agent's smart account
 
 On your backend, create a Safe smart account owned by the agent's signer and a smart account client that uses Pimlico as bundler and paymaster.
@@ -57,49 +46,52 @@ On your backend, create a Safe smart account owned by the agent's signer and a s
 Keep the agent's signer on your backend. Never put a private key in the model's prompt, context or tool output, where it can be leaked through prompt injection.
 :::
 
-If you want to recover the agent's funds or rotate its key, add a key you control as a second owner of the Safe. See [How to create and use a Safe account with multiple signers](/guides/how-to/accounts/use-safe-account-with-multiple-signers).
+### Give the agent a sponsored transaction tool
 
-### Sponsor the agent's transactions, with USDC as the fallback
-
-Send each user operation with your policy ID in the `paymasterContext`. If the policy declines it, resend it with `paymasterContext: { token: USDC }` so the agent pays gas from its own USDC.
-
-```ts
-// [!include ~/snippets/agents/pay-gas-for-ai-agents.ts:send]
-```
-
-Fund the agent's account address with USDC if you want the fallback to work. If you'd rather stop the agent when it hits the limit, remove the `catch` branch and return the error to the agent.
-
-### Expose the transaction as an agent tool
-
-Wrap the send in a function that waits for the receipt and returns only the outcome, then register it as a tool in your agent framework. Return `success` and the transaction hash so the agent can tell a reverted call from a completed one.
+Wrap `sendUserOperation` in a function that waits for the receipt and returns only the outcome, and register it as a tool in your agent framework. With no `paymasterContext`, Pimlico sponsors the gas.
 
 ```ts
 // [!include ~/snippets/agents/pay-gas-for-ai-agents.ts:tool]
 ```
 
+The agent can now call the tool with any list of calls. Check `success` in the result: a user operation can be included onchain and still revert.
+
 ::::
 
-## Let the agent always pay its own gas in USDC
+## Let the agent pay its own gas in USDC
 
-If you don't want to sponsor agents at all, skip the policy and always pass the USDC token. Fund the agent's account with USDC; it never needs ETH.
+To have the agent pay instead of you, fund its account address with USDC and pass the token in the `paymasterContext`. The agent never needs ETH.
 
 ```ts
 // [!include ~/snippets/agents/pay-gas-for-ai-agents.ts:usdc-only]
 ```
 
-To show the agent or its operator the fee before sending, see [How to calculate UserOperation's costs using the ERC-20 Paymaster](/guides/how-to/erc20-paymaster/how-to/calculate-costs).
+To show the fee before sending, see [How to calculate UserOperation's costs using the ERC-20 Paymaster](/guides/how-to/erc20-paymaster/how-to/calculate-costs).
 
 ## Run many agents
 
-Create one smart account per agent, each from its own signer. The per-user limit in your policy then applies to each agent separately. If one agent sends several transactions at once, give each its own nonce key, as described in [How to send multiple user operations in parallel](/guides/how-to/parallel-transactions).
+Create one smart account per agent, each from its own signer. If one agent sends several transactions at once, give each its own nonce key, as described in [How to send multiple user operations in parallel](/guides/how-to/parallel-transactions).
 
 ## Use an agent's existing EOA
 
 If the agent already has an EOA with funds in it, keep its address with EIP-7702: replace `toSafeSmartAccount` with `to7702SimpleSmartAccount` (EntryPoint 0.8) and attach a signed authorization to the first user operation. See the [EIP-7702 quickstart](/guides/eip7702/demo).
 
+## Let a key you control recover the agent's funds
+
+To recover funds or rotate the agent's key, add a key you control as a second owner of the Safe. See [How to create and use a Safe account with multiple signers](/guides/how-to/accounts/use-safe-account-with-multiple-signers).
+
+## Limit what you sponsor (optional)
+
+To cap how much gas an agent can spend, create a policy in the [sponsorship policies dashboard](https://dashboard.pimlico.io/sponsorship-policies) with a per-user limit (one "user" is one agent account) and pass its ID in the `paymasterContext`. When an agent hits the limit, this example falls back to paying gas from the agent's USDC:
+
+```ts
+// [!include ~/snippets/agents/pay-gas-for-ai-agents.ts:policy]
+```
+
+To sponsor based on which contracts the agent calls, add a [sponsorship policy webhook](/guides/how-to/sponsorship-policies/webhook). For all policy options, see [How to use sponsorship policies](/guides/how-to/sponsorship-policies).
+
 ## Related
 
-- [How to use sponsorship policies](/guides/how-to/sponsorship-policies)
-- [How to use Sponsorship Policy webhooks](/guides/how-to/sponsorship-policies/webhook)
 - [How to use the ERC-20 Paymaster](/guides/how-to/erc20-paymaster/how-to/use-paymaster)
 - [Account abstraction (ERC-4337)](/guides/conceptual/account-abstraction)
+- [Verifying paymaster reference](/references/paymaster/verifying-paymaster)
