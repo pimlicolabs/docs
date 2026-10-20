@@ -1,12 +1,14 @@
 // [!region clients]
 import { createSmartAccountClient } from "permissionless"
-import { toSafeSmartAccount } from "permissionless/accounts"
+import { toSimpleSmartAccount } from "permissionless/accounts"
 import { createPimlicoClient } from "permissionless/clients/pimlico"
-import { createPublicClient, http, type LocalAccount } from "viem"
+import { type Address, createPublicClient, type Hex, http } from "viem"
 import { entryPoint07Address } from "viem/account-abstraction"
+import { privateKeyToAccount } from "viem/accounts"
 import { base } from "viem/chains"
 
 const USDC = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" // USDC on Base
+const MERCHANT_TREASURY: Address = "0x1111111111111111111111111111111111111111" // where payments land
 
 const pimlicoUrl = `https://api.pimlico.io/v2/${base.id}/rpc?apikey=YOUR_PIMLICO_API_KEY`
 
@@ -24,24 +26,23 @@ const pimlicoClient = createPimlicoClient({
 	},
 })
 
-// Your merchant signer: a Turnkey, Fireblocks, Dfns or KMS-backed account
-declare const merchantSigner: LocalAccount
+// The server account's owner. It never holds funds, only spends what customers permit.
+const owner = privateKeyToAccount(process.env.SERVER_PRIVATE_KEY as Hex)
 
-const merchant = await toSafeSmartAccount({
+const serverAccount = await toSimpleSmartAccount({
 	client: publicClient,
-	owners: [merchantSigner],
+	owner,
 	entryPoint: {
 		address: entryPoint07Address,
 		version: "0.7",
 	},
-	version: "1.4.1",
 })
 
-const merchantClient = createSmartAccountClient({
-	account: merchant,
+const serverClient = createSmartAccountClient({
+	account: serverAccount,
 	chain: base,
 	bundlerTransport: http(pimlicoUrl),
-	// No token in paymasterContext: the verifying paymaster sponsors every settlement
+	// No paymasterContext needed: the verifying paymaster sponsors every settlement
 	paymaster: pimlicoClient,
 	userOperation: {
 		estimateFeesPerGas: async () => {
@@ -52,20 +53,24 @@ const merchantClient = createSmartAccountClient({
 // [!endregion clients]
 
 // [!region request]
-import { type Address, type Hex, parseUnits, toHex } from "viem"
+import { parseAbi, parseUnits } from "viem"
 
-const receiveWithAuthorizationTypes = {
-	ReceiveWithAuthorization: [
-		{ name: "from", type: "address" },
-		{ name: "to", type: "address" },
-		{ name: "value", type: "uint256" },
-		{ name: "validAfter", type: "uint256" },
-		{ name: "validBefore", type: "uint256" },
-		{ name: "nonce", type: "bytes32" },
-	],
-} as const
+const usdcAbi = parseAbi([
+	"function nonces(address owner) view returns (uint256)",
+	"function allowance(address owner, address spender) view returns (uint256)",
+	"function balanceOf(address account) view returns (uint256)",
+	"function permit(address owner, address spender, uint256 value, uint256 deadline, bytes signature)",
+	"function transferFrom(address from, address to, uint256 value) returns (bool)",
+])
 
-export function createPaymentRequest(customer: Address, amountUsdc: string) {
+export async function createPermitRequest(customer: Address, amountUsdc: string) {
+	const nonce = await publicClient.readContract({
+		address: USDC,
+		abi: usdcAbi,
+		functionName: "nonces",
+		args: [customer],
+	})
+
 	return {
 		domain: {
 			name: "USD Coin", // USDC's name() on Base
@@ -73,15 +78,22 @@ export function createPaymentRequest(customer: Address, amountUsdc: string) {
 			chainId: base.id,
 			verifyingContract: USDC,
 		},
-		types: receiveWithAuthorizationTypes,
-		primaryType: "ReceiveWithAuthorization",
+		types: {
+			Permit: [
+				{ name: "owner", type: "address" },
+				{ name: "spender", type: "address" },
+				{ name: "value", type: "uint256" },
+				{ name: "nonce", type: "uint256" },
+				{ name: "deadline", type: "uint256" },
+			],
+		},
+		primaryType: "Permit",
 		message: {
-			from: customer,
-			to: merchant.address,
+			owner: customer,
+			spender: serverAccount.address,
 			value: parseUnits(amountUsdc, 6),
-			validAfter: 0n,
-			validBefore: BigInt(Math.floor(Date.now() / 1000) + 30 * 60), // 30 minutes
-			nonce: toHex(crypto.getRandomValues(new Uint8Array(32))), // store it with the order
+			nonce,
+			deadline: BigInt(Math.floor(Date.now() / 1000) + 30 * 60), // 30 minutes
 		},
 	} as const
 }
@@ -100,115 +112,102 @@ const walletClient = createWalletClient({
 
 const [customer] = await walletClient.requestAddresses()
 
-// Fetched from your backend, which calls createPaymentRequest(customer, "25")
-const paymentRequest = createPaymentRequest(customer, "25")
+// Fetched from your backend, which calls createPermitRequest(customer, "25")
+const permitRequest = await createPermitRequest(customer, "25")
 
 const signature = await walletClient.signTypedData({
 	account: customer,
-	...paymentRequest,
+	...permitRequest,
 })
 // [!endregion sign]
 
 // [!region settle]
-import { encodeFunctionData, erc20Abi, parseAbi } from "viem"
+import { encodeFunctionData } from "viem"
 
-const usdcAuthorizationAbi = parseAbi([
-	"function receiveWithAuthorization(address from, address to, uint256 value, uint256 validAfter, uint256 validBefore, bytes32 nonce, bytes signature)",
-	"function authorizationState(address authorizer, bytes32 nonce) view returns (bool)",
-])
+type PermitRequest = Awaited<ReturnType<typeof createPermitRequest>>
 
-export async function settlePayment(
-	request: ReturnType<typeof createPaymentRequest>,
-	customerSignature: Hex,
-) {
-	const { from, to, value, validAfter, validBefore, nonce } = request.message
+async function paymentCalls(request: PermitRequest, customerSignature: Hex) {
+	const { owner: from, spender, value, deadline } = request.message
 
-	const balance = await publicClient.readContract({
-		address: USDC,
-		abi: erc20Abi,
-		functionName: "balanceOf",
-		args: [from],
-	})
+	const [balance, allowance] = await Promise.all([
+		publicClient.readContract({ address: USDC, abi: usdcAbi, functionName: "balanceOf", args: [from] }),
+		publicClient.readContract({
+			address: USDC,
+			abi: usdcAbi,
+			functionName: "allowance",
+			args: [from, spender],
+		}),
+	])
 
 	if (balance < value) {
 		throw new Error("Customer doesn't have enough USDC")
 	}
 
-	return merchantClient.sendUserOperation({
-		calls: [
-			{
-				to: USDC,
-				value: 0n,
-				data: encodeFunctionData({
-					abi: usdcAuthorizationAbi,
-					functionName: "receiveWithAuthorization",
-					args: [from, to, value, validAfter, validBefore, nonce, customerSignature],
-				}),
-			},
-		],
+	const pull = {
+		to: USDC,
+		value: 0n,
+		data: encodeFunctionData({
+			abi: usdcAbi,
+			functionName: "transferFrom",
+			args: [from, MERCHANT_TREASURY, value],
+		}),
+	} as const
+
+	// Anyone can submit a permit. If it already landed, only pull the funds.
+	if (allowance >= value) return [pull]
+
+	const permit = {
+		to: USDC,
+		value: 0n,
+		data: encodeFunctionData({
+			abi: usdcAbi,
+			functionName: "permit",
+			args: [from, spender, value, deadline, customerSignature],
+		}),
+	} as const
+
+	return [permit, pull]
+}
+
+export async function settlePayment(request: PermitRequest, customerSignature: Hex) {
+	return serverClient.sendUserOperation({
+		calls: await paymentCalls(request, customerSignature),
 	})
 }
 // [!endregion settle]
 
 // [!region confirm]
-const userOpHash = await settlePayment(paymentRequest, signature)
+const userOpHash = await settlePayment(permitRequest, signature)
 
-const receipt = await merchantClient.waitForUserOperationReceipt({ hash: userOpHash })
+const receipt = await serverClient.waitForUserOperationReceipt({ hash: userOpHash })
 
-const isPaid = await publicClient.readContract({
-	address: USDC,
-	abi: usdcAuthorizationAbi,
-	functionName: "authorizationState",
-	args: [paymentRequest.message.from, paymentRequest.message.nonce],
-})
-
-if (!receipt.success || !isPaid) {
-	throw new Error(`Payment not settled: ${receipt.reason ?? "authorization unused"}`)
+if (!receipt.success) {
+	throw new Error(`Payment not settled: ${receipt.reason ?? "unknown reason"}`)
 }
 
 console.log(`Order paid: https://basescan.org/tx/${receipt.receipt.transactionHash}`)
 // [!endregion confirm]
 
 // [!region batch]
-type SignedPayment = {
-	request: ReturnType<typeof createPaymentRequest>
-	signature: Hex
-}
+type SignedPayment = { request: PermitRequest; signature: Hex }
 
 declare const pendingPayments: SignedPayment[]
 
 // Settle several checkouts in one sponsored user operation
-const batchHash = await merchantClient.sendUserOperation({
-	calls: pendingPayments.map(({ request, signature }) => {
-		const { from, to, value, validAfter, validBefore, nonce } = request.message
-		return {
-			to: USDC,
-			value: 0n,
-			data: encodeFunctionData({
-				abi: usdcAuthorizationAbi,
-				functionName: "receiveWithAuthorization",
-				args: [from, to, value, validAfter, validBefore, nonce, signature],
-			}),
-		} as const
-	}),
-})
-// [!endregion batch]
+const calls = await Promise.all(
+	pendingPayments.map(({ request, signature }) => paymentCalls(request, signature)),
+)
 
-// [!region refund]
-export async function refund(customerAddress: Address, amount: bigint) {
-	return merchantClient.sendUserOperation({
-		calls: [
-			{
-				to: USDC,
-				value: 0n,
-				data: encodeFunctionData({
-					abi: erc20Abi,
-					functionName: "transfer",
-					args: [customerAddress, amount],
-				}),
-			},
-		],
-	})
-}
-// [!endregion refund]
+const batchHash = await serverClient.sendUserOperation({ calls: calls.flat() })
+// [!endregion batch]
 console.log(batchHash)
+
+// [!region policy]
+const SPONSORSHIP_POLICY_ID = "sp_your_policy_id"
+
+const limitedHash = await serverClient.sendUserOperation({
+	calls: await paymentCalls(permitRequest, signature),
+	paymasterContext: { sponsorshipPolicyId: SPONSORSHIP_POLICY_ID },
+})
+// [!endregion policy]
+console.log(limitedHash)
