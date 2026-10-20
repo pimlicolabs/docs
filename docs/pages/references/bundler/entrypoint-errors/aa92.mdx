@@ -1,3 +1,7 @@
+---
+description: "AA92 internal call only: the bundler called the EntryPoint's innerHandleOp directly instead of through handleOps. A bundler-side bug and how to resolve it."
+---
+
 # AA92 internal call only
 
 The bundler attempted to call `innerHandleOp` function of the EntryPoint directly as opposed to through the `handleOps` function.
