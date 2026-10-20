@@ -59,10 +59,11 @@ docs/
 - Practical, working examples
 
 #### 3. How-to Guides
-- Brief context
-- Steps using `::::steps` component
-- Additional notes or tips
-- Focus on specific tasks
+Every page under `docs/pages/guides/how-to/` must strictly follow the Diátaxis how-to rules. Use the `diataxis-how-to` skill (`.claude/skills/diataxis-how-to/SKILL.md`) whenever you write, rewrite or review one.
+- Title: "How to <verb> <result>"
+- Opens with "This guide shows you how to …"
+- Steps using `::::steps` component, with imperative headings
+- Action only: no teaching, explanation or reference lists (link to them instead)
 
 #### 4. API References
 - Method description

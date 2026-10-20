@@ -1,0 +1,105 @@
+---
+title: How to let users swap on Base without ETH
+description: Batch a token approval and a swap into one user operation on Base, with gas sponsored by your app or paid in USDC through Pimlico's ERC-20 Paymaster.
+---
+
+# How to let users swap on Base without ETH
+
+This guide shows you how to let users swap tokens on Base without holding ETH, by sending the token approval and the swap as **one ERC-4337 user operation** with gas paid in USDC through Pimlico's **ERC-20 Paymaster**, or [sponsored by your app](#sponsor-the-swap-instead). The user signs once, and the approval and the swap either both execute or both revert. Get the swap itself from the DEX aggregator or router you already use; Pimlico doesn't quote or route swaps.
+
+## Installation
+
+::::code-group
+
+```bash [npm]
+npm install permissionless viem
+```
+
+```bash [pnpm]
+pnpm install permissionless viem
+```
+
+```bash [bun]
+bun install permissionless viem
+```
+
+::::
+
+## Steps
+
+::::steps
+
+### Create the clients
+
+If your users have an EOA with funds in it, use `to7702SimpleSmartAccount` (EntryPoint 0.8), as this example does, so the account keeps the user's EOA address. If they have ERC-4337 smart accounts, create them with `toSafeSmartAccount` or `toSimpleSmartAccount` instead, and skip the authorization in the send step. On chains other than Base, check EIP-7702 and EntryPoint 0.8 support on the [supported chains page](/guides/supported-chains).
+
+```ts
+// [!include ~/snippets/payments/swap-without-eth.ts:clients]
+```
+
+### Get a quote from your aggregator
+
+Most aggregator APIs return a target contract, calldata, a native value, and the address that needs an allowance for the token being sold. Pass the account address as the taker so the quote is built for it. Map your aggregator's response onto a small type like this one:
+
+```ts
+// [!include ~/snippets/payments/swap-without-eth.ts:quote]
+```
+
+### Build the approve + swap calls
+
+Approve exactly the sell amount rather than an unlimited allowance, so the router can't pull more than this swap needs.
+
+```ts
+// [!include ~/snippets/payments/swap-without-eth.ts:calls]
+```
+
+`WETH` here is Base's canonical WETH at `0x4200000000000000000000000000000000000006`. Use whatever buy token the user selected.
+
+### Show the network fee and check the balance
+
+Prepare the user operation once to estimate the fee in USDC with `estimateErc20PaymasterCost`. The estimate is the maximum the paymaster can charge; the actual charge is based on the gas used and is usually lower.
+
+```ts
+// [!include ~/snippets/payments/swap-without-eth.ts:fee]
+```
+
+If you offer a "sell max" button, cap the sell amount at the balance minus this fee. The ERC-20 Paymaster collects its fee *after* the calls execute, so a quote for the full balance fails simulation: nothing is left to pay the fee. If the allowance is too low, the user operation also approves the paymaster's maximum fee before the swap, in the same batch.
+
+### Send the user operation
+
+Attach a signed EIP-7702 authorization to the first user operation only. Once the EOA is delegated, `account.isDeployed()` returns `true` and you can omit it.
+
+Fetch a fresh quote right before sending, since aggregator quotes expire quickly.
+
+```ts
+// [!include ~/snippets/payments/swap-without-eth.ts:send]
+```
+
+Check `receipt.success`. If the price moves past the slippage limit encoded in the quote, the router call reverts and so does the whole batch, approvals included.
+
+::::
+
+## Sponsor the swap instead
+
+To make swaps free for users, leave the `token` out of `paymasterContext`. The verifying paymaster then sponsors the swap from your Pimlico balance, and no paymaster approval is added.
+
+```ts
+// [!include ~/snippets/payments/swap-without-eth.ts:sponsored]
+```
+
+To cap spend per user or sponsor only calls to your router, pass a `sponsorshipPolicyId` ([sponsorship policies](/guides/how-to/sponsorship-policies)).
+
+## Notes
+
+- **Slippage**: set it in your aggregator's quote. The minimum output amount is encoded in the router calldata, and batching doesn't change it.
+- **Other chains or EntryPoints**: check the token is listed in [supported tokens](/references/paymaster/erc20-paymaster/supported-tokens) before you pass it as `paymasterContext.token`.
+- **Paying gas in another token**: if the user is selling a different supported token, pass that token in `paymasterContext.token` instead. The same balance rule applies.
+- **External wallets** such as browser extensions usually won't let your app sign an EIP-7702 authorization for them. If the wallet supports EIP-5792 `wallet_sendCalls` with a paymaster service, you can send the same approve + swap calls through it. See [sponsoring transactions for external wallets](/guides/eip7702/external).
+- **API keys**: don't ship your Pimlico API key in a client app; proxy requests through your backend ([guide](/guides/how-to/security/protect-api-keys)).
+
+## Related
+
+- [Batch multiple transactions from a smart account](/guides/tutorials/send-transaction)
+- [How to use the ERC-20 Paymaster](/guides/how-to/erc20-paymaster/how-to/use-paymaster)
+- [Estimate token cost and cost in USD](/guides/how-to/erc20-paymaster/how-to/calculate-costs)
+- [EIP-7702 quickstart](/guides/eip7702/demo)
