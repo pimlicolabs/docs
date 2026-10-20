@@ -1,9 +1,9 @@
 ---
-title: How to take the gas fee for a swap out of the token being swapped
+title: How to pay gas from the token being swapped
 description: Offer gasless swaps where the network fee is deducted from the token the user sells, by estimating the fee with Pimlico's ERC-20 Paymaster and quoting the swap for the amount left after the fee.
 ---
 
-# How to take the gas fee for a swap out of the token being swapped
+# How to pay gas from the token being swapped
 
 This guide shows you how to offer gasless swaps where the network fee comes out of the token the user is selling, so a user who enters "spend 100 USDC" spends 100 USDC in total, gas included. You estimate the fee with Pimlico's **ERC-20 Paymaster**, quote the swap for the amount left after the fee, and send the approve and the swap as one user operation. If you only need swaps without ETH and the fee can sit on top of the amount, see [How to let users swap on Base without ETH](/guides/how-to/payments/swap-without-eth) instead.
 
@@ -37,7 +37,7 @@ bun install permissionless viem
 If your users have an EOA, use `to7702SimpleSmartAccount` (EntryPoint 0.8), as this example does, so the account keeps the user's address. If they have ERC-4337 smart accounts, create them with `toSafeSmartAccount` or `toSimpleSmartAccount` and drop the authorization in the send step.
 
 ```ts
-// [!include ~/snippets/payments/swap-fee-from-sold-token.ts:clients]
+// [!include ~/snippets/payments/pay-gas-from-swapped-token.ts:clients]
 ```
 
 ### Build the approve and swap calls
@@ -45,7 +45,7 @@ If your users have an EOA, use `to7702SimpleSmartAccount` (EntryPoint 0.8), as t
 Request an exact-input quote with the account address as the taker, and approve exactly the sell amount for the aggregator's allowance target. This example sells USDC; to sell another token, see [Sell a token other than USDC](#sell-a-token-other-than-usdc).
 
 ```ts
-// [!include ~/snippets/payments/swap-fee-from-sold-token.ts:calls]
+// [!include ~/snippets/payments/pay-gas-from-swapped-token.ts:calls]
 ```
 
 ### Deduct the fee from the sell amount
@@ -53,7 +53,7 @@ Request an exact-input quote with the account address as the taker, and approve 
 Prepare the user operation for the full amount the user entered, estimate its cost in the sell token with `estimateErc20PaymasterCost`, and subtract it. Add a small buffer, because gas prices can rise between the estimate and the send.
 
 ```ts
-// [!include ~/snippets/payments/swap-fee-from-sold-token.ts:fee]
+// [!include ~/snippets/payments/pay-gas-from-swapped-token.ts:fee]
 ```
 
 ### Check the balance and show the split
@@ -61,7 +61,7 @@ Prepare the user operation for the full amount the user entered, estimate its co
 Check the user's balance covers the amount they entered, then show them the sell amount and the maximum network fee before they confirm. The fee charged is based on the gas actually used, so it's usually lower than the estimate.
 
 ```ts
-// [!include ~/snippets/payments/swap-fee-from-sold-token.ts:check]
+// [!include ~/snippets/payments/pay-gas-from-swapped-token.ts:check]
 ```
 
 ### Send the swap
@@ -69,7 +69,7 @@ Check the user's balance covers the amount they entered, then show them the sell
 Get a fresh quote for the reduced sell amount and send it with `paymasterContext: { token: sellToken }`. permissionless.js adds the paymaster's approval to the same user operation if needed, and the paymaster collects the fee after the swap runs. Attach the EIP-7702 authorization only while `account.isDeployed()` returns `false`.
 
 ```ts
-// [!include ~/snippets/payments/swap-fee-from-sold-token.ts:send]
+// [!include ~/snippets/payments/pay-gas-from-swapped-token.ts:send]
 ```
 
 Check `receipt.success`. If the price moves past your slippage limit, the whole user operation reverts, including the approvals.
@@ -81,7 +81,7 @@ Check `receipt.success`. If the price moves past your slippage limit, the whole 
 The ERC-20 Paymaster only accepts some tokens on each chain. To check the token the user is selling, call `getTokenQuotes`:
 
 ```ts
-// [!include ~/snippets/payments/swap-fee-from-sold-token.ts:supported]
+// [!include ~/snippets/payments/pay-gas-from-swapped-token.ts:supported]
 ```
 
 If it returns a quote, set `sellToken` to that token and follow the steps as written. If it returns no quote, leave the `token` out of the `paymasterContext` and sponsor the swap from your Pimlico balance, as in [Sponsor the swap instead](/guides/how-to/payments/swap-without-eth#sponsor-the-swap-instead). To recover the cost, take your own fee in the swap itself if your aggregator supports an integrator fee.

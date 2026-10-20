@@ -366,8 +366,8 @@ export const paymentsSidebar = [
 		link: "/guides/how-to/payments/swap-without-eth",
 	},
 	{
-		text: "Take swap gas from the sold token",
-		link: "/guides/how-to/payments/swap-fee-from-sold-token",
+		text: "Pay gas from the swapped token",
+		link: "/guides/how-to/payments/pay-gas-from-swapped-token",
 	},
 ];
 
