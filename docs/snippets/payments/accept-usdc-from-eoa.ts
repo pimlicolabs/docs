@@ -104,7 +104,7 @@ import { createWalletClient, custom } from "viem"
 
 declare const window: { ethereum: Parameters<typeof custom>[0] }
 
-// In the customer's browser: any wallet works, and it doesn't need ETH
+// In the customer's browser: any EOA wallet works, and it doesn't need ETH
 const walletClient = createWalletClient({
 	chain: base,
 	transport: custom(window.ethereum),
