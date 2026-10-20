@@ -141,13 +141,10 @@ console.log(`Network fee (max): ${formatUnits(costInToken, 6)} USDC`)
 // [!endregion fee]
 
 // [!region send]
-import { concat } from "viem"
-
 const SIMPLE_7702_IMPLEMENTATION = "0xe6Cae83BdE06E4c305530e199D7217f42808555B"
 
-const code = await publicClient.getCode({ address: eoa.address })
-const isDelegated =
-	code?.toLowerCase() === concat(["0xef0100", SIMPLE_7702_IMPLEMENTATION]).toLowerCase()
+// The EOA only has code once its EIP-7702 delegation has landed
+const isDelegated = await account.isDeployed()
 
 // Fetch a fresh quote right before sending: quotes expire quickly
 const userOpHash = await smartAccountClient.sendUserOperation({

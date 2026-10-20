@@ -2,7 +2,7 @@
 import { createSmartAccountClient } from "permissionless"
 import { to7702SimpleSmartAccount } from "permissionless/accounts"
 import { createPimlicoClient } from "permissionless/clients/pimlico"
-import { concat, createPublicClient, encodeFunctionData, erc20Abi, type Hex, http, parseUnits } from "viem"
+import { createPublicClient, encodeFunctionData, erc20Abi, type Hex, http, parseUnits } from "viem"
 import { entryPoint08Address } from "viem/account-abstraction"
 import { privateKeyToAccount } from "viem/accounts"
 import { base } from "viem/chains"
@@ -59,10 +59,8 @@ const transferCall = {
 	}),
 } as const
 
-// An EOA delegated with EIP-7702 has code `0xef0100 || implementation address`
-const code = await publicClient.getCode({ address: eoa.address })
-const isDelegated =
-	code?.toLowerCase() === concat(["0xef0100", SIMPLE_7702_IMPLEMENTATION]).toLowerCase()
+// The EOA only has code once its EIP-7702 delegation has landed
+const isDelegated = await account.isDeployed()
 
 const txHash = await smartAccountClient.sendTransaction({
 	calls: [transferCall],

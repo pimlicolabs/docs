@@ -130,7 +130,7 @@ If the user's USDC is in an EOA, delegate the EOA to a Simple account implementa
 
 </WhenFeePayer>
 
-The first user operation must carry a signed authorization. After it lands, the EOA's code is the delegation designator `0xef0100` followed by the implementation address, which you can check to decide whether to sign another one.
+Sign an EIP-7702 authorization and attach it to the first user operation only. Once the EOA is delegated, `account.isDeployed()` returns `true` and you can omit it.
 
 <WhenFeePayer is="user">
 

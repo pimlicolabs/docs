@@ -67,7 +67,7 @@ If you offer a "sell max" button, cap the sell amount at the balance minus this 
 
 ### Send the user operation
 
-The first user operation from an EOA that isn't delegated yet must carry a signed EIP-7702 authorization. After that, the EOA's code points at the Simple account implementation and the authorization can be omitted.
+Attach a signed EIP-7702 authorization to the first user operation only. Once the EOA is delegated, `account.isDeployed()` returns `true` and you can omit it.
 
 Fetch a fresh quote right before sending, since aggregator quotes expire quickly.
 
