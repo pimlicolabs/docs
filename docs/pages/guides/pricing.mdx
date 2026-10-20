@@ -53,6 +53,18 @@ The cost of individual API requests is measured in credits, with the breakdown o
 | eth_supportedEntryPoints            | 1       |
 | eth_chainId                         | 1       |
 
+### Solana
+
+Credits for the [Solana sponsorship endpoints](/references/paymaster/solana/endpoints) are listed below. A fully sponsored transaction uses about 701 credits, and one where the user pays fees in an SPL token uses about 1,202 credits.
+
+| method                              | credits |
+| ----------------------------------- | ------- |
+| signAndSendTransaction              | 500     |
+| getPayerSigner                      | 200     |
+| estimateTransactionFee              | 200     |
+| getSupportedTokens                  | 100     |
+| getBlockhash                        | 1       |
+
 ## FAQ
 
 ### How do we calculate the paymaster surcharge?
