@@ -350,8 +350,8 @@ export const paymentsSidebar = [
 		link: "/guides/how-to/payments/send-usdc-without-eth",
 	},
 	{
-		text: "Accept USDC at checkout",
-		link: "/guides/how-to/payments/accept-usdc-at-checkout",
+		text: "Accept and move USDC from any wallet",
+		link: "/guides/how-to/payments/accept-usdc-from-any-wallet",
 	},
 	{
 		text: "Send gasless remittances",

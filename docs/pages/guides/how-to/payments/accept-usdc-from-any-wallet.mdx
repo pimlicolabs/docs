@@ -1,11 +1,11 @@
 ---
-title: How to accept USDC at checkout without customers needing ETH for gas
-description: Accept USDC from any wallet without the customer paying gas. The customer signs a USDC permit for your server's smart account, which pulls the payment in a user operation sponsored by Pimlico's verifying paymaster.
+title: How to accept and move USDC from any wallet gaslessly
+description: Accept USDC at checkout, or move it out of a user's own wallet, without the user holding ETH for gas. The user signs a USDC permit for your server's smart account, which moves the USDC in a user operation sponsored by Pimlico's verifying paymaster.
 ---
 
-# How to accept USDC at checkout without customers needing ETH for gas
+# How to accept and move USDC from any wallet gaslessly
 
-This guide shows you how to accept USDC at checkout when your customers pay from their own wallet and hold no ETH for gas. The customer signs a USDC permit ([EIP-2612](https://eips.ethereum.org/EIPS/eip-2612)) instead of sending a transaction. Your server's smart account then uses the permit to move the USDC to your treasury, with gas sponsored by Pimlico's **verifying paymaster**. If you control your users' wallets, see [How to send USDC without ETH for gas](/guides/how-to/payments/send-usdc-without-eth) instead.
+This guide shows you how to accept USDC at checkout, or move it for deposits and other payments, from a user's own wallet such as MetaMask or Rabby, without the user holding ETH for gas. The user signs a USDC permit ([EIP-2612](https://eips.ethereum.org/EIPS/eip-2612)) instead of sending a transaction, and your server's smart account uses it to move the USDC, with gas sponsored by Pimlico's **verifying paymaster**. If you control your users' wallets, see [How to send USDC without ETH for gas](/guides/how-to/payments/send-usdc-without-eth) instead.
 
 This guide uses Base and its native USDC (`0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913`). To use another chain, see [Accept payments on another chain](#accept-payments-on-another-chain).
 
@@ -35,10 +35,10 @@ bun install permissionless viem
 
 ### Create the server account
 
-On your server, create one Simple Account and a smart account client that uses Pimlico as bundler and paymaster. Every customer permits this account, so keep its owner key the same. Set `MERCHANT_TREASURY` to the address that should receive payments.
+On your server, create one Simple Account and a smart account client that uses Pimlico as bundler and paymaster. Every customer permits this account, so keep its owner key the same. Set `MERCHANT_TREASURY` to the address the USDC should move to.
 
 ```ts
-// [!include ~/snippets/payments/accept-usdc-at-checkout.ts:clients]
+// [!include ~/snippets/payments/accept-usdc-from-any-wallet.ts:clients]
 ```
 
 ### Create the permit request
@@ -46,7 +46,7 @@ On your server, create one Simple Account and a smart account client that uses P
 When the customer connects their wallet at checkout, build the typed data they will sign. Use the server account as the `spender`, the order total as the `value`, the customer's current `nonces()` value as the `nonce`, and the checkout expiry as the `deadline`.
 
 ```ts
-// [!include ~/snippets/payments/accept-usdc-at-checkout.ts:request]
+// [!include ~/snippets/payments/accept-usdc-from-any-wallet.ts:request]
 ```
 
 Permit nonces are sequential, so settle a customer's payment before you create their next permit request.
@@ -56,7 +56,7 @@ Permit nonces are sequential, so settle a customer's payment before you create t
 Send the request to the browser and ask the customer's wallet to sign it with `signTypedData`. The wallet shows a USDC permit signature rather than a transaction, so it works with no ETH in the wallet.
 
 ```ts
-// [!include ~/snippets/payments/accept-usdc-at-checkout.ts:sign]
+// [!include ~/snippets/payments/accept-usdc-from-any-wallet.ts:sign]
 ```
 
 Send the signature back to your server with the order ID.
@@ -66,7 +66,7 @@ Send the signature back to your server with the order ID.
 Send one user operation from the server account that calls `permit` with the customer's signature and then `transferFrom` to move the USDC to your treasury. Pimlico sponsors the gas.
 
 ```ts
-// [!include ~/snippets/payments/accept-usdc-at-checkout.ts:settle]
+// [!include ~/snippets/payments/accept-usdc-from-any-wallet.ts:settle]
 ```
 
 ### Confirm the payment
@@ -74,7 +74,7 @@ Send one user operation from the server account that calls `permit` with the cus
 Wait for the receipt and check `success` before you mark the order as paid. Retrying a failed settlement is safe: once the USDC has moved, the allowance is used up and a second `transferFrom` reverts.
 
 ```ts
-// [!include ~/snippets/payments/accept-usdc-at-checkout.ts:confirm]
+// [!include ~/snippets/payments/accept-usdc-from-any-wallet.ts:confirm]
 ```
 
 ::::
@@ -84,7 +84,7 @@ Wait for the receipt and check `success` before you mark the order as paid. Retr
 To cut overhead when checkouts arrive close together, queue signed permits and settle them in a single user operation:
 
 ```ts
-// [!include ~/snippets/payments/accept-usdc-at-checkout.ts:batch]
+// [!include ~/snippets/payments/accept-usdc-from-any-wallet.ts:batch]
 ```
 
 If one payment in the batch fails, the whole user operation reverts. Check each permit's `deadline` before you add it to the batch.
@@ -112,7 +112,7 @@ Change the chain, the RPC URL and the USDC address. Then read `name()` and `vers
 To cap what your API key can sponsor, for example only calls to the USDC contract, create a policy in the [sponsorship policies dashboard](https://dashboard.pimlico.io/sponsorship-policies) and pass its ID in the `paymasterContext` when you settle. See [How to use sponsorship policies](/guides/how-to/sponsorship-policies).
 
 ```ts
-// [!include ~/snippets/payments/accept-usdc-at-checkout.ts:policy]
+// [!include ~/snippets/payments/accept-usdc-from-any-wallet.ts:policy]
 ```
 
 ## Related
