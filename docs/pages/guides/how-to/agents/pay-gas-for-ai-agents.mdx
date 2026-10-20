@@ -42,10 +42,6 @@ On your backend, create a Safe smart account owned by the agent's signer and a s
 // [!include ~/snippets/agents/pay-gas-for-ai-agents.ts:clients]
 ```
 
-:::warning
-Keep the agent's signer on your backend. Never put a private key in the model's prompt, context or tool output, where it can be leaked through prompt injection.
-:::
-
 ### Give the agent a sponsored transaction tool
 
 Wrap `sendUserOperation` in a function that waits for the receipt and returns only the outcome, and register it as a tool in your agent framework. With no `paymasterContext`, Pimlico sponsors the gas.

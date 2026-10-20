@@ -26,7 +26,6 @@ const pimlicoClient = createPimlicoClient({
 })
 
 // The agent's signer: a Turnkey, Privy server wallet, Fireblocks or KMS-backed account.
-// Never put the private key in the model's prompt or tool output.
 declare const agentSigner: LocalAccount
 
 const agentAccount = await toSafeSmartAccount({
