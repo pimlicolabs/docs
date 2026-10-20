@@ -1,0 +1,117 @@
+---
+title: Swap on Base without ETH
+description: Batch a token approval and a swap into one user operation on Base, with gas sponsored by your app or paid in USDC through Pimlico's ERC-20 Paymaster.
+---
+
+# Swap on Base without ETH
+
+A trading app can let users swap on Base without holding ETH by sending the token approval and the swap as **one ERC-4337 user operation** from a smart account, or from the user's existing EOA upgraded with EIP-7702, and attaching a paymaster to it. Either your app sponsors the gas through Pimlico's **verifying paymaster** under a sponsorship policy, or the user pays it in USDC through the **ERC-20 Paymaster**, which permissionless.js adds to the same batch as one extra approval. The user signs once, and the approval and the swap either both execute or both revert.
+
+The swap itself comes from whichever DEX aggregator or router you already use. Pimlico doesn't quote or route swaps; it relays the user operation and pays its gas.
+
+## What the user operation contains
+
+When the user pays gas in USDC and sells USDC, the batch executed by the account is:
+
+1. `USDC.approve(erc20Paymaster, maxFee)`: added by `prepareUserOperationForErc20Paymaster` only when the existing allowance is too low,
+2. `USDC.approve(allowanceTarget, sellAmount)`: lets the router pull exactly the amount being sold,
+3. the router call from your aggregator's quote.
+
+The ERC-20 Paymaster collects its fee in USDC *after* the calls execute, so the account must still hold enough USDC once the swap has pulled the sell amount. If you sponsor the gas instead, only calls 2 and 3 are needed.
+
+## Installation
+
+::::code-group
+
+```bash [npm]
+npm install permissionless viem
+```
+
+```bash [pnpm]
+pnpm install permissionless viem
+```
+
+```bash [bun]
+bun install permissionless viem
+```
+
+::::
+
+## Steps
+
+::::steps
+
+### Create the clients
+
+Most trading users already have an EOA with funds in it, so this example uses `to7702SimpleSmartAccount`: the account address is the user's EOA address, and EntryPoint 0.8 is used for EIP-7702. Base supports EIP-7702 and EntryPoint 0.8 for both the bundler and paymasters ([supported chains](/guides/supported-chains)). If your users have ERC-4337 smart accounts instead, create them with `toSafeSmartAccount` or `toSimpleSmartAccount` and leave the rest unchanged, minus the authorization step below.
+
+```ts
+// [!include ~/snippets/payments/swap-without-eth.ts:clients]
+```
+
+### Get a quote from your aggregator
+
+Most aggregator APIs return a target contract, calldata, a native value, and the address that needs an allowance for the token being sold. Pass the account address as the taker so the quote is built for it. Map your aggregator's response onto a small type like this one:
+
+```ts
+// [!include ~/snippets/payments/swap-without-eth.ts:quote]
+```
+
+### Build the approve + swap calls
+
+Approve exactly the sell amount rather than an unlimited allowance, so the router can't pull more than this swap needs.
+
+```ts
+// [!include ~/snippets/payments/swap-without-eth.ts:calls]
+```
+
+`WETH` here is Base's canonical WETH at `0x4200000000000000000000000000000000000006`. Use whatever buy token the user selected.
+
+### Show the network fee and check the balance
+
+Prepare the user operation once to estimate the fee in USDC with `estimateErc20PaymasterCost`. The estimate is the maximum the paymaster can charge; the actual charge is based on the gas used and is usually lower.
+
+```ts
+// [!include ~/snippets/payments/swap-without-eth.ts:fee]
+```
+
+If you offer a "sell max" button, cap the sell amount at the balance minus this fee. Estimating with a quote for the full balance would fail simulation, because nothing would be left to pay the fee.
+
+### Send the user operation
+
+The first user operation from an EOA that isn't delegated yet must carry a signed EIP-7702 authorization. After that, the EOA's code points at the Simple account implementation and the authorization can be omitted.
+
+Fetch a fresh quote right before sending, since aggregator quotes expire quickly.
+
+```ts
+// [!include ~/snippets/payments/swap-without-eth.ts:send]
+```
+
+Check `receipt.success`. If the price moves past the slippage limit encoded in the quote, the router call reverts and so does the whole batch, approvals included.
+
+::::
+
+## Sponsor the swap instead
+
+To make swaps free for users, sponsor them with the verifying paymaster. Pass a `sponsorshipPolicyId` instead of a `token`; the ERC-20 Paymaster override then does nothing, and no paymaster approval is added.
+
+```ts
+// [!include ~/snippets/payments/swap-without-eth.ts:sponsored]
+```
+
+Give the policy a per-user operation count or spending limit, a per-user-operation cap, and `chain_ids.allowlist: [8453]` so it only sponsors on Base. See [How to use sponsorship policies](/guides/how-to/sponsorship-policies), and use a [webhook](/guides/how-to/sponsorship-policies/webhook) if you only want to sponsor calls to your router.
+
+## Notes
+
+- **Slippage protection belongs to the swap.** The minimum output amount is encoded in the router calldata by your aggregator. Batching doesn't change it.
+- **Supported tokens**: USDC on Base is supported on EntryPoint 0.7 and 0.8 ([supported tokens](/references/paymaster/erc20-paymaster/supported-tokens)).
+- **Paying gas in another token**: if the user is selling a different supported token, pass that token in `paymasterContext.token` instead. The same balance rule applies.
+- **External wallets** such as browser extensions usually won't let your app sign an EIP-7702 authorization for them. If the wallet supports EIP-5792 `wallet_sendCalls` with a paymaster service, you can send the same approve + swap calls through it. See [sponsoring transactions for external wallets](/guides/eip7702/external).
+- **API keys**: don't ship your Pimlico API key in a client app; proxy requests through your backend ([guide](/guides/how-to/security/protect-api-keys)).
+
+## Related
+
+- [Batch multiple transactions from a smart account](/guides/tutorials/send-transaction)
+- [How to use the ERC-20 Paymaster](/guides/how-to/erc20-paymaster/how-to/use-paymaster)
+- [Estimate token cost and cost in USD](/guides/how-to/erc20-paymaster/how-to/calculate-costs)
+- [EIP-7702 quickstart](/guides/eip7702/demo)

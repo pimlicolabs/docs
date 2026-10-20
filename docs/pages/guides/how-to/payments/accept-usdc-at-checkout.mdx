@@ -1,0 +1,103 @@
+---
+title: Accept USDC at checkout without customer gas
+description: Accept USDC payments where the customer needs no ETH, by sponsoring the customer's transfer with a Pimlico sponsorship policy and verifying the payment on your backend from the user operation receipt.
+---
+
+# Accept USDC at checkout without customer gas
+
+To accept USDC at checkout without customers needing ETH, have the customer's smart account, or their EOA upgraded with EIP-7702, send a USDC `transfer` to your merchant address as an ERC-4337 user operation, and **sponsor its gas with Pimlico's verifying paymaster** under a sponsorship policy you control. Your backend then confirms the payment by fetching the **user operation receipt** from the bundler and checking its USDC `Transfer` log for the right sender, recipient and amount. Deriving the user operation's **nonce key from the order ID** ties each payment to one order, on chain, in data the customer signed.
+
+If you'd rather not pay the gas, the customer can pay it in USDC with the ERC-20 Paymaster instead; see [Send USDC without ETH for gas](/guides/how-to/payments/send-usdc-without-eth).
+
+## The flow
+
+1. Your backend creates an order: an ID, the merchant address, and the amount in USDC.
+2. The checkout page builds a user operation with one call, `USDC.transfer(merchant, amount)`, using a nonce key derived from the order ID, and requests sponsorship under your policy.
+3. The customer signs once. The bundler gets the user operation on chain; your Pimlico balance pays the gas.
+4. The checkout page sends the user operation hash to your backend.
+5. Your backend waits for the receipt, checks the nonce key, the `Transfer` log and the transaction status, and marks the order paid.
+
+Pimlico doesn't hold funds or settle payments: the USDC moves directly from the customer's account to your address.
+
+## Steps
+
+::::steps
+
+### Create a checkout sponsorship policy
+
+Create a policy in the [dashboard](https://dashboard.pimlico.io/sponsorship-policies) or with the [API](/references/platform/api/sponsorship-policies/create). For checkout, set:
+
+- a **per-user** limit, for example a small daily `maximum_user_operation_count`, so a single account can't burn your balance,
+- a **per-user-operation** spending cap that comfortably covers one USDC transfer on your chain,
+- a **global** spending limit with a `reset_interval`,
+- `chain_ids.allowlist` with the chains you accept payments on, for example `[8453]` for Base.
+
+To sponsor only payments to your own address, add a [policy webhook](/guides/how-to/sponsorship-policies/webhook) that decodes the user operation's call data and answers `{ "sponsor": true }` only for a USDC `transfer` whose recipient is your merchant address. The `@pimlico/webhook` package provides both signature verification and a `parseCallData` helper for this. [Gasless stablecoin remittances](/guides/how-to/payments/remittances) has a complete webhook handler you can adapt.
+
+### Put your API key behind a proxy
+
+The checkout code runs in the customer's browser, so it must not contain your Pimlico API key. Run a small proxy on your backend that authenticates the shopper's session, forwards JSON-RPC requests to `https://api.pimlico.io/v2/8453/rpc?apikey=...`, and rejects anything you don't expect. In the [API keys page](https://dashboard.pimlico.io/apikeys), restrict the key to your proxy's IP addresses and to the method groups you use. See [How to protect your API keys](/guides/how-to/security/protect-api-keys) for an Express and a Fastify example.
+
+### Derive a nonce key from the order ID
+
+A smart account nonce is a 192-bit key plus a 64-bit sequence, and each `(key, sequence)` pair can be used once. Hashing the order ID into the key means the user operation that pays an order carries that order's key in its signed nonce. Your frontend and backend share this helper:
+
+```ts [order.ts]
+// [!include ~/snippets/payments/order.ts:order]
+```
+
+### Create the customer's clients
+
+Both the bundler transport and the Pimlico client point at your proxy. The `paymasterContext` on the smart account client requests sponsorship under your checkout policy for every user operation it sends.
+
+```ts [checkout.ts]
+// [!include ~/snippets/payments/accept-usdc-at-checkout.ts:clients]
+```
+
+If the customer pays from an existing EOA, create the account with `to7702SimpleSmartAccount` (EntryPoint 0.8) and attach a signed authorization to their first user operation, as shown in the [EIP-7702 quickstart](/guides/eip7702/demo).
+
+### Send the payment
+
+```ts [checkout.ts]
+// [!include ~/snippets/payments/accept-usdc-at-checkout.ts:pay]
+```
+
+The sequence check stops the same account from paying the same order twice: after a payment lands, the order's key has sequence 1.
+
+### Verify the payment on your backend
+
+Don't mark the order paid because the frontend says so. Fetch the user operation receipt from the bundler with your server-side API key and check it:
+
+```ts [verify-payment.ts]
+// [!include ~/snippets/payments/accept-usdc-at-checkout-backend.ts:backend]
+```
+
+A bundle transaction can contain user operations from other senders. `receipt.logs` only contains the logs emitted by this user operation, so a `Transfer` found there was caused by the customer's payment. The final `getTransactionReceipt` call against your own RPC confirms the transaction independently of the bundler.
+
+Store the `userOpHash` with the order and make it unique, so the same payment can't be reported for two orders.
+
+::::
+
+## Customers with external wallets
+
+Customers using a browser extension wallet usually can't sign an EIP-7702 authorization for your app. If their wallet supports EIP-5792 `wallet_sendCalls` with the `paymasterService` capability (ERC-7677), you can still sponsor the payment: pass your proxy URL as the paymaster service and your policy ID in its `context`.
+
+```ts
+// [!include ~/snippets/payments/accept-usdc-at-checkout-external-wallet.ts:external]
+```
+
+Here you receive a transaction hash rather than a user operation hash, and the nonce key isn't under your control. Verify by fetching the transaction receipt from your RPC, parsing USDC `Transfer` logs with `parseEventLogs`, and checking `from` is the customer's address, `to` is your merchant address and the value covers the order. Store the transaction hash with the order so it can't be reused. See [external wallets](/guides/eip7702/external) for a wagmi version.
+
+## Operational notes
+
+- **Pending payments**: if the receipt is slow, check [`pimlico_getUserOperationStatus`](/references/bundler/endpoints/pimlico_getUserOperationStatus). It distinguishes `not_submitted`, `submitted`, `included`, `rejected` and `failed`, and keeps statuses for one hour.
+- **Sponsorship validity**: a sponsorship signature is valid for 10 minutes by default. If customers might leave the confirmation screen open longer, prepare the user operation again or extend the window with `validForSeconds` ([guide](/guides/how-to/paymasters/extending-sponsorship-duration)).
+- **Refunds and overpayments** are your application's responsibility; send them from your merchant account like any other USDC transfer.
+- **Billing**: sponsored gas is charged to your Pimlico balance or card. See the [verifying paymaster FAQ](/references/paymaster/verifying-paymaster/faqs).
+
+## Related
+
+- [How to use sponsorship policies](/guides/how-to/sponsorship-policies)
+- [Sponsorship policy webhooks](/guides/how-to/sponsorship-policies/webhook)
+- [`eth_getUserOperationReceipt`](/references/bundler/endpoints/eth_getUserOperationReceipt)
+- [Send user operations in parallel](/guides/how-to/parallel-transactions) (nonce keys)

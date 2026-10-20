@@ -1,0 +1,200 @@
+---
+title: Gasless stablecoin remittances
+description: Let remittance app users send USDC across borders without holding ETH, using Pimlico's verifying paymaster with sponsorship policies or the ERC-20 Paymaster.
+---
+
+# Gasless stablecoin remittances
+
+A remittance app can let users send USDC across borders without ever holding ETH by giving each user an ERC-4337 smart account and attaching a paymaster to every transfer. With Pimlico, either your app pays the network fee through the **verifying paymaster**, capped by a **sponsorship policy** (global, per-user and per-user-operation spending limits, operation counts, and a chain allowlist), or the user pays it in USDC through the **ERC-20 Paymaster**, which takes the fee from the sender in the same user operation. Users who already have an EOA can keep their address by upgrading it with EIP-7702.
+
+Pimlico covers gas and transaction inclusion. Converting fiat to and from stablecoins, and moving funds between chains, are outside its scope and need an on/off-ramp or bridge provider.
+
+## How the pieces fit
+
+- **Smart account**: each user's USDC sits in an ERC-4337 account (here a Simple account) controlled by their signer: an embedded wallet, a passkey, or their own key.
+- **Bundler**: Pimlico's bundler takes the signed user operation and gets it on chain, paying the ETH for the transaction up front.
+- **Verifying paymaster + sponsorship policy**: Pimlico covers the user operation's gas and charges your off-chain Pimlico balance. The policy decides how much you're willing to spend.
+- **ERC-20 Paymaster (fallback)**: when you don't sponsor a transfer, the paymaster covers the gas and takes the equivalent in USDC from the sender's account.
+
+This guide uses Base and its native USDC (`0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913`). The same code works on any [supported chain](/guides/supported-chains): change the chain, the RPC URL and the USDC address, and check the [ERC-20 Paymaster's supported tokens](/references/paymaster/erc20-paymaster/supported-tokens) if you use the fallback.
+
+## Installation
+
+::::code-group
+
+```bash [npm]
+npm install permissionless viem
+```
+
+```bash [pnpm]
+pnpm install permissionless viem
+```
+
+```bash [bun]
+bun install permissionless viem
+```
+
+::::
+
+You also need a Pimlico API key. [Create one here](/guides/create-api-key).
+
+## Steps
+
+::::steps
+
+### Create a sponsorship policy
+
+A sponsorship policy is a set of hosted rules that Pimlico checks before it signs a sponsorship. For remittances, the useful controls are:
+
+- a **global** spending limit (for example per month) so a traffic spike can't drain your balance,
+- a **per-user** limit on spend or on the number of user operations (for example a few free transfers per day),
+- a **per-user-operation** spending cap,
+- a **chain allowlist**, so the policy only sponsors on the chains you operate on,
+- optional **start and end times**.
+
+You can create the policy in the [dashboard](https://dashboard.pimlico.io/sponsorship-policies), with the [Pimlico CLI](/references/platform/cli), or with the [Sponsorship Policies API](/references/platform/api/sponsorship-policies/create). Amounts are in US cents, so `50` is $0.50. The values below are examples; pick limits that match your unit economics.
+
+```bash
+curl -X POST "https://api.pimlico.io/v2/account/sponsorship_policies?apikey=YOUR_PIMLICO_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "policy_name": "Remittances on Base",
+    "chain_ids": { "allowlist": [8453] },
+    "limits": {
+      "global": {
+        "user_operation_spending": { "amount": 500000, "currency": "USD" },
+        "reset_interval": "monthly"
+      },
+      "user": {
+        "maximum_user_operation_count": 5,
+        "reset_interval": "daily"
+      },
+      "user_operation": {
+        "user_operation_spending": { "amount": 50, "currency": "USD" }
+      }
+    }
+  }'
+```
+
+The response contains the policy `id` (for example `sp_mighty_chameleon`). You'll pass it as `sponsorshipPolicyId` when you request sponsorship. See [the Sponsorship Policy object](/references/platform/api/sponsorship-policies/object) for every field.
+
+### Only sponsor USDC transfers (optional)
+
+Spending limits don't restrict *what* a user operation does. If you only want to pay for USDC transfers made by your own customers, enable a [sponsorship policy webhook](/guides/how-to/sponsorship-policies/webhook). Pimlico sends the user operation to your endpoint and only sponsors it if you answer `{ "sponsor": true }`.
+
+The handler below verifies the webhook signature with `@pimlico/webhook`, decodes the account's call data with its `parseCallData` helper, and approves the request only if every contract call is a USDC `transfer` from an account you recognize.
+
+```ts [app/api/pimlico-webhook/route.ts]
+import { parseCallData, pimlicoWebhookVerifier } from "@pimlico/webhook"
+import { type Address, isAddressEqual, slice, toFunctionSelector } from "viem"
+
+const USDC = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" // USDC on Base
+const TRANSFER_SELECTOR = toFunctionSelector("transfer(address,uint256)")
+
+const verifyWebhook = pimlicoWebhookVerifier(process.env.PIMLICO_WEBHOOK_SECRET as string)
+
+// Your own lookup, e.g. "is this smart account a KYC'd user of my app?"
+declare function isActiveCustomer(sender: Address): Promise<boolean>
+
+export async function POST(request: Request): Promise<Response> {
+	const body = await request.text()
+
+	let event: ReturnType<typeof verifyWebhook>
+	try {
+		event = verifyWebhook(Object.fromEntries(request.headers), body)
+	} catch {
+		return new Response("invalid signature", { status: 401 })
+	}
+
+	if (event.type !== "user_operation.sponsorship.requested") {
+		// e.g. "user_operation.sponsorship.finalized": record it and acknowledge
+		return Response.json({ received: true })
+	}
+
+	const { userOperation } = event.data.object
+
+	// parseCallData decodes the account's execute / executeBatch call data
+	const contractCalls = parseCallData(userOperation.callData).filter(
+		(call) => call.data !== "0x",
+	)
+
+	const onlyUsdcTransfers =
+		contractCalls.length > 0 &&
+		contractCalls.every(
+			(call) =>
+				isAddressEqual(call.to, USDC) &&
+				slice(call.data, 0, 4).toLowerCase() === TRANSFER_SELECTOR,
+		)
+
+	const sponsor = onlyUsdcTransfers && (await isActiveCustomer(userOperation.sender))
+
+	return Response.json({ sponsor })
+}
+```
+
+:::note
+`parseCallData` flattens nested calls and also returns a decoded `transfer` as an extra entry with `data: "0x"`, which is why the filter only inspects entries that carry call data. Simple and EIP-7702 Simple accounts batch with `executeBatch`; Safe batches go through a MultiSend contract, so adjust the rule if you use Safe.
+:::
+
+### Create the clients
+
+Create a public client, a Pimlico client (used as both bundler and paymaster), the user's smart account, and a smart account client.
+
+The `prepareUserOperationForErc20Paymaster` override only changes anything when the `paymasterContext` contains a `token`. With a `sponsorshipPolicyId` the user operation is prepared as usual, so one client handles both payment modes.
+
+```ts
+// [!include ~/snippets/payments/remittances.ts:clients]
+```
+
+:::warning
+If this code runs in your users' browsers or apps, don't ship your API key in it. Route requests through your own backend and restrict the key, as described in [How to protect your API keys](/guides/how-to/security/protect-api-keys).
+:::
+
+### Send the transfer: sponsored first, USDC as fallback
+
+Request sponsorship under your policy. If the policy declines (for example because the user has used up today's free transfers, or your webhook answered `false`), the request fails and you can fall back to the ERC-20 Paymaster, which takes the fee from the user's USDC.
+
+```ts
+// [!include ~/snippets/payments/remittances.ts:send]
+```
+
+In the fallback path, permissionless.js adds an `approve` call for the ERC-20 Paymaster in front of the transfer when the existing allowance is too low, so the user still signs one user operation. If you want to show the fee before the user confirms, use `estimateErc20PaymasterCost` as shown in [How to calculate a user operation's cost](/guides/how-to/erc20-paymaster/how-to/calculate-costs).
+
+### Wait for the receipt
+
+`sendUserOperation` returns a user operation hash as soon as the bundler accepts it. Wait for the receipt before you show the transfer as delivered, and check `success`: a user operation can be included on chain and still revert.
+
+```ts
+// [!include ~/snippets/payments/remittances.ts:wait]
+```
+
+If a receipt takes longer than expected, [`pimlico_getUserOperationStatus`](/references/bundler/endpoints/pimlico_getUserOperationStatus) tells you whether the operation is still in the mempool, submitted, included, or was rejected.
+
+::::
+
+## Users with an existing EOA (EIP-7702)
+
+If your users already hold USDC in an EOA, you don't have to move their funds to a new address. With EIP-7702 the EOA delegates to a smart account implementation and keeps its address. Swap `toSimpleSmartAccount` for `to7702SimpleSmartAccount` (EntryPoint 0.8) and attach a signed authorization to the first user operation:
+
+```ts
+// [!include ~/snippets/payments/send-usdc-without-eth-7702.ts:clients7702]
+```
+
+```ts
+// [!include ~/snippets/payments/send-usdc-without-eth-7702.ts:send7702]
+```
+
+The signer must be able to sign EIP-7702 authorizations: viem local accounts can, and for an embedded wallet check its provider's documentation. Browser extension wallets generally don't let apps request an authorization; for those, see [sponsoring transactions for external wallets](/guides/eip7702/external). Check that your chain supports EIP-7702 on the [supported chains page](/guides/supported-chains#chain-details) (Base does), and see the [EIP-7702 quickstart](/guides/eip7702/demo) for the full flow.
+
+## Running this in production
+
+- **Funding sponsorship**: the verifying paymaster charges your off-chain Pimlico balance or attached card. When you request sponsorship, Pimlico holds the user operation's maximum possible cost and refunds the difference after it lands. See the [verifying paymaster FAQ](/references/paymaster/verifying-paymaster/faqs).
+- **Sponsorship validity**: a sponsorship signature is valid for 10 minutes by default. If users may sign and submit later, extend it with `validForSeconds` ([guide](/guides/how-to/paymasters/extending-sponsorship-duration)). ERC-20 Paymaster sponsorships are always valid for 10 minutes.
+- **Several chains**: the API, the clients and the code are the same on every chain Pimlico supports. Create one policy per chain, or one policy whose `chain_ids.allowlist` lists all of them.
+
+## Related
+
+- [Tutorial 1: send your first gasless transaction](/guides/tutorials/tutorial-1)
+- [How to use sponsorship policies](/guides/how-to/sponsorship-policies)
+- [How to use the ERC-20 Paymaster](/guides/how-to/erc20-paymaster/how-to/use-paymaster)
+- [Send USDC without ETH for gas](/guides/how-to/payments/send-usdc-without-eth)

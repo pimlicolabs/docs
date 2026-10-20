@@ -1,0 +1,111 @@
+---
+title: Send USDC without ETH for gas
+description: Let users send USDC and pay the network fee in USDC with Pimlico's ERC-20 Paymaster, or have your app sponsor it, from a smart account or an EIP-7702 EOA.
+---
+
+# Send USDC without ETH for gas
+
+A stablecoin payment app can let users send USDC without holding ETH by sending the transfer as an ERC-4337 user operation from a smart account, or from an EOA upgraded with EIP-7702, and paying its gas through Pimlico's **ERC-20 Paymaster**. The paymaster covers the ETH gas cost and takes the equivalent in USDC from the sender. permissionless.js's `prepareUserOperationForErc20Paymaster` adds the exact USDC approval to the same user operation, so the user signs once. If you'd rather the user pay nothing, your app can sponsor the same transfer with the **verifying paymaster** by changing one line.
+
+This guide sends USDC on Base. USDC is supported by the ERC-20 Paymaster on Ethereum, Base, Polygon, Arbitrum and Optimism, plus their testnets ([supported tokens](/references/paymaster/erc20-paymaster/supported-tokens)). To try it on Base Sepolia first, follow [Tutorial 2](/guides/tutorials/tutorial-2), which uses testnet USDC from the Circle faucet.
+
+## Installation
+
+::::code-group
+
+```bash [npm]
+npm install permissionless viem
+```
+
+```bash [pnpm]
+pnpm install permissionless viem
+```
+
+```bash [bun]
+bun install permissionless viem
+```
+
+::::
+
+You need a Pimlico API key. [Create one here](/guides/create-api-key).
+
+## Steps
+
+::::steps
+
+### Create the clients
+
+The Pimlico client is both the bundler and the paymaster. Passing `prepareUserOperationForErc20Paymaster` as the smart account client's `prepareUserOperation` makes it add the paymaster approval whenever `paymasterContext` contains a `token`.
+
+```ts
+// [!include ~/snippets/payments/send-usdc-without-eth.ts:clients]
+```
+
+The account address is counterfactual: it's known before the account is deployed, and the account is deployed by its first user operation. Send the user's USDC to `account.address`.
+
+### Show the fee before the user confirms
+
+Prepare the user operation with the USDC transfer and `paymasterContext: { token: USDC }`, then convert its maximum gas cost into USDC with `estimateErc20PaymasterCost`. `costInToken` is in USDC base units (6 decimals) and `costInUsd` always has 6 decimals.
+
+```ts
+// [!include ~/snippets/payments/send-usdc-without-eth.ts:quote]
+```
+
+The estimate is the most the paymaster can charge for this user operation. The amount actually charged is computed from the gas used, so it's usually lower.
+
+### Check the balance covers the amount and the fee
+
+The paymaster collects USDC from the sender after the transfer executes. If the account sends its entire balance, nothing is left for the fee and the user operation fails simulation. For a "send max" button, send the balance minus the fee estimate.
+
+```ts
+// [!include ~/snippets/payments/send-usdc-without-eth.ts:balance]
+```
+
+### Send the transfer and wait for the receipt
+
+```ts
+// [!include ~/snippets/payments/send-usdc-without-eth.ts:send]
+```
+
+When the account's existing allowance for the paymaster is lower than the maximum fee, the user operation runs `USDC.approve(paymaster, maxFee)` and then your transfer, in one batch. If the allowance is already high enough, the approval is skipped. The ERC-20 Paymaster's addresses are listed on the [contract addresses page](/references/paymaster/erc20-paymaster/contract-addresses).
+
+::::
+
+## Send from an existing EOA with EIP-7702
+
+If the user's USDC is in an EOA, delegate the EOA to a Simple account implementation with EIP-7702 instead of moving funds to a new address. The address stays the same; the account uses EntryPoint 0.8, so the Pimlico client is configured for 0.8 too.
+
+```ts
+// [!include ~/snippets/payments/send-usdc-without-eth-7702.ts:clients7702]
+```
+
+The first user operation must carry a signed authorization. After it lands, the EOA's code is the delegation designator `0xef0100` followed by the implementation address, which you can check to decide whether to sign another one.
+
+```ts
+// [!include ~/snippets/payments/send-usdc-without-eth-7702.ts:send7702]
+```
+
+The signer has to support signing EIP-7702 authorizations. viem local accounts can; for an embedded wallet, check its provider's documentation. For browser extension wallets, see [external wallets](/guides/eip7702/external). The [EIP-7702 quickstart](/guides/eip7702/demo) walks through the same flow on Sepolia.
+
+## Sponsor the transfer instead
+
+To make the transfer free for the user, request sponsorship from the verifying paymaster under one of your [sponsorship policies](/guides/how-to/sponsorship-policies). With a `sponsorshipPolicyId` in the context, the ERC-20 override does nothing and no approval is added; the gas is charged to your Pimlico balance.
+
+```ts
+// [!include ~/snippets/payments/send-usdc-without-eth.ts:sponsored]
+```
+
+A common pattern is to sponsor a few transfers per user per day and fall back to the ERC-20 Paymaster when the policy declines. [Gasless stablecoin remittances](/guides/how-to/payments/remittances) shows that fallback in full.
+
+## Notes
+
+- **Approval strategy**: `prepareUserOperationForErc20Paymaster` approves only the maximum fee of each user operation. If you prefer a one-time unlimited approval, see [using the ERC-20 Paymaster with unlimited approvals](/guides/how-to/erc20-paymaster/how-to/use-paymaster-with-unlimited-approval).
+- **Sponsorship window**: an ERC-20 Paymaster sponsorship is valid for 10 minutes, so prepare and send the user operation in the same session.
+- **API keys**: in a client app, route Pimlico requests through your backend instead of embedding the key ([guide](/guides/how-to/security/protect-api-keys)).
+
+## Related
+
+- [Tutorial 2: submit a user operation with an ERC-20 Paymaster](/guides/tutorials/tutorial-2)
+- [How to use the ERC-20 Paymaster](/guides/how-to/erc20-paymaster/how-to/use-paymaster)
+- [Estimate token cost and cost in USD](/guides/how-to/erc20-paymaster/how-to/calculate-costs)
+- [`to7702SimpleSmartAccount` reference](/references/permissionless/reference/accounts/to7702SimpleSmartAccount)

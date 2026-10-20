@@ -340,6 +340,29 @@ export const sendingTransactionsSidebar = [
 	},
 ];
 
+export const paymentsSidebar = [
+	{
+		text: "Send USDC without ETH",
+		link: "/guides/how-to/payments/send-usdc-without-eth",
+	},
+	{
+		text: "Gasless remittances",
+		link: "/guides/how-to/payments/remittances",
+	},
+	{
+		text: "Accept USDC at checkout",
+		link: "/guides/how-to/payments/accept-usdc-at-checkout",
+	},
+	{
+		text: "Payouts at scale",
+		link: "/guides/how-to/payments/payouts",
+	},
+	{
+		text: "Swap without ETH",
+		link: "/guides/how-to/payments/swap-without-eth",
+	},
+];
+
 export const conceptualSidebar = [
 	{
 		text: "Account Abstraction (ERC-4337)",
@@ -370,6 +393,10 @@ export const guidesSidebar = [
 	{
 		text: "Sending transactions",
 		items: sendingTransactionsSidebar,
+	},
+	{
+		text: "Payments",
+		items: paymentsSidebar,
 	},
 	{
 		text: "Gas Sponsorship",
