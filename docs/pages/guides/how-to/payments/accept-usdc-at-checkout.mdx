@@ -105,6 +105,7 @@ Change the chain, the RPC URL and the USDC address. Then read `name()` and `vers
 
 - If the customer pays from a smart contract wallet, keep the `bytes signature` overload of `permit` used here. USDC checks it with ERC-1271, which only works once the customer's wallet is deployed.
 - If you keep the server account's owner key in a key management service (Turnkey, Fireblocks, Dfns, a cloud KMS), pass its viem `LocalAccount` as the `owner` instead of `privateKeyToAccount`.
+- If you don't want to host a private key on your server for this, reach out to [support@pimlico.io](mailto:support@pimlico.io).
 
 ## Limit what you sponsor (optional)
 
