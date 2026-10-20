@@ -1,0 +1,124 @@
+---
+title: How to sponsor your users' transaction fees on any EVM chain
+description: Pay your users' gas on Ethereum, Base, Arbitrum, Optimism, Polygon, BNB Chain, Avalanche or any other supported EVM chain with Pimlico's verifying paymaster. The code is the same on every chain except the viem chain import.
+---
+
+# How to sponsor your users' transaction fees on any EVM chain
+
+This guide shows you how to pay your users' transaction fees on Ethereum, Base, Arbitrum, Optimism, Polygon, BNB Chain, Avalanche or any other [supported EVM chain](/guides/supported-chains), so they can transact without holding the chain's native token. You send each user's transactions as an ERC-4337 user operation, and Pimlico's **verifying paymaster** pays the gas from your Pimlico balance. The code is the same on every chain: only the chain import changes. For Solana, see [Solana gas sponsorship](/guides/how-to/solana/verifying-sponsorship).
+
+## Prerequisites
+
+- A Pimlico API key. Sponsoring on mainnets needs a paid plan with a balance or card attached; testnets are free. [Create one](/guides/create-api-key).
+
+::::code-group
+
+```bash [npm]
+npm install permissionless viem
+```
+
+```bash [pnpm]
+pnpm install permissionless viem
+```
+
+```bash [bun]
+bun install permissionless viem
+```
+
+::::
+
+## Steps
+
+::::steps
+
+### Pick your chain
+
+Import your chain from `viem/chains` as `chain`. The Pimlico URL in the next step is built from `chain.id`, so nothing else changes.
+
+:::code-group
+
+```ts [Ethereum]
+import { mainnet as chain } from "viem/chains" // chain ID 1
+```
+
+```ts [Base]
+import { base as chain } from "viem/chains" // chain ID 8453
+```
+
+```ts [Arbitrum]
+import { arbitrum as chain } from "viem/chains" // chain ID 42161
+```
+
+```ts [Optimism]
+import { optimism as chain } from "viem/chains" // chain ID 10
+```
+
+```ts [Polygon]
+import { polygon as chain } from "viem/chains" // chain ID 137
+```
+
+```ts [BNB Chain]
+import { bsc as chain } from "viem/chains" // chain ID 56
+```
+
+:::
+
+For any other chain, find its chain ID on the [supported chains page](/guides/supported-chains) and its viem export in [viem's chain list](https://viem.sh/docs/chains/introduction).
+
+### Create the clients
+
+Create a public client, a Pimlico client (used as both bundler and paymaster), the user's smart account, and a smart account client. Replace the `owner` with the user's signer, such as an embedded wallet or a passkey.
+
+```ts
+// [!include ~/snippets/paymasters/sponsor-transaction-fees.ts:clients]
+```
+
+If your users already have an EOA with funds in it, see [Sponsor an existing EOA with EIP-7702](#sponsor-an-existing-eoa-with-eip-7702) instead.
+
+### Send a sponsored user operation
+
+Send the user's calls with `sendUserOperation`. Pimlico sponsors the gas because the client's `paymaster` is the Pimlico client. Put everything the user is doing in one `calls` array, so the fixed cost of a user operation is paid once rather than per call.
+
+```ts
+// [!include ~/snippets/paymasters/sponsor-transaction-fees.ts:send]
+```
+
+### Check the receipt
+
+Wait for the receipt, check `success`, and read `actualGasCost` to see what you paid.
+
+```ts
+// [!include ~/snippets/paymasters/sponsor-transaction-fees.ts:receipt]
+```
+
+::::
+
+## Sponsor an existing EOA with EIP-7702
+
+To sponsor gas for a user's existing EOA without moving their funds, replace `toSimpleSmartAccount` with `to7702SimpleSmartAccount`, use EntryPoint 0.8, and attach a signed authorization to the user's first user operation. Follow the [EIP-7702 quickstart](/guides/eip7702/demo). Check the chain has EIP-7702 support on the [supported chains page](/guides/supported-chains#chain-details); Ethereum, Base, Arbitrum, Optimism and Polygon do.
+
+## Test on a testnet first
+
+To test without spending real funds, import a testnet such as `sepolia` or `baseSepolia` as `chain`. Sponsorship on testnets is free.
+
+## Let users pay gas in USDC instead
+
+To charge users instead of sponsoring them, have them pay gas in USDC with the ERC-20 Paymaster. Follow [How to send USDC without ETH for gas](/guides/how-to/payments/send-usdc-without-eth), and check your chain's USDC is listed in the [supported tokens](/references/paymaster/erc20-paymaster/supported-tokens).
+
+## Limit what you sponsor (optional)
+
+To cap your spend, for example per user or per user operation, create a policy in the [sponsorship policies dashboard](https://dashboard.pimlico.io/sponsorship-policies) and pass its ID in the `paymasterContext`. User operations outside the policy's limits are declined, and `sendUserOperation` throws.
+
+```ts
+// [!include ~/snippets/paymasters/sponsor-transaction-fees.ts:policy]
+```
+
+To sponsor first and charge USDC once a user hits a limit, see [How to send USDC remittances without ETH for gas](/guides/how-to/payments/remittances). For all policy options, see [How to use sponsorship policies](/guides/how-to/sponsorship-policies).
+
+## Related
+
+- [Supported chains](/guides/supported-chains)
+- [Tutorial 1: send your first gasless transaction](/guides/tutorials/tutorial-1)
+- [How to conditionally sponsor a user operation](/guides/how-to/paymasters/conditional-sponsoring)
+- [Pricing](/guides/pricing)
+- [Verifying paymaster reference](/references/paymaster/verifying-paymaster)

@@ -5,17 +5,17 @@ import { createPimlicoClient } from "permissionless/clients/pimlico"
 import { createPublicClient, type Hex, http } from "viem"
 import { entryPoint07Address } from "viem/account-abstraction"
 import { privateKeyToAccount } from "viem/accounts"
-import { mainnet } from "viem/chains"
+import { mainnet as chain } from "viem/chains" // the only line that changes per chain
 
-const pimlicoUrl = `https://api.pimlico.io/v2/${mainnet.id}/rpc?apikey=YOUR_PIMLICO_API_KEY`
+const pimlicoUrl = `https://api.pimlico.io/v2/${chain.id}/rpc?apikey=YOUR_PIMLICO_API_KEY`
 
 const publicClient = createPublicClient({
-	chain: mainnet,
-	transport: http("https://ethereum-rpc.publicnode.com"),
+	chain,
+	transport: http(), // use your own RPC URL in production
 })
 
 const pimlicoClient = createPimlicoClient({
-	chain: mainnet,
+	chain,
 	transport: http(pimlicoUrl),
 	entryPoint: {
 		address: entryPoint07Address,
@@ -37,7 +37,7 @@ const account = await toSimpleSmartAccount({
 
 const smartAccountClient = createSmartAccountClient({
 	account,
-	chain: mainnet,
+	chain,
 	bundlerTransport: http(pimlicoUrl),
 	paymaster: pimlicoClient,
 	userOperation: {
@@ -49,21 +49,13 @@ const smartAccountClient = createSmartAccountClient({
 // [!endregion clients]
 
 // [!region send]
-import { encodeFunctionData, erc20Abi, parseUnits } from "viem"
-
-const USDC = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48" // USDC on Ethereum
-
 // Batch everything the user is doing into one user operation to pay the overhead once
 const userOpHash = await smartAccountClient.sendUserOperation({
 	calls: [
 		{
-			to: USDC,
+			to: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
 			value: 0n,
-			data: encodeFunctionData({
-				abi: erc20Abi,
-				functionName: "transfer",
-				args: ["0x1111111111111111111111111111111111111111", parseUnits("25", 6)],
-			}),
+			data: "0x1234",
 		},
 	],
 })
@@ -78,15 +70,15 @@ if (!receipt.success) {
 	throw new Error(`User operation reverted: ${receipt.reason ?? "unknown reason"}`)
 }
 
-console.log(`Included: https://etherscan.io/tx/${receipt.receipt.transactionHash}`)
-console.log(`Gas you sponsored: ${formatEther(receipt.actualGasCost)} ETH`)
+console.log(`Included: ${chain.blockExplorers.default.url}/tx/${receipt.receipt.transactionHash}`)
+console.log(`Gas you sponsored: ${formatEther(receipt.actualGasCost)} ${chain.nativeCurrency.symbol}`)
 // [!endregion receipt]
 
 // [!region policy]
-const SPONSORSHIP_POLICY_ID = "sp_your_ethereum_policy"
+const SPONSORSHIP_POLICY_ID = "sp_your_policy_id"
 
 const limitedHash = await smartAccountClient.sendUserOperation({
-	calls: [{ to: "0x1111111111111111111111111111111111111111", value: 0n, data: "0x" }],
+	calls: [{ to: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045", value: 0n, data: "0x1234" }],
 	paymasterContext: { sponsorshipPolicyId: SPONSORSHIP_POLICY_ID },
 })
 // [!endregion policy]

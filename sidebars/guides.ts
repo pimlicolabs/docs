@@ -143,8 +143,8 @@ export const accountsSidebar = [
 
 export const verifyingPaymasterSidebar = [
 	{
-		text: "Sponsor gas on Ethereum",
-		link: "/guides/how-to/paymasters/sponsor-gas-on-ethereum",
+		text: "Sponsor transaction fees on any chain",
+		link: "/guides/how-to/paymasters/sponsor-transaction-fees",
 	},
 	{
 		text: "Extending sponsorship duration",
