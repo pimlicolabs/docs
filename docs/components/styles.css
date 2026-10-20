@@ -47,6 +47,9 @@
 /* reset */
 button {
     all: unset;
+    /* `all: unset` resets box-sizing to content-box, which makes bordered buttons
+       (e.g. the AI CTA split button) 2px taller than sibling border-box elements. */
+    box-sizing: border-box;
 }
 
 .TooltipContent {
