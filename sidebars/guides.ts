@@ -346,7 +346,7 @@ export const paymentsSidebar = [
 		link: "/guides/how-to/payments/send-usdc-without-eth",
 	},
 	{
-		text: "Gasless remittances",
+		text: "Send gasless remittances",
 		link: "/guides/how-to/payments/remittances",
 	},
 	{
@@ -354,7 +354,7 @@ export const paymentsSidebar = [
 		link: "/guides/how-to/payments/accept-usdc-at-checkout",
 	},
 	{
-		text: "Payouts at scale",
+		text: "Send payouts at scale",
 		link: "/guides/how-to/payments/payouts",
 	},
 	{

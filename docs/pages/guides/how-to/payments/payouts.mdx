@@ -1,19 +1,11 @@
 ---
-title: Stablecoin payouts at scale
+title: How to send USDC payouts to thousands of recipients
 description: Send USDC to thousands of recipients by batching transfers into user operations from a smart account treasury, sending chunks in parallel with nonce keys, and sponsoring or paying gas in USDC.
 ---
 
-# Stablecoin payouts at scale
+# How to send USDC payouts to thousands of recipients
 
-A payout platform can send USDC to thousands of recipients by holding funds in a **smart account treasury** and packing many `transfer` calls into each ERC-4337 user operation, so one signature and one round of validation cover a whole chunk of recipients. Chunks are sent **in parallel** by giving each user operation its own nonce key, and gas is either sponsored from your Pimlico balance by the **verifying paymaster** or paid from the treasury's USDC by the **ERC-20 Paymaster**. Batching removes the per-transaction overhead you'd pay with one transaction per recipient, but every ERC-20 transfer still costs its own execution gas, so measure what a chunk costs on your chain instead of assuming a price.
-
-## Limits to design around
-
-- **Gas per user operation.** A user operation runs inside a single bundle transaction, so its gas limits must fit within what the chain allows for one transaction and what the bundler will accept. Keep chunks well below that and size them by measurement (step 3).
-- **All or nothing per chunk.** If one transfer in a batch reverts (for example a USDC-blacklisted recipient, or an insufficient balance), the whole user operation reverts and none of that chunk's transfers happen. Validate recipients before you build chunks.
-- **Parallelism.** Pimlico's bundler currently supports up to 100 parallel user operations; contact support if you need more ([parallel transactions](/guides/how-to/parallel-transactions)). Use a concurrency limit well below that.
-- **Deploy first.** Parallel user operations only work once the treasury account is deployed. If several of them carry the account's `factory` data, they conflict and fail with AA10.
-- **Sponsorship holds.** When you sponsor, Pimlico holds each user operation's maximum possible cost from your balance until it lands, then refunds the difference ([FAQ](/references/paymaster/verifying-paymaster/faqs)). Many large chunks in flight need a balance that covers all of their maximums at once.
+This guide shows you how to pay thousands of recipients in USDC from a **smart account treasury**, by batching `transfer` calls into ERC-4337 user operations and sending them **in parallel**, with gas sponsored by the **verifying paymaster** or paid from the treasury's USDC by the **ERC-20 Paymaster**. Batching removes the per-transaction overhead, but every transfer still costs its own execution gas, so measure what a chunk costs on your chain instead of assuming a price.
 
 ## Installation
 
@@ -41,15 +33,21 @@ bun install permissionless viem
 
 This example uses a Safe as the treasury on Base, with EntryPoint 0.7. For a treasury that needs several approvers, see [Safe with multiple signers](/guides/how-to/accounts/use-safe-account-with-multiple-signers).
 
-Set the default `paymasterContext` on the client. A `sponsorshipPolicyId` makes Pimlico pay the gas and charge your Pimlico balance; a `token` makes the ERC-20 Paymaster take the gas cost from the treasury's USDC. The `prepareUserOperationForErc20Paymaster` override only acts in the `token` case.
+Set the default `paymasterContext` on the client. To sponsor the gas from your Pimlico balance, pass a `sponsorshipPolicyId`. To pay it from the treasury's USDC through the ERC-20 Paymaster, pass a `token`; the `prepareUserOperationForErc20Paymaster` override only acts in that case.
 
 ```ts
 // [!include ~/snippets/payments/payouts.ts:clients]
 ```
 
-If you sponsor, create a dedicated policy for payouts with a global spending limit and `chain_ids.allowlist`, so a bug in your payout job can't spend more than you intended ([sponsorship policies](/guides/how-to/sponsorship-policies)).
+If you sponsor, create a dedicated policy for payouts with a global spending limit and `chain_ids.allowlist`, so a bug in your payout job can't spend more than you intended ([sponsorship policies](/guides/how-to/sponsorship-policies)). Keep your Pimlico balance above the maximum cost of all chunks in flight: Pimlico holds each sponsored user operation's maximum possible cost until it lands, then refunds the difference ([FAQ](/references/paymaster/verifying-paymaster/faqs)).
+
+### Deploy the treasury before sending in parallel
+
+Send one user operation from the treasury on its own and wait for its receipt before you send any chunks. Parallel user operations only work once the account is deployed: if several of them carry the account's `factory` data, they conflict and fail with AA10. The send code below checks `treasury.isDeployed()` and stops if it isn't.
 
 ### Turn payouts into transfer calls and chunks
+
+Validate recipients before you chunk them. If one transfer reverts, for example to a USDC-blacklisted address or because the balance runs out, the whole user operation reverts and none of that chunk's transfers happen.
 
 ```ts
 // [!include ~/snippets/payments/payouts.ts:chunk]
@@ -63,13 +61,11 @@ Prepare (don't send) a user operation for a sample chunk. `prepareUserOperation`
 // [!include ~/snippets/payments/payouts.ts:measure]
 ```
 
-Transfers to addresses that have never held USDC usually cost more gas than transfers to existing holders, because a new storage slot is written. Measure with a realistic mix of recipients, then pick a chunk size that leaves plenty of headroom.
+Transfers to addresses that have never held USDC usually cost more gas than transfers to existing holders, because a new storage slot is written. Measure with a realistic mix of recipients, then pick a chunk size that leaves plenty of headroom: a user operation runs inside a single bundle transaction, so it must fit within what the chain allows for one transaction and what the bundler accepts.
 
 ### Give every chunk a deterministic nonce
 
-A smart account nonce has two parts: a 192-bit **key** and a 64-bit **sequence**. User operations with different keys are independent, which is what lets them run in parallel. Each `(key, sequence)` pair can be used only once.
-
-Derive the key from the payout run and the chunk index. If your job crashes and retries a chunk, the retry uses the same nonce, so the chunk is paid at most once. If the original already landed, the retry fails validation with an invalid nonce instead of paying again. If the original is still in the bundler's mempool, the retry is rejected with AA25 unless it raises both gas fees by at least 10%, in which case it replaces the original. Either way, only one of them can execute.
+Derive the nonce key from the payout run ID and the chunk index. User operations with different keys run in parallel, and each `(key, sequence)` pair can be used only once ([nonce keys](/guides/how-to/parallel-transactions)), so a retried chunk reuses its nonce and can't pay twice. If the original is still in the bundler's mempool, the retry replaces it only if it raises both gas fees by at least 10%; otherwise it's rejected. Either way, only one of them can execute.
 
 ```ts
 // [!include ~/snippets/payments/payouts.ts:nonce]
@@ -77,7 +73,7 @@ Derive the key from the payout run and the chunk index. If your job crashes and 
 
 ### Send chunks in parallel
 
-Send a group of chunks at a time. Persist each user operation hash with its run ID and chunk index before you wait for receipts, so a restart knows what's already in flight. A chunk that fails to send is recorded instead of stopping the run; on a rerun, chunks that already landed fail with [AA25](/references/bundler/entrypoint-errors/aa25) (invalid nonce) rather than paying twice.
+Send a group of chunks at a time, with a concurrency limit well below the bundler's limit of 100 parallel user operations (contact support if you need more). Persist each user operation hash with its run ID and chunk index before you wait for receipts, so a restart knows what's already in flight. A chunk that fails to send is recorded instead of stopping the run; on a rerun, chunks that already landed fail with [AA25](/references/bundler/entrypoint-errors/aa25) (invalid nonce) rather than paying twice.
 
 ```ts
 // [!include ~/snippets/payments/payouts.ts:send]
@@ -105,7 +101,7 @@ For a hash with no receipt yet, ask the bundler for its status. Statuses are kep
 
 ::::
 
-## Estimating the cost of a payout run
+## Estimate the cost of a payout run
 
 There's no fixed price per recipient. Work it out from your own measurements:
 
@@ -120,4 +116,5 @@ For predictable, high-volume sponsored workloads, the [Boosted Paymaster](/guide
 - [Send user operations in parallel](/guides/how-to/parallel-transactions)
 - [Batch multiple transactions from a smart account](/guides/tutorials/send-transaction)
 - [Use a Safe account](/guides/how-to/accounts/use-safe-account)
+- [How to send USDC without ETH for gas](/guides/how-to/payments/send-usdc-without-eth)
 - [How to use the ERC-20 Paymaster](/guides/how-to/erc20-paymaster/how-to/use-paymaster)

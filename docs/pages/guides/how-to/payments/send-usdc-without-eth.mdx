@@ -1,13 +1,13 @@
 ---
-title: Send USDC without ETH for gas
+title: How to send USDC without ETH for gas
 description: Let users send USDC and pay the network fee in USDC with Pimlico's ERC-20 Paymaster, or have your app sponsor it, from a smart account or an EIP-7702 EOA.
 ---
 
-# Send USDC without ETH for gas
+# How to send USDC without ETH for gas
 
-A stablecoin payment app can let users send USDC without holding ETH by sending the transfer as an ERC-4337 user operation from a smart account, or from an EOA upgraded with EIP-7702, and paying its gas through Pimlico's **ERC-20 Paymaster**. The paymaster covers the ETH gas cost and takes the equivalent in USDC from the sender. permissionless.js's `prepareUserOperationForErc20Paymaster` adds the exact USDC approval to the same user operation, so the user signs once. If you'd rather the user pay nothing, your app can sponsor the same transfer with the **verifying paymaster** by changing one line.
+This guide shows you how to let users send USDC without holding ETH, by paying the network fee in USDC with Pimlico's **ERC-20 Paymaster** or by having your app [sponsor it](#sponsor-the-transfer-instead). If the user's USDC is in an EOA, also follow [Send from an existing EOA with EIP-7702](#send-from-an-existing-eoa-with-eip-7702).
 
-This guide sends USDC on Base. USDC is supported by the ERC-20 Paymaster on Ethereum, Base, Polygon, Arbitrum and Optimism, plus their testnets ([supported tokens](/references/paymaster/erc20-paymaster/supported-tokens)). To try it on Base Sepolia first, follow [Tutorial 2](/guides/tutorials/tutorial-2), which uses testnet USDC from the Circle faucet.
+This guide uses Base. For other chains, check the [supported tokens](/references/paymaster/erc20-paymaster/supported-tokens). To try it on Base Sepolia first, follow [Tutorial 2](/guides/tutorials/tutorial-2), which uses testnet USDC from the Circle faucet.
 
 ## Installation
 
@@ -67,7 +67,7 @@ The paymaster collects USDC from the sender after the transfer executes. If the 
 // [!include ~/snippets/payments/send-usdc-without-eth.ts:send]
 ```
 
-When the account's existing allowance for the paymaster is lower than the maximum fee, the user operation runs `USDC.approve(paymaster, maxFee)` and then your transfer, in one batch. If the allowance is already high enough, the approval is skipped. The ERC-20 Paymaster's addresses are listed on the [contract addresses page](/references/paymaster/erc20-paymaster/contract-addresses).
+Check `receipt.success` before you show the transfer as sent. If the account's allowance for the paymaster is too low, the user operation approves the maximum fee before the transfer, in the same batch, so the user still signs once.
 
 ::::
 
@@ -95,7 +95,7 @@ To make the transfer free for the user, request sponsorship from the verifying p
 // [!include ~/snippets/payments/send-usdc-without-eth.ts:sponsored]
 ```
 
-A common pattern is to sponsor a few transfers per user per day and fall back to the ERC-20 Paymaster when the policy declines. [Gasless stablecoin remittances](/guides/how-to/payments/remittances) shows that fallback in full.
+To sponsor a few transfers per user per day and fall back to the ERC-20 Paymaster when the policy declines, follow [How to send USDC remittances without ETH for gas](/guides/how-to/payments/remittances).
 
 ## Notes
 
@@ -108,4 +108,5 @@ A common pattern is to sponsor a few transfers per user per day and fall back to
 - [Tutorial 2: submit a user operation with an ERC-20 Paymaster](/guides/tutorials/tutorial-2)
 - [How to use the ERC-20 Paymaster](/guides/how-to/erc20-paymaster/how-to/use-paymaster)
 - [Estimate token cost and cost in USD](/guides/how-to/erc20-paymaster/how-to/calculate-costs)
+- [ERC-20 Paymaster contract addresses](/references/paymaster/erc20-paymaster/contract-addresses)
 - [`to7702SimpleSmartAccount` reference](/references/permissionless/reference/accounts/to7702SimpleSmartAccount)
