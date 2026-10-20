@@ -143,6 +143,10 @@ export const accountsSidebar = [
 
 export const verifyingPaymasterSidebar = [
 	{
+		text: "Sponsor transaction fees on any chain",
+		link: "/guides/how-to/paymasters/sponsor-transaction-fees",
+	},
+	{
 		text: "Extending sponsorship duration",
 		link: "/guides/how-to/paymasters/extending-sponsorship-duration",
 	},
@@ -346,6 +350,10 @@ export const paymentsSidebar = [
 		link: "/guides/how-to/payments/send-usdc-without-eth",
 	},
 	{
+		text: "Accept USDC from an EOA",
+		link: "/guides/how-to/payments/accept-usdc-from-eoa",
+	},
+	{
 		text: "Send gasless remittances",
 		link: "/guides/how-to/payments/remittances",
 	},
@@ -356,6 +364,17 @@ export const paymentsSidebar = [
 	{
 		text: "Swap without ETH",
 		link: "/guides/how-to/payments/swap-without-eth",
+	},
+	{
+		text: "Pay gas from the swapped token",
+		link: "/guides/how-to/payments/pay-gas-from-swapped-token",
+	},
+];
+
+export const agentsSidebar = [
+	{
+		text: "Pay gas for AI agents",
+		link: "/guides/how-to/agents/pay-gas-for-ai-agents",
 	},
 ];
 
@@ -393,6 +412,10 @@ export const guidesSidebar = [
 	{
 		text: "Payments",
 		items: paymentsSidebar,
+	},
+	{
+		text: "AI agents",
+		items: agentsSidebar,
 	},
 	{
 		text: "Gas Sponsorship",

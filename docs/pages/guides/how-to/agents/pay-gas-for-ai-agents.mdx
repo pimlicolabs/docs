@@ -1,0 +1,93 @@
+---
+title: How to pay gas fees for an AI agent's wallet
+description: Let an AI agent with its own wallet send onchain transactions without holding ETH, by sponsoring its gas with Pimlico's verifying paymaster or paying it in USDC with the ERC-20 Paymaster.
+---
+
+# How to pay gas fees for an AI agent's wallet
+
+This guide shows you how to pay gas for an AI agent that sends transactions from its own wallet, without funding the agent with ETH. The agent gets a smart account, and Pimlico's **verifying paymaster** sponsors its gas from your Pimlico balance. If you'd rather the agent pay its own gas, see [Let the agent pay its own gas in USDC](#let-the-agent-pay-its-own-gas-in-usdc).
+
+This guide uses Base. The same code works on any [supported chain](/guides/supported-chains) once you change the chain, the RPC URL and the USDC address.
+
+## Prerequisites
+
+- A Pimlico API key on a plan that includes mainnets. [Create one](/guides/create-api-key).
+- A signer for the agent from a key management service or server wallet (Turnkey, Privy, Fireblocks, a cloud KMS) that you can load as a viem `LocalAccount`. See [signers](/guides/how-to/signers).
+
+::::code-group
+
+```bash [npm]
+npm install permissionless viem
+```
+
+```bash [pnpm]
+pnpm install permissionless viem
+```
+
+```bash [bun]
+bun install permissionless viem
+```
+
+::::
+
+## Steps
+
+::::steps
+
+### Create the agent's smart account
+
+On your backend, create a Safe smart account owned by the agent's signer and a smart account client that uses Pimlico as bundler and paymaster.
+
+```ts
+// [!include ~/snippets/agents/pay-gas-for-ai-agents.ts:clients]
+```
+
+### Give the agent a sponsored transaction tool
+
+Wrap `sendUserOperation` in a function that waits for the receipt and returns only the outcome, and register it as a tool in your agent framework. With no `paymasterContext`, Pimlico sponsors the gas.
+
+```ts
+// [!include ~/snippets/agents/pay-gas-for-ai-agents.ts:tool]
+```
+
+The agent can now call the tool with any list of calls. Check `success` in the result: a user operation can be included onchain and still revert.
+
+::::
+
+## Let the agent pay its own gas in USDC
+
+To have the agent pay instead of you, fund its account address with USDC and pass the token in the `paymasterContext`. The agent never needs ETH.
+
+```ts
+// [!include ~/snippets/agents/pay-gas-for-ai-agents.ts:usdc-only]
+```
+
+To show the fee before sending, see [How to calculate UserOperation's costs using the ERC-20 Paymaster](/guides/how-to/erc20-paymaster/how-to/calculate-costs).
+
+## Run many agents
+
+Create one smart account per agent, each from its own signer. If one agent sends several transactions at once, give each its own nonce key, as described in [How to send multiple user operations in parallel](/guides/how-to/parallel-transactions).
+
+## Use an agent's existing EOA
+
+If the agent already has an EOA with funds in it, keep its address with EIP-7702: replace `toSafeSmartAccount` with `to7702SimpleSmartAccount` (EntryPoint 0.8) and attach a signed authorization to the first user operation. See the [EIP-7702 quickstart](/guides/eip7702/demo).
+
+## Let a key you control recover the agent's funds
+
+To recover funds or rotate the agent's key, add a key you control as a second owner of the Safe. See [How to create and use a Safe account with multiple signers](/guides/how-to/accounts/use-safe-account-with-multiple-signers).
+
+## Limit what you sponsor (optional)
+
+To cap how much gas an agent can spend, create a policy in the [sponsorship policies dashboard](https://dashboard.pimlico.io/sponsorship-policies) with a per-user limit (one "user" is one agent account) and pass its ID in the `paymasterContext`. When an agent hits the limit, this example falls back to paying gas from the agent's USDC:
+
+```ts
+// [!include ~/snippets/agents/pay-gas-for-ai-agents.ts:policy]
+```
+
+To sponsor based on which contracts the agent calls, add a [sponsorship policy webhook](/guides/how-to/sponsorship-policies/webhook). For all policy options, see [How to use sponsorship policies](/guides/how-to/sponsorship-policies).
+
+## Related
+
+- [How to use the ERC-20 Paymaster](/guides/how-to/erc20-paymaster/how-to/use-paymaster)
+- [Account abstraction (ERC-4337)](/guides/conceptual/account-abstraction)
+- [Verifying paymaster reference](/references/paymaster/verifying-paymaster)
