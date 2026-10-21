@@ -81,14 +81,16 @@ jobs:
 
       # docs.pimlico.io is skipped because the internal job checks those pages.
       # docs-og-pimlico.vercel.app serves the generated social preview images,
-      # one per page; they aren't links readers follow. No --retry: it waits out
+      # one per page; they aren't links readers follow. The "Edit on GitHub"
+      # links are built from each page's source path, so they can't break, and
+      # GitHub answers a burst of them with 503s. No --retry: it waits out
       # every Retry-After on rate-limited hosts (mostly github.com), and the
       # report ignores 429s anyway.
       - name: Check links
         run: |
           npx --yes serve@14 -l 4173 dist/public &
           until curl -sf http://localhost:4173 > /dev/null; do sleep 1; done
-          SKIP=(--skip docs.pimlico.io --skip api.pimlico.io --skip dashboard.pimlico.io --skip docs-og-pimlico.vercel.app --skip "cdn-cgi\/l\/email-protection")
+          SKIP=(--skip docs.pimlico.io --skip api.pimlico.io --skip dashboard.pimlico.io --skip docs-og-pimlico.vercel.app --skip "github.com/pimlicolabs/docs/edit" --skip "cdn-cgi\/l\/email-protection")
           npx --yes linkinator@6.1.1 http://localhost:4173 -r --format json "${SKIP[@]}" --timeout 15000 --concurrency 20 > docs-links.json || true
           npx --yes linkinator@6.1.1 https://pimlico.io -r --format json "${SKIP[@]}" --timeout 15000 --concurrency 5 > site-links.json || true
           jq -s '{links: (map(.links) | add)}' docs-links.json site-links.json > links-report.json
