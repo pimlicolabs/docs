@@ -15,6 +15,8 @@ allowBuilds:
   protobufjs: false
   secp256k1: false
   utf-8-validate: false
+  # Pulled in by vocs' OpenAPI client; its postinstall only picks a Vue version.
+  vue-demi: false
 
 # pnpm 10's spelling of the same thing, kept so the allow-list still applies if
 # an install runs on 10 (e.g. Vercel, which ignores `packageManager` unless

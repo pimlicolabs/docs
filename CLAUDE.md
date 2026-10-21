@@ -4,10 +4,10 @@ This document serves as a comprehensive guide for working with the Pimlico docum
 
 ## Repository Overview
 
-The Pimlico documentation is built using **Vocs v1.4.x**, a React-based documentation framework. The site is deployed on Vercel and uses MDX format for content, allowing React components within markdown files.
+The Pimlico documentation is built using **Vocs v2**, a React-based documentation framework (built on Vite and Waku). The site is deployed on Vercel and uses MDX format for content, allowing React components within markdown files.
 
 ### Technology Stack
-- **Framework**: Vocs (v1.4.x)
+- **Framework**: Vocs (v2.x)
 - **Package Manager**: pnpm (v11.22.0)
 - **Language**: TypeScript/MDX
 - **Styling**: Tailwind CSS
@@ -23,15 +23,16 @@ docs/
 │   ├── pages/              # All documentation content
 │   │   ├── guides/         # How-to guides, tutorials, conceptual docs
 │   │   ├── references/     # API references for all products
+│   │   ├── _root.css       # Global styles (loaded on every page)
 │   │   └── index.mdx       # Landing page
 │   ├── components/         # React components used in docs
-│   ├── public/            # Static assets (images, favicons, scripts)
 │   └── snippets/          # Reusable code examples
+├── public/                # Static assets (images, favicons, scripts)
 ├── sidebars/              # Navigation configuration
 ├── data/                  # Markdown data files (chains, tokens)
-├── patches/               # Package patches
-├── utils.ts               # Utility functions
-├── vocs.config.tsx        # Main configuration
+├── scripts/               # Build and data scripts
+├── seo.ts                 # Canonical URLs for duplicate pages
+├── vocs.config.ts         # Main configuration
 ├── package.json           # Dependencies and scripts
 ├── vercel.json           # Deployment configuration
 └── biome.json            # Linting rules
@@ -131,7 +132,7 @@ Minimal frontmatter approach:
 ```yaml
 ---
 title: Page Title  # Optional, used for SEO and navigation
-layout: landing    # Only for special layouts (landing page)
+layout: minimal    # Only for special layouts (landing page)
 ---
 ```
 
@@ -166,7 +167,7 @@ Reusable code examples are stored in `/snippets/` and included using:
 ```
 
 ### Components
-Custom React components in `/docs/components/` can be imported and used in MDX files.
+Custom React components in `/docs/components/` can be imported and used in MDX files. Vocs v2 renders MDX as React Server Components, so a component that uses hooks or browser APIs needs `"use client"` at the top of its file.
 
 ## Development Workflow
 
@@ -175,7 +176,6 @@ Custom React components in `/docs/components/` can be imported and used in MDX f
 pnpm dev          # Start development server
 pnpm build        # Build for production
 pnpm preview      # Preview production build
-pnpm search-index # Build search index
 ```
 
 ### Adding New Pages
@@ -201,7 +201,7 @@ pnpm search-index # Build search index
 1. **File Naming**: Use kebab-case for all MDX files
 2. **URLs**: Will match file structure (no `.mdx` extension in URLs)
 3. **Links**: Use absolute paths from docs root: `/guides/conceptual/account-abstraction`
-4. **Images**: Store in `/docs/public/` and reference with absolute paths
+4. **Images**: Store in `/public/` and reference with absolute paths
 5. **Code**: Always specify language in code blocks
 6. **Ethereum Addresses**: Format as inline code: `0x1234...`
 
@@ -242,16 +242,17 @@ Before committing:
 
 - **Production Site**: Deployed via Vercel
 - **GitHub Edit Links**: Automatically generated for each page
-- **Analytics**: PostHog tracking via `/docs/public/posthog.js`
+- **Analytics**: PostHog tracking via `/public/posthog.js`
 
 ## Configuration Details
 
-### Vocs Configuration (`vocs.config.tsx`)
+### Vocs Configuration (`vocs.config.ts`)
 - **Theme**: Purple accent color (#7115AA light, #a66cc9 dark)
 - **Logo**: Different logos for light/dark themes
-- **Social Links**: GitHub, Telegram, X (Twitter), Warpcast
+- **Social Links**: GitHub, Telegram, X (Twitter), Farcaster
 - **Top Navigation**: Guides, References dropdown, Dashboard link
 - **Edit Link Pattern**: Points to GitHub repository
+- **Functions are stringified**: Vocs sends config functions such as `head` to the browser as source text, so they can't use imports or outer variables
 
 ### Biome Linting Rules
 The project uses Biome with specific style rules enforced:
@@ -284,6 +285,6 @@ The project uses Biome with specific style rules enforced:
 
 ## Markdown References
 
-- Follow markdown guide at https://vocs.dev/docs/markdown for documentation changes
+- Follow the markdown guide at https://vocs.dev/writing/markdown-extensions for documentation changes
 
 This guide should help you maintain the high quality and consistency of the Pimlico documentation. When in doubt, refer to existing pages of the same type for patterns and conventions.

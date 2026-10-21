@@ -39,7 +39,7 @@ jobs:
 
       - name: Check links
         run: |
-          npx --yes serve@14 -l 4173 docs/dist &
+          npx --yes serve@14 -l 4173 dist/public &
           until curl -sf http://localhost:4173 > /dev/null; do sleep 1; done
           npx --yes linkinator@6.1.1 http://localhost:4173 -r --skip '^https?://(?!localhost)' --concurrency 50 --verbosity error
 
@@ -86,7 +86,7 @@ jobs:
       # report ignores 429s anyway.
       - name: Check links
         run: |
-          npx --yes serve@14 -l 4173 docs/dist &
+          npx --yes serve@14 -l 4173 dist/public &
           until curl -sf http://localhost:4173 > /dev/null; do sleep 1; done
           SKIP=(--skip docs.pimlico.io --skip api.pimlico.io --skip dashboard.pimlico.io --skip docs-og-pimlico.vercel.app --skip "cdn-cgi\/l\/email-protection")
           npx --yes linkinator@6.1.1 http://localhost:4173 -r --format json "${SKIP[@]}" --timeout 15000 --concurrency 20 > docs-links.json || true

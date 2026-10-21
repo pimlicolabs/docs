@@ -11,12 +11,15 @@
 import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-/** Same output directory as `vocs build`, see `scripts/sitemap.ts`. */
+/**
+ * Static output of `vocs build`. On Vercel, Vocs copies it into the Build
+ * Output API layout before this script runs, so edit that copy.
+ */
 const outDir = process.env.VERCEL
 	? join(process.cwd(), ".vercel", "output", "static")
-	: join(process.cwd(), "docs", "dist");
+	: join(process.cwd(), "dist", "public");
 
-/** `~` in an include path is the Vocs root directory. */
+/** `~` in an include path is the Vocs source directory (`srcDir`). */
 const rootDir = join(process.cwd(), "docs");
 
 const includePattern = /^(\s*)\/\/ \[!include ~\/([^\s:\]]+)(?::([\w-]+))?\]\s*$/;
