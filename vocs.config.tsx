@@ -10,7 +10,6 @@ import {
 	permissionlessWagmiSidebar,
 	platformSidebar,
 } from "./sidebars/references";
-import viteConfig from "./utils";
 
 export default defineConfig({
 	title: "Pimlico",
@@ -49,7 +48,6 @@ export default defineConfig({
 		backgroundColor: "#3c393f",
 		textColor: "#eeeef0",
 	},
-	vite: viteConfig,
 	sidebar: {
 		"/guides": guidesSidebar,
 		"/references": [

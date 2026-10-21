@@ -7,7 +7,7 @@ export default function VersionWarning({ version }: { version?: string }) {
 						You are viewing permissionless.js v0.1 documentation.{" "}
 						<a
 							style={{
-								color: "var(--vocs-color_textAccent)",
+								color: "var(--vocs-color_textAccent, var(--vocs-color-accent))",
 							}}
 							href="/references/permissionless"
 						>

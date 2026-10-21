@@ -3,7 +3,7 @@
 }
 
 .FeePayerSelector-label {
-    color: var(--vocs-color_heading);
+    color: var(--vocs-color_heading, var(--vocs-text-color-heading));
     font-weight: 500;
     margin-bottom: 8px;
 }
@@ -22,7 +22,7 @@
 
 .FeePayerSelector-option {
     background: transparent;
-    border: 1px solid var(--vocs-color_border);
+    border: 1px solid var(--vocs-color_border, var(--vocs-border-color-primary));
     border-radius: 6px;
     cursor: pointer;
     padding: 12px 16px;
@@ -31,25 +31,25 @@
 }
 
 .FeePayerSelector-option:hover {
-    border-color: var(--vocs-color_border2);
+    border-color: var(--vocs-color_border2, var(--vocs-border-color-secondary));
 }
 
 .FeePayerSelector-option[aria-checked="true"] {
-    background: var(--vocs-color_background2);
-    border-color: var(--vocs-color_borderAccent);
+    background: var(--vocs-color_background2, var(--vocs-background-color-surfaceTint));
+    border-color: var(--vocs-color_borderAccent, var(--vocs-color-accent));
 }
 
 .FeePayerSelector-title {
-    color: var(--vocs-color_heading);
+    color: var(--vocs-color_heading, var(--vocs-text-color-heading));
     font-weight: 500;
 }
 
 .FeePayerSelector-option[aria-checked="true"] .FeePayerSelector-title {
-    color: var(--vocs-color_textAccent);
+    color: var(--vocs-color_textAccent, var(--vocs-color-accent));
 }
 
 .FeePayerSelector-description {
-    color: var(--vocs-color_text3);
+    color: var(--vocs-color_text3, var(--vocs-text-color-muted));
     font-size: 14px;
     margin-top: 4px;
 }

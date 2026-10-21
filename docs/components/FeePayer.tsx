@@ -1,3 +1,5 @@
+"use client"
+
 import { type ReactNode, useSyncExternalStore } from "react"
 import "./FeePayer.css"
 
