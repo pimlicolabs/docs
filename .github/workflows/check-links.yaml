@@ -1,30 +1,97 @@
 name: Check broken links
 
 on:
-  deployment:
+  pull_request:
+  deployment_status:
   schedule:
     - cron: "0 13 * * *"
 
-concurrency:
-  group: ${{ github.workflow }}
-  cancel-in-progress: true
-
 jobs:
-  test:
+  # Links between docs pages. Crawls the built site from a local server, so it
+  # checks the PR's own pages, needs no network and doesn't trip Vercel's bot
+  # protection the way crawling docs.pimlico.io does.
+  internal:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-internal-${{ github.ref }}
+      cancel-in-progress: true
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          # version comes from the packageManager field in package.json
+          run_install: false
+
       - uses: actions/setup-node@v4
         with:
           node-version: 24
+          cache: pnpm
 
       - name: Install dependencies
-        run: npm install -g linkinator@6.1.1
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
 
       - name: Check links
-        run: linkinator https://docs.pimlico.io https://pimlico.io -r --retry --format json --skip api.pimlico.io --skip dashboard.pimlico.io --skip "cdn-cgi\/l\/email-protection"  --concurrency 5 > links-report.json
+        run: |
+          npx --yes serve@14 -l 4173 docs/dist &
+          until curl -sf http://localhost:4173 > /dev/null; do sleep 1; done
+          npx --yes linkinator@6.1.1 http://localhost:4173 -r --skip '^https?://(?!localhost)' --concurrency 50 --verbosity error
+
+  # Links to other sites, checked after production deploys and once a day.
+  # Crawls the built site from a local server so each external URL is fetched
+  # once, instead of crawling docs.pimlico.io, whose bot protection starts
+  # returning 403 partway through a crawl. pimlico.io is crawled as before.
+  # Broken links are reported to Slack.
+  external:
+    if: >-
+      github.event_name == 'schedule' ||
+      (github.event_name == 'deployment_status' &&
+        github.event.deployment_status.state == 'success' &&
+        github.event.deployment.environment == 'Production')
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-external
+      cancel-in-progress: true
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          # version comes from the packageManager field in package.json
+          run_install: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      # docs.pimlico.io is skipped because the internal job checks those pages.
+      # docs-og-pimlico.vercel.app serves the generated social preview images,
+      # one per page; they aren't links readers follow. No --retry: it waits out
+      # every Retry-After on rate-limited hosts (mostly github.com), and the
+      # report ignores 429s anyway.
+      - name: Check links
+        run: |
+          npx --yes serve@14 -l 4173 docs/dist &
+          until curl -sf http://localhost:4173 > /dev/null; do sleep 1; done
+          SKIP=(--skip docs.pimlico.io --skip api.pimlico.io --skip dashboard.pimlico.io --skip docs-og-pimlico.vercel.app --skip "cdn-cgi\/l\/email-protection")
+          npx --yes linkinator@6.1.1 http://localhost:4173 -r --format json "${SKIP[@]}" --timeout 15000 --concurrency 20 > docs-links.json || true
+          npx --yes linkinator@6.1.1 https://pimlico.io -r --format json "${SKIP[@]}" --timeout 15000 --concurrency 5 > site-links.json || true
+          jq -s '{links: (map(.links) | add)}' docs-links.json site-links.json > links-report.json
 
       - name: Prepare report
         id: prepare-report
