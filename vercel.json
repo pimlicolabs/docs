@@ -16,6 +16,11 @@
 	],
 	"redirects": [
 		{
+			"source": "/references/paymaster/verifying-paymaster/endpoints/pm_sponsorUserOperation",
+			"destination": "/references/paymaster/verifying-paymaster/endpoints#pm_sponsoruseroperation-v2",
+			"permanent": true
+		},
+		{
 			"source": "/infra/magic-spend/endpoints/pimlico_getMagicSpendStakes",
 			"destination": "/references/flash-fund/endpoints/flashfund_getLocks",
 			"permanent": false
