@@ -1,5 +1,11 @@
-import { defineConfig } from "vocs";
-import { canonicalUrl } from "./seo";
+import { defineConfig } from "vocs/config";
+import { rehypeTwoslashLinks } from "./rehype-twoslash-links";
+import {
+	canonicalOverrides,
+	canonicalPath,
+	normalizePath,
+	siteUrl,
+} from "./seo";
 import { guidesSidebar } from "./sidebars/guides";
 import {
 	bundlerSidebar,
@@ -13,37 +19,34 @@ import {
 
 export default defineConfig({
 	title: "Pimlico",
-	llms: { generateMarkdown: true },
 	logoUrl: { light: "/pimlico-purple.svg", dark: "/pimlico-white.svg" },
 	iconUrl: "/favicons/favicon.svg",
 	titleTemplate: "%s | Pimlico Docs",
 	editLink: {
-		pattern: "https://github.com/pimlicolabs/docs/edit/main/docs/pages/:path",
+		link: "https://github.com/pimlicolabs/docs/edit/main/docs/pages/:path",
 		text: "Edit on GitHub",
 	},
 	description:
 		"Pimlico is the world's most popular account abstraction infrastructure platform",
-	head: ({ path }) => (
-		<>
-			<link rel="canonical" href={canonicalUrl(path)} />
-			<script src="/posthog.js" />
-			<link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg" />
-			<link rel="icon" type="image/png" href="/favicons/favicon.png" />
-			<link rel="shortcut icon" href="/favicons/favicon.ico" />
-			<link rel="apple-touch-icon" href="/favicons/favicon.png" />
-		</>
-	),
+	// Vocs stringifies config functions for the browser, so this can't call
+	// `canonicalUrl` from ./seo. It looks duplicate pages up in a precomputed
+	// map instead; every other page keeps the self-canonical Vocs builds from
+	// `baseUrl`. `base: false` drops the `<base href>` that `baseUrl` would add,
+	// which makes preview deployments load their scripts from production.
+	head: new Function(
+		"path",
+		`const overrides = ${JSON.stringify(canonicalOverrides())};
+		const canonical = overrides[path.replace(/\\/+$/, "") || "/"];
+		return {
+			base: false,
+			...(canonical ? { canonical } : {}),
+			script: [{ src: "/posthog.js", async: true }],
+		};`,
+	) as (path: string) => { base: false },
 	banner: {
-		content: (
-			<a
-				href="https://twitter.com/pimlicoHQ/status/1721890681185321018"
-				target="_blank"
-				rel="nofollow noreferrer"
-			>
-				🎉 We raised $4.2 million from a16z to power Ethereum's transition to
-				smart accounts! Read more →
-			</a>
-		),
+		content:
+			"🎉 We raised $4.2 million from a16z to power Ethereum's transition to smart accounts! Read more",
+		href: "https://twitter.com/pimlicoHQ/status/1721890681185321018",
 		dismissable: true,
 		backgroundColor: "#3c393f",
 		textColor: "#eeeef0",
@@ -86,13 +89,20 @@ export default defineConfig({
 		],
 		"/references/permissionless/v0_1": permissionlessSidebar0Point1,
 	},
-	ogImageUrl: {
-		"/": "https://docs-og-pimlico.vercel.app/api/og?logo=%logo&title=%title&description=%description",
+	ogImageUrl:
+		"https://docs-og-pimlico.vercel.app/api/og?logo=%logo&title=%title&description=%description",
+	baseUrl: siteUrl,
+	srcDir: "docs",
+	renderStrategy: "full-static",
+	// Duplicate pages point their canonical at another page; list only the
+	// pages that are their own canonical.
+	sitemap: {
+		include: (path) => canonicalPath(path) === normalizePath(path),
 	},
-	rootDir: "docs",
-	theme: {
-		accentColor: { light: "#7115AA", dark: "#a66cc9" },
+	markdown: {
+		rehypePlugins: [rehypeTwoslashLinks],
 	},
+	accentColor: "light-dark(#7115AA, #a66cc9)",
 	socials: [
 		{
 			icon: "github",
@@ -107,7 +117,7 @@ export default defineConfig({
 			link: "https://twitter.com/pimlicoHQ",
 		},
 		{
-			icon: "warpcast",
+			icon: "farcaster",
 			link: "https://warpcast.com/~/channel/pimlico",
 		},
 	],
@@ -131,6 +141,7 @@ export default defineConfig({
 		{
 			text: "Dashboard",
 			link: "https://dashboard.pimlico.io",
+			external: true,
 		},
 	],
 });

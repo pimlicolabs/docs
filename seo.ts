@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs";
+import { existsSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 /**
@@ -95,4 +95,22 @@ export function canonicalPath(rawPath: string): string {
 export function canonicalUrl(path: string): string {
 	const canonical = canonicalPath(path);
 	return canonical === "/" ? `${siteUrl}/` : `${siteUrl}${canonical}`;
+}
+
+/**
+ * Every page whose canonical is another page, as `{ path: canonical URL }`.
+ * Vocs stringifies config functions for the browser, so `head` can't call
+ * `canonicalUrl`; it looks pages up in this precomputed map instead. Pages
+ * not in the map get Vocs' default self-canonical from `baseUrl`.
+ */
+export function canonicalOverrides(): Record<string, string> {
+	const overrides: Record<string, string> = {};
+	const files = readdirSync(pagesDir, { recursive: true }) as string[];
+	for (const file of files) {
+		if (!/\.mdx?$/.test(file)) continue;
+		const route = file.replace(/\.mdx?$/, "").replace(/(^|\/)index$/, "");
+		const path = normalizePath(`/${route}`);
+		if (canonicalPath(path) !== path) overrides[path] = canonicalUrl(path);
+	}
+	return overrides;
 }

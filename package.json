@@ -4,9 +4,8 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vocs dev",
-		"build": "vocs build && tsx scripts/llms-includes.ts && tsx scripts/sitemap.ts",
+		"build": "vocs build && tsx scripts/llms-includes.ts",
 		"preview": "vocs preview",
-		"search-index": "vocs search-index",
 		"render-data": "tsx scripts/render-data.ts"
 	},
 	"dependencies": {
@@ -39,12 +38,14 @@
 		"lucide-react": "^1.8.0",
 		"magic-sdk": "^22.1.1",
 		"permissionless": "0.2.50",
-		"react": "^19.0.0",
-		"react-dom": "^19.0.0",
+		"react": "^19.3.1",
+		"react-dom": "^19.3.1",
 		"viem": "^2.32.1",
+		"vite": "^8.0.9",
 		"vitest": "^2.0.5",
-		"vocs": "^1.4.1",
-		"wagmi": "^2.5.5"
+		"vocs": "^2.10.3",
+		"wagmi": "^2.5.5",
+		"waku": "1.0.0-rc.3"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.1.1",
