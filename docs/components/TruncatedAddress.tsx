@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from "react";
 
 // Component for displaying a truncated address with a copy button

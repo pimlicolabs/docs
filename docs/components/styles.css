@@ -44,11 +44,6 @@
     box-shadow: 0 0 0 5px var(--black-a8);
 }
 
-/* reset */
-button {
-    all: unset;
-}
-
 .TooltipContent {
     border-radius: 4px;
     padding: 10px 15px;
