@@ -89,8 +89,9 @@ export default defineConfig({
 		],
 		"/references/permissionless/v0_1": permissionlessSidebar0Point1,
 	},
-	ogImageUrl:
-		"https://docs-og-pimlico.vercel.app/api/og?logo=%logo&title=%title&description=%description",
+	// The generator (pimlicolabs/docs-og) draws a breadcrumb from the page path.
+	ogImageUrl: (path) =>
+		`https://docs-og-pimlico.vercel.app/api/og?title=%title&description=%description&path=${encodeURIComponent(path)}`,
 	baseUrl: siteUrl,
 	srcDir: "docs",
 	renderStrategy: "full-static",
