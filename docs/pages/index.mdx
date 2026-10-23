@@ -5,63 +5,13 @@ title: 'Home | Pimlico Docs'
 description: Build smart accounts with Pimlico's ERC-4337 bundler, paymasters and permissionless.js. Sponsor gas, batch transactions and let users pay gas in any token.
 ---
 
-import { HomePage } from 'vocs'
+import { Home } from '../components/Home'
 
-<HomePage.Root>
-  <HomePage.Logo />
-  <HomePage.Description>**Pimlico** is the world's most advanced ERC-4337 account abstraction infrastructure platform. Pimlico provides a suite of tools and services to help you build, deploy, and manage smart accounts on Ethereum and other EVM-compatible chains.</HomePage.Description>
-  <HomePage.Buttons>
-  <HomePage.Button href="/guides/getting-started" variant="accent">Get started</HomePage.Button>
-  <HomePage.Button href="https://dashboard.pimlico.io">Go to Dashboard</HomePage.Button>
-  <HomePage.Button href="/references/platform/cli">Use with AI agents</HomePage.Button>
-  </HomePage.Buttons>
+<Home>
 
-<div className="mx-0 mt-4 md:mx-4 xl:-mx-12 2xl:-mx-24">
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <div>
-        ## [<span className="underline text-teal-600 hover:text-teal-800 hover:underline">Sponsor gas →</span>](/guides/tutorials/tutorial-1)
+```bash [Install the CLI]
+curl -fsSL https://dashboard.pimlico.io/install.sh | sh
+pimlico login
+```
 
-        Use the verifying paymaster to submit a gasless transaction.
-    </div>
-        <div>
-            ## [<span className="underline text-purple-600 hover:text-purple-800 hover:underline">Batch multiple transactions →</span>](/guides/tutorials/send-transaction)
-
-            Combine actions like `approve` + `swap` into a single user operation.
-        </div>
-        <div>
-            ## [<span className="underline text-orange-600 hover:text-orange-800 hover:underline">Pay gas in any token →</span>](/guides/tutorials/tutorial-2)
-
-            Let users pay gas in any token via our ERC-20 paymaster.
-        </div>
-        <div>
-            ## [<span className="underline text-blue-600 hover:text-blue-800 hover:underline">Social logins →</span>](/guides/how-to/signers/social-logins)
-
-            Onboard users with passkeys, Privy, Dynamic, Magic, Web3Auth, and more.
-        </div>
-    </div>
-
-    <div style={{ marginTop: '1.5rem', paddingTop: '1.5rem' }} className="text-sm opacity-80">
-        Looking for product references?<br />
-        [Bundler](/references/bundler), [Paymaster](/references/paymaster), [permissionless.js](/references/permissionless)
-    </div>
-</div>
-
-</HomePage.Root>
-
-## Community
-
-Check out the following places for more Pimlico-related content:
-
-- Follow [@pimlicoHQ](https://twitter.com/pimlicoHQ) and the Pimlico team ([@kristofgazso](https://twitter.com/kristofgazso), [@plusminushalf](https://twitter.com/plusminushalf), [@nikmel2803](https://twitter.com/nikmel2803), [@0xmouseless](https://twitter.com/0xmouseless), [@fastfourier_eth](https://twitter.com/fastfourier_eth)) on Twitter for project updates
-- Join the [discussions on 4337 Mafia](https://t.me/+emlONDb-lXI4ZTFh)
-- Star [permissionless.js](https://github.com/pimlicolabs/permissionless.js) and our [Alto Bundler](https://github.com/pimlicolabs/alto) on GitHub to show your support and keep track of updates
-- Browse the [awesome-account-abstraction](https://github.com/4337Mafia/awesome-account-abstraction) list of awesome account-abstraction-related projects and resources
-
-## Support
-
-Need help or want to report an issue? Contact us at [support@pimlico.io](mailto:support@pimlico.io) for:
-
-- Bug reports and technical issues
-- Service incidents and outages
-- Questions about our services
-- General support requests
+</Home>
