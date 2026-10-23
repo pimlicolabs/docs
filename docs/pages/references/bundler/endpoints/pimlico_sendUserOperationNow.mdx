@@ -1,0 +1,179 @@
+---
+description: pimlico_sendUserOperationNow sends a user operation in its own bundle right away and responds with its receipt once it is included onchain.
+---
+
+# pimlico_sendUserOperationNow
+
+Sends a signed user operation in its own bundle right away and returns its receipt in the same response. There is no mempool wait and no receipt polling. From TypeScript, use [`sendUserOperationSync`](/references/permissionless/reference/pimlico-actions/sendUserOperationSync), which also handles the errors below. Its page has the latency benchmarks.
+
+Available on Base, BSC and Robinhood, with EntryPoint 0.7 and 0.8.
+
+:::info[Contact us to enable it]
+`pimlico_sendUserOperationNow` is enabled on request. [Contact us](https://cal.com/team/pimlico/20min) or email [support@pimlico.io](mailto:support@pimlico.io) to turn it on for your API key and chains.
+:::
+
+## Usage
+
+The parameters are the same as [`eth_sendUserOperation`](/references/bundler/endpoints/eth_sendUserOperation): the user operation and the EntryPoint address.
+
+A [boosted user operation](/guides/boosted-paymaster/use-boosted-paymaster) on Base with EntryPoint 0.8: `maxFeePerGas` and `maxPriorityFeePerGas` are `0` and every paymaster field is empty. The gas is billed to your Pimlico balance.
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "pimlico_sendUserOperationNow",
+  "params": [
+    {
+      "sender": "0x1068D0C20CeFD20725035B90Eb0c32BFA4057c12",
+      "nonce": "0x1",
+      "callData": "0xb61d27f6000000000000000000000000000000000000000000000000000000000000dead000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000600000000000000000000000000000000000000000000000000000000000000000",
+      "callGasLimit": "0x7530",
+      "verificationGasLimit": "0x186a0",
+      "preVerificationGas": "0xea60",
+      "maxFeePerGas": "0x0",
+      "maxPriorityFeePerGas": "0x0",
+      "signature": "0xaae4efeb36210ec5111608edb88b81bec6d3e0d21f7666f3b93a9b709ff1bfab14fa4b2f84f37ad1af7f88d61a4cd8b6884c14db9b8c8a01f1ab7520ba46caf71b"
+    },
+    "0x4337084D9E255Ff0702461CF8895CE9E3b5Ff108"
+  ],
+  "id": 1
+}
+```
+
+## Returns
+
+- **Type:** `RpcUserOperationReceipt`
+
+The user operation receipt, once the user operation is included: the same object [`eth_getUserOperationReceipt`](/references/bundler/endpoints/eth_getUserOperationReceipt) returns. Numbers are hex.
+
+`success: false` means the user operation was included but its call reverted inside the account. Its nonce is used.
+
+On Base, the receipt arrives before its block is sealed, so `receipt.blockHash` can be all zeros. Use `blockNumber` and `transactionHash` instead.
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "userOpHash": "0xaa7e6f2050bbd8e8fc0053f3646dac0e2c13c9830172ba06efcb9f49b1e8ca9f",
+    "entryPoint": "0x4337084d9e255ff0702461cf8895ce9e3b5ff108",
+    "sender": "0x1068D0C20CeFD20725035B90Eb0c32BFA4057c12",
+    "nonce": "0x1",
+    "actualGasUsed": "0x162e9",
+    "actualGasCost": "0x0",
+    "success": true,
+    "logs": [],
+    "receipt": {
+      "transactionHash": "0x7cbfae4b823e5b08ab18913d165f56c65d52d30fd6c140646cf5e1c10a990b30",
+      "transactionIndex": "0x18",
+      "blockHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "blockNumber": "0x3289aeb",
+      "from": "0x43370250bfc02C7F085cB105558DA41E9CDB2D79",
+      "to": "0x4337084D9E255Ff0702461CF8895CE9E3b5Ff108",
+      "cumulativeGasUsed": "0x19646c",
+      "gasUsed": "0x104cb",
+      "contractAddress": null,
+      "logs": [
+        {
+          "logIndex": "0x1b",
+          "transactionIndex": "0x18",
+          "transactionHash": "0x7cbfae4b823e5b08ab18913d165f56c65d52d30fd6c140646cf5e1c10a990b30",
+          "blockHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "blockNumber": "0x3289aeb",
+          "address": "0x4337084D9E255Ff0702461CF8895CE9E3b5Ff108",
+          "data": "0x",
+          "topics": [
+            "0xbb47ee3e183a558b1a2ff0874b079f3fc5478b7454eacf2bfc5af2ff5878f972"
+          ]
+        },
+        {
+          "logIndex": "0x1c",
+          "transactionIndex": "0x18",
+          "transactionHash": "0x7cbfae4b823e5b08ab18913d165f56c65d52d30fd6c140646cf5e1c10a990b30",
+          "blockHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "blockNumber": "0x3289aeb",
+          "address": "0x4337084D9E255Ff0702461CF8895CE9E3b5Ff108",
+          "data": "0x00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000162e9",
+          "topics": [
+            "0x49628fd1471006c1482da88028e9ce4dbb080b815c9b0344d39e5a8e6ec1419f",
+            "0xaa7e6f2050bbd8e8fc0053f3646dac0e2c13c9830172ba06efcb9f49b1e8ca9f",
+            "0x0000000000000000000000001068d0c20cefd20725035b90eb0c32bfa4057c12",
+            "0x0000000000000000000000000000000000000000000000000000000000000000"
+          ]
+        }
+      ],
+      "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000008000000000000000000010000000000000000000000000000020000000800000000000000000000000000000002000000000000000000000000000000000000000000020000000000000000000800000000000020000000000000000000000000000800000000008000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000002000000000000000000000000000001000000000000000000000000200000000010000020000000020000000000000000000000000000000000000000000000000000000800",
+      "status": "0x1",
+      "effectiveGasPrice": "0x5dd770"
+    }
+  }
+}
+```
+
+## Errors
+
+Errors are standard JSON-RPC errors. `error.data` is only set when a bundle was sent, and holds `userOpHash` and `transactionHash`. **If `data.transactionHash` is set, the user operation was sent:** track it instead of resending.
+
+| Response | What happened | What to do |
+| :--- | :--- | :--- |
+| `-32602`, no `data` | Rejected, nothing was sent: invalid fields, gas limits too low, or a simulation failure such as `AA25 invalid account nonce` | Fix and resend |
+| `-32602` "submitted but is not yet included", with `data` | Sent but not included in time. The bundler still tracks it and bumps its gas if it gets stuck | **Don't resend.** Poll [`eth_getUserOperationReceipt`](/references/bundler/endpoints/eth_getUserOperationReceipt) with `data.userOpHash` |
+| `-32521` "reverted onchain", with `data` | The bundle landed but reverted, so it didn't execute the user operation. Another bundler may have included it first | Check [`eth_getUserOperationReceipt`](/references/bundler/endpoints/eth_getUserOperationReceipt), and resend only if there is no receipt |
+| `-32603` | The bundler couldn't send the bundle | Resend |
+| No response (network error, client timeout, 5xx) | Unknown: it may have been sent | Resend |
+
+A signed user operation can execute at most once, because the EntryPoint checks its nonce. Resending never runs it twice: if the first send landed, the resend is rejected with `AA25`, and you can look up the receipt by `userOpHash`.
+
+To avoid duplicate sends, set `retryCount: 0` on your viem transport. By default viem resends up to 3 times on timeouts and internal errors.
+
+::::code-group
+
+```json [Rejected]
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "error": {
+        "message": "bundle submission failed: FailedOp(0, AA25 invalid account nonce)",
+        "code": -32602
+    }
+}
+```
+
+```json [Not included yet]
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "error": {
+        "message": "userOperation was submitted but is not yet included. Track it with eth_getUserOperationReceipt",
+        "data": {
+            "userOpHash": "0x…",
+            "transactionHash": "0x…"
+        },
+        "code": -32602
+    }
+}
+```
+
+```json [Reverted]
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "error": {
+        "message": "bundle transaction 0x64deb43595ad19c86d823081c8878117f2536413ec6e3dbad661e24d484791ee reverted onchain",
+        "data": {
+            "userOpHash": "0xbcebbcd851d2a455454d9fdfc2a698a67e69ccd44a582ced92f914bf58615d25",
+            "transactionHash": "0x64deb43595ad19c86d823081c8878117f2536413ec6e3dbad661e24d484791ee"
+        },
+        "code": -32521
+    }
+}
+```
+
+::::
+
+## Nonces
+
+- **No queue:** the user operation is simulated against the current chain state, so its nonce must be the account's current nonce for that key.
+- **One at a time per key:** a user operation with nonce N+1, sent while N is in flight, is rejected with `AA25`. The response comes after inclusion, so send them one after another.
+- **Base, next nonce right after a receipt:** the receipt arrives before its block is sealed, so nonce N+1 sent right after N's receipt can be rejected with `AA25 invalid account nonce`. Nothing is sent, so resend it after 1–2s.
+- **Parallel sends:** to send in parallel from one account, use [different nonce keys](/guides/how-to/parallel-transactions).

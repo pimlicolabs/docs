@@ -103,6 +103,10 @@ export const bundlerSidebar = [
 				text: "pimlico_getUserOperationStatus",
 				link: "/references/bundler/endpoints/pimlico_getUserOperationStatus",
 			},
+			{
+				text: "pimlico_sendUserOperationNow",
+				link: "/references/bundler/endpoints/pimlico_sendUserOperationNow",
+			},
 		],
 	},
 	{
@@ -470,6 +474,10 @@ export const permissionlessSidebar = [
 					{
 						text: "getUserOperationStatus",
 						link: "/references/permissionless/reference/pimlico-actions/getUserOperationStatus",
+					},
+					{
+						text: "sendUserOperationSync",
+						link: "/references/permissionless/reference/pimlico-actions/sendUserOperationSync",
 					},
 					{
 						text: "validateSponsorshipPolicies",

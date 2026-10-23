@@ -339,8 +339,12 @@ export const signersSidebar = [
 
 export const sendingTransactionsSidebar = [
 	{
-		text: "Send user operations in parallel",
+		text: "Send in parallel",
 		link: "/guides/how-to/parallel-transactions",
+	},
+	{
+		text: "Send with the lowest latency",
+		link: "/guides/how-to/send-low-latency-user-operations",
 	},
 ];
 
@@ -406,7 +410,7 @@ export const guidesSidebar = [
 		items: tutorialSidebar,
 	},
 	{
-		text: "Sending transactions",
+		text: "Sending user operations",
 		items: sendingTransactionsSidebar,
 	},
 	{
