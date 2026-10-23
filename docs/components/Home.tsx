@@ -9,6 +9,7 @@ import {
 	Wallet,
 	WalletCards,
 } from "lucide-react";
+import type { ReactNode } from "react";
 import { HomePage, Link } from "vocs";
 import "./Home.css";
 
@@ -131,7 +132,7 @@ const guideGroups: { title: string; icon: LucideIcon; links: Entry[] }[] = [
 				to: "/guides/how-to/agents/pay-gas-for-ai-agents",
 			},
 			{
-				text: "Manage Pimlico from AI agents with the CLI",
+				text: "Use the CLI from AI agents",
 				to: "/references/platform/cli",
 			},
 		],
@@ -163,35 +164,49 @@ const products: (Entry & { description: string })[] = [
 	},
 ];
 
-export function Home() {
+// `children` is the CLI install snippet, written as a code block in
+// index.mdx so it gets the Vocs code block styling and copy button.
+export function Home({ children }: { children?: ReactNode }) {
 	return (
 		<div className="Home">
 			<header className="Home-intro">
-				<h1 className="Home-title">Pimlico docs</h1>
-				<p className="Home-lede">
-					Guides and API references for building with ERC-4337 smart accounts:
-					the bundler, paymasters and permissionless.js.
-				</p>
-				<div className="Home-actions">
-					<HomePage.Button
-						className="Home-button"
-						href="/guides/getting-started"
-						variant="accent"
-					>
-						Get started
-						<ArrowRight aria-hidden size={16} />
-					</HomePage.Button>
-					<HomePage.Button
-						className="Home-button"
-						href="https://dashboard.pimlico.io"
-					>
-						Open dashboard
-						<ArrowUpRight aria-hidden size={16} />
-					</HomePage.Button>
-					<p className="Home-actionsNote">
-						API keys, sponsorship policies, balance and usage.
+				<div>
+					<h1 className="Home-title">Documentation</h1>
+					<p className="Home-lede">
+						Guides and API references for building with{" "}
+						<span className="Home-nowrap">ERC-4337</span> smart accounts: the
+						bundler, paymasters and permissionless.js.
 					</p>
+					<div className="Home-actions">
+						<HomePage.Button
+							className="Home-button"
+							href="/guides/getting-started"
+							variant="accent"
+						>
+							Get started
+							<ArrowRight aria-hidden size={16} />
+						</HomePage.Button>
+						<HomePage.Button
+							className="Home-button"
+							href="https://dashboard.pimlico.io"
+						>
+							Open dashboard
+							<ArrowUpRight aria-hidden size={16} />
+						</HomePage.Button>
+						<p className="Home-actionsNote">
+							API keys, sponsorship policies, balance and usage.
+						</p>
+					</div>
 				</div>
+				{children ? (
+					<div className="Home-cli">
+						{children}
+						<Link className="Home-cliLink" to="/references/platform/cli">
+							Other install options and MCP setup
+							<ArrowRight aria-hidden size={14} />
+						</Link>
+					</div>
+				) : null}
 			</header>
 
 			<section aria-labelledby="home-guides" className="Home-section">
