@@ -171,11 +171,12 @@ export function Home({ children }: { children?: ReactNode }) {
 		<div className="Home">
 			<header className="Home-intro">
 				<div>
-					<h1 className="Home-title">Documentation</h1>
+					<h1 className="Home-title">
+						ERC-4337 account abstraction infrastructure
+					</h1>
 					<p className="Home-lede">
-						Guides and API references for building with{" "}
-						<span className="Home-nowrap">ERC-4337</span> smart accounts: the
-						bundler, paymasters and permissionless.js.
+						Tools and services to build, deploy and manage smart accounts on
+						Ethereum and other EVM-compatible chains.
 					</p>
 					<div className="Home-actions">
 						<HomePage.Button

@@ -74,10 +74,11 @@
 
 .Home-title {
 	color: var(--vocs-text-color-heading);
-	font-size: 2rem;
+	font-size: 1.875rem;
 	font-weight: 600;
 	letter-spacing: -0.025em;
 	line-height: 1.15;
+	text-wrap: pretty;
 }
 
 .Home-lede {
@@ -87,10 +88,6 @@
 	font-size: 1.0625rem;
 	line-height: 1.6;
 	text-wrap: pretty;
-}
-
-.Home-nowrap {
-	white-space: nowrap;
 }
 
 .Home-actions {
@@ -268,7 +265,7 @@
 	}
 
 	.Home-title {
-		font-size: 2.5rem;
+		font-size: 2.25rem;
 	}
 
 	.Home-section {
