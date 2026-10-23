@@ -1,123 +1,102 @@
-import type { ReactNode } from "react";
+import {
+	ArrowRight,
+	ArrowUpRight,
+	Bot,
+	Fuel,
+	type LucideIcon,
+	Rocket,
+	ShieldCheck,
+	Wallet,
+	WalletCards,
+} from "lucide-react";
 import { HomePage, Link } from "vocs";
 import "./Home.css";
 
-// The docs landing page: a short intro with the user operation flow drawn in
-// the wordmark's blocky style, cards for the most common jobs (each with its
-// top guides), then the references. Every `to` must be a real page; the
+// The docs landing page: a short intro, then an index of the guides grouped by
+// task, then the product references. Every `to` must be a real page; the
 // link-check workflow crawls them.
 
 type Entry = { text: string; to: string };
 
-// Glyphs share the wordmark's construction: thick strokes with rounded outer
-// corners on a 32px grid, plus one filled "pixel".
-const glyphs = {
-	payments: (
-		<>
-			<path d="M10 4h18v14" />
-			<path d="M4 10h18v16H4z" />
-			<rect className="Home-fill" height="5" width="5" x="8.5" y="15" />
-		</>
-	),
-	sponsor: (
-		<>
-			<path d="M5 28V4h14v24" />
-			<path d="M19 12h7v12h3V8" />
-			<rect className="Home-fill" height="5" width="6" x="9" y="8.5" />
-		</>
-	),
-	token: (
-		<>
-			<path d="M4 4h24v24H4z" />
-			<path d="M11 11h10v10H11z" />
-		</>
-	),
-	batch: (
-		<>
-			<path d="M4 4h9v9H4zM19 4h9v9h-9zM4 19h9v9H4z" />
-			<rect
-				className="Home-fill"
-				height="10.5"
-				width="10.5"
-				x="18.25"
-				y="18.25"
-			/>
-		</>
-	),
-	signers: (
-		<>
-			<path d="M4 8h12v12H4z" />
-			<path d="M16 14h12M24 14v6M20 14v4" />
-		</>
-	),
-	agents: (
-		<>
-			<path d="M5 11h22v16H5zM16 11V6" />
-			<rect className="Home-fill" height="5" width="5" x="13.5" y="1.5" />
-			<rect className="Home-fill" height="4" width="4" x="10" y="17" />
-			<rect className="Home-fill" height="4" width="4" x="18" y="17" />
-		</>
-	),
-} satisfies Record<string, ReactNode>;
-
-const jobs: { title: string; glyph: keyof typeof glyphs; links: Entry[] }[] = [
+const guideGroups: { title: string; icon: LucideIcon; links: Entry[] }[] = [
 	{
-		title: "Accept and send payments",
-		glyph: "payments",
+		title: "Get started",
+		icon: Rocket,
+		links: [
+			{ text: "Overview", to: "/guides/getting-started" },
+			{ text: "Create an API key", to: "/guides/create-api-key" },
+			{
+				text: "Send your first gasless transaction",
+				to: "/guides/tutorials/tutorial-1",
+			},
+			{ text: "Supported chains", to: "/guides/supported-chains" },
+		],
+	},
+	{
+		title: "Payments",
+		icon: WalletCards,
 		links: [
 			{
 				text: "Send USDC without ETH",
 				to: "/guides/how-to/payments/send-usdc-without-eth",
 			},
+			{
+				text: "Accept USDC from an EOA",
+				to: "/guides/how-to/payments/accept-usdc-from-eoa",
+			},
 			{ text: "Send payouts at scale", to: "/guides/how-to/payments/payouts" },
+			{
+				text: "Send gasless remittances",
+				to: "/guides/how-to/payments/remittances",
+			},
 			{
 				text: "Swap without ETH",
 				to: "/guides/how-to/payments/swap-without-eth",
 			},
+			{
+				text: "Pay gas from the swapped token",
+				to: "/guides/how-to/payments/pay-gas-from-swapped-token",
+			},
 		],
 	},
 	{
-		title: "Sponsor gas",
-		glyph: "sponsor",
+		title: "Gas sponsorship",
+		icon: Fuel,
 		links: [
 			{
 				text: "Sponsor transaction fees",
 				to: "/guides/how-to/paymasters/sponsor-transaction-fees",
 			},
 			{
+				text: "Sponsor conditionally",
+				to: "/guides/how-to/paymasters/conditional-sponsoring",
+			},
+			{
 				text: "Use sponsorship policies",
 				to: "/guides/how-to/sponsorship-policies",
+			},
+			{
+				text: "Let users pay gas in ERC-20 tokens",
+				to: "/guides/how-to/erc20-paymaster/how-to/use-paymaster",
 			},
 			{ text: "Sponsor transactions on Solana", to: "/guides/how-to/solana" },
 		],
 	},
 	{
-		title: "Pay gas in ERC-20 tokens",
-		glyph: "token",
-		links: [
-			{
-				text: "Use the ERC-20 Paymaster",
-				to: "/guides/how-to/erc20-paymaster/how-to/use-paymaster",
-			},
-			{
-				text: "Estimate the token cost",
-				to: "/guides/how-to/erc20-paymaster/how-to/calculate-costs",
-			},
-			{
-				text: "Supported tokens",
-				to: "/guides/how-to/erc20-paymaster/supported-tokens",
-			},
-		],
-	},
-	{
-		title: "Batch with smart accounts",
-		glyph: "batch",
+		title: "Smart accounts",
+		icon: Wallet,
 		links: [
 			{
 				text: "Batch multiple transactions",
 				to: "/guides/tutorials/send-transaction",
 			},
+			{
+				text: "Send user operations in parallel",
+				to: "/guides/how-to/parallel-transactions",
+			},
 			{ text: "Send from an EOA with EIP-7702", to: "/guides/eip7702/demo" },
+			{ text: "Add social login", to: "/guides/how-to/signers/social-logins" },
+			{ text: "Use a passkey signer", to: "/guides/how-to/signers/passkey" },
 			{
 				text: "Compare smart account types",
 				to: "/guides/how-to/accounts/comparison",
@@ -125,158 +104,112 @@ const jobs: { title: string; glyph: keyof typeof glyphs; links: Entry[] }[] = [
 		],
 	},
 	{
-		title: "Add logins and signers",
-		glyph: "signers",
+		title: "Production",
+		icon: ShieldCheck,
 		links: [
-			{ text: "Add social login", to: "/guides/how-to/signers/social-logins" },
-			{ text: "Use a passkey signer", to: "/guides/how-to/signers/passkey" },
-			{ text: "All signers", to: "/guides/how-to/signers" },
+			{
+				text: "Protect your API keys",
+				to: "/guides/how-to/security/protect-api-keys",
+			},
+			{
+				text: "Debug user operations",
+				to: "/guides/how-to/debugging/user-operations",
+			},
+			{
+				text: "Debug dropped user operations",
+				to: "/guides/how-to/debugging/dropped-user-operations",
+			},
+			{ text: "Test locally with Prool", to: "/guides/how-to/testing/prool" },
 		],
 	},
 	{
-		title: "Build with AI agents",
-		glyph: "agents",
+		title: "AI agents",
+		icon: Bot,
 		links: [
 			{
 				text: "Pay gas for an AI agent's wallet",
 				to: "/guides/how-to/agents/pay-gas-for-ai-agents",
 			},
 			{
-				text: "Use the Pimlico CLI and MCP server",
+				text: "Manage Pimlico from AI agents with the CLI",
 				to: "/references/platform/cli",
 			},
 		],
 	},
 ];
 
-const references: Entry[] = [
-	{ text: "permissionless.js", to: "/references/permissionless" },
-	{ text: "Bundler", to: "/references/bundler" },
-	{ text: "Paymasters", to: "/references/paymaster" },
-	{ text: "Platform API", to: "/references/platform" },
+const products: (Entry & { description: string })[] = [
+	{
+		text: "permissionless.js",
+		to: "/references/permissionless",
+		description:
+			"TypeScript library built on viem for smart accounts, bundlers and paymasters.",
+	},
+	{
+		text: "Bundler",
+		to: "/references/bundler",
+		description:
+			"Alto, the open-source ERC-4337 bundler, and its JSON-RPC methods.",
+	},
+	{
+		text: "Paymasters",
+		to: "/references/paymaster",
+		description: "Sponsor gas for users, or let them pay it in ERC-20 tokens.",
+	},
+	{
+		text: "Platform",
+		to: "/references/platform",
+		description: "The REST API for sponsorship policies and the pimlico CLI.",
+	},
 ];
-
-// A user operation leaves the account, waits in the bundler with others, and
-// lands in a block. The packet travels that path once every few seconds.
-const packetPath = "M54 138H126V88H206M262 88H300V60H348";
-
-function HeroArt() {
-	return (
-		<svg
-			aria-hidden="true"
-			className="Home-art"
-			fill="none"
-			strokeLinejoin="round"
-			viewBox="0 0 400 280"
-		>
-			<defs>
-				<pattern
-					height="20"
-					id="home-art-grid"
-					patternUnits="userSpaceOnUse"
-					width="20"
-				>
-					<rect className="Home-artDot" height="2" width="2" x="9" y="9" />
-				</pattern>
-			</defs>
-			<rect fill="url(#home-art-grid)" height="280" width="400" />
-
-			{/* Account */}
-			<path className="Home-accent" d="M22 106h64v64H22z" />
-			<path className="Home-accent" d="M40 124h28v28H40z" />
-
-			{/* Bundler with queued user operations */}
-			<path className="Home-line" d="M86 138h40V88h24" />
-			<path className="Home-strong" d="M150 40h112v196H150z" />
-			<path className="Home-faint" d="M170 74h72v28h-72z" />
-			<path className="Home-faint" d="M170 122h72v28h-72z" />
-			<path className="Home-faint" d="M170 170h72v28h-72z" />
-			<rect className="Home-fill" height="12" width="32" x="190" y="212" />
-
-			{/* Blocks on chain */}
-			<path className="Home-line" d="M262 88h38V60h20" />
-			<path className="Home-strong" d="M320 36h56v48h-56z" />
-			<path className="Home-strong" d="M320 116h56v48h-56z" />
-			<path className="Home-strong" d="M320 196h56v48h-56z" />
-			<path className="Home-line" d="M348 84v32M348 164v32" />
-			<rect className="Home-fill" height="16" width="16" x="340" y="52" />
-
-			<rect
-				className="Home-fill Home-packet"
-				height="12"
-				width="12"
-				x="-6"
-				y="-6"
-			>
-				<animateMotion
-					dur="5s"
-					keyPoints="0;0;1;1"
-					keyTimes="0;0.15;0.75;1"
-					path={packetPath}
-					repeatCount="indefinite"
-				/>
-			</rect>
-		</svg>
-	);
-}
 
 export function Home() {
 	return (
 		<div className="Home">
 			<header className="Home-intro">
-				<div>
-					<h1 className="Home-title">What are you building?</h1>
-					<p className="Home-lede">
-						Step-by-step guides for smart accounts, gas sponsorship and
-						payments.
-					</p>
-					<div className="Home-actions">
-						<HomePage.Button
-							className="Home-button"
-							href="/guides/getting-started"
-							variant="accent"
-						>
-							Get started
-							<Arrow />
-						</HomePage.Button>
-						<HomePage.Button
-							className="Home-button"
-							href="https://dashboard.pimlico.io"
-						>
-							Open dashboard
-							<Arrow external />
-						</HomePage.Button>
-					</div>
+				<h1 className="Home-title">Pimlico docs</h1>
+				<p className="Home-lede">
+					Guides and API references for building with ERC-4337 smart accounts:
+					the bundler, paymasters and permissionless.js.
+				</p>
+				<div className="Home-actions">
+					<HomePage.Button
+						className="Home-button"
+						href="/guides/getting-started"
+						variant="accent"
+					>
+						Get started
+						<ArrowRight aria-hidden size={16} />
+					</HomePage.Button>
+					<HomePage.Button
+						className="Home-button"
+						href="https://dashboard.pimlico.io"
+					>
+						Open dashboard
+						<ArrowUpRight aria-hidden size={16} />
+					</HomePage.Button>
 					<p className="Home-actionsNote">
-						Create API keys and sponsorship policies in the dashboard.
+						API keys, sponsorship policies, balance and usage.
 					</p>
 				</div>
-				<HeroArt />
 			</header>
 
 			<section aria-labelledby="home-guides" className="Home-section">
-				<div className="Home-sectionHead">
-					<h2 className="Home-heading" id="home-guides">
-						Guides
-					</h2>
-					<Link className="Home-more" to="/guides/getting-started">
-						Browse all guides
-						<Arrow />
-					</Link>
-				</div>
-				<ul className="Home-jobs">
-					{jobs.map(({ title, glyph, links }) => (
-						<li className="Home-job" key={title}>
-							<svg
-								aria-hidden="true"
-								className="Home-glyph"
-								fill="none"
-								strokeLinejoin="round"
-								viewBox="0 0 32 32"
-							>
-								{glyphs[glyph]}
-							</svg>
-							<h3 className="Home-jobTitle">{title}</h3>
+				<h2 className="Home-heading" id="home-guides">
+					Guides
+				</h2>
+				<div className="Home-guides">
+					{guideGroups.map(({ title, icon: Icon, links }) => (
+						<nav aria-label={title} key={title}>
+							<h3 className="Home-groupTitle">
+								<Icon
+									aria-hidden
+									className="Home-groupIcon"
+									size={16}
+									strokeWidth={1.75}
+								/>
+								{title}
+							</h3>
 							<ul className="Home-links">
 								{links.map(({ text, to }) => (
 									<li key={to}>
@@ -286,47 +219,61 @@ export function Home() {
 									</li>
 								))}
 							</ul>
+						</nav>
+					))}
+				</div>
+			</section>
+
+			<section aria-labelledby="home-products" className="Home-section">
+				<h2 className="Home-heading" id="home-products">
+					References
+				</h2>
+				<ul className="Home-products">
+					{products.map(({ text, to, description }) => (
+						<li key={to}>
+							<Link className="Home-product" to={to}>
+								<span className="Home-productName">
+									{text}
+									<ArrowRight
+										aria-hidden
+										className="Home-productArrow"
+										size={14}
+									/>
+								</span>
+								<span className="Home-productText">{description}</span>
+							</Link>
 						</li>
 					))}
 				</ul>
 			</section>
 
-			<nav aria-label="References" className="Home-references">
-				<h2 className="Home-referencesTitle">References</h2>
-				<ul>
-					{references.map(({ text, to }) => (
-						<li key={to}>
-							<Link to={to}>{text}</Link>
-						</li>
-					))}
-				</ul>
-			</nav>
-
 			<footer className="Home-footer">
-				Help: <a href="mailto:support@pimlico.io">support@pimlico.io</a> ·{" "}
-				<a href="https://twitter.com/pimlicoHQ">@pimlicoHQ</a> ·{" "}
-				<a href="https://t.me/+emlONDb-lXI4ZTFh">4337 Mafia on Telegram</a> ·{" "}
-				<a href="https://github.com/pimlicolabs">GitHub</a> ·{" "}
-				<a href="https://github.com/4337Mafia/awesome-account-abstraction">
-					awesome-account-abstraction
-				</a>
+				<p>
+					Need help? Email{" "}
+					<a href="mailto:support@pimlico.io">support@pimlico.io</a> for bug
+					reports, incidents and questions about the services.
+				</p>
+				<p>
+					Follow <a href="https://twitter.com/pimlicoHQ">@pimlicoHQ</a> and the
+					team (<a href="https://twitter.com/kristofgazso">@kristofgazso</a>,{" "}
+					<a href="https://twitter.com/plusminushalf">@plusminushalf</a>,{" "}
+					<a href="https://twitter.com/nikmel2803">@nikmel2803</a>,{" "}
+					<a href="https://twitter.com/0xmouseless">@0xmouseless</a>,{" "}
+					<a href="https://twitter.com/fastfourier_eth">@fastfourier_eth</a>),
+					join the{" "}
+					<a href="https://t.me/+emlONDb-lXI4ZTFh">4337 Mafia discussions</a>,
+					star{" "}
+					<a href="https://github.com/pimlicolabs/permissionless.js">
+						permissionless.js
+					</a>{" "}
+					and <a href="https://github.com/pimlicolabs/alto">Alto</a> on GitHub,
+					or browse{" "}
+					<a href="https://github.com/4337Mafia/awesome-account-abstraction">
+						awesome-account-abstraction
+					</a>
+					.
+				</p>
 			</footer>
 		</div>
-	);
-}
-
-function Arrow({ external = false }: { external?: boolean }) {
-	return (
-		<svg
-			aria-hidden="true"
-			className="Home-arrow"
-			fill="none"
-			stroke="currentColor"
-			strokeLinejoin="round"
-			strokeWidth="2"
-			viewBox="0 0 16 16"
-		>
-			<path d={external ? "M5 3h8v8M13 3 4 12" : "M2 8h11M9 4l4 4-4 4"} />
-		</svg>
 	);
 }

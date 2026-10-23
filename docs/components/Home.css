@@ -1,6 +1,6 @@
 /* Landing page (docs/pages/index.mdx). Uses the Vocs theme tokens so it follows
    the site's light and dark modes. On wide screens it spans wider than the
-   minimal layout's reading column so the guide cards fit three columns. */
+   minimal layout's reading column so the guide index fits three columns. */
 
 .Home {
 	--home-width: min(68rem, calc(100vw - 3rem));
@@ -20,49 +20,39 @@
 }
 
 .Home-link:focus-visible,
-.Home-more:focus-visible,
-.Home-references a:focus-visible,
+.Home-product:focus-visible,
 .Home-footer a:focus-visible {
 	border-radius: 4px;
-}
-
-.Home-arrow {
-	flex-shrink: 0;
-	width: 1em;
-	height: 1em;
 }
 
 /* Intro */
 
 .Home-intro {
-	display: grid;
-	align-items: center;
-	gap: 2rem;
-	padding-top: 0.5rem;
+	padding-top: 1rem;
 }
 
 .Home-title {
 	color: var(--vocs-text-color-heading);
 	font-size: 2rem;
 	font-weight: 600;
-	letter-spacing: -0.03em;
-	line-height: 1.1;
-	text-wrap: balance;
+	letter-spacing: -0.025em;
+	line-height: 1.15;
 }
 
 .Home-lede {
 	margin-top: 0.75rem;
-	max-width: 40ch;
+	max-width: 52ch;
 	color: var(--vocs-text-color-secondary);
 	font-size: 1.0625rem;
-	line-height: 1.55;
+	line-height: 1.6;
 	text-wrap: pretty;
 }
 
 .Home-actions {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 0.75rem;
+	align-items: center;
+	gap: 0.75rem 1rem;
 	margin-top: 1.75rem;
 }
 
@@ -72,151 +62,61 @@
 }
 
 .Home-actionsNote {
-	margin-top: 0.75rem;
 	color: var(--vocs-text-color-secondary);
 	font-size: 0.875rem;
-}
-
-/* Hero art: the user operation flow in the wordmark's blocky stroke style */
-
-.Home-art {
-	display: none;
-	width: 100%;
-	max-width: 26rem;
-	height: auto;
-	margin-inline: auto;
-}
-
-.Home-artDot {
-	fill: var(--vocs-text-color-muted);
-	opacity: 0.45;
-}
-
-.Home-art path {
-	fill: none;
-}
-
-.Home-accent {
-	stroke: var(--vocs-color-accent);
-	stroke-width: 8;
-}
-
-.Home-strong {
-	stroke: var(--vocs-text-color-muted);
-	stroke-width: 6;
-}
-
-.Home-faint {
-	stroke: var(--vocs-text-color-muted);
-	stroke-width: 4;
-	opacity: 0.6;
-}
-
-.Home-line {
-	stroke: var(--vocs-text-color-muted);
-	stroke-dasharray: 6 6;
-	stroke-width: 4;
-}
-
-.Home-fill {
-	fill: var(--vocs-color-accent);
 }
 
 /* Sections */
 
 .Home-section {
-	margin-top: 3rem;
-}
-
-.Home-sectionHead {
-	display: flex;
-	align-items: baseline;
-	justify-content: space-between;
-	gap: 1rem;
-	margin-bottom: 1.25rem;
+	margin-top: 3.5rem;
 }
 
 .Home-heading {
+	padding-bottom: 0.75rem;
+	margin-bottom: 1.5rem;
+	border-bottom: 1px solid var(--vocs-border-color-primary);
 	color: var(--vocs-text-color-heading);
-	font-size: 1.25rem;
-	font-weight: 600;
-	letter-spacing: -0.015em;
-}
-
-.Home-more {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.375rem;
-	color: var(--vocs-text-color-secondary);
-	font-size: 0.875rem;
-	font-weight: 500;
-	text-decoration: none;
-	transition: color 150ms ease-out;
-}
-
-.Home-more:hover {
-	color: var(--vocs-color-accent);
-}
-
-/* Guide cards */
-
-.Home-jobs {
-	display: grid;
-	grid-template-columns: 1fr;
-	gap: 1rem;
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-
-.Home-job {
-	display: grid;
-	grid-template-columns: auto 1fr;
-	align-items: center;
-	column-gap: 0.875rem;
-	padding: 1.25rem 1.25rem 1rem;
-	border: 1px solid var(--vocs-border-color-primary);
-	border-radius: 0.75rem;
-	background: var(--vocs-background-color-surface);
-	transition: border-color 150ms ease-out;
-}
-
-.Home-job:hover {
-	border-color: var(--vocs-color-accenta5);
-}
-
-.Home-glyph {
-	display: block;
-	width: 2rem;
-	height: 2rem;
-	stroke: var(--vocs-color-accent);
-	stroke-width: 3;
-}
-
-.Home-glyph .Home-fill {
-	stroke: none;
-}
-
-.Home-jobTitle {
-	color: var(--vocs-text-color-heading);
-	font-size: 1rem;
+	font-size: 1.125rem;
 	font-weight: 600;
 	letter-spacing: -0.01em;
 }
 
+/* Guide index */
+
+.Home-guides {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 2rem 2.5rem;
+}
+
+.Home-groupTitle {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-bottom: 0.375rem;
+	color: var(--vocs-text-color-heading);
+	font-size: 0.9375rem;
+	font-weight: 600;
+}
+
+.Home-groupIcon {
+	flex-shrink: 0;
+	color: var(--vocs-color-accent);
+}
+
 .Home-links {
-	grid-column: 1 / -1;
-	margin: 0.5rem 0 0;
+	margin: 0;
 	padding: 0;
 	list-style: none;
 }
 
 .Home-link {
 	display: block;
-	padding-block: 0.4375rem;
+	padding-block: 0.5rem;
 	color: var(--vocs-text-color-secondary);
 	font-size: 0.9375rem;
-	line-height: 1.35;
+	line-height: 1.4;
 	text-decoration: none;
 	transition: color 150ms ease-out;
 }
@@ -228,49 +128,62 @@
 	text-underline-offset: 0.2em;
 }
 
-/* References and footer */
+/* References */
 
-.Home-references {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: baseline;
-	gap: 0.5rem 1.5rem;
-	margin-top: 2.5rem;
-	padding-top: 1.25rem;
-	border-top: 1px solid var(--vocs-border-color-primary);
-	font-size: 0.9375rem;
-}
-
-.Home-referencesTitle {
-	color: var(--vocs-text-color-heading);
-	font-size: inherit;
-	font-weight: 600;
-}
-
-.Home-references ul {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.5rem 1.5rem;
+.Home-products {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1.5rem 2.5rem;
 	margin: 0;
 	padding: 0;
 	list-style: none;
 }
 
-.Home-references a {
-	color: var(--vocs-text-color-secondary);
+.Home-product {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
 	text-decoration: none;
-	transition: color 150ms ease-out;
 }
 
-.Home-references a:hover {
-	color: var(--vocs-color-accent);
+.Home-productName {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.375rem;
+	color: var(--vocs-text-color-heading);
+	font-size: 0.9375rem;
+	font-weight: 600;
 }
+
+.Home-productArrow {
+	color: var(--vocs-text-color-muted);
+	transition:
+		transform 150ms ease-out,
+		color 150ms ease-out;
+}
+
+.Home-product:hover .Home-productArrow {
+	color: var(--vocs-color-accent);
+	transform: translateX(2px);
+}
+
+.Home-productText {
+	color: var(--vocs-text-color-secondary);
+	font-size: 0.875rem;
+	line-height: 1.5;
+}
+
+/* Footer */
 
 .Home-footer {
-	margin-top: 1.25rem;
+	display: grid;
+	gap: 0.5rem;
+	margin-top: 3.5rem;
+	padding-top: 1.5rem;
+	border-top: 1px solid var(--vocs-border-color-primary);
 	color: var(--vocs-text-color-secondary);
-	font-size: 0.8125rem;
-	line-height: 1.7;
+	font-size: 0.875rem;
+	line-height: 1.6;
 }
 
 .Home-footer a {
@@ -288,33 +201,12 @@
 	.Home * {
 		transition: none !important;
 	}
-
-	.Home-packet {
-		display: none;
-	}
 }
 
 @media screen and (min-width: 640px) {
-	.Home-art {
-		display: block;
-	}
-
-	.Home-jobs {
+	.Home-guides,
+	.Home-products {
 		grid-template-columns: repeat(2, 1fr);
-	}
-
-	.Home-job {
-		display: block;
-	}
-
-	.Home-glyph {
-		width: 2.5rem;
-		height: 2.5rem;
-		margin-bottom: 1rem;
-	}
-
-	.Home-links {
-		margin-top: 0.375rem;
 	}
 
 	.Home-link {
@@ -324,26 +216,23 @@
 
 @media screen and (min-width: 1080px) {
 	.Home-intro {
-		grid-template-columns: 1fr 1fr;
-		gap: 3rem;
-		padding-top: 2rem;
+		padding-top: 2.5rem;
 	}
 
 	.Home-title {
-		font-size: 3rem;
-	}
-
-	.Home-art {
-		max-width: 28rem;
-		margin-inline: auto 0;
+		font-size: 2.5rem;
 	}
 
 	.Home-section {
-		margin-top: 3.5rem;
+		margin-top: 4rem;
 	}
 
-	.Home-jobs {
+	.Home-guides {
 		grid-template-columns: repeat(3, 1fr);
-		gap: 1.25rem;
+		gap: 2.5rem 3rem;
+	}
+
+	.Home-products {
+		grid-template-columns: repeat(4, 1fr);
 	}
 }
