@@ -1,0 +1,110 @@
+---
+title: How to send user operations with the lowest latency
+description: Send user operations with the lowest latency on Pimlico using sendUserOperationSync, which lands each one in its own bundle and returns the receipt in the same call, on Base, BSC and Robinhood.
+---
+
+# How to send user operations with the lowest latency
+
+This guide shows you how to land a user operation as fast as Pimlico can: it goes into its own bundle right away and its receipt comes back in the same call, with no mempool wait or receipt polling. Use it when your app needs the result before it can continue, such as a payment or a trade.
+
+## How fast it is
+
+Median time from signing until the receipt is in hand, against Pimlico's production bundler:
+
+| Chain | `sendUserOperation` + poll | `sendUserOperationSync` | Faster by |
+| :--- | ---: | ---: | ---: |
+| Base | 697 ms | **364 ms** | 333 ms (48%) |
+| BSC | 728 ms | **294 ms** | 434 ms (60%) |
+| Robinhood | 258 ms | **182 ms** | 76 ms (29%) |
+
+It is almost as fast as sending the same call from an EOA:
+
+| Chain | `sendUserOperationSync` | EOA send + poll |
+| :--- | ---: | ---: |
+| Base | **364 ms** | 255 ms |
+| BSC | **294 ms** | 340 ms |
+| Robinhood | **182 ms** | 100 ms |
+
+The EOA sends with `eth_sendRawTransaction`, then polls `eth_getTransactionReceipt`.
+
+For how these were measured, see the [`sendUserOperationSync` reference](/references/permissionless/reference/pimlico-actions/sendUserOperationSync).
+
+## Prerequisites
+
+- A Pimlico API key with instant bundling enabled. [Contact us](https://cal.com/team/pimlico/20min) or email [support@pimlico.io](mailto:support@pimlico.io) to enable it.
+- An app on Base, BSC or Robinhood.
+
+::::code-group
+
+```bash [npm]
+npm install permissionless@latest viem
+```
+
+```bash [pnpm]
+pnpm install permissionless@latest viem
+```
+
+```bash [bun]
+bun install permissionless@latest viem
+```
+
+::::
+
+## Steps
+
+::::steps
+
+### Create the smart account client
+
+Create a smart account client as usual, then extend it with `pimlicoActions` to add `sendUserOperationSync`. Replace the `owner` with the user's signer, such as an embedded wallet or a passkey.
+
+```ts
+// [!include ~/snippets/how-to/send-user-operation-sync.ts:clients]
+```
+
+### Send the user operation and check the receipt
+
+Send the user's calls with `smartAccountClient.sendUserOperationSync`. It returns the receipt once the user operation is included. If `success` is `false`, the call reverted inside the account.
+
+```ts
+// [!include ~/snippets/how-to/send-user-operation-sync.ts:send]
+```
+
+::::
+
+## If the send throws
+
+`sendUserOperationSync` never resends on its own. When it throws a `SendUserOperationSyncError`, decide from its `kind`:
+
+- If `kind` is `pending`, the user operation may have been sent. Wait for its receipt and don't resend.
+- If `kind` is `bundle_reverted`, another bundler may have included the user operation first. Check for its receipt, and resend only if there is none.
+- If `kind` is `not_found`, nothing was sent. Send the same calls again.
+- If `kind` is `rejected`, the bundler rejected the user operation before sending it. Fix the cause in `error.cause`, then send again.
+
+```ts
+// [!include ~/snippets/how-to/send-user-operation-sync.ts:errors]
+```
+
+For what each `kind` means, see the [`sendUserOperationSync` reference](/references/permissionless/reference/pimlico-actions/sendUserOperationSync#errors).
+
+## Send several user operations from one account
+
+Await each `sendUserOperationSync` call before sending the next one. A user operation sent while the previous one from the same account is still in flight is rejected with `AA25 invalid account nonce`.
+
+- On Base, if the next user operation is rejected with `AA25` right after the previous receipt, resend it after 1–2s.
+- To send in parallel from one account, give each user operation its own nonce key. See [How to send user operations in parallel](/guides/how-to/parallel-transactions).
+
+## Cut latency further with boosted user operations (optional)
+
+If the [Boosted Paymaster](/guides/boosted-paymaster/use-boosted-paymaster) is enabled on your API key, drop the paymaster and set both fees to `0`. This skips the gas price and paymaster calls before the send, and Pimlico bills the gas to your balance.
+
+```ts
+// [!include ~/snippets/how-to/send-user-operation-sync.ts:boosted]
+```
+
+## Related
+
+- [`sendUserOperationSync` reference and benchmarks](/references/permissionless/reference/pimlico-actions/sendUserOperationSync)
+- [`pimlico_sendUserOperationNow` reference](/references/bundler/endpoints/pimlico_sendUserOperationNow)
+- [Boosted Paymaster](/guides/boosted-paymaster/use-boosted-paymaster)
+- [How to send user operations in parallel](/guides/how-to/parallel-transactions)

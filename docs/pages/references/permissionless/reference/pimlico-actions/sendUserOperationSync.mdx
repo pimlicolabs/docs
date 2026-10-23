@@ -1,0 +1,165 @@
+---
+description: sendUserOperationSync sends a user operation in its own bundle and returns its receipt in one call, for the lowest latency on Pimlico.
+---
+
+# sendUserOperationSync
+
+**This is the coolest thing we've shipped: the fastest way to land a smart account transaction on Pimlico.**
+
+`sendUserOperationSync` sends a user operation straight into its own bundle and returns the receipt in the same call. There is no mempool wait and no receipt polling.
+
+Against Pimlico's production bundler, it lands a user operation up to **60% faster** than `sendUserOperation` with receipt polling:
+
+| Chain | `sendUserOperation` + poll | `sendUserOperationSync` | Faster by |
+| :--- | ---: | ---: | ---: |
+| Base | 697 ms | **364 ms** | 333 ms (48%) |
+| BSC | 728 ms | **294 ms** | 434 ms (60%) |
+| Robinhood | 258 ms | **182 ms** | 76 ms (29%) |
+
+It is almost as fast as sending the same call from an EOA:
+
+| Chain | `sendUserOperationSync` | EOA send + poll |
+| :--- | ---: | ---: |
+| Base | **364 ms** | 255 ms |
+| BSC | **294 ms** | 340 ms |
+| Robinhood | **182 ms** | 100 ms |
+
+The EOA sends with `eth_sendRawTransaction`, then polls `eth_getTransactionReceipt`.
+
+<details>
+<summary>How we measured</summary>
+
+- Median (p50) over 20 rounds per chain (40 on Robinhood), in October 2026. The cases run in a shuffled order every round.
+- Each case lands the same 0-value call on mainnet. User operations are [boosted](/guides/boosted-paymaster/use-boosted-paymaster) and sent to `api.pimlico.io`.
+- Each sample is timed from signing until the client holds the receipt. Gas limits, fees and nonces are prepared before the timer starts.
+- The client runs in New York, the same region as Pimlico's bundler. The EOA transactions go through a commercial RPC provider's node in New York.
+- `sendUserOperation` + poll calls `eth_getUserOperationReceipt` every 100 ms. EOA send + poll calls `eth_getTransactionReceipt` every 100 ms.
+- All three cases ran together in a single run per chain.
+
+</details>
+
+:::info[Contact us to enable it]
+`sendUserOperationSync` uses instant bundling, which we enable on request. [Contact us](https://cal.com/team/pimlico/20min) or email [support@pimlico.io](mailto:support@pimlico.io) to turn it on for your API key and chains.
+:::
+
+## Usage
+
+::::code-group
+
+```ts [example.ts]
+import { pimlicoActions } from "permissionless/actions/pimlico"
+import { entryPoint07Address } from "viem/account-abstraction"
+import { smartAccountClient as client } from "./client"
+
+const smartAccountClient = client.extend(
+    pimlicoActions({
+        entryPoint: { address: entryPoint07Address, version: "0.7" }
+    })
+)
+
+const receipt = await smartAccountClient.sendUserOperationSync({
+    calls: [
+        {
+            to: "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
+            value: 0n,
+            data: "0x"
+        }
+    ]
+})
+/**
+ * {
+ *   userOpHash: "0xaa7e6f2050bbd8e8fc0053f3646dac0e2c13c9830172ba06efcb9f49b1e8ca9f",
+ *   entryPoint: "0x4337084d9e255ff0702461cf8895ce9e3b5ff108",
+ *   sender: "0x1068D0C20CeFD20725035B90Eb0c32BFA4057c12",
+ *   nonce: 1n,
+ *   actualGasUsed: 90857n,
+ *   actualGasCost: 0n,
+ *   success: true,
+ *   logs: [],
+ *   receipt: {
+ *     transactionHash: "0x7cbfae4b823e5b08ab18913d165f56c65d52d30fd6c140646cf5e1c10a990b30",
+ *     blockNumber: 52992747n,
+ *     status: "success",
+ *     ...
+ *   }
+ * }
+ */
+```
+
+```ts [client.ts]
+// [!include ~/snippets/smartAccountClient.ts:client]
+```
+
+::::
+
+`sendUserOperationSync` prepares and signs the user operation the same way as [`sendUserOperation`](/references/permissionless/reference/smart-account-actions/sendUserOperation), then sends it with [`pimlico_sendUserOperationNow`](/references/bundler/endpoints/pimlico_sendUserOperationNow).
+
+Available on Base, BSC and Robinhood, with EntryPoint 0.7 and 0.8.
+
+## Returns
+
+- **Type:** `UserOperationReceipt`
+
+The receipt of the included user operation, the same object [`waitForUserOperationReceipt`](/references/permissionless/reference/smart-account-actions/waitForUserOperationReceipt) returns.
+
+- Check `success`: it is `false` if the call reverted inside the account, in which case the nonce is used.
+- On Base, the receipt arrives before its block is sealed, so `receipt.blockHash` can be all zeros. Use `receipt.blockNumber` and `receipt.transactionHash` instead.
+- The bundler doesn't queue user operations, so send them from one account one after another, or use different nonce keys. See [Nonces](/references/bundler/endpoints/pimlico_sendUserOperationNow#nonces).
+
+## Parameters
+
+`sendUserOperationSync` takes the same parameters as viem's [`sendUserOperation`](https://viem.sh/account-abstraction/actions/bundler/sendUserOperation), such as `calls`, `account` and the gas fields, plus the following.
+
+### timeout (optional)
+
+- **Type:** `number`
+- **Default:** `client.transport.timeout`, else `10_000`
+
+Time (ms) from sending the user operation to having its receipt. It covers the bundler call and any receipt polling, and every request is raced against it.
+
+### pollingInterval (optional)
+
+- **Type:** `number`
+- **Default:** `client.pollingInterval`
+
+How often (ms) to poll for the receipt.
+
+## Errors
+
+`sendUserOperationSync` never resends a user operation on its own. When it can't return a receipt, it throws a `SendUserOperationSyncError` with:
+
+- `kind`: what happened.
+- `canResend`: whether sending the same user operation again is safe.
+- `userOperationHash`: the hash to track the user operation with.
+
+| `kind` | What happened | `canResend` |
+| :--- | :--- | :--- |
+| `rejected` | The bundler rejected the user operation before sending it, for example for an invalid nonce or a failed simulation. Nothing was sent. `cause` holds the viem user operation error. On Base, an `AA25 invalid account nonce` right after the previous receipt clears if you resend after 1–2s. | `false` |
+| `bundle_reverted` | The bundle landed but reverted, so it didn't execute the user operation. The message is the bundler's. Another bundler may have included the user operation first, so check `getUserOperationReceipt` before resending. | `true` |
+| `pending` | The user operation may have been sent, but there was no receipt before `timeout`: the bundler said it was sent but not included yet, or didn't answer in time. Keep polling for its receipt instead of resending. | `false` |
+| `not_found` | The bundler couldn't send the bundle (`-32603`), and no receipt showed up before `timeout`. | `true` |
+
+```ts
+import { SendUserOperationSyncError } from "permissionless/actions/pimlico"
+
+try {
+    const receipt = await smartAccountClient.sendUserOperationSync({ calls })
+} catch (error) {
+    if (!(error instanceof SendUserOperationSyncError)) throw error
+
+    if (error.kind === "pending") {
+        // May have been sent: wait for it, don't resend
+        await smartAccountClient.waitForUserOperationReceipt({
+            hash: error.userOperationHash
+        })
+    } else if (error.kind === "bundle_reverted") {
+        // Another bundler may have included it first: check before resending
+    } else if (error.canResend) {
+        // not_found: safe to send the same user operation again
+    }
+}
+```
+
+## JSON-RPC Method
+
+[`pimlico_sendUserOperationNow`](/references/bundler/endpoints/pimlico_sendUserOperationNow)
