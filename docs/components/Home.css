@@ -1,0 +1,238 @@
+/* Landing page (docs/pages/index.mdx). Uses the Vocs theme tokens so it follows
+   the site's light and dark modes. On wide screens it spans wider than the
+   minimal layout's reading column so the guide index fits three columns. */
+
+.Home {
+	--home-width: min(68rem, calc(100vw - 3rem));
+	width: var(--home-width);
+	margin-inline: calc((100% - var(--home-width)) / 2);
+	color: var(--vocs-text-color-primary);
+	text-align: left;
+}
+
+.Home ::selection {
+	background: var(--vocs-color-accenta4);
+}
+
+.Home a:focus-visible {
+	outline: 2px solid var(--vocs-color-accent);
+	outline-offset: 2px;
+}
+
+.Home-link:focus-visible,
+.Home-product:focus-visible,
+.Home-footer a:focus-visible {
+	border-radius: 4px;
+}
+
+/* Intro */
+
+.Home-intro {
+	padding-top: 1rem;
+}
+
+.Home-title {
+	color: var(--vocs-text-color-heading);
+	font-size: 2rem;
+	font-weight: 600;
+	letter-spacing: -0.025em;
+	line-height: 1.15;
+}
+
+.Home-lede {
+	margin-top: 0.75rem;
+	max-width: 52ch;
+	color: var(--vocs-text-color-secondary);
+	font-size: 1.0625rem;
+	line-height: 1.6;
+	text-wrap: pretty;
+}
+
+.Home-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.75rem 1rem;
+	margin-top: 1.75rem;
+}
+
+/* Vocs HomePage.Button, with room for a trailing icon */
+.Home-button {
+	gap: 0.5rem;
+}
+
+.Home-actionsNote {
+	color: var(--vocs-text-color-secondary);
+	font-size: 0.875rem;
+}
+
+/* Sections */
+
+.Home-section {
+	margin-top: 3.5rem;
+}
+
+.Home-heading {
+	padding-bottom: 0.75rem;
+	margin-bottom: 1.5rem;
+	border-bottom: 1px solid var(--vocs-border-color-primary);
+	color: var(--vocs-text-color-heading);
+	font-size: 1.125rem;
+	font-weight: 600;
+	letter-spacing: -0.01em;
+}
+
+/* Guide index */
+
+.Home-guides {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 2rem 2.5rem;
+}
+
+.Home-groupTitle {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-bottom: 0.375rem;
+	color: var(--vocs-text-color-heading);
+	font-size: 0.9375rem;
+	font-weight: 600;
+}
+
+.Home-groupIcon {
+	flex-shrink: 0;
+	color: var(--vocs-color-accent);
+}
+
+.Home-links {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.Home-link {
+	display: block;
+	padding-block: 0.5rem;
+	color: var(--vocs-text-color-secondary);
+	font-size: 0.9375rem;
+	line-height: 1.4;
+	text-decoration: none;
+	transition: color 150ms ease-out;
+}
+
+.Home-link:hover {
+	color: var(--vocs-text-color-heading);
+	text-decoration: underline;
+	text-decoration-color: var(--vocs-color-accent);
+	text-underline-offset: 0.2em;
+}
+
+/* References */
+
+.Home-products {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1.5rem 2.5rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.Home-product {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	text-decoration: none;
+}
+
+.Home-productName {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.375rem;
+	color: var(--vocs-text-color-heading);
+	font-size: 0.9375rem;
+	font-weight: 600;
+}
+
+.Home-productArrow {
+	color: var(--vocs-text-color-muted);
+	transition:
+		transform 150ms ease-out,
+		color 150ms ease-out;
+}
+
+.Home-product:hover .Home-productArrow {
+	color: var(--vocs-color-accent);
+	transform: translateX(2px);
+}
+
+.Home-productText {
+	color: var(--vocs-text-color-secondary);
+	font-size: 0.875rem;
+	line-height: 1.5;
+}
+
+/* Footer */
+
+.Home-footer {
+	display: grid;
+	gap: 0.5rem;
+	margin-top: 3.5rem;
+	padding-top: 1.5rem;
+	border-top: 1px solid var(--vocs-border-color-primary);
+	color: var(--vocs-text-color-secondary);
+	font-size: 0.875rem;
+	line-height: 1.6;
+}
+
+.Home-footer a {
+	color: var(--vocs-text-color-primary);
+	text-decoration: underline;
+	text-decoration-color: var(--vocs-border-color-primary);
+	text-underline-offset: 0.2em;
+}
+
+.Home-footer a:hover {
+	color: var(--vocs-text-color-heading);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.Home * {
+		transition: none !important;
+	}
+}
+
+@media screen and (min-width: 640px) {
+	.Home-guides,
+	.Home-products {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.Home-link {
+		padding-block: 0.3125rem;
+	}
+}
+
+@media screen and (min-width: 1080px) {
+	.Home-intro {
+		padding-top: 2.5rem;
+	}
+
+	.Home-title {
+		font-size: 2.5rem;
+	}
+
+	.Home-section {
+		margin-top: 4rem;
+	}
+
+	.Home-guides {
+		grid-template-columns: repeat(3, 1fr);
+		gap: 2.5rem 3rem;
+	}
+
+	.Home-products {
+		grid-template-columns: repeat(4, 1fr);
+	}
+}
