@@ -172,11 +172,12 @@ export function Home({ children }: { children?: ReactNode }) {
 			<header className="Home-intro">
 				<div>
 					<h1 className="Home-title">
-						ERC-4337 account abstraction infrastructure
+						Sponsor gas for your users on any chain
 					</h1>
 					<p className="Home-lede">
-						Tools and services to build, deploy and manage smart accounts on
-						Ethereum and other EVM-compatible chains.
+						Paymasters, bundlers and SDKs to sponsor transactions, let users pay
+						gas in stablecoins and send gasless payments on EVM chains and
+						Solana.
 					</p>
 					<div className="Home-actions">
 						<HomePage.Button
