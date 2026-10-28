@@ -111,7 +111,11 @@
 				const r = new URL(referrer);
 				ref = r.hostname.toLowerCase();
 				// Our own host (incl. preview deployments) and auth/booking hops aren't sources.
-				if (ref === url.hostname || SELF.test(ref) || SELF.test(ref + r.pathname))
+				if (
+					ref === url.hostname ||
+					SELF.test(ref) ||
+					SELF.test(ref + r.pathname)
+				)
 					ref = undefined;
 			}
 		} catch {
