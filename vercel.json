@@ -1,6 +1,5 @@
 {
 	"cleanUrls": true,
-	"trailingSlash": false,
 	"rewrites": [
 		{
 			"source": "/ingest/:path(.*)",
@@ -16,6 +15,11 @@
 		}
 	],
 	"redirects": [
+		{
+			"source": "/:path((?!ingest/).+)/",
+			"destination": "/:path",
+			"permanent": true
+		},
 		{
 			"source": "/references/paymaster/verifying-paymaster/endpoints/pm_sponsorUserOperation",
 			"destination": "/references/paymaster/verifying-paymaster/endpoints#pm_sponsoruseroperation-v2",
