@@ -65,6 +65,21 @@ const primaryOverrides: Readonly<Record<string, string>> = {
 		"/references/permissionless/how-to/migration-guide",
 };
 
+/**
+ * permissionless.js 0.1 docs. Kept online for existing users, but noindexed
+ * and left out of the sitemap and `llms.txt`: the 0.1 API is superseded and
+ * its pages duplicate the titles of the current reference.
+ */
+export const legacyPermissionlessPath = "/references/permissionless/v0_1";
+
+export function isLegacyPermissionlessPath(path: string): boolean {
+	const normalized = normalizePath(path);
+	return (
+		normalized === legacyPermissionlessPath ||
+		normalized.startsWith(`${legacyPermissionlessPath}/`)
+	);
+}
+
 /** `/foo/bar/` → `/foo/bar`; `` → `/`. */
 export function normalizePath(path: string): string {
 	const trimmed = path.replace(/\.html$/, "").replace(/\/+$/, "");

@@ -1,6 +1,7 @@
 /**
  * Inlines snippet code into the Markdown that `vocs build` writes for AI
- * agents: `llms-full.txt` and the per-page `.md` files. Runs after `vocs build`.
+ * agents: `llms-full.txt` and the per-page `.md` files, then tidies the
+ * `llms.txt` index. Runs after `vocs build`.
  *
  * Vocs resolves `// [!include ~/snippets/file.ts:region]` for the HTML pages
  * but copies the directive verbatim into the Markdown output, so agents
@@ -10,6 +11,7 @@
  */
 import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { isLegacyPermissionlessPath, siteUrl } from "../seo";
 
 /**
  * Static output of `vocs build`. On Vercel, Vocs copies it into the Build
@@ -83,3 +85,33 @@ for (const file of markdownFiles(outDir)) {
 }
 
 console.log(`llms: inlined ${total} snippet includes into the Markdown output`);
+
+/**
+ * `llms.txt` lists every page as `- [Title](/path): description`. Agents
+ * fetch these links from outside the site, so make them absolute and use the
+ * canonical no-slash form, and drop the noindexed permissionless.js 0.1 pages
+ * so agents aren't pointed at the superseded API.
+ */
+const llmsTxt = join(outDir, "llms.txt");
+const linkPattern = /^(- \[.*?\]\()(\/[^)\s]*)(\).*)$/;
+let dropped = 0;
+const index = readFileSync(llmsTxt, "utf8")
+	.split("\n")
+	.flatMap((line) => {
+		const match = linkPattern.exec(line);
+		if (!match) return [line];
+		const [, before, path, after] = match;
+		if (isLegacyPermissionlessPath(path)) {
+			dropped++;
+			return [];
+		}
+		// Vocs writes the home page as `/index`, which isn't a served URL.
+		const clean = path === "/index" ? "/" : path.replace(/\/+$/, "") || "/";
+		return [`${before}${siteUrl}${clean}${after}`];
+	})
+	.join("\n");
+writeFileSync(llmsTxt, index);
+
+console.log(
+	`llms: dropped ${dropped} permissionless.js 0.1 links from llms.txt`,
+);
