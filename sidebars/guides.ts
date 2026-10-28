@@ -198,10 +198,10 @@ export const gasSponsorshipSidebar = [
 		],
 	},
 	{
-		text: "Boosted Paymaster",
+		text: "Boosted Sponsorships",
 		items: [
 			{
-				text: "Use the Boosted Paymaster",
+				text: "Use Boosted Sponsorships",
 				link: "/guides/boosted-paymaster/use-boosted-paymaster",
 			},
 		],

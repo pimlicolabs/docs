@@ -28,8 +28,9 @@ export default defineConfig({
 		link: "https://github.com/pimlicolabs/docs/edit/main/docs/pages/:path",
 		text: "Edit on GitHub",
 	},
+	// Default meta description, and the summary line under the title in llms.txt.
 	description:
-		"Pimlico is the world's most popular account abstraction infrastructure platform",
+		"Pimlico is the gas sponsorship engine for onchain apps: sponsor your users' gas or let them pay in stablecoins, on 100+ EVM chains and Solana.",
 	// Vocs stringifies config functions for the browser, so this can't call
 	// `canonicalUrl` from ./seo. It looks duplicate pages up in a precomputed
 	// map instead; every other page keeps the self-canonical Vocs builds from
@@ -64,14 +65,6 @@ export default defineConfig({
 			script: [{ src: "/posthog.js", async: true }],
 		};`,
 	) as (path: string) => { base: false },
-	banner: {
-		content:
-			"🎉 We raised $4.2 million from a16z to power Ethereum's transition to smart accounts! Read more",
-		href: "https://twitter.com/pimlicoHQ/status/1721890681185321018",
-		dismissable: true,
-		backgroundColor: "#3c393f",
-		textColor: "#eeeef0",
-	},
 	sidebar: {
 		"/guides": guidesSidebar,
 		"/references": [
@@ -161,6 +154,11 @@ export default defineConfig({
 				// { text: "FlashFund", link: "/references/flash-fund" },
 			],
 			match: "/references",
+		},
+		{
+			text: "Pricing",
+			link: "https://www.pimlico.io/pricing",
+			external: true,
 		},
 		{
 			text: "Dashboard",

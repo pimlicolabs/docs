@@ -4,7 +4,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vocs dev",
-		"build": "vocs build && tsx scripts/llms-includes.ts",
+		"build": "vocs build && tsx scripts/llms-includes.ts && tsx scripts/llms-facts.ts",
 		"preview": "vocs preview",
 		"render-data": "tsx scripts/render-data.ts"
 	},

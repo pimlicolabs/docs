@@ -1,23 +1,37 @@
 ---
-description: "Self-host the Alto ERC-4337 bundler: build it from source, fund the utility and executor wallets, configure safe mode and ERC-7562 rules, and troubleshoot."
+description: "Self-host the Alto ERC-4337 bundler: EntryPoint v0.6 to v0.9 and EIP-7702 support, building from source, funding the executor wallets, and when to use safe mode."
 ---
 
 # Self-Host Guide
 
-This guide holds all information related to self hosting your own Alto bundler instance. Including installation, setting up, running, and troubleshooting.
+This guide holds all information related to self hosting your own [Alto](https://github.com/pimlicolabs/alto) bundler instance. Including installation, setting up, running, and troubleshooting.
+
+## Supported EntryPoint versions
+
+Alto supports EntryPoint v0.6, v0.7, v0.8 and v0.9, and EIP-7702 user operations. Pass the EntryPoint contracts you want to serve to `--entrypoints` as a comma-separated list:
+
+| Version | EntryPoint address |
+| ------- | ------------------ |
+| v0.6 | `0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789` |
+| v0.7 | `0x0000000071727De22E5E9d8BAf0edAc6f37da032` |
+| v0.8 | `0x4337084D9E255Ff0702461CF8895CE9E3b5Ff108` |
+| v0.9 | `0x433709009B8330FDa32311DF1C2AFA402eD8D009` |
+
+EIP-7702 support is on by default. To reject user operations that include an EIP-7702 authorization, run Alto with `--eip-7702-support false`.
 
 ## Installation (Building from source)
 
-To install and build Alto from source, run the following commands
+Building Alto needs Node.js 24, pnpm and [Foundry](https://getfoundry.sh) (to compile the contracts). To install and build Alto from source, run the following commands
 
 ```bash
 git clone https://github.com/pimlicolabs/alto.git
+cd alto
 pnpm install
 pnpm build:contracts
 pnpm build
 ```
 
-And then to start Alto, run
+And then to list all of Alto's options, run
 
 ```bash
 ./alto help
@@ -27,18 +41,25 @@ And then to start Alto, run
 
 Alto manages multiple executor wallets. If any wallet's balance falls below a set minimum, its balance is automatically refilled using funds from the utility wallet. The utility wallet needs to be funded before starting Alto.
 
-By default, Alto will run in safe mode. This means that it will validate all userOps against the ERC-7562 validation rules. In safe mode, you will need a RPC that supports the debug_traceCall endpoint. It is reccomended to run Alto with this flag disabled by setting `--safe-mode false`.
+## Safe mode
+
+By default, Alto runs in safe mode: it enforces all ERC-4337 validation rules, including the ERC-7562 opcode, storage access and reputation rules. These rules reject user operations that pass simulation but could behave differently on-chain, which protects a bundler that accepts user operations from anyone against denial-of-service attacks. To enforce them, Alto traces every validation with a JavaScript tracer, so safe mode needs an RPC that supports `debug_traceCall` with JavaScript tracers.
+
+- **Keep safe mode on** if your bundler is publicly reachable or accepts user operations from parties you don't control, and point Alto at an RPC that supports `debug_traceCall`.
+- **Run with `--safe-mode false`** if your RPC doesn't support `debug_traceCall` and your bundler only accepts user operations from your own app or other sources you trust. Alto then skips the ERC-7562 checks, so a malicious user operation could make the bundler submit bundles that revert and waste gas.
+
+The examples below use `--safe-mode false` because most hosted RPCs don't support `debug_traceCall`.
 
 ## Running
 
 Once all the prerequisite conditions are met, Alto can be started using
 
 ```bash
-./alto run
-    --entrypoints "0x0000000071727De22E5E9d8BAf0edAc6f37da032,0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
-    --executor-private-keys "0x34e9a7...,0xb08d34...,0x163cbb..."
-    --utility-private-key "0xe768f1..."
-    --rpc-url "http://localhost:8545"
+./alto \
+    --entrypoints "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789,0x0000000071727De22E5E9d8BAf0edAc6f37da032,0x4337084D9E255Ff0702461CF8895CE9E3b5Ff108" \
+    --executor-private-keys "0x34e9a7...,0xb08d34...,0x163cbb..." \
+    --utility-private-key "0xe768f1..." \
+    --rpc-url "http://localhost:8545" \
     --safe-mode false
 ```
 
@@ -50,7 +71,7 @@ Create and setup `alto-config.json`
 
 ```
 {
-    "entrypoints": "0x0000000071727De22E5E9d8BAf0edAc6f37da032,0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+    "entrypoints": "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789,0x0000000071727De22E5E9d8BAf0edAc6f37da032,0x4337084D9E255Ff0702461CF8895CE9E3b5Ff108",
     "executor-private-keys": "0x34e9a7...,0xb08d34...,0x163cbb...",
     "utility-private-key": "0xe768f1...",
     "rpc-url": "http://localhost:8545",
@@ -61,14 +82,10 @@ Create and setup `alto-config.json`
 Run Alto using `alto-config.json` configurations
 
 ```bash
-./alto run --config "alto-config.json"
+./alto --config "alto-config.json"
 ```
 
-:::tip[Tip]
-It is recommended to run Alto using `safe-mode=false` as it will skip the ERC-7562 reputation checks and DOS prevention. To run alto with `safe-mode=true`, you will need to provide an RPC that has debug_traceCall enabled.
-:::
-
-## compatibility
+## Compatibility
 
 Some chains have certain compatibility restrictions that require Alto to be ran with special flags.
 
@@ -76,19 +93,19 @@ Some chains have certain compatibility restrictions that require Alto to be ran 
 For chains that only support pre EIP-1559 transactions, alto needs to be ran with the flag
 
 ```bash
-./alto run --legacy-transactions ...
+./alto --legacy-transactions ...
 ```
 
 #### OP Stack Chains
 For chains that are deployed using the OP Stack, alto needs to be ran with the flag
 
 ```bash
-./alto run --chain-type "op-stack" ...
+./alto --chain-type "op-stack" ...
 ```
 
 #### Arbitrum Chains
 For chains that are deployed using Arbitrum, alto needs to be ran with the flag
 
 ```bash
-./alto run --chain-type "arbitrum" ...
+./alto --chain-type "arbitrum" ...
 ```
