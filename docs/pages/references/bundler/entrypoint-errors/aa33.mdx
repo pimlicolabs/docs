@@ -1,8 +1,11 @@
 ---
-description: AA33 reverted (or OOG) means the paymaster's validatePaymasterUserOp reverted or ran out of gas. Causes and fixes for this ERC-4337 EntryPoint error.
+title: "AA33 reverted (or OOG): paymaster validation"
+description: "AA33 reverted (or OOG): the paymaster's validatePaymasterUserOp reverted or ran out of gas. Raise its gas limit or fix its signature check."
 ---
 
 # AA33 reverted (or OOG)
+
+`AA33 reverted (or OOG)` is an ERC-4337 EntryPoint error that means the paymaster's `validatePaymasterUserOp` function reverted or ran out of gas while validating the user operation.
 
 :::info
 OOG = Out Of Gas

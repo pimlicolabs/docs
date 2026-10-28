@@ -1,8 +1,11 @@
 ---
+title: "pm_getPaymasterStubData (ERC-7677 paymaster)"
 description: pm_getPaymasterStubData (ERC-7677) returns stub paymaster fields for gas estimation before signing, in ERC-20 or sponsorship mode. Usage for each EntryPoint.
 ---
 
 # pm_getPaymasterStubData
+
+`pm_getPaymasterStubData` is the ERC-7677 paymaster JSON-RPC method that returns placeholder paymaster fields, so a user operation can be gas-estimated before its final paymaster data is requested.
 
 This method returns stub values to be used in paymaster-related fields of an unsigned user operation for gas estimation. The context parameter can be an object with either a `token` field (for ERC-20 mode) or a `sponsorshipPolicyId` field (for sponsorship mode), or null.
 

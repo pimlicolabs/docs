@@ -1,8 +1,11 @@
 ---
+title: "AA93 invalid paymasterAndData: causes, fix"
 description: "AA93 invalid paymasterAndData: the paymasterAndData field has the wrong length. Leave it empty or make it at least 20 bytes, starting with the paymaster."
 ---
 
 # AA93 invalid paymasterAndData
+
+`AA93 invalid paymasterAndData` is an ERC-4337 EntryPoint error that means the user operation's `paymasterAndData` field is set but too short to hold a paymaster address.
 
 :::info
 The first 20 bytes of the `paymasterAndData` field specify the address of the paymaster contract you are requesting to use.

@@ -1,8 +1,11 @@
 ---
+title: "AA20 account not deployed: missing initCode"
 description: "AA20 account not deployed: the user operation has no initCode but its sender isn't deployed yet. Add initCode on the first transaction or fix the sender."
 ---
 
 # AA20 account not deployed
+
+`AA20 account not deployed` is an ERC-4337 EntryPoint error that means the user operation has no `initCode` but its `sender` smart account is not deployed yet.
 
 An `initCode` was not specified, but the `sender` address (i.e. the smart account) is not deployed.
 

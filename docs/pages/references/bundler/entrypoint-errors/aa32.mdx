@@ -1,8 +1,11 @@
 ---
+title: "AA32 paymaster expired or not due error"
 description: "AA32 expired or not due: the paymaster signature is outside its validity window. Pimlico's paymaster signatures last 10 minutes by default; send sooner."
 ---
 
 # AA32 expired or not due
+
+`AA32 paymaster expired or not due` is an ERC-4337 EntryPoint error that means the paymaster's signature on the user operation is outside the `validAfter` and `validUntil` time range it set.
 
 :::info
 By default, signatures from Pimlico's verifying paymaster are only valid for 10 minutes. 

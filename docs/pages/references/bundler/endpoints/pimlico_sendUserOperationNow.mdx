@@ -1,8 +1,11 @@
 ---
+title: "pimlico_sendUserOperationNow: send instantly"
 description: pimlico_sendUserOperationNow sends a user operation in its own bundle right away and responds with its receipt once it is included onchain.
 ---
 
 # pimlico_sendUserOperationNow
+
+`pimlico_sendUserOperationNow` is a Pimlico bundler method that bundles one signed user operation in its own bundle right away and returns its receipt in the same response.
 
 Sends a signed user operation in its own bundle right away and returns its receipt in the same response. There is no mempool wait and no receipt polling. From TypeScript, use [`sendUserOperationSync`](/references/permissionless/reference/pimlico-actions/sendUserOperationSync), which also handles the errors below. Its page has the latency benchmarks.
 

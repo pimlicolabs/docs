@@ -1,8 +1,11 @@
 ---
+title: "AA92 internal call only: bundler error"
 description: "AA92 internal call only: the bundler called the EntryPoint's innerHandleOp directly instead of through handleOps. A bundler-side bug and how to resolve it."
 ---
 
 # AA92 internal call only
+
+`AA92 internal call only` is an ERC-4337 EntryPoint error that means the EntryPoint's `innerHandleOp` function was called directly instead of through `handleOps`.
 
 The bundler attempted to call `innerHandleOp` function of the EntryPoint directly as opposed to through the `handleOps` function.
 

@@ -1,8 +1,11 @@
 ---
+title: "AA40 over verificationGasLimit: causes, fix"
 description: "AA40 over verificationGasLimit: smart account and paymaster verification together used more gas than the verificationGasLimit allows. How to fix it."
 ---
 
 # AA40 over verificationGasLimit
+
+`AA40 over verificationGasLimit` is an ERC-4337 EntryPoint error that means smart account and paymaster verification together used more gas than the user operation's `verificationGasLimit`.
 
 The amount of gas used by the smart account and paymaster verification exceeded the `verificationGasLimit` set for the user operation.
 

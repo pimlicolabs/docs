@@ -1,8 +1,11 @@
 ---
+title: "pm_getPaymasterData (ERC-7677 paymaster RPC)"
 description: pm_getPaymasterData (ERC-7677) returns paymaster fields for a signed user operation, paid in an ERC-20 token or under a sponsorship policy. Usage and params.
 ---
 
 # pm_getPaymasterData
+
+`pm_getPaymasterData` is the ERC-7677 paymaster JSON-RPC method that returns the final paymaster fields to put on a user operation, in ERC-20 mode or under a sponsorship policy.
 
 This method returns values to be used in paymaster-related fields of a signed user operation. The context parameter can be an object with either a `token` field (for ERC-20 mode) or a `sponsorshipPolicyId` field (for sponsorship mode), or null.
 
