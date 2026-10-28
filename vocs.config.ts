@@ -3,6 +3,8 @@ import { rehypeTwoslashLinks } from "./rehype-twoslash-links";
 import {
 	canonicalOverrides,
 	canonicalPath,
+	isLegacyPermissionlessPath,
+	legacyPermissionlessPath,
 	normalizePath,
 	siteUrl,
 } from "./seo";
@@ -33,13 +35,32 @@ export default defineConfig({
 	// map instead; every other page keeps the self-canonical Vocs builds from
 	// `baseUrl`. `base: false` drops the `<base href>` that `baseUrl` would add,
 	// which makes preview deployments load their scripts from production.
+	//
+	// Every page also advertises its Markdown twin (served at `<path>.md`, see
+	// the rewrite in vercel.json). The permissionless.js 0.1 pages that are
+	// their own canonical are `noindex, follow`: they document a superseded API
+	// and compete with the current reference pages. 0.1 pages that already
+	// point their canonical at a current page keep only the canonical, so the
+	// two signals never conflict.
 	head: new Function(
 		"path",
 		`const overrides = ${JSON.stringify(canonicalOverrides())};
-		const canonical = overrides[path.replace(/\\/+$/, "") || "/"];
+		const route = path.replace(/\\/+$/, "") || "/";
+		const canonical = overrides[route];
+		const legacy =
+			route === "${legacyPermissionlessPath}" ||
+			route.startsWith("${legacyPermissionlessPath}/");
 		return {
 			base: false,
 			...(canonical ? { canonical } : {}),
+			...(legacy && !canonical ? { meta: { robots: "noindex, follow" } } : {}),
+			link: [
+				{
+					rel: "alternate",
+					type: "text/markdown",
+					href: (route === "/" ? "/index" : route) + ".md",
+				},
+			],
 			script: [{ src: "/posthog.js", async: true }],
 		};`,
 	) as (path: string) => { base: false },
@@ -95,9 +116,12 @@ export default defineConfig({
 	srcDir: "docs",
 	renderStrategy: "full-static",
 	// Duplicate pages point their canonical at another page; list only the
-	// pages that are their own canonical.
+	// pages that are their own canonical, and leave out the noindexed
+	// permissionless.js 0.1 tree.
 	sitemap: {
-		include: (path) => canonicalPath(path) === normalizePath(path),
+		include: (path) =>
+			canonicalPath(path) === normalizePath(path) &&
+			!isLegacyPermissionlessPath(path),
 	},
 	markdown: {
 		rehypePlugins: [rehypeTwoslashLinks],
