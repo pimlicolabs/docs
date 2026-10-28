@@ -110,7 +110,9 @@
 			if (referrer) {
 				const r = new URL(referrer);
 				ref = r.hostname.toLowerCase();
-				if (SELF.test(ref) || SELF.test(ref + r.pathname)) ref = undefined;
+				// Our own host (incl. preview deployments) and auth/booking hops aren't sources.
+				if (ref === url.hostname || SELF.test(ref) || SELF.test(ref + r.pathname))
+					ref = undefined;
 			}
 		} catch {
 			ref = undefined;
@@ -254,6 +256,27 @@
 		return "docs_other";
 	}
 
+	// Same split as www: every property as a super property, first touch set
+	// once on the person, last touch updated.
+	function applyToPosthog(ph) {
+		const props = window.pimAttribution || {};
+		if (!ph || typeof ph.register !== "function" || !Object.keys(props).length)
+			return;
+		ph.register(props);
+		if (typeof ph.setPersonProperties !== "function") return;
+		const once = {};
+		const latest = {};
+		for (const [k, v] of Object.entries(props)) {
+			if (k.startsWith("ft_")) once[k] = v;
+			else latest[k] = v;
+		}
+		ph.setPersonProperties(latest, once);
+	}
+
+	// posthog.js and this file load async in either order. Whichever runs
+	// second applies the properties, through this one function.
+	window.pimAttributionApply = applyToPosthog;
+
 	try {
 		// Record this page load's touch.
 		const touch = buildTouch(location.href, document.referrer);
@@ -264,67 +287,58 @@
 			readCookie(LT_COOKIE),
 		);
 		window.pimAttribution = props;
-		// If posthog.js already ran, register here; otherwise posthog.js reads
-		// window.pimAttribution right after init. Same split as www: every
-		// property as a super property, first touch set once on the person.
-		const ph = window.posthog;
-		if (ph && typeof ph.register === "function" && Object.keys(props).length) {
-			ph.register(props);
-			if (typeof ph.setPersonProperties === "function") {
-				const once = {};
-				const latest = {};
-				for (const [k, v] of Object.entries(props)) {
-					if (k.startsWith("ft_")) once[k] = v;
-					else latest[k] = v;
-				}
-				ph.setPersonProperties(latest, once);
-			}
-		}
+		applyToPosthog(window.posthog);
 	} catch {
 		/* cookies or URL parsing unavailable: links still work undecorated */
 	}
 
 	// Capture phase, so the decorated href is the one the browser follows.
-	document.addEventListener(
-		"click",
-		(e) => {
-			const a = e.target?.closest?.("a[href]");
-			if (!a) return;
-			const raw = a.getAttribute("href") || "";
-			const destination = ctaDestination(raw);
-			if (!destination) return;
-			const ph = window.posthog;
-			const distinctId =
-				ph && typeof ph.get_distinct_id === "function"
-					? ph.get_distinct_id()
-					: undefined;
-			const where = ctaLocation(a);
-			try {
-				a.href = decorate(raw, { location: where, distinctId });
-				// Our own conversion hosts may see the referring docs page.
-				a.rel = "noopener";
-			} catch {
-				/* leave the link as it was */
+	// auxclick covers middle-click "open in new tab"; right-clicks are ignored.
+	function onClick(e) {
+		if (e.type === "auxclick" && e.button !== 1) return;
+		const a = e.target?.closest?.("a[href]");
+		if (!a) return;
+		// Decorate a copy of the original href on every click, so a second click
+		// (after client-side navigation) carries the current page, not the first.
+		const raw = a.dataset.pimHref || a.getAttribute("href") || "";
+		const destination = ctaDestination(raw);
+		if (!destination) return;
+		const ph = window.posthog;
+		const distinctId =
+			ph && typeof ph.get_distinct_id === "function"
+				? ph.get_distinct_id()
+				: undefined;
+		const where = ctaLocation(a);
+		try {
+			const decorated = decorate(raw, { location: where, distinctId });
+			if (decorated !== raw) {
+				a.dataset.pimHref = raw;
+				a.setAttribute("href", decorated);
 			}
-			if (ph && typeof ph.capture === "function") {
-				let bookingLink;
-				if (destination === "booking") {
-					try {
-						bookingLink = new URL(raw, location.href).pathname.slice(1);
-					} catch {
-						bookingLink = undefined;
-					}
+			// Our own conversion hosts may see the referring docs page.
+			a.rel = "noopener";
+		} catch {
+			/* leave the link as it was */
+		}
+		if (ph && typeof ph.capture === "function") {
+			let bookingLink;
+			if (destination === "booking") {
+				try {
+					bookingLink = new URL(raw, location.href).pathname.slice(1);
+				} catch {
+					bookingLink = undefined;
 				}
-				ph.capture("cta_click", {
-					label: (a.textContent || "").trim().slice(0, 80) || undefined,
-					href: raw,
-					location: where,
-					destination,
-					booking_link: bookingLink,
-					pathname: location.pathname,
-				});
 			}
-		},
-		true,
-	);
+			ph.capture("cta_click", {
+				label: (a.textContent || "").trim().slice(0, 80) || undefined,
+				href: raw,
+				location: where,
+				destination,
+				booking_link: bookingLink,
+				pathname: location.pathname,
+			});
+		}
+	}
+	document.addEventListener("click", onClick, true);
+	document.addEventListener("auxclick", onClick, true);
 })();

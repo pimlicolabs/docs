@@ -9,19 +9,9 @@ posthog.init('phc_kARNEtGvY2mNPfrfgYgdhbRIv2yMmtlz3jh5X9gqsq5', {
   ui_host: 'https://us.posthog.com',
   capture_pageview: 'history_change',
 })
-// First/last-touch source from /attribution.js (if it has already run), the
-// same properties www.pimlico.io sets: on every event as super properties, and
-// on the person (first touch set once, last touch updated).
+// First/last-touch source from /attribution.js, the same properties
+// www.pimlico.io sets. If attribution.js ran first it exposes the apply
+// function; if not, it applies them itself when it loads.
 ;(function () {
-  var props = window.pimAttribution || {}
-  var keys = Object.keys(props)
-  if (!keys.length) return
-  posthog.register(props)
-  var once = {}
-  var latest = {}
-  keys.forEach(function (k) {
-    if (k.indexOf('ft_') === 0) once[k] = props[k]
-    else latest[k] = props[k]
-  })
-  posthog.setPersonProperties(latest, once)
+  if (typeof window.pimAttributionApply === 'function') window.pimAttributionApply(posthog)
 })()
