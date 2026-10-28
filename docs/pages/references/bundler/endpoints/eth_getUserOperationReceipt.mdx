@@ -1,8 +1,11 @@
 ---
+title: "eth_getUserOperationReceipt: get the receipt"
 description: eth_getUserOperationReceipt returns an included user operation's receipt, with gas used, logs and success, or null while pending. Request and response.
 ---
 
 # eth_getUserOperationReceipt
+
+`eth_getUserOperationReceipt` is the ERC-4337 bundler JSON-RPC method that returns the receipt of an included user operation, with its gas cost, logs and success flag, given its `userOpHash`.
 
 This method fetches the receipt of a user operation, given the `userOpHash`. If the receipt is not available, it will return `null`.
 

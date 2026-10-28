@@ -1,8 +1,11 @@
 ---
+title: "Verifying paymaster JSON-RPC methods (pm_*)"
 description: "JSON-RPC methods of Pimlico's verifying paymaster: pm_sponsorUserOperation for EntryPoint v0.6 to v0.8, pm_validateSponsorshipPolicies and more."
 ---
 
 # Verifying Paymaster Endpoints
+
+The verifying paymaster endpoints are the JSON-RPC methods your app calls to have Pimlico sponsor gas for a user operation, such as `pm_sponsorUserOperation` and `pm_validateSponsorshipPolicies`.
 
 All calls are in JSON-RPC format and have to be made to the following URL: `https://api.pimlico.io/v2/{chain}/rpc?apikey=[YOUR_API_KEY_HERE]`
 

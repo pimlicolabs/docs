@@ -1,8 +1,11 @@
 ---
+title: "eth_sendUserOperation: send a user operation"
 description: eth_sendUserOperation submits an ERC-4337 user operation to Pimlico's bundler and returns its userOpHash. Parameters, EIP-7702 auth and examples.
 ---
 
 # eth_sendUserOperation
+
+`eth_sendUserOperation` is the ERC-4337 bundler JSON-RPC method that submits a signed user operation to the bundler for inclusion onchain and returns its `userOpHash`.
 
 Submits a user operation to be included on-chain and returns the `userOpHash` if successful (or queued). If the operation is not successful, it will return an error.
 

@@ -1,8 +1,11 @@
 ---
+title: "AA10 sender already constructed (initCode)"
 description: "AA10 sender already constructed: the smart account already exists but the user operation still includes initCode to deploy it. Remove initCode to fix it."
 ---
 
 # AA10 sender already constructed
+
+`AA10 sender already constructed` is an ERC-4337 EntryPoint error that means the user operation includes `initCode` to deploy a smart account that is already deployed.
 
 The sender (i.e. the smart account) has already been created previously. You may be trying to create the account multiple times.
 

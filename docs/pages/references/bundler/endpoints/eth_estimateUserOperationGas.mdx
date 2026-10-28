@@ -1,8 +1,11 @@
 ---
+title: "eth_estimateUserOperationGas: estimate gas"
 description: eth_estimateUserOperationGas simulates a user operation and returns its gas limits. Parameters, state overrides and examples for EntryPoint v0.6 to v0.8.
 ---
 
 # eth_estimateUserOperationGas
+
+`eth_estimateUserOperationGas` is the ERC-4337 bundler JSON-RPC method that simulates a user operation and returns the gas limits to set on it: `preVerificationGas`, `verificationGasLimit` and `callGasLimit`, plus the paymaster gas limits on EntryPoint 0.7 and later.
 
 This method simulates the user operation and estimates the appropriate gas limits for it. If the operation is not successful, it will return an error.
 

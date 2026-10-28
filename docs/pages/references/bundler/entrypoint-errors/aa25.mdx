@@ -1,8 +1,11 @@
 ---
+title: "AA25 invalid account nonce: causes and fix"
 description: "AA25 invalid account nonce: the user operation's nonce is reused, too far ahead or malformed. Fetch the right one with getAccountNonce or use nonce keys."
 ---
 
 # AA25 invalid account nonce
+
+`AA25 invalid account nonce` is an ERC-4337 EntryPoint error that means the user operation's `nonce` is not a valid next nonce for the smart account.
 
 The `nonce` of the user operation is invalid. 
 

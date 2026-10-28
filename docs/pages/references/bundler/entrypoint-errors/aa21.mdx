@@ -1,8 +1,11 @@
 ---
+title: "AA21 didn't pay prefund: account lacks gas"
 description: "AA21 didn't pay prefund: the smart account has too little native token to prefund gas and no paymaster is set. Fund the account or add a paymaster."
 ---
 
 # AA21 didn't pay prefund
+
+`AA21 didn't pay prefund` is an ERC-4337 EntryPoint error that means the user operation has no paymaster and the smart account does not hold enough native token to prefund its gas.
 
 You are *not* using a paymaster, but the `sender` address did not have enough native tokens to cover the gas costs associated with the user operation.
 
