@@ -47,7 +47,9 @@ export default defineConfig({
 		`const overrides = ${JSON.stringify(canonicalOverrides())};
 		const route = path.replace(/\\/+$/, "") || "/";
 		const canonical = overrides[route];
-		const legacy = route.startsWith("${legacyPermissionlessPath}");
+		const legacy =
+			route === "${legacyPermissionlessPath}" ||
+			route.startsWith("${legacyPermissionlessPath}/");
 		return {
 			base: false,
 			...(canonical ? { canonical } : {}),

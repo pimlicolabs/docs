@@ -24,7 +24,7 @@ export const gettingStartedSidebar = [
 			},
 			{
 				text: "Migrating from Stackup",
-				link: "/stackup-migration",
+				link: "/guides/stackup-migration",
 			},
 		],
 	},
@@ -175,12 +175,7 @@ export const gasSponsorshipSidebar = [
 	},
 	{
 		text: "ERC-20 Paymaster",
-		link: "/references/paymaster/erc20-paymaster",
 		items: [
-			{
-				text: "Supported Tokens",
-				link: "/references/paymaster/erc20-paymaster/supported-tokens",
-			},
 			{
 				text: "Use the ERC-20 Paymaster",
 				link: "/guides/how-to/erc20-paymaster/how-to/use-paymaster",
@@ -192,6 +187,13 @@ export const gasSponsorshipSidebar = [
 			{
 				text: "Estimate token cost and cost in USD",
 				link: "/guides/how-to/erc20-paymaster/how-to/calculate-costs",
+			},
+			{
+				// The overview and token list live in the reference (the /guides
+				// copies point their canonical there); labelled so the jump to the
+				// References sidebar is expected.
+				text: "Reference: overview and supported tokens",
+				link: "/references/paymaster/erc20-paymaster",
 			},
 		],
 	},

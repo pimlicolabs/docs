@@ -21,6 +21,11 @@
 			"permanent": true
 		},
 		{
+			"source": "/stackup-migration",
+			"destination": "/guides/stackup-migration",
+			"permanent": true
+		},
+		{
 			"source": "/references/paymaster/verifying-paymaster/endpoints/pm_sponsorUserOperation",
 			"destination": "/references/paymaster/verifying-paymaster/endpoints#pm_sponsoruseroperation-v2",
 			"permanent": true
@@ -276,6 +281,11 @@
 			"permanent": true
 		},
 		{
+			"source": "/permissionless/how-to/migration-guide",
+			"destination": "/references/permissionless/how-to/migration-guide",
+			"permanent": true
+		},
+		{
 			"source": "/permissionless/how-to/:path*",
 			"destination": "/guides/how-to/:path*",
 			"permanent": true
@@ -308,6 +318,16 @@
 		{
 			"source": "/conceptual/eip7702",
 			"destination": "/guides/eip7702",
+			"permanent": true
+		},
+		{
+			"source": "/conceptual/erc4337",
+			"destination": "/guides/conceptual/account-abstraction",
+			"permanent": true
+		},
+		{
+			"source": "/conceptual/erc7579",
+			"destination": "/guides/conceptual/account-abstraction",
 			"permanent": true
 		},
 		{
