@@ -107,6 +107,10 @@ export const bundlerSidebar = [
 				text: "pimlico_sendUserOperationNow",
 				link: "/references/bundler/endpoints/pimlico_sendUserOperationNow",
 			},
+			{
+				text: "pimlico_simulateAssetChanges",
+				link: "/references/bundler/endpoints/pimlico_simulateAssetChanges",
+			},
 		],
 	},
 	{

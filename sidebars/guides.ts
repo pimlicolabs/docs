@@ -22,6 +22,10 @@ export const gettingStartedSidebar = [
 				text: "For Enterprise",
 				link: "/guides/why-pimlico/enterprise",
 			},
+			{
+				text: "Migrating from Stackup",
+				link: "/stackup-migration",
+			},
 		],
 	},
 ];
@@ -171,11 +175,11 @@ export const gasSponsorshipSidebar = [
 	},
 	{
 		text: "ERC-20 Paymaster",
-		link: "/guides/how-to/erc20-paymaster",
+		link: "/references/paymaster/erc20-paymaster",
 		items: [
 			{
 				text: "Supported Tokens",
-				link: "/guides/how-to/erc20-paymaster/supported-tokens",
+				link: "/references/paymaster/erc20-paymaster/supported-tokens",
 			},
 			{
 				text: "Use the ERC-20 Paymaster",
@@ -268,6 +272,10 @@ export const socialLoginSignersSidebar = [
 	{
 		text: "Privy",
 		link: "/guides/how-to/signers/privy",
+	},
+	{
+		text: "Privy smart wallets (dashboard setup)",
+		link: "/guides/how-to/integrations/privy",
 	},
 	{
 		text: "Magic",
