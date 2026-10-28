@@ -61,7 +61,14 @@ export default defineConfig({
 					href: (route === "/" ? "/index" : route) + ".md",
 				},
 			],
-			script: [{ src: "/posthog.js", async: true }],
+			// attribution.js records the visitor's source and decorates
+			// dashboard/cal.com links; it and posthog.js cope with either load
+			// order. Both are async: React renders non-async <head> scripts
+			// twice, but dedupes async ones by src.
+			script: [
+				{ src: "/attribution.js", async: true },
+				{ src: "/posthog.js", async: true },
+			],
 		};`,
 	) as (path: string) => { base: false },
 	banner: {
