@@ -28,7 +28,7 @@ export default defineConfig({
 	},
 	// Default meta description, and the summary line under the title in llms.txt.
 	description:
-		"Pimlico is the gas sponsorship engine for onchain apps: ERC-4337 bundlers, paymasters and permissionless.js across 100+ EVM chains, plus Solana.",
+		"Pimlico is the gas sponsorship engine for onchain apps: sponsor your users' gas or let them pay in stablecoins, on 100+ EVM chains and Solana.",
 	// Vocs stringifies config functions for the browser, so this can't call
 	// `canonicalUrl` from ./seo. It looks duplicate pages up in a precomputed
 	// map instead; every other page keeps the self-canonical Vocs builds from
