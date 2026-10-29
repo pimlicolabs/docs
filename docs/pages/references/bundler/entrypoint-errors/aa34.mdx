@@ -1,8 +1,11 @@
 ---
+title: "AA34 signature error: paymaster rejected"
 description: "AA34 signature error: the paymaster's validatePaymasterUserOp rejected the signature in paymasterAndData. How to check the signed hash and its encoding."
 ---
 
 # AA34 signature error
+
+`AA34 signature error` is an ERC-4337 EntryPoint error that means the paymaster's `validatePaymasterUserOp` function rejected the paymaster signature on the user operation.
 
 :::info
 The first 20 bytes of the `paymasterAndData` field specify the address of the paymaster contract you are requesting to use.

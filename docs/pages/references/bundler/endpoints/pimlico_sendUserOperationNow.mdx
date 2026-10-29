@@ -1,22 +1,25 @@
 ---
+title: "pimlico_sendUserOperationNow: send instantly"
 description: pimlico_sendUserOperationNow sends a user operation in its own bundle right away and responds with its receipt once it is included onchain.
 ---
 
 # pimlico_sendUserOperationNow
+
+`pimlico_sendUserOperationNow` is a Pimlico bundler method that bundles one signed user operation in its own bundle right away and returns its receipt in the same response.
 
 Sends a signed user operation in its own bundle right away and returns its receipt in the same response. There is no mempool wait and no receipt polling. From TypeScript, use [`sendUserOperationSync`](/references/permissionless/reference/pimlico-actions/sendUserOperationSync), which also handles the errors below. Its page has the latency benchmarks.
 
 Available on Base, BSC and Robinhood, with EntryPoint 0.7 and 0.8.
 
 :::info[Contact us to enable it]
-`pimlico_sendUserOperationNow` is enabled on request. [Contact us](https://cal.com/team/pimlico/20min) or email [support@pimlico.io](mailto:support@pimlico.io) to turn it on for your API key and chains.
+`pimlico_sendUserOperationNow` is enabled on request. [Contact us](https://cal.com/kristofgazso/20min) or email [support@pimlico.io](mailto:support@pimlico.io) to turn it on for your API key and chains.
 :::
 
 ## Usage
 
 The parameters are the same as [`eth_sendUserOperation`](/references/bundler/endpoints/eth_sendUserOperation): the user operation and the EntryPoint address.
 
-A [boosted user operation](/guides/boosted-paymaster/use-boosted-paymaster) on Base with EntryPoint 0.8: `maxFeePerGas` and `maxPriorityFeePerGas` are `0` and every paymaster field is empty. The gas is billed to your Pimlico balance.
+A [boosted user operation](/guides/boosted-paymaster/use-boosted-paymaster) on Base with EntryPoint 0.8: `maxFeePerGas` and `maxPriorityFeePerGas` are `0` and every paymaster field is empty. The gas is billed on your monthly invoice.
 
 ```json
 {

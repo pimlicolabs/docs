@@ -31,7 +31,7 @@ For how these were measured, see the [`sendUserOperationSync` reference](/refere
 
 ## Prerequisites
 
-- A Pimlico API key with instant bundling enabled. [Contact us](https://cal.com/team/pimlico/20min) or email [support@pimlico.io](mailto:support@pimlico.io) to enable it.
+- A Pimlico API key with instant bundling enabled. [Contact us](https://cal.com/kristofgazso/20min) or email [support@pimlico.io](mailto:support@pimlico.io) to enable it.
 - An app on Base, BSC or Robinhood.
 
 ::::code-group
@@ -96,7 +96,7 @@ Await each `sendUserOperationSync` call before sending the next one. A user oper
 
 ## Cut latency further with boosted user operations (optional)
 
-If the [Boosted Paymaster](/guides/boosted-paymaster/use-boosted-paymaster) is enabled on your API key, drop the paymaster and set both fees to `0`. This skips the gas price and paymaster calls before the send, and Pimlico bills the gas to your balance.
+If [Boosted Sponsorships](/guides/boosted-paymaster/use-boosted-paymaster) are enabled on your API key, drop the paymaster and set both fees to `0`. This skips the gas price and paymaster calls before the send. The gas is billed on your monthly invoice.
 
 ```ts
 // [!include ~/snippets/how-to/send-user-operation-sync.ts:boosted]
@@ -106,5 +106,5 @@ If the [Boosted Paymaster](/guides/boosted-paymaster/use-boosted-paymaster) is e
 
 - [`sendUserOperationSync` reference and benchmarks](/references/permissionless/reference/pimlico-actions/sendUserOperationSync)
 - [`pimlico_sendUserOperationNow` reference](/references/bundler/endpoints/pimlico_sendUserOperationNow)
-- [Boosted Paymaster](/guides/boosted-paymaster/use-boosted-paymaster)
+- [Boosted Sponsorships](/guides/boosted-paymaster/use-boosted-paymaster)
 - [How to send user operations in parallel](/guides/how-to/parallel-transactions)

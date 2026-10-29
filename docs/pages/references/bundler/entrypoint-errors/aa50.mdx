@@ -1,8 +1,11 @@
 ---
+title: "AA50 postOp reverted: paymaster postOp failed"
 description: "AA50 postOp reverted: the paymaster's postOp function failed after the user operation ran. What postOp does and how to fix your paymaster or its context."
 ---
 
 # AA50 postOp reverted
+
+`AA50 postOp reverted` is an ERC-4337 EntryPoint error that means the paymaster's `postOp` function reverted after the user operation was executed.
 
 :::info
 `postOp` is a function that is called by the EntryPoint on the paymaster contract after the user operation execution is completed. It is often used by paymasters to perform additional accounting logic.

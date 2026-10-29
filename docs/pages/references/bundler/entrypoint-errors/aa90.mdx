@@ -1,8 +1,11 @@
 ---
+title: "AA90 invalid beneficiary: bundler error"
 description: "AA90 invalid beneficiary: the bundler submitted a bundle without a beneficiary address. A bundler configuration issue; how to fix a self-hosted bundler."
 ---
 
 # AA90 invalid beneficiary
+
+`AA90 invalid beneficiary` is an ERC-4337 EntryPoint error that means the bundler called `handleOps` without a beneficiary address to receive the gas fees.
 
 The bundler did not set a beneficiary address when bundling the user operation.
 

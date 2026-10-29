@@ -1,8 +1,11 @@
 ---
+title: "AA14 initCode must return sender error"
 description: "AA14 initCode must return sender: the account deployed by initCode has a different address than the user operation's sender. Causes and how to fix it."
 ---
 
 # AA14 initCode must return sender
+
+`AA14 initCode must return sender` is an ERC-4337 EntryPoint error that means the `initCode` deployed a smart account at a different address than the user operation's `sender`.
 
 The address of the smart account deployed with the `initCode` provided does not match match the `sender` address provided in the user operation.
 

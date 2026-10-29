@@ -5,20 +5,22 @@ description: "Pimlico pricing: pay-as-you-go with no upfront cost, API credits p
 
 # Pricing
 
-Below is a comparison of the different pricing plans available for Pimlico. With Pimlico, you're able to launch without any upfront costs, and only pay for what you use with our pay-as-you-go plan, even for production applications with significant volume. We can also offer enterprise plans for users wishing to have a custom plan tailored to their needs. If you have any questions, please don't hesitate to [contact us through telegram](https://t.me/pimlicoHQ) or [through email](mailto:support@pimlico.io)
+Below is a comparison of the different pricing plans available for Pimlico. With Pimlico, you're able to launch without any upfront costs, and only pay for what you use with our pay-as-you-go plan, even for production applications with significant volume. There are no subscription fees and no gas tank to prefund: Pimlico fronts the gas you sponsor and bills it at the end of the month. We can also offer enterprise plans for users wishing to have a custom plan tailored to their needs. If you have any questions, please don't hesitate to [contact us through telegram](https://t.me/pimlicoHQ) or [through email](mailto:support@pimlico.io).
+
+For a summary of the plans, see [pimlico.io/pricing](https://www.pimlico.io/pricing).
 
 
 | Feature                       | <div className="min-w-[130px]">Free</div> | <div className="min-w-[180px]">Pay-as-you-go</div> | <div className="min-w-[210px]">Enterprise (contact us)</div> |
 | ----------------------------- | ---------------------------------- | ------------------------------------ | ------------------------------------- |
 | Subscription Fee               | $0/mo                                | $0/mo, card required                                           | Custom                                                           |
-| Networks                      | Testnets: ✅ (all 25+ testnet chains)<br />Mainnets: ❌                      | Testnets: ✅ (all 25+ testnet chains)<br />Mainnets: ✅ (all 25+ mainnet chains)                                                    | Testnets: ✅ (all 25+ testnet chains)<br />Mainnets: ✅ (all 25+ mainnet chains)                                          |
+| Networks                      | EVM testnets: ✅<br />Mainnets: ❌                      | All [supported chains](/guides/supported-chains): 100+ EVM mainnets and testnets, plus Solana mainnet and devnet                                                    | All [supported chains](/guides/supported-chains): 100+ EVM mainnets and testnets, plus Solana mainnet and devnet                                          |
 | API Requests                  | 1,000,000 credits / month included | 10,000,000 credits / month included, then $1 per additional 100,000 credits | Custom (incl. lower pre-paid rate)                               |
 | Approximate User Operations   | \~1,300 user operations (\~950 if sponsored) / month included | \~13,000 user operations (\~9,500 if sponsored) / month included, then \~$0.0075 per additional user operation (\~$0.0105 if sponsored) | Custom (incl. lower pre-paid rate)                               |
 | Rate Limit                    | 500 requests / min                        | 5000 requests / min                                                                | Custom / Unlimited                                                          |
 | Bundler                       | ✅                       | ✅                                                     | ✅                                                           |
 | Verifying Paymaster Surcharge | Testnets: Free<br />Mainnets: N/A  | Testnets: Free<br />Mainnets: 10%                                    | Custom                                                           |
 | Overdraft Limit               | N/A                                | $0 by default, [contact us](https://t.me/pimlicoHQ) for a higher limit (billed immediately when reached)| Custom / Unlimited                                                    |
-| ERC-20 Paymasters             | ❌                     | USDC on Ethereum, Polygon, Base, Optimism, Arbitrum                                                               | Custom (up to 300+ tokens: ✅)<br />Custom ERC-20 tokens: ✅                                                     |
+| ERC-20 Paymasters             | ❌                     | USDC, USDT and EURe on major chains ([full list](/references/paymaster/erc20-paymaster/supported-tokens))        | Custom (up to 300+ tokens: ✅)<br />Custom ERC-20 tokens: ✅                                                     |
 | ERC-20 Paymaster Surcharge | N/A  | 10%                                    | Custom                                                           |
 | Support                       | Community Support: ✅                  | Community Support: ✅<br />Private Slack/Telegram Chat: ✅                             | Community Support: ✅<br />Private Slack/Telegram Chat: ✅<br />24x7x365 Phone: ✅ |
 | Uptime SLA                    | ❌                                | ❌                                                                         | ✅                                                           |
@@ -90,4 +92,4 @@ Why don’t we charge 10% based on what the bundler pays? Because we might not b
 
 ### Where do I find a gas tank to top up my paymaster?
 
-You do not need to top up you paymaster with Pimlico. We manage the paymaster for you automatically. We track your usage and generate an invoice for you at the end of the month which you can pay with your preferred payment method.
+You don't need to top up a paymaster with Pimlico. We manage the paymaster for you and front the gas you sponsor. We track your usage and generate an invoice for you at the end of the month, which you can pay with your preferred payment method. If you prefer, you can also pre-load a balance in the [dashboard](https://dashboard.pimlico.io).

@@ -109,7 +109,7 @@ There's no fixed price per recipient. Work it out from your own measurements:
 - **After sending**: `receipt.actualGasCost` is what the chunk actually cost in wei. Sum it across chunks for the run's gas spend.
 - **Billing**: sponsored gas is charged to your Pimlico balance ([verifying paymaster FAQ](/references/paymaster/verifying-paymaster/faqs)); in ERC-20 mode it is paid from the treasury's USDC.
 
-For predictable, high-volume sponsored workloads, the [Boosted Paymaster](/guides/boosted-paymaster/use-boosted-paymaster) (available on request) skips the paymaster round trips and bills the gas off-chain.
+For predictable, high-volume sponsored workloads, [Boosted Sponsorships](/guides/boosted-paymaster/use-boosted-paymaster) (available on request) cut latency by skipping the paymaster round trips.
 
 ## Related
 

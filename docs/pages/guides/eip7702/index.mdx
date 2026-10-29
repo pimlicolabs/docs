@@ -4,11 +4,19 @@ description: EIP-7702 lets an EOA delegate to smart contract code and gain smart
 
 # EIP-7702
 
-EIP-7702 is a proposal set for inclusion in the upcoming 2025 Pectra hardfork. The proposal introduces a new transaction type that allows EOA's to assign a "delegation designator" to their account. The delegation designator points to a smart contract and when a transaction is sent to the EOA, it executes the code at the designated address.
+EIP-7702 went live on Ethereum mainnet in the Pectra hard fork on May 7, 2025, and is live on many other EVM chains. It introduces a new transaction type that allows EOAs to assign a "delegation designator" to their account. The delegation designator points to a smart contract and when a transaction is sent to the EOA, it executes the code at the designated address.
 
 This unlocks huge benefits for EOAs, as they can now access smart account features such as batching transactions, gas sponsorships, passkeys as signers, and more.
 
 A full demo showing how to use ERC-4337 with EIP-7702 can be found [here](/guides/eip7702/demo).
+
+## Does Pimlico support EIP-7702?
+
+Yes. Pimlico's bundler and paymasters accept an EIP-7702 authorization (`eip7702Auth`) in [`eth_sendUserOperation`](/references/bundler/endpoints/eth_sendUserOperation) and [`eth_estimateUserOperationGas`](/references/bundler/endpoints/eth_estimateUserOperationGas), and support EntryPoint v0.8, which adds native EIP-7702 support. EIP-7702 and EntryPoint support for each chain is listed in the [Chain Details section of the Supported Chains page](/guides/supported-chains#chain-details).
+
+## Do I still need a bundler and paymaster with EIP-7702?
+
+To sponsor your users' gas, yes. EIP-7702 gives an EOA smart account code, but it doesn't change who pays for gas. To sponsor gas or let users pay it in ERC-20 tokens, send the account's transactions as ERC-4337 user operations: a bundler submits them and a paymaster covers the fee. See [ERC-4337 vs EIP-7702](/guides/eip7702/erc4337-vs-eip7702).
 
 ## FAQ
 
@@ -27,6 +35,6 @@ Note: Having users provide their private key would technically allow upgrading t
 
 ## How can I test it out?
 
-You can test out EIP-7702 with Pimlico's infrastructure on the Odyssey Testnet:
+You can test out EIP-7702 with Pimlico's infrastructure on Sepolia, or on any other chain where it is live.
 
 For a complete guide on how to test EIP-7702, check out our [step-by-step tutorial](/guides/eip7702/demo) which walks through the process of sending a sponsored userOperation from an EOA.

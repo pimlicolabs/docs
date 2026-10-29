@@ -1,8 +1,11 @@
 ---
+title: "ERC-4337 EntryPoint error codes (AA10–AA96)"
 description: Every ERC-4337 EntryPoint error code from AA10 to AA96, covering account deployment, prefund, paymaster and signature failures, with causes and fixes.
 ---
 
 # EntryPoint Errors
+
+EntryPoint errors are the `AA`-prefixed revert reasons the ERC-4337 EntryPoint contract returns when it rejects a user operation, and the first digit after `AA` tells you which step failed: 1 for account deployment, 2 for smart account validation, 3 for paymaster validation, 4 for verification gas, 5 for post-execution accounting and 9 for the bundler's `handleOps` call.
 
 We have listed all the errors that an ERC 4337 EntryPoint can return.
 

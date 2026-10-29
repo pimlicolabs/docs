@@ -1,8 +1,11 @@
 ---
+title: "AA30 paymaster not deployed: causes and fix"
 description: "AA30 paymaster not deployed: the paymaster address in paymasterAndData has no contract on this network. Check the first 20 bytes and the chain you are using."
 ---
 
 # AA30 paymaster not deployed
+
+`AA30 paymaster not deployed` is an ERC-4337 EntryPoint error that means no paymaster contract is deployed at the address given in the user operation's paymaster field on this network.
 
 :::info
 The first 20 bytes of the `paymasterAndData` field specify the address of the paymaster contract you are requesting to use.

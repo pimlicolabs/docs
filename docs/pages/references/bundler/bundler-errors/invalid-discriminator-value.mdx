@@ -1,8 +1,11 @@
 ---
+title: "\"Invalid discriminator value\" error"
 description: The "Invalid discriminator value" error means you sent a standard Ethereum RPC method to Pimlico's API, which only serves bundler and paymaster methods.
 ---
 
 # Validation error: Invalid discriminator value
+
+`Invalid discriminator value` is a validation error from Pimlico's API that means you called a JSON-RPC method it does not serve, usually a standard Ethereum method sent to the bundler URL.
 
 ```txt
 Validation error: Invalid discriminator value. Expected 'eth_chainId' | 'eth_supportedEntryPoints' | 'eth_coinbase' | 'eth_estimateUserOperationGas' | 'eth_sendUserOperation' | 'eth_getUserOperationByHash' | 'eth_getUserOperationReceipt' | 'pm_supportedEntryPoints' | 'pm_sponsorUserOperation' | 'web3_clientVersion' | 'pimlico_getUserOperationStatus' | 'pimlico_getUserOperationGasPrice' | 'pimlico_getBalance' | 'pm_validateSponsorshipPolicies' at \"method\""
