@@ -37,11 +37,15 @@ jobs:
       - name: Build
         run: pnpm build
 
+      # Every page links its Markdown twin at `<path>.md`, which Vercel serves
+      # from `/assets/md/<path>.md` through a rewrite in vercel.json. `serve`
+      # doesn't read vercel.json, so linkinator applies the same rewrite: the
+      # twins are still checked, at the file Vercel would serve.
       - name: Check links
         run: |
           npx --yes serve@14 -l 4173 dist/public &
           until curl -sf http://localhost:4173 > /dev/null; do sleep 1; done
-          npx --yes linkinator@6.1.1 http://localhost:4173 -r --skip '^https?://(?!localhost)' --concurrency 50 --verbosity error
+          npx --yes linkinator@6.1.1 http://localhost:4173 -r --skip '^https?://(?!localhost)' --url-rewrite-search '^(http://localhost:4173)/(?!assets/md/)(.+)\.md$' --url-rewrite-replace '$1/assets/md/$2.md' --concurrency 50 --verbosity error
 
   # Links to other sites, checked after production deploys and once a day.
   # Crawls the built site from a local server so each external URL is fetched
@@ -86,12 +90,13 @@ jobs:
       # GitHub answers a burst of them with 503s. No --retry: it waits out
       # every Retry-After on rate-limited hosts (mostly github.com), and the
       # report ignores 429s anyway.
+      # The Markdown twin rewrite is the same as in the internal job.
       - name: Check links
         run: |
           npx --yes serve@14 -l 4173 dist/public &
           until curl -sf http://localhost:4173 > /dev/null; do sleep 1; done
           SKIP=(--skip docs.pimlico.io --skip api.pimlico.io --skip dashboard.pimlico.io --skip docs-og-pimlico.vercel.app --skip "github.com/pimlicolabs/docs/edit" --skip "cdn-cgi\/l\/email-protection")
-          npx --yes linkinator@6.1.1 http://localhost:4173 -r --format json "${SKIP[@]}" --timeout 15000 --concurrency 20 > docs-links.json || true
+          npx --yes linkinator@6.1.1 http://localhost:4173 -r --format json "${SKIP[@]}" --url-rewrite-search '^(http://localhost:4173)/(?!assets/md/)(.+)\.md$' --url-rewrite-replace '$1/assets/md/$2.md' --timeout 15000 --concurrency 20 > docs-links.json || true
           npx --yes linkinator@6.1.1 https://pimlico.io -r --format json "${SKIP[@]}" --timeout 15000 --concurrency 5 > site-links.json || true
           jq -s '{links: (map(.links) | add)}' docs-links.json site-links.json > links-report.json
 

@@ -37,8 +37,8 @@ export default defineConfig({
 	// `baseUrl`. `base: false` drops the `<base href>` that `baseUrl` would add,
 	// which makes preview deployments load their scripts from production.
 	//
-	// Every page also advertises its Markdown twin (served at `<path>.md`, see
-	// the rewrite in vercel.json). The permissionless.js 0.1 pages that are
+	// Every page except the 404 page also advertises its Markdown twin (served
+	// at `<path>.md`, see the rewrite in vercel.json). The permissionless.js 0.1 pages that are
 	// their own canonical are `noindex, follow`: they document a superseded API
 	// and compete with the current reference pages. 0.1 pages that already
 	// point their canonical at a current page keep only the canonical, so the
@@ -55,13 +55,17 @@ export default defineConfig({
 			base: false,
 			...(canonical ? { canonical } : {}),
 			...(legacy && !canonical ? { meta: { robots: "noindex, follow" } } : {}),
-			link: [
-				{
-					rel: "alternate",
-					type: "text/markdown",
-					href: (route === "/" ? "/index" : route) + ".md",
-				},
-			],
+			// The 404 page has no Markdown twin, so it advertises none.
+			link:
+				route === "/404"
+					? []
+					: [
+							{
+								rel: "alternate",
+								type: "text/markdown",
+								href: (route === "/" ? "/index" : route) + ".md",
+							},
+						],
 			// attribution.js records the visitor's source and decorates
 			// dashboard/cal.com links; it and posthog.js cope with either load
 			// order. Both are async: React renders non-async <head> scripts
