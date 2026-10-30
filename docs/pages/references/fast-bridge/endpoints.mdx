@@ -1,0 +1,244 @@
+---
+description: "HTTP reference for Pimlico Fast Bridge: POST /execute, POST /execute/sync, GET /status/{requestId} and GET /addresses, with request bodies, authorizations and the bridge status object."
+---
+
+# Fast Bridge Endpoints
+
+Fast Bridge is an HTTP API. Requests and responses are JSON. For what the bridge does and the supported routes, see the [overview](/references/fast-bridge).
+
+## URL and authentication
+
+```
+https://api.pimlico.io/v1/bridge
+```
+
+Pass your Pimlico API key as the `apikey` query parameter, or as an `Authorization: Bearer YOUR_API_KEY` header.
+
+## Wire conventions
+
+| Field kind | Format |
+|---|---|
+| Amounts, `nonce` (Permit2), `value`, `gasLimit` | Decimal string in base units, such as `"25000000"` |
+| `validAfter`, `validBefore`, `deadline` | Unix timestamp in seconds, as a JSON number |
+| EVM addresses | `0x`-prefixed hex |
+| Solana addresses and signatures | base58 strings |
+| `nonce` (EIP-3009), `data`, `signature` | `0x`-prefixed hex |
+| Timestamps in responses | ISO 8601 strings |
+
+## POST /execute
+
+Validates a bridge request and starts it. Responds with `202 Accepted` and the [bridge status object](#the-bridge-status-object) as soon as the request is accepted, before any leg has run. Poll [`GET /status/{requestId}`](#get-statusrequestid) for the outcome.
+
+### Request body
+
+The body delivers either to a `recipient` or to `calls`, never both.
+
+- **originChainId** - `number`: The chain the tokens come from.
+- **destinationChainId** - `number`: The chain they're delivered on. Must differ from `originChainId`.
+- **originToken** - `string`: The token on the origin chain. Must be the token the authorization is for.
+- **destinationToken** - `string`: The token delivered on the destination chain.
+- **authorization** - `object`: How the user gives the bridge the tokens. See [Authorization objects](#authorization-objects).
+- **recipient** - `string` (optional): Who receives the tokens on the destination chain. On an EVM destination it defaults to `authorization.from`. Required on a Solana destination, as a Solana address. Not allowed with `calls`.
+- **calls** - `array` (optional): At least one call to run on an EVM destination chain, in order, from the bridge's `multicaller` address, which holds `amountOut` when they start. Not allowed with `recipient`, or on a Solana destination.
+  - **to** - `string`: The address to call.
+  - **data** - `string`: The calldata.
+  - **value** - `string` (optional): The native value to send with the call.
+- **gasLimit** - `string` (optional): Gas for the calls, greater than 0. When set, the destination operation isn't estimated. Only allowed with `calls`.
+
+### Authorization objects
+
+#### `eip3009`
+
+An EIP-3009 `ReceiveWithAuthorization`, signed by `from` over the token's EIP-712 domain.
+
+- **type** - `"eip3009"`
+- **token** - `string`: The origin token.
+- **from** - `string`: The token holder who signed.
+- **to** - `string`: Must be `approvalAddress` from [`GET /addresses`](#get-addresses).
+- **amount** - `string`: The amount to bridge, greater than 0. This is `amountIn`.
+- **validAfter** - `number`: The authorization can't be used before this time.
+- **validBefore** - `number`: The authorization can't be used from this time on.
+- **nonce** - `string`: The authorization's 32-byte nonce.
+- **signature** - `string`: The holder's signature.
+
+#### `permit2`
+
+A Permit2 `PermitTransferFrom` (SignatureTransfer), signed by `from` over the Permit2 domain. The holder must have approved Permit2 (`0x000000000022D473030F116dDEE9F6B43aC78BA3`) for the token.
+
+- **type** - `"permit2"`
+- **token** - `string`: The origin token.
+- **from** - `string`: The token holder who signed.
+- **spender** - `string`: Must be `approvalAddress` from [`GET /addresses`](#get-addresses).
+- **amount** - `string`: The amount to bridge, greater than 0. This is `amountIn`.
+- **nonce** - `string`: The Permit2 nonce, a uint256.
+- **deadline** - `number`: The last second the signature is valid.
+- **signature** - `string`: The holder's signature.
+
+#### `solana-transaction`
+
+Required when `originChainId` is `101` (Solana), and only allowed then.
+
+- **type** - `"solana-transaction"`
+- **transaction** - `string`: A base64 serialized Solana transaction that:
+  - makes exactly one transfer of `originToken` into the bridge's reserve token account, for the amount to bridge,
+  - uses a recent blockhash, not a durable nonce,
+  - has Pimlico's Solana fee payer as its fee payer, with that signature slot empty,
+  - is signed by every other signer, including the transfer's authority.
+
+The transfer's authority is the sender, and the sender's signature is the request ID.
+
+### Example request
+
+```shell
+curl -X POST "https://api.pimlico.io/v1/bridge/execute?apikey=YOUR_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+        "originChainId": 8453,
+        "destinationChainId": 42161,
+        "originToken": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "destinationToken": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+        "recipient": "0x4b2E8e4dFd4E9c3E6Fe7B2dE1f8A3Cc2b6E9f0a1",
+        "authorization": {
+            "type": "eip3009",
+            "token": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+            "from": "0x4b2E8e4dFd4E9c3E6Fe7B2dE1f8A3Cc2b6E9f0a1",
+            "to": "0xAPPROVAL_ADDRESS_FROM_ADDRESSES",
+            "amount": "25000000",
+            "validAfter": 0,
+            "validBefore": 1793402193,
+            "nonce": "0x5f0c...e1a9",
+            "signature": "0x8d2b...1c"
+        }
+    }'
+```
+
+### Example response
+
+`202 Accepted`
+
+```json
+{
+  "requestId": "0x7a3f...c21e",
+  "status": "pending",
+  "originToken": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  "destinationToken": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+  "amountIn": "25000000",
+  "fee": "0",
+  "amountOut": "25000000",
+  "origin": { "chainId": 8453, "status": "pending" },
+  "destination": {
+    "chainId": 42161,
+    "recipient": "0x4b2E8e4dFd4E9c3E6Fe7B2dE1f8A3Cc2b6E9f0a1",
+    "status": "pending"
+  },
+  "createdAt": "2026-10-30T12:00:00.000Z"
+}
+```
+
+## POST /execute/sync
+
+Takes the same body as [`POST /execute`](#post-execute), then waits for the request to finish before it responds. Responds with `200 OK` and the [bridge status object](#the-bridge-status-object).
+
+### Query parameters
+
+- **timeout** - `number` (optional): Seconds to wait for a final status, from 1 to 300. Defaults to 30.
+
+If the timeout passes first, the response has `status: "pending"` and the request keeps running. Poll [`GET /status/{requestId}`](#get-statusrequestid) for the outcome.
+
+### Example response
+
+`200 OK`
+
+```json
+{
+  "requestId": "0x7a3f...c21e",
+  "status": "success",
+  "originToken": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  "destinationToken": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+  "amountIn": "25000000",
+  "fee": "0",
+  "amountOut": "25000000",
+  "origin": {
+    "chainId": 8453,
+    "status": "confirmed",
+    "transactionHash": "0x1d9e...04b7",
+    "confirmedAt": "2026-10-30T12:00:01.204Z"
+  },
+  "destination": {
+    "chainId": 42161,
+    "recipient": "0x4b2E8e4dFd4E9c3E6Fe7B2dE1f8A3Cc2b6E9f0a1",
+    "status": "confirmed",
+    "transactionHash": "0x93c4...7f2d",
+    "confirmedAt": "2026-10-30T12:00:01.712Z"
+  },
+  "createdAt": "2026-10-30T12:00:00.000Z",
+  "completedAt": "2026-10-30T12:00:01.712Z"
+}
+```
+
+## GET /status/\{requestId\}
+
+Returns the current [bridge status object](#the-bridge-status-object) of a request.
+
+### Path parameters
+
+- **requestId** - `string`: The `requestId` from the response of `POST /execute` or `POST /execute/sync`. A 32-byte hex string for an EVM origin, or a base58 transaction signature for a Solana origin.
+
+Only the Pimlico account that sent the request can read its status, for 24 hours after it was sent. Otherwise the response is `404` with `REQUEST_NOT_FOUND`.
+
+### Example request
+
+```shell
+curl "https://api.pimlico.io/v1/bridge/status/0x7a3f...c21e?apikey=YOUR_API_KEY"
+```
+
+## GET /addresses
+
+Returns the bridge's addresses. They're the same on every EVM chain.
+
+### Example request
+
+```shell
+curl "https://api.pimlico.io/v1/bridge/addresses?apikey=YOUR_API_KEY"
+```
+
+### Example response
+
+```json
+{
+  "approvalAddress": "0x...",
+  "multicaller": "0x..."
+}
+```
+
+### Return fields
+
+- **approvalAddress** - `string`: Who every EVM authorization must be made out to: `to` in `eip3009`, `spender` in `permit2`.
+- **multicaller** - `string`: The `msg.sender` of your `calls` on the destination chain. It holds `amountOut` when your calls start.
+
+## The bridge status object
+
+Every endpoint except `GET /addresses` returns this object.
+
+- **requestId** - `string`: The request's ID, derived from the authorization.
+- **status** - `"pending" | "success" | "failed" | "refunded"`: See [how a request runs](/references/fast-bridge#how-a-request-runs).
+- **originToken** - `string`: The origin token.
+- **destinationToken** - `string`: The destination token.
+- **amountIn** - `string`: The amount taken on the origin chain, in the origin token's base units.
+- **fee** - `string`: The bridge fee, in the origin token's base units.
+- **amountOut** - `string`: The amount delivered on the destination chain, in the destination token's base units: `amountIn` minus `fee`, converted to the destination token's decimals.
+- **origin** - `object`: The origin leg.
+  - **chainId** - `number`
+  - **status** - `"pending" | "submitted" | "confirmed" | "reverted" | "failed"`
+  - **transactionHash** - `string`: Set once the leg is `submitted`, `confirmed` or `reverted`.
+  - **confirmedAt** - `string`: Set once the leg is `confirmed` or `reverted`.
+  - **error** - `object`: Set when the leg is `reverted` or `failed`. See [leg errors](/references/fast-bridge/errors#leg-errors).
+- **destination** - `object`: The destination leg.
+  - **chainId** - `number`
+  - **recipient** - `string`: The `recipient`, or the bridge's `multicaller` address when the request has `calls`.
+  - **status** - `"pending" | "submitted" | "confirmed" | "reverted" | "failed" | "cancelled"`. `cancelled` means the origin leg didn't confirm, so nothing was delivered.
+  - **transactionHash** - `string`: Set once the leg is `submitted`, `confirmed` or `reverted`.
+  - **confirmedAt** - `string`: Set once the leg is `confirmed` or `reverted`.
+  - **error** - `object`: Set when the leg is `reverted` or `failed`. See [leg errors](/references/fast-bridge/errors#leg-errors).
+- **createdAt** - `string`: When the request was accepted.
+- **completedAt** - `string`: When the request reached a final status. Not set while it's `pending`.
