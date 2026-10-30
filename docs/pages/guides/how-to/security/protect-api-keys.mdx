@@ -10,6 +10,16 @@ Keeping your API keys secure is essential. Here are three main ways to protect t
 - Use sponsorship policies.
 - Use a proxy server to handle requests to Pimlico.
 
+:::warning[An exposed key sponsors arbitrary operations]
+Your API key authorizes sponsorship for **any** user operation the caller builds, so
+anyone holding it can spend your budget on arbitrary on-chain actions, and if those
+actions are used in an attack, you may be held liable. Treat a key shipped in a
+browser or mobile app, or committed to a repository, as public: origin and
+user-agent restrictions rely on headers a script can forge. Build and validate user
+operations on a backend that holds the key, and cap the spend with a [sponsorship
+policy](#use-sponsorship-policies).
+:::
+
 ## Restrict Access to Your API Keys
 
 You can limit how your API keys are used by modifying their permissions on the [API Keys page](https://dashboard.pimlico.io/apikeys). Restrictions can include:
