@@ -1,0 +1,40 @@
+## How to use the ERC-20 Paymaster
+
+This guide will show you how to use the `prepareUserOperationForErc20Paymaster` function in permissionless.
+
+This function lets you approve only the required amount of tokens for your userOperation. The approval call will be injected into the userOperation's calldata before it is sent.
+
+### Steps
+
+:::steps
+#### Define imports and create the clients
+
+```ts
+// [!include ~/snippets/erc20-paymaster/use-paymaster-without-unlimited-approval.ts:clients]
+```
+
+#### Add the `prepareUserOperationForErc20Paymaster` override to `createSmartAccountClient`
+
+This override will replace viem's `prepareUserOperation` action.
+
+```ts
+// [!include ~/snippets/erc20-paymaster/use-paymaster-without-unlimited-approval.ts:prepareUserOperation]
+```
+
+By default, `prepareUserOperationForErc20Paymaster` does **not** override the user's ERC-20 token balance when estimating.\
+If you want to estimate the operation without relying on the user's actual token balance (for example, when the user hasn't received tokens yet), you can pass the `balanceOverride` option as `true` like:
+
+```ts
+prepareUserOperation: prepareUserOperationForErc20Paymaster(pimlicoClient, { balanceOverride: true }),
+```
+
+#### Call `sendTransaction`
+
+Calling sendTransaction will now automatically approve the required amount of tokens for your userOperation.
+
+If the sender has a sufficient existing approval, then the additional approval call will not be added to the calldata.
+
+```ts
+// [!include ~/snippets/erc20-paymaster/use-paymaster-without-unlimited-approval.ts:sendOp]
+```
+:::

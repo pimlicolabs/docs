@@ -1,0 +1,14 @@
+import{u as s,j as e}from"./index-CPZcyEe9.js";const o={title:"How to use the bundler",description:"undefined"};function t(r){const n={a:"a",aside:"aside",div:"div",h1:"h1",header:"header",li:"li",p:"p",strong:"strong",ul:"ul",...s(),...r.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.header,{children:e.jsxs(n.h1,{id:"how-to-use-the-bundler",children:["How to use the bundler",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#how-to-use-the-bundler",children:e.jsx(n.div,{"data-autolink-icon":!0})})]})}),`
+`,e.jsxs(n.aside,{"data-callout":"tip",children:[e.jsx(n.strong,{"data-callout-title":!0,children:"Tip"}),e.jsxs(n.p,{children:["We recommend using ",e.jsx(n.a,{href:"/references/permissionless/reference/smart-account-actions/sendUserOperation",children:"permissionless.js"})," as the SDK to interact with the bundler as it provides type-safe wrappers for all bundler methods."]})]}),`
+`,e.jsx(n.p,{children:"ERC-4337 bundlers are relayers that bundle user operations into transactions and submit them to the blockchain. You can interact with bundlers using standard JSON-RPC requests."}),`
+`,e.jsxs(n.p,{children:["To get access to the bundler, you need to use your Pimlico API key. ",e.jsx(n.a,{href:"/guides/create-api-key",children:"Create one here"})," if you don't have one. Using the API key, you can make the following JSON-RPC requests to the bundler:"]}),`
+`,e.jsxs(n.ul,{children:[`
+`,e.jsx(n.li,{children:e.jsx(n.a,{href:"/references/bundler/endpoints/eth_sendUserOperation",children:"eth_sendUserOperation"})}),`
+`,e.jsx(n.li,{children:e.jsx(n.a,{href:"/references/bundler/endpoints/eth_estimateUserOperationGas",children:"eth_estimateUserOperationGas"})}),`
+`,e.jsx(n.li,{children:e.jsx(n.a,{href:"/references/bundler/endpoints/eth_getUserOperationReceipt",children:"eth_getUserOperationReceipt"})}),`
+`,e.jsx(n.li,{children:e.jsx(n.a,{href:"/references/bundler/endpoints/eth_getUserOperationByHash",children:"eth_getUserOperationByHash"})}),`
+`,e.jsx(n.li,{children:e.jsx(n.a,{href:"/references/bundler/endpoints/eth_supportedEntryPoints",children:"eth_supportedEntryPoints"})}),`
+`,e.jsx(n.li,{children:e.jsx(n.a,{href:"/references/bundler/endpoints/pimlico_getUserOperationGasPrice",children:"pimlico_getUserOperationGasPrice"})}),`
+`,e.jsx(n.li,{children:e.jsx(n.a,{href:"/references/bundler/endpoints/pimlico_getUserOperationStatus",children:"pimlico_getUserOperationStatus"})}),`
+`]}),`
+`,e.jsxs(n.p,{children:["If you would like an end-to-end example of how to use the bundler, please refer to ",e.jsx(n.a,{href:"/references/permissionless/tutorial/tutorial-1",children:"tutorial 1"})," of the permissionless.js documentation."]})]})}function a(r={}){const{wrapper:n}={...s(),...r.components};return n?e.jsx(n,{...r,children:e.jsx(t,{...r})}):t(r)}export{a as default,o as frontmatter};

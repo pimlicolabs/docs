@@ -1,0 +1,5 @@
+## waitForUserOperationReceipt
+
+`SmartAccountClient` extends viem's `BundlerClient` and so extends the `waitForUserOperationReceipt` method.
+
+You can view the full list of options for `waitForUserOperationReceipt` [in viem's documentation](https://viem.sh/account-abstraction/actions/bundler/waitForUserOperationReceipt).

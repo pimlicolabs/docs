@@ -1,0 +1,207 @@
+## The Sponsorship Policy object
+
+### Attributes
+
+:::note
+* **id:** `string`
+
+The unique identifier for the sponsorship policy. Maximum 255 characters.
+:::
+
+:::note
+* **policy\_name:** `string`
+
+The name of the sponsorship policy. Maximum 255 characters.
+:::
+
+:::note
+* **policy\_status:** `enum`
+
+The status of the sponsorship policy. Possible values are `active`, `inactive`, and `deleted`.
+:::
+
+:::note
+* **created\_at:** `string`
+
+The date and time the sponsorship policy was created formatted as an ISO 8601 string (e.g. 2025-05-23T15:23:38Z).
+:::
+
+:::note
+* **start\_time:** `string` or `null`
+
+The date and time the sponsorship policy will become active formatted as an ISO 8601 string (e.g. 2025-05-23T15:23:38Z). If `null`, the policy is active immediately.
+:::
+
+:::note
+* **end\_time:** `string` or `null`
+
+The date and time the sponsorship policy will become inactive formatted as an ISO 8601 string (e.g. 2025-05-23T15:23:38Z). If `null`, there is no end time after which the policy is inactive. Must be in the future.
+:::
+
+:::note
+* **webhook\_endpoint:** `string` or `null`
+
+The URL of the webhook endpoint to call when a user operation is sponsored under this policy.
+:::
+
+:::note
+* **webhook\_enabled:** `boolean` or `null`
+
+Whether the webhook is enabled for this policy.
+:::
+
+::::note
+* **chain\_ids:** `object` or `null`
+
+An object containing the chain IDs that are allowed to use the sponsorship policy.
+
+:::note
+* **allowlist:** `array` or `null`
+
+An array of chain IDs that are allowed to use the sponsorship policy. Must contain between 1 and 1000 unique chain IDs, and all must be supported by Pimlico. If `null`, the policy is valid for all chains.
+:::
+::::
+
+::::::note
+* **limits:** `object` or `null`
+
+An object containing the spending limits for the sponsorship policy. The object has the following attributes:
+
+:::::note
+* **global:** `object` or `null`
+
+An object containing the global spending limits across all users for the sponsorship policy.
+
+::::note
+* **user\_operation\_spending:** `object` or `null`
+
+An object containing the spending limit for user operations.
+
+:::note
+* **amount:** `number`
+
+The spending limit amount. Must be greater than 0. The API expects amounts to be provided in a currency's smallest unit. For example, to set the limit to 10 USD, provide an amount value of 1000 (that is, 1000 cents).
+
+* **currency:** `enum`
+
+The currency of the spending limit amount. Currently only `USD` is supported.
+:::
+::::
+
+:::note
+* **maximum\_user\_operation\_count:** `number` or `null`
+
+The maximum number of user operations allowed. Must be greater than or equal to 0.
+:::
+
+:::note
+* **reset\_interval:** `enum` or `null`
+
+The interval at which the limits reset. Possible values are `never`, `daily`, `weekly`, or `monthly`. Default is `never`.
+:::
+:::::
+
+:::::note
+* **user:** `object` or `null`
+
+An object containing the per-user spending limits for the sponsorship policy.
+
+::::note
+* **user\_operation\_spending:** `object` or `null`
+
+An object containing the spending limit for user operations per user.
+
+:::note
+* **amount:** `number`
+
+The spending limit amount. Must be greater than 0.
+
+* **currency:** `enum`
+
+The currency of the spending limit amount. Currently only `USD` is supported.
+:::
+::::
+
+:::note
+* **maximum\_user\_operation\_count:** `number` or `null`
+
+The maximum number of user operations allowed per user. Must be greater than or equal to 0.
+:::
+
+:::note
+* **reset\_interval:** `enum` or `null`
+
+The interval at which the user limits reset. Possible values are `never`, `daily`, `weekly`, or `monthly`. Default is `never`.
+:::
+:::::
+
+:::::note
+* **user\_operation:** `object` or `null`
+
+An object containing the per-user-operation spending limits for the sponsorship policy.
+
+::::note
+* **user\_operation\_spending:** `object` or `null`
+
+An object containing the spending limit for each individual user operation.
+
+:::note
+* **amount:** `number`
+
+The maximum amount allowed for a single user operation. Must be greater than 0.
+
+* **currency:** `enum`
+
+The currency of the spending limit amount. Currently only `USD` is supported.
+:::
+::::
+:::::
+::::::
+
+### Example
+
+```json
+{
+  "id": "sp_tangible_knight",
+  "policy_name": "Pimlico Example Gas Fund",
+  "policy_status": "active",
+  "created_at": "2025-05-23T15:23:38Z",
+  "start_time": null,
+  "end_time": null,
+  "webhook_endpoint": "https://example.com/webhook",
+  "webhook_enabled": true,
+  "chain_ids": {
+    "allowlist": [
+      10,
+      8453,
+      34443,
+      690,
+      7777777
+    ]
+  },
+  "limits": {
+    "global": {
+      "user_operation_spending": {
+        "amount": 10000000,
+        "currency": "USD"
+      },
+      "maximum_user_operation_count": 1000,
+      "reset_interval": "monthly"
+    },
+    "user": {
+      "user_operation_spending": {
+        "amount": 100000,
+        "currency": "USD"
+      },
+      "maximum_user_operation_count": 10,
+      "reset_interval": "daily"
+    },
+    "user_operation": {
+      "user_operation_spending": {
+        "amount": 10000,
+        "currency": "USD"
+      }
+    }
+  }
+}
+```

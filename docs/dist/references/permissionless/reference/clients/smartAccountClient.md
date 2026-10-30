@@ -1,0 +1,43 @@
+## Smart Account Client
+
+A Smart Account Client is an almost drop-in replacement for a standard viem [walletClient](https://viem.sh/docs/clients/wallet) but for managing smart accounts instead of EOA accounts. In addition, a Smart Account Client also contains, depending on the underlying smart account implementation used, a few extra actions that are specific to smart accounts.
+
+To create a Smart Account Client, use the `createSmartAccountClient` function.
+
+### Import
+
+```ts twoslash
+import { createSmartAccountClient } from 'permissionless'
+```
+
+### Usage
+
+Initialize a Smart Account Client with your desired account (which can be created using a function like `toSimpleSmartAccount`), chain, bundler transport, and optionally a sponsorUserOperation middleware by using the `createSmartAccountClient` method:
+
+```ts
+import {  http } from "viem"
+import { sepolia } from "viem/chains"
+import { createSmartAccountClient } from "permissionless"
+import { simpleSmartAccount } from "./simpleSmartAccount"; // created elsewhere
+import { pimlicoClient } from "./pimlicoClient"; // created elsewhere
+
+const pimlicoBundlerUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=<PIMLICO_API_KEY>`
+
+const smartAccountClient = createSmartAccountClient({
+    account: simpleSmartAccount,
+    chain: sepolia,
+    bundlerTransport: http(pimlicoBundlerUrl),
+    paymaster: pimlicoClient, // optional
+    userOperation: {
+        estimateFeesPerGas: async () => {
+            return (await pimlicoClient.getUserOperationGasPrice()).fast // only when using pimlico bundler
+        },
+    }
+})
+```
+
+Then you can consume Smart Account Actions and access properties:
+
+```ts
+const smartAccountAddress = await smartAccountClient.account.address
+```

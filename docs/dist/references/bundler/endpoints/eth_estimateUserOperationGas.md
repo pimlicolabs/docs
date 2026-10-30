@@ -1,0 +1,283 @@
+## eth\_estimateUserOperationGas
+
+This method simulates the user operation and estimates the appropriate gas limits for it. If the operation is not successful, it will return an error.
+
+:::tip[Tip]
+This method will *not* revert if the `signature` field in the user operation fails. However, most account implementations require the signature to be well formed, which usually means it must have the correct length.
+
+For SimpleAccount, you can use the following dummy signature to put in the `signature` field during gas estimation:
+
+```txt
+0xfffffffffffffffffffffffffffffff0000000000000000000000000000000007aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1c
+```
+:::
+
+### EntryPoint 0.7 & 0.8
+
+:::warning[Warning]
+The EntryPoint 0.7 & 0.8 API expects an `UnpackedUserOperation` instead of a `PackedUserOperation`.
+According to the spec it is bundler's responsibility to pack the userOp before sending it to the EntryPoint.
+So make sure to send an `UnpackedUserOperation` to the bundler.
+:::
+
+:::tip[Tip]
+If the UserOperation's callData fails during estimation, the bundler will return the revert reason.
+:::
+
+:::tip[Tip]
+Estimations are done with a balance override on the UserOperation's sender, this allows you to estimate the gas cost even if the sender has no funds. However, if the userOperation is sent onchain when the sender has no balance, it will revert during the callphase due to out of funds.
+:::
+
+#### Usage
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "eth_estimateUserOperationGas",
+  "params": [
+    {
+      "sender": "0x5a6b47F4131bf1feAFA56A05573314BcF44C9149",
+      "nonce": "0x845adb2c711129d4f3966735ed98a9f09fc4ce5700000000000000000000",
+      "factory": "0xd703aaE79538628d27099B8c4f621bE4CCd142d5",
+      "factoryData": "0xc5265d5d000000000000000000000000aac5d4240af87249b3f71bc8e4a2cae074a3e419...",
+      "callData": "0xe9ae5c5300000000000000000000000000000000000000000000000000000000000000000000000000...",
+      "callGasLimit": "0x0",
+      "verificationGasLimit": "0x0",
+      "preVerificationGas": "0x0",
+      "maxFeePerGas": "0x7a5cf70d5",
+      "maxPriorityFeePerGas": "0x3b9aca00",
+      "paymaster": null,
+      "paymasterVerificationGasLimit": null,
+      "paymasterPostOpGasLimit": null,
+      "paymasterData": null,
+      "signature": "0xfffffffffffffffffffffffffffffff0000000000000000000000000000000007aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1c"
+    },
+    "0x0000000071727De22E5E9d8BAf0edAc6f37da032"
+  ],
+  "id": 1
+}
+```
+
+#### Returns
+
+* **Type:** `Object`
+
+An object containing the estimated gas values for the user operation.
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "preVerificationGas": "0xd3e3",
+    "verificationGasLimit": "0x60b01",
+    "callGasLimit": "0x13880",
+    "paymasterVerificationGasLimit": "0x0",
+    "paymasterPostOpGasLimit": "0x0"
+  }
+}
+```
+
+#### Parameters
+
+The method accepts an array with the following parameters:
+
+1. **userOperation** - `Object`: The user operation object containing the following fields:
+
+   * **sender** - `Address`: The account making the operation.
+
+   * **nonce** - `HexNumber`: Unique identifier for the request from this sender.
+
+   * **factory** - `Address (optional)`: The factory contract address.
+
+   * **factoryData** - `HexData (optional)`: The factory data for account creation.
+
+   * **callData** - `HexData`: The data to pass to the sender during the main execution call.
+
+   * **callGasLimit** - `HexNumber`: The amount of gas to allocate the main execution call.
+
+   * **verificationGasLimit** - `HexNumber`: The amount of gas to allocate for the verification step.
+
+   * **preVerificationGas** - `HexNumber`: The amount of gas to pay for to compensate the bundler for pre-verification execution and calldata.
+
+   * **maxFeePerGas** - `HexNumber`: Maximum fee per gas (similar to EIP-1559 max\_fee\_per\_gas).
+
+   * **maxPriorityFeePerGas** - `HexNumber`: Maximum priority fee per gas (similar to EIP-1559 max\_priority\_fee\_per\_gas).
+
+   * **paymaster** - `Address (optional)`: Address of paymaster sponsoring the transaction, or null if none.
+
+   * **paymasterVerificationGasLimit** - `HexNumber (optional)`: The amount of gas to allocate for the verification step of the paymaster, or null if no paymaster.
+
+   * **paymasterPostOpGasLimit** - `HexNumber (optional)`: The amount of gas to allocate for the post-operation step of the paymaster, or null if no paymaster.
+
+   * **paymasterData** - `HexData (optional)`: The data to pass to the paymaster during the verification step, or null if no paymaster.
+
+   * **signature** - `HexData`: The signature data. For gas estimation, this can be a dummy signature.
+
+   * **eip7702Auth** - `SignedAuthorization (optional)`: The EIP-7702 authorization data. This can be a dummy authorization for estimations.
+
+2. **entryPoint** - `Address`: The entry point contract address.
+
+##### SignedAuthorization Type
+
+```typescript
+{
+    address: Address,      // addressSchema - The contract address for the authorization
+    chainId: Hex,                  // hexNumberSchema transformed to Hex - The chain ID
+    nonce: Hex,                    // hexNumberSchema transformed to Hex - The nonce
+    r: Hex,                        // hexData32Schema transformed to Hex - The r component of the signature
+    s: Hex,                        // hexData32Schema transformed to Hex - The s component of the signature
+    v: HexString,                  // hexNumberSchema - The v component of the signature
+    yParity: HexNumber             // hexNumberSchema transformed to Hex - The y-parity value
+}
+```
+
+### EntryPoint 0.6
+
+#### Usage
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "eth_estimateUserOperationGas",
+  "params": [
+    {
+      "sender": "0xb341FEAFaF71b09089d03B7D114599f8F491EE45",
+      "nonce": "0x0",
+      "initCode": "0x5de4839a76cf55d0c90e2061ef4386d962E15ae3296601cd0000000000000000000000000da6a956b9488ed4dd761e59f52fdc6c8068e6b5...",
+      "callData": "0x5194544700000000000000000000000000000000000000000000000000000000000000000000000000...",
+      "callGasLimit": "0x0",
+      "verificationGasLimit": "0x0",
+      "preVerificationGas": "0x0",
+      "maxPriorityFeePerGas": "0x3b9aca00",
+      "maxFeePerGas": "0x7a5cf70d5",
+      "paymasterAndData": "0x",
+      "signature": "0x00000000fffffffffffffffffffffffffffffff0000000000000000000000000000000007aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1c"
+    },
+    "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
+  ],
+  "id": 1
+}
+```
+
+#### Returns
+
+* **Type:** `Object`
+
+An object containing the estimated gas values for the user operation.
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "preVerificationGas": "0xdf55",
+    "verificationGas": "0x52503",
+    "verificationGasLimit": "0x52503",
+    "callGasLimit": "0x13880"
+  }
+}
+```
+
+#### Parameters
+
+The method accepts an array with the following parameters:
+
+1. **userOperation** - `Object`: The user operation object containing the following fields:
+
+   * **sender** - `Address`: The account making the operation.
+
+   * **nonce** - `HexNumber`: Unique identifier for the request from this sender.
+
+   * **initCode** - `HexData`: The initialization code for account creation.
+
+   * **callData** - `HexData`: The data to pass to the sender during the main execution call.
+
+   * **callGasLimit** - `HexNumber`: The amount of gas to allocate the main execution call.
+
+   * **verificationGasLimit** - `HexNumber`: The amount of gas to allocate for the verification step.
+
+   * **preVerificationGas** - `HexNumber`: The amount of gas to pay for to compensate the bundler for pre-verification execution and calldata.
+
+   * **maxFeePerGas** - `HexNumber`: Maximum fee per gas (similar to EIP-1559 max\_fee\_per\_gas).
+
+   * **maxPriorityFeePerGas** - `HexNumber`: Maximum priority fee per gas (similar to EIP-1559 max\_priority\_fee\_per\_gas).
+
+   * **paymasterAndData** - `HexData`: The address of the paymaster sponsoring the transaction, followed by extra data to send to the paymaster.
+
+   * **signature** - `HexData`: The signature data. For gas estimation, this can be a dummy signature.
+
+   * **eip7702Auth** - `SignedAuthorization`: (Optional) The EIP-7702 authorization data. This can be a dummy authorization for estimations.
+
+2. **entryPoint** - `Address`: The entry point contract address.
+
+##### SignedAuthorization Type
+
+```typescript
+{
+    address: Address,      // addressSchema - The contract address for the authorization
+    chainId: Hex,                  // hexNumberSchema transformed to Hex - The chain ID
+    nonce: Hex,                    // hexNumberSchema transformed to Hex - The nonce
+    r: Hex,                        // hexData32Schema transformed to Hex - The r component of the signature
+    s: Hex,                        // hexData32Schema transformed to Hex - The s component of the signature
+    v: HexString,                  // hexNumberSchema - The v component of the signature
+    yParity: HexNumber             // hexNumberSchema transformed to Hex - The y-parity value
+}
+```
+
+### Using state overrides
+
+You can use state overrides to simulate the user operation with a different state the same way you would with [`eth_call`](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-eth#eth-call) by including an optional third parameter. This is supported for both EntryPoint 0.6 and 0.7 & 0.8.
+
+#### Usage
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "eth_estimateUserOperationGas",
+  "params": [
+    {
+      "sender": "0xa203fDb8bC335F86016F635b85389B62B189E417",
+      "nonce": "0x35bf2a054f92f3730b87582ef223c8d663f9eb01158154750000000000000000",
+      "initCode": "0x",
+      "callData": "0xb61d27f6000000000000000000000000530fff22987e137e7c8d2adcc4c15eb45b4fa752...",
+      "callGasLimit": "0x115b5c0",
+      "verificationGasLimit": "0x249f0",
+      "preVerificationGas": "0xeb11",
+      "maxPriorityFeePerGas": "0x12a05f200",
+      "maxFeePerGas": "0x5b08082fa",
+      "paymasterAndData": "0x",
+      "signature": "0xa6cc6589c8bd561cfd68d7b6b0757ef6f208e7438782939938498eee7d703260137856c840c491b3d415956265e81bf5c2184a725be2abfc365f7536b6af525e1c"
+    },
+    "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",
+    {
+      "0xd9c9cd5f6779558b6e0ed4e6acf6b1947e7fa1f3": {
+        "balance": "0xde0b6b3a7640000"
+      },
+      "0xebe8efa441b9302a0d7eaecc277c09d20d684540": {
+        "stateDiff": {
+          "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80": "0x21"
+        }
+      }
+    }
+  ],
+  "id": 1
+}
+```
+
+#### Parameters
+
+The method accepts an array with the following parameters:
+
+1. **userOperation** - `Object`: The user operation object (see the structure in the EntryPoint 0.6 or 0.7 & 0.8 sections above).
+
+2. **entryPoint** - `Address`: The entry point contract address.
+
+3. **stateOverrides** - `Object`: (Optional) State overrides to apply for the simulation.
+   * Each key is an `Address`
+   * Each value is an object that can contain:
+     * **balance** - `HexNumber (optional)` The balance to set for the address
+     * **nonce** - `HexNumber (optional)` The nonce to set for the address
+     * **code** - `HexData (optional)` The code to set for the address
+     * **state** - `Object (optional)` Complete state to set, where each key is a 32-byte hex storage slot and each value is a 32-byte hex value
+     * **stateDiff** - `Object (optional)` State differences to apply, where each key is a 32-byte hex storage slot and each value is a 32-byte hex value

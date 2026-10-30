@@ -1,0 +1,9 @@
+## Chain is not supported
+
+The chain you are trying to use is not supported by Pimlico.
+
+To see the list of supported chains, take a look at the relevant [bundler](/guides/supported-chains) and [paymaster](/guides/supported-chains) pages.
+
+### Adding new chains
+
+* [Reach out to us](https://t.me/pimlicoHQ) if you would like to see support for a new chain.

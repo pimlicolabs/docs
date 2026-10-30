@@ -1,0 +1,5 @@
+## prepareUserOperation
+
+`SmartAccountClient` extends viem's `BundlerClient` and so extends the `prepareUserOperation` method.
+
+You can view the full list of options for `prepareUserOperation` [in viem's documentation](https://viem.sh/account-abstraction/actions/bundler/prepareUserOperation).

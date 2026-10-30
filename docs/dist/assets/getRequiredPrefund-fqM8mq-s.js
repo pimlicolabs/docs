@@ -1,0 +1,21 @@
+import{u as n,j as e}from"./index-CPZcyEe9.js";import d from"./VersionWarning-BGsF7-e6.js";const l={title:"getRequiredPrefund",description:"undefined"};function i(s){const r={a:"a",code:"code",div:"div",h1:"h1",h2:"h2",h3:"h3",header:"header",li:"li",p:"p",pre:"pre",span:"span",strong:"strong",ul:"ul",...n(),...s.components};return e.jsxs(e.Fragment,{children:[e.jsx(d,{version:"0.1"}),`
+`,e.jsx(r.header,{children:e.jsxs(r.h1,{id:"getrequiredprefund",children:["getRequiredPrefund",e.jsx(r.a,{"aria-hidden":"true",tabIndex:"-1",href:"#getrequiredprefund",children:e.jsx(r.div,{"data-autolink-icon":!0})})]})}),`
+`,e.jsx(r.p,{children:"Returns the minimum required funds in wei in the senders's smart account to execute the user operation."}),`
+`,e.jsxs(r.h2,{id:"import",children:["Import",e.jsx(r.a,{"aria-hidden":"true",tabIndex:"-1",href:"#import",children:e.jsx(r.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsx(r.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsx(r.code,{children:e.jsxs(r.span,{className:"line",children:[e.jsx(r.span,{style:{color:"#D73A49","--shiki-dark":"#F47067"},children:"import"}),e.jsx(r.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:" { getRequiredPrefund } "}),e.jsx(r.span,{style:{color:"#D73A49","--shiki-dark":"#F47067"},children:"from"}),e.jsx(r.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:' "permissionless"'})]})})}),`
+`,e.jsxs(r.h2,{id:"usage",children:["Usage",e.jsx(r.a,{"aria-hidden":"true",tabIndex:"-1",href:"#usage",children:e.jsx(r.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsx(r.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsxs(r.code,{children:[e.jsxs(r.span,{className:"line",children:[e.jsx(r.span,{style:{color:"#D73A49","--shiki-dark":"#F47067"},children:"import"}),e.jsx(r.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:" { getRequiredPrefund } "}),e.jsx(r.span,{style:{color:"#D73A49","--shiki-dark":"#F47067"},children:"from"}),e.jsx(r.span,{style:{color:"#032F62","--shiki-dark":"#96D0FF"},children:' "permissionless"'})]}),`
+`,e.jsx(r.span,{className:"line","data-empty-line":!0,children:" "}),`
+`,e.jsxs(r.span,{className:"line",children:[e.jsx(r.span,{style:{color:"#D73A49","--shiki-dark":"#F47067"},children:"const"}),e.jsx(r.span,{style:{color:"#005CC5","--shiki-dark":"#6CB6FF"},children:" requiredPrefund"}),e.jsx(r.span,{style:{color:"#D73A49","--shiki-dark":"#F47067"},children:" ="}),e.jsx(r.span,{style:{color:"#6F42C1","--shiki-dark":"#DCBDFB"},children:" getRequiredPrefund"}),e.jsx(r.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:"({"})]}),`
+`,e.jsx(r.span,{className:"line",children:e.jsx(r.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:"    userOperation"})}),`
+`,e.jsx(r.span,{className:"line",children:e.jsx(r.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:"})"})}),`
+`,e.jsx(r.span,{className:"line",children:e.jsx(r.span,{style:{color:"#6A737D","--shiki-dark":"#768390"},children:"// 354000000000000n"})})]})}),`
+`,e.jsxs(r.h2,{id:"returns",children:["Returns",e.jsx(r.a,{"aria-hidden":"true",tabIndex:"-1",href:"#returns",children:e.jsx(r.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsx(r.p,{children:e.jsx(r.code,{children:"BigInt"})}),`
+`,e.jsx(r.p,{children:"The requied prefund in wei."}),`
+`,e.jsxs(r.h2,{id:"parameters",children:["Parameters",e.jsx(r.a,{"aria-hidden":"true",tabIndex:"-1",href:"#parameters",children:e.jsx(r.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsxs(r.h3,{id:"useroperation",children:["userOperation",e.jsx(r.a,{"aria-hidden":"true",tabIndex:"-1",href:"#useroperation",children:e.jsx(r.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsxs(r.ul,{children:[`
+`,e.jsxs(r.li,{children:[e.jsx(r.strong,{children:"Type:"})," ",e.jsx(r.code,{children:"UserOperation"})]}),`
+`]}),`
+`,e.jsx(r.p,{children:"The User Operation to get the prefund for."})]})}function h(s={}){const{wrapper:r}={...n(),...s.components};return r?e.jsx(r,{...s,children:e.jsx(i,{...s})}):i(s)}export{h as default,l as frontmatter};

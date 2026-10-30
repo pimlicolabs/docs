@@ -1,0 +1,5 @@
+## sendUserOperation
+
+`SmartAccountClient` extends viem's `BundlerClient` and so extends the `sendUserOperation` method.
+
+You can view the full list of options for `sendUserOperation` [in viem's documentation](https://viem.sh/account-abstraction/actions/bundler/sendUserOperation).

@@ -1,0 +1,7 @@
+import{u as o,j as e}from"./index-CPZcyEe9.js";const r={title:"AA94 gas values overflow",description:"undefined"};function n(s){const i={a:"a",code:"code",div:"div",h1:"h1",h2:"h2",header:"header",li:"li",p:"p",ul:"ul",...o(),...s.components};return e.jsxs(e.Fragment,{children:[e.jsx(i.header,{children:e.jsxs(i.h1,{id:"aa94-gas-values-overflow",children:["AA94 gas values overflow",e.jsx(i.a,{"aria-hidden":"true",tabIndex:"-1",href:"#aa94-gas-values-overflow",children:e.jsx(i.div,{"data-autolink-icon":!0})})]})}),`
+`,e.jsxs(i.p,{children:["One or more of the gas values of the user operation do not fit into a ",e.jsx(i.code,{children:"uint160"}),"."]}),`
+`,e.jsxs(i.h2,{id:"possible-solutions",children:["Possible solutions",e.jsx(i.a,{"aria-hidden":"true",tabIndex:"-1",href:"#possible-solutions",children:e.jsx(i.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsxs(i.ul,{children:[`
+`,e.jsxs(i.li,{children:["Verify that all the gas limit and gas price fields in your user operation fit into ",e.jsx(i.code,{children:"uint160"}),"."]}),`
+`,e.jsxs(i.li,{children:["If the gas limits or gas prices for your user operation causing this error are suggested by a bundler provider like Pimlico, ",e.jsx(i.a,{href:"https://t.me/pimlicoHQ",children:"reach out to them"}),"."]}),`
+`]})]})}function a(s={}){const{wrapper:i}={...o(),...s.components};return i?e.jsx(i,{...s,children:e.jsx(n,{...s})}):n(s)}export{a as default,r as frontmatter};
