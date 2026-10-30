@@ -11,6 +11,7 @@ import {
 import { guidesSidebar } from "./sidebars/guides";
 import {
 	bundlerSidebar,
+	fastBridgeSidebar,
 	paymasterSidebar,
 	// flashFundSidebar,
 	permissionlessSidebar,
@@ -94,6 +95,11 @@ export default defineConfig({
 				link: "/references/paymaster",
 				items: paymasterSidebar,
 			},
+			{
+				text: "Fast Bridge",
+				link: "/references/fast-bridge",
+				items: fastBridgeSidebar,
+			},
 			// {
 			// 	text: "FlashFund",
 			// 	link: "/references/flash-fund",
@@ -162,6 +168,7 @@ export default defineConfig({
 				{ text: "Platform", link: "/references/platform" },
 				{ text: "Bundler", link: "/references/bundler" },
 				{ text: "Paymaster", link: "/references/paymaster" },
+				{ text: "Fast Bridge", link: "/references/fast-bridge" },
 				// { text: "FlashFund", link: "/references/flash-fund" },
 			],
 			match: "/references",

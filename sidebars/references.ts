@@ -335,6 +335,25 @@ export const paymasterSidebar = [
 	},
 ];
 
+export const fastBridgeSidebar = [
+	{
+		text: "Overview",
+		link: "/references/fast-bridge",
+	},
+	{
+		text: "How to bridge USDC between chains",
+		link: "/guides/how-to/payments/bridge-usdc-with-fast-bridge",
+	},
+	{
+		text: "Endpoints",
+		link: "/references/fast-bridge/endpoints",
+	},
+	{
+		text: "Errors",
+		link: "/references/fast-bridge/errors",
+	},
+];
+
 export const permissionlessSidebar = [
 	{
 		text: "Overview",

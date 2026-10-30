@@ -1,0 +1,84 @@
+---
+description: "Error codes returned by Pimlico Fast Bridge: rejections such as AUTHORIZATION_MISMATCH and AMOUNT_EXCEEDS_LIMIT, and the leg errors in a bridge status, with what to do about each one."
+---
+
+# Fast Bridge Errors
+
+Fast Bridge reports two kinds of errors: **rejections**, when a request is refused before anything moves, and **leg errors**, when a leg of an accepted request doesn't go through.
+
+## Rejections
+
+A rejected request returns an HTTP error status with a `code` and a `message` that names the specific problem. No tokens have moved, so you can fix the request and send it again.
+
+```json
+{
+  "code": "AUTHORIZATION_MISMATCH",
+  "message": "authorization must be made out to 0x..."
+}
+```
+
+| Code | HTTP status | Meaning |
+|---|---|---|
+| `INVALID_REQUEST` | 400 | The body, query or path doesn't match the schema, or a value is out of range, such as a zero amount, an EIP-3009 authorization that isn't valid yet, `calls` on a Solana destination, or a `recipient` of the wrong address type. |
+| `UNSUPPORTED_ROUTE` | 400 | The chain or token isn't [supported](/references/fast-bridge#supported-chains-and-tokens), or the origin and destination are the same chain. |
+| `AUTHORIZATION_MISMATCH` | 400 | The authorization doesn't fit the request: it's for a different token than `originToken`, its type isn't supported for that token, it isn't made out to the bridge's `approvalAddress`, or a Solana transaction doesn't have the required transfer, fee payer or blockhash. |
+| `INVALID_SIGNATURE` | 400 | A signature is missing or invalid. |
+| `AUTHORIZATION_EXPIRED` | 422 | The authorization's `validBefore` or `deadline` has passed. |
+| `AUTHORIZATION_USED` | 422 | The authorization's nonce was already used on chain, or the same authorization was already sent to the bridge. |
+| `INSUFFICIENT_BALANCE` | 422 | The holder doesn't have `amount` of the origin token. |
+| `INSUFFICIENT_ALLOWANCE` | 422 | For a `permit2` authorization, the holder hasn't approved Permit2 for enough of the token. |
+| `CALLS_SIMULATION_REVERTED` | 422 | One of your `calls` reverts when simulated on the destination chain. |
+| `AMOUNT_EXCEEDS_LIMIT` | 422 | `amountOut` is above the destination token's [per-request limit](/references/fast-bridge#supported-chains-and-tokens). |
+| `REQUEST_NOT_FOUND` | 404 | `GET /status` has no request with this ID for your account, or it's more than 24 hours old. |
+
+### What to do
+
+- **`AUTHORIZATION_MISMATCH`**: get `approvalAddress` from [`GET /addresses`](/references/fast-bridge/endpoints#get-addresses) and sign the authorization out to it, for `originToken`, with an authorization type the [origin token supports](/references/fast-bridge#supported-chains-and-tokens).
+- **`AUTHORIZATION_EXPIRED`** or **`AUTHORIZATION_USED`**: have the user sign a new authorization with a new nonce and a later expiry. If you sent the same authorization twice, read the first request with [`GET /status`](/references/fast-bridge/endpoints#get-statusrequestid) instead.
+- **`INSUFFICIENT_ALLOWANCE`**: have the user approve Permit2 (`0x000000000022D473030F116dDEE9F6B43aC78BA3`) for the token, or use an `eip3009` authorization where the token supports it.
+- **`CALLS_SIMULATION_REVERTED`**: check that your calls only spend the `amountOut` that the bridge's `multicaller` holds, and that they approve any contract that pulls tokens from `multicaller`.
+- **`AMOUNT_EXCEEDS_LIMIT`**: split the transfer into several requests, each within the limit.
+
+## Leg errors
+
+Once a request is accepted, a leg that doesn't go through has an `error` in the [bridge status object](/references/fast-bridge/endpoints#the-bridge-status-object):
+
+```json
+{
+  "chainId": 42161,
+  "recipient": "0x...",
+  "status": "reverted",
+  "transactionHash": "0x...",
+  "confirmedAt": "2026-10-30T12:00:01.712Z",
+  "error": {
+    "code": "CALLS_REVERTED",
+    "message": "...",
+    "callIndex": 1,
+    "data": "0x..."
+  }
+}
+```
+
+### Origin leg
+
+If the origin leg is `reverted` or `failed`, nothing is delivered: the destination leg is `cancelled` and the request is `failed`.
+
+| Code | Leg status | Meaning |
+|---|---|---|
+| `INSUFFICIENT_BALANCE` | `reverted`, `failed` | The holder no longer had the tokens when the pull ran. |
+| `INSUFFICIENT_ALLOWANCE` | `reverted`, `failed` | The holder's Permit2 allowance was reduced after acceptance. |
+| `AUTHORIZATION_USED` | `reverted`, `failed` | The authorization's nonce was used by another transaction after acceptance. |
+| `AUTHORIZATION_EXPIRED` | `failed` | The pull didn't land before the authorization expired. |
+| `TRANSACTION_EXPIRED` | `failed` | A Solana origin transaction didn't land before its blockhash expired. |
+| `INTERNAL_ERROR` | `failed` | The bridge couldn't send the pull. |
+
+A `reverted` origin leg can carry the revert `data`.
+
+### Destination leg
+
+If the destination leg is `reverted` or `failed` after the origin leg confirmed, the request stays `pending` and the tokens stay in the bridge's reserve. Refunds aren't sent automatically yet.
+
+| Code | Leg status | Meaning |
+|---|---|---|
+| `CALLS_REVERTED` | `reverted` | One of your calls reverted on the destination chain. `callIndex` is the index of the first call that reverted, or `-1` if no call reverts any more when simulated, and `data` its revert data when available. |
+| `DESTINATION_TIMEOUT` | `failed` | The delivery wasn't included before its 60-second deadline, or it reverted for a reason other than your calls. The `message` names the transaction and the reason. |

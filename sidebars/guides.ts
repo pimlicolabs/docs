@@ -372,6 +372,10 @@ export const paymentsSidebar = [
 		link: "/guides/how-to/payments/remittances",
 	},
 	{
+		text: "Bridge USDC between chains",
+		link: "/guides/how-to/payments/bridge-usdc-with-fast-bridge",
+	},
+	{
 		text: "Send payouts at scale",
 		link: "/guides/how-to/payments/payouts",
 	},
