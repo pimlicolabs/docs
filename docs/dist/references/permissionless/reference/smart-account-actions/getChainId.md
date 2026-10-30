@@ -1,5 +1,0 @@
-## getChainId
-
-`SmartAccountClient` extends viem's `BundlerClient` and so extends the `getChainId` method.
-
-You can view the full list of options for `getChainId` [in viem's documentation](https://viem.sh/account-abstraction/actions/bundler/getChainId).

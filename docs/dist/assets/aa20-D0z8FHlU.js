@@ -1,7 +1,0 @@
-import{u as d,j as e}from"./index-CPZcyEe9.js";const i={title:"AA20 account not deployed",description:"undefined"};function s(t){const n={a:"a",code:"code",div:"div",h1:"h1",h2:"h2",header:"header",li:"li",p:"p",ul:"ul",...d(),...t.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.header,{children:e.jsxs(n.h1,{id:"aa20-account-not-deployed",children:["AA20 account not deployed",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#aa20-account-not-deployed",children:e.jsx(n.div,{"data-autolink-icon":!0})})]})}),`
-`,e.jsxs(n.p,{children:["An ",e.jsx(n.code,{children:"initCode"})," was not specified, but the ",e.jsx(n.code,{children:"sender"})," address (i.e. the smart account) is not deployed."]}),`
-`,e.jsxs(n.h2,{id:"possible-solutions",children:["Possible solutions",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#possible-solutions",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
-`,e.jsxs(n.ul,{children:[`
-`,e.jsxs(n.li,{children:["If this is the first transaction by this account, make sure the ",e.jsx(n.code,{children:"initCode"})," is included in the user operation."]}),`
-`,e.jsxs(n.li,{children:["If the smart account is already supposed to be deployed, verify that you have selected the correct ",e.jsx(n.code,{children:"sender"})," address for the user operation."]}),`
-`]})]})}function r(t={}){const{wrapper:n}={...d(),...t.components};return n?e.jsx(n,{...t,children:e.jsx(s,{...t})}):s(t)}export{r as default,i as frontmatter};

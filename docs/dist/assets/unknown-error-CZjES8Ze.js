@@ -1,6 +1,0 @@
-import{u as o,j as n}from"./index-CPZcyEe9.js";const s={title:"Unknown error from alto bundler",description:"undefined"};function t(r){const e={a:"a",div:"div",h1:"h1",h2:"h2",header:"header",li:"li",p:"p",ul:"ul",...o(),...r.components};return n.jsxs(n.Fragment,{children:[n.jsx(e.header,{children:n.jsxs(e.h1,{id:"unknown-error-from-alto-bundler",children:["Unknown error from alto bundler",n.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#unknown-error-from-alto-bundler",children:n.jsx(e.div,{"data-autolink-icon":!0})})]})}),`
-`,n.jsx(e.p,{children:"The bundler encountered an unexpected error. This is either an internal 500 error, or an error with sensitive information that can not returned."}),`
-`,n.jsxs(e.h2,{id:"possible-solutions",children:["Possible solutions",n.jsx(e.a,{"aria-hidden":"true",tabIndex:"-1",href:"#possible-solutions",children:n.jsx(e.div,{"data-autolink-icon":!0})})]}),`
-`,n.jsxs(e.ul,{children:[`
-`,n.jsxs(e.li,{children:[n.jsx(e.a,{href:"https://t.me/pimlicoHQ",children:"Reach out to us"})," if you see this error."]}),`
-`]})]})}function a(r={}){const{wrapper:e}={...o(),...r.components};return e?n.jsx(e,{...r,children:n.jsx(t,{...r})}):t(r)}export{a as default,s as frontmatter};

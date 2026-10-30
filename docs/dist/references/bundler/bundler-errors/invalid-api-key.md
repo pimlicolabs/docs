@@ -1,5 +1,0 @@
-## Invalid 'apikey' query parameter
-
-The API key you are trying to use is not valid. It either does not exist or has been deleted.
-
-Learn how to [create an API key here](/guides/create-api-key).

@@ -1,9 +1,0 @@
-## Tutorials
-
-Learning-oriented lessons that take you through a series of steps to complete a project. Most useful when you want to get started with Pimlico.
-
-[Send your first gasless transaction](/guides/tutorials/tutorial-1) takes you through the journey of leveraging permissionless.js's high-level APIs to easily create and bundle a gasless user operation sponsored by Pimlico's verifying paymaster.
-
-[Batch multiple transactions from a smart account](/guides/tutorials/send-transaction) walks you through deploying a smart account and sending a batched user operation (multiple calls in one tx) paid for by the account's own ETH.
-
-[Submit a user operation with an ERC-20 Paymaster](/guides/tutorials/tutorial-2) takes you through the journey of sponsoring your first user operation with USDC with an ERC-20 paymaster.

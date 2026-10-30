@@ -1,8 +1,0 @@
-import{u as i,j as e}from"./index-CPZcyEe9.js";const d={title:"AA93 invalid paymasterAndData",description:"undefined"};function n(t){const a={a:"a",aside:"aside",code:"code",div:"div",h1:"h1",h2:"h2",header:"header",li:"li",p:"p",ul:"ul",...i(),...t.components};return e.jsxs(e.Fragment,{children:[e.jsx(a.header,{children:e.jsxs(a.h1,{id:"aa93-invalid-paymasteranddata",children:["AA93 invalid paymasterAndData",e.jsx(a.a,{"aria-hidden":"true",tabIndex:"-1",href:"#aa93-invalid-paymasteranddata",children:e.jsx(a.div,{"data-autolink-icon":!0})})]})}),`
-`,e.jsx(a.aside,{"data-callout":"info",children:e.jsxs(a.p,{children:["The first 20 bytes of the ",e.jsx(a.code,{children:"paymasterAndData"})," field specify the address of the paymaster contract you are requesting to use."]})}),`
-`,e.jsxs(a.p,{children:["The ",e.jsx(a.code,{children:"paymasterAndData"})," field is of an incorrect length."]}),`
-`,e.jsxs(a.h2,{id:"possible-solutions",children:["Possible solutions",e.jsx(a.a,{"aria-hidden":"true",tabIndex:"-1",href:"#possible-solutions",children:e.jsx(a.div,{"data-autolink-icon":!0})})]}),`
-`,e.jsxs(a.ul,{children:[`
-`,e.jsxs(a.li,{children:["Make sure you have either not set a value for the ",e.jsx(a.code,{children:"paymasterAndData"}),", or that it is at least 20 bytes long."]}),`
-`,e.jsxs(a.li,{children:["If you are using a paymaster provider like Pimlico, ",e.jsx(a.a,{href:"https://t.me/pimlicoHQ",children:"reach out to them"}),"."]}),`
-`]})]})}function r(t={}){const{wrapper:a}={...i(),...t.components};return a?e.jsx(a,{...t,children:e.jsx(n,{...t})}):n(t)}export{r as default,d as frontmatter};

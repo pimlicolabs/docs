@@ -1,9 +1,0 @@
-import{u as s,j as e}from"./index-CPZcyEe9.js";const i={title:"AA31 paymaster deposit too low",description:"undefined"};function n(o){const t={a:"a",aside:"aside",code:"code",div:"div",h1:"h1",h2:"h2",header:"header",li:"li",p:"p",ul:"ul",...s(),...o.components};return e.jsxs(e.Fragment,{children:[e.jsx(t.header,{children:e.jsxs(t.h1,{id:"aa31-paymaster-deposit-too-low",children:["AA31 paymaster deposit too low",e.jsx(t.a,{"aria-hidden":"true",tabIndex:"-1",href:"#aa31-paymaster-deposit-too-low",children:e.jsx(t.div,{"data-autolink-icon":!0})})]})}),`
-`,e.jsx(t.aside,{"data-callout":"info",children:e.jsxs(t.p,{children:["The first 20 bytes of the ",e.jsx(t.code,{children:"paymasterAndData"})," field specify the address of the paymaster contract you are requesting to use."]})}),`
-`,e.jsx(t.p,{children:"The paymaster contract does not have enough funds deposited into the EntryPoint contract to cover the required prefund of the user operation."}),`
-`,e.jsxs(t.h2,{id:"possible-solutions",children:["Possible solutions",e.jsx(t.a,{"aria-hidden":"true",tabIndex:"-1",href:"#possible-solutions",children:e.jsx(t.div,{"data-autolink-icon":!0})})]}),`
-`,e.jsxs(t.ul,{children:[`
-`,e.jsxs(t.li,{children:["Verify that the ",e.jsx(t.code,{children:"paymasterAndData"})," field is correct, and that the first 20 bytes are the address of the paymaster contract you intend to use."]}),`
-`,e.jsxs(t.li,{children:["If you are using your own paymaster contract, deposit more funds into the EntryPoint contract through the ",e.jsx(t.code,{children:"deposit()"})," function of the paymaster contract."]}),`
-`,e.jsxs(t.li,{children:["If you are using a paymaster service like Pimlico, ",e.jsx(t.a,{href:"https://t.me/pimlicoHQ",children:"reach out to them"}),"."]}),`
-`]})]})}function r(o={}){const{wrapper:t}={...s(),...o.components};return t?e.jsx(t,{...o,children:e.jsx(n,{...o})}):n(o)}export{r as default,i as frontmatter};

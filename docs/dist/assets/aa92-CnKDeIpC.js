@@ -1,7 +1,0 @@
-import{u as r,j as e}from"./index-CPZcyEe9.js";const l={title:"AA92 internal call only",description:"undefined"};function i(t){const n={a:"a",code:"code",div:"div",h1:"h1",h2:"h2",header:"header",li:"li",p:"p",ul:"ul",...r(),...t.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.header,{children:e.jsxs(n.h1,{id:"aa92-internal-call-only",children:["AA92 internal call only",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#aa92-internal-call-only",children:e.jsx(n.div,{"data-autolink-icon":!0})})]})}),`
-`,e.jsxs(n.p,{children:["The bundler attempted to call ",e.jsx(n.code,{children:"innerHandleOp"})," function of the EntryPoint directly as opposed to through the ",e.jsx(n.code,{children:"handleOps"})," function."]}),`
-`,e.jsxs(n.h2,{id:"possible-solutions",children:["Possible solutions",e.jsx(n.a,{"aria-hidden":"true",tabIndex:"-1",href:"#possible-solutions",children:e.jsx(n.div,{"data-autolink-icon":!0})})]}),`
-`,e.jsxs(n.ul,{children:[`
-`,e.jsx(n.li,{children:"If you encounter this error when running self-hosted bundler, make sure you have configured the bundler correctly."}),`
-`,e.jsxs(n.li,{children:["If you are using a bundler provider like Pimlico, ",e.jsx(n.a,{href:"https://t.me/pimlicoHQ",children:"reach out to them"}),"."]}),`
-`]})]})}function s(t={}){const{wrapper:n}={...r(),...t.components};return n?e.jsx(n,{...t,children:e.jsx(i,{...t})}):i(t)}export{s as default,l as frontmatter};
