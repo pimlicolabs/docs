@@ -1,0 +1,63 @@
+---
+description: "Overview of Pimlico Fast Bridge: move USDC between Base, Arbitrum, BSC, Robinhood Chain and Solana in seconds from one signed authorization, with supported routes, limits and request lifecycle."
+---
+
+# Fast Bridge
+
+Fast Bridge moves stablecoins from one chain to another in seconds. Your user signs one authorization for the token on the origin chain, and Pimlico delivers the same amount from its own liquidity on the destination chain, either to a recipient or into calls you choose. Pimlico pays the gas on both chains, so the user needs no native token anywhere.
+
+Fast Bridge is an HTTP API that uses your Pimlico API key. See the [endpoints](/references/fast-bridge/endpoints) and [errors](/references/fast-bridge/errors) references, or follow [How to bridge USDC between chains with Fast Bridge](/guides/how-to/payments/bridge-usdc-with-fast-bridge).
+
+## Supported chains and tokens
+
+Any route between two different chains in this table is supported. Amounts are converted 1:1 between tokens, adjusted for their decimals.
+
+| Chain | Chain ID | Token | Address | Decimals | Authorizations | Max per request |
+|---|---|---|---|---|---|---|
+| Base | `8453` | USDC | `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913` | 6 | `eip3009`, `permit2` | 1,000 USDC |
+| Arbitrum | `42161` | USDC (native, not USDC.e) | `0xaf88d065e77c8cC2239327C5EDb3A432268e5831` | 6 | `eip3009`, `permit2` | 1,000 USDC |
+| BSC | `56` | USDC (Binance-Peg) | `0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d` | 18 | `permit2` | 1,000 USDC |
+| Robinhood Chain | `4663` | USDG | `0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168` | 6 | `eip3009`, `permit2` | 1,000 USDG |
+| Solana | `101` | USDC | `EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v` | 6 | `solana-transaction` | 1,000 USDC |
+
+The limit applies to the amount delivered on the destination chain. A larger request is rejected with `AMOUNT_EXCEEDS_LIMIT`.
+
+## Authorizations
+
+The authorization is how the user gives the bridge the tokens on the origin chain. Which one you send depends on the origin chain:
+
+- **`eip3009`**: an EIP-3009 `ReceiveWithAuthorization` signed by the token holder, with `to` set to the bridge's `approvalAddress` from [`GET /addresses`](/references/fast-bridge/endpoints#get-addresses). No approval transaction is needed.
+- **`permit2`**: a [Permit2](https://github.com/Uniswap/permit2) `PermitTransferFrom` (SignatureTransfer) signature with `spender` set to the bridge's `approvalAddress`. The holder must have approved Permit2 for the token.
+- **`solana-transaction`**: for a Solana origin, a signed Solana transaction that makes exactly one USDC transfer into the bridge's reserve token account. It must use a recent blockhash (not a durable nonce) and Pimlico's Solana fee payer as its fee payer.
+
+The request ID is derived from the authorization (an EVM authorization's signer and nonce, or a Solana transaction's signature), so the same authorization can only be bridged once. Sending it again is rejected with `AUTHORIZATION_USED`.
+
+## Destinations
+
+A request delivers to one of:
+
+- **A recipient**: the bridge transfers `amountOut` to `recipient`. On an EVM destination it defaults to the authorization's `from`. On a Solana destination, `recipient` is required and must be a Solana address; the recipient's token account is created if it doesn't exist.
+- **Calls** (EVM destinations only): the bridge transfers `amountOut` to its `multicaller` address from [`GET /addresses`](/references/fast-bridge/endpoints#get-addresses), which then runs your calls in order, as `msg.sender`. Use this to deposit, swap or pay with the bridged tokens in the same request. Anything your calls leave on `multicaller` isn't returned.
+
+## How a request runs
+
+1. **Acceptance.** The bridge checks the route, the authorization's signature, expiry and nonce, the holder's balance (and Permit2 allowance), and the per-request limit. For calls, it simulates them on the destination chain. If any check fails, the request is rejected with an [error code](/references/fast-bridge/errors) and nothing moves.
+2. **Origin leg.** The bridge pulls the tokens from the user into its reserve on the origin chain.
+3. **Destination leg.** While the origin leg is in flight, the bridge already builds, signs and simulates the delivery on the destination chain. As soon as the origin leg confirms, the delivery is sent, so it doesn't wait on a second round of checks. The delivery has 60 seconds from acceptance to land.
+4. **Completion.** The request ends as one of these `status` values:
+
+| Status | Meaning |
+|---|---|
+| `pending` | The request is running, or the delivery failed after the origin leg confirmed. In that case the destination leg has an `error` and the tokens stay in the bridge's reserve. |
+| `success` | Both legs confirmed: `amountOut` was delivered on the destination chain. |
+| `failed` | The origin leg didn't confirm, so the delivery was cancelled and nothing was delivered. |
+| `refunded` | Reserved for a failed delivery whose `amountIn` was returned on the origin chain. Refunds aren't sent automatically yet, so such a request stays `pending`. |
+
+The response of every endpoint is the same [bridge status object](/references/fast-bridge/endpoints#the-bridge-status-object), with the state of each leg.
+
+## Things to know
+
+- Origin and destination must be different chains.
+- Amounts in requests and responses are decimal strings in the token's base units.
+- Only the Pimlico account that sent a request can read its status, for 24 hours after it was sent.
+- If the delivery doesn't land within its 60-second deadline, the destination leg fails with `DESTINATION_TIMEOUT` and the request stays `pending`.

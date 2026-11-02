@@ -1,0 +1,115 @@
+---
+title: How to bridge USDC between chains with Fast Bridge
+description: Move a user's USDC from one chain to another in seconds with Pimlico Fast Bridge, from a single signed authorization and without gas on either chain.
+---
+
+# How to bridge USDC between chains with Fast Bridge
+
+This guide shows you how to move a user's USDC from one chain to another with Pimlico Fast Bridge, either to a recipient or straight into calls on the destination chain. The user signs one token authorization and holds no gas on either chain. For the supported routes, limits and how a request runs, see the [Fast Bridge overview](/references/fast-bridge).
+
+This guide bridges native USDC from Base to Arbitrum with an EIP-3009 authorization. For BSC, which only takes Permit2, see [Bridge from a token without EIP-3009](#bridge-from-a-token-without-eip-3009).
+
+## Prerequisites
+
+- A Pimlico API key. [Create one](/guides/create-api-key).
+- An EOA holding USDC on the origin chain, within the [per-request limit](/references/fast-bridge#supported-chains-and-tokens).
+
+::::code-group
+
+```bash [npm]
+npm install viem
+```
+
+```bash [pnpm]
+pnpm install viem
+```
+
+```bash [bun]
+bun install viem
+```
+
+::::
+
+## Steps
+
+::::steps
+
+### Set up a bridge client
+
+Create a public client for the origin chain, the user's account, and a helper that calls the Fast Bridge API with your API key. A rejected request returns a `code` and a `message`; the helper throws them.
+
+```ts
+// [!include ~/snippets/payments/fast-bridge.ts:setup]
+```
+
+:::warning
+If this code runs in your users' browsers or apps, don't ship your API key in it. Route requests through your own backend, as described in [How to protect your API keys](/guides/how-to/security/protect-api-keys).
+:::
+
+### Get the bridge's approval address
+
+Call [`GET /addresses`](/references/fast-bridge/endpoints#get-addresses). Make every authorization out to `approvalAddress`: the bridge rejects any other payee with `AUTHORIZATION_MISMATCH`.
+
+```ts
+// [!include ~/snippets/payments/fast-bridge.ts:addresses]
+```
+
+### Sign a ReceiveWithAuthorization
+
+Have the user sign an EIP-3009 `ReceiveWithAuthorization` for the amount to bridge, with `to` set to `approvalAddress` and a random 32-byte nonce. Give it a `validBefore` a few minutes ahead: the origin pull must land before it.
+
+```ts
+// [!include ~/snippets/payments/fast-bridge.ts:sign]
+```
+
+### Send the request
+
+Send the authorization to [`POST /execute/sync`](/references/fast-bridge/endpoints#post-executesync) with the route and the `recipient` on the destination chain. If you'd rather not hold the connection open, send it to [`POST /execute`](/references/fast-bridge/endpoints#post-execute) instead, which answers `202` as soon as the request is accepted.
+
+```ts
+// [!include ~/snippets/payments/fast-bridge.ts:execute]
+```
+
+If the request is rejected, nothing has moved: fix what the [error code](/references/fast-bridge/errors) names, and sign a new authorization if it was used or has expired.
+
+### Check that the USDC arrived
+
+If the response is still `pending`, poll [`GET /status/{requestId}`](/references/fast-bridge/endpoints#get-statusrequestid) until it isn't, or until the destination leg is `reverted` or `failed`, which leaves the request `pending`. Show the transfer as delivered only when `status` is `success`; `destination.transactionHash` is the delivery on the destination chain.
+
+```ts
+// [!include ~/snippets/payments/fast-bridge.ts:status]
+```
+
+::::
+
+## Run calls on the destination chain
+
+To use the bridged USDC in the same request, for example to deposit it into a vault, send `calls` instead of `recipient`. The bridge delivers `amountOut` to `multicaller` from `/addresses`, which then runs your calls in order as `msg.sender`, so approve and spend from `multicaller` and send any output to the user.
+
+```ts
+// [!include ~/snippets/payments/fast-bridge.ts:calls]
+```
+
+If a call would revert, the request is rejected with `CALLS_SIMULATION_REVERTED` before any funds move. If you already know the gas your calls need, pass it as `gasLimit` to skip the estimate.
+
+:::warning
+Make your calls spend or forward the full `amountOut`. The bridge doesn't return anything left on `multicaller` after your calls run.
+:::
+
+## Bridge from a token without EIP-3009
+
+If the origin token only supports Permit2, such as Binance-Peg USDC on BSC, have the user approve the [Permit2 contract](https://github.com/Uniswap/permit2) (`0x000000000022D473030F116dDEE9F6B43aC78BA3`) for the token once, then sign a Permit2 `PermitTransferFrom` with `spender` set to the bridge's `approvalAddress`. Send it as a `permit2` authorization in the same request body.
+
+```ts
+// [!include ~/snippets/payments/fast-bridge.ts:permit2]
+```
+
+Without the Permit2 approval, the request is rejected with `INSUFFICIENT_ALLOWANCE`. Base, Arbitrum and Robinhood Chain take both authorization types.
+
+## Related
+
+- [Fast Bridge overview](/references/fast-bridge)
+- [Fast Bridge endpoints](/references/fast-bridge/endpoints)
+- [Fast Bridge errors](/references/fast-bridge/errors)
+- [How to send USDC without ETH for gas](/guides/how-to/payments/send-usdc-without-eth)
+- [How to accept USDC from an EOA](/guides/how-to/payments/accept-usdc-from-eoa)
