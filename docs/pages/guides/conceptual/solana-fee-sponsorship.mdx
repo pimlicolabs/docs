@@ -1,0 +1,91 @@
+---
+title: "Solana fee sponsorship: how to pay transaction fees for your users"
+description: How to sponsor transaction fees for users on Solana. How the fee payer works, and when to use your own fee payer, a self-hosted Kora node, a hosted Kora provider such as Pimlico, or a wallet SDK such as Privy.
+---
+
+# Solana fee sponsorship: how to pay transaction fees for your users
+
+To sponsor transaction fees for users on Solana, you make an account you control the transaction's **fee payer**, have the user sign for their own instructions, and add the fee payer's signature before sending. The user needs no SOL. You can run that fee payer yourself, self-host the Solana Foundation's open-source [Kora](https://github.com/solana-foundation/kora) node, use a hosted Kora-compatible fee payer such as Pimlico, or use the sponsorship built into a wallet SDK such as Privy.
+
+## How the fee payer works
+
+Every Solana transaction names one fee payer: the first account in the transaction message. The fee payer must sign the transaction, and the network deducts the transaction fee (a base fee per signature plus any priority fee) from its SOL balance.
+
+The fee payer doesn't have to be the account that owns the assets being moved. A user can sign a USDC transfer as the token authority while a different account signs as fee payer. Because this is built into the transaction format, Solana needs no smart accounts or extra contracts for fee sponsorship, unlike ERC-4337 on EVM chains.
+
+Rent for new accounts, such as a recipient's token account, is separate from the fee. It is paid by whichever account the instruction that creates the account names as payer. A sponsor can pay it too by being named as that payer.
+
+## The risk a sponsor has to manage
+
+A fee payer's signature authorizes the whole transaction, so any instruction that uses the fee payer's account as a source or authority also runs with its approval. A sponsor that signs whatever it receives can be drained, for example by a System Program transfer out of the fee payer. Every sponsorship option below is mostly a way to validate transactions before the fee payer signs:
+
+- Check that the fee payer appears only as the fee payer, and as the rent payer where you allow it.
+- Cap how much SOL the fee payer can spend on one transaction.
+- Simulate the transaction before signing.
+- Limit which programs, tokens and users you sponsor, and how often.
+
+## Options for sponsoring fees on Solana
+
+### Run your own fee payer
+
+Your backend holds a funded keypair. The client builds the transaction with that keypair's address as fee payer, the user signs, and your backend validates the transaction, adds its signature and broadcasts it.
+
+- You control every rule, and there is no third party.
+- You write and maintain the validation above yourself, keep the keypair secure, and keep it topped up with SOL.
+
+### Self-host Kora
+
+[Kora](https://github.com/solana-foundation/kora) is an open-source fee payer node from the Solana Foundation. You install it with `cargo install kora-cli`, run it with `kora rpc`, and call it from your app with the `@solana/kora` SDK's `KoraClient`.
+
+- Validation is configured in `kora.toml`: allowed programs, tokens accepted as fee payment (`allowed_spl_paid_tokens`), a per-transaction spending cap (`max_allowed_lamports`), a fee payer policy for what the fee payer may do in System and Token program instructions, and token pricing.
+- Signer keys are configured in `signers.toml`. Kora supports a private key in memory or a key held by Turnkey or Privy, among others.
+- You host the server, fund the signers with SOL, and operate it.
+
+### Use a hosted Kora fee payer
+
+A hosted provider runs a node that speaks the Kora JSON-RPC API, so your app uses the same `KoraClient` and changes only the URL. [Pimlico](/guides/how-to/solana) is one such provider, listed on the Solana Foundation's [Kora Node Providers](https://solana.com/docs/tools/kora/providers) page.
+
+With Pimlico:
+
+- Pimlico holds the fee payer key and pays the SOL. Sponsored fees are charged to your Pimlico balance, and devnet sponsorship is free.
+- The fee payer may only be the fee payer, or the rent payer of an account the transaction creates. It spends at most 0.1 SOL on one transaction. Every transaction is simulated before it is signed.
+- Users can pay the fee themselves in USDC or USDT on mainnet. See [supported tokens](/guides/how-to/solana/supported-tokens).
+- The rules above are fixed. You can't set your own program allowlist or pricing as you would in `kora.toml`.
+
+See [How to set up a Kora fee payer without running a Kora node](/guides/how-to/solana/kora-fee-payer).
+
+### Use a wallet SDK's sponsorship
+
+Some wallet and infrastructure providers, such as [Privy](https://privy.io) and [Alchemy](https://www.alchemy.com), offer Solana fee sponsorship inside their own SDKs. If you already use one of them for your users' wallets, check its docs first, since sponsorship may need no extra service. These features are configured and billed through that provider.
+
+Using a wallet SDK for your users' wallets doesn't tie you to its sponsorship. For example, you can have users sign with a Privy embedded wallet and pay the fee with Pimlico: see [Privy](/guides/how-to/solana/privy).
+
+## Letting users pay fees in SPL tokens
+
+Sponsoring doesn't have to mean paying. The fee payer can pay the SOL fee while the user repays it in a token, such as USDC, in the same transaction:
+
+1. The client asks the fee payer for a quote. In Kora's API, `estimateTransactionFee` simulates the transaction and returns the cost in lamports and in the token.
+2. The client appends a token transfer of that amount from the user to the fee payer's payment address. `KoraClient.getPaymentInstruction` builds it.
+3. The user signs once, and the fee payer checks the payment covers the fee before signing.
+
+Since the payment and the user's instructions are one transaction, they succeed or fail together. If the transaction fails on chain after simulation, the payment fails with it but the SOL fee is still spent, so the sponsor covers it. See [SPL Token Sponsorships](/guides/how-to/solana/token-sponsorship) for how this works with Pimlico.
+
+## Which option to choose
+
+| If you… | Use |
+|---|---|
+| need custom rules on every transaction and are ready to run the validation and the keys | Your own fee payer |
+| want Kora's validation and configurable policy, and are ready to host the node and fund its signers | Self-hosted Kora |
+| want Kora's client API without running a node, signer keys or a SOL balance | A hosted Kora provider, such as [Pimlico](/guides/how-to/solana/kora-fee-payer) |
+| already use a wallet SDK with built-in Solana sponsorship | That SDK's sponsorship |
+
+Self-hosted Kora and Pimlico expose the same JSON-RPC API, so if your app uses only the methods both implement (see the [endpoint reference](/references/paymaster/solana/endpoints)), you can move between them by changing `KoraClient`'s `rpcUrl`.
+
+## Related
+
+- [Solana Sponsorships overview](/guides/how-to/solana)
+- [How to set up a Kora fee payer without running a Kora node](/guides/how-to/solana/kora-fee-payer)
+- [Gas Sponsorships](/guides/how-to/solana/verifying-sponsorship)
+- [SPL Token Sponsorships](/guides/how-to/solana/token-sponsorship)
+- [Solana Sponsorships endpoints](/references/paymaster/solana/endpoints)
+- [Kora on GitHub](https://github.com/solana-foundation/kora)

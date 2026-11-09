@@ -228,6 +228,10 @@ export const gasSponsorshipSidebar = [
 		link: "/guides/how-to/solana",
 		items: [
 			{
+				text: "Set up a Kora fee payer",
+				link: "/guides/how-to/solana/kora-fee-payer",
+			},
+			{
 				text: "Supported Tokens",
 				link: "/guides/how-to/solana/supported-tokens",
 			},
@@ -396,6 +400,10 @@ export const conceptualSidebar = [
 	{
 		text: "Account Abstraction (ERC-4337)",
 		link: "/guides/conceptual/account-abstraction",
+	},
+	{
+		text: "Solana fee sponsorship",
+		link: "/guides/conceptual/solana-fee-sponsorship",
 	},
 	{
 		text: "EIP-7702",
