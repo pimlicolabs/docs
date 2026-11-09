@@ -1,12 +1,13 @@
 ---
-description: Sponsor Solana transaction fees so users need no SOL, or let them pay the fee in USDC or USDT. Quick start for Pimlico's Kora paymaster with @solana/kit.
+description: Pimlico is a hosted, Kora-compatible fee payer for Solana. Point @solana/kora's KoraClient at it to sponsor your users' transaction fees, or let them pay in USDC or USDT, without running a Kora node.
 ---
 
 # Solana Sponsorships
 
-Solana Sponsorships lets you sponsor the transaction fees for your users on Solana, so they can transact without holding SOL.
+Pimlico is a hosted, [Kora](https://github.com/solana-foundation/kora)-compatible fee payer for Solana: you point the `@solana/kora` SDK's `KoraClient` at Pimlico's endpoint, and Pimlico's fee payer pays your users' transaction fees in SOL, so they can transact without holding SOL. The fee is charged to your Pimlico balance, or your users repay it in USDC or USDT. You don't run a Kora node, manage signer keys, or keep a SOL balance, and you build transactions with `@solana/kit` as you would against any Kora node.
 
-The paymaster speaks the [Kora](https://github.com/solana-foundation/kora) JSON-RPC API, so you use the `@solana/kora` SDK's `KoraClient` and build transactions with `@solana/kit`.
+- Moving from a self-hosted Kora node, or setting up Kora for the first time? See [How to set up a Kora fee payer without running a Kora node](/guides/how-to/solana/kora-fee-payer).
+- Comparing ways to sponsor fees on Solana? See [Solana fee sponsorship](/guides/conceptual/solana-fee-sponsorship).
 
 ## Gas Sponsorships
 
@@ -125,6 +126,8 @@ Pass your API key in the `apikey` query parameter, as above. `KoraClient`'s own 
 
 ## Next steps
 
+- [Set up a Kora fee payer without running a Kora node](/guides/how-to/solana/kora-fee-payer)
+- [Solana fee sponsorship](/guides/conceptual/solana-fee-sponsorship)
 - [Gas Sponsorships](/guides/how-to/solana/verifying-sponsorship)
 - [SPL Token Sponsorships](/guides/how-to/solana/token-sponsorship)
 - [Phantom and Other Wallets](/guides/how-to/solana/external-wallets)
