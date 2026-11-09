@@ -1,0 +1,151 @@
+---
+title: How gasless stablecoin payments work
+description: How payment apps let users send, receive and pay in USDC or USDT without ETH for gas. Compares EIP-3009 and permit relayers, ERC-4337 paymaster sponsorship, ERC-20 paymasters, Circle Paymaster and EIP-7702, and explains batched payouts, remittances and checkout.
+---
+
+# How gasless stablecoin payments work
+
+Every transaction on an EVM chain pays gas in the chain's native token, such as ETH on Ethereum, Base, Arbitrum and Optimism or POL on Polygon. A stablecoin transfer is a call to the token contract, so it needs gas too. "Gasless" stablecoin payments don't remove gas: they change **who submits the transaction** and **who pays for it**, so the person holding USDC or USDT never has to hold the native token.
+
+This page explains the approaches payment apps use, what each one costs and requires, and how they apply to payouts, remittances and checkout. Each section links to a Pimlico how-to guide with working code.
+
+## How do apps let users send USDC or USDT without ETH for gas?
+
+The user signs a message instead of sending a transaction, and someone else submits it on chain and pays the native gas. That someone is either a relayer that you run, which submits a signed token authorization (EIP-3009 or EIP-2612 permit), or an ERC-4337 bundler with a paymaster, which submits the user's smart account operation and either bills you (sponsorship) or charges the user in the stablecoin itself (ERC-20 paymaster).
+
+### Signed token authorizations with a relayer (EIP-3009 and EIP-2612)
+
+Some tokens let a holder authorize a movement of their tokens with an offchain signature:
+
+- **[EIP-3009](https://eips.ethereum.org/EIPS/eip-3009)** `transferWithAuthorization`: the holder signs "send `value` to `to`, valid between `validAfter` and `validBefore`, with this `nonce`". Anyone can submit the signature, and the token moves in one call. Nonces are random 32-byte values rather than a counter, so a user can have several authorizations outstanding at once. `receiveWithAuthorization` is the same, but only the recipient can submit it, which stops a third party from front-running the payee's transaction. Circle's USDC implements EIP-3009.
+- **[EIP-2612](https://eips.ethereum.org/EIPS/eip-2612)** `permit`: the holder signs an approval for a `spender`, and the spender then calls `transferFrom`. That's two calls, which can go in one transaction if the spender is a contract or smart account. Permit nonces are sequential per holder, so a second permit is only valid after the first has been used. USDC implements EIP-2612; many other tokens don't, so check the token contract on each chain.
+
+Whoever submits the signature pays the gas, usually a relayer service the app runs with a funded native-token balance on every chain it supports. The relayer can't change what the user signed, but it can delay or drop it, and you operate it: key management, nonce handling, gas pricing and resubmission on every chain. This approach works with any EOA, including MetaMask-style browser wallets, but only for tokens that implement the standard.
+
+### ERC-4337 paymaster sponsorship (the app pays)
+
+With [ERC-4337](/guides/conceptual/account-abstraction), the user's account is a smart account. The user signs a **user operation**, a bundler submits it, and a **paymaster** contract pays the gas. A sponsoring (verifying) paymaster pays on your behalf, so the user only needs the USDC they're sending. Because the paymaster pays for the whole operation, it works for any token and any call, not only tokens with EIP-3009 or permit, and a smart account can batch several calls (for example `approve` and a payment) into one signature.
+
+Pimlico runs a bundler and a [verifying paymaster](/references/paymaster/verifying-paymaster) on 100+ EVM chains. Pimlico fronts the sponsored gas and bills it to you monthly with a surcharge (10% on mainnets on the pay-as-you-go plan, see [pricing](/guides/pricing)), and [sponsorship policies](/guides/how-to/sponsorship-policies) cap what you sponsor globally, per user and per user operation.
+
+### ERC-20 paymaster (the user pays gas in USDC)
+
+An **ERC-20 paymaster** pays the native gas and takes payment from the user's smart account in a stablecoin, in the same user operation. The app pays nothing, and the user sees one fee in the currency they hold. The paymaster converts at an exchange rate it quotes, so you can show the fee before the user confirms.
+
+Pimlico's [ERC-20 Paymaster](/guides/how-to/erc20-paymaster) accepts USDC, USDT and EURe on the chains listed in [supported tokens](/references/paymaster/erc20-paymaster/supported-tokens) (enterprise plans can add other tokens). Its fee is a markup built into the quoted exchange rate (10% on pay-as-you-go, see [pricing](/guides/pricing)). A quote is valid for 10 minutes. Because the fee is collected after the transfer runs, the account must keep enough USDC for the fee: a "send max" button should send the balance minus the fee estimate.
+
+### Circle Paymaster
+
+[Circle Paymaster](https://www.circle.com/paymaster) is an ERC-20 paymaster run by Circle that accepts USDC only. It works the same way as other ERC-20 paymasters: the user's ERC-4337 smart account (or an EIP-7702 EOA, where Circle supports it) pays gas in USDC, and the operation still needs a bundler to submit it. Choose between Circle's and another ERC-20 paymaster on token coverage (USDC only, or also USDT and other tokens), chains, fees and whether you also need app-paid sponsorship from the same provider; check Circle's documentation for its current chains and fees. Circle also offers Gas Station, which sponsors gas for wallets created with Circle's own wallet product.
+
+### EIP-7702 for users who already have an EOA
+
+Paymasters only work with smart accounts, but most users' stablecoins sit in EOAs. [EIP-7702](/guides/eip7702), live on Ethereum since the Pectra upgrade in May 2025 and on many other EVM chains, lets an EOA delegate to smart account code while keeping its address and balance. After one signed authorization, the EOA can send user operations, so app sponsorship and ERC-20 paymasters work for it without moving funds to a new address. EIP-7702 doesn't pay gas by itself: it makes an EOA compatible with the paymaster approaches above. The signer must be able to sign an EIP-7702 authorization, which embedded wallets and local keys can do but most browser extension wallets don't let apps request (see [external wallets](/guides/eip7702/external)).
+
+### Comparison
+
+| Approach | Who pays the gas | Tokens | User's account | What you operate |
+| :--- | :--- | :--- | :--- | :--- |
+| EIP-3009 + relayer | You (the relayer) | Tokens that implement EIP-3009, such as USDC | Any EOA | A funded relayer on each chain |
+| EIP-2612 permit + relayer or server account | You | Tokens that implement permit, such as USDC | Any EOA | A relayer, or a server smart account with a sponsoring paymaster |
+| ERC-4337 sponsorship (verifying paymaster) | You, billed by the paymaster provider | Any token, any call | Smart account or EIP-7702 EOA | Nothing onchain; set sponsorship limits |
+| ERC-20 paymaster (e.g. Pimlico) | The user, in a stablecoin | Tokens the paymaster supports (Pimlico: USDC, USDT, EURe) | Smart account or EIP-7702 EOA | Nothing onchain |
+| Circle Paymaster | The user, in USDC | USDC | Smart account or EIP-7702 EOA | A bundler connection |
+
+None of these needs custody of user funds: in every case the user signs what moves, and the submitter can't change it. You can also combine them. A common setup sponsors a few transfers per user and falls back to the ERC-20 paymaster after that, which the [remittances guide](/guides/how-to/payments/remittances) shows.
+
+To build it with Pimlico, see [How to send USDC without ETH for gas](/guides/how-to/payments/send-usdc-without-eth), which covers both the app-pays and user-pays modes, from a smart account or an EIP-7702 EOA.
+
+## How do payout platforms send stablecoins to thousands of recipients cheaply?
+
+They batch many transfers into each onchain transaction, so fixed per-transaction costs are paid once per batch instead of once per recipient, send batches in parallel, and run on a chain with low gas prices. After batching, the dominant cost is the token transfer itself, which depends mostly on whether each recipient already holds the token.
+
+### Batching: one transaction, many transfers
+
+A smart account treasury can execute many `transfer` calls in a single user operation, which runs inside one transaction. The treasury is the `msg.sender` of every transfer, so it pays directly from its balance with no approval step. An EOA treasury has two other options: approve a disperse-style contract that calls `transferFrom` for each recipient (each call also reads, and usually updates, the allowance), or delegate the EOA with EIP-7702 and batch from it directly. A generic Multicall contract doesn't work on its own, because the token would see the Multicall contract, not the treasury, as the sender.
+
+If one transfer in a batch reverts (for example to a blacklisted address, or because the balance runs out), the whole batch reverts. Validate recipients before batching.
+
+### What a transfer costs, from protocol constants
+
+You can work out the floor from Ethereum's gas schedule ([EIP-2929](https://eips.ethereum.org/EIPS/eip-2929) access costs, `SSTORE` and `LOG` costs). These apply on Ethereum and on EVM L2s that follow the same schedule:
+
+| Item | Gas | When it's paid |
+| :--- | ---: | :--- |
+| Transaction base cost | 21,000 | Once per transaction |
+| First access to the token contract (and to its implementation, for a proxy like USDC) | 2,600 each | Once per transaction; 100 after that |
+| First write to the treasury's balance | 5,000 (2,100 cold access + 2,900 update) | Once per transaction; 100 for later writes |
+| Recipient's balance, recipient already holds the token | 5,000 (2,100 + 2,900) | Per recipient |
+| Recipient's balance, balance currently zero | 22,100 (2,100 + 20,000 for a new storage value) | Per recipient |
+| `Transfer` event (`LOG3` with 32 bytes of data: 375 + 3 × 375 + 32 × 8) | 1,756 | Per recipient |
+
+From the per-recipient rows alone, each recipient in a batch costs at least 6,756 gas (5,000 + 1,756) if they already hold the token, and 23,856 gas (22,100 + 1,756) if their balance is zero, before call overhead, calldata and the token's own checks (pause, blacklist, proxy dispatch). Sending the same payout as a separate transaction per recipient adds at least the 21,000 base cost, the cold token access and the cold treasury write to every recipient, so batching removes a large share of the cost for recipients who already hold the token, and a smaller share for new holders, whose 20,000-gas storage write can't be batched away.
+
+An ERC-4337 user operation adds its own fixed overhead (account validation, the EntryPoint and the paymaster), which is also paid once per batch. Real costs depend on the token, the account and the chain, so measure a sample batch before choosing a batch size; the [payouts guide](/guides/how-to/payments/payouts#measure-a-chunk-before-choosing-its-size) shows how with `getRequiredPrefund`.
+
+### Cost per recipient
+
+Per recipient, a payout costs roughly:
+
+```
+cost per recipient ≈ (per-recipient gas + fixed gas per batch / recipients per batch) × gas price
+                     + (L1 data fee per batch / recipients per batch, on rollups)
+                     + provider fees
+```
+
+- **Gas price** is the biggest lever. Gas prices on L2 rollups such as Base, Arbitrum and Optimism are typically much lower than on Ethereum mainnet, but they move with demand, so price a run from the current gas price. Also check that recipients can receive on the chain you pick, and whether the stablecoin there is the issuer's native token or a bridged version.
+- **L1 data fee**: rollups also charge for posting transaction data to Ethereum. Each recipient adds an address and an amount to the calldata, so this part also grows with the number of recipients.
+- **Provider fees** with Pimlico: sponsored gas is billed at the actual gas cost plus the paymaster surcharge (10% on mainnets on pay-as-you-go), or the treasury pays gas in USDC through the ERC-20 Paymaster (10% markup on pay-as-you-go). API usage is charged per user operation, not per recipient: the [pricing page](/guides/pricing) estimates about 1,050 credits per sponsored user operation, or about $0.0105 beyond the included credits at $1 per 100,000 credits. With 100 recipients per user operation, that's about $0.0001 per recipient.
+
+### Parallel sends and safe retries
+
+Large runs need many batches. An ERC-4337 account's nonce has a 192-bit key and a 64-bit sequence: operations with different keys don't wait on each other, so batches can land in parallel ([parallel transactions](/guides/how-to/parallel-transactions)). Pimlico's bundler supports up to 100 parallel user operations (contact support for more). If you derive each batch's nonce key from the payout run and batch index, a retried batch reuses its nonce and can't pay twice.
+
+### Push or pull
+
+Everything above is a push model: the platform pays every recipient. Some distributions, such as airdrops and incentive programs, use a pull model instead: the platform publishes a Merkle root of who is owed what, and each recipient submits a claim. The platform pays almost nothing per recipient, but each claim is a transaction that someone has to pay gas for, so recipients need gas unless claims are sponsored. Push suits payroll and marketplace payouts, where recipients expect funds to arrive without doing anything.
+
+To build a push payout with Pimlico, see [How to send USDC payouts to thousands of recipients](/guides/how-to/payments/payouts).
+
+## How does a remittance app hide gas from senders and recipients?
+
+The sender's transfer runs as a sponsored user operation from a smart account (or an EIP-7702 EOA), so the sender only needs the USDC they're sending, and receiving USDC costs the recipient nothing because the sender's transaction pays for it. The app caps what it sponsors with per-user limits and, past those limits, charges the network fee in USDC through an ERC-20 paymaster instead of asking anyone for ETH.
+
+- **Sponsor within limits.** A Pimlico [sponsorship policy](/guides/how-to/sponsorship-policies) can limit sponsorship globally, per user and per user operation, for example 5 sponsored transfers per user per day. A [webhook](/guides/how-to/sponsorship-policies/webhook) can approve or reject each sponsorship request in real time from your own rules, such as KYC status.
+- **Fall back to a fee in USDC.** When sponsorship is declined, resend the same transfer with the ERC-20 paymaster so the sender pays a small USDC fee from their balance. The user still signs one operation.
+- **Recipients.** Receiving a token transfer needs no transaction from the recipient. If the recipient then cashes out or sends onwards from an account your app manages, sponsor that operation the same way.
+- **Speed.** Remittance users wait on the result. Pimlico's `sendUserOperationSync` returns the receipt in the same call; Pimlico measured a 364 ms median from signing to receipt on Base ([low-latency guide](/guides/how-to/send-low-latency-user-operations), enabled on request, on Base, BSC and Robinhood).
+- **Across chains.** If sender and recipient use different chains, the USDC has to cross chains, for example with Circle's CCTP, which burns USDC on the source chain and mints it on the destination. The destination-chain step is a separate transaction that someone pays gas for: a relayer, the bridge provider's service, or a sponsored user operation from the recipient's smart account on that chain. Pimlico only covers gas and transaction inclusion; bridging and fiat on and off ramps come from other providers.
+
+To build it with Pimlico, see [How to send USDC remittances without ETH for gas](/guides/how-to/payments/remittances).
+
+## How do you accept USDC at checkout without the customer needing ETH?
+
+The customer signs a USDC authorization in their wallet, an EIP-2612 permit or an EIP-3009 `transferWithAuthorization`, which costs no gas, and the merchant's backend submits it on chain and pays the gas. If the customer already uses a smart wallet, the wallet can instead request sponsorship from the merchant's paymaster when it sends the payment.
+
+- **Permit or authorization, settled by your server.** The customer's EOA, such as MetaMask or Rabby, signs typed data rather than a transaction, so it works with an empty ETH balance. Your server submits it. With Pimlico, the server is a smart account that calls `permit` and `transferFrom` in one sponsored user operation, so you don't run a funded relayer. The same server account can call `transferWithAuthorization` instead. A permit's nonce is sequential per customer, so settle one payment before requesting the next; EIP-3009 authorizations use random nonces and don't have that limit.
+- **Several payments at once.** Queue signed permits and settle many in one user operation to share the fixed cost, or settle them in parallel with separate nonce keys. If one payment in a batch fails, the whole batch reverts, so check each deadline before adding it.
+- **Smart wallets that support sponsorship.** Wallets that implement [EIP-5792](https://eips.ethereum.org/EIPS/eip-5792) `wallet_sendCalls` with the [ERC-7677](https://www.erc7677.xyz/introduction) paymaster capability can send the payment with gas paid by your paymaster ([example](/guides/eip7702/external)).
+- **Payment processors.** Hosted processors that accept USDC handle settlement for you; check how each handles gas, fees and supported chains.
+
+To build the permit flow with Pimlico, see [How to accept USDC from an EOA without gas fees](/guides/how-to/payments/accept-usdc-from-eoa).
+
+## What does gasless cost the app?
+
+The gas still gets paid; the question is by whom and with what markup.
+
+- **App-paid sponsorship**: you pay the actual gas cost plus the paymaster provider's fee. Pimlico has no gas tank to prefund: it holds each sponsored operation's maximum possible cost against your balance or card, refunds the difference once the operation lands, and bills monthly with a 10% surcharge on mainnets on pay-as-you-go ([pricing](/guides/pricing), [verifying paymaster FAQ](/references/paymaster/verifying-paymaster/faqs)).
+- **User-paid in USDC**: the user pays the gas in USDC plus the paymaster's markup (10% on Pimlico pay-as-you-go), and the app pays only API usage.
+- **Relayer**: you pay the gas and run the relayer yourself.
+
+Mainnet use of Pimlico's paymasters needs the pay-as-you-go plan or an enterprise plan; the free plan covers testnets.
+
+## Related
+
+- [How to send USDC without ETH for gas](/guides/how-to/payments/send-usdc-without-eth)
+- [How to send USDC payouts to thousands of recipients](/guides/how-to/payments/payouts)
+- [How to send USDC remittances without ETH for gas](/guides/how-to/payments/remittances)
+- [How to accept USDC from an EOA without gas fees](/guides/how-to/payments/accept-usdc-from-eoa)
+- [Account abstraction (ERC-4337)](/guides/conceptual/account-abstraction)
+- [EIP-7702](/guides/eip7702)
+- [Pricing](/guides/pricing)
