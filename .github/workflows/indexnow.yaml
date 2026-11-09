@@ -1,0 +1,31 @@
+name: IndexNow
+
+# After each successful production deploy on Vercel, tell IndexNow (Bing and
+# others) which pages changed, so they are recrawled in hours instead of days.
+on:
+  deployment_status:
+
+permissions:
+  contents: read
+  deployments: read
+
+jobs:
+  submit:
+    if: github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'Production'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Find the previous production deploy
+        id: prev
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ github.event.deployment.sha }}
+        run: |
+          prev=$(gh api "repos/${{ github.repository }}/deployments?environment=Production&per_page=20" \
+            --jq "[.[] | select(.sha != \"$SHA\")][0].sha")
+          echo "sha=${prev}" >> "$GITHUB_OUTPUT"
+      - name: Submit changed pages
+        if: steps.prev.outputs.sha != ''
+        run: python3 scripts/indexnow.py docs docs.pimlico.io ${{ steps.prev.outputs.sha }} ${{ github.event.deployment.sha }}
