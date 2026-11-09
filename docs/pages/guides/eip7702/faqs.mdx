@@ -1,5 +1,5 @@
 ---
-description: "Answers on EIP-7702: how it differs from and works with ERC-4337, how an EOA becomes a smart account, frontrunning, and the chains Pimlico supports."
+description: "Answers on EIP-7702: whether you still need a bundler and paymaster, EIP-7702 vs ERC-4337 for existing EOAs, how an EOA becomes a smart account, frontrunning, and the chains Pimlico supports."
 ---
 
 # EIP-7702 FAQs
@@ -16,9 +16,17 @@ In short, EIP-7702 allows for a way for EOAs to become smart accounts, while ERC
 
 Yes, EIP-7702 is compatible with ERC-4337. They cover different responsibilities. ERC-4337 is a standard for smart accounts to plug into a standardized set of relayers and gas sponsorship modules (paymasters), while EIP-7702 allows EOAs to become smart accounts. Refer to the [ERC-4337 vs EIP-7702 guide](/guides/eip7702/erc4337-vs-eip7702) for more details.
 
+## Do I still need a bundler and paymaster if I use EIP-7702?
+
+Not to use EIP-7702 itself, but yes to make it gasless. EIP-7702 gives an EOA smart account code; it doesn't change who pays for gas. A user who holds ETH can batch calls from their delegated EOA without any extra infrastructure. To sponsor their gas or let them pay in ERC-20 tokens, someone else has to send and pay for their transactions: either an ERC-4337 bundler and paymaster, such as Pimlico's, or a relayer and delegate contract you build yourself. See [Do I still need a bundler and paymaster with EIP-7702?](/guides/eip7702/erc4337-vs-eip7702#do-i-still-need-a-bundler-and-paymaster-with-eip-7702) for each case.
+
+## Should an existing wallet with millions of EOAs use EIP-7702 or ERC-4337?
+
+Usually both: upgrade existing EOAs in place with EIP-7702 so users keep their address and assets, delegate them to an ERC-4337-compatible implementation, and use ERC-4337 bundlers and paymasters for batching and sponsorship. Use new ERC-4337 smart accounts for chains without EIP-7702 and for users who need key rotation, multisig or social recovery, since a delegated EOA's original key always keeps full control. See [Choosing between EIP-7702 and ERC-4337 for an existing wallet with millions of EOAs](/guides/eip7702/erc4337-vs-eip7702#choosing-between-eip-7702-and-erc-4337-for-an-existing-wallet-with-millions-of-eoas).
+
 ## Does Pimlico support EIP-7702?
 
-Yes, Pimlico supports EIP-7702 by allowing an `eip7702Auth` object to be included in `eth_sendUserOperation` and `eth_estimateUserOperationGas` requests. You can read more about how to use it on the relevant reference pages for [eth_sendUserOperation](/references/bundler/endpoints/eth_sendUserOperation) and [eth_estimateUserOperationGas](/references/bundler/endpoints/eth_estimateUserOperationGas).
+Yes, Pimlico supports EIP-7702 by allowing an `eip7702Auth` object to be included in `eth_sendUserOperation` and `eth_estimateUserOperationGas` requests, and supports EntryPoint 0.8. Pimlico's paymasters sponsor gas, or charge it in ERC-20 tokens, for delegated EOAs as for any smart account. You can read more about how to use it on the relevant reference pages for [eth_sendUserOperation](/references/bundler/endpoints/eth_sendUserOperation) and [eth_estimateUserOperationGas](/references/bundler/endpoints/eth_estimateUserOperationGas).
 
 ## Which chains are supported by Pimlico for EIP-7702?
 
@@ -26,7 +34,7 @@ Each chain's EIP-7702 support status is listed in the [Chain Details section of 
 
 ## How does an EOA transition to smart account under EIP-7702? 
 
-By submitting a set code transaction (transaction type 4) that includes an `authorization_list`.
+The EOA signs an authorization naming the smart account implementation, the chain ID and its account nonce. Any account can then submit it in the `authorization_list` of a set code transaction (transaction type 4) and pay the gas, so the user doesn't need ETH. With ERC-4337 and EntryPoint 0.8, the bundler includes the authorization in the transaction that carries the user's first user operation.
 
 ## How does EntryPoint v0.8 prevent frontrunning for EIP-7702 user operations?
 

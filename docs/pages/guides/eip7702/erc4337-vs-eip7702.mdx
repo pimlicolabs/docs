@@ -1,10 +1,28 @@
 ---
-description: "ERC-4337 vs EIP-7702: how the two account abstraction approaches differ, their pros and cons, and why you can use both with bundlers and paymasters."
+description: "ERC-4337 vs EIP-7702: whether you still need a bundler and paymaster with EIP-7702, how to choose for an existing wallet with millions of EOAs, and how to use both together."
 ---
 
 # ERC-4337 vs EIP-7702
 
-This page outlines the key differences and design motivations behind ERC-4337 and EIP-7702 — two distinct approaches to improving smart accounts (also known as "account abstraction") on Ethereum.
+This page explains how ERC-4337 and EIP-7702, two approaches to smart accounts (also known as "account abstraction") on Ethereum, differ, whether EIP-7702 replaces bundlers and paymasters, and how to choose between them for an existing wallet.
+
+## Do I still need a bundler and paymaster with EIP-7702?
+
+**To use EIP-7702 itself, no. To sponsor your users' gas or let them pay it in ERC-20 tokens, you need either a bundler and paymaster or a relayer you build and run yourself.**
+
+EIP-7702 only gives an EOA code: a signed authorization makes the EOA delegate to a smart contract implementation. It doesn't change who pays for gas. The account that sends a transaction pays its gas in the chain's native token, as before. What you need depends on what you want:
+
+| What you want for an EOA | Needs a bundler and paymaster? |
+| --- | --- |
+| Batch calls, user pays gas in ETH | No. The EOA sends a transaction to its own address that calls the delegate's batch function, and pays the gas itself. |
+| Set the delegation without the user paying | Not necessarily. Any account can send the type-4 (set code) transaction that carries the user's signed authorization, and pays for it. An ERC-4337 bundler can also include the authorization with the user's first user operation. |
+| Sponsor the user's transactions after that | Yes, or your own relayer. Someone other than the user has to send each transaction, and the delegate contract has to check the user's signature, a nonce for replay protection, and the gas limit. ERC-4337 standardizes that: the bundler sends the transaction, the EntryPoint validates it and the paymaster pays. |
+| Let the user pay gas in USDC or another ERC-20 | Yes, or your own relayer. An ERC-20 paymaster pays the gas in ETH and collects the token from the account. |
+| Batch or sponsor for users of external wallets | The wallet decides. Wallets that support [EIP-5792](https://eips.ethereum.org/EIPS/eip-5792) `wallet_sendCalls` batch calls, and those that support the `paymasterService` capability ([ERC-7677](https://eips.ethereum.org/EIPS/eip-7677)) take a paymaster URL, such as Pimlico's, for sponsorship. |
+
+Building your own relayer means writing and auditing a delegate contract with signature checks and replay protection, and running infrastructure that prices gas, manages sender nonces, retries stuck transactions and gets reimbursed. The EIP-7702 spec also warns that a user can make a relayer spend gas without paying it back, by invalidating their authorization or sweeping the account's assets. ERC-4337 bundlers and paymasters already handle these cases, which is why most EIP-7702 accounts use them.
+
+Pimlico's bundler accepts EIP-7702 authorizations in user operations (the `eip7702Auth` field of [`eth_sendUserOperation`](/references/bundler/endpoints/eth_sendUserOperation)) and supports EntryPoint 0.8, so the first sponsored user operation can set the delegation and execute the user's calls in the same transaction. Pimlico's verifying paymaster and ERC-20 Paymaster then sponsor gas or charge it in tokens for the delegated EOA like for any smart account. See the [EIP-7702 quickstart](/guides/eip7702/demo).
 
 ## TL;DR
 
@@ -34,7 +52,7 @@ Given that ERC-4337 is already live and has a large ecosystem, it is the de-fact
 
 - **Timeline**: Live on Ethereum mainnet since the Pectra hard fork on May 7, 2025.
 - **Requires a Protocol Upgrade**: Yes
-- **Mechanism**: Turns an EOA into a contract account during via a new transaction type.
+- **Mechanism**: Lets an EOA set a delegation to smart contract code through a new transaction type (type 4, "set code").
 - **Key Concepts**: `authorization_list`
 
 ### Pros
@@ -45,3 +63,53 @@ Given that ERC-4337 is already live and has a large ecosystem, it is the de-fact
 - Requires hard fork and client changes
 - Not all chains will have it live at the same time — backwards compatibility will be required.
 - Master EOA retains ability to control and change the code of the smart account, true multisig / social recovery is not possible
+
+## Choosing between EIP-7702 and ERC-4337 for an existing wallet with millions of EOAs
+
+For a wallet whose users already have EOAs, the choice is usually not one or the other: **upgrade existing EOAs in place with EIP-7702, delegating to an ERC-4337-compatible implementation, and keep using ERC-4337 bundlers and paymasters for batching, sponsorship and ERC-20 gas.** Create new ERC-4337 smart accounts, at new addresses, only for users or chains where EIP-7702 can't give you what you need. The considerations below decide where that line falls.
+
+### Address continuity
+
+- **EIP-7702** keeps the user's address. Balances, token approvals, NFTs, ENS names, transaction history, exchange deposit addresses and allowlists all stay as they are.
+- **A new ERC-4337 smart account** is a different contract address. Each user has to move every asset to it, and every integration that knows the old address has to update. The new address can be the same on every chain if it's deployed deterministically, but it's never the EOA's address.
+
+For millions of existing users, address continuity is usually the deciding factor in favour of EIP-7702.
+
+### Migration and rollout
+
+- With **EIP-7702**, there is no asset migration. Each user signs one authorization per chain (or one with chain ID 0, which is valid on every chain that supports EIP-7702), and you can attach it to their first sponsored user operation, so the upgrade happens lazily, when the user next transacts, without them holding ETH. Delegating costs a fixed per-authorization gas charge (25,000 gas, with up to 12,500 refunded when the account already exists), much less than deploying a smart account contract.
+- With **new ERC-4337 accounts**, each user deploys an account (usually with their first user operation) and then transfers their assets into it, which is one or more transactions per user per chain.
+- In both cases, roll out per chain, behind a feature flag, and keep the plain EOA flow working for chains and users not yet upgraded.
+
+### Key and security considerations
+
+- **The EOA key stays in control.** After delegating, the original private key can still sign transactions directly and sign a new authorization that replaces the delegation, so it can bypass any rule the smart account code enforces. Adding a passkey, a session key, a spending limit or a multisig to a delegated EOA adds signers or rules on top; it doesn't remove or rotate the original key. If you need to rotate a compromised key, use real multisig, or recover an account socially, use an ERC-4337 smart account whose signers can change.
+- **The delegate is as trusted as the key.** A bad or malicious implementation can drain the account, so delegate only to audited implementations you choose, and don't let dapps request authorizations to arbitrary contracts. Treat chain ID 0 authorizations with extra care, because they apply on every chain.
+- **Initialization must be signed.** EIP-7702 sets code without running a constructor, so the implementation has to require the EOA's signature on any setup call; otherwise someone can front-run the initialization. Use an implementation designed for EIP-7702, such as `Simple7702Account` (used by `to7702SimpleSmartAccount`) or Kernel (used by `to7702KernelSmartAccount`).
+- **Plan for changing delegates.** Switching an account to a different implementation later can collide with storage the previous one wrote. Prefer implementations that use namespaced storage ([ERC-7201](https://eips.ethereum.org/EIPS/eip-7201)). To undo a delegation, the user signs an authorization to the zero address, which clears the code.
+- **Contracts that check `tx.origin == msg.sender`** to detect EOAs no longer get that guarantee from a delegated EOA.
+
+### Chain support
+
+- **EIP-7702** needs a protocol upgrade on each chain. It's live on Ethereum and many EVM chains, but not all. Check the EIP-7702 and EntryPoint 0.8 columns on the [supported chains page](/guides/supported-chains#chain-details) for every chain your wallet supports.
+- **ERC-4337** works on any EVM chain where the EntryPoint contract is deployed, without a hard fork. On chains without EIP-7702, the only smart account option is an ERC-4337 account at a new address.
+
+### Combining both
+
+The common setup for an existing wallet:
+
+1. Choose one audited, ERC-4337-compatible implementation (EntryPoint 0.8) as the EOA's delegate.
+2. When a user first needs a smart account feature on a chain that supports EIP-7702, have them sign the authorization and send it with their first user operation through an ERC-4337 bundler, with a paymaster sponsoring the gas or charging it in a token.
+3. From then on, send their batched, sponsored or ERC-20-paid actions as user operations from the same address.
+4. On chains without EIP-7702, or for users who need key rotation or multisig, deploy a standard ERC-4337 smart account instead.
+
+Pimlico's bundler, verifying paymaster and ERC-20 Paymaster support both paths with the same API key and the same permissionless.js client: `to7702SimpleSmartAccount` or `to7702KernelSmartAccount` for delegated EOAs, and `toSafeSmartAccount`, `toKernelSmartAccount` and others for new accounts.
+
+## Related
+
+- [EIP-7702 quickstart](/guides/eip7702/demo)
+- [Batch and sponsor transactions for external wallets](/guides/eip7702/external)
+- [How to batch an approve and a swap into one transaction](/guides/how-to/batch-approve-and-swap)
+- [EIP-7702 FAQs](/guides/eip7702/faqs)
+- [EIP-7702 specification](https://eips.ethereum.org/EIPS/eip-7702)
+- [ERC-4337 specification](https://eips.ethereum.org/EIPS/eip-4337)
