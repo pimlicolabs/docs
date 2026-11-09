@@ -380,6 +380,10 @@ export const paymentsSidebar = [
 		link: "/guides/how-to/payments/payouts",
 	},
 	{
+		text: "Batch an approve and a swap",
+		link: "/guides/how-to/batch-approve-and-swap",
+	},
+	{
 		text: "Swap without ETH",
 		link: "/guides/how-to/payments/swap-without-eth",
 	},
@@ -408,6 +412,10 @@ export const conceptualSidebar = [
 	{
 		text: "Gasless stablecoin payments",
 		link: "/guides/conceptual/gasless-stablecoin-payments",
+	},
+	{
+		text: "Gasless swaps",
+		link: "/guides/conceptual/gasless-swaps",
 	},
 	{
 		text: "EIP-7702",
