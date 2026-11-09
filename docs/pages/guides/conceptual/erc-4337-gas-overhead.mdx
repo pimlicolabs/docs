@@ -1,0 +1,146 @@
+---
+title: ERC-4337 gas overhead vs regular transactions (measured)
+description: How much more gas an ERC-4337 UserOperation uses than a regular EOA transaction, measured on Ethereum mainnet, Base and Arbitrum in November 2026, where the overhead comes from, and how to reduce it.
+---
+
+# ERC-4337 gas overhead: how much more does a UserOperation cost?
+
+Yes, ERC-4337 is more expensive in gas than a regular transaction. On Ethereum mainnet, a USDC transfer sent as a UserOperation from an already-deployed smart account used **125,237 to 155,217 gas** in our benchmark, against **45,136 gas** for the same transfer sent from an EOA: 2.8 to 3.4 times as much, or about 80,000 to 110,000 extra gas. A plain ETH transfer goes from **21,000 gas** to 107,609 to 137,582 gas. Real traffic matches: the median of 373 single-operation USDC transfers sampled from 24 hours of mainnet UserOperations was **145,134 gas**, against a median of 45,148 gas for 1,945 USDC transfers sent from EOAs in the same 24 hours (8 to 9 November 2026). The first operation of a new account costs more because it deploys the account, and a paymaster adds about 22,000 gas (sponsorship) to 59,000 gas (gas paid in USDC). At the fees we observed, a single-operation USDC transfer cost a median of $0.0316 on Ethereum mainnet, $0.0069 on Arbitrum and $0.0020 on Base, against $0.0217, $0.0021 and $0.0008 for a USDC transfer from an EOA.
+
+## Key numbers
+
+Measured in a controlled benchmark on a fork of Ethereum mainnet at block 26,377,620 (9 November 2026), one UserOperation per bundle transaction. Gas is the bundle transaction's `gasUsed` from its receipt, which is the full onchain cost of the operation. The [method](#methodology) is at the end of this page.
+
+| Action | EOA transaction | ERC-4337 UserOperation | Ratio |
+| --- | --- | --- | --- |
+| ETH transfer, account already deployed | 21,000 | 107,609 – 137,582 | 5.1× – 6.6× |
+| USDC transfer, account already deployed | 45,136 | 125,237 – 155,217 | 2.8× – 3.4× |
+| USDC transfer, first operation (deploys the account) | 45,136 | 311,988 – 453,037 | 6.9× – 10.0× |
+| USDC transfer, first operation of an EIP-7702 account | 45,136 | 161,568 | 3.6× |
+| 5 USDC transfers (5 EOA transactions vs 1 batched UserOperation) | 225,680 | 177,368 – 212,048 | 0.79× – 0.94× |
+| Paymaster added to a USDC transfer: sponsorship (verifying mode) | – | +22,010 – +22,329 | – |
+| Paymaster added to a USDC transfer: user pays gas in USDC (ERC-20 mode) | – | +54,821 – +59,300 | – |
+
+The ranges cover four account implementations: SimpleAccount, Safe, Kernel and Simple7702Account (EIP-7702). Lean accounts sit at the low end of each range and modular accounts at the high end.
+
+## Benchmark by account type
+
+Gas per bundle transaction with one UserOperation, self-paid (no paymaster). Each transfer ran three times per account; repeat runs differed by at most 24 gas, from zero bytes in the signature and calldata.
+
+| Account | EntryPoint | ETH transfer | USDC transfer | First operation: deploy + USDC transfer | Batch of 5 USDC transfers in one operation |
+| --- | --- | --- | --- | --- | --- |
+| EOA (regular transaction) | – | 21,000 | 45,136 | – | 225,680 (5 transactions) |
+| Simple7702Account (EIP-7702) | v0.8 | 107,609 | 125,237 | 161,568 (delegation, no deployment) | 177,368 |
+| SimpleAccount | v0.7 | 114,855 | 132,799 | 311,988 | 188,425 |
+| Safe 1.4.1 + Safe4337Module | v0.7 | 135,377 | 153,528 | 453,037 | 208,585 |
+| Kernel v3.1, ECDSA validator | v0.7 | 137,582 | 155,217 | 352,673 | 212,048 |
+
+Paymaster overhead, measured with Pimlico's singleton paymaster contracts on the same fork (USDC transfer from an already-deployed account):
+
+| Account | Self-paid | Verifying paymaster (sponsored) | ERC-20 paymaster (gas paid in USDC) |
+| --- | --- | --- | --- |
+| Simple7702Account (EntryPoint v0.8) | 125,249 | 147,259 (+22,010) | 180,070 (+54,821) |
+| SimpleAccount (EntryPoint v0.7) | 132,799 | 155,128 (+22,329) | 192,099 (+59,300) |
+
+A verifying paymaster adds 130 bytes of `paymasterAndData` to the calldata, a call to the paymaster that checks its signer's signature, and deposit accounting for the paymaster in the EntryPoint. An ERC-20 paymaster also runs `postOp` after execution and moves the fee in USDC from the account to the paymaster's treasury, which is a second token transfer.
+
+## Where the overhead comes from
+
+We split each benchmark transaction with a call trace. Validation and execution are the gas used inside the account's `validateUserOp` call and inside the EntryPoint's call to the account that runs the transfer. The last row is what remains: the EntryPoint's own work and the cost of the calls between contracts.
+
+| Component | Simple7702Account | SimpleAccount | Safe | Kernel |
+| --- | --- | --- | --- | --- |
+| Transaction base cost | 21,000 | 21,000 | 21,000 | 21,000 |
+| Calldata of the bundle transaction | 5,916 (900 bytes) | 5,928 (900 bytes) | 6,080 (932 bytes) | 6,096 (900 bytes) |
+| Account validation (`validateUserOp`) | 4,344 | 11,982 | 25,772 | 50,448 |
+| Execution (the USDC transfer, through the account) | 27,067 | 28,033 | 34,796 | 28,556 |
+| EntryPoint and call overhead (remainder) | 66,910 | 65,856 | 65,880 | 49,117 |
+| **Total** | **125,237** | **132,799** | **153,528** | **155,217** |
+
+For comparison, the same USDC transfer from an EOA used 45,136 gas: 21,000 base cost, 584 gas of calldata (68 bytes) and 23,552 gas of execution.
+
+- **EntryPoint processing is the largest fixed cost.** For every UserOperation the [EntryPoint](https://github.com/eth-infinitism/account-abstraction/blob/develop/contracts/core/EntryPoint.sol) checks and increments the nonce, computes the UserOperation hash, takes the prefund from the account's or paymaster's deposit, calls the account twice (validation, then execution) with gas accounting around each call, emits events, refunds unused prefund to the deposit, and pays the bundler. Together with the cold account access and call costs, this came to about 66,000 gas in our benchmark. Kernel's remainder is about 16,700 gas lower; we did not attribute that difference further. The remainder is computed as total minus the measured parts, so it also nets out any gas refunds.
+- **Validation depends on the account.** A Simple7702Account checks one ECDSA signature against its own address. SimpleAccount does the same through a proxy. Safe routes validation through its 4337 module and Kernel through a separate validator contract, which cost 25,772 and 50,448 gas.
+- **Calldata is about 900 bytes** for a simple operation, because the bundle transaction carries the whole packed UserOperation: sender, nonce, gas limits and fees, call data and signature. At 4 gas per zero byte and 16 per non-zero byte ([EIP-2028](https://eips.ethereum.org/EIPS/eip-2028)), that is about 6,000 gas on mainnet. A paymaster adds its address, gas limits and signature to every operation.
+- **Deployment is a one-time cost.** The first operation runs the account factory through the EntryPoint, which deploys a proxy and writes its initial storage: 153,322 gas of deployment for SimpleAccount, 157,480 for Kernel and 270,951 for Safe in our benchmark. The first operation also creates the account's nonce and deposit storage in the EntryPoint. An [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) account isn't deployed: the EOA signs an authorization, which costs 25,000 gas in the bundle transaction (12,500 is refunded when the account already exists), and its first operation used 161,568 gas.
+- **Prefund transfers cost extra.** A self-paid account must hold enough in the EntryPoint to cover the operation's maximum cost. When its deposit doesn't cover it, the account sends the missing ETH during validation. In our benchmark this added 8,686 to 8,791 gas to an operation. With a paymaster, the paymaster's deposit pays instead.
+
+### Gas you pay for vs gas the chain uses
+
+The EntryPoint charges each UserOperation for `actualGasUsed`, which differs from the onchain gas above:
+
+- It includes `preVerificationGas`, which the bundler sets to cover the gas the EntryPoint can't measure: the 21,000 base cost, the operation's calldata and its share of the bundle. In our mainnet sample, the median `preVerificationGas` was 57,202.
+- EntryPoint v0.7 adds a penalty of 10% of the unused `callGasLimit` and `paymasterPostOpGasLimit`. EntryPoint v0.8 adds the same penalty only when more than 40,000 gas of the limit is unused. Gas limits close to actual use keep this penalty small.
+- On OP Stack chains such as Base, the bundler adds the L1 data fee to `preVerificationGas`, converted into L2 gas at the current L2 gas price. [Alto](https://github.com/pimlicolabs/alto/blob/main/src/rpc/estimation/preVerificationGas/l2/optimism.ts), Pimlico's open-source bundler, computes it as the L1 fee of a `handleOps` transaction holding the operation, divided by the L2 gas price.
+
+## What real UserOperations use
+
+We read every `UserOperationEvent` from EntryPoint v0.6, v0.7 and v0.8 over about a day on three chains (windows in the [methodology](#methodology)), then decoded a uniform random sample of operations from their bundle transactions to classify what each one did.
+
+| | Ethereum mainnet | Base | Arbitrum One |
+| --- | --- | --- | --- |
+| UserOperations in the window | 28,689 | 358,277 | 22,002 |
+| Share in a bundle of one operation | 93.2% | 81.3% | 99.0% |
+| Share with a paymaster | 68.3% | 44.1% | 56.2% |
+| Share that deployed an account | 1.2% | 8.2% | 5.8% |
+| Successful sampled operations decoded | 2,960 | 2,899 | 985 |
+| Share of sampled operations sent from EIP-7702 EOAs | 87.6% | 16.4% | 33.2% |
+| Median gas, single-operation bundles, all operations | 195,166 (n = 2,745) | 273,957 (n = 2,346) | 232,473 (n = 980) |
+| Median gas, single-operation USDC transfer, no deployment | 145,134 (n = 373) | 152,377 (n = 535) | 154,651 (n = 109) |
+| Median gas, USDC transfer from an EOA | 45,148 (n = 1,945) | 45,059 (n = 380) | 45,071 (n = 239) |
+| Median gas, operations that deploy an account | 473,289 (n = 27) | 916,439 (n = 219) | 519,604 (n = 55) |
+
+On Base and Arbitrum the gas is L2 execution gas: on Arbitrum we subtracted the receipt's `gasUsedForL1`, and on Base the L1 data fee is charged separately from gas.
+
+On mainnet, real single-operation USDC transfers split clearly by payment method. Self-paid operations had a median of 133,846 gas (n = 179) and operations with a paymaster had a median of 185,510 gas (n = 194). That 51,664 gas gap is close to the 54,821 to 59,300 gas we measured for an ERC-20 paymaster, and larger than the 22,000 gas for a verifying paymaster.
+
+Bundles with several operations were rare. Most bundle transactions carried a single UserOperation, so the 21,000 base cost and the bundler payment were rarely shared between operations.
+
+## How much it costs in dollars
+
+Fees observed in the same windows, converted at **$2,118.62 per ETH** (Chainlink ETH/USD feed on Ethereum mainnet at block 26,377,500, 9 November 2026 13:01 UTC). The ERC-4337 figures are the full fee of the bundle transaction, including the L1 data fee on Base and Arbitrum.
+
+| Median fee | Ethereum mainnet | Base | Arbitrum One |
+| --- | --- | --- | --- |
+| ETH transfer from an EOA | $0.0059 (n = 9,007) | $0.0003 (n = 1,094) | $0.0009 (n = 297) |
+| USDC transfer from an EOA | $0.0217 (n = 1,945) | $0.0008 (n = 380) | $0.0021 (n = 239) |
+| USDC transfer as a single UserOperation, no deployment | $0.0316 (n = 373) | $0.0020 (n = 535) | $0.0069 (n = 109) |
+| Any single-operation bundle | $0.0478 (n = 2,745) | $0.0036 (n = 2,346) | $0.0104 (n = 980) |
+| Median effective gas price of bundle transactions | 0.0996 gwei | 0.0062 gwei | 0.0210 gwei |
+
+On mainnet, observed fee differences are smaller than gas differences because bundlers paid a lower gas price (median 0.0996 gwei) than the EOA transfers in our baseline (median 0.1716 gwei). At the same price of 0.0996 gwei, the 87,663 extra gas of a SimpleAccount USDC transfer costs $0.0185.
+
+On Base and Arbitrum, the L1 data fee is now a small part of the bill. It was a median of 0.19% of the fee of single-operation bundles on Base (n = 2,346), and the L1 component was a median of 0.21% of the gas of single-operation bundles on Arbitrum (n = 980). The overhead on these L2s is L2 execution gas, not L1 data.
+
+Many operations reported a zero `actualGasCost`: 54.5% of successful operations on Base, 38.9% on Arbitrum and 24.5% on mainnet. These operations set a gas price of zero, so whoever submitted the bundle paid the transaction fee outside the EntryPoint. Fee figures above use the transaction fee, so they include these operations.
+
+## How to reduce the overhead
+
+- **Batch calls into one operation.** The fixed costs are paid once per operation, not per call. Five USDC transfers in one operation used 177,368 to 212,048 gas, less than the 225,680 gas of five separate EOA transfers. Approve-and-swap or transfer-plus-fee flows benefit the same way.
+- **Use EIP-7702 when you start from an EOA.** An [EIP-7702](/guides/eip7702) account skips deployment: its first operation used 161,568 gas, against 311,988 to 453,037 gas for deploying and using a contract account. Simple7702Account also had the cheapest validation (4,344 gas) in our benchmark.
+- **Choose the account for your gas budget.** On the same USDC transfer, validation ranged from 4,344 gas (Simple7702Account) to 50,448 gas (Kernel). Modular accounts pay for their flexibility on every operation.
+- **Share bundles.** Five UserOperations from five accounts in one bundle transaction used 430,965 gas, or 86,193 gas per operation, against 132,799 gas for one operation alone. Part of the saving comes from sharing the base cost and bundler payment, and part from storage the earlier operations already touched.
+- **Set tight gas limits.** Unused `callGasLimit` and `paymasterPostOpGasLimit` are charged at 10% on EntryPoint v0.7. Use the bundler's [`eth_estimateUserOperationGas`](/references/bundler/endpoints/eth_estimateUserOperationGas) rather than fixed large limits.
+- **Run on an L2 when cost matters most.** The extra gas is similar on Base and Arbitrum, but at the gas prices we observed a single-operation USDC transfer cost a median of $0.0020 on Base and $0.0069 on Arbitrum.
+
+## How Pimlico handles it
+
+Pimlico runs [Alto](https://github.com/pimlicolabs/alto), an open-source ERC-4337 bundler. Alto estimates `preVerificationGas` per chain, including the L1 data fee on OP Stack and Arbitrum chains, and returns gas prices from [`pimlico_getUserOperationGasPrice`](/references/bundler/endpoints/pimlico_getUserOperationGasPrice). The verifying and ERC-20 paymaster figures above were measured with Pimlico's singleton paymaster contracts (`0x777777777777AeC03fd955926DbF81597e66834C` for EntryPoint v0.7, `0x888888888888Ec68A58AB8094Cc1AD20Ba3D2402` for v0.8). For background on the moving parts, see [Account Abstraction (ERC-4337)](/guides/conceptual/account-abstraction) and [ERC-4337 vs EIP-7702](/guides/eip7702/erc4337-vs-eip7702).
+
+## Methodology
+
+**Controlled benchmark.** We forked Ethereum mainnet with Anvil (Foundry 1.8.4) at block 26,377,620 (9 November 2026 13:25 UTC) and sent every UserOperation in its own `handleOps` transaction to the canonical EntryPoint v0.7 (`0x0000000071727De22E5E9d8BAf0edAc6f37da032`) or v0.8 (`0x4337084D9E255Ff0702461CF8895CE9E3b5Ff108`), signed with accounts built by viem 2.57 and permissionless 0.5.2. Every recipient already held ETH and USDC, so no transfer created a new balance. Accounts were funded with ETH and kept a deposit in the EntryPoint after their first operation, so steady-state operations didn't transfer a prefund unless noted. Gas is the receipt's `gasUsed`. The component split uses Anvil's `debug_traceTransaction` call tracer. For the paymaster runs, we added a test signer to the paymaster's signer list on the fork; the contracts and their code are the ones deployed on mainnet.
+
+**Onchain data.** We read `UserOperationEvent` and `AccountDeployed` logs from EntryPoint v0.6, v0.7 and v0.8 through public RPC endpoints:
+
+| Chain | Blocks | Time (UTC) | UserOperations | Decoded sample |
+| --- | --- | --- | --- | --- |
+| Ethereum mainnet | 26,370,301 – 26,377,500 | 8 Nov 2026 12:57 – 9 Nov 2026 13:01 | 28,689 | 3,000 sampled, 2,960 successful and decoded |
+| Base | 54,767,078 – 55,199,077 | 8 Nov 2026 13:16 – 9 Nov 2026 13:16 | 358,277 | 3,000 sampled, 2,899 successful and decoded |
+| Arbitrum One | 522,340,663 – 522,686,262 | 8 Nov 2026 10:17 – 9 Nov 2026 13:16 | 22,002 | 1,000 sampled, 985 successful and decoded |
+
+We sampled operations uniformly at random, fetched each bundle transaction and receipt, decoded the `handleOps` calldata, and classified each operation's call data by the account's execute function: single calls, batches, ERC-7579 `execute`, Safe `executeUserOp` and multiSend, and Kernel `executeUserOp`. "USDC transfer" means a single call to USDC's `transfer` function. "Single-operation bundle" means the transaction held exactly one UserOperation, so its receipt gas is the operation's full cost. We read each sender's code to tell EIP-7702 EOAs (code starting with `0xef0100`) from contract accounts. Medians are reported with their sample size n.
+
+**EOA baselines.** From the same windows, we sampled random blocks (120 on mainnet, 800 on Arbitrum, and 1,500 on Base from blocks 54,896,678 to 55,199,077, the last 17 hours of the window), took every successful plain ETH transfer and every `transfer` call to USDC sent as a regular transaction, and used their receipt gas and fees. Of the plain ETH transfers, 96.8% on mainnet, 97.6% on Base and 96.6% on Arbitrum used exactly 21,000 gas, the protocol's base transaction cost; the rest used more, for example because the recipient was a contract.
+
+**Limitations.** Real-world medians mix account implementations, which differ by tens of thousands of gas. On mainnet, 87.6% of sampled operations came from EIP-7702 EOAs and about half of sampled operations used Pimlico's singleton paymasters, so the "paymaster" medians mostly reflect that contract family. ERC-20 transfer gas varies with the token and with whether the recipient's balance was zero: EOA USDC transfers on mainnet had a 75th percentile of 62,248 gas. Our benchmark used recipients that already held USDC. Dollar figures depend on gas prices and the ETH price on the day; recompute them with current fees.

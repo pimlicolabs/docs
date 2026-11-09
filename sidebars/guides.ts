@@ -402,6 +402,10 @@ export const conceptualSidebar = [
 		link: "/guides/conceptual/account-abstraction",
 	},
 	{
+		text: "ERC-4337 gas overhead",
+		link: "/guides/conceptual/erc-4337-gas-overhead",
+	},
+	{
 		text: "Solana fee sponsorship",
 		link: "/guides/conceptual/solana-fee-sponsorship",
 	},
