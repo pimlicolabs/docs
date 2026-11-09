@@ -16,7 +16,7 @@ Yes. Pimlico's bundler and paymasters accept an EIP-7702 authorization (`eip7702
 
 ## Do I still need a bundler and paymaster with EIP-7702?
 
-To sponsor your users' gas, yes. EIP-7702 gives an EOA smart account code, but it doesn't change who pays for gas. To sponsor gas or let users pay it in ERC-20 tokens, send the account's transactions as ERC-4337 user operations: a bundler submits them and a paymaster covers the fee. See [ERC-4337 vs EIP-7702](/guides/eip7702/erc4337-vs-eip7702).
+To sponsor your users' gas, yes, unless you build your own relayer. EIP-7702 gives an EOA smart account code, but it doesn't change who pays for gas: a user who holds ETH can batch calls from their delegated EOA on their own. To sponsor gas or let users pay it in ERC-20 tokens, send the account's transactions as ERC-4337 user operations: a bundler submits them and a paymaster covers the fee. See [Do I still need a bundler and paymaster with EIP-7702?](/guides/eip7702/erc4337-vs-eip7702#do-i-still-need-a-bundler-and-paymaster-with-eip-7702).
 
 ## FAQ
 

@@ -1,0 +1,74 @@
+---
+title: How gasless swaps work
+description: How gasless token swaps work when the network fee comes out of the token being swapped, comparing ERC-4337 ERC-20 paymasters with relayer and intent-based approaches such as 0x Gasless API and UniswapX, and where Pimlico fits.
+---
+
+# How gasless swaps work
+
+A gasless swap lets a user trade tokens without holding the chain's native gas token (ETH on Ethereum and Base). Someone else pays the network fee in ETH, and either your app absorbs that cost or the user repays it in the token they're selling. There are three common ways to build one:
+
+- **ERC-20 paymaster (ERC-4337)**: the user's smart account, or their EOA upgraded with EIP-7702, sends the approve and the swap as one user operation. A paymaster such as Pimlico's pays the gas in ETH and charges the user in the sell token, or your app sponsors it. Works with any DEX, aggregator or contract call.
+- **Relayer (meta-transaction) APIs**, such as the 0x Gasless API: the user signs the trade, the provider's relayer submits it and takes its fee from the sell token. Works for plain EOAs, but only for that provider's swaps and tokens.
+- **Intent-based protocols**, such as UniswapX and CoW Protocol: the user signs an order, and a filler or solver executes it and pays the gas, recovering the cost through the execution price. Works for plain EOAs, but only for swaps through that protocol.
+
+To build gasless swaps with Pimlico, see [How to pay gas from the token being swapped](/guides/how-to/payments/pay-gas-from-swapped-token), [How to let users swap on Base without ETH](/guides/how-to/payments/swap-without-eth) and [How to batch an approve and a swap into one transaction](/guides/how-to/batch-approve-and-swap).
+
+## Why swaps need gas abstraction
+
+Every onchain transaction pays gas in the chain's native token. A user who holds only USDC can't approve a router or call it, so the most common first action in a trading app, "swap my USDC", fails for exactly the users who need it. Asking them to buy ETH first adds an onramp, a minimum purchase and dust left behind.
+
+A plain ERC-20 swap also usually takes two transactions: an `approve` that lets the router pull the token, then the swap. Each one costs gas and a signature. Gasless swap designs remove the ETH requirement, and most also remove the separate approval.
+
+## How the ERC-20 paymaster approach works
+
+With [ERC-4337](/guides/conceptual/account-abstraction), the user's account is a smart contract that can execute several calls in one operation:
+
+1. Your app gets swap calldata from any router or aggregator, with the user's account as the taker.
+2. The account signs one user operation containing `[approve(router, amount), swap(...)]`. If gas is paid in the sell token, the paymaster's approval is added to the same batch when needed.
+3. A bundler submits the user operation onchain. The EntryPoint contract takes the gas cost from the paymaster's ETH deposit, not from the user.
+4. The account executes the approval and the swap in order. If either reverts, both revert.
+5. Pimlico's ERC-20 Paymaster then collects the fee in the token, at a rate its API signed when the user operation was prepared. With a verifying paymaster instead, your app sponsors the fee and the user pays nothing.
+
+To take the fee out of the token being swapped, rather than on top of it, estimate the fee in the sell token before sending and quote the swap for the amount left: a user who enters "spend 100 USDC" spends 100 USDC in total, because the swap is quoted for 100 USDC minus the fee. [How to pay gas from the token being swapped](/guides/how-to/payments/pay-gas-from-swapped-token) shows the steps.
+
+This needs the user to have a smart account. For an app with existing EOA users, [EIP-7702](/guides/eip7702) lets each EOA delegate to smart account code while keeping its address and balances, and the first sponsored user operation can carry the delegation, so the user never needs ETH.
+
+## How relayer and intent-based approaches work
+
+Relayer APIs and intent protocols keep the user on a plain EOA. Instead of a transaction, the user signs typed data (EIP-712): a trade or an order, plus a token approval if the token supports gasless approvals.
+
+- With a **relayer API**, the provider builds the trade, the user signs it, and the provider's relayer sends the transaction and pays the gas. The provider deducts its fee from the sell token as part of the trade.
+- With an **intent protocol**, the user signs an order with a minimum output. Fillers or solvers compete to execute it, pay the gas themselves, and price that cost into the output the user receives. UniswapX orders are authorized through [Permit2](https://docs.uniswap.org/contracts/permit2/overview) signatures.
+
+Both depend on the token being pulled from the EOA by a contract, so the user needs an allowance to that contract (for example Permit2). Setting it is a normal onchain approval that costs gas once per token, unless the token supports [EIP-2612 `permit`](https://eips.ethereum.org/EIPS/eip-2612) or the provider has another gasless approval path for it.
+
+## Tradeoffs
+
+| | ERC-20 paymaster (ERC-4337) | Relayer API | Intent protocol |
+| --- | --- | --- | --- |
+| Account type | Smart account, or EOA with EIP-7702 | Plain EOA | Plain EOA |
+| Who pays ETH gas | Paymaster, repaid by the user in tokens or sponsored by your app | Provider's relayer | Filler or solver |
+| How the user pays for gas | Fee charged in a supported token, or free if you sponsor | Fee deducted from the sell token | Priced into the execution price |
+| Liquidity and routing | Any DEX, aggregator or router you choose | The provider's routing | The protocol's fillers |
+| What can be batched | Any calls: approve, swap, then deposit, bridge or transfer | The swap | The swap |
+| First-use approval | Batched into the same operation | Gasless only for tokens with a gasless approval path | Gasless only for tokens with a gasless approval path |
+| Atomicity | All calls succeed or all revert | Per trade | Per order; may wait for a fill |
+
+Choose an ERC-20 paymaster when you control the account (an embedded wallet, a smart account, or an EOA you can upgrade with EIP-7702), want to keep your own routing, or need the swap to be one step in a larger batch. Choose a relayer or intent protocol when users connect arbitrary external wallets that you can't upgrade, and you're happy to route through that provider. The approaches combine: a smart account can also sign Permit2 or intent orders, and a paymaster can sponsor the one-time Permit2 approval.
+
+## Gasless swaps on Base
+
+On Base, trading apps let users swap without ETH in the same three ways. Because fees on Base are low, sponsoring swaps outright with a verifying paymaster is often affordable: use sponsorship policies to cap spend per user, and recover the cost through your own swap fee if you need to. To charge users instead, the ERC-20 Paymaster takes the fee in the token they hold. Pimlico's bundler, verifying paymaster and ERC-20 Paymaster run on Base with EntryPoint 0.6, 0.7 and 0.8 and EIP-7702, and the ERC-20 Paymaster accepts USDC there. See [How to let users swap on Base without ETH](/guides/how-to/payments/swap-without-eth) for the code.
+
+## How Pimlico fits in
+
+Pimlico provides the ERC-4337 infrastructure for the paymaster approach: the bundler that submits user operations, a verifying paymaster that sponsors gas from your Pimlico balance under [sponsorship policies](/guides/how-to/sponsorship-policies), and an [ERC-20 Paymaster](/references/paymaster/erc20-paymaster) that charges users in tokens such as USDC. Pimlico doesn't quote or route swaps; use the DEX or aggregator you already use.
+
+## Related
+
+- [How to pay gas from the token being swapped](/guides/how-to/payments/pay-gas-from-swapped-token)
+- [How to let users swap on Base without ETH](/guides/how-to/payments/swap-without-eth)
+- [How to batch an approve and a swap into one transaction](/guides/how-to/batch-approve-and-swap)
+- [ERC-20 Paymaster architecture](/references/paymaster/erc20-paymaster/architecture)
+- [ERC-20 Paymaster supported tokens](/references/paymaster/erc20-paymaster/supported-tokens)
+- [EIP-7702](/guides/eip7702)
