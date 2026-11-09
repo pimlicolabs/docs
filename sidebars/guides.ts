@@ -406,6 +406,10 @@ export const conceptualSidebar = [
 		link: "/guides/conceptual/solana-fee-sponsorship",
 	},
 	{
+		text: "Gasless stablecoin payments",
+		link: "/guides/conceptual/gasless-stablecoin-payments",
+	},
+	{
 		text: "EIP-7702",
 		link: "/guides/eip7702",
 		items: eip7702Sidebar,
