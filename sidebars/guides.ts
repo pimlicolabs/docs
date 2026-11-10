@@ -422,6 +422,10 @@ export const conceptualSidebar = [
 		link: "/guides/conceptual/gasless-swaps",
 	},
 	{
+		text: "AI agent gas fees",
+		link: "/guides/conceptual/ai-agent-gas-fees",
+	},
+	{
 		text: "EIP-7702",
 		link: "/guides/eip7702",
 		items: eip7702Sidebar,

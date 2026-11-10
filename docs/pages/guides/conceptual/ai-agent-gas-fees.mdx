@@ -1,0 +1,109 @@
+---
+title: How AI agents pay gas fees
+description: How an AI agent with its own wallet pays gas fees without holding ETH or SOL. Compares holding native gas, ERC-4337 paymaster sponsorship, paying gas in USDC with an ERC-20 paymaster, EIP-7702 for agents with an EOA, and a Solana fee payer, and how to cap what an agent can spend.
+---
+
+# How AI agents pay gas fees
+
+An AI agent that sends onchain transactions from its own wallet has to pay gas in the chain's native token, unless someone else pays it. The usual setup is to give the agent an ERC-4337 smart account and send its transactions through a bundler and paymaster: a paymaster such as Pimlico's either sponsors the agent's gas from the operator's balance or lets the agent pay it in USDC, so the agent never holds ETH. Agents that already have an EOA can keep its address with EIP-7702, and on Solana a fee payer such as Pimlico's Kora-compatible endpoint pays the SOL fee.
+
+This page explains each option, how they compare, and how to limit what an agent can spend. To build it, see [How to pay gas fees for an AI agent's wallet](/guides/how-to/agents/pay-gas-for-ai-agents).
+
+## Why an agent's wallet needs gas at all
+
+Every transaction on an EVM chain pays gas in the chain's native token, such as ETH on Ethereum, Base, Arbitrum and Optimism, or POL on Polygon. A token transfer or a contract call is a transaction like any other, so an agent that holds only USDC can't send it. The account that sends a transaction pays its gas; to remove gas from the agent, something else has to send the transaction and pay for it.
+
+## Option 1: the agent holds native gas itself
+
+The simplest setup gives the agent an EOA and funds it with the native token on every chain it uses. It needs no extra infrastructure, but it's hard to operate:
+
+- **Top-ups.** Every transaction spends some of the balance. Someone has to watch each agent's balance and refill it before it runs out, or the agent stops mid-task.
+- **One balance per chain.** An agent that works on Base, Arbitrum and Polygon needs ETH on Base, ETH on Arbitrum and POL on Polygon. Each new chain and each new agent adds another balance to fund and monitor.
+- **Stuck transactions.** An EOA's transactions run in nonce order. If the agent prices one too low, or it's dropped, every later transaction waits behind it until the agent replaces it at the same nonce with a higher fee. The agent has to handle fee estimation, replacement and resubmission itself.
+- **Exposure.** The native balance sits under the agent's key. A leaked key, or an agent that misbehaves, can spend all of it.
+
+## Option 2: sponsored gas with an ERC-4337 paymaster
+
+With [ERC-4337](/guides/conceptual/account-abstraction), the agent's account is a smart account. The agent signs a **user operation** instead of a transaction, a **bundler** submits it onchain, and a **paymaster** contract pays the gas. A sponsoring (verifying) paymaster pays on the operator's behalf, so the agent's account needs no native token at all.
+
+- **No balances to keep.** The operator funds one account with the paymaster provider instead of a native balance per agent per chain. Pimlico runs a bundler and a [verifying paymaster](/references/paymaster/verifying-paymaster) on 100+ EVM chains, fronts the sponsored gas and bills it monthly, with a 10% surcharge on mainnets on the pay-as-you-go plan ([pricing](/guides/pricing)). There is no gas tank to prefund.
+- **The bundler submits.** The bundler sends the transaction and pays its gas, so the agent doesn't manage gas prices or replacements. A smart account's nonce has a 192-bit key and a 64-bit sequence, so an agent can send several operations at once with different nonce keys ([parallel transactions](/guides/how-to/parallel-transactions)).
+- **Any call.** The paymaster pays for the whole operation, so it works for any contract call and any token, and the agent can batch several calls (for example `approve` and a swap) into one operation.
+- **Limits.** Because you pay, you set the limits, with [sponsorship policies](/guides/how-to/sponsorship-policies). See [How to keep an agent's spending in bounds](#how-to-keep-an-agents-spending-in-bounds).
+
+## Option 3: the agent pays gas in USDC with an ERC-20 paymaster
+
+If the agent should pay its own way, an **ERC-20 paymaster** pays the native gas and takes payment from the agent's smart account in a stablecoin, in the same user operation. The agent holds only the token it already uses, and the operator pays nothing for gas.
+
+Pimlico's [ERC-20 Paymaster](/guides/how-to/erc20-paymaster) accepts USDC, USDT and EURe on the chains listed in [supported tokens](/references/paymaster/erc20-paymaster/supported-tokens) (enterprise plans can add other tokens). Its fee is a markup built into the quoted exchange rate (10% on pay-as-you-go, see [pricing](/guides/pricing)), and a quote is valid for 10 minutes. The fee is collected after the agent's calls run, so the agent should keep enough USDC for the fee and not spend its whole balance.
+
+Sponsorship and the ERC-20 paymaster combine well: sponsor an agent up to a limit, and when the policy declines, resend the same operation with the ERC-20 paymaster so the agent pays from its USDC. The [how-to guide](/guides/how-to/agents/pay-gas-for-ai-agents#limit-what-you-sponsor-optional) shows this fallback.
+
+## Option 4: EIP-7702 for agents that already have an EOA
+
+Paymasters only work with smart accounts, but an agent may already have an EOA with funds and history at its address. [EIP-7702](/guides/eip7702), live on Ethereum since the Pectra upgrade in May 2025 and on many other EVM chains, lets an EOA delegate to smart account code while keeping its address and balance. After one signed authorization, the EOA can send user operations, so sponsorship and the ERC-20 paymaster work for it without moving funds.
+
+EIP-7702 doesn't pay gas by itself: it makes the EOA compatible with the paymaster options above ([ERC-4337 vs EIP-7702](/guides/eip7702/erc4337-vs-eip7702)). The agent's signer must be able to sign an EIP-7702 authorization, which local keys and embedded wallets can do but most browser extension wallets don't let apps request ([external wallets](/guides/eip7702/external)). The original key also stays in full control of the account after delegation, so account-side limits don't bind it.
+
+## Option 5: a fee payer on Solana
+
+Solana doesn't need smart accounts for this. Every Solana transaction names a **fee payer**, which signs the transaction and pays the fee in SOL, and the fee payer doesn't have to be the account that owns the assets. The agent signs for its own instructions, such as a USDC transfer, and a sponsor signs as fee payer, so the agent needs no SOL. See [Solana fee sponsorship](/guides/conceptual/solana-fee-sponsorship) for how this works and what a sponsor has to validate.
+
+The open-source [Kora](https://github.com/solana-foundation/kora) node from the Solana Foundation does that validation, and you can self-host it. Pimlico runs a hosted, [Kora-compatible fee payer](/guides/how-to/solana): the agent's code uses the `@solana/kora` SDK's `KoraClient` pointed at Pimlico's endpoint, Pimlico's fee payer pays the SOL and charges your Pimlico balance, or the agent pays the fee in USDC or USDT on mainnet ([SPL Token Sponsorships](/guides/how-to/solana/token-sponsorship)). Pimlico's fee payer may only act as fee payer or as rent payer for accounts the transaction creates, spends at most 0.1 SOL on one transaction, and simulates every transaction before signing it.
+
+## Comparison
+
+| Option | Who pays the gas | What the agent holds | Agent's account | What you operate | Spend controls |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Native gas | The agent, in ETH, POL or SOL | Native token on every chain | Any EOA or keypair | Top-ups and gas management per agent per chain | Only the size of the balance |
+| ERC-4337 sponsorship (verifying paymaster) | You, billed by the paymaster provider | Nothing for gas | Smart account or EIP-7702 EOA | Nothing onchain | Sponsorship policies and webhooks |
+| ERC-20 paymaster | The agent, in a stablecoin | USDC, USDT or EURe (Pimlico) | Smart account or EIP-7702 EOA | Nothing onchain | The agent's token balance |
+| EIP-7702 + paymaster | You or the agent, as above | Nothing for gas, or the stablecoin | Its existing EOA, delegated | One authorization per EOA | As above |
+| Solana fee payer (Kora-compatible, e.g. Pimlico) | You, or the agent in USDC or USDT | Nothing for fees, or the token | Any Solana keypair | Nothing, or a self-hosted Kora node | The fee payer's validation rules |
+
+None of these needs custody of the agent's funds: the agent signs what moves, and the bundler, paymaster or fee payer can't change it.
+
+## How to keep an agent's spending in bounds
+
+An agent acts without a person approving each transaction, so limits belong in two places: on what you're willing to pay for, and on what the agent's account can do.
+
+### Operator side: sponsorship policies
+
+A paymaster that sponsors gas is spending your money, so it should decide which operations it pays for. Pimlico [sponsorship policies](/guides/how-to/sponsorship-policies) cap sponsorship globally, per user and per user operation. With one smart account per agent, one "user" is one agent, so a per-user limit is a per-agent gas budget. A [sponsorship policy webhook](/guides/how-to/sponsorship-policies/webhook) lets your backend approve or reject each sponsorship request in real time, for example by checking which contracts the agent is calling. When a policy declines, the agent can fall back to paying in USDC with the ERC-20 paymaster instead of stopping.
+
+Policies limit gas only. They don't stop an agent from moving the tokens its account holds: that's the account's job.
+
+### Account side: session keys and permission modules
+
+A smart account decides which signatures it accepts, so it can give the agent a key that can only do certain things, instead of full control. Common ways to do that:
+
+- **Modules on an ERC-7579 account.** [ERC-7579](/guides/how-to/accounts/use-erc7579-account) modular accounts, such as Safe with Rhinestone's safe7579 adapter, Kernel and Nexus, can install modules that extend who can sign and what they can do, such as Rhinestone's session keys module. permissionless.js installs modules with [`installModule`](/references/permissionless/reference/erc7579-actions/installModule). See the [account comparison](/guides/how-to/accounts/comparison) for which accounts support what.
+- **Kernel plugins.** [Kernel](/guides/how-to/accounts/use-kernel-account) supports plugins such as session keys, and permission settings for who can act, under which conditions and with which actions.
+- **Delegations.** The [MetaMask Delegation Toolkit](/guides/how-to/accounts/use-metamask-account) lets a smart account delegate to another signer, such as the agent's key, with granular permissions, built on ERC-7710 and ERC-7715.
+- **A second owner.** Adding a key you control as a second owner of the agent's [Safe](/guides/how-to/accounts/use-safe-account-with-multiple-signers) lets you recover funds or rotate the agent's key.
+
+All of these work with any bundler and paymaster, so you can combine account-side permissions with sponsorship policies: the policy caps the gas you pay, and the account caps what the agent can do with its funds.
+
+## Which option to choose
+
+| If your agent… | Use |
+|---|---|
+| runs on EVM chains and you want to pay its gas, within a budget | A smart account with a sponsoring paymaster and a sponsorship policy |
+| should pay its own way from the stablecoins it holds | A smart account with an ERC-20 paymaster |
+| should be sponsored up to a limit and pay in USDC after that | Both, with a fallback when the policy declines |
+| already has an EOA with funds at its address | EIP-7702, then either paymaster option |
+| transacts on Solana | A Kora-compatible fee payer, such as [Pimlico's](/guides/how-to/solana/kora-fee-payer), or a self-hosted Kora node |
+| sends only a few transactions on one chain, and you accept the top-ups | Native gas in the agent's wallet |
+
+To build the EVM setup with Pimlico, see [How to pay gas fees for an AI agent's wallet](/guides/how-to/agents/pay-gas-for-ai-agents). Mainnet use of Pimlico's paymasters needs the pay-as-you-go plan or an enterprise plan; the free plan covers testnets.
+
+## Related
+
+- [How to pay gas fees for an AI agent's wallet](/guides/how-to/agents/pay-gas-for-ai-agents)
+- [Account abstraction (ERC-4337)](/guides/conceptual/account-abstraction)
+- [How gasless stablecoin payments work](/guides/conceptual/gasless-stablecoin-payments)
+- [Solana fee sponsorship](/guides/conceptual/solana-fee-sponsorship)
+- [How to use sponsorship policies](/guides/how-to/sponsorship-policies)
+- [ERC-20 Paymaster](/guides/how-to/erc20-paymaster)
+- [EIP-7702](/guides/eip7702)
+- [Pricing](/guides/pricing)
