@@ -1,0 +1,153 @@
+---
+title: How stablecoin mass payouts work
+description: How payout platforms send USDC or USDT to thousands of recipients cheaply. Gas cost per ERC-20 transfer for new and existing token holders, how batching spreads fixed costs, ERC-4337 overhead per user operation, L2 data fees, Solana signature fees and token account rent, batch size limits, nonces, failures and screening, with a worked cost estimate.
+---
+
+# How stablecoin mass payouts work
+
+Payout platforms send stablecoins to thousands of recipients cheaply by batching many transfers into one transaction, or one ERC-4337 user operation from a smart account treasury, so the fixed cost of a transaction (one signature, one 21,000-gas base cost, one round of account validation) is paid once per batch instead of once per recipient. They run on a cheap L2 such as Base or on Solana, and sponsor gas so neither the treasury nor the recipients have to manage ETH or SOL, usually through a bundler and paymaster such as Pimlico's. After batching, most of what's left is the cost of each token transfer, which depends mainly on whether the recipient already holds the token.
+
+This page explains where the cost of a payout comes from, how to estimate it, and the limits you run into at scale. For how users and apps avoid gas in general (relayers, permits, paymasters, EIP-7702), see [How gasless stablecoin payments work](/guides/conceptual/gasless-stablecoin-payments). To build a payout, see [How to send USDC payouts to thousands of recipients](/guides/how-to/payments/payouts).
+
+## What a stablecoin transfer costs on an EVM chain
+
+A USDC or USDT transfer is a call to the token contract's `transfer` function. Its gas comes from a few protocol-defined costs ([EIP-2929](https://eips.ethereum.org/EIPS/eip-2929) access costs, `SSTORE` and `LOG` costs), which Ethereum and EVM L2s that follow the same gas schedule share:
+
+| Item | Gas | Paid |
+| :--- | ---: | :--- |
+| Transaction base cost | 21,000 | Once per transaction |
+| First access to the token contract (and to its implementation, for a proxy such as USDC) | 2,600 each | Once per transaction; 100 after that |
+| First write to the sender's (treasury's) balance | 5,000 (2,100 cold access + 2,900 update) | Once per transaction; 100 for later writes |
+| Recipient's balance, recipient already holds the token | 5,000 (2,100 cold access + 2,900 update) | Per recipient |
+| Recipient's balance, balance is zero (new holder) | 22,100 (2,100 cold access + 20,000 new value) | Per recipient |
+| `Transfer` event (`LOG3` with 32 bytes of data: 375 + 3 × 375 + 32 × 8) | 1,756 | Per recipient |
+
+Two terms are easy to mix up here. **Cold vs warm** is about access: the first time a transaction touches a storage slot it pays 2,100 gas, and later touches pay 100. Every recipient's balance is a different slot, so each one is cold, even in a batch. **Zero vs non-zero** is about the value: writing a non-zero value to a slot that holds zero costs 20,000 gas, against 2,900 to change an existing non-zero value. That's the difference between paying a new token holder and an existing one, and batching can't remove it.
+
+So the floor per recipient is 6,756 gas (5,000 + 1,756) for an existing holder and 23,856 gas (22,100 + 1,756) for a new holder, before call overhead and the token's own checks (pause, blacklist, proxy dispatch). In Pimlico's [ERC-4337 gas overhead](/guides/conceptual/erc-4337-gas-overhead) benchmark on an Ethereum mainnet fork, one USDC transfer to an existing holder sent from an EOA used **45,136 gas**: 21,000 base cost, 584 gas of calldata and 23,552 gas of execution.
+
+## How batching spreads the fixed cost
+
+With one transaction per recipient, every recipient pays the base cost, the cold token access and the cold treasury write. In a batch, those are paid once, and each extra recipient adds only its own transfer: the recipient's balance write, the event, the call itself and its calldata.
+
+You can model a batch of `n` transfers as:
+
+```
+gas(batch) ≈ fixed gas per batch + n × gas per transfer
+gas per recipient ≈ gas per transfer + fixed gas per batch / n
+```
+
+The ERC-4337 benchmark measured both terms for smart account treasuries. Subtracting a one-transfer user operation from a five-transfer one gives the marginal gas of each extra transfer (to an existing holder) and the fixed part that remains. These are derived from the measured totals, not measured separately:
+
+| Account (self-paid, no paymaster) | 1 USDC transfer | 5 USDC transfers in one user operation | Gas per extra transfer | Fixed gas per user operation |
+| :--- | ---: | ---: | ---: | ---: |
+| Simple7702Account (EIP-7702) | 125,237 | 177,368 | ≈ 13,033 | ≈ 112,204 |
+| SimpleAccount | 132,799 | 188,425 | ≈ 13,907 | ≈ 118,893 |
+| Safe 1.4.1 + Safe4337Module | 153,528 | 208,585 | ≈ 13,764 | ≈ 139,764 |
+| Kernel v3.1 | 155,217 | 212,048 | ≈ 14,208 | ≈ 141,009 |
+
+A paymaster adds to the fixed part: about 22,000 gas for sponsorship (verifying paymaster) and about 55,000 to 59,000 gas when the treasury pays gas in USDC (ERC-20 paymaster), measured in the same benchmark.
+
+### ERC-4337 overhead is per user operation, not per call
+
+A user operation's fixed cost (about 66,000 gas of EntryPoint processing, plus account validation, plus about 900 bytes of calldata for a simple operation, see [where the overhead comes from](/guides/conceptual/erc-4337-gas-overhead#where-the-overhead-comes-from)) is paid once however many calls the operation makes. One transfer per user operation costs about three times an EOA transfer; a hundred transfers in one user operation cost each recipient a fraction of the fixed overhead. Putting several user operations in one bundle shares less: only the 21,000 base cost and the bundler's payment (five operations in one bundle used 86,193 gas each, against 132,799 for one alone). For payouts, put many transfers in each user operation.
+
+### L2 data fees
+
+Rollups such as Base, Arbitrum and Optimism also charge for posting transaction data to Ethereum. Each recipient adds an address and an amount to the calldata, so this fee grows with `n` too, but it's now small: in the benchmark's onchain sample, the L1 data fee was a median of 0.19% of the fee of single-operation bundles on Base. On OP Stack chains, Pimlico's bundler adds the L1 data fee into `preVerificationGas`, so it's part of the user operation's cost. Encoding matters more on mainnet, where calldata costs 16 gas per non-zero byte and 4 per zero byte ([EIP-2028](https://eips.ethereum.org/EIPS/eip-2028)).
+
+## Solana: signature fees and token account rent
+
+Solana's base fee is per signature, not per instruction or per transfer. A transaction pays a **base fee of 5,000 lamports per signature**, plus an optional priority fee priced in micro-lamports per compute unit ([Solana fees](https://solana.com/docs/core/fees)). A transaction with 20 USDC transfers signed only by the treasury pays the same 5,000-lamport base fee as one with a single transfer. If a separate sponsor signs as fee payer, such as Pimlico's [Kora-compatible fee payer](/guides/how-to/solana/kora-fee-payer), there are two signatures, so 10,000 lamports.
+
+The bigger cost is often **rent for new recipients**. SPL tokens live in token accounts, usually each wallet's associated token account (ATA) for that mint. A recipient who has never held the token has no ATA, and the sender must create it and fund its rent-exempt minimum. By Solana's formula, `(account size + 128) × 3,480 lamports per byte-year × 2 years` ([accounts](https://solana.com/docs/core/accounts)), a 165-byte SPL token account needs **2,039,280 lamports** (about 0.00204 SOL). That's about 400 times the base fee of a transaction, so a payout to new holders on Solana is dominated by rent, not fees. Check the current figure with `getMinimumBalanceForRentExemption(165)`. The rent goes to the recipient's account and is only returned if the recipient closes it, so for the platform it's a cost. A sponsor can pay it by being named as the payer in the instruction that creates the account.
+
+## Worked example: 10,000 USDC payouts
+
+This is an estimate built from the formulas above, the benchmark numbers on the [ERC-4337 gas overhead](/guides/conceptual/erc-4337-gas-overhead) page and protocol constants. It isn't a measurement of a payout run. Real costs depend on the token, the account, the chain and the day's gas price, so measure a sample chunk before you pick a batch size.
+
+**EVM, Simple7702Account treasury, sponsored by a verifying paymaster, 200 transfers per user operation (50 user operations):**
+
+```
+fixed gas per user operation ≈ 112,204 + 22,010 (verifying paymaster) = 134,214
+existing holders:  134,214 + 200 × 13,033 = 2,740,814 gas per chunk
+                   ≈ 13,704 gas per recipient, ≈ 137.0M gas for 10,000
+new holders:       134,214 + 200 × (13,033 + 17,100) = 6,160,814 gas per chunk
+                   ≈ 30,804 gas per recipient, ≈ 308.0M gas for 10,000
+```
+
+The 17,100 is the extra cost of a new holder's balance (22,100 − 5,000). For comparison, one EOA transaction per recipient is 45,136 gas each, about 451.4M gas for 10,000 existing holders, or about 622.4M gas for new holders (45,136 + 17,100 each). Batching cuts gas by about 70% for existing holders and about 50% for new ones.
+
+To turn gas into dollars, multiply by the gas price and the ETH price. At the median gas prices on the overhead page (0.0062 gwei on Base, 0.0996 gwei on Ethereum mainnet, 9 November 2026) and $2,118.62 per ETH:
+
+| 10,000 recipients | Base | Ethereum mainnet |
+| :--- | ---: | ---: |
+| Batched, existing holders (137.0M gas) | ≈ $1.80 | ≈ $28.92 |
+| Batched, new holders (308.0M gas) | ≈ $4.05 | ≈ $65.00 |
+| One EOA transaction each, existing holders (451.4M gas) | ≈ $5.93 | ≈ $95.24 |
+
+Then add provider fees. With Pimlico, sponsored gas is billed at cost plus a 10% surcharge on mainnets (pay-as-you-go), and API usage is charged per user operation, not per recipient: about 1,050 credits per sponsored user operation, so 50 user operations use about 52,500 of the 10M credits included each month ([pricing](/guides/pricing)).
+
+**Solana, treasury as fee payer, no priority fee:**
+
+```
+existing holders:  22 transfers per transaction → 455 transactions × 5,000 lamports = 2,275,000 lamports (0.002275 SOL)
+new holders:       10 transfers + ATA creations per transaction → 1,000 transactions × 5,000 lamports = 0.005 SOL in fees
+                   + 10,000 × 2,039,280 lamports of rent = 20.3928 SOL
+```
+
+The transfers-per-transaction figures come from the transaction size limit, explained in the next section.
+
+## Practical limits
+
+### How many transfers fit in one batch
+
+- **EVM gas limit.** A batch must fit in one transaction. Since the Fusaka upgrade, Ethereum caps a transaction at 2^24 = 16,777,216 gas ([EIP-7825](https://eips.ethereum.org/EIPS/eip-7825)), below the block gas limit. With the per-transfer figures above, that's a theoretical maximum of about 1,276 transfers to existing holders, or 552 to new holders, in one sponsored Simple7702Account user operation. L2s set their own block and transaction limits, and bundlers limit the gas they accept per user operation, so stay well below the maximum: gas estimation adds headroom, and a large batch that reverts wastes more gas. Measure a sample chunk with `getRequiredPrefund` as in the [payouts guide](/guides/how-to/payments/payouts#measure-a-chunk-before-choosing-its-size).
+- **Solana size and account limits.** A transaction is at most 1,232 bytes ([transactions](https://solana.com/docs/core/transactions)), can load at most 64 accounts ([constants reference](https://solana.com/docs/core/constants-reference)) and can use at most 1,400,000 compute units ([fees](https://solana.com/docs/core/fees)). In a legacy transaction, each SPL `transfer` to a different recipient adds a 32-byte account address and a 15-byte instruction, which leaves room for about 22 transfers with one signer, 19 with a separate fee payer, and about 10 when each transfer also creates the recipient's ATA. These are byte counts from the message format, before any compute budget instructions. A versioned transaction with an address lookup table replaces each address with a 1-byte index, so the 64-account limit binds instead (about 60 recipients), but you have to create and extend the lookup table first.
+
+### Splitting batches and sending them in parallel
+
+A large run is many batches. An EOA's nonce is a single counter, so its transactions land in order and one stuck transaction holds up the rest. An ERC-4337 account's nonce has a 192-bit key and a 64-bit sequence: user operations with different keys don't wait on each other ([parallel transactions](/guides/how-to/parallel-transactions)). Derive each chunk's key from the payout run ID and chunk index, and a retried chunk reuses its nonce, so it can't pay twice. Pimlico's bundler supports up to 100 parallel user operations (contact support for more). On Solana, each transaction carries a recent blockhash rather than a nonce, so transactions can be sent in parallel; to make retries safe, check whether the original signature landed before resending, or use a durable nonce.
+
+### One bad transfer reverts the batch
+
+A batch is atomic: if one transfer reverts, for example to a blacklisted address or because the treasury runs out of balance, none of the batch's transfers happen. An ERC-4337 user operation whose execution reverts still pays for its gas, and a failed Solana transaction still pays its fee. To limit the damage:
+
+- Validate every recipient and amount before you build the batch, and check the treasury balance covers the whole run.
+- Simulate each batch before sending. Bundler gas estimation runs the user operation against current state, so a batch that would revert fails at estimation instead of on chain.
+- When a batch fails, find the bad recipient, remove it, and resend the rest as a new batch.
+- If partial success is acceptable, a custom disperse contract can wrap each transfer in a low-level call and record failures instead of reverting, at the cost of auditing that contract.
+
+### Screening before sending
+
+Run compliance checks on the recipient list before transfers are batched, not after they land. Screen addresses against sanctions lists, and for USDC also check the token's own blacklist (`isBlacklisted(address)` on Circle's EVM contracts), since a transfer to a blacklisted address reverts the batch. On Solana, a transfer to a frozen token account fails the transaction. If you sponsor gas with Pimlico, a [sponsorship policy webhook](/guides/how-to/sponsorship-policies/webhook) can approve or reject each user operation from your own rules, and a [sponsorship policy](/guides/how-to/sponsorship-policies) with a global limit caps what a bug in the payout job can spend.
+
+## Comparing approaches
+
+| Approach | Fixed cost paid | Per-recipient cost | Who pays gas | Parallel sends | Failure | Notes |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| One EOA transaction per recipient | Every recipient (21,000 base + cold token and treasury access) | 45,136 gas for an existing USDC holder (benchmark) | The treasury, in ETH on every chain | No: one nonce sequence | Each transfer fails alone | Simplest; most expensive; one stuck transaction blocks the rest |
+| Multicall or disperse contract (from an EOA) | Once per transaction | Transfer cost plus a `transferFrom` allowance read and update | The treasury, in ETH | No: one nonce sequence | Whole batch reverts, unless the contract catches failures | Needs an approval to the contract; a generic Multicall doesn't work because the token sees the contract, not the treasury, as sender |
+| Smart account batch via a bundler (ERC-4337, or an EIP-7702 EOA) | Once per user operation (about 112,000 to 141,000 gas, plus the paymaster) | ≈ 13,000 to 14,200 gas for an existing holder; + 17,100 for a new holder | A paymaster: sponsored, or paid from the treasury's USDC | Yes: nonce keys | Whole user operation reverts | No ETH to manage; works with any token; Pimlico runs the bundler and paymaster on 100+ EVM chains |
+| Solana multi-instruction transaction | 5,000 lamports per signature per transaction | No fee per transfer; 2,039,280 lamports of rent per new recipient's token account | The fee payer, in SOL, or a sponsor such as Pimlico's fee payer | Yes | Whole transaction fails | About 20 transfers per legacy transaction; more with lookup tables |
+
+## Push or pull
+
+Everything above is a push model: the platform pays every recipient. Airdrops and incentive programs often use a pull model instead: the platform publishes a Merkle root of who is owed what, and each recipient submits a claim. The platform pays almost nothing per recipient, but each claim is a transaction someone pays for, so recipients need gas unless claims are sponsored. Push suits payroll and marketplace payouts, where recipients expect funds to arrive without doing anything.
+
+## How Pimlico fits in
+
+For EVM chains, Pimlico runs the [Alto](https://github.com/pimlicolabs/alto) bundler and a [verifying paymaster](/references/paymaster/verifying-paymaster) on 100+ chains. A payout treasury is a smart account (or an EIP-7702 EOA) that batches transfers into user operations, sends them in parallel with nonce keys, and either has its gas sponsored from your Pimlico balance or pays it from its own USDC with the [ERC-20 Paymaster](/guides/how-to/erc20-paymaster). Pimlico fronts sponsored gas and bills it monthly, so there's no gas tank to prefund. On Solana, Pimlico's Kora-compatible fee payer pays the SOL fee and can be the rent payer for the token accounts a transaction creates ([Solana fee sponsorship](/guides/conceptual/solana-fee-sponsorship)).
+
+## Related
+
+- [How to send USDC payouts to thousands of recipients](/guides/how-to/payments/payouts)
+- [How gasless stablecoin payments work](/guides/conceptual/gasless-stablecoin-payments)
+- [ERC-4337 gas overhead](/guides/conceptual/erc-4337-gas-overhead)
+- [Batch multiple transactions from a smart account](/guides/tutorials/send-transaction)
+- [Send user operations in parallel](/guides/how-to/parallel-transactions)
+- [Sponsorship policies](/guides/how-to/sponsorship-policies)
+- [How to send USDC without ETH for gas](/guides/how-to/payments/send-usdc-without-eth)
+- [Solana fee sponsorship](/guides/conceptual/solana-fee-sponsorship)
+- [How to set up a Kora fee payer without running a Kora node](/guides/how-to/solana/kora-fee-payer)
+- [Pricing](/guides/pricing)

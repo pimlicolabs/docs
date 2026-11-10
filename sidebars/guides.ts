@@ -418,6 +418,10 @@ export const conceptualSidebar = [
 		link: "/guides/conceptual/gasless-stablecoin-payments",
 	},
 	{
+		text: "Stablecoin mass payouts",
+		link: "/guides/conceptual/stablecoin-mass-payouts",
+	},
+	{
 		text: "Gasless swaps",
 		link: "/guides/conceptual/gasless-swaps",
 	},
