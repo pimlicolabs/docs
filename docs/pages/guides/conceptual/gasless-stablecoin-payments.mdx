@@ -58,54 +58,9 @@ To build it with Pimlico, see [How to send USDC without ETH for gas](/guides/how
 
 ## How do payout platforms send stablecoins to thousands of recipients cheaply?
 
-They batch many transfers into each onchain transaction, so fixed per-transaction costs are paid once per batch instead of once per recipient, send batches in parallel, and run on a chain with low gas prices. After batching, the dominant cost is the token transfer itself, which depends mostly on whether each recipient already holds the token.
+They batch many transfers into each onchain transaction, so fixed per-transaction costs are paid once per batch instead of once per recipient, send batches in parallel, and run on a chain with low gas prices. A smart account treasury batches `transfer` calls into one user operation and has its gas sponsored by a paymaster, or pays it from its own USDC, so it never holds ETH. After batching, the dominant cost is the token transfer itself, which depends mostly on whether each recipient already holds the token.
 
-### Batching: one transaction, many transfers
-
-A smart account treasury can execute many `transfer` calls in a single user operation, which runs inside one transaction. The treasury is the `msg.sender` of every transfer, so it pays directly from its balance with no approval step. An EOA treasury has two other options: approve a disperse-style contract that calls `transferFrom` for each recipient (each call also reads, and usually updates, the allowance), or delegate the EOA with EIP-7702 and batch from it directly. A generic Multicall contract doesn't work on its own, because the token would see the Multicall contract, not the treasury, as the sender.
-
-If one transfer in a batch reverts (for example to a blacklisted address, or because the balance runs out), the whole batch reverts. Validate recipients before batching.
-
-### What a transfer costs, from protocol constants
-
-You can work out the floor from Ethereum's gas schedule ([EIP-2929](https://eips.ethereum.org/EIPS/eip-2929) access costs, `SSTORE` and `LOG` costs). These apply on Ethereum and on EVM L2s that follow the same schedule:
-
-| Item | Gas | When it's paid |
-| :--- | ---: | :--- |
-| Transaction base cost | 21,000 | Once per transaction |
-| First access to the token contract (and to its implementation, for a proxy like USDC) | 2,600 each | Once per transaction; 100 after that |
-| First write to the treasury's balance | 5,000 (2,100 cold access + 2,900 update) | Once per transaction; 100 for later writes |
-| Recipient's balance, recipient already holds the token | 5,000 (2,100 + 2,900) | Per recipient |
-| Recipient's balance, balance currently zero | 22,100 (2,100 + 20,000 for a new storage value) | Per recipient |
-| `Transfer` event (`LOG3` with 32 bytes of data: 375 + 3 × 375 + 32 × 8) | 1,756 | Per recipient |
-
-From the per-recipient rows alone, each recipient in a batch costs at least 6,756 gas (5,000 + 1,756) if they already hold the token, and 23,856 gas (22,100 + 1,756) if their balance is zero, before call overhead, calldata and the token's own checks (pause, blacklist, proxy dispatch). Sending the same payout as a separate transaction per recipient adds at least the 21,000 base cost, the cold token access and the cold treasury write to every recipient, so batching removes a large share of the cost for recipients who already hold the token, and a smaller share for new holders, whose 20,000-gas storage write can't be batched away.
-
-An ERC-4337 user operation adds its own fixed overhead (account validation, the EntryPoint and the paymaster), which is also paid once per batch. Real costs depend on the token, the account and the chain, so measure a sample batch before choosing a batch size; the [payouts guide](/guides/how-to/payments/payouts#measure-a-chunk-before-choosing-its-size) shows how with `getRequiredPrefund`.
-
-### Cost per recipient
-
-Per recipient, a payout costs roughly:
-
-```
-cost per recipient ≈ (per-recipient gas + fixed gas per batch / recipients per batch) × gas price
-                     + (L1 data fee per batch / recipients per batch, on rollups)
-                     + provider fees
-```
-
-- **Gas price** is the biggest lever. Gas prices on L2 rollups such as Base, Arbitrum and Optimism are typically much lower than on Ethereum mainnet, but they move with demand, so price a run from the current gas price. Also check that recipients can receive on the chain you pick, and whether the stablecoin there is the issuer's native token or a bridged version.
-- **L1 data fee**: rollups also charge for posting transaction data to Ethereum. Each recipient adds an address and an amount to the calldata, so this part also grows with the number of recipients.
-- **Provider fees** with Pimlico: sponsored gas is billed at the actual gas cost plus the paymaster surcharge (10% on mainnets on pay-as-you-go), or the treasury pays gas in USDC through the ERC-20 Paymaster (10% markup on pay-as-you-go). API usage is charged per user operation, not per recipient: the [pricing page](/guides/pricing) estimates about 1,050 credits per sponsored user operation, or about $0.0105 beyond the included credits at $1 per 100,000 credits. With 100 recipients per user operation, that's about $0.0001 per recipient.
-
-### Parallel sends and safe retries
-
-Large runs need many batches. An ERC-4337 account's nonce has a 192-bit key and a 64-bit sequence: operations with different keys don't wait on each other, so batches can land in parallel ([parallel transactions](/guides/how-to/parallel-transactions)). Pimlico's bundler supports up to 100 parallel user operations (contact support for more). If you derive each batch's nonce key from the payout run and batch index, a retried batch reuses its nonce and can't pay twice.
-
-### Push or pull
-
-Everything above is a push model: the platform pays every recipient. Some distributions, such as airdrops and incentive programs, use a pull model instead: the platform publishes a Merkle root of who is owed what, and each recipient submits a claim. The platform pays almost nothing per recipient, but each claim is a transaction that someone has to pay gas for, so recipients need gas unless claims are sponsored. Push suits payroll and marketplace payouts, where recipients expect funds to arrive without doing anything.
-
-To build a push payout with Pimlico, see [How to send USDC payouts to thousands of recipients](/guides/how-to/payments/payouts).
+[How stablecoin mass payouts work](/guides/conceptual/stablecoin-mass-payouts) breaks down the gas per transfer for new and existing holders, ERC-4337 overhead per user operation, L2 data fees, Solana fees and token account rent, with a worked cost estimate, batch size limits and a comparison of approaches. To build a push payout with Pimlico, see [How to send USDC payouts to thousands of recipients](/guides/how-to/payments/payouts).
 
 ## How does a remittance app hide gas from senders and recipients?
 
@@ -144,6 +99,7 @@ Mainnet use of Pimlico's paymasters needs the pay-as-you-go plan or an enterpris
 
 - [How to send USDC without ETH for gas](/guides/how-to/payments/send-usdc-without-eth)
 - [How to send USDC payouts to thousands of recipients](/guides/how-to/payments/payouts)
+- [How stablecoin mass payouts work](/guides/conceptual/stablecoin-mass-payouts)
 - [How to send USDC remittances without ETH for gas](/guides/how-to/payments/remittances)
 - [How to accept USDC from an EOA without gas fees](/guides/how-to/payments/accept-usdc-from-eoa)
 - [Account abstraction (ERC-4337)](/guides/conceptual/account-abstraction)

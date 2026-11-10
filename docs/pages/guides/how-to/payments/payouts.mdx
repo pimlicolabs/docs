@@ -103,7 +103,7 @@ For a hash with no receipt yet, ask the bundler for its status. Statuses are kep
 
 ## Estimate the cost of a payout run
 
-There's no fixed price per recipient. Work it out from your own measurements:
+There's no fixed price per recipient. Work it out from your own measurements (for the cost model and a worked estimate, see [How stablecoin mass payouts work](/guides/conceptual/stablecoin-mass-payouts)):
 
 - **Before sending**: `getRequiredPrefund` on a prepared chunk is the upper bound in wei. In ERC-20 mode, `pimlicoClient.estimateErc20PaymasterCost({ userOperation, token })` returns the same bound in USDC and in USD (6 decimals), see [calculate costs](/guides/how-to/erc20-paymaster/how-to/calculate-costs).
 - **After sending**: `receipt.actualGasCost` is what the chunk actually cost in wei. Sum it across chunks for the run's gas spend.
@@ -113,6 +113,7 @@ For predictable, high-volume sponsored workloads, [Boosted Sponsorships](/guides
 
 ## Related
 
+- [How stablecoin mass payouts work](/guides/conceptual/stablecoin-mass-payouts)
 - [How gasless stablecoin payments work](/guides/conceptual/gasless-stablecoin-payments)
 - [Send user operations in parallel](/guides/how-to/parallel-transactions)
 - [Batch multiple transactions from a smart account](/guides/tutorials/send-transaction)
