@@ -129,6 +129,8 @@ Pimlico runs [Alto](https://github.com/pimlicolabs/alto), an open-source ERC-433
 
 ## Methodology
 
+The benchmark code and raw results are open source: [pimlicolabs/erc4337-gas-benchmarks](https://github.com/pimlicolabs/erc4337-gas-benchmarks). Run `pnpm bench` against a mainnet fork to reproduce every number in the controlled benchmark.
+
 **Controlled benchmark.** We forked Ethereum mainnet with Anvil (Foundry 1.8.4) at block 26,377,620 (9 November 2026 13:25 UTC) and sent every UserOperation in its own `handleOps` transaction to the canonical EntryPoint v0.7 (`0x0000000071727De22E5E9d8BAf0edAc6f37da032`) or v0.8 (`0x4337084D9E255Ff0702461CF8895CE9E3b5Ff108`), signed with accounts built by viem 2.57 and permissionless 0.5.2. Every recipient already held ETH and USDC, so no transfer created a new balance. Accounts were funded with ETH and kept a deposit in the EntryPoint after their first operation, so steady-state operations didn't transfer a prefund unless noted. Gas is the receipt's `gasUsed`. The component split uses Anvil's `debug_traceTransaction` call tracer. For the paymaster runs, we added a test signer to the paymaster's signer list on the fork; the contracts and their code are the ones deployed on mainnet.
 
 **Onchain data.** We read `UserOperationEvent` and `AccountDeployed` logs from EntryPoint v0.6, v0.7 and v0.8 through public RPC endpoints:
