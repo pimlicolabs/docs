@@ -7,6 +7,8 @@ description: Let an AI agent with its own wallet send onchain transactions witho
 
 This guide shows you how to pay gas for an AI agent that sends transactions from its own wallet, without funding the agent with ETH. The agent gets a smart account, and Pimlico's **verifying paymaster** sponsors its gas from your Pimlico balance. If you'd rather the agent pay its own gas, see [Let the agent pay its own gas in USDC](#let-the-agent-pay-its-own-gas-in-usdc).
 
+For how these options compare, including EIP-7702, Solana and spend limits, see [How AI agents pay gas fees](/guides/conceptual/ai-agent-gas-fees).
+
 This guide uses Base. The same code works on any [supported chain](/guides/supported-chains) once you change the chain, the RPC URL and the USDC address.
 
 ## Prerequisites
@@ -88,6 +90,7 @@ To sponsor based on which contracts the agent calls, add a [sponsorship policy w
 
 ## Related
 
+- [How AI agents pay gas fees](/guides/conceptual/ai-agent-gas-fees)
 - [How to use the ERC-20 Paymaster](/guides/how-to/erc20-paymaster/how-to/use-paymaster)
 - [Account abstraction (ERC-4337)](/guides/conceptual/account-abstraction)
 - [Verifying paymaster reference](/references/paymaster/verifying-paymaster)
