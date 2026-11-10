@@ -430,6 +430,10 @@ export const conceptualSidebar = [
 		link: "/guides/conceptual/ai-agent-gas-fees",
 	},
 	{
+		text: "Approve and swap in one transaction",
+		link: "/guides/conceptual/approve-and-swap-in-one-transaction",
+	},
+	{
 		text: "EIP-7702",
 		link: "/guides/eip7702",
 		items: eip7702Sidebar,

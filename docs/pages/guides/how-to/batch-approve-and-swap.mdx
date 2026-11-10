@@ -100,12 +100,13 @@ To check those capabilities first, see [sponsoring transactions for external wal
 
 ## Notes
 
-- If your users stay on plain EOAs and you only want to avoid a separate approval per swap, use [Uniswap's Permit2](https://docs.uniswap.org/contracts/permit2/overview) instead: it replaces later approvals with signatures, but still needs one approval transaction per token and ETH for gas.
+- If your users stay on plain EOAs and you only want to avoid a separate approval per swap, use [Uniswap's Permit2](https://docs.uniswap.org/contracts/permit2/overview) instead: it replaces later approvals with signatures, but still needs one approval transaction per token and ETH for gas. For how Permit2, EIP-2612 permits, EIP-5792 and smart account batching compare, see [Approve and swap in one transaction](/guides/conceptual/approve-and-swap-in-one-transaction).
 - If you ship this in a client app, proxy Pimlico requests through your backend so your API key isn't exposed ([guide](/guides/how-to/security/protect-api-keys)).
 - To cap sponsored spend per user or sponsor only calls to your router, pass a `sponsorshipPolicyId` ([sponsorship policies](/guides/how-to/sponsorship-policies)).
 
 ## Related
 
+- [Approve and swap in one transaction: Permit2, EIP-2612, EIP-5792 and smart account batching](/guides/conceptual/approve-and-swap-in-one-transaction)
 - [How gasless swaps work](/guides/conceptual/gasless-swaps)
 - [How to let users swap on Base without ETH](/guides/how-to/payments/swap-without-eth)
 - [How to pay gas from the token being swapped](/guides/how-to/payments/pay-gas-from-swapped-token)
