@@ -178,15 +178,17 @@ If your users sign with a wallet like Phantom, use the wallet as the signer inst
 
 ## Errors
 
-Errors are thrown as `KoraError` with a `code`, `message`, and `data`. If the payment is too small, usually because prices moved since the quote, `signAndSendTransaction` fails with `-32000` and the message `Insufficient token payment`. Get a new payment instruction and send again.
+Errors are thrown as an `Error` whose message has the form `RPC Error <code>: <message>`. If the payment is too small, usually because prices moved since the quote, `signAndSendTransaction` fails with `-32000` and the message `Insufficient token payment`. Get a new payment instruction and send again.
 
 ```ts
-import { KoraError } from "@solana/kora";
-
 try {
     await kora.signAndSendTransaction({ transaction });
 } catch (error) {
-    if (error instanceof KoraError && error.message.includes("Insufficient token payment")) {
+    if (
+        error instanceof Error &&
+        error.message.startsWith("RPC Error -32000:") &&
+        error.message.includes("Insufficient token payment")
+    ) {
         // Quote again and resend
     }
 }

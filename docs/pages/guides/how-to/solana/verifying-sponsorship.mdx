@@ -168,16 +168,16 @@ If your users sign with a wallet like Phantom, use the wallet as the signer inst
 
 ## Errors
 
-Errors from the paymaster are thrown as `KoraError` with a `code`, `message`, and `data`.
+Errors from the paymaster are thrown as an `Error` whose message has the form `RPC Error <code>: <message>`. Read the code from the start of the message.
 
 ```ts
-import { KoraError } from "@solana/kora";
-
 try {
     await kora.signAndSendTransaction({ transaction });
 } catch (error) {
-    if (error instanceof KoraError) {
-        console.error(error.code, error.message, error.data);
+    const match = error instanceof Error ? /^RPC Error (-?\d+): (.*)$/s.exec(error.message) : null;
+    if (match) {
+        const code = Number(match[1]);
+        console.error(code, match[2]);
     }
 }
 ```
