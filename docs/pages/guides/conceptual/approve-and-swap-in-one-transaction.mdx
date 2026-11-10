@@ -1,0 +1,113 @@
+---
+title: "Approve and swap in one transaction: Permit2, EIP-2612, EIP-5792 and smart account batching"
+description: Why an ERC-20 approve and a swap take two transactions from an EOA, and the ways to make them one. Compares EIP-2612 permit, Uniswap's Permit2, ERC-4337 smart account batching, EIP-7702 and EIP-5792 wallet_sendCalls on signatures, token support, wallet requirements, leftover allowances and gas sponsorship.
+---
+
+# Approve and swap in one transaction: Permit2, EIP-2612, EIP-5792 and smart account batching
+
+An EOA can't batch two calls: every transaction it sends makes one call, so an ERC-20 `approve` and the swap that uses it are two transactions and two wallet prompts. There are three ways around it. If the token supports it, the user signs an [EIP-2612](https://eips.ethereum.org/EIPS/eip-2612) `permit` that the swap transaction submits. With [Permit2](https://docs.uniswap.org/contracts/permit2/overview), the user approves the Permit2 contract once per token and then authorizes each swap with a signature. With a smart account (ERC-4337, or an EOA upgraded with [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702)), the approve and the swap run as two calls in one atomic user operation, sent through a bundler such as Pimlico's or through the user's wallet with [EIP-5792](https://eips.ethereum.org/EIPS/eip-5792) `wallet_sendCalls`, and a paymaster can sponsor its gas.
+
+This page explains how each approach works and how they compare. To build the smart account version, see [How to batch an approve and a swap into one transaction](/guides/how-to/batch-approve-and-swap).
+
+## Why approve and swap are two transactions on an EOA
+
+An ERC-20 token doesn't notify a contract when it receives tokens, so a DEX router can't react to a plain `transfer`. Instead, the router pulls the tokens with `transferFrom(user, router, amount)`, and the token only allows that if the user has first called `approve(router, amount)`. The token checks `msg.sender`, so the approval must come from the user's own address.
+
+An EOA transaction has one `to` address and one calldata, so it makes exactly one top-level call. The user can't call the token and the router in the same transaction, and routing both calls through a multicall contract doesn't help: the token would see the multicall contract, not the user, as the sender of `approve`. So a first swap of an ERC-20 from an EOA takes two transactions: the approval, then the swap.
+
+That has two costs:
+
+- **UX.** Two wallet prompts, two gas payments in the chain's native token, and a wait for the approval to land before the swap can be sent. If the user abandons after the first prompt, they've paid gas for an approval and haven't swapped.
+- **Security.** To avoid asking again on the next swap, many apps request an unlimited allowance (`type(uint256).max`). That allowance stays after the swap. If the approved contract is later exploited, or the user was tricked into approving a malicious one, it can move the user's whole balance of that token without asking. Users have to revoke allowances themselves, which is another transaction.
+
+## Option 1: EIP-2612 permit
+
+**How it works.** [EIP-2612](https://eips.ethereum.org/EIPS/eip-2612) adds a `permit(owner, spender, value, deadline, v, r, s)` function to the token. The user signs EIP-712 typed data containing the spender, the amount, the token's per-owner `nonces(owner)` value and a deadline. Anyone can submit the signature: `permit` checks it and sets the allowance as if the owner had called `approve`. A router (or a contract in front of it) that accepts a permit can call `permit` and then `transferFrom` in the same transaction as the swap.
+
+**What the user signs.** One off-chain typed-data signature for the permit, which costs no gas, plus the swap transaction itself. The transaction still needs gas, paid by the user in ETH or by a relayer or smart account that submits it for them.
+
+**Token support.** Only tokens that implement EIP-2612. USDC does. Many tokens don't, including USDT and WETH on Ethereum mainnet, and support can differ between deployments of the same token on different chains, so check each contract. DAI on Ethereum mainnet has a permit that predates EIP-2612 and has a different signature, `permit(holder, spender, nonce, expiry, allowed, v, r, s)`: `allowed` is a boolean that sets the allowance to unlimited or to zero, so it can't approve an exact amount. Code that calls a standard EIP-2612 permit fails on it.
+
+**One-time setup.** None. Every swap, including the first, is one signature plus one transaction.
+
+**Remaining approval risk.** The permit sets an ordinary allowance. If the user signs exactly the swap amount and the swap uses it, nothing is left over. If they sign a larger amount, the rest stays approved until it's spent or revoked. Permit nonces are sequential per owner, so a permit is only valid after earlier ones have been used. A signed permit can be submitted by anyone before its deadline, so a phishing site that gets the user to sign one can use it.
+
+## Option 2: Permit2
+
+**How it works.** [Permit2](https://docs.uniswap.org/contracts/permit2/overview) is a contract by Uniswap, deployed at the same address on many chains, that adds signature-based approvals to every ERC-20, including tokens without `permit`. The user approves the Permit2 contract on the token once, usually for an unlimited amount. After that, apps that integrate Permit2 get access to the tokens through Permit2, authorized by signatures. It has two modes:
+
+- **AllowanceTransfer.** The user signs a permit that sets an allowance inside Permit2 for a spender, with an amount and an expiration. The spender can then pull tokens through Permit2 until the amount or the time runs out. Uniswap's Universal Router uses this mode.
+- **SignatureTransfer.** The user signs a permit for one specific transfer, with a deadline and a nonce. The signature is used once and no allowance is left at the spender. UniswapX orders use this mode, with the order attached as witness data.
+
+**What the user signs.** For the first swap of a token: an `approve` transaction to Permit2, then a typed-data signature, then the swap transaction. For later swaps of that token: a signature and the swap transaction, or only the swap transaction while an AllowanceTransfer allowance is still valid.
+
+**Token support.** Any ERC-20, because the only thing the token has to do is the standard `approve` and `transferFrom`. The app and router must integrate Permit2.
+
+**One-time setup.** Yes: one approval transaction per token, per chain, that costs gas like any other. A token that supports EIP-2612 can set the Permit2 approval with a permit instead, if the app supports that path.
+
+**Remaining approval risk.** The approval to Permit2 itself is usually unlimited and stays in place. It's only usable with the user's signature, so the risk moves from contracts holding allowances to the signatures the user is asked to sign: a phishing site that gets a Permit2 signature can take the tokens it covers. AllowanceTransfer allowances expire, and Permit2 has a `lockdown` function to revoke them early. SignatureTransfer leaves no allowance at the spender.
+
+## Option 3: smart account batching (ERC-4337 and EIP-7702)
+
+**How it works.** A smart account is a contract, so it can execute several calls in order when it's called once. With [ERC-4337](/guides/conceptual/account-abstraction), the user signs one user operation containing `[approve(router, amount), swap(...)]`, a bundler submits it, and the account runs both calls. If either call reverts, both revert, so the user never ends up with an approval and no swap.
+
+Users who already have an EOA can keep their address and balances by delegating it to smart account code with [EIP-7702](/guides/eip7702). The EOA signs an authorization pointing at a smart account implementation, and the first user operation on each chain carries it; after that, the EOA batches like any smart account. The [ERC-4337 vs EIP-7702](/guides/eip7702/erc4337-vs-eip7702) page compares the two.
+
+**What the user signs.** One signature over the user operation for each swap, including the first. With EIP-7702, the first operation on each chain also needs the authorization signature, which can be sent in the same transaction. Both are signed by the account's signer, typically an embedded wallet or passkey signer in your app.
+
+**Token support.** Any ERC-20, and any router or aggregator. The batch is just calls, so the token doesn't need `permit` and the router doesn't need Permit2.
+
+**One-time setup.** None that the user pays for separately. A contract account is deployed in its first user operation, and an EIP-7702 delegation goes in with the first operation. In Pimlico's [ERC-4337 gas overhead](/guides/conceptual/erc-4337-gas-overhead) benchmark, an EIP-7702 account's first operation used 161,568 gas, against 311,988 to 453,037 gas to deploy and use a contract account.
+
+**Remaining approval risk.** None if you approve exactly the sell amount, because the swap spends it in the same operation. There's no reason to request an unlimited allowance, since the next swap batches its own approval.
+
+**Gas.** A paymaster can pay for the whole user operation, approval included, either sponsored from your balance or paid by the user in a token such as USDC. ERC-4337's fixed costs are paid once per user operation, not per call, so the approval adds only its own execution to the swap; see [where the overhead comes from](/guides/conceptual/erc-4337-gas-overhead#where-the-overhead-comes-from).
+
+## EIP-5792: batching through the user's wallet
+
+If users connect their own wallet, such as a browser extension or a mobile wallet, your app can't sign user operations or EIP-7702 authorizations for them. [EIP-5792](https://eips.ethereum.org/EIPS/eip-5792) lets the app ask the wallet to do the batching instead:
+
+- `wallet_getCapabilities` returns, per chain, what the wallet supports. Its `atomic` capability has a `status` of `supported` (the wallet executes batches atomically), `ready` (the wallet can, after the user agrees to upgrade the account, for example with EIP-7702) or `unsupported`.
+- `wallet_sendCalls` sends a list of calls, such as the approve and the swap, with an `atomicRequired` flag. With `atomicRequired: true`, the wallet must execute all the calls atomically, or reject the request. With `false`, the wallet may run them one after another as separate transactions, and some may succeed while others fail.
+- `wallet_getCallsStatus` reports whether the batch landed and whether it ran atomically.
+
+In viem, `sendCalls` sends the request and `forceAtomic: true` sets `atomicRequired`. To sponsor gas through the wallet, pass a paymaster URL in the `paymasterService` capability ([ERC-7677](https://eips.ethereum.org/EIPS/eip-7677)) when the wallet reports support for it; see [sponsoring transactions for external wallets](/guides/eip7702/external).
+
+**Wallet support is the caveat.** EIP-5792 is only as useful as the wallets that implement it. Many EOA wallets don't support `wallet_sendCalls`, some support it but not atomically, and support varies by chain. Check `wallet_getCapabilities` for the connected wallet and chain, and keep a fallback: Permit2, a permit, or the two-transaction flow.
+
+## Comparison
+
+| | EOA: approve, then swap | EIP-2612 permit | Permit2 | Smart account batch (ERC-4337 or EIP-7702) | EIP-5792 `wallet_sendCalls` |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| First swap of a token | 2 transactions | 1 signature + 1 transaction | 1 approval transaction + 1 signature + 1 swap transaction | 1 user operation signature (+ 1 authorization on first use with EIP-7702) | 1 wallet confirmation, if the wallet batches atomically |
+| Later swaps | 1 transaction if an allowance is left, otherwise 2 | 1 signature + 1 transaction | 1 signature + 1 transaction (no signature while an allowance is valid) | 1 user operation signature | 1 wallet confirmation |
+| Token coverage | Any ERC-20 | Tokens with EIP-2612 permit (USDC yes; USDT and WETH on mainnet no; DAI's permit is non-standard) | Any ERC-20, if the app integrates Permit2 | Any ERC-20 and any router | Any ERC-20 and any router |
+| Wallet requirement | Any EOA | Any wallet that signs EIP-712 | Any wallet that signs EIP-712 | Smart account or EIP-7702 EOA your app can sign for | A wallet whose `atomic` capability is `supported` or `ready` on the chain |
+| Leftover allowance | Often unlimited, to the router | The signed amount minus what was spent | Usually an unlimited approval to Permit2; AllowanceTransfer allowances until expiry | None if you approve the exact amount | None if you approve the exact amount |
+| Gas sponsorship | No: the user pays ETH for both | The signature is free; the transaction needs a relayer or a sponsored smart account to submit it | The approval needs gas; signatures can be relayed | Yes, with a paymaster | If the wallet supports `paymasterService` (ERC-7677) |
+| Atomic | No | Yes, within one transaction | Yes, for the swap; the first approval is separate | Yes | Only with `atomicRequired: true` |
+
+The approaches combine. A smart account can sign Permit2 permits and intent orders, and a paymaster can sponsor the one-time Permit2 approval. A relayer or server smart account can submit a user's EIP-2612 permit and the swap in one sponsored user operation.
+
+## Which to choose
+
+- **You control the account** (embedded wallet, passkey signer, smart account, or an EOA you can upgrade with EIP-7702): batch the approve and the swap in one user operation. It works for any token and router, leaves no allowance and can be gas-sponsored.
+- **Users connect an external wallet:** check `wallet_getCapabilities` and use `wallet_sendCalls` with `atomicRequired: true` where the wallet supports atomic batching. Elsewhere, fall back to Permit2 if your router supports it, or to EIP-2612 for tokens that implement it.
+- **You only need to remove repeat approvals on plain EOAs:** Permit2 covers every token, at the cost of one approval transaction per token and an unlimited approval to the Permit2 contract.
+
+## How Pimlico fits in
+
+Pimlico runs the ERC-4337 infrastructure for the smart account approach: the [Alto](https://github.com/pimlicolabs/alto) bundler that submits the batched user operation, a [verifying paymaster](/references/paymaster/verifying-paymaster) that sponsors its gas from your Pimlico balance under [sponsorship policies](/guides/how-to/sponsorship-policies), and an [ERC-20 Paymaster](/references/paymaster/erc20-paymaster) that lets the user pay gas in the token they're selling. The same bundler and paymaster work with EIP-7702 EOAs, and a Pimlico paymaster URL can be passed to wallets that support `paymasterService`. Pimlico doesn't quote or route swaps; use the DEX or aggregator you already use. For the swap side, including taking the gas fee out of the sell amount, see [How gasless swaps work](/guides/conceptual/gasless-swaps).
+
+## Related
+
+- [How to batch an approve and a swap into one transaction](/guides/how-to/batch-approve-and-swap)
+- [Batch multiple transactions from a smart account](/guides/tutorials/send-transaction)
+- [How gasless swaps work](/guides/conceptual/gasless-swaps)
+- [How to pay gas from the token being swapped](/guides/how-to/payments/pay-gas-from-swapped-token)
+- [EIP-7702](/guides/eip7702)
+- [ERC-4337 vs EIP-7702](/guides/eip7702/erc4337-vs-eip7702)
+- [Sponsoring transactions for external wallets](/guides/eip7702/external)
+- [How to sponsor transaction fees](/guides/how-to/paymasters/sponsor-transaction-fees)
+- [Sponsorship policies](/guides/how-to/sponsorship-policies)
+- [ERC-4337 gas overhead](/guides/conceptual/erc-4337-gas-overhead)
