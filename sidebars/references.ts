@@ -335,6 +335,21 @@ export const paymasterSidebar = [
 	},
 ];
 
+export const fastBridgeSidebar = [
+	{
+		text: "Overview",
+		link: "/references/fast-bridge",
+	},
+	{
+		text: "Endpoints",
+		link: "/references/fast-bridge/endpoints",
+	},
+	{
+		text: "Errors",
+		link: "/references/fast-bridge/errors",
+	},
+];
+
 export const permissionlessSidebar = [
 	{
 		text: "Overview",

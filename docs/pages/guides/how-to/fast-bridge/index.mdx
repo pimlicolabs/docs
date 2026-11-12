@@ -1,0 +1,41 @@
+---
+description: Move a user's tokens between Base, Arbitrum, BSC, Robinhood Chain and Solana in seconds with Pimlico Fast Bridge, from one signed authorization and with no gas on either chain.
+---
+
+# Fast Bridge
+
+Fast Bridge moves your users' stablecoins from one chain to another in seconds. The user signs one authorization for the token on the origin chain, and Pimlico delivers the same amount from its own liquidity on the destination chain. Pimlico pays the gas on both chains, so the user needs no native token anywhere.
+
+Fast Bridge is an HTTP API at `https://api.pimlico.io/v1/bridge` that uses your Pimlico API key.
+
+## Bridge tokens
+
+Deliver the bridged tokens to the user, or to any recipient, on the destination chain.
+
+[Bridge tokens between chains →](/guides/how-to/fast-bridge/bridge-tokens)
+
+## Bridge tokens and call contracts
+
+Spend the bridged tokens on the destination chain in the same request, for example to deposit them into a vault or pay a merchant.
+
+[Bridge tokens and call contracts →](/guides/how-to/fast-bridge/bridge-and-call)
+
+## Supported chains
+
+| Chain | Token | Authorizations |
+|---|---|---|
+| Base | USDC | `eip3009`, `permit2` |
+| Arbitrum | USDC (native) | `eip3009`, `permit2` |
+| BSC | USDC (Binance-Peg) | `permit2` |
+| Robinhood Chain | USDG | `eip3009`, `permit2` |
+| Solana | USDC | `solana-transaction` |
+
+Any route between two different chains in the table works, up to 1,000 tokens per request. For token addresses, decimals and limits, see [supported chains and tokens](/references/fast-bridge#supported-chains-and-tokens).
+
+## Next steps
+
+- [How to bridge tokens between chains](/guides/how-to/fast-bridge/bridge-tokens)
+- [How to bridge tokens and call contracts on the destination chain](/guides/how-to/fast-bridge/bridge-and-call)
+- [Fast Bridge reference](/references/fast-bridge)
+- [Fast Bridge endpoints](/references/fast-bridge/endpoints)
+- [Fast Bridge errors](/references/fast-bridge/errors)
