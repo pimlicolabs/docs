@@ -1,5 +1,5 @@
 ---
-description: Move a user's USDC between Base, Arbitrum, BSC, Robinhood Chain and Solana in seconds with Pimlico Fast Bridge, from one signed authorization and with no gas on either chain.
+description: Move a user's tokens between Base, Arbitrum, BSC, Robinhood Chain and Solana in seconds with Pimlico Fast Bridge, from one signed authorization and with no gas on either chain.
 ---
 
 # Fast Bridge
@@ -8,23 +8,17 @@ Fast Bridge moves your users' stablecoins from one chain to another in seconds. 
 
 Fast Bridge is an HTTP API at `https://api.pimlico.io/v1/bridge` that uses your Pimlico API key.
 
-## Bridge USDC to an address
+## Bridge tokens
 
-Deliver the bridged USDC to the user, or to any recipient, on the destination chain.
+Deliver the bridged tokens to the user, or to any recipient, on the destination chain.
 
-[Bridge USDC between chains →](/guides/how-to/fast-bridge/bridge-usdc)
+[Bridge tokens between chains →](/guides/how-to/fast-bridge/bridge-tokens)
 
-## Run calls on the destination chain
+## Bridge tokens and call contracts
 
-Spend the bridged USDC in the same request, for example to deposit it into a vault or pay a merchant.
+Spend the bridged tokens on the destination chain in the same request, for example to deposit them into a vault or pay a merchant.
 
-[Run calls with bridged USDC →](/guides/how-to/fast-bridge/run-calls-on-destination)
-
-## Bridge from BSC
-
-Binance-Peg USDC has no EIP-3009 support, so the user signs a Permit2 transfer instead.
-
-[Bridge USDC from BSC with Permit2 →](/guides/how-to/fast-bridge/bridge-with-permit2)
+[Bridge tokens and call contracts →](/guides/how-to/fast-bridge/bridge-and-call)
 
 ## Supported chains
 
@@ -40,9 +34,8 @@ Any route between two different chains in the table works, up to 1,000 tokens pe
 
 ## Next steps
 
-- [How to bridge USDC between chains](/guides/how-to/fast-bridge/bridge-usdc)
-- [How to run calls with bridged USDC on the destination chain](/guides/how-to/fast-bridge/run-calls-on-destination)
-- [How to bridge USDC from BSC with Permit2](/guides/how-to/fast-bridge/bridge-with-permit2)
+- [How to bridge tokens between chains](/guides/how-to/fast-bridge/bridge-tokens)
+- [How to bridge tokens and call contracts on the destination chain](/guides/how-to/fast-bridge/bridge-and-call)
 - [Fast Bridge reference](/references/fast-bridge)
 - [Fast Bridge endpoints](/references/fast-bridge/endpoints)
 - [Fast Bridge errors](/references/fast-bridge/errors)

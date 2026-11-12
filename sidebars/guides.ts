@@ -376,8 +376,8 @@ export const paymentsSidebar = [
 		link: "/guides/how-to/payments/remittances",
 	},
 	{
-		text: "Bridge USDC between chains",
-		link: "/guides/how-to/fast-bridge/bridge-usdc",
+		text: "Bridge tokens between chains",
+		link: "/guides/how-to/fast-bridge/bridge-tokens",
 	},
 	{
 		text: "Send payouts at scale",
@@ -399,16 +399,12 @@ export const paymentsSidebar = [
 
 export const fastBridgeSidebar = [
 	{
-		text: "Bridge USDC between chains",
-		link: "/guides/how-to/fast-bridge/bridge-usdc",
+		text: "Bridge tokens",
+		link: "/guides/how-to/fast-bridge/bridge-tokens",
 	},
 	{
-		text: "Run calls on the destination chain",
-		link: "/guides/how-to/fast-bridge/run-calls-on-destination",
-	},
-	{
-		text: "Bridge USDC from BSC with Permit2",
-		link: "/guides/how-to/fast-bridge/bridge-with-permit2",
+		text: "Bridge tokens & call contracts",
+		link: "/guides/how-to/fast-bridge/bridge-and-call",
 	},
 	{
 		// Routes, limits and the request lifecycle live in the reference;

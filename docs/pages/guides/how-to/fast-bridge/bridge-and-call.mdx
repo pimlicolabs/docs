@@ -1,16 +1,16 @@
 ---
-title: How to run calls with bridged USDC on the destination chain
-description: Bridge a user's USDC with Pimlico Fast Bridge and spend it on the destination chain in the same request, for example to deposit it into a vault.
+title: How to bridge tokens and call contracts on the destination chain
+description: Bridge a user's tokens with Pimlico Fast Bridge and call contracts with them on the destination chain in the same request, for example to deposit into a vault.
 ---
 
-# How to run calls with bridged USDC on the destination chain
+# How to bridge tokens and call contracts on the destination chain
 
-This guide shows you how to bridge a user's USDC with Pimlico Fast Bridge and use it on the destination chain in the same request, for example to deposit it into a vault. The bridge delivers the USDC to its `multicaller` address, which runs your calls in order as `msg.sender`. To only deliver the USDC to an address, see [How to bridge USDC between chains with Fast Bridge](/guides/how-to/fast-bridge/bridge-usdc).
+This guide shows you how to bridge a user's tokens with Pimlico Fast Bridge and call contracts with them on the destination chain in the same request, for example to deposit into a vault. The bridge delivers the tokens to its `multicaller` address, which runs your calls in order as `msg.sender`. To only deliver the tokens to an address, see [How to bridge tokens between chains with Fast Bridge](/guides/how-to/fast-bridge/bridge-tokens).
 
 ## Prerequisites
 
 - A Pimlico API key. [Create one](/guides/create-api-key).
-- An EOA holding USDC on the origin chain, within the [per-request limit](/references/fast-bridge#supported-chains-and-tokens).
+- An EOA holding a [supported token](/references/fast-bridge#supported-chains-and-tokens) on the origin chain, within the per-request limit. The steps use USDC on Base.
 - An EVM destination chain. Calls can't run on Solana.
 
 ::::code-group
@@ -43,7 +43,7 @@ Create the user's account and a helper that calls the Fast Bridge API with your 
 
 ### Sign a ReceiveWithAuthorization
 
-Have the user sign an EIP-3009 `ReceiveWithAuthorization` for the amount to bridge, with `to` set to `approvalAddress`.
+Have the user sign an EIP-3009 `ReceiveWithAuthorization` for the amount to bridge, with `to` set to `approvalAddress`. If the origin token has no EIP-3009 support, sign a Permit2 transfer instead, as in [Bridge from BSC](/guides/how-to/fast-bridge/bridge-tokens#bridge-from-bsc).
 
 ```ts
 // [!include ~/snippets/fast-bridge.ts:sign]
@@ -77,6 +77,6 @@ Poll [`GET /status/{requestId}`](/references/fast-bridge/endpoints#get-statusreq
 
 ## Related
 
-- [How to bridge USDC between chains with Fast Bridge](/guides/how-to/fast-bridge/bridge-usdc)
+- [How to bridge tokens between chains with Fast Bridge](/guides/how-to/fast-bridge/bridge-tokens)
 - [Fast Bridge endpoints: request body](/references/fast-bridge/endpoints#request-body)
 - [Fast Bridge errors](/references/fast-bridge/errors)

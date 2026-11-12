@@ -258,9 +258,7 @@ const permit2Authorization = {
 	deadline,
 	signature: permit2Signature,
 }
-// [!endregion permit2]
 
-// [!region permit2-execute]
 const permit2Result = await callBridge<BridgeStatus>(
 	"/execute/sync?timeout=30",
 	{
@@ -275,20 +273,6 @@ const permit2Result = await callBridge<BridgeStatus>(
 		}),
 	},
 )
-// [!endregion permit2-execute]
+// [!endregion permit2]
 
-// [!region permit2-status]
-const permit2Final = await waitForBridge(permit2Result)
-
-if (permit2Final.status === "success") {
-	// 25 USDC on BSC (18 decimals) arrives as 25 USDC on Arbitrum (6 decimals)
-	console.log(
-		`Delivered ${permit2Final.amountOut}:`,
-		permit2Final.destination.transactionHash,
-	)
-} else {
-	console.log(`Bridge ${permit2Final.status}`, permit2Final.destination)
-}
-// [!endregion permit2-status]
-
-console.log(multicaller)
+console.log(multicaller, permit2Result)
