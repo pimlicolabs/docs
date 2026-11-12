@@ -19,11 +19,6 @@ const API_KEY = "YOUR_PIMLICO_API_KEY"
 const USDC_BASE: Address = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
 const USDC_ARBITRUM: Address = "0xaf88d065e77c8cC2239327C5EDb3A432268e5831"
 
-const basePublicClient = createPublicClient({
-	chain: base,
-	transport: http("https://mainnet.base.org"),
-})
-
 // The EOA that holds the USDC on the origin chain
 const user = privateKeyToAccount(process.env.USER_PRIVATE_KEY as Hex)
 
@@ -57,21 +52,24 @@ const callBridge = async <T>(path: string, init?: RequestInit): Promise<T> => {
 	}
 	return body as T
 }
-// [!endregion setup]
 
-// [!region addresses]
+// The bridge's addresses don't change: fetch them once and reuse them
 const { approvalAddress, multicaller } = await callBridge<{
 	approvalAddress: Address
 	multicaller: Address
 }>("/addresses")
-// [!endregion addresses]
+// [!endregion setup]
 
 // [!region sign]
 const amount = parseUnits("25", 6) // 25 USDC
 const validBefore = Math.floor(Date.now() / 1000) + 5 * 60 // 5 minutes
 const nonce = toHex(crypto.getRandomValues(new Uint8Array(32)))
 
-// The token's EIP-712 domain
+// Read the token's EIP-712 domain on the origin chain
+const basePublicClient = createPublicClient({
+	chain: base,
+	transport: http("https://mainnet.base.org"),
+})
 const domainAbi = parseAbi([
 	"function name() view returns (string)",
 	"function version() view returns (string)",
@@ -140,23 +138,24 @@ const result = await callBridge<BridgeStatus>("/execute/sync?timeout=30", {
 })
 // [!endregion execute]
 
-// [!region status]
-const waitForBridge = async (requestId: string): Promise<BridgeStatus> => {
-	while (true) {
-		const status = await callBridge<BridgeStatus>(`/status/${requestId}`)
-		// A failed delivery leaves the request pending, with the leg's error set
-		const deliveryFailed = ["reverted", "failed"].includes(
-			status.destination.status,
-		)
-		if (status.status !== "pending" || deliveryFailed) {
-			return status
-		}
+// [!region wait]
+// Polls until the request is final, or until its delivery has failed,
+// which leaves the request pending with the leg's error set
+const waitForBridge = async (request: BridgeStatus): Promise<BridgeStatus> => {
+	let status = request
+	while (
+		status.status === "pending" &&
+		!["reverted", "failed"].includes(status.destination.status)
+	) {
 		await new Promise((resolve) => setTimeout(resolve, 1_000))
+		status = await callBridge<BridgeStatus>(`/status/${status.requestId}`)
 	}
+	return status
 }
+// [!endregion wait]
 
-const final =
-	result.status === "pending" ? await waitForBridge(result.requestId) : result
+// [!region status]
+const final = await waitForBridge(result)
 
 if (final.status === "success") {
 	console.log(
@@ -175,7 +174,7 @@ const vaultAbi = parseAbi([
 	"function deposit(uint256 assets, address receiver) returns (uint256 shares)",
 ])
 
-const callsResult = await callBridge<BridgeStatus>("/execute/sync", {
+const callsResult = await callBridge<BridgeStatus>("/execute/sync?timeout=30", {
 	method: "POST",
 	body: JSON.stringify({
 		originChainId: base.id,
@@ -206,12 +205,23 @@ const callsResult = await callBridge<BridgeStatus>("/execute/sync", {
 })
 // [!endregion calls]
 
+// [!region calls-status]
+const callsFinal = await waitForBridge(callsResult)
+
+if (callsFinal.status === "success") {
+	console.log("Calls ran:", callsFinal.destination.transactionHash)
+} else {
+	// A reverted call shows as CALLS_REVERTED, with the index of the call
+	console.log(`Bridge ${callsFinal.status}`, callsFinal.destination)
+}
+// [!endregion calls-status]
+
 // [!region permit2]
 const PERMIT2: Address = "0x000000000022D473030F116dDEE9F6B43aC78BA3"
 const USDC_BSC: Address = "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d" // 18 decimals
 
 const permit2Amount = parseUnits("25", 18)
-const deadline = Math.floor(Date.now() / 1000) + 5 * 60
+const deadline = Math.floor(Date.now() / 1000) + 5 * 60 // 5 minutes
 // Permit2 SignatureTransfer nonces are unordered: any unused uint256 works
 const permit2Nonce = BigInt(toHex(crypto.getRandomValues(new Uint8Array(32))))
 
@@ -250,4 +260,35 @@ const permit2Authorization = {
 }
 // [!endregion permit2]
 
-console.log(multicaller, callsResult, permit2Authorization)
+// [!region permit2-execute]
+const permit2Result = await callBridge<BridgeStatus>(
+	"/execute/sync?timeout=30",
+	{
+		method: "POST",
+		body: JSON.stringify({
+			originChainId: bsc.id,
+			destinationChainId: arbitrum.id,
+			originToken: USDC_BSC,
+			destinationToken: USDC_ARBITRUM,
+			authorization: permit2Authorization,
+			recipient: user.address,
+		}),
+	},
+)
+// [!endregion permit2-execute]
+
+// [!region permit2-status]
+const permit2Final = await waitForBridge(permit2Result)
+
+if (permit2Final.status === "success") {
+	// 25 USDC on BSC (18 decimals) arrives as 25 USDC on Arbitrum (6 decimals)
+	console.log(
+		`Delivered ${permit2Final.amountOut}:`,
+		permit2Final.destination.transactionHash,
+	)
+} else {
+	console.log(`Bridge ${permit2Final.status}`, permit2Final.destination)
+}
+// [!endregion permit2-status]
+
+console.log(multicaller)

@@ -1,0 +1,76 @@
+---
+title: How to bridge USDC from BSC with Permit2
+description: Bridge Binance-Peg USDC from BSC to another chain with Pimlico Fast Bridge, using a signed Permit2 transfer instead of EIP-3009.
+---
+
+# How to bridge USDC from BSC with Permit2
+
+This guide shows you how to bridge USDC from a token that has no EIP-3009 support, such as Binance-Peg USDC on BSC, with Pimlico Fast Bridge. The user signs a [Permit2](https://github.com/Uniswap/permit2) transfer instead of a `ReceiveWithAuthorization`. On Base, Arbitrum and Robinhood Chain, [EIP-3009](/guides/how-to/fast-bridge/bridge-usdc) needs no approval, so use it there.
+
+## Prerequisites
+
+- A Pimlico API key. [Create one](/guides/create-api-key).
+- An EOA holding Binance-Peg USDC on BSC, within the [per-request limit](/references/fast-bridge#supported-chains-and-tokens).
+- An approval from that EOA to the Permit2 contract (`0x000000000022D473030F116dDEE9F6B43aC78BA3`) for the token. It's a one-time transaction, paid in BNB. Without it, the request is rejected with `INSUFFICIENT_ALLOWANCE`.
+
+::::code-group
+
+```bash [npm]
+npm install viem
+```
+
+```bash [pnpm]
+pnpm install viem
+```
+
+```bash [bun]
+bun install viem
+```
+
+::::
+
+## Steps
+
+::::steps
+
+### Set up a bridge client
+
+Create the user's account and a helper that calls the Fast Bridge API with your API key, then fetch `approvalAddress` from [`GET /addresses`](/references/fast-bridge/endpoints#get-addresses). The addresses don't change, so fetch them once and reuse them for every request.
+
+```ts
+// [!include ~/snippets/fast-bridge.ts:setup]
+```
+
+### Sign a Permit2 transfer
+
+Have the user sign a Permit2 `PermitTransferFrom` for the amount to bridge, with `spender` set to `approvalAddress`. Binance-Peg USDC has 18 decimals, so parse the amount with 18.
+
+```ts
+// [!include ~/snippets/fast-bridge.ts:permit2]
+```
+
+### Send the request
+
+Send the `permit2` authorization to [`POST /execute/sync`](/references/fast-bridge/endpoints#post-executesync) with the route and the `recipient` on the destination chain.
+
+```ts
+// [!include ~/snippets/fast-bridge.ts:permit2-execute]
+```
+
+### Check that the USDC arrived
+
+Poll [`GET /status/{requestId}`](/references/fast-bridge/endpoints#get-statusrequestid) until the request is final. `amountOut` is in the destination token's base units.
+
+```ts
+// [!include ~/snippets/fast-bridge.ts:wait]
+
+// [!include ~/snippets/fast-bridge.ts:permit2-status]
+```
+
+::::
+
+## Related
+
+- [How to bridge USDC between chains with Fast Bridge](/guides/how-to/fast-bridge/bridge-usdc)
+- [Fast Bridge authorizations](/references/fast-bridge#authorizations)
+- [Fast Bridge errors](/references/fast-bridge/errors)

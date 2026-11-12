@@ -1,0 +1,82 @@
+---
+title: How to run calls with bridged USDC on the destination chain
+description: Bridge a user's USDC with Pimlico Fast Bridge and spend it on the destination chain in the same request, for example to deposit it into a vault.
+---
+
+# How to run calls with bridged USDC on the destination chain
+
+This guide shows you how to bridge a user's USDC with Pimlico Fast Bridge and use it on the destination chain in the same request, for example to deposit it into a vault. The bridge delivers the USDC to its `multicaller` address, which runs your calls in order as `msg.sender`. To only deliver the USDC to an address, see [How to bridge USDC between chains with Fast Bridge](/guides/how-to/fast-bridge/bridge-usdc).
+
+## Prerequisites
+
+- A Pimlico API key. [Create one](/guides/create-api-key).
+- An EOA holding USDC on the origin chain, within the [per-request limit](/references/fast-bridge#supported-chains-and-tokens).
+- An EVM destination chain. Calls can't run on Solana.
+
+::::code-group
+
+```bash [npm]
+npm install viem
+```
+
+```bash [pnpm]
+pnpm install viem
+```
+
+```bash [bun]
+bun install viem
+```
+
+::::
+
+## Steps
+
+::::steps
+
+### Set up a bridge client
+
+Create the user's account and a helper that calls the Fast Bridge API with your API key, then fetch `approvalAddress` and `multicaller` from [`GET /addresses`](/references/fast-bridge/endpoints#get-addresses). The addresses don't change, so fetch them once and reuse them for every request.
+
+```ts
+// [!include ~/snippets/fast-bridge.ts:setup]
+```
+
+### Sign a ReceiveWithAuthorization
+
+Have the user sign an EIP-3009 `ReceiveWithAuthorization` for the amount to bridge, with `to` set to `approvalAddress`.
+
+```ts
+// [!include ~/snippets/fast-bridge.ts:sign]
+```
+
+### Send the request with your calls
+
+Send `calls` instead of `recipient`. Write them as if `multicaller` holds `amountOut`: approve any contract that pulls tokens from it, and send any output to the user.
+
+```ts
+// [!include ~/snippets/fast-bridge.ts:calls]
+```
+
+If a call would revert, the request is rejected with `CALLS_SIMULATION_REVERTED` before any funds move. If you already know the gas your calls need, pass it as `gasLimit` to skip the estimate.
+
+:::warning
+Make your calls spend or forward the full `amountOut`. The bridge doesn't return anything left on `multicaller` after your calls run.
+:::
+
+### Check that the calls ran
+
+Poll [`GET /status/{requestId}`](/references/fast-bridge/endpoints#get-statusrequestid) until the request is final. If a call reverts on the destination chain, the destination leg is `reverted` with a `CALLS_REVERTED` [error](/references/fast-bridge/errors#destination-leg) that names the call.
+
+```ts
+// [!include ~/snippets/fast-bridge.ts:wait]
+
+// [!include ~/snippets/fast-bridge.ts:calls-status]
+```
+
+::::
+
+## Related
+
+- [How to bridge USDC between chains with Fast Bridge](/guides/how-to/fast-bridge/bridge-usdc)
+- [Fast Bridge endpoints: request body](/references/fast-bridge/endpoints#request-body)
+- [Fast Bridge errors](/references/fast-bridge/errors)

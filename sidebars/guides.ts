@@ -377,7 +377,7 @@ export const paymentsSidebar = [
 	},
 	{
 		text: "Bridge USDC between chains",
-		link: "/guides/how-to/payments/bridge-usdc-with-fast-bridge",
+		link: "/guides/how-to/fast-bridge/bridge-usdc",
 	},
 	{
 		text: "Send payouts at scale",
@@ -394,6 +394,27 @@ export const paymentsSidebar = [
 	{
 		text: "Pay gas from the swapped token",
 		link: "/guides/how-to/payments/pay-gas-from-swapped-token",
+	},
+];
+
+export const fastBridgeSidebar = [
+	{
+		text: "Bridge USDC between chains",
+		link: "/guides/how-to/fast-bridge/bridge-usdc",
+	},
+	{
+		text: "Run calls on the destination chain",
+		link: "/guides/how-to/fast-bridge/run-calls-on-destination",
+	},
+	{
+		text: "Bridge USDC from BSC with Permit2",
+		link: "/guides/how-to/fast-bridge/bridge-with-permit2",
+	},
+	{
+		// Routes, limits and the request lifecycle live in the reference;
+		// labelled so the jump to the References sidebar is expected.
+		text: "Reference: chains, limits and lifecycle",
+		link: "/references/fast-bridge",
 	},
 ];
 
@@ -466,6 +487,11 @@ export const guidesSidebar = [
 	{
 		text: "Payments",
 		items: paymentsSidebar,
+	},
+	{
+		text: "Fast Bridge",
+		link: "/guides/how-to/fast-bridge",
+		items: fastBridgeSidebar,
 	},
 	{
 		text: "AI agents",

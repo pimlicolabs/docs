@@ -341,10 +341,6 @@ export const fastBridgeSidebar = [
 		link: "/references/fast-bridge",
 	},
 	{
-		text: "How to bridge USDC between chains",
-		link: "/guides/how-to/payments/bridge-usdc-with-fast-bridge",
-	},
-	{
 		text: "Endpoints",
 		link: "/references/fast-bridge/endpoints",
 	},
