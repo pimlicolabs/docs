@@ -1,5 +1,5 @@
 ---
-description: "HTTP reference for Pimlico Fast Bridge: POST /execute, POST /execute/sync, GET /status/{requestId} and GET /addresses, with request bodies, authorizations and the bridge status object."
+description: "HTTP reference for Pimlico Fast Bridge: POST /execute, POST /execute/sync, GET /status/{requestId} and the GET /addresses endpoints, with request bodies, authorizations and the bridge status object."
 ---
 
 # Fast Bridge Endpoints
@@ -54,7 +54,7 @@ An EIP-3009 `ReceiveWithAuthorization`, signed by `from` over the token's EIP-71
 - **type** - `"eip3009"`
 - **token** - `string`: The origin token.
 - **from** - `string`: The token holder who signed.
-- **to** - `string`: Must be `approvalAddress` from [`GET /addresses`](#get-addresses).
+- **to** - `string`: Must be the origin chain's `approvalAddress` from [`GET /addresses/{chain}`](#get-addresseschain).
 - **amount** - `string`: The amount to bridge, greater than 0. This is `amountIn`.
 - **validAfter** - `number`: The authorization can't be used before this time.
 - **validBefore** - `number`: The authorization can't be used from this time on.
@@ -68,7 +68,7 @@ A Permit2 `PermitTransferFrom` (SignatureTransfer), signed by `from` over the Pe
 - **type** - `"permit2"`
 - **token** - `string`: The origin token.
 - **from** - `string`: The token holder who signed.
-- **spender** - `string`: Must be `approvalAddress` from [`GET /addresses`](#get-addresses).
+- **spender** - `string`: Must be the origin chain's `approvalAddress` from [`GET /addresses/{chain}`](#get-addresseschain).
 - **amount** - `string`: The amount to bridge, greater than 0. This is `amountIn`.
 - **nonce** - `string`: The Permit2 nonce, a uint256.
 - **deadline** - `number`: The last second the signature is valid.
@@ -80,9 +80,9 @@ Required when `originChainId` is `101` (Solana), and only allowed then.
 
 - **type** - `"solana-transaction"`
 - **transaction** - `string`: A base64 serialized Solana transaction that:
-  - makes exactly one transfer of `originToken` into the bridge's reserve token account, for the amount to bridge,
+  - makes exactly one transfer of `originToken` into the bridge's reserve token account for that token, from [`GET /addresses/solana`](#get-addressessolana), for the amount to bridge,
   - uses a recent blockhash, not a durable nonce,
-  - has Pimlico's Solana fee payer as its fee payer, with that signature slot empty,
+  - has `feePayer` from [`GET /addresses/solana`](#get-addressessolana) as its fee payer, with that signature slot empty,
   - is signed by every other signer, including the transfer's authority.
 
 The transfer's authority is the sender, and the sender's signature is the request ID.
@@ -137,13 +137,13 @@ curl -X POST "https://api.pimlico.io/v1/bridge/execute?apikey=YOUR_API_KEY" \
 
 ## POST /execute/sync
 
-Takes the same body as [`POST /execute`](#post-execute), then waits for the request to finish before it responds. Responds with `200 OK` and the [bridge status object](#the-bridge-status-object).
+Takes the same body as [`POST /execute`](#post-execute), then waits until the request is `success` or `failed`, or its delivery has failed, before it responds. Responds with `200 OK` and the [bridge status object](#the-bridge-status-object), whose `destination.transactionHash` is the delivery once the request is `success`.
 
 ### Query parameters
 
 - **timeout** - `number` (optional): Seconds to wait for a final status, from 1 to 300. Defaults to 30.
 
-If the timeout passes first, the response has `status: "pending"` and the request keeps running. Poll [`GET /status/{requestId}`](#get-statusrequestid) for the outcome.
+If the timeout passes first, the response has `status: "pending"` with no destination `error`, and the request keeps running. Poll [`GET /status/{requestId}`](#get-statusrequestid) for the outcome.
 
 ### Example response
 
@@ -192,14 +192,18 @@ Only the Pimlico account that sent the request can read its status, for 24 hours
 curl "https://api.pimlico.io/v1/bridge/status/0x7a3f...c21e?apikey=YOUR_API_KEY"
 ```
 
-## GET /addresses
+## GET /addresses/\{chain\}
 
-Returns the bridge's addresses. They're the same on every EVM chain and don't change, so you can fetch them once and cache them.
+Returns the bridge's addresses on an EVM chain. A chain's addresses don't change, so fetch them once per chain and cache them.
+
+### Path parameters
+
+- **chain** - `string`: The chain's ID or name, such as `8453` or `base`. An unsupported chain is rejected with `UNSUPPORTED_ROUTE`.
 
 ### Example request
 
 ```shell
-curl "https://api.pimlico.io/v1/bridge/addresses?apikey=YOUR_API_KEY"
+curl "https://api.pimlico.io/v1/bridge/addresses/8453?apikey=YOUR_API_KEY"
 ```
 
 ### Example response
@@ -213,12 +217,42 @@ curl "https://api.pimlico.io/v1/bridge/addresses?apikey=YOUR_API_KEY"
 
 ### Return fields
 
-- **approvalAddress** - `string`: Who every EVM authorization must be made out to: `to` in `eip3009`, `spender` in `permit2`.
-- **multicaller** - `string`: The `msg.sender` of your `calls` on the destination chain. It holds `amountOut` when your calls start.
+- **approvalAddress** - `string`: Who every authorization on this chain as the origin must be made out to: `to` in `eip3009`, `spender` in `permit2`.
+- **multicaller** - `string`: The `msg.sender` of your `calls` on this chain as the destination. It holds `amountOut` when your calls start.
+
+## GET /addresses/solana
+
+Returns what a `solana-transaction` authorization is built with.
+
+### Example request
+
+```shell
+curl "https://api.pimlico.io/v1/bridge/addresses/solana?apikey=YOUR_API_KEY"
+```
+
+### Example response
+
+```json
+{
+  "feePayer": "...",
+  "executor": "...",
+  "reserveTokenAccounts": [
+    { "token": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", "address": "..." }
+  ]
+}
+```
+
+### Return fields
+
+- **feePayer** - `string`: The fee payer your Solana transaction must use, with its signature slot left empty.
+- **executor** - `string`: The authority that transfers tokens out of the bridge's reserve on a Solana destination.
+- **reserveTokenAccounts** - `array`: The bridge's reserve token account for each supported token. Your transaction transfers the origin token into the matching `address`.
+  - **token** - `string`: The token's mint.
+  - **address** - `string`: The reserve's token account for that mint.
 
 ## The bridge status object
 
-Every endpoint except `GET /addresses` returns this object.
+Every endpoint except `GET /addresses/{chain}` and `GET /addresses/solana` returns this object.
 
 - **requestId** - `string`: The request's ID, derived from the authorization.
 - **status** - `"pending" | "success" | "failed" | "refunded"`: See [how a request runs](/references/fast-bridge#how-a-request-runs).

@@ -53,14 +53,23 @@ const callBridge = async <T>(path: string, init?: RequestInit): Promise<T> => {
 	return body as T
 }
 
-// The bridge's addresses don't change: fetch them once and reuse them
-const { approvalAddress, multicaller } = await callBridge<{
-	approvalAddress: Address
-	multicaller: Address
-}>("/addresses")
+type BridgeAddresses = { approvalAddress: Address; multicaller: Address }
+
+// A chain's bridge addresses don't change: fetch them once per chain and reuse them
+const bridgeAddresses = new Map<number, Promise<BridgeAddresses>>()
+const getBridgeAddresses = (chainId: number) => {
+	const addresses =
+		bridgeAddresses.get(chainId) ??
+		callBridge<BridgeAddresses>(`/addresses/${chainId}`)
+	bridgeAddresses.set(chainId, addresses)
+	return addresses
+}
 // [!endregion setup]
 
 // [!region sign]
+// Authorizations are made out to the origin chain's approvalAddress
+const { approvalAddress } = await getBridgeAddresses(base.id)
+
 const amount = parseUnits("25", 6) // 25 USDC
 const validBefore = Math.floor(Date.now() / 1000) + 5 * 60 // 5 minutes
 const nonce = toHex(crypto.getRandomValues(new Uint8Array(32)))
@@ -138,9 +147,22 @@ const result = await callBridge<BridgeStatus>("/execute/sync?timeout=30", {
 })
 // [!endregion execute]
 
+// [!region result]
+if (result.status === "success") {
+	console.log(
+		`Delivered ${result.amountOut} on chain ${result.destination.chainId}:`,
+		result.destination.transactionHash,
+	)
+} else {
+	// failed: the origin leg didn't confirm, so nothing was delivered.
+	// pending: the timeout passed first, or the delivery failed (destination.error is set)
+	console.log(`Bridge ${result.status}`, result.origin, result.destination)
+}
+// [!endregion result]
+
 // [!region wait]
 // Polls until the request is final, or until its delivery has failed,
-// which leaves the request pending with the leg's error set
+// which leaves the request pending with destination.error set
 const waitForBridge = async (request: BridgeStatus): Promise<BridgeStatus> => {
 	let status = request
 	while (
@@ -154,18 +176,9 @@ const waitForBridge = async (request: BridgeStatus): Promise<BridgeStatus> => {
 }
 // [!endregion wait]
 
-// [!region status]
+// [!region poll]
 const final = await waitForBridge(result)
-
-if (final.status === "success") {
-	console.log(
-		`Delivered ${final.amountOut} on chain ${final.destination.chainId}:`,
-		final.destination.transactionHash,
-	)
-} else {
-	console.log(`Bridge ${final.status}`, final.origin, final.destination)
-}
-// [!endregion status]
+// [!endregion poll]
 
 // [!region calls]
 // An ERC-4626 vault on Arbitrum that takes USDC
@@ -205,18 +218,18 @@ const callsResult = await callBridge<BridgeStatus>("/execute/sync?timeout=30", {
 })
 // [!endregion calls]
 
-// [!region calls-status]
-const callsFinal = await waitForBridge(callsResult)
-
-if (callsFinal.status === "success") {
-	console.log("Calls ran:", callsFinal.destination.transactionHash)
+// [!region calls-result]
+if (callsResult.status === "success") {
+	console.log("Calls ran:", callsResult.destination.transactionHash)
 } else {
-	// A reverted call shows as CALLS_REVERTED, with the index of the call
-	console.log(`Bridge ${callsFinal.status}`, callsFinal.destination)
+	// A reverted call sets destination.error to CALLS_REVERTED, with its callIndex
+	console.log(`Bridge ${callsResult.status}`, callsResult.destination)
 }
-// [!endregion calls-status]
+// [!endregion calls-result]
 
 // [!region permit2]
+const { approvalAddress: bscApprovalAddress } = await getBridgeAddresses(bsc.id)
+
 const PERMIT2: Address = "0x000000000022D473030F116dDEE9F6B43aC78BA3"
 const USDC_BSC: Address = "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d" // 18 decimals
 
@@ -242,7 +255,7 @@ const permit2Signature = await user.signTypedData({
 	primaryType: "PermitTransferFrom",
 	message: {
 		permitted: { token: USDC_BSC, amount: permit2Amount },
-		spender: approvalAddress,
+		spender: bscApprovalAddress,
 		nonce: permit2Nonce,
 		deadline: BigInt(deadline),
 	},
@@ -252,7 +265,7 @@ const permit2Authorization = {
 	type: "permit2",
 	token: USDC_BSC,
 	from: user.address,
-	spender: approvalAddress,
+	spender: bscApprovalAddress,
 	amount: permit2Amount.toString(),
 	nonce: permit2Nonce.toString(),
 	deadline,
@@ -275,4 +288,4 @@ const permit2Result = await callBridge<BridgeStatus>(
 )
 // [!endregion permit2]
 
-console.log(multicaller, permit2Result)
+console.log(final, permit2Result)

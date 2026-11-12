@@ -9,7 +9,7 @@ This guide shows you how to move a user's tokens from one chain to another with 
 
 ## Prerequisites
 
-- A Pimlico API key. [Create one](/guides/create-api-key).
+- A Pimlico API key with Fast Bridge enabled. [Create one](/guides/create-api-key), then ask [support@pimlico.io](mailto:support@pimlico.io) to enable Fast Bridge for it.
 - An EOA holding a [supported token](/references/fast-bridge#supported-chains-and-tokens) on the origin chain, within the per-request limit. The steps use USDC on Base.
 
 ::::code-group
@@ -34,7 +34,7 @@ bun install viem
 
 ### Set up a bridge client
 
-Create the user's account and a helper that calls the Fast Bridge API with your API key, then fetch the bridge's addresses from [`GET /addresses`](/references/fast-bridge/endpoints#get-addresses). The addresses don't change, so fetch them once and reuse them for every request.
+Create the user's account, a helper that calls the Fast Bridge API with your API key, and a helper that gets a chain's bridge addresses from [`GET /addresses/{chain}`](/references/fast-bridge/endpoints#get-addresseschain). A chain's addresses don't change, so cache them.
 
 ```ts
 // [!include ~/snippets/fast-bridge.ts:setup]
@@ -46,7 +46,7 @@ If this code runs in your users' browsers or apps, don't ship your API key in it
 
 ### Sign a ReceiveWithAuthorization
 
-Have the user sign an EIP-3009 `ReceiveWithAuthorization` for the amount to bridge, with `to` set to `approvalAddress` and a random 32-byte nonce. Give it a `validBefore` a few minutes ahead: the origin pull must land before it. If the origin token has no EIP-3009 support, sign a Permit2 transfer instead, as in [Bridge from BSC](#bridge-from-bsc).
+Have the user sign an EIP-3009 `ReceiveWithAuthorization` for the amount to bridge, with `to` set to the origin chain's `approvalAddress` and a random 32-byte nonce. Give it a `validBefore` a few minutes ahead: the origin pull must land before it. If the origin token has no EIP-3009 support, sign a Permit2 transfer instead, as in [Bridge from BSC](#bridge-from-bsc).
 
 ```ts
 // [!include ~/snippets/fast-bridge.ts:sign]
@@ -54,7 +54,7 @@ Have the user sign an EIP-3009 `ReceiveWithAuthorization` for the amount to brid
 
 ### Send the request
 
-Send the authorization to [`POST /execute/sync`](/references/fast-bridge/endpoints#post-executesync) with the route and the `recipient` on the destination chain. If you'd rather not hold the connection open, send it to [`POST /execute`](/references/fast-bridge/endpoints#post-execute) instead, which answers `202` as soon as the request is accepted.
+Send the authorization to [`POST /execute/sync`](/references/fast-bridge/endpoints#post-executesync) with the route and the `recipient` on the destination chain. It responds once the request is final, usually within seconds.
 
 ```ts
 // [!include ~/snippets/fast-bridge.ts:execute]
@@ -62,21 +62,32 @@ Send the authorization to [`POST /execute/sync`](/references/fast-bridge/endpoin
 
 If the request is rejected, nothing has moved: fix what the [error code](/references/fast-bridge/errors) names, and sign a new authorization if it was used or has expired.
 
-### Check that the tokens arrived
+### Check the delivery
 
-If the response is still `pending`, poll [`GET /status/{requestId}`](/references/fast-bridge/endpoints#get-statusrequestid) until it isn't, or until the destination leg is `reverted` or `failed`. Show the transfer as delivered only when `status` is `success`; `destination.transactionHash` is the delivery on the destination chain.
+If `status` is `success`, the tokens have arrived: `destination.transactionHash` is the delivery on the destination chain. If it's `failed`, the origin leg didn't confirm and nothing moved. If it's `pending`, see [If the response is still pending](#if-the-response-is-still-pending).
 
 ```ts
-// [!include ~/snippets/fast-bridge.ts:wait]
-
-// [!include ~/snippets/fast-bridge.ts:status]
+// [!include ~/snippets/fast-bridge.ts:result]
 ```
 
 ::::
 
+## If the response is still pending
+
+A `pending` response means one of two things:
+
+- The delivery failed after the origin leg confirmed. The destination leg is `reverted` or `failed` with an `error`, and the tokens stay in the bridge's reserve. See [leg errors](/references/fast-bridge/errors#destination-leg).
+- The `timeout` passed first. Poll [`GET /status/{requestId}`](/references/fast-bridge/endpoints#get-statusrequestid) until the request is final. Do the same if you sent the request to [`POST /execute`](/references/fast-bridge/endpoints#post-execute), which responds `202` as soon as the request is accepted.
+
+```ts
+// [!include ~/snippets/fast-bridge.ts:wait]
+
+// [!include ~/snippets/fast-bridge.ts:poll]
+```
+
 ## Bridge from BSC
 
-Binance-Peg USDC on BSC has no EIP-3009 support, so have the user sign a [Permit2](https://github.com/Uniswap/permit2) `PermitTransferFrom` with `spender` set to `approvalAddress`, and send it as a `permit2` authorization. The token has 18 decimals, so parse the amount with 18.
+Binance-Peg USDC on BSC has no EIP-3009 support, so have the user sign a [Permit2](https://github.com/Uniswap/permit2) `PermitTransferFrom` with `spender` set to BSC's `approvalAddress`, and send it as a `permit2` authorization. The token has 18 decimals, so parse the amount with 18.
 
 The user must first approve the Permit2 contract (`0x000000000022D473030F116dDEE9F6B43aC78BA3`) for the token, once, in a transaction paid in BNB. Without it, the request is rejected with `INSUFFICIENT_ALLOWANCE`.
 

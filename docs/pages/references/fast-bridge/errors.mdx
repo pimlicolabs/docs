@@ -29,11 +29,13 @@ A rejected request returns an HTTP error status with a `code` and a `message` th
 | `INSUFFICIENT_ALLOWANCE` | 422 | For a `permit2` authorization, the holder hasn't approved Permit2 for enough of the token. |
 | `CALLS_SIMULATION_REVERTED` | 422 | One of your `calls` reverts when simulated on the destination chain. |
 | `AMOUNT_EXCEEDS_LIMIT` | 422 | `amountOut` is above the destination token's [per-request limit](/references/fast-bridge#supported-chains-and-tokens). |
+| `NOT_ENABLED` | 403 | Fast Bridge isn't enabled for your API key. |
 | `REQUEST_NOT_FOUND` | 404 | `GET /status` has no request with this ID for your account, or it's more than 24 hours old. |
 
 ### What to do
 
-- **`AUTHORIZATION_MISMATCH`**: get `approvalAddress` from [`GET /addresses`](/references/fast-bridge/endpoints#get-addresses) and sign the authorization out to it, for `originToken`, with an authorization type the [origin token supports](/references/fast-bridge#supported-chains-and-tokens).
+- **`AUTHORIZATION_MISMATCH`**: get the origin chain's `approvalAddress` from [`GET /addresses/{chain}`](/references/fast-bridge/endpoints#get-addresseschain) and sign the authorization out to it, for `originToken`, with an authorization type the [origin token supports](/references/fast-bridge#supported-chains-and-tokens).
+- **`NOT_ENABLED`**: ask [support@pimlico.io](mailto:support@pimlico.io) to enable Fast Bridge for your API key.
 - **`AUTHORIZATION_EXPIRED`** or **`AUTHORIZATION_USED`**: have the user sign a new authorization with a new nonce and a later expiry. If you sent the same authorization twice, read the first request with [`GET /status`](/references/fast-bridge/endpoints#get-statusrequestid) instead.
 - **`INSUFFICIENT_ALLOWANCE`**: have the user approve Permit2 (`0x000000000022D473030F116dDEE9F6B43aC78BA3`) for the token, or use an `eip3009` authorization where the token supports it.
 - **`CALLS_SIMULATION_REVERTED`**: check that your calls only spend the `amountOut` that the bridge's `multicaller` holds, and that they approve any contract that pulls tokens from `multicaller`.

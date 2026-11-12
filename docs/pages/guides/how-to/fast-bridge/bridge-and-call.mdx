@@ -9,7 +9,7 @@ This guide shows you how to bridge a user's tokens with Pimlico Fast Bridge and 
 
 ## Prerequisites
 
-- A Pimlico API key. [Create one](/guides/create-api-key).
+- A Pimlico API key with Fast Bridge enabled. [Create one](/guides/create-api-key), then ask [support@pimlico.io](mailto:support@pimlico.io) to enable Fast Bridge for it.
 - An EOA holding a [supported token](/references/fast-bridge#supported-chains-and-tokens) on the origin chain, within the per-request limit. The steps use USDC on Base.
 - An EVM destination chain. Calls can't run on Solana.
 
@@ -35,7 +35,7 @@ bun install viem
 
 ### Set up a bridge client
 
-Create the user's account and a helper that calls the Fast Bridge API with your API key, then fetch `approvalAddress` and `multicaller` from [`GET /addresses`](/references/fast-bridge/endpoints#get-addresses). The addresses don't change, so fetch them once and reuse them for every request.
+Create the user's account, a helper that calls the Fast Bridge API with your API key, and a helper that gets a chain's bridge addresses from [`GET /addresses/{chain}`](/references/fast-bridge/endpoints#get-addresseschain). A chain's addresses don't change, so cache them.
 
 ```ts
 // [!include ~/snippets/fast-bridge.ts:setup]
@@ -43,7 +43,7 @@ Create the user's account and a helper that calls the Fast Bridge API with your 
 
 ### Sign a ReceiveWithAuthorization
 
-Have the user sign an EIP-3009 `ReceiveWithAuthorization` for the amount to bridge, with `to` set to `approvalAddress`. If the origin token has no EIP-3009 support, sign a Permit2 transfer instead, as in [Bridge from BSC](/guides/how-to/fast-bridge/bridge-tokens#bridge-from-bsc).
+Have the user sign an EIP-3009 `ReceiveWithAuthorization` for the amount to bridge, with `to` set to the origin chain's `approvalAddress`. If the origin token has no EIP-3009 support, sign a Permit2 transfer instead, as in [Bridge from BSC](/guides/how-to/fast-bridge/bridge-tokens#bridge-from-bsc).
 
 ```ts
 // [!include ~/snippets/fast-bridge.ts:sign]
@@ -51,7 +51,7 @@ Have the user sign an EIP-3009 `ReceiveWithAuthorization` for the amount to brid
 
 ### Send the request with your calls
 
-Send `calls` instead of `recipient`. Write them as if `multicaller` holds `amountOut`: approve any contract that pulls tokens from it, and send any output to the user.
+Send `calls` instead of `recipient` to [`POST /execute/sync`](/references/fast-bridge/endpoints#post-executesync). Write them as if the destination chain's `multicaller` holds `amountOut`: approve any contract that pulls tokens from it, and send any output to the user.
 
 ```ts
 // [!include ~/snippets/fast-bridge.ts:calls]
@@ -65,13 +65,13 @@ Make your calls spend or forward the full `amountOut`. The bridge doesn't return
 
 ### Check that the calls ran
 
-Poll [`GET /status/{requestId}`](/references/fast-bridge/endpoints#get-statusrequestid) until the request is final. If a call reverts on the destination chain, the destination leg is `reverted` with a `CALLS_REVERTED` [error](/references/fast-bridge/errors#destination-leg) that names the call.
+`POST /execute/sync` responds once the request is final. If `status` is `success`, your calls ran in `destination.transactionHash`. If a call reverted on the destination chain, the destination leg is `reverted` with a `CALLS_REVERTED` [error](/references/fast-bridge/errors#destination-leg) whose `callIndex` names the call.
 
 ```ts
-// [!include ~/snippets/fast-bridge.ts:wait]
-
-// [!include ~/snippets/fast-bridge.ts:calls-status]
+// [!include ~/snippets/fast-bridge.ts:calls-result]
 ```
+
+If the response is `pending` with no destination `error`, the timeout passed first: poll for the outcome as in [If the response is still pending](/guides/how-to/fast-bridge/bridge-tokens#if-the-response-is-still-pending).
 
 ::::
 
