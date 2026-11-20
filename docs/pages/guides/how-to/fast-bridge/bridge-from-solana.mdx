@@ -1,0 +1,93 @@
+---
+title: How to bridge to and from Solana
+description: Bridge USDC between Solana and an EVM chain with Pimlico Fast Bridge, in either direction, from one signature and with no SOL.
+---
+
+# How to bridge to and from Solana
+
+This guide shows you how to bridge USDC to and from Solana with Fast Bridge. The steps bridge from Solana to an EVM chain, and [Bridge to Solana](#bridge-to-solana) covers the other direction.
+
+## Prerequisites
+
+- A Pimlico API key with Fast Bridge enabled.
+- A Solana account holding USDC.
+
+::::code-group
+
+```bash [npm]
+npm install @solana/kit @solana-program/token
+```
+
+```bash [pnpm]
+pnpm install @solana/kit @solana-program/token
+```
+
+```bash [bun]
+bun install @solana/kit @solana-program/token
+```
+
+::::
+
+## Steps
+
+::::steps
+
+### Set up a bridge client
+
+Create the account, a Solana RPC client and the functions that call the Fast Bridge API: one to get the bridge's [Solana addresses](/references/fast-bridge/endpoints#get-addressessolana), and one to bridge the tokens.
+
+:::code-group
+
+```ts [main.ts]
+// [!include ~/snippets/fast-bridge/bridge-from-solana/main.ts:setup]
+```
+
+```ts [types.ts]
+// [!include ~/snippets/fast-bridge/bridge-from-solana/types.ts]
+```
+
+:::
+
+### Sign the transfer
+
+Build a transaction that makes one transfer of the USDC into the bridge's reserve token account, with the bridge's `feePayer` as its fee payer, and sign it. Leave the fee payer's signature empty.
+
+```ts
+// [!include ~/snippets/fast-bridge/bridge-from-solana/main.ts:sign]
+```
+
+### Send the request
+
+Send the signed transaction as a `solana-transaction` authorization, with the origin and destination chains, the tokens and an EVM `recipient`. Send it within about a minute, before the transaction's blockhash expires. `bridgeTokens` returns once the bridge has finished, and throws if the request is rejected. See the [error codes](/references/fast-bridge/errors).
+
+```ts
+// [!include ~/snippets/fast-bridge/bridge-from-solana/main.ts:execute]
+```
+
+### Check the result
+
+Read `status` from the response:
+
+- `success`: the USDC was delivered in `destination.transactionHash`.
+- `failed`: nothing was bridged, and the USDC is still on Solana.
+- `pending`: the bridge hasn't finished. See [How to check a bridge's status](/guides/how-to/fast-bridge/track-request).
+
+```ts
+// [!include ~/snippets/fast-bridge/bridge-from-solana/main.ts:result]
+```
+
+::::
+
+## Bridge to Solana
+
+To bridge from an EVM chain to Solana, sign the authorization as in [How to bridge to a recipient](/guides/how-to/fast-bridge/bridge-tokens#sign-the-authorization). Then set `destinationChainId` to `101`, `destinationToken` to the USDC mint and `recipient` to a Solana address.
+
+```ts
+// [!include ~/snippets/fast-bridge/bridge-from-solana/main.ts:to-solana]
+```
+
+## Related
+
+- [How to bridge to a recipient](/guides/how-to/fast-bridge/bridge-tokens)
+- [Fast Bridge endpoints](/references/fast-bridge/endpoints)
+- [Fast Bridge errors](/references/fast-bridge/errors)

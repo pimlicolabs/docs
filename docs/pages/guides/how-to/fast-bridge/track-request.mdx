@@ -1,0 +1,68 @@
+---
+title: How to check a bridge's status
+description: Follow a Pimlico Fast Bridge request until it finishes by polling its status, when a response comes back pending or when you start a request without waiting for it.
+---
+
+# How to check a bridge's status
+
+This guide shows you how to follow a Fast Bridge request until it finishes. Use it when a response comes back `pending`, or when you [start a request without waiting](#start-a-request-without-waiting) for it.
+
+## Prerequisites
+
+- A Pimlico API key with Fast Bridge enabled.
+- The response of a bridge request, from one of the other [Fast Bridge guides](/guides/how-to/fast-bridge).
+
+## Steps
+
+::::steps
+
+### Add a status function
+
+Create a function that reads a request's status from [`GET /status/{requestId}`](/references/fast-bridge/endpoints#get-statusrequestid).
+
+:::code-group
+
+```ts [main.ts]
+// [!include ~/snippets/fast-bridge/track-request/main.ts:setup]
+```
+
+```ts [types.ts]
+// [!include ~/snippets/fast-bridge/track-request/types.ts]
+```
+
+:::
+
+### Poll until the request finishes
+
+Poll the request every second until it's no longer `pending`, or until its delivery has failed.
+
+```ts
+// [!include ~/snippets/fast-bridge/track-request/main.ts:poll]
+```
+
+### Check the outcome
+
+Read `status` from the result:
+
+- `success`: the USDC was delivered in `destination.transactionHash`.
+- `failed`: nothing was bridged, and the USDC is still on the origin chain.
+- `pending`: the delivery failed, and `destination.error` says why. See [leg errors](/references/fast-bridge/errors#destination-leg).
+
+```ts
+// [!include ~/snippets/fast-bridge/track-request/main.ts:outcome]
+```
+
+::::
+
+## Start a request without waiting
+
+To get a response as soon as the bridge accepts a request, send it to [`POST /execute`](/references/fast-bridge/endpoints#post-execute) instead of `POST /execute/sync`, then poll it.
+
+```ts
+// [!include ~/snippets/fast-bridge/track-request/main.ts:start]
+```
+
+## Related
+
+- [Fast Bridge endpoints](/references/fast-bridge/endpoints)
+- [Fast Bridge errors](/references/fast-bridge/errors)
