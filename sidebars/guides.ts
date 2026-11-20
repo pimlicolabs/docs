@@ -376,10 +376,6 @@ export const paymentsSidebar = [
 		link: "/guides/how-to/payments/remittances",
 	},
 	{
-		text: "Bridge tokens between chains",
-		link: "/guides/how-to/fast-bridge/bridge-tokens",
-	},
-	{
 		text: "Send payouts at scale",
 		link: "/guides/how-to/payments/payouts",
 	},
@@ -399,12 +395,33 @@ export const paymentsSidebar = [
 
 export const fastBridgeSidebar = [
 	{
-		text: "Bridge tokens",
-		link: "/guides/how-to/fast-bridge/bridge-tokens",
+		text: "Overview",
+		link: "/guides/how-to/fast-bridge",
 	},
 	{
-		text: "Bridge tokens & call contracts",
-		link: "/guides/how-to/fast-bridge/bridge-and-call",
+		text: "Examples",
+		items: [
+			{
+				text: "Bridge to a recipient",
+				link: "/guides/how-to/fast-bridge/bridge-tokens",
+			},
+			{
+				text: "Bridge and call",
+				link: "/guides/how-to/fast-bridge/bridge-and-call",
+			},
+			{
+				text: "Bridge to and from Solana",
+				link: "/guides/how-to/fast-bridge/bridge-from-solana",
+			},
+			{
+				text: "Bridge from BSC",
+				link: "/guides/how-to/fast-bridge/bridge-with-permit2",
+			},
+		],
+	},
+	{
+		text: "Check a bridge's status",
+		link: "/guides/how-to/fast-bridge/track-request",
 	},
 	{
 		// Routes, limits and the request lifecycle live in the reference;

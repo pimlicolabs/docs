@@ -1,17 +1,17 @@
 ---
-title: How to bridge tokens and call contracts on the destination chain
-description: Bridge a user's tokens with Pimlico Fast Bridge and call contracts with them on the destination chain in the same request, for example to deposit into a vault.
+title: How to bridge and call contracts
+description: Bridge USDC with Pimlico Fast Bridge and call contracts on the destination chain in the same request, for example to swap it for another token.
 ---
 
-# How to bridge tokens and call contracts on the destination chain
+# How to bridge and call contracts
 
-This guide shows you how to bridge a user's tokens with Pimlico Fast Bridge and call contracts with them on the destination chain in the same request, for example to deposit into a vault. The bridge delivers the tokens to its `multicaller` address, which runs your calls in order as `msg.sender`. To only deliver the tokens to an address, see [How to bridge tokens between chains with Fast Bridge](/guides/how-to/fast-bridge/bridge-tokens).
+This guide shows you how to bridge USDC and call contracts on the destination chain in the same request, for example to swap it for another token. To only deliver the USDC to an address, see [How to bridge to a recipient](/guides/how-to/fast-bridge/bridge-tokens).
 
 ## Prerequisites
 
-- A Pimlico API key with Fast Bridge enabled. [Create one](/guides/create-api-key), then ask [support@pimlico.io](mailto:support@pimlico.io) to enable Fast Bridge for it.
-- An EOA holding a [supported token](/references/fast-bridge#supported-chains-and-tokens) on the origin chain, within the per-request limit. The steps use USDC on Base.
-- An EVM destination chain. Calls can't run on Solana.
+- A Pimlico API key with Fast Bridge enabled.
+- An account holding USDC on the origin chain.
+- An EVM destination chain.
 
 ::::code-group
 
@@ -35,48 +35,68 @@ bun install viem
 
 ### Set up a bridge client
 
-Create the user's account, a helper that calls the Fast Bridge API with your API key, and a helper that gets a chain's bridge addresses from [`GET /addresses/{chain}`](/references/fast-bridge/endpoints#get-addresseschain). A chain's addresses don't change, so cache them.
+Create the account and the functions that call the Fast Bridge API: one to get a chain's [bridge addresses](/references/fast-bridge/endpoints#get-addresseschain), and one to bridge the tokens and run your calls.
 
-```ts
-// [!include ~/snippets/fast-bridge.ts:setup]
+:::code-group
+
+```ts [main.ts]
+// [!include ~/snippets/fast-bridge/bridge-and-call/main.ts:setup]
 ```
 
-### Sign a ReceiveWithAuthorization
-
-Have the user sign an EIP-3009 `ReceiveWithAuthorization` for the amount to bridge, with `to` set to the origin chain's `approvalAddress`. If the origin token has no EIP-3009 support, sign a Permit2 transfer instead, as in [Bridge from BSC](/guides/how-to/fast-bridge/bridge-tokens#bridge-from-bsc).
-
-```ts
-// [!include ~/snippets/fast-bridge.ts:sign]
+```ts [types.ts]
+// [!include ~/snippets/fast-bridge/bridge-and-call/types.ts]
 ```
 
-### Send the request with your calls
-
-Send `calls` instead of `recipient` to [`POST /execute/sync`](/references/fast-bridge/endpoints#post-executesync). Write them as if the destination chain's `multicaller` holds `amountOut`: approve any contract that pulls tokens from it, and send any output to the user.
-
-```ts
-// [!include ~/snippets/fast-bridge.ts:calls]
-```
-
-If a call would revert, the request is rejected with `CALLS_SIMULATION_REVERTED` before any funds move. If you already know the gas your calls need, pass it as `gasLimit` to skip the estimate.
-
-:::warning
-Make your calls spend or forward the full `amountOut`. The bridge doesn't return anything left on `multicaller` after your calls run.
 :::
 
-### Check that the calls ran
+### Sign the authorization
 
-`POST /execute/sync` responds once the request is final. If `status` is `success`, your calls ran in `destination.transactionHash`. If a call reverted on the destination chain, the destination leg is `reverted` with a `CALLS_REVERTED` [error](/references/fast-bridge/errors#destination-leg) whose `callIndex` names the call.
+Sign an EIP-3009 `ReceiveWithAuthorization` for the amount, with `to` set to the origin chain's `approvalAddress`. For USDC on BSC, see [How to bridge from BSC](/guides/how-to/fast-bridge/bridge-with-permit2).
 
 ```ts
-// [!include ~/snippets/fast-bridge.ts:calls-result]
+// [!include ~/snippets/fast-bridge/bridge-and-call/main.ts:sign]
 ```
 
-If the response is `pending` with no destination `error`, the timeout passed first: poll for the outcome as in [If the response is still pending](/guides/how-to/fast-bridge/bridge-tokens#if-the-response-is-still-pending).
+### Send the request
+
+Send the authorization with the origin and destination chains, the tokens and your `calls`. Write your calls for Fast Bridge's `multicaller`, as described in [Destination chain calls run from the multicaller](#destination-chain-calls-run-from-the-multicaller). `bridgeAndCall` returns once the bridge has finished, and throws if the request is rejected, for example because a call would revert. See the [error codes](/references/fast-bridge/errors).
+
+```ts
+// [!include ~/snippets/fast-bridge/bridge-and-call/main.ts:execute]
+```
+
+:::warning
+Make your calls spend or forward all of the USDC. The bridge doesn't return anything left on `multicaller`.
+:::
+
+### Check the result
+
+Read `status` from the response:
+
+- `success`: your calls ran in `destination.transactionHash`.
+- `failed`: nothing was bridged, and the USDC is still on the origin chain.
+- `pending`: the bridge hasn't finished. See [How to check a bridge's status](/guides/how-to/fast-bridge/track-request).
+
+```ts
+// [!include ~/snippets/fast-bridge/bridge-and-call/main.ts:result]
+```
 
 ::::
 
+## Destination chain calls run from the multicaller
+
+On the destination chain, your calls are sent by Fast Bridge's `multicaller` contract, not by the user. Every contract you call sees the `multicaller` as `msg.sender`, and the bridged USDC sits there when your calls start.
+
+That means:
+
+- A contract that pulls tokens needs an approval from the `multicaller` first, like the swap router in the example.
+- Anything meant for the user has to name them, like the swap's `recipient`.
+- A contract that only acts for its caller, such as a withdrawal or a cancellation, won't work.
+
+You can look up the `multicaller` address with [`GET /addresses/{chain}`](/references/fast-bridge/endpoints#get-addresseschain).
+
 ## Related
 
-- [How to bridge tokens between chains with Fast Bridge](/guides/how-to/fast-bridge/bridge-tokens)
-- [Fast Bridge endpoints: request body](/references/fast-bridge/endpoints#request-body)
+- [How to bridge to a recipient](/guides/how-to/fast-bridge/bridge-tokens)
+- [Fast Bridge endpoints](/references/fast-bridge/endpoints)
 - [Fast Bridge errors](/references/fast-bridge/errors)

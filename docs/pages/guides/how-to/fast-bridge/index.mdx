@@ -1,41 +1,43 @@
 ---
-description: Move a user's tokens between Base, Arbitrum, BSC, Robinhood Chain and Solana in seconds with Pimlico Fast Bridge, from one signed authorization and with no gas on either chain.
+description: Move a user's tokens between Base, Arbitrum, BSC, Robinhood and Solana in seconds with Pimlico Fast Bridge, from one signed authorization and with no gas on either chain.
 ---
 
 # Fast Bridge
 
-Fast Bridge moves your users' stablecoins from one chain to another in seconds. The user signs one authorization for the token on the origin chain, and Pimlico delivers the same amount from its own liquidity on the destination chain. Pimlico pays the gas on both chains, so the user needs no native token anywhere.
+Fast Bridge lets your users move USDC across chains in seconds and use it straight away on the destination chain.
+
+## How it works
+
+Your user signs a single message to approve the transfer. Pimlico delivers the same amount on the destination chain in the next block, and covers the gas on both chains. Pimlico pays out instantly from its own liquidity, so there's no cross-chain message to wait for.
 
 Fast Bridge is an HTTP API at `https://api.pimlico.io/v1/bridge` that uses your Pimlico API key.
 
-## Bridge tokens
-
-Deliver the bridged tokens to the user, or to any recipient, on the destination chain.
-
-[Bridge tokens between chains →](/guides/how-to/fast-bridge/bridge-tokens)
-
-## Bridge tokens and call contracts
-
-Spend the bridged tokens on the destination chain in the same request, for example to deposit them into a vault or pay a merchant.
-
-[Bridge tokens and call contracts →](/guides/how-to/fast-bridge/bridge-and-call)
+:::info
+To get access to Fast Bridge, [reach out to us](https://cal.com/kristofgazso/20min) or email [support@pimlico.io](mailto:support@pimlico.io).
+:::
 
 ## Supported chains
 
-| Chain | Token | Authorizations |
-|---|---|---|
-| Base | USDC | `eip3009`, `permit2` |
-| Arbitrum | USDC (native) | `eip3009`, `permit2` |
-| BSC | USDC (Binance-Peg) | `permit2` |
-| Robinhood Chain | USDG | `eip3009`, `permit2` |
-| Solana | USDC | `solana-transaction` |
+| Chain | Token |
+|---|---|
+| Base | USDC |
+| Arbitrum | USDC |
+| BSC | USDC |
+| Robinhood | USDG |
+| Solana | USDC |
 
-Any route between two different chains in the table works, up to 1,000 tokens per request. For token addresses, decimals and limits, see [supported chains and tokens](/references/fast-bridge#supported-chains-and-tokens).
+Any chain can bridge to any other. See the [reference](/references/fast-bridge#supported-chains-and-tokens) for token addresses and limits.
 
-## Next steps
+## Guides
 
-- [How to bridge tokens between chains](/guides/how-to/fast-bridge/bridge-tokens)
-- [How to bridge tokens and call contracts on the destination chain](/guides/how-to/fast-bridge/bridge-and-call)
-- [Fast Bridge reference](/references/fast-bridge)
-- [Fast Bridge endpoints](/references/fast-bridge/endpoints)
-- [Fast Bridge errors](/references/fast-bridge/errors)
+- [Bridge to a recipient](/guides/how-to/fast-bridge/bridge-tokens): deliver the tokens to the user or another recipient.
+- [Bridge and call](/guides/how-to/fast-bridge/bridge-and-call): spend the tokens in the same request.
+- [Bridge to and from Solana](/guides/how-to/fast-bridge/bridge-from-solana): bridge USDC between Solana and an EVM chain.
+- [Bridge from BSC](/guides/how-to/fast-bridge/bridge-with-permit2): bridge USDC from BSC, which is signed with Permit2.
+- [Check a bridge's status](/guides/how-to/fast-bridge/track-request): follow a request until it finishes.
+
+## Reference
+
+- [Fast Bridge reference](/references/fast-bridge): routes, limits and how a request runs.
+- [Endpoints](/references/fast-bridge/endpoints)
+- [Errors](/references/fast-bridge/errors)

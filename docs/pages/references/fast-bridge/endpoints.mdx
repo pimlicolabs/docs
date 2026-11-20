@@ -38,7 +38,7 @@ The body delivers either to a `recipient` or to `calls`, never both.
 - **originToken** - `string`: The token on the origin chain. Must be the token the authorization is for.
 - **destinationToken** - `string`: The token delivered on the destination chain.
 - **authorization** - `object`: How the user gives the bridge the tokens. See [Authorization objects](#authorization-objects).
-- **recipient** - `string` (optional): Who receives the tokens on the destination chain. On an EVM destination it defaults to `authorization.from`. Required on a Solana destination, as a Solana address. Not allowed with `calls`.
+- **recipient** - `string` (optional): Who receives the tokens on the destination chain. On an EVM destination it defaults to `authorization.from`. Required with a Solana origin, as an EVM address, and on a Solana destination, as a Solana address. Not allowed with `calls`.
 - **calls** - `array` (optional): At least one call to run on an EVM destination chain, in order, from the bridge's `multicaller` address, which holds `amountOut` when they start. Not allowed with `recipient`, or on a Solana destination.
   - **to** - `string`: The address to call.
   - **data** - `string`: The calldata.
@@ -85,7 +85,7 @@ Required when `originChainId` is `101` (Solana), and only allowed then.
   - has `feePayer` from [`GET /addresses/solana`](#get-addressessolana) as its fee payer, with that signature slot empty,
   - is signed by every other signer, including the transfer's authority.
 
-The transfer's authority is the sender, and the sender's signature is the request ID.
+The transfer's authority is the sender. The request ID is a hash of the transaction's message.
 
 ### Example request
 
@@ -182,7 +182,7 @@ Returns the current [bridge status object](#the-bridge-status-object) of a reque
 
 ### Path parameters
 
-- **requestId** - `string`: The `requestId` from the response of `POST /execute` or `POST /execute/sync`. A 32-byte hex string for an EVM origin, or a base58 transaction signature for a Solana origin.
+- **requestId** - `string`: The `requestId` from the response of `POST /execute` or `POST /execute/sync`. A 32-byte hex string.
 
 Only the Pimlico account that sent the request can read its status, for 24 hours after it was sent. Otherwise the response is `404` with `REQUEST_NOT_FOUND`.
 
