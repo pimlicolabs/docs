@@ -1,0 +1,92 @@
+---
+title: How to bridge to a recipient
+description: Bridge USDC to a recipient on the destination chain with Pimlico Fast Bridge, from one signature and with no gas.
+---
+
+# How to bridge to a recipient
+
+This guide shows you how to bridge USDC to a recipient on the destination chain with Fast Bridge. To call contracts with it on the destination chain instead, see [How to bridge and call contracts](/guides/how-to/fast-bridge/bridge-and-call).
+
+## Prerequisites
+
+- A Pimlico API key with Fast Bridge enabled.
+- An account holding USDC on the origin chain.
+
+::::code-group
+
+```bash [npm]
+npm install viem
+```
+
+```bash [pnpm]
+pnpm install viem
+```
+
+```bash [bun]
+bun install viem
+```
+
+::::
+
+## Steps
+
+::::steps
+
+### Set up a bridge client
+
+Create the account and the functions that call the Fast Bridge API: one to get a chain's [bridge addresses](/references/fast-bridge/endpoints#get-addresseschain), and one to bridge the tokens.
+
+:::code-group
+
+```ts [main.ts]
+// [!include ~/snippets/fast-bridge/bridge-tokens/main.ts:setup]
+```
+
+```ts [types.ts]
+// [!include ~/snippets/fast-bridge/bridge-tokens/types.ts]
+```
+
+:::
+
+:::warning
+Don't ship your API key in code that runs in your users' browsers or apps. See [How to protect your API keys](/guides/how-to/security/protect-api-keys).
+:::
+
+### Sign the authorization
+
+Sign an EIP-3009 `ReceiveWithAuthorization` for the amount, with `to` set to the origin chain's `approvalAddress`. For USDC on BSC, see [How to bridge from BSC](/guides/how-to/fast-bridge/bridge-with-permit2).
+
+```ts
+// [!include ~/snippets/fast-bridge/bridge-tokens/main.ts:sign]
+```
+
+### Send the request
+
+Send the authorization with the origin and destination chains, the tokens and the `recipient`. `bridgeTokens` returns once the bridge has finished, and throws if the request is rejected. See the [error codes](/references/fast-bridge/errors).
+
+```ts
+// [!include ~/snippets/fast-bridge/bridge-tokens/main.ts:execute]
+```
+
+### Check the result
+
+Read `status` from the response:
+
+- `success`: the USDC was delivered in `destination.transactionHash`.
+- `failed`: nothing was bridged, and the USDC is still on the origin chain.
+- `pending`: the bridge hasn't finished. See [How to check a bridge's status](/guides/how-to/fast-bridge/track-request).
+
+```ts
+// [!include ~/snippets/fast-bridge/bridge-tokens/main.ts:result]
+```
+
+::::
+
+## Related
+
+- [How to bridge and call contracts](/guides/how-to/fast-bridge/bridge-and-call)
+- [How to bridge from BSC](/guides/how-to/fast-bridge/bridge-with-permit2)
+- [How to check a bridge's status](/guides/how-to/fast-bridge/track-request)
+- [Fast Bridge reference](/references/fast-bridge)
+- [Fast Bridge endpoints](/references/fast-bridge/endpoints)
+- [Fast Bridge errors](/references/fast-bridge/errors)

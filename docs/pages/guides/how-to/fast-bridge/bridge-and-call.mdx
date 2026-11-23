@@ -1,0 +1,102 @@
+---
+title: How to bridge and call contracts
+description: Bridge USDC with Pimlico Fast Bridge and call contracts on the destination chain in the same request, for example to swap it for another token.
+---
+
+# How to bridge and call contracts
+
+This guide shows you how to bridge USDC and call contracts on the destination chain in the same request, for example to swap it for another token. To only deliver the USDC to an address, see [How to bridge to a recipient](/guides/how-to/fast-bridge/bridge-tokens).
+
+## Prerequisites
+
+- A Pimlico API key with Fast Bridge enabled.
+- An account holding USDC on the origin chain.
+- An EVM destination chain.
+
+::::code-group
+
+```bash [npm]
+npm install viem
+```
+
+```bash [pnpm]
+pnpm install viem
+```
+
+```bash [bun]
+bun install viem
+```
+
+::::
+
+## Steps
+
+::::steps
+
+### Set up a bridge client
+
+Create the account and the functions that call the Fast Bridge API: one to get a chain's [bridge addresses](/references/fast-bridge/endpoints#get-addresseschain), and one to bridge the tokens and run your calls.
+
+:::code-group
+
+```ts [main.ts]
+// [!include ~/snippets/fast-bridge/bridge-and-call/main.ts:setup]
+```
+
+```ts [types.ts]
+// [!include ~/snippets/fast-bridge/bridge-and-call/types.ts]
+```
+
+:::
+
+### Sign the authorization
+
+Sign an EIP-3009 `ReceiveWithAuthorization` for the amount, with `to` set to the origin chain's `approvalAddress`. For USDC on BSC, see [How to bridge from BSC](/guides/how-to/fast-bridge/bridge-with-permit2).
+
+```ts
+// [!include ~/snippets/fast-bridge/bridge-and-call/main.ts:sign]
+```
+
+### Send the request
+
+Send the authorization with the origin and destination chains, the tokens and your `calls`. Write your calls for Fast Bridge's `multicaller`, as described in [Destination chain calls run from the multicaller](#destination-chain-calls-run-from-the-multicaller). `bridgeAndCall` returns once the bridge has finished, and throws if the request is rejected, for example because a call would revert. See the [error codes](/references/fast-bridge/errors).
+
+```ts
+// [!include ~/snippets/fast-bridge/bridge-and-call/main.ts:execute]
+```
+
+:::warning
+Make your calls spend or forward all of the USDC. The bridge doesn't return anything left on `multicaller`.
+:::
+
+### Check the result
+
+Read `status` from the response:
+
+- `success`: your calls ran in `destination.transactionHash`.
+- `failed`: nothing was bridged, and the USDC is still on the origin chain.
+- `pending`: the bridge hasn't finished. See [How to check a bridge's status](/guides/how-to/fast-bridge/track-request).
+
+```ts
+// [!include ~/snippets/fast-bridge/bridge-and-call/main.ts:result]
+```
+
+::::
+
+## Destination chain calls run from the multicaller
+
+On the destination chain, your calls are sent by Fast Bridge's `multicaller` contract, not by the user. Every contract you call sees the `multicaller` as `msg.sender`, and the bridged USDC sits there when your calls start.
+
+That means:
+
+- A contract that pulls tokens needs an approval from the `multicaller` first, like the swap router in the example.
+- Anything meant for the user has to name them, like the swap's `recipient`.
+- A contract that only acts for its caller, such as a withdrawal or a cancellation, won't work.
+
+You can look up the `multicaller` address with [`GET /addresses/{chain}`](/references/fast-bridge/endpoints#get-addresseschain).
+
+## Related
+
+- [How to bridge to a recipient](/guides/how-to/fast-bridge/bridge-tokens)
+- [Fast Bridge endpoints](/references/fast-bridge/endpoints)
+- [Fast Bridge errors](/references/fast-bridge/errors)

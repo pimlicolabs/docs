@@ -393,6 +393,44 @@ export const paymentsSidebar = [
 	},
 ];
 
+export const fastBridgeSidebar = [
+	{
+		text: "Overview",
+		link: "/guides/how-to/fast-bridge",
+	},
+	{
+		text: "Examples",
+		items: [
+			{
+				text: "Bridge to a recipient",
+				link: "/guides/how-to/fast-bridge/bridge-tokens",
+			},
+			{
+				text: "Bridge and call",
+				link: "/guides/how-to/fast-bridge/bridge-and-call",
+			},
+			{
+				text: "Bridge to and from Solana",
+				link: "/guides/how-to/fast-bridge/bridge-from-solana",
+			},
+			{
+				text: "Bridge from BSC",
+				link: "/guides/how-to/fast-bridge/bridge-with-permit2",
+			},
+		],
+	},
+	{
+		text: "Check a bridge's status",
+		link: "/guides/how-to/fast-bridge/track-request",
+	},
+	{
+		// Routes, limits and the request lifecycle live in the reference;
+		// labelled so the jump to the References sidebar is expected.
+		text: "Reference: chains, limits and lifecycle",
+		link: "/references/fast-bridge",
+	},
+];
+
 export const agentsSidebar = [
 	{
 		text: "Pay gas for AI agents",
@@ -462,6 +500,11 @@ export const guidesSidebar = [
 	{
 		text: "Payments",
 		items: paymentsSidebar,
+	},
+	{
+		text: "Fast Bridge",
+		link: "/guides/how-to/fast-bridge",
+		items: fastBridgeSidebar,
 	},
 	{
 		text: "AI agents",
