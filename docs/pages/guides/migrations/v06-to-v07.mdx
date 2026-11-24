@@ -1,0 +1,886 @@
+
+---
+Title: Migrating from EntryPoint v0.6 to v0.7
+---
+Description: Complete guide to upgrading your permissionless.js integration from ERC-4337 EntryPoint v0.6 to v0.7, including breaking changes, code examples, migration verification, and troubleshooting.
+---
+
+# Migrating from EntryPoint v0.6 to v0.7
+
+:::info Migration scope
+Most integrations already on `permissionless ^0.2.x` can complete this
+migration in 1–3 hours depending on how many account types and client
+configurations your codebase uses. If you are still on `0.1.x`, complete the
+[v0.1 → v0.2 migration](/references/permissionless/how-to/migration-guide)
+first.
+:::
+
+:::warning Backward incompatibility
+EntryPoint v0.6 and v0.7 UserOperations are not interchangeable. Bundlers,
+paymasters, and accounts are each bound to a single EntryPoint version.
+A v0.6 account cannot submit v0.7 UserOperations without being redeployed
+or upgraded to a v0.7-compatible implementation. You must update all three
+components — account, bundler client, and paymaster client — in concert.
+
+Existing deployed smart accounts tied to EntryPoint v0.6 will continue
+operating on v0.6 unless explicitly redeployed or upgraded.
+:::
+
+---
+
+## Why migrate?
+
+EntryPoint v0.7 is a significant upgrade to the ERC-4337 standard that
+improves gas efficiency, security, and long-term protocol compatibility.
+It is production-ready and is the version targeted by new Pimlico
+infrastructure going forward. EntryPoint v0.6 will continue to be
+supported, but new features and optimizations will not be backported.
+
+Key improvements in EntryPoint v0.7:
+
+- **Reduced calldata costs** — EntryPoint v0.7 separates the off-chain
+  `UserOperation` from its packed on-chain `PackedUserOperation` struct,
+  reducing calldata size and lowering gas costs.
+- **Gas penalty for unused limits** — A 10% penalty on unused gas
+  discourages artificially inflated gas limits, improving bundler
+  performance and network health.
+- **Paymaster gas limits in UserOp** — Paymaster verification and
+  post-op gas limits are now part of the UserOperation itself, giving
+  paymasters more predictable cost accounting.
+- **Off-chain simulation** — On-chain simulation functions have been
+  removed. Simulation is now handled off-chain via the bundler RPC,
+  reducing on-chain contract complexity.
+- **Future-proof structure** — The new UserOperation structure aligns
+  ERC-4337 with EIP-7560 (native account abstraction), enabling
+  smoother ecosystem evolution without breaking changes to wallet logic.
+
+### Should you migrate now?
+
+Migrate if you are starting a new integration, deploying new smart
+accounts, or want access to lower gas costs. If you have existing
+deployed accounts on v0.6, those accounts will continue to function —
+migration requires redeploying or upgrading those accounts, which is a
+separate decision from updating your client code.
+
+:::warning Known ecosystem gaps
+**Biconomy accounts do not support EntryPoint v0.7.** If you are using
+Biconomy, remain on EntryPoint v0.6 until an official v0.7-compatible
+implementation is available. Check with your account provider before
+migrating if you use a third-party smart account implementation.
+:::
+
+---
+
+## Breaking changes overview
+
+| Area | v0.6 | v0.7 | Reason |
+|---|---|---|---|
+| EntryPoint address | `ENTRYPOINT_ADDRESS_V06` | `entryPoint07Address` (viem) | New singleton contract deployed |
+| Account constructors | `signerTo*SmartAccount` | `to*SmartAccount` | Explicit `entryPoint` version object required |
+| Pimlico client | `createPimlicoPaymasterClient` | `createPimlicoClient` | Bundler + paymaster clients merged |
+| Bundler client | permissionless `createBundlerClient` | viem `createBundlerClient` | Viem now owns bundler primitives natively |
+| Prepare user op | `prepareUserOperationRequest` | `prepareUserOperation` | Simplified `calls` array API |
+| Send transactions | `sendTransactions` | `sendTransaction` with `calls` | Unified transaction interface |
+| Light Account version | `1.1.0` | `2.0.0` | v1.1.0 is incompatible with EntryPoint v0.7 |
+| Error handling | permissionless errors | viem errors | Error ownership moved to viem |
+
+---
+
+## Step 1 — Update your dependencies
+
+```bash
+npm install permissionless@latest viem@latest
+``` 
+
+## Step 2 — Update your EntryPoint address
+
+EntryPoint v0.6 and v0.7 are separate singleton contracts at different
+addresses. The v0.7 address is imported directly from viem, ensuring you
+always reference the canonical deployment.
+
+```ts
+// Before (EntryPoint v0.6)
+import { ENTRYPOINT_ADDRESS_V06 } from "permissionless"
+
+// After (EntryPoint v0.7)
+import { entryPoint07Address } from "viem/account-abstraction"
+```
+
+---
+
+## Step 3 — Update your smart account constructors
+
+The `signerTo*` function family is deprecated. The replacement `to*`
+constructors require an explicit `entryPoint` object with both `address`
+and `version`. This makes EntryPoint compatibility explicit in your code
+rather than implied, reducing the risk of silently targeting the wrong
+EntryPoint version.
+
+### Simple Account
+
+```ts
+// Before (EntryPoint v0.6)
+import { signerToSimpleSmartAccount } from "permissionless/accounts"
+import { createPublicClient, http } from "viem"
+import { privateKeyToAccount } from "viem/accounts"
+import { sepolia } from "viem/chains"
+
+const publicClient = createPublicClient({ chain: sepolia, transport: http() })
+
+const account = await signerToSimpleSmartAccount(publicClient, {
+  signer: privateKeyToAccount("0xYOUR_PRIVATE_KEY"),
+  entryPoint: ENTRYPOINT_ADDRESS_V06,
+})
+
+// After (EntryPoint v0.7)
+import { toSimpleSmartAccount } from "permissionless/accounts"
+import { createPublicClient, http } from "viem"
+import { entryPoint07Address } from "viem/account-abstraction"
+import { privateKeyToAccount } from "viem/accounts"
+import { sepolia } from "viem/chains"
+
+const publicClient = createPublicClient({ chain: sepolia, transport: http() })
+
+const account = await toSimpleSmartAccount({
+  client: publicClient,
+  owner: privateKeyToAccount("0xYOUR_PRIVATE_KEY"),
+  entryPoint: {
+    address: entryPoint07Address,
+    version: "0.7",
+  },
+})
+```
+
+### Safe Account
+
+```ts
+// Before (EntryPoint v0.6)
+import { signerToSafeSmartAccount } from "permissionless/accounts"
+import { createPublicClient, http } from "viem"
+import { privateKeyToAccount } from "viem/accounts"
+import { sepolia } from "viem/chains"
+
+const publicClient = createPublicClient({ chain: sepolia, transport: http() })
+
+const account = await signerToSafeSmartAccount(publicClient, {
+  signer: privateKeyToAccount("0xYOUR_PRIVATE_KEY"),
+  entryPoint: ENTRYPOINT_ADDRESS_V06,
+  safeVersion: "1.4.1",
+})
+
+// After (EntryPoint v0.7)
+import { toSafeSmartAccount } from "permissionless/accounts"
+import { createPublicClient, http } from "viem"
+import { entryPoint07Address } from "viem/account-abstraction"
+import { privateKeyToAccount } from "viem/accounts"
+import { sepolia } from "viem/chains"
+
+const publicClient = createPublicClient({ chain: sepolia, transport: http() })
+
+const account = await toSafeSmartAccount({
+  client: publicClient,
+  owners: [privateKeyToAccount("0xYOUR_PRIVATE_KEY")],
+  version: "1.4.1",
+  entryPoint: {
+    address: entryPoint07Address,
+    version: "0.7",
+  },
+})
+```
+
+### Kernel (ECDSA) Account
+
+```ts
+// Before (EntryPoint v0.6)
+import { signerToEcdsaKernelSmartAccount } from "permissionless/accounts"
+import { createPublicClient, http } from "viem"
+import { privateKeyToAccount } from "viem/accounts"
+import { sepolia } from "viem/chains"
+
+const publicClient = createPublicClient({ chain: sepolia, transport: http() })
+
+const account = await signerToEcdsaKernelSmartAccount(publicClient, {
+  signer: privateKeyToAccount("0xYOUR_PRIVATE_KEY"),
+  entryPoint: ENTRYPOINT_ADDRESS_V06,
+})
+
+// After (EntryPoint v0.7)
+import { toEcdsaKernelSmartAccount } from "permissionless/accounts"
+import { createPublicClient, http } from "viem"
+import { entryPoint07Address } from "viem/account-abstraction"
+import { privateKeyToAccount } from "viem/accounts"
+import { sepolia } from "viem/chains"
+
+const publicClient = createPublicClient({ chain: sepolia, transport: http() })
+
+const account = await toEcdsaKernelSmartAccount({
+  client: publicClient,
+  owners: [privateKeyToAccount("0xYOUR_PRIVATE_KEY")],
+  entryPoint: {
+    address: entryPoint07Address,
+    version: "0.7",
+  },
+})
+```
+
+### Light Account
+
+Light Account `1.1.0` is only compatible with EntryPoint v0.6. Version
+`2.0.0` is required for EntryPoint v0.7.
+
+```ts
+// Before (EntryPoint v0.6)
+import { signerToLightSmartAccount } from "permissionless/accounts"
+import { createPublicClient, http } from "viem"
+import { privateKeyToAccount } from "viem/accounts"
+import { sepolia } from "viem/chains"
+
+const publicClient = createPublicClient({ chain: sepolia, transport: http() })
+
+const account = await signerToLightSmartAccount(publicClient, {
+  signer: privateKeyToAccount("0xYOUR_PRIVATE_KEY"),
+  entryPoint: ENTRYPOINT_ADDRESS_V06,
+  lightAccountVersion: "1.1.0",
+})
+
+// After (EntryPoint v0.7)
+import { toLightSmartAccount } from "permissionless/accounts"
+import { createPublicClient, http } from "viem"
+import { entryPoint07Address } from "viem/account-abstraction"
+import { privateKeyToAccount } from "viem/accounts"
+import { sepolia } from "viem/chains"
+
+const publicClient = createPublicClient({ chain: sepolia, transport: http() })
+
+const account = await toLightSmartAccount({
+  client: publicClient,
+  owners: [privateKeyToAccount("0xYOUR_PRIVATE_KEY")],
+  version: "2.0.0",
+  entryPoint: {
+    address: entryPoint07Address,
+    version: "0.7",
+  },
+})
+```
+
+---
+
+## Step 4 — Update your Pimlico client
+
+`createPimlicoPaymasterClient` and `createPimlicoBundlerClient` are merged
+into a single `createPimlicoClient`. This simplifies client setup and
+adopts ERC-7677 as the default standard for paymaster communication.
+All actions previously available on the separate clients are accessible
+on the unified client.
+
+```ts
+// Before (EntryPoint v0.6)
+import { createPimlicoPaymasterClient } from "permissionless/clients/pimlico"
+import { http } from "viem"
+
+const pimlicoUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_API_KEY`
+
+const paymasterClient = createPimlicoPaymasterClient({
+  transport: http(pimlicoUrl),
+  entryPoint: ENTRYPOINT_ADDRESS_V06,
+})
+
+// After (EntryPoint v0.7)
+import { createPimlicoClient } from "permissionless/clients/pimlico"
+import { entryPoint07Address } from "viem/account-abstraction"
+import { http } from "viem"
+
+const pimlicoUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_API_KEY`
+
+const pimlicoClient = createPimlicoClient({
+  transport: http(pimlicoUrl),
+  entryPoint: {
+    address: entryPoint07Address,
+    version: "0.7",
+  },
+})
+```
+
+---
+
+## Step 5 — Update your bundler client
+
+The permissionless.js `createBundlerClient` is deprecated. Viem now ships
+its own `createBundlerClient` in `viem/account-abstraction`.
+
+```ts
+// Before (EntryPoint v0.6)
+import { createBundlerClient } from "permissionless"
+import { http } from "viem"
+import { sepolia } from "viem/chains"
+
+const bundlerClient = createBundlerClient({
+  chain: sepolia,
+  transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_API_KEY"),
+})
+
+// After (EntryPoint v0.7)
+import { createBundlerClient } from "viem/account-abstraction"
+import { createPublicClient, http } from "viem"
+import { sepolia } from "viem/chains"
+
+const publicClient = createPublicClient({ chain: sepolia, transport: http() })
+
+const bundlerClient = createBundlerClient({
+  client: publicClient,
+  transport: http("https://api.pimlico.io/v2/sepolia/rpc?apikey=YOUR_API_KEY"),
+})
+```
+
+---
+
+## Step 6 — Update user operation calls
+
+### prepareUserOperationRequest → prepareUserOperation
+
+```ts
+// Before (EntryPoint v0.6)
+import { smartAccountClient } from "./config"
+import { parseEther } from "viem"
+
+const userOp = await smartAccountClient.prepareUserOperationRequest({
+  userOperation: {
+    callData: await smartAccountClient.account.encodeCallData({
+      to: "0xRECIPIENT_ADDRESS",
+      data: "0x",
+      value: parseEther("0.01"),
+    }),
+  },
+})
+
+// After (EntryPoint v0.7)
+import { smartAccountClient } from "./config"
+import { parseEther } from "viem"
+
+const userOp = await smartAccountClient.prepareUserOperation({
+  calls: [
+    {
+      to: "0xRECIPIENT_ADDRESS",
+      data: "0x",
+      value: parseEther("0.01"),
+    },
+  ],
+})
+```
+
+### sendTransactions → sendTransaction
+
+```ts
+// Before (EntryPoint v0.6)
+import { smartAccountClient } from "./config"
+import { parseEther } from "viem"
+
+await smartAccountClient.sendTransactions({
+  transactions: [
+    { to: "0xRECIPIENT_ADDRESS", value: parseEther("0.01"), data: "0x" },
+  ],
+})
+
+// After (EntryPoint v0.7)
+import { smartAccountClient } from "./config"
+import { parseEther } from "viem"
+
+await smartAccountClient.sendTransaction({
+  calls: [
+    { to: "0xRECIPIENT_ADDRESS", value: parseEther("0.01"), data: "0x" },
+  ],
+})
+```
+
+---
+
+## Step 7 — Update error handling
+
+permissionless.js no longer exports custom error types. Use viem's error
+handling directly.
+
+```ts
+// Before (EntryPoint v0.6)
+import { AccountNotFoundError } from "permissionless"
+import { smartAccountClient } from "./config"
+
+try {
+  await smartAccountClient.sendTransaction({ calls: [...] })
+} catch (err) {
+  if (err instanceof AccountNotFoundError) {
+    console.error("Account not found")
+  }
+}
+
+// After (EntryPoint v0.7)
+import { BaseError, ContractFunctionRevertedError } from "viem"
+import { smartAccountClient } from "./config"
+
+try {
+  await smartAccountClient.sendTransaction({ calls: [...] })
+} catch (err) {
+  if (err instanceof BaseError) {
+    const revertError = err.walk(
+      (e) => e instanceof ContractFunctionRevertedError
+    )
+    if (revertError instanceof ContractFunctionRevertedError) {
+      console.error("Revert reason:", revertError.data?.args)
+    }
+  }
+}
+```
+
+---
+
+## Verifying your migration
+
+Run the following checks before deploying to production.
+
+**1. Confirm the correct EntryPoint is targeted**
+
+```ts
+import { entryPoint07Address } from "viem/account-abstraction"
+
+// Should log: true
+console.log(account.entryPoint.address === entryPoint07Address)
+```
+
+**2. Send a test UserOperation on Sepolia**
+
+```ts
+import { smartAccountClient } from "./config"
+import { parseEther } from "viem"
+
+const hash = await smartAccountClient.sendTransaction({
+  calls: [
+    {
+      to: "0x0000000000000000000000000000000000000000",
+      value: parseEther("0"),
+      data: "0x",
+    },
+  ],
+})
+
+console.log("UserOperation hash:", hash)
+```
+
+**3. Confirm bundler acceptance and verify on-chain**
+
+A successful `eth_sendUserOperation` response confirms your bundler
+accepted the UserOperation. To verify end-to-end, wait for the receipt
+and check the EntryPoint address in the transaction logs:
+
+```ts
+import { createPublicClient, http } from "viem"
+import { sepolia } from "viem/chains"
+import { entryPoint07Address } from "viem/account-abstraction"
+
+const publicClient = createPublicClient({ chain: sepolia, transport: http() })
+
+const receipt = await publicClient.waitForTransactionReceipt({ hash })
+
+// Confirm the UserOperation was processed by the v0.7 EntryPoint
+const processedByV07 = receipt.logs.some(
+  (log) => log.address.toLowerCase() === entryPoint07Address.toLowerCase()
+)
+
+console.log("Processed by EntryPoint v0.7:", processedByV07)
+```
+
+You can also verify in the Pimlico dashboard that the UserOperation was
+processed against the correct EntryPoint address.
+
+---
+
+## Troubleshooting
+
+### Bundler rejects UserOperation with "unknown entryPoint"
+
+Your bundler client and account are targeting different EntryPoint
+versions. Confirm that the `entryPoint` object passed to your account
+constructor and to `createPimlicoClient` both use `entryPoint07Address`
+and `version: "0.7"`. A mismatch between these two is the most common
+cause of failed migrations.
+
+### Transaction reverts with "AA95 out of gas"
+
+EntryPoint v0.7 applies a 10% penalty on unused gas. If you are manually
+setting gas limits, tighten them to reflect actual usage. If you are
+relying on gas estimation, ensure you are calling `prepareUserOperation`
+rather than constructing the UserOperation manually.
+
+### `signerTo*` import not found
+
+The `signerTo*` constructors have been removed in `permissionless ^0.2.x`.
+Replace all `signerTo*` calls with their `to*` equivalents as shown in
+Step 3.
+
+### Light Account fails to deploy
+
+Ensure you are using `version: "2.0.0"` in `toLightSmartAccount`. Light
+Account `1.1.0` will not work with EntryPoint v0.7 and will cause a
+deployment failure.
+
+### AccountNotFoundError is not exported
+
+permissionless.js no longer owns error types. Remove the import and
+update your catch blocks to use `BaseError` from viem as shown in Step 7.
+
+---
+
+## Need help?
+
+- [permissionless.js documentation](https://docs.pimlico.io/permissionless)
+- [Pimlico Discord](https://discord.gg/pimlico)
+- [Pimlico Telegram](https://t.me/pimlicoHQ)
+```
+
+---
+
+That's the full corrected file. In your GitHub editor, select all existing content, delete it, paste this, then commit. 🔥### Simple Account
+
+```ts
+// Before (v0.6)
+import { signerToSimpleSmartAccount } from "permissionless/accounts"
+import { publicClient } from "./publicClient"
+import { privateKeyToAccount } from "viem/accounts"
+
+const account = await signerToSimpleSmartAccount(publicClient, {
+  signer: privateKeyToAccount(privateKey),
+  entryPoint: ENTRYPOINT_ADDRESS_V06,
+})
+
+// After (v0.7)
+import { toSimpleSmartAccount } from "permissionless/accounts"
+import { publicClient } from "./publicClient"
+import { entryPoint07Address } from "viem/account-abstraction"
+import { privateKeyToAccount } from "viem/accounts"
+
+const account = await toSimpleSmartAccount({
+  client: publicClient,
+  owner: privateKeyToAccount(privateKey),
+  entryPoint: {
+    address: entryPoint07Address,
+    version: "0.7",
+  },
+})
+```
+
+### Safe Account
+
+```ts
+// Before (v0.6)
+import { signerToSafeSmartAccount } from "permissionless/accounts"
+import { publicClient } from "./publicClient"
+import { privateKeyToAccount } from "viem/accounts"
+
+const account = await signerToSafeSmartAccount(publicClient, {
+  signer: privateKeyToAccount(privateKey),
+  entryPoint: ENTRYPOINT_ADDRESS_V06,
+  safeVersion: "1.4.1",
+})
+
+// After (v0.7)
+import { toSafeSmartAccount } from "permissionless/accounts"
+import { publicClient } from "./publicClient"
+import { entryPoint07Address } from "viem/account-abstraction"
+import { privateKeyToAccount } from "viem/accounts"
+
+const account = await toSafeSmartAccount({
+  client: publicClient,
+  owners: [privateKeyToAccount(privateKey)],
+  version: "1.4.1",
+  entryPoint: {
+    address: entryPoint07Address,
+    version: "0.7",
+  },
+})
+```
+
+### Kernel (ECDSA) Account
+
+```ts
+// Before (v0.6)
+import { signerToEcdsaKernelSmartAccount } from "permissionless/accounts"
+import { publicClient } from "./publicClient"
+import { privateKeyToAccount } from "viem/accounts"
+
+const account = await signerToEcdsaKernelSmartAccount(publicClient, {
+  signer: privateKeyToAccount(privateKey),
+  entryPoint: ENTRYPOINT_ADDRESS_V06,
+})
+
+// After (v0.7)
+import { toEcdsaKernelSmartAccount } from "permissionless/accounts"
+import { publicClient } from "./publicClient"
+import { entryPoint07Address } from "viem/account-abstraction"
+import { privateKeyToAccount } from "viem/accounts"
+
+const account = await toEcdsaKernelSmartAccount({
+  client: publicClient,
+  owners: [privateKeyToAccount(privateKey)],
+  entryPoint: {
+    address: entryPoint07Address,
+    version: "0.7",
+  },
+})
+```
+
+### Light Account
+
+Light Account `1.1.0` is only compatible with EntryPoint v0.6. You must
+upgrade to `2.0.0` to use EntryPoint v0.7.
+
+```ts
+// Before (v0.6)
+import { signerToLightSmartAccount } from "permissionless/accounts"
+import { publicClient } from "./publicClient"
+import { privateKeyToAccount } from "viem/accounts"
+
+const account = await signerToLightSmartAccount(publicClient, {
+  signer: privateKeyToAccount(privateKey),
+  entryPoint: ENTRYPOINT_ADDRESS_V06,
+  lightAccountVersion: "1.1.0",
+})
+
+// After (v0.7)
+import { toLightSmartAccount } from "permissionless/accounts"
+import { publicClient } from "./publicClient"
+import { entryPoint07Address } from "viem/account-abstraction"
+import { privateKeyToAccount } from "viem/accounts"
+
+const account = await toLightSmartAccount({
+  client: publicClient,
+  owners: [privateKeyToAccount(privateKey)],
+  version: "2.0.0",
+  entryPoint: {
+    address: entryPoint07Address,
+    version: "0.7",
+  },
+})
+```
+
+:::warning
+**Biconomy accounts do not support EntryPoint v0.7.** If you are using
+Biconomy, you must remain on EntryPoint v0.6 until Biconomy releases a
+v0.7-compatible account implementation.
+:::
+
+---
+
+## Step 4 — Update your Pimlico client
+
+`createPimlicoPaymasterClient` and `createPimlicoBundlerClient` have been
+merged into a single `createPimlicoClient`. This change was made to simplify
+client configuration and align with ERC-7677, which is now the default
+standard for communicating with Pimlico paymasters.
+
+```ts
+// Before (v0.6)
+import { createPimlicoPaymasterClient } from "permissionless/clients/pimlico"
+import { http } from "viem"
+
+const pimlicoUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=<API_KEY>`
+
+const paymasterClient = createPimlicoPaymasterClient({
+  transport: http(pimlicoUrl),
+  entryPoint: ENTRYPOINT_ADDRESS_V06,
+})
+
+// After (v0.7)
+import { createPimlicoClient } from "permissionless/clients/pimlico"
+import { entryPoint07Address } from "viem/account-abstraction"
+import { http } from "viem"
+
+const pimlicoUrl = `https://api.pimlico.io/v2/sepolia/rpc?apikey=<API_KEY>`
+
+const pimlicoClient = createPimlicoClient({
+  transport: http(pimlicoUrl),
+  entryPoint: {
+    address: entryPoint07Address,
+    version: "0.7",
+  },
+})
+```
+
+---
+
+## Step 5 — Update your bundler client
+
+The permissionless.js bundler client is deprecated. Viem now ships its own
+`createBundlerClient`, which permissionless.js builds on top of.
+
+```ts
+// Before (v0.6)
+import { createBundlerClient } from "permissionless"
+import { http } from "viem"
+
+const bundlerClient = createBundlerClient({
+  chain: sepolia,
+  transport: http(bundlerUrl),
+})
+
+// After (v0.7)
+import { createBundlerClient } from "viem/account-abstraction"
+import { http } from "viem"
+import { sepolia } from "viem/chains"
+
+const bundlerClient = createBundlerClient({
+  account,
+  client: publicClient,
+  chain: sepolia,
+  transport: http(bundlerUrl),
+})
+```
+
+---
+
+## Step 6 — Update user operation calls
+
+### prepareUserOperationRequest → prepareUserOperation
+
+The new API accepts a `calls` array directly, removing the need to manually
+encode calldata.
+
+```ts
+// Before (v0.6)
+import { smartAccountClient } from "./config"
+import { parseEther } from "viem"
+
+const userOp = await smartAccountClient.prepareUserOperationRequest({
+  userOperation: {
+    callData: await smartAccountClient.account.encodeCallData({
+      to: "0xRecipientAddress",
+      data: "0x",
+      value: parseEther("0.01"),
+    }),
+  },
+})
+
+// After (v0.7)
+import { smartAccountClient } from "./config"
+import { parseEther } from "viem"
+
+const userOp = await smartAccountClient.prepareUserOperation({
+  calls: [
+    {
+      to: "0xRecipientAddress",
+      data: "0x",
+      value: parseEther("0.01"),
+    },
+  ],
+})
+```
+
+### sendTransactions → sendTransaction
+
+`sendTransactions` (plural) is deprecated. Use `sendTransaction` with a
+`calls` array instead.
+
+```ts
+// Before (v0.6)
+import { smartAccountClient } from "./config"
+import { parseEther } from "viem"
+
+await smartAccountClient.sendTransactions({
+  transactions: [
+    { to: "0xRecipientAddress", value: parseEther("0.01"), data: "0x" },
+  ],
+})
+
+// After (v0.7)
+import { smartAccountClient } from "./config"
+import { parseEther } from "viem"
+
+await smartAccountClient.sendTransaction({
+  calls: [
+    { to: "0xRecipientAddress", value: parseEther("0.01"), data: "0x" },
+  ],
+})
+```
+
+---
+
+## Step 7 — Update error handling
+
+permissionless.js no longer exports custom error types. Error handling is
+now delegated to viem. Update any try/catch blocks that reference
+permissionless-specific errors.
+
+```ts
+// Before (v0.6)
+import { AccountNotFoundError } from "permissionless"
+
+try {
+  await smartAccountClient.sendTransaction({ calls: [...] })
+} catch (err) {
+  if (err instanceof AccountNotFoundError) {
+    console.error("Account not found")
+  }
+}
+
+// After (v0.7)
+import { BaseError, ContractFunctionRevertedError } from "viem"
+
+try {
+  await smartAccountClient.sendTransaction({ calls: [...] })
+} catch (err) {
+  if (err instanceof BaseError) {
+    const revertError = err.walk(
+      (e) => e instanceof ContractFunctionRevertedError
+    )
+    if (revertError instanceof ContractFunctionRevertedError) {
+      console.error("Revert reason:", revertError.data?.args)
+    }
+  }
+}
+```
+
+---
+
+## Verifying your migration
+
+After completing all steps, run the following checks to confirm a
+successful migration.
+
+**1. Confirm correct EntryPoint address is targeted**
+
+```ts
+import { entryPoint07Address } from "viem/account-abstraction"
+
+console.log(account.entryPoint.address === entryPoint07Address) // must be true
+```
+
+**2. Send a test UserOperation on a testnet**
+
+```ts
+import { sepolia } from "viem/chains"
+import { parseEther } from "viem"
+
+const hash = await smartAccountClient.sendTransaction({
+  calls: [
+    {
+      to: "0x0000000000000000000000000000000000000000",
+      value: parseEther("0"),
+      data: "0x",
+    },
+  ],
+})
+
+console.log("UserOperation hash:", hash)
+```
+
+**3. Confirm your bundler accepts v0.7 UserOps**
+
+Check the response from your bundler RPC. A successful `eth_sendUserOperation`
+response confirms v0.7 compatibility end-to-end.
+
+---
+
+## Need help?
+
+- [permissionless.js documentation](https://docs.pimlico.io/permissionless)
+- [Pimlico Discord](https://discord.gg/pimlico)
+- [Pimlico Telegram](https://t.me/pimlicoHQ)
+```
+
